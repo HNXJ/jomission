@@ -1,0 +1,5 @@
+__pycache__/
+engine.log
+engine-status.md
+*.tmp
+.DS_Store

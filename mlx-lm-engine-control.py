@@ -7,6 +7,9 @@ import time
 import psutil
 import logging
 import asyncio
+import base64
+from io import BytesIO
+from PIL import Image
 from typing import List, Optional, Union, Dict, Any
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.responses import StreamingResponse
@@ -39,7 +42,9 @@ class ModelManager:
     def __init__(self):
         self.model = None
         self.tokenizer = None
+        self.processor = None
         self.current_model_name = None
+        self.is_vlm = False
         self.status = "idle"
         self.config = DEFAULT_CONFIG.copy()
         self.load_config()
@@ -116,7 +121,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 
 class ChatMessage(BaseModel):
     role: str
-    content: str
+    content: Union[str, List[Dict[str, Any]]]
 
 class ChatCompletionRequest(BaseModel):
     model: str
@@ -147,6 +152,67 @@ async def load_model_endpoint(request: Dict[str, str], token: str = Depends(veri
     await manager.load_model(model_name)
     return {"status": "success", "model": model_name}
 
+import mlx_vlm
+from mlx_vlm.utils import load as vlm_load
+from mlx_vlm.generate import generate as vlm_generate
+
+class ModelManager:
+    def __init__(self):
+        self.model = None
+        self.tokenizer = None
+        self.processor = None
+        self.current_model_name = None
+        self.is_vlm = False
+        self.status = "idle"
+        self.config = DEFAULT_CONFIG.copy()
+        self.load_config()
+
+    # ... (unload_model unchanged)
+    def unload_model(self):
+        if self.model is not None:
+            logger.info(f"Unloading model: {self.current_model_name}")
+            del self.model
+            del self.tokenizer
+            if self.processor: del self.processor
+            self.model = None
+            self.tokenizer = None
+            self.processor = None
+            self.current_model_name = None
+            self.is_vlm = False
+            try:
+                mx.clear_cache()
+            except AttributeError:
+                mx.metal.clear_cache()
+            gc.collect()
+
+    async def load_model(self, model_name: str):
+        model_root = self.config.get("model_root", "../Warehouse/mlx_models")
+        model_path = os.path.join(model_root, model_name)
+        
+        self.unload_model()
+        logger.info(f"Loading model: {model_name}...")
+        
+        # Determine if it's a VLM (Gemma 3 or contains 'vl')
+        self.is_vlm = "gemma-3" in model_name.lower() or "vl" in model_name.lower()
+        
+        try:
+            loop = asyncio.get_event_loop()
+            if self.is_vlm:
+                self.model, self.processor = await loop.run_in_executor(None, lambda: vlm_load(model_path))
+                self.tokenizer = self.processor.tokenizer
+            else:
+                self.model, self.tokenizer = await loop.run_in_executor(None, lambda: mlx_load(model_path))
+            
+            self.current_model_name = model_name
+            self.status = "ready"
+            self.config["last_model"] = model_name
+            self.save_config()
+            logger.info(f"Successfully loaded {model_name} (VLM={self.is_vlm})")
+        except Exception as e:
+            self.status = "error"
+            logger.error(f"Failed to load {model_name}: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/v1/chat/completions")
 async def chat_completions(request: ChatCompletionRequest, token: str = Depends(verify_token)):
     if manager.status != "ready" or manager.current_model_name != request.model:
@@ -154,37 +220,40 @@ async def chat_completions(request: ChatCompletionRequest, token: str = Depends(
 
     manager.status = "thinking"
     
-    # Use model_dump for Pydantic v2
-    prompt = manager.tokenizer.apply_chat_template(
-        [m.model_dump() for m in request.messages], 
-        tokenize=False, 
-        add_generation_prompt=True
-    )
-
-    sampler = make_sampler(request.temperature, request.top_p)
+    images = []
+    processed_messages = []
+    for msg in request.messages:
+        if isinstance(msg.content, list):
+            msg_text = ""
+            for item in msg.content:
+                if item.get("type") == "text":
+                    msg_text += item.get("text", "")
+                elif item.get("type") == "image_url":
+                    url = item.get("image_url", {}).get("url", "")
+                    if url.startswith("data:image"):
+                        base64_data = url.split(",")[1]
+                        img_data = base64.b64decode(base64_data)
+                        images.append(Image.open(BytesIO(img_data)))
+            processed_messages.append({"role": msg.role, "content": msg_text})
+        else:
+            processed_messages.append(msg.model_dump())
 
     def generate_response():
-        response = generate(
-            manager.model, 
-            manager.tokenizer, 
-            prompt=prompt, 
-            max_tokens=request.max_tokens,
-            sampler=sampler,
-            verbose=False
-        )
-        manager.status = "ready"
+        if manager.is_vlm:
+            # Gemma 3 template fix for VLM
+            prompt = manager.tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+            response = vlm_generate(manager.model, manager.processor, prompt, images, max_tokens=request.max_tokens, verbose=False)
+        else:
+            prompt = manager.tokenizer.apply_chat_template(processed_messages, tokenize=False, add_generation_prompt=True)
+            sampler = make_sampler(request.temperature, request.top_p)
+            response = generate(manager.model, manager.tokenizer, prompt, max_tokens=request.max_tokens, sampler=sampler, verbose=False)
         
+        manager.status = "ready"
         return {
             "id": f"chatcmpl-{int(time.time())}",
             "object": "chat.completion",
-            "created": int(time.time()),
-            "model": manager.current_model_name,
-            "choices": [{
-                "index": 0,
-                "message": {"role": "assistant", "content": response},
-                "finish_reason": "stop"
-            }],
-            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+            "choices": [{"index": 0, "message": {"role": "assistant", "content": response}, "finish_reason": "stop"}],
+            "usage": {"total_tokens": 0}
         }
 
     if request.stream:

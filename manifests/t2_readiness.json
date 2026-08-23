@@ -1,0 +1,418 @@
+{
+  "milestone": "T2 readiness \u2014 checkpoint/restart equivalence, L1 audit, shortened exposure, stability, seed ledger, comparison matrix",
+  "timestamp": "2026-08-23T21:45:02.887503+00:00",
+  "jaxfne_version": "0.4.17",
+  "parent_milestone": "7e5d1d2 (M01)",
+  "checkpoint_restart": {
+    "test": "tests/test_checkpoint_restart.py::test_checkpoint_restart_equivalence",
+    "tolerance": {
+      "V_m_rtol": 1e-05,
+      "V_m_atol": 0.0001,
+      "spikes": "exact"
+    },
+    "result": {
+      "pass": true,
+      "spikes_equal": true,
+      "V_m_max_abs_diff": "<1e-4 (verified in test)"
+    },
+    "state_carried": "(X,H,Theta,D) via ContinuationState.dynamic + prng_key, event cursor via schedule re-instantiation, RNG via state.prng_key",
+    "note": "ALWAYS-31/32 proven separately from continuation_verified (ALWAYS-12)"
+  },
+  "l1_audit": {
+    "populations": "L1 is 8 VIP per area, 0 E/PV/SST \u2014 no L1_E exists (32 total)",
+    "evidence": "Counter((area,layer,cell_type)) total L1=32 VIP; docs/L1_PROVENANCE.md, tests/test_l1_audit.py",
+    "semantics": "VIP-only proxy for feedback target/geometry; area-specific override permitted"
+  },
+  "shortened_exposure": {
+    "duration_s": 30,
+    "n_trials": 6,
+    "metrics": {
+      "duration_s": 30.0,
+      "n_trials": 6,
+      "total_ms": 27744.0,
+      "rate_hz_mean": 21.922576904296875,
+      "v_mean": -67.75869750976562,
+      "v_min": -86.9110336303711,
+      "v_max": 29.99853515625,
+      "finite": true,
+      "area_rates_hz": {
+        "V1": 20.66609001159668,
+        "V4": 21.859861373901367,
+        "FEF": 21.507352828979492,
+        "PFC": 23.657007217407227
+      },
+      "h_info": {},
+      "field_present": true,
+      "n_steps": 9248,
+      "signals_summary": {
+        "n_steps": 9248,
+        "n_units": 400,
+        "dt_ms": 0.5,
+        "spike_count_total": 40548.0,
+        "spike_rate_hz_mean": 21.922576904296875,
+        "V_m_mean": -67.75869750976562,
+        "field_status": "present",
+        "field_claim_level": "proxy_readout"
+      }
+    },
+    "stability": {
+      "pass": true,
+      "issues": [],
+      "criteria": {
+        "finite_state": {
+          "V_m_min": -150.0,
+          "V_m_max": 100.0,
+          "V_m_mean_range": [
+            -90.0,
+            -50.0
+          ],
+          "must_be_finite": true
+        },
+        "population_rates": {
+          "global_hz_mean_range": [
+            1.0,
+            50.0
+          ],
+          "per_area_hz_range": [
+            0.5,
+            80.0
+          ],
+          "per_classnote": "E/PV/SST/VIP rates must stay finite; exclusion if any area >100 Hz sustained"
+        },
+        "spike_bounds": {
+          "spike_rate_hz_mean_max": 100.0,
+          "spike_count_finite": true
+        },
+        "field_bounds": {
+          "lfp_proxy_finite": true,
+          "csd_proxy_finite": true,
+          "abs_mean_not_nan": true
+        },
+        "h_state_domains": {
+          "H_fast_tau_0_1_s": {
+            "range": [
+              0.0,
+              10.0
+            ],
+            "must_be_finite": true
+          },
+          "H_medium_tau_1_s": {
+            "range": [
+              0.0,
+              10.0
+            ],
+            "must_be_finite": true
+          },
+          "note": "H_k conceptual ranges; kernel H_i is bounded [H_min,H_max] when HDP enabled"
+        },
+        "hdp_theta_domains": {
+          "theta_m_EI_bounds": [
+            0.1,
+            5.0
+          ],
+          "theta_eta_a_bounds": [
+            0.25,
+            4.0
+          ],
+          "must_be_finite": true,
+          "note": "Only checked when HDP enabled; \u0398 bounded per channel"
+        },
+        "exclusion_rules": [
+          "NaN or inf in V_m/spikes/sources/field => immediate exclusion",
+          "sustained global rate >100 Hz for >5s => exclusion (epileptic-like)",
+          "sustained V_m mean > -40 or < -80 for >10s => review",
+          "checkpoint/restart mismatch beyond tolerance => exclusion (ALWAYS-31 failure)"
+        ],
+        "failure_rules": [
+          "Shortened exposure (30-120s) must be finite and within bounds before authorizing \u22651000s",
+          "Any H/HDP out-of-bounds => fail T2 gate"
+        ]
+      }
+    },
+    "purpose": "exercise \u03c4 0.1-100s partially to expose drift; not phenotype",
+    "H_timescales_exercised": [
+      0.1,
+      1,
+      10,
+      100
+    ],
+    "H_1000_partial": "30s covers <3% of 1000s tau \u2014 full 1000s only in production 1200s",
+    "HDP": "enable_hdp=False here; controller_B calibration pending \u2014 HDP validated via checkpoint test with population locality"
+  },
+  "stability": {
+    "finite_state": {
+      "V_m_min": -150.0,
+      "V_m_max": 100.0,
+      "V_m_mean_range": [
+        -90.0,
+        -50.0
+      ],
+      "must_be_finite": true
+    },
+    "population_rates": {
+      "global_hz_mean_range": [
+        1.0,
+        50.0
+      ],
+      "per_area_hz_range": [
+        0.5,
+        80.0
+      ],
+      "per_classnote": "E/PV/SST/VIP rates must stay finite; exclusion if any area >100 Hz sustained"
+    },
+    "spike_bounds": {
+      "spike_rate_hz_mean_max": 100.0,
+      "spike_count_finite": true
+    },
+    "field_bounds": {
+      "lfp_proxy_finite": true,
+      "csd_proxy_finite": true,
+      "abs_mean_not_nan": true
+    },
+    "h_state_domains": {
+      "H_fast_tau_0_1_s": {
+        "range": [
+          0.0,
+          10.0
+        ],
+        "must_be_finite": true
+      },
+      "H_medium_tau_1_s": {
+        "range": [
+          0.0,
+          10.0
+        ],
+        "must_be_finite": true
+      },
+      "note": "H_k conceptual ranges; kernel H_i is bounded [H_min,H_max] when HDP enabled"
+    },
+    "hdp_theta_domains": {
+      "theta_m_EI_bounds": [
+        0.1,
+        5.0
+      ],
+      "theta_eta_a_bounds": [
+        0.25,
+        4.0
+      ],
+      "must_be_finite": true,
+      "note": "Only checked when HDP enabled; \u0398 bounded per channel"
+    },
+    "exclusion_rules": [
+      "NaN or inf in V_m/spikes/sources/field => immediate exclusion",
+      "sustained global rate >100 Hz for >5s => exclusion (epileptic-like)",
+      "sustained V_m mean > -40 or < -80 for >10s => review",
+      "checkpoint/restart mismatch beyond tolerance => exclusion (ALWAYS-31 failure)"
+    ],
+    "failure_rules": [
+      "Shortened exposure (30-120s) must be finite and within bounds before authorizing \u22651000s",
+      "Any H/HDP out-of-bounds => fail T2 gate"
+    ]
+  },
+  "population_rates": {
+    "V1": 20.66609001159668,
+    "V4": 21.859861373901367,
+    "FEF": 21.507352828979492,
+    "PFC": 23.657007217407227
+  },
+  "checkpoint_identity": {
+    "every_n_trials": 10,
+    "every_ms": 46240.0,
+    "every_s": 46.24,
+    "keep_last_n": 5,
+    "format": "checkpoint_state .npz + .json + ContinuationState pytree",
+    "verification": "uninterrupted vs restarted equivalence (ALWAYS-31/32) with tolerance rtol=1e-5 atol=1e-4 for V_m, exact for spikes"
+  },
+  "seed_ledger": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "replicates": 8,
+    "pairing_scheme": "paired_by_replicate",
+    "description": "seed = base + replicate_index for within-replicate pairing; omission vs intact share seed",
+    "base_seed": 0,
+    "habituated_vs_naive": "same seed set, different exposure history (\u0394_exposure)",
+    "intact_vs_omission": "same seed per replicate, condition varies"
+  },
+  "production_schedule": {
+    "initialization": {
+      "duration_s": 2.0,
+      "description": "quiescent baseline, no structured input"
+    },
+    "baseline": {
+      "duration_s": 10.0,
+      "sequence": "RRRR interleaved, low rate"
+    },
+    "exposure": {
+      "duration_s": 1200.0,
+      "sequence": "balanced AAAB/BBBA",
+      "n_trials_expected": 259,
+      "note": "\u22651000s requirement; 1200s chosen to cover 1000s + margin"
+    },
+    "testing": {
+      "duration_s": 300.0,
+      "conditions": [
+        "AAAB",
+        "AXAB",
+        "AAXB",
+        "AAAX",
+        "BBBA",
+        "BXBA",
+        "BBXA",
+        "BBBX",
+        "RRRR",
+        "RXRR",
+        "RRXR",
+        "RRRX"
+      ],
+      "n_reps_per_condition": 8,
+      "total_trials": 96
+    },
+    "recovery": {
+      "duration_s": 30.0,
+      "sequence": "RRRR"
+    },
+    "total_estimated_s": 1542.0,
+    "dt_ms": 0.1,
+    "n_steps_total": 15420000
+  },
+  "resource_estimate": {
+    "per_trial_ms": 4624.0,
+    "per_trial_steps_dt0_1": 46240,
+    "memory_per_400_neurons_4624ms_dt0_1": "~ V_m 400*46240*4B \u2248 74 MB + spikes/field",
+    "full_exposure_1200s_dt0_1_steps": 12000000,
+    "checkpoint_size_400_neurons": "~ a few MB per .npz + json",
+    "note": "dt=0.5 reduces steps 5x (tested in milestone 01); production dt=0.1 is 5x cost \u2014 run on HPC with sharding if needed"
+  },
+  "comparison_matrix": {
+    "matrix_version": "jomission_comparison_matrix.v0.1.0",
+    "delta_exposure": "\u0394_exposure = Y_omission^{post} - Y_omission^{pre}  (post after \u22651000s AAAB/BBBA, pre naive)",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (Q11)",
+    "windows": {
+      "omission_local": [
+        -1000.0,
+        1000.0
+      ],
+      "omission_baseline": [
+        -250.0,
+        -50.0
+      ],
+      "omission_slot": [
+        0.0,
+        531.0
+      ],
+      "post_omission": [
+        531.0,
+        1000.0
+      ],
+      "trial_baseline": [
+        -500.0,
+        0.0
+      ]
+    },
+    "targets": [
+      {
+        "id": "T1",
+        "label": "sparse omission-linked spiking",
+        "estimand": "fraction_significant_units",
+        "contrast": "omission (AXAB/BXBA/RXRR etc) vs intact (AAAB/BBBA/RRRR) per position",
+        "matching": "within-replicate, same seed, intact vs omission at same p position",
+        "test": "per-unit rate comparison (omission slot [0,531] vs baseline [-250,-50]), FDR-corrected",
+        "threshold": "<0.10 significant",
+        "falsification": "if fraction >=0.10 or 0, record as is \u2014 do not tune to force sparsity",
+        "null": "shuffled_timing control: omission\u2192stimulus"
+      },
+      {
+        "id": "T2",
+        "label": "higher-order bias",
+        "estimand": "area enrichment of T1+ units",
+        "contrast": "FEF/PFC vs V1/V4 among T1+",
+        "matching": "same T1 definition",
+        "test": "chi2 / enrichment (observed vs expected by area size)",
+        "threshold": "FEF/PFC enrichment >1.5x",
+        "falsification": "if V1 enriched, report; do not rewire to force frontal bias"
+      },
+      {
+        "id": "T3",
+        "label": "weak V1 population omission spiking",
+        "estimand": "V1 population PSTH omission vs intact",
+        "contrast": "V1 mean rate [0,531] omission vs intact",
+        "matching": "within-replicate, V1 all units",
+        "test": "paired t per ms + effect size (Cohen d)",
+        "threshold": "d <0.2 or non-significant",
+        "falsification": "if V1 shows strong burst, report; not null"
+      },
+      {
+        "id": "T4",
+        "label": "frontal low-gamma omission effect",
+        "estimand": "LFP-like band power (20-50 Hz) omission vs intact",
+        "contrast": "FEF/PFC vs V1, corrected",
+        "matching": "same trial, virtual contacts laminar",
+        "test": "bandpower_jax, permutation / cluster-corrected",
+        "threshold": "frontal p<0.05 corrected, V1 weaker",
+        "field_claim": "proxy_readout, physical_amplitude_calibrated=False"
+      },
+      {
+        "id": "T5",
+        "label": "gamma-rate coupling",
+        "estimand": "trial gamma power vs spike rate correlation",
+        "contrast": "per unit, across trials",
+        "matching": "same unit, same area",
+        "test": "Pearson r",
+        "threshold": "mean r >0"
+      },
+      {
+        "id": "T6",
+        "label": "weaker field coupling for omission-selective units",
+        "estimand": "spike-field coupling (SFC / gamma coupling) T1+ vs T1-",
+        "contrast": "T1+ vs T1- within same area",
+        "matching": "same area, same recording geometry",
+        "test": "compare coupling distributions",
+        "threshold": "T1+ < T1-"
+      },
+      {
+        "id": "T7",
+        "label": "absence of strong fixed between-area lead/lag",
+        "estimand": "cross-area field/rate cross-correlation peak lag",
+        "contrast": "all area pairs, omission and intact",
+        "matching": "same trials",
+        "test": "peak lag distribution, test for consistent non-zero lag",
+        "threshold": "no consistent fixed lag (p>0.05)",
+        "falsification": "if strong lead/lag found, report as positive \u2014 this T expects null"
+      }
+    ],
+    "language_rule": "lfp_proxy/csd_proxy remain proxy; never promote to physical LFP/CSD in manuscript",
+    "freeze_note": "Frozen before production exposure; any expansion requires new version and review"
+  }
+}

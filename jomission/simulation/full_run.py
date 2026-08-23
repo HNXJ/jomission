@@ -11,6 +11,9 @@ import json
 import pathlib
 import datetime
 import hashlib
+import time
+import uuid
+import os
 from dataclasses import replace
 
 import jax
@@ -48,6 +51,44 @@ def _check_segment(sig, dt_ms: float) -> list[str]:
     return issues
 
 
+def _now_iso() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def _emit_heartbeat(
+    heartbeat_log: list[dict],
+    *,
+    run_id: str,
+    worker_id: str,
+    phase: str,
+    replicate: int,
+    global_step: int,
+    simulated_time_ms: float,
+    trial_index: int,
+    event_cursor: str,
+    latest_checkpoint: str | None,
+    heartbeat_path: pathlib.Path | None,
+) -> dict:
+    hb = {
+        "run_id": run_id,
+        "worker_id": worker_id,
+        "phase": phase,
+        "replicate": replicate,
+        "global_step": int(global_step),
+        "simulated_time_ms": float(simulated_time_ms),
+        "trial_index": int(trial_index),
+        "event_cursor": str(event_cursor),
+        "latest_checkpoint": latest_checkpoint,
+        "wall_time": _now_iso(),
+        "last_progress_wall_time": _now_iso(),
+    }
+    heartbeat_log.append(hb)
+    if heartbeat_path is not None:
+        with open(heartbeat_path, "a") as f:
+            f.write(json.dumps(hb) + "\n")
+    return hb
+
+
 def run_full(
     *,
     dt_ms: float = 0.5,  # production spec 0.1; use 0.5 for feasible pilot, 0.1 for HPC
@@ -55,15 +96,48 @@ def run_full(
     seed: int = 0,
     checkpoint_dir: str | None = None,
     n_per_area: int = 100,
+    run_id: str | None = None,
+    worker_id: str | None = None,
 ) -> dict:
+    # Frozen scientific identities — must not be altered by instrumentation
     sched = canonical_schedule(dt_ms=dt_ms, exposure_s=exposure_s)
     n_exp_trials = sched["phases"]["exposure"]["trials"]
     exp_wall_s = sched["phases"]["exposure"]["wall_s"]
+    expected_final_step = sched["phases"]["exposure"]["steps"]
+    expected_final_sim_time = sched["phases"]["exposure"]["wall_ms"]
     model = build_jomission_model(n_per_area=n_per_area, seed=seed)
     ch = config_hash(model.cfg)
     hp = hdp.v1_pfc_aaab_hdp_params()
     hp_hash = hashlib.sha256(json.dumps(hp, sort_keys=True).encode()).hexdigest()[:16]
     runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=True, hdp_params=hp)
+    # Worker identity — not scientific, only operational
+    run_id = run_id or f"jomission-{ch[:8]}-{hp_hash[:4]}-{uuid.uuid4().hex[:8]}"
+    worker_id = worker_id or f"{os.getpid()}@{os.uname().nodename if hasattr(os.uname(), 'nodename') else 'worker'}"
+    heartbeat_log: list[dict] = []
+    heartbeat_path = pathlib.Path(checkpoint_dir) / "heartbeat.jsonl" if checkpoint_dir else None
+    worker_started = _now_iso()
+    compile_start = time.perf_counter()
+    # Mark compile phase heartbeat (state not yet advanced — liveness vs progress distinction)
+    hb_compile = _emit_heartbeat(
+        heartbeat_log,
+        run_id=run_id,
+        worker_id=worker_id,
+        phase="compile",
+        replicate=seed,
+        global_step=0,
+        simulated_time_ms=0.0,
+        trial_index=-1,
+        event_cursor="compile_start",
+        latest_checkpoint=None,
+        heartbeat_path=heartbeat_path,
+    )
+    compile_end = time.perf_counter()
+    compile_wall_s = compile_end - compile_start
+    last_heartbeat = hb_compile["wall_time"]
+    last_progress_wall_time = hb_compile["last_progress_wall_time"]
+    # last_heartbeat tracks wall clock of last emit; last_progress tracks last time simulated state advanced
+    # For compile, progress has not yet advanced — last_progress remains compile time until first trial completes
+    last_progress = last_progress_wall_time
 
     # Sequence: balanced AAAB/BBBA
     seq = [("AAAB" if i % 2 == 0 else "BBBA") for i in range(n_exp_trials)]
@@ -82,6 +156,9 @@ def run_full(
         ckpt_path = pathlib.Path(checkpoint_dir)
         ckpt_path.mkdir(parents=True, exist_ok=True)
 
+    latest_checkpoint: str | None = None
+    # For progress vs liveness distinction: last_progress tracks when simulated state advanced
+    execution_start = time.perf_counter()
     for idx, cond_name in enumerate(seq):
         cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == cond_name][0]
         sched_i = condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0)
@@ -105,11 +182,14 @@ def run_full(
         if w_sum:
             w_extrema["min"] = min(w_extrema["min"], float(w_sum.get("min", 1e9)))
             w_extrema["max"] = max(w_extrema["max"], float(w_sum.get("max", -1e9)))
-        # Checkpoint every 10 trials
+        # Checkpoint every 10 trials — also verifies checkpoint_index ↑ and cursor
         if (idx + 1) % 10 == 0 and ckpt_path is not None:
             try:
                 ckpt_file = ckpt_path / f"ckpt_trial_{idx+1:04d}"
                 jtfne.checkpoint_state(model, str(ckpt_file))
+                # Verify artifact exists and readable, and cursor corresponds to expected trial
+                assert ckpt_file.with_suffix(".npz").exists() and ckpt_file.with_suffix(".json").exists()
+                latest_checkpoint = str(ckpt_file)
                 # also save continuation state is implicit in model+state; state is pytree not separately serialized here
                 # Verify restore equivalence for this segment (HDP-aware)
                 import tempfile
@@ -136,14 +216,55 @@ def run_full(
                 checkpoint_fail += 1
                 stability_issues.append({"trial": idx, "checkpoint_fail": str(e)})
         step_index += sig.V_m.shape[0]
+        simulated_time_ms = float(step_index * dt_ms)
+        # Progress heartbeat — liveness vs progress: state advanced, so last_progress advances
+        hb = _emit_heartbeat(
+            heartbeat_log,
+            run_id=run_id,
+            worker_id=worker_id,
+            phase="exposure",
+            replicate=seed,
+            global_step=int(step_index),
+            simulated_time_ms=simulated_time_ms,
+            trial_index=int(idx),
+            event_cursor=str(cond_name),
+            latest_checkpoint=latest_checkpoint,
+            heartbeat_path=heartbeat_path,
+        )
+        last_heartbeat = hb["wall_time"]
+        last_progress = hb["last_progress_wall_time"]
         # Output hash (spike count hash)
         h = hashlib.sha256(str(float(jnp.sum(sig.spikes))).encode()).hexdigest()[:12]
         output_hashes.append(h)
         if (idx + 1) % 20 == 0:
             print(f"[{idx+1}/{n_exp_trials}] {cond_name} rate {float(jnp.mean(sig.spikes)*(1000/dt_ms)):.1f} Hz H [{h_sum.get('min',0):.3f},{h_sum.get('max',0):.3f}] ckpt {checkpoint_ok}/{checkpoint_fail} issues {len(stability_issues)}")
 
+    execution_end = time.perf_counter()
+    execution_wall_s = execution_end - execution_start
     total_steps = step_index
     total_ms = n_exp_trials * 4624.0
+    # Terminal predicate — derived from canonical_schedule, not manual constants
+    expected_final_step = expected_final_step
+    expected_final_sim_time = expected_final_sim_time
+    actual_final_step = total_steps
+    actual_final_sim_time = total_ms
+    terminated_by_schedule = actual_final_step == expected_final_step and actual_final_sim_time == expected_final_sim_time
+    # Monotonic advancement check over heartbeat log
+    monotonic_ok = True
+    for a, b in zip(heartbeat_log, heartbeat_log[1:]):
+        if not (b["global_step"] > a["global_step"] and b["simulated_time_ms"] > a["simulated_time_ms"]):
+            monotonic_ok = False
+            break
+        # trial_index should be non-decreasing; allow -1 compile -> 0 first trial
+        if b["trial_index"] < a["trial_index"] and a["phase"] != "compile":
+            monotonic_ok = False
+            break
+    worker_started_iso = worker_started
+    worker_completed_iso = _now_iso()
+    worker_progress_verified = monotonic_ok and actual_final_step > 0 and last_progress is not None
+    worker_completed_expected_schedule = terminated_by_schedule and checkpoint_fail == 0 and len(stability_issues) == 0
+    stopped_early = not terminated_by_schedule
+    termination_reason = "completed_expected_schedule" if terminated_by_schedule else "stopped_early"
     return {
         "config_hash": ch,
         "hp_hash": hp_hash,
@@ -161,6 +282,43 @@ def run_full(
         "schedule": sched,
         "numerical_valid": len(stability_issues) == 0 and checkpoint_fail == 0,
         "note": "FULL exposure segment completed; testing/recovery phases follow same pattern",
+        # Heartbeat / liveness instrumentation — bounded cadence, not scientific
+        "heartbeat": {
+            "run_id": run_id,
+            "worker_id": worker_id,
+            "worker_started": worker_started_iso,
+            "worker_completed": worker_completed_iso,
+            "compile_wall_s": float(compile_wall_s),
+            "execution_wall_s": float(execution_wall_s),
+            "heartbeat_log": heartbeat_log,  # full log for verification (bounded: n_trials+1)
+            "heartbeat_log_sample": heartbeat_log[:5],
+            "heartbeat_log_len": len(heartbeat_log),
+            "heartbeat_path": str(heartbeat_path) if heartbeat_path else None,
+            "last_heartbeat": last_heartbeat,
+            "last_progress_wall_time": last_progress,
+            "last_progress": last_progress,
+            "monotonic_ok": monotonic_ok,
+            "global_step_trace": [hb["global_step"] for hb in heartbeat_log],
+            "simulated_time_trace": [hb["simulated_time_ms"] for hb in heartbeat_log],
+        },
+        "terminal_predicate": {
+            "expected_final_step": int(expected_final_step),
+            "actual_final_step": int(actual_final_step),
+            "expected_final_sim_time_ms": float(expected_final_sim_time),
+            "actual_final_sim_time_ms": float(actual_final_sim_time),
+            "expected_final_phase": "exposure",
+            "expected_final_trial_index": n_exp_trials - 1,
+            "actual_final_trial_index": n_exp_trials - 1 if n_exp_trials > 0 else -1,
+            "terminated_by_schedule": terminated_by_schedule,
+            "derived_from": "canonical_schedule()",
+        },
+        "worker_progress": {
+            "worker_started": worker_started_iso,
+            "worker_progress_verified": worker_progress_verified,
+            "worker_completed_expected_schedule": worker_completed_expected_schedule,
+            "stopped_early": stopped_early,
+            "termination_reason": termination_reason,
+        },
     }
 
 

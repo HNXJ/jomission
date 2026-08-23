@@ -1,0 +1,23 @@
+{
+  "areas": ["V1", "V4", "FEF", "PFC"],
+  "layers": ["L1", "L2/3", "L4", "L5", "L6"],
+  "cell_types": ["E", "PV", "SST", "VIP"],
+  "n_per_area": 100,
+  "within_gain": 0.35,
+  "p_feedforward": 0.3,
+  "p_feedback": 0.2,
+  "dt_ms": 0.1,
+  "duration_ms": 4624,
+  "emitter": "izhikevich",
+  "n_contacts": 16,
+  "h_state": {
+    "taus_s": [0.1, 1, 10, 100, 1000],
+    "locality": "node",
+    "h_state_dim": 5
+  },
+  "hdp": {
+    "enabled": true,
+    "tau_theta_s": 1000,
+    "locality": "population"
+  }
+}

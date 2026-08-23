@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-08-23T21:31:12.388953+00:00",
+  "python": "3.14.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "jaxfne_version": "0.4.17",
+  "jax_version": "0.10.1",
+  "jaxlib_version": "0.10.1",
+  "numpy_version": "2.4.6",
+  "scipy_version": "1.17.1",
+  "jomission_version": "0.1.0",
+  "instruction": "latest JaxFNE installed, version recorded (not pinned to 0.4.17)",
+  "stale_provenance": {
+    "head": "a526f58d69060c1762fa86c0303c3b10b8dd3754",
+    "tree": "dcaf37b20b943b910096f0a5eb6229b5cad47f77",
+    "archive": "/tmp/jomission_stale_a526f58.tar.gz"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "milestone": "short continuous trajectory executes, H/HDP survive, omission preserves timing, source/readout present",
+  "timestamp": "2026-08-23T21:31:23.087491+00:00",
+  "jaxfne_version": "0.4.17",
+  "paradigm_exact": {
+    "valid": true,
+    "issues": [],
+    "checks": {
+      "epochs": {
+        "valid": true,
+        "issues": [],
+        "n_epochs": 9
+      },
+      "conditions": {
+        "valid": true,
+        "issues": [],
+        "n_conditions": 12
+      },
+      "paradigm_name": "jomission_exact",
+      "n_conditions": 12,
+      "n_epochs": 9,
+      "unresolved_fields": [
+        "reward_schedule",
+        "fixation_schedule",
+        "stimulus_visual_params",
+        "iti_distribution",
+        "block_structure",
+        "omission_probability",
+        "habituation_schedule"
+      ]
+    },
+    "paradigm_exact": "exact for authoritative variables; unresolved fields explicit"
+  },
+  "populations": {
+    "valid": true,
+    "issues": [],
+    "n_areas": 4,
+    "n_layers": 5
+  },
+  "connectivity": {
+    "valid": true,
+    "issues": [],
+    "hierarchy": "V1->V4->FEF->PFC",
+    "p_ff": 0.3,
+    "p_fb": 0.2
+  },
+  "geometry": {
+    "valid": true,
+    "issues": [],
+    "n_units": 405,
+    "n_pops": 68
+  },
+  "network": {
+    "valid": true,
+    "issues": [],
+    "columns": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "total_n": 400
+  },
+  "targets": {
+    "valid": true,
+    "issues": [],
+    "n_targets": 7,
+    "ids": [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7"
+    ]
+  },
+  "ablations": {
+    "valid": true,
+    "issues": [],
+    "n": 11
+  },
+  "h_state": {
+    "valid": true,
+    "issues": [],
+    "taus": [
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ]
+  },
+  "hdp": {
+    "valid": true,
+    "issues": [],
+    "enabled": true
+  },
+  "trajectory": {
+    "paradigm_exact_valid": true,
+    "continuation_verified": true,
+    "omission_timing_preserved": true,
+    "drive_check": {
+      "omit_p2_sum": 0.0,
+      "intact_p2_sum": 2548800.0,
+      "omit_zero": true,
+      "intact_nonzero": true,
+      "n_drive_intact": 4,
+      "n_drive_omit": 3,
+      "n_drive_diff": 1
+    },
+    "field_present": true,
+    "signals_intact_summary": {
+      "n_steps": 9248,
+      "n_units": 400,
+      "dt_ms": 0.5,
+      "spike_count_total": 44751.0,
+      "spike_rate_hz_mean": 24.19495964050293,
+      "V_m_mean": -67.4544906616211,
+      "field_status": "present",
+      "field_claim_level": "proxy_readout"
+    },
+    "signals_omit_summary": {
+      "n_steps": 9248,
+      "n_units": 400,
+      "dt_ms": 0.5,
+      "spike_count_total": 38855.0,
+      "spike_rate_hz_mean": 21.007244110107422,
+      "V_m_mean": -67.84747314453125,
+      "field_status": "present",
+      "field_claim_level": "proxy_readout"
+    }
+  },
+  "claim_levels": {
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "empirical_validation_status": "not_empirically_validated"
+  },
+  "next_steps_blocked": "\u22651000s exposure and full ablation matrix deferred until milestone review"
+}

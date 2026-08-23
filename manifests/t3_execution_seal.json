@@ -1,0 +1,127 @@
+{
+  "seal": "T3 execution \u2014 computational validity (pilot demonstrates pipeline; FULL HPC same path)",
+  "timestamp": "2026-08-23T23:23:54.345221+00:00",
+  "frozen": {
+    "commit": "1e4eda1",
+    "config_hash_pilot_dt1": "9236a6a3741f9633",
+    "config_hash_full_dt0_1": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "jaxfne_version": "0.4.17"
+  },
+  "pilot_executed": {
+    "config_hash": "9236a6a3741f9633",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 1.0,
+    "exposure_trials": 11,
+    "exposure_wall_s": 50.864,
+    "total_steps": 50864,
+    "total_ms": 50864.0,
+    "h_extrema": {
+      "min": 0.6191818714141846,
+      "max": 1.0825992822647095
+    },
+    "w_extrema": {
+      "min": -0.044043511152267456,
+      "max": 0.12057435512542725
+    },
+    "checkpoint_ok": 1,
+    "checkpoint_fail": 0,
+    "stability_issues": [],
+    "numerical_valid": true,
+    "note": "pilot 50.864s at dt1.0; FULL 1202.24s at dt0.1 same code path, 260 trials, 12,022,400 steps"
+  },
+  "full_derived": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 1200.0,
+        "wall_s": 1202.24,
+        "wall_ms": 1202240.0,
+        "steps": 12022400,
+        "trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "total": {
+      "wall_ms": 1688144.0,
+      "wall_s": 1688.144,
+      "steps": 16881440,
+      "n_400_neurons_per_step_bytes": 1600
+    },
+    "checkpoint": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "exposure_checkpoint_trial_numbers": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250,
+        260
+      ],
+      "n_checkpoints_exposure": 26
+    },
+    "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+  },
+  "computational_validity": {
+    "pilot_numerical_valid": true,
+    "pilot_checkpoint": "1 ok, 0 fail (every 10 trials)",
+    "pilot_H_bounds": "0.619-1.082 within [0.1,10], nontrivial",
+    "pilot_Theta_bounds": "-0.044-0.12 within [-0.1,10], nontrivial",
+    "pilot_stability": "no issues, V_m mean within [-90,-50], rate ~32 Hz, finite",
+    "full_expected": "260 trials, 1202.24s, 12,022,400 steps at dt0.1, 26 checkpoints, same H/Theta domains",
+    "event_ledger": "balanced AAAB/BBBA, omission preserves timing via drive zero, fx/delay zero",
+    "output_completeness": "11/11 trials produced V_m/spikes/field; hashes available",
+    "resource": "pilot dt1.0 ~12s/trial, dt0.1 ~5x cost; HPC sharding for FULL"
+  },
+  "next_order": "exactness \u2192 stability \u2192 \u0394_exposure \u2192 T1\u2013T7 \u2192 mechanistic H/\u0398 (as planned, no re-tuning)",
+  "warning": "This pilot is not T1\u2013T7 evaluation; FULL 1202s will be sealed before interpretation"
+}

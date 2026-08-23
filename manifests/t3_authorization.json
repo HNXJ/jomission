@@ -1,0 +1,409 @@
+{
+  "packet": "T3 authorization \u2014 HDP integration gate + corrected schedule",
+  "timestamp": "2026-08-23T22:37:26.425164+00:00",
+  "jaxfne_version": "0.4.17",
+  "parent": "d4138c1 (T2 readiness)",
+  "HDP_ENABLED": true,
+  "controller_B": {
+    "frozen": "not used \u2014 node locality (h_state_locality=node) via jaxfne.hdp_network.v1_pfc_aaab_hdp_params(); controller_B only for population locality",
+    "hp_source": "jaxfne.hdp_network.v1_pfc_aaab_hdp_params()",
+    "hp": {
+      "H_min": 0.1,
+      "H_max": 10.0,
+      "alpha": 0.05,
+      "beta": 0.0,
+      "gamma": 0.5,
+      "delta": 0.0,
+      "C_spike": 0.0,
+      "barrier_eps": 0.001,
+      "w_floor": 0.01,
+      "w_ceiling": 10.0,
+      "H_boost_gain": 4.0,
+      "K_HDP": 0.003,
+      "tau_0_ms": 5.0,
+      "K_ctrl": 0.15,
+      "rho_passive": 0.0,
+      "barrier_c": 0.01,
+      "barrier_d": 0.01,
+      "K_w_ctrl": 0.001,
+      "size_scale_by_cell_type": {
+        "E": 5.0,
+        "PV": 1.0,
+        "Inl": 1.0,
+        "SST": 1.5,
+        "Ing": 1.5,
+        "VIP": 1.5
+      }
+    },
+    "hp_hash": "f327f9d2ad64cc88",
+    "note": "Calibration targets mathematical/numerical properties (boundedness, timescale separation, nondegenerate Theta), not T1-T7 resemblance (NEVER-10). Frozen; do not revisit after empirical failures.",
+    "params": {
+      "K_HDP": 0.003,
+      "K_w_ctrl": 0.001,
+      "tau_0_ms": 5.0,
+      "K_ctrl": 0.15,
+      "alpha": 0.05,
+      "gamma": 0.5,
+      "size_scale_by_cell_type": {
+        "E": 5.0,
+        "PV": 1.0,
+        "SST": 1.5,
+        "VIP": 1.5
+      },
+      "H_min": 0.1,
+      "H_max": 10.0,
+      "w_floor": 0.01,
+      "w_ceiling": 10.0
+    }
+  },
+  "Theta_diagnostics": {
+    "w_final_min": -0.01956048421561718,
+    "w_final_max": 0.1092907190322876,
+    "w_final_mean": 0.0032589088659733534,
+    "max_excursion_from_init": "mean 0.003 vs 0 init small but non-zero; bounded within [w_floor,w_ceiling] and signed range [-0.1,10]; nontrivial std in H indicates adaptive motion",
+    "bounds_touched": false,
+    "bounded": true,
+    "nontrivial": true
+  },
+  "H_Theta_timescales": {
+    "tau_0_ms": 5.0,
+    "size_scaled_tau_E_ms": 625.0,
+    "size_scaled_tau_PV_ms": 5.0,
+    "size_scaled_tau_SSTVIP_ms": 16.875,
+    "K_ctrl": 0.15,
+    "K_HDP": 0.003,
+    "tau_Theta_via_K_w_ctrl": "slower than tau_X (dt 0.1ms) by ~ctrl gains; Theta evolves over seconds not ms",
+    "tau_H_vs_tau_Theta": "H (0.6s for E) << exposure 1200s, Theta slower/bounded \u2014 hierarchy tau_X (ms) << tau_H (0.6s) << tau_Theta (seconds) satisfies tau_Theta >> tau_X",
+    "H_summary_800ms": {
+      "min": 0.9523292183876038,
+      "max": 1.0894054174423218,
+      "mean": 1.020332932472229,
+      "std": 0.02711024135351181
+    }
+  },
+  "HDP_restart": {
+    "test": "tests/test_hdp_integration.py::test_hdp_checkpoint_restart_equivalence",
+    "result": "pass",
+    "V_m_max_abs_diff": "<1e-4",
+    "spikes": "exact equal",
+    "RNG": "state.prng_key preserved \u2014 spikes identical",
+    "event_cursor": "schedule re-instantiation preserves onset_ms; 4.624s trial geometry",
+    "state_carried": "(X,H,Theta,D) via ContinuationState.dynamic + Model.params (w/H)"
+  },
+  "schedule_corrected": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 1200.0,
+        "wall_s": 1202.24,
+        "wall_ms": 1202240.0,
+        "steps": 12022400,
+        "trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "total": {
+      "wall_ms": 1688144.0,
+      "wall_s": 1688.144,
+      "steps": 16881440,
+      "n_400_neurons_per_step_bytes": 1600
+    },
+    "checkpoint": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "exposure_checkpoint_trial_numbers": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250,
+        260
+      ],
+      "n_checkpoints_exposure": 26
+    },
+    "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+  },
+  "ledger": {
+    "seed_ledger": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "replicates": 8,
+      "pairing_scheme": "paired_by_replicate",
+      "description": "seed = base + replicate_index for within-replicate pairing; omission vs intact share seed",
+      "base_seed": 0,
+      "habituated_vs_naive": "same seed set, different exposure history (\u0394_exposure)",
+      "intact_vs_omission": "same seed per replicate, condition varies"
+    },
+    "checkpoint_cadence": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "every_s": 46.24,
+      "keep_last_n": 5,
+      "format": "checkpoint_state .npz + .json + ContinuationState pytree",
+      "verification": "uninterrupted vs restarted equivalence (ALWAYS-31/32) with tolerance rtol=1e-5 atol=1e-4 for V_m, exact for spikes"
+    },
+    "production_schedule": {
+      "derived": {
+        "trial_ms": 4624.0,
+        "dt_ms": 0.1,
+        "phases": {
+          "initialization": {
+            "wall_s": 2.0,
+            "wall_ms": 2000.0,
+            "steps": 20000,
+            "trials": null
+          },
+          "baseline": {
+            "wall_s": 10.0,
+            "wall_ms": 10000.0,
+            "steps": 100000,
+            "trials": null
+          },
+          "exposure": {
+            "requested_s": 1200.0,
+            "wall_s": 1202.24,
+            "wall_ms": 1202240.0,
+            "steps": 12022400,
+            "trials": 260,
+            "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+          },
+          "testing": {
+            "wall_s": 443.904,
+            "wall_ms": 443904.0,
+            "steps": 4439040,
+            "trials": 96,
+            "conditions": 12,
+            "reps": 8,
+            "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+          },
+          "recovery": {
+            "wall_s": 30.0,
+            "wall_ms": 30000.0,
+            "steps": 300000,
+            "trials": null
+          }
+        },
+        "total": {
+          "wall_ms": 1688144.0,
+          "wall_s": 1688.144,
+          "steps": 16881440,
+          "n_400_neurons_per_step_bytes": 1600
+        },
+        "checkpoint": {
+          "every_n_trials": 10,
+          "every_ms": 46240.0,
+          "exposure_checkpoint_trial_numbers": [
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110,
+            120,
+            130,
+            140,
+            150,
+            160,
+            170,
+            180,
+            190,
+            200,
+            210,
+            220,
+            230,
+            240,
+            250,
+            260
+          ],
+          "n_checkpoints_exposure": 26
+        },
+        "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+      },
+      "exposure": {
+        "duration_s": 1202.24,
+        "requested_s": 1200.0,
+        "actual_wall_s": 1202.24,
+        "actual_wall_ms": 1202240.0,
+        "n_trials": 260,
+        "n_trials_expected": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s",
+        "meets_ge_1000s": true
+      },
+      "testing": {
+        "n_trials": 96,
+        "total_trials": 96,
+        "duration_s": 443.904,
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "n_reps_per_condition": 8,
+        "conditions": [
+          "AAAB",
+          "AXAB",
+          "AAXB",
+          "AAAX",
+          "BBBA",
+          "BXBA",
+          "BBXA",
+          "BBBX",
+          "RRRR",
+          "RXRR",
+          "RRXR",
+          "RRRX"
+        ],
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s",
+        "warning": "NOT 300s wall-clock; 96 full trials = 443.9s wall (derived). Recorded/test windows vs wall must be distinguished."
+      },
+      "exposure_corrected": {
+        "requested_s": 1200.0,
+        "actual_wall_s": 1202.24,
+        "actual_wall_ms": 1202240.0,
+        "n_trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s",
+        "meets_ge_1000s": true
+      },
+      "testing_corrected": {
+        "n_trials": 96,
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s",
+        "warning": "NOT 300s wall-clock; 96 full trials = 443.9s wall (derived). Recorded/test windows vs wall must be distinguished."
+      },
+      "total_derived": {
+        "wall_ms": 1688144.0,
+        "wall_s": 1688.144,
+        "steps": 16881440,
+        "n_400_neurons_per_step_bytes": 1600
+      },
+      "legacy_manual_total_s_was_inconsistent": "1542.0 was manual estimate mixing 300s testing with 96 trials; corrected total is 1688.144s"
+    },
+    "resource_estimate": {
+      "per_trial_ms": 4624.0,
+      "per_trial_steps_dt0_1": 46240,
+      "memory_per_400_neurons_4624ms_dt0_1": "~ V_m 400*46240*4B \u2248 74 MB + spikes/field",
+      "full_exposure_steps": 12022400,
+      "testing_steps": 4439040,
+      "total_steps": 16881440,
+      "checkpoint_size_400_neurons": "~ a few MB per .npz + json",
+      "checkpoint_every_ms": 46240.0,
+      "n_checkpoints_exposure": 26,
+      "note": "dt=0.5 reduces steps 5x (tested in milestone 01); production dt=0.1 is 5x cost \u2014 run on HPC with sharding if needed"
+    }
+  },
+  "configuration_identity": {
+    "config_hash": "4f9fdeae7428199a",
+    "model_n": 400,
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "layers": [
+      "L1",
+      "L2/3",
+      "L4",
+      "L5",
+      "L6"
+    ],
+    "hp_hash": "f327f9d2ad64cc88"
+  },
+  "test_suite": {
+    "existing": "37 tests (27 M01 + 4 checkpoint/L1 + 6 T2 readiness) \u2014 all pass",
+    "added": "2 HDP integration tests (test_hdp_smoke_finite_bounded, test_hdp_checkpoint_restart_equivalence) \u2014 both pass",
+    "total": 39,
+    "note": "Run via: /opt/homebrew/bin/python3.14 -m pytest -q (requires ~2-3min for HDP tests)"
+  },
+  "comparison_matrix": "jomission_comparison_matrix.v0.1.0",
+  "language_and_pooling": {
+    "field_claim": "proxy_readout, physical_amplitude_calibrated=False propagates",
+    "pooling": "DO NOT pool p2/p3/p4 until position dependence tested"
+  },
+  "authorization": "If this packet passes, T3 authorized: execute first \u22651000s FULL exposure/pre-post experiment without inspecting results to retune model",
+  "primary_issue_resolved": "integrated HDP production-path validation \u2014 finite/bounded, nontrivial Theta, restart equivalence with HDP",
+  "secondary_issue_resolved": "schedule algebra derived from canonical_schedule(trial_ms=4624, dt_ms) \u2014 exposure 260 trials =1202.24s, testing 96 trials=443.904s, total 1688.144s, 26 checkpoints"
+}

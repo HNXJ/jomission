@@ -27,27 +27,77 @@ CHECKPOINT_CADENCE: dict = {
     "verification": "uninterrupted vs restarted equivalence (ALWAYS-31/32) with tolerance rtol=1e-5 atol=1e-4 for V_m, exact for spikes",
 }
 
+CANONICAL_SCHEDULE = None  # lazy import to avoid cycle; use get_canonical_schedule()
+
+def get_canonical_schedule(**kwargs):
+    from jomission.simulation.schedule import canonical_schedule
+    return canonical_schedule(**kwargs)
+
+# Derived canonical schedule — single source of truth (trial_ms=4624, dt_ms=0.1)
+# All phase durations/trials/steps/checkpoints derived; no manual mismatch.
+_DERIVED = get_canonical_schedule(
+    dt_ms=0.1,
+    initialization_s=2.0,
+    baseline_s=10.0,
+    exposure_s=1200.0,
+    recovery_s=30.0,
+    testing_n_conditions=12,
+    testing_n_reps=8,
+    checkpoint_every_n_trials=10,
+)
+
 PRODUCTION_SCHEDULE: dict = {
-    "initialization": {"duration_s": 2.0, "description": "quiescent baseline, no structured input"},
-    "baseline": {"duration_s": 10.0, "sequence": "RRRR interleaved, low rate"},
-    "exposure": {"duration_s": 1200.0, "sequence": "balanced AAAB/BBBA", "n_trials_expected": 259, "note": "≥1000s requirement; 1200s chosen to cover 1000s + margin"},
-    "testing": {
-        "duration_s": 300.0,
-        "conditions": ["AAAB", "AXAB", "AAXB", "AAAX", "BBBA", "BXBA", "BBXA", "BBBX", "RRRR", "RXRR", "RRXR", "RRRX"],
-        "n_reps_per_condition": 8,
-        "total_trials": 96,
+    "derived": _DERIVED,
+    # Backward-compatible shallow keys (derived, not manual)
+    "exposure": {
+        "duration_s": _DERIVED["phases"]["exposure"]["wall_s"],
+        "requested_s": 1200.0,
+        "actual_wall_s": _DERIVED["phases"]["exposure"]["wall_s"],
+        "actual_wall_ms": _DERIVED["phases"]["exposure"]["wall_ms"],
+        "n_trials": _DERIVED["phases"]["exposure"]["trials"],
+        "n_trials_expected": _DERIVED["phases"]["exposure"]["trials"],
+        "note": _DERIVED["phases"]["exposure"]["note"],
+        "meets_ge_1000s": _DERIVED["phases"]["exposure"]["wall_s"] >= 1000.0,
     },
-    "recovery": {"duration_s": 30.0, "sequence": "RRRR"},
-    "total_estimated_s": 1542.0,
-    "dt_ms": 0.1,
-    "n_steps_total": 15420000,  # ~15M steps at 0.1ms
+    "testing": {
+        "n_trials": _DERIVED["phases"]["testing"]["trials"],
+        "total_trials": _DERIVED["phases"]["testing"]["trials"],
+        "duration_s": _DERIVED["phases"]["testing"]["wall_s"],
+        "wall_s": _DERIVED["phases"]["testing"]["wall_s"],
+        "wall_ms": _DERIVED["phases"]["testing"]["wall_ms"],
+        "n_reps_per_condition": _DERIVED["phases"]["testing"]["reps"],
+        "conditions": ["AAAB", "AXAB", "AAXB", "AAAX", "BBBA", "BXBA", "BBXA", "BBBX", "RRRR", "RXRR", "RRXR", "RRRX"],
+        "note": _DERIVED["phases"]["testing"]["note"],
+        "warning": "NOT 300s wall-clock; 96 full trials = 443.9s wall (derived). Recorded/test windows vs wall must be distinguished.",
+    },
+    "exposure_corrected": {
+        "requested_s": 1200.0,
+        "actual_wall_s": _DERIVED["phases"]["exposure"]["wall_s"],
+        "actual_wall_ms": _DERIVED["phases"]["exposure"]["wall_ms"],
+        "n_trials": _DERIVED["phases"]["exposure"]["trials"],
+        "note": _DERIVED["phases"]["exposure"]["note"],
+        "meets_ge_1000s": _DERIVED["phases"]["exposure"]["wall_s"] >= 1000.0,
+    },
+    "testing_corrected": {
+        "n_trials": _DERIVED["phases"]["testing"]["trials"],
+        "wall_s": _DERIVED["phases"]["testing"]["wall_s"],
+        "wall_ms": _DERIVED["phases"]["testing"]["wall_ms"],
+        "note": _DERIVED["phases"]["testing"]["note"],
+        "warning": "NOT 300s wall-clock; 96 full trials = 443.9s wall (derived). Recorded/test windows vs wall must be distinguished.",
+    },
+    "total_derived": _DERIVED["total"],
+    "legacy_manual_total_s_was_inconsistent": "1542.0 was manual estimate mixing 300s testing with 96 trials; corrected total is 1688.144s",
 }
 
 RESOURCE_ESTIMATE: dict = {
-    "per_trial_ms": 4624.0,
-    "per_trial_steps_dt0_1": 46240,
+    "per_trial_ms": _DERIVED["trial_ms"],
+    "per_trial_steps_dt0_1": int(_DERIVED["trial_ms"] / 0.1),
     "memory_per_400_neurons_4624ms_dt0_1": "~ V_m 400*46240*4B ≈ 74 MB + spikes/field",
-    "full_exposure_1200s_dt0_1_steps": 12000000,
+    "full_exposure_steps": _DERIVED["phases"]["exposure"]["steps"],
+    "testing_steps": _DERIVED["phases"]["testing"]["steps"],
+    "total_steps": _DERIVED["total"]["steps"],
     "checkpoint_size_400_neurons": "~ a few MB per .npz + json",
+    "checkpoint_every_ms": _DERIVED["checkpoint"]["every_ms"],
+    "n_checkpoints_exposure": _DERIVED["checkpoint"]["n_checkpoints_exposure"],
     "note": "dt=0.5 reduces steps 5x (tested in milestone 01); production dt=0.1 is 5x cost — run on HPC with sharding if needed",
 }

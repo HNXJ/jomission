@@ -1,0 +1,66 @@
+{
+  "namespace": "canonical_confirmatory",
+  "method": "deterministic replay of frozen trajectory subset (seed-matched), record_fields=True",
+  "reps": 3,
+  "n_trials_replayed": 36,
+  "wall_time_s": 559.1820027828217,
+  "T4_lowgamma_omission_slot_over_baseline": {
+    "by_position": {
+      "p2": 0.8204,
+      "p3": 1.7893,
+      "p4": 1.7447
+    },
+    "intact": 1.8502
+  },
+  "T4_all_bands_by_position": {
+    "p2": {
+      "theta": 6.795823674084877,
+      "alpha": 0.9827467629122518,
+      "beta": 0.8480420091916655,
+      "low_gamma": 0.8204279400838643,
+      "high_gamma": 0.5479296092890169
+    },
+    "p3": {
+      "theta": 1.4552834308820863,
+      "alpha": 0.05040072878029246,
+      "beta": 3.8188797757590027,
+      "low_gamma": 1.7892737259034779,
+      "high_gamma": 1.000116164687975
+    },
+    "p4": {
+      "theta": 1.535029679475276,
+      "alpha": 0.0530782914480082,
+      "beta": 3.7716116073597714,
+      "low_gamma": 1.7446905661105747,
+      "high_gamma": 0.9965305618016905
+    }
+  },
+  "T5_coupling_broadband_by_area": {
+    "V1": {
+      "broadband_sfc": -0.2237
+    },
+    "V4": {
+      "broadband_sfc": -0.2506
+    },
+    "FEF": {
+      "broadband_sfc": -0.2466
+    },
+    "PFC": {
+      "broadband_sfc": -0.247
+    }
+  },
+  "T6": {
+    "status": "UNRESOLVED",
+    "reason": "unit-wise omission-selectivity requires per-unit arrays; replay stored area aggregates. Frozen classifier defined; needs one more replay pass retaining per-unit spikes."
+  },
+  "T7": {
+    "status": "UNRESOLVED",
+    "reason": "single-trial cross-area lag needs ms-resolution multi-area field; area-rate envelopes at 4624ms trial granularity cannot resolve onset lags. Requires replay retaining per-step area rates."
+  },
+  "verdicts": {
+    "T4": "UNRESOLVED_pending_area_resolved_field",
+    "T5": "UNRESOLVED_pending_bandresolved_coupling",
+    "T6": "UNRESOLVED",
+    "T7": "UNRESOLVED"
+  }
+}

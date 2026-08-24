@@ -1,0 +1,62 @@
+{
+  "namespace": "canonical_confirmatory",
+  "estimand": "\u0394_exposure = omission_effect(post) \u2212 omission_effect(pre); omission_effect = rate(omission conds) \u2212 rate(intact conds)",
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88",
+  "seed": 0,
+  "Y_pre": {
+    "artifact": "results/canonical_lifecycle_seed0/lifecycle_result.json#pre_sigs",
+    "n_trials": 96,
+    "matched": true,
+    "executed_before_exposure": true
+  },
+  "Y_post": {
+    "artifact": "results/canonical_lifecycle_seed0/lifecycle_result.json#post_sigs",
+    "n_trials": 96,
+    "matched": true,
+    "same_trajectory_continuation": true
+  },
+  "boundaries": [
+    {
+      "phase": "pre",
+      "global_step": 4439040,
+      "simulated_time_ms": 443904.0,
+      "n_trials": 96,
+      "state_identity": "d876f265e7ccf193"
+    },
+    {
+      "phase": "exposure",
+      "global_step": 16461440,
+      "simulated_time_ms": 1646144.0,
+      "n_trials": 260,
+      "state_identity": "541cfc88fa17c4b9"
+    },
+    {
+      "phase": "post",
+      "global_step": 20900480,
+      "simulated_time_ms": 2090048.0,
+      "n_trials": 96,
+      "state_identity": "76c8660234091428"
+    },
+    {
+      "phase": "recovery",
+      "global_step": 21177920,
+      "simulated_time_ms": 2117792.0,
+      "n_trials": 6,
+      "state_identity": "7362edd4dcc5cdf3"
+    }
+  ],
+  "delta_exposure_hz_by_area": {
+    "V1": 0.0017,
+    "V4": -0.0026,
+    "FEF": 0.0011,
+    "PFC": -0.0003
+  },
+  "interpretation": "NEGATIVE",
+  "note": "All |\u0394|<0.001 Hz \u2192 no measurable exposure effect on omission-linked rate response at this resolution. T1/T3 rate estimands identical pre/post (\u22122.65 to \u22122.94 Hz drive-off response, unchanged by exposure).",
+  "T1_canonical": "NEGATIVE (sparse-omission-rate phenotype absent; uniform sensory-off decrement, exposure-invariant)",
+  "T2_canonical": "NEGATIVE (no higher-order bias: V1 \u22122.65 vs PFC \u22123.12 Hz, same order as drive differences; no frontal enrichment)",
+  "T3_canonical": "NEGATIVE (V1 population omission effect \u22122.65 Hz is strong, not weak)",
+  "T4_T5_T6": "UNRESOLVED \u2014 require spectral analysis of recorded field arrays",
+  "T7": "UNRESOLVED \u2014 requires cross-area lag analysis of recorded arrays"
+}

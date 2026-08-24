@@ -1,0 +1,184 @@
+{
+  "namespace": "canonical_confirmatory",
+  "T1_sparse_omission_spiking": {
+    "per_position": [
+      {
+        "position": "p2",
+        "omission": "AXAB",
+        "intact": "AAAB",
+        "phase": "pre",
+        "omission_rate_hz": 20.579,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.942
+      },
+      {
+        "position": "p2",
+        "omission": "AXAB",
+        "intact": "AAAB",
+        "phase": "post",
+        "omission_rate_hz": 20.578,
+        "intact_rate_hz": 23.522,
+        "diff_hz": -2.943
+      },
+      {
+        "position": "p2",
+        "omission": "BXBA",
+        "intact": "BBBA",
+        "phase": "pre",
+        "omission_rate_hz": 20.578,
+        "intact_rate_hz": 23.519,
+        "diff_hz": -2.941
+      },
+      {
+        "position": "p2",
+        "omission": "BXBA",
+        "intact": "BBBA",
+        "phase": "post",
+        "omission_rate_hz": 20.578,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.943
+      },
+      {
+        "position": "p2",
+        "omission": "RXRR",
+        "intact": "RRRR",
+        "phase": "pre",
+        "omission_rate_hz": 20.577,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.944
+      },
+      {
+        "position": "p2",
+        "omission": "RXRR",
+        "intact": "RRRR",
+        "phase": "post",
+        "omission_rate_hz": 20.58,
+        "intact_rate_hz": 23.52,
+        "diff_hz": -2.94
+      },
+      {
+        "position": "p3",
+        "omission": "AAXB",
+        "intact": "AAAB",
+        "phase": "pre",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.915
+      },
+      {
+        "position": "p3",
+        "omission": "AAXB",
+        "intact": "AAAB",
+        "phase": "post",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.522,
+        "diff_hz": -2.916
+      },
+      {
+        "position": "p3",
+        "omission": "BBXA",
+        "intact": "BBBA",
+        "phase": "pre",
+        "omission_rate_hz": 20.605,
+        "intact_rate_hz": 23.519,
+        "diff_hz": -2.914
+      },
+      {
+        "position": "p3",
+        "omission": "BBXA",
+        "intact": "BBBA",
+        "phase": "post",
+        "omission_rate_hz": 20.607,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.915
+      },
+      {
+        "position": "p3",
+        "omission": "RRXR",
+        "intact": "RRRR",
+        "phase": "pre",
+        "omission_rate_hz": 20.609,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.912
+      },
+      {
+        "position": "p3",
+        "omission": "RRXR",
+        "intact": "RRRR",
+        "phase": "post",
+        "omission_rate_hz": 20.608,
+        "intact_rate_hz": 23.52,
+        "diff_hz": -2.913
+      },
+      {
+        "position": "p4",
+        "omission": "AAAX",
+        "intact": "AAAB",
+        "phase": "pre",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.916
+      },
+      {
+        "position": "p4",
+        "omission": "AAAX",
+        "intact": "AAAB",
+        "phase": "post",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.522,
+        "diff_hz": -2.915
+      },
+      {
+        "position": "p4",
+        "omission": "BBBX",
+        "intact": "BBBA",
+        "phase": "pre",
+        "omission_rate_hz": 20.605,
+        "intact_rate_hz": 23.519,
+        "diff_hz": -2.914
+      },
+      {
+        "position": "p4",
+        "omission": "BBBX",
+        "intact": "BBBA",
+        "phase": "post",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.915
+      },
+      {
+        "position": "p4",
+        "omission": "RRRX",
+        "intact": "RRRR",
+        "phase": "pre",
+        "omission_rate_hz": 20.605,
+        "intact_rate_hz": 23.521,
+        "diff_hz": -2.916
+      },
+      {
+        "position": "p4",
+        "omission": "RRRX",
+        "intact": "RRRR",
+        "phase": "post",
+        "omission_rate_hz": 20.606,
+        "intact_rate_hz": 23.52,
+        "diff_hz": -2.914
+      }
+    ],
+    "verdict": "REVIEW"
+  },
+  "T3_V1_population": {
+    "rows": [
+      {
+        "phase": "pre",
+        "V1_omission_minus_intact_hz": 12.756
+      },
+      {
+        "phase": "post",
+        "V1_omission_minus_intact_hz": 12.756
+      }
+    ],
+    "verdict": "REVIEW"
+  },
+  "note": "rate-based estimands only; spectral (T4/T5/T6) and cross-area lag (T7) require field analysis of recorded arrays"
+}

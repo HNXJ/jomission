@@ -1,0 +1,30 @@
+{
+  "T3_V1_population_corrected": [
+    {
+      "phase": "pre",
+      "V1_area_omission_hz": 19.424,
+      "V1_intact_hz": 22.071,
+      "diff": -2.647
+    },
+    {
+      "phase": "post",
+      "V1_area_omission_hz": 19.424,
+      "V1_intact_hz": 22.071,
+      "diff": -2.647
+    }
+  ],
+  "T2_higher_order_bias_per_area": {
+    "pre": {
+      "V1": -2.647,
+      "V4": -3.05,
+      "FEF": -2.882,
+      "PFC": -3.12
+    },
+    "post": {
+      "V1": -2.647,
+      "V4": -3.05,
+      "FEF": -2.881,
+      "PFC": -3.122
+    }
+  }
+}

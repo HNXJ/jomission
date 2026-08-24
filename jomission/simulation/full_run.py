@@ -115,6 +115,8 @@ def run_full(
     worker_id = worker_id or f"{os.getpid()}@{os.uname().nodename if hasattr(os.uname(), 'nodename') else 'worker'}"
     heartbeat_log: list[dict] = []
     heartbeat_path = pathlib.Path(checkpoint_dir) / "heartbeat.jsonl" if checkpoint_dir else None
+    if checkpoint_dir:
+        pathlib.Path(checkpoint_dir).mkdir(parents=True, exist_ok=True)
     worker_started = _now_iso()
     compile_start = time.perf_counter()
     # Mark compile phase heartbeat (state not yet advanced — liveness vs progress distinction)

@@ -1,0 +1,145 @@
+{
+  "seal": "canonical dt0.1 HPC smoke \u2014 deployment validation",
+  "timestamp": "2026-08-24T02:07:24.592529+00:00",
+  "SHA": "60ab19c",
+  "confirmatory_config": "4f9fdeae7428199a",
+  "hp": "f327f9d2ad64cc88",
+  "hp_source": "jaxfne.hdp_network.v1_pfc_aaab_hdp_params()",
+  "backend": "cpu",
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "dtype": "float32",
+  "dependencies": {
+    "jaxfne": "0.4.17",
+    "jax": "0.10.1",
+    "jaxlib": "0.10.1"
+  },
+  "heartbeat_trace": [
+    {
+      "run_id": "jomission-4f9fdeae-f327-66915b81",
+      "worker_id": "98712@HamedNejat-MacBook-Pro.local",
+      "phase": "compile",
+      "replicate": 0,
+      "global_step": 0,
+      "simulated_time_ms": 0.0,
+      "trial_index": -1,
+      "event_cursor": "compile_start",
+      "latest_checkpoint": null,
+      "wall_time": "2026-08-24T02:01:29.602164+00:00",
+      "last_progress_wall_time": "2026-08-24T02:01:29.602168+00:00"
+    },
+    {
+      "run_id": "jomission-4f9fdeae-f327-66915b81",
+      "worker_id": "98712@HamedNejat-MacBook-Pro.local",
+      "phase": "exposure",
+      "replicate": 0,
+      "global_step": 46240,
+      "simulated_time_ms": 4624.0,
+      "trial_index": 0,
+      "event_cursor": "AAAB",
+      "latest_checkpoint": null,
+      "wall_time": "2026-08-24T02:04:29.239248+00:00",
+      "last_progress_wall_time": "2026-08-24T02:04:29.239333+00:00"
+    },
+    {
+      "run_id": "jomission-4f9fdeae-f327-66915b81",
+      "worker_id": "98712@HamedNejat-MacBook-Pro.local",
+      "phase": "exposure",
+      "replicate": 0,
+      "global_step": 92480,
+      "simulated_time_ms": 9248.0,
+      "trial_index": 1,
+      "event_cursor": "BBBA",
+      "latest_checkpoint": null,
+      "wall_time": "2026-08-24T02:06:17.508985+00:00",
+      "last_progress_wall_time": "2026-08-24T02:06:17.510111+00:00"
+    }
+  ],
+  "monotonic": true,
+  "compile_wall_s": 0.0006,
+  "execution_wall_s": 287.9,
+  "trial_latency": {
+    "trial_0_wall_s": 179.6,
+    "trial_1_wall_s": 108.2,
+    "mean_per_trial_s": 143.9
+  },
+  "checkpoint": {
+    "reached_trial_10": false,
+    "n_trials_smoke": 2,
+    "next_checkpoint_at": 10
+  },
+  "terminal_predicate": {
+    "expected_final_step": 92480,
+    "actual_final_step": 92480,
+    "expected_final_sim_time_ms": 9248.0,
+    "actual_final_sim_time_ms": 9248.0,
+    "derived_from": "canonical_schedule()",
+    "terminated_by_schedule": true
+  },
+  "worker_progress": {
+    "worker_started": "2026-08-24T02:01:29.602164+00:00",
+    "worker_progress_verified": true,
+    "worker_completed_expected_schedule": true,
+    "stopped_early": false,
+    "termination_reason": "completed_expected_schedule"
+  },
+  "output_hashes": [
+    "4b96ad207646",
+    "4591eb38b93c"
+  ],
+  "heartbeat_hash": "e634f1d9ac62001c",
+  "schedule": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 5.0,
+        "wall_s": 9.248,
+        "wall_ms": 9248.0,
+        "steps": 92480,
+        "trials": 2,
+        "note": "ceil(5.0s / 4624.0ms) = 2 trials = 9.248s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "total": {
+      "wall_ms": 495152.0,
+      "wall_s": 495.152,
+      "steps": 4951520,
+      "n_400_neurons_per_step_bytes": 1600
+    },
+    "checkpoint": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "exposure_checkpoint_trial_numbers": [],
+      "n_checkpoints_exposure": 0
+    },
+    "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+  },
+  "note": "Canonical smoke PASS; FULL 260 trials 1202.24s same path, 26 checkpoints"
+}

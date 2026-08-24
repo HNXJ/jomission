@@ -1,0 +1,391 @@
+{
+  "namespace": "canonical_confirmatory",
+  "generated_by": "jomission.analysis.t4_t5_analysis (Subagent B)",
+  "owner": "generated",
+  "matrix_version": "jomission_comparison_matrix.v0.1.0",
+  "t4": {
+    "id": "T4",
+    "label": "frontal low-gamma omission effect (5-band x 4-area x p2/p3/p4)",
+    "estimand": "LFP-like band power omission vs intact, per area/band/position (proxy_readout)",
+    "bands": [
+      "theta",
+      "alpha",
+      "beta",
+      "low_gamma",
+      "high_gamma"
+    ],
+    "band_def": {
+      "theta": [
+        4,
+        8
+      ],
+      "alpha": [
+        8,
+        14
+      ],
+      "beta": [
+        14,
+        30
+      ],
+      "low_gamma": [
+        30,
+        50
+      ],
+      "high_gamma": [
+        50,
+        80
+      ]
+    },
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "positions": [
+      "p2",
+      "p3",
+      "p4"
+    ],
+    "n_trials_total": 96,
+    "n_per_position": {
+      "p2": {
+        "n_omission": 24,
+        "n_intact": 24
+      },
+      "p3": {
+        "n_omission": 24,
+        "n_intact": 24
+      },
+      "p4": {
+        "n_omission": 24,
+        "n_intact": 24
+      }
+    },
+    "denominators": {
+      "p2": {
+        "theta": {
+          "frontal_mean_diff": -58.26847897904614,
+          "v1_diff": -33.03154788662991,
+          "frontal_minus_v1": -25.236931092416228
+        },
+        "alpha": {
+          "frontal_mean_diff": 2769.6674872369817,
+          "v1_diff": 3389.0582160068057,
+          "frontal_minus_v1": -619.3907287698239
+        },
+        "beta": {
+          "frontal_mean_diff": -15694.992963202298,
+          "v1_diff": -18781.603812565405,
+          "frontal_minus_v1": 3086.6108493631073
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -9021.10701170067,
+          "v1_diff": -11264.648026088873,
+          "frontal_minus_v1": 2243.5410143882036
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -7388.039767277738,
+          "v1_diff": -7855.421642223993,
+          "frontal_minus_v1": 467.38187494625527
+        }
+      },
+      "p3": {
+        "theta": {
+          "frontal_mean_diff": 223.18001393795322,
+          "v1_diff": 272.4059769467761,
+          "frontal_minus_v1": -49.22596300882287
+        },
+        "alpha": {
+          "frontal_mean_diff": 2883.1270865517827,
+          "v1_diff": 3554.761299014712,
+          "frontal_minus_v1": -671.6342124629296
+        },
+        "beta": {
+          "frontal_mean_diff": -8165.028371368224,
+          "v1_diff": -10323.16228718559,
+          "frontal_minus_v1": 2158.133915817367
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -750.6846273268262,
+          "v1_diff": -1458.0605849126975,
+          "frontal_minus_v1": 707.3759575858713
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -3479.4092103242874,
+          "v1_diff": -3228.399461527665,
+          "frontal_minus_v1": -251.00974879662226
+        }
+      },
+      "p4": {
+        "theta": {
+          "frontal_mean_diff": 79.66789670230355,
+          "v1_diff": 146.17669710734236,
+          "frontal_minus_v1": -66.50880040503881
+        },
+        "alpha": {
+          "frontal_mean_diff": 1367.83501160269,
+          "v1_diff": 1815.9805144934605,
+          "frontal_minus_v1": -448.14550289077056
+        },
+        "beta": {
+          "frontal_mean_diff": -1371.907192338258,
+          "v1_diff": -1619.9231378982463,
+          "frontal_minus_v1": 248.01594555998827
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -309.7783828675747,
+          "v1_diff": -97.73823763926839,
+          "frontal_minus_v1": -212.0401452283063
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -3541.65617723763,
+          "v1_diff": -2705.07720781366,
+          "frontal_minus_v1": -836.5789694239697
+        }
+      }
+    },
+    "frontal_vs_v1": {
+      "p2": {
+        "theta": {
+          "frontal_mean_diff": -58.26847897904614,
+          "v1_diff": -33.03154788662991,
+          "frontal_minus_v1": -25.236931092416228
+        },
+        "alpha": {
+          "frontal_mean_diff": 2769.6674872369817,
+          "v1_diff": 3389.0582160068057,
+          "frontal_minus_v1": -619.3907287698239
+        },
+        "beta": {
+          "frontal_mean_diff": -15694.992963202298,
+          "v1_diff": -18781.603812565405,
+          "frontal_minus_v1": 3086.6108493631073
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -9021.10701170067,
+          "v1_diff": -11264.648026088873,
+          "frontal_minus_v1": 2243.5410143882036
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -7388.039767277738,
+          "v1_diff": -7855.421642223993,
+          "frontal_minus_v1": 467.38187494625527
+        }
+      },
+      "p3": {
+        "theta": {
+          "frontal_mean_diff": 223.18001393795322,
+          "v1_diff": 272.4059769467761,
+          "frontal_minus_v1": -49.22596300882287
+        },
+        "alpha": {
+          "frontal_mean_diff": 2883.1270865517827,
+          "v1_diff": 3554.761299014712,
+          "frontal_minus_v1": -671.6342124629296
+        },
+        "beta": {
+          "frontal_mean_diff": -8165.028371368224,
+          "v1_diff": -10323.16228718559,
+          "frontal_minus_v1": 2158.133915817367
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -750.6846273268262,
+          "v1_diff": -1458.0605849126975,
+          "frontal_minus_v1": 707.3759575858713
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -3479.4092103242874,
+          "v1_diff": -3228.399461527665,
+          "frontal_minus_v1": -251.00974879662226
+        }
+      },
+      "p4": {
+        "theta": {
+          "frontal_mean_diff": 79.66789670230355,
+          "v1_diff": 146.17669710734236,
+          "frontal_minus_v1": -66.50880040503881
+        },
+        "alpha": {
+          "frontal_mean_diff": 1367.83501160269,
+          "v1_diff": 1815.9805144934605,
+          "frontal_minus_v1": -448.14550289077056
+        },
+        "beta": {
+          "frontal_mean_diff": -1371.907192338258,
+          "v1_diff": -1619.9231378982463,
+          "frontal_minus_v1": 248.01594555998827
+        },
+        "low_gamma": {
+          "frontal_mean_diff": -309.7783828675747,
+          "v1_diff": -97.73823763926839,
+          "frontal_minus_v1": -212.0401452283063
+        },
+        "high_gamma": {
+          "frontal_mean_diff": -3541.65617723763,
+          "v1_diff": -2705.07720781366,
+          "frontal_minus_v1": -836.5789694239697
+        }
+      }
+    },
+    "physical_amplitude_calibrated": false,
+    "field_claim_level": "proxy_readout",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested",
+    "artifacts": {
+      "summary_json": "results/t4_t5_canonical_dt1/t4_t5_summary.json",
+      "per_trial_npz": "results/t4_t5_canonical_dt1/t4_t5_per_trial_arrays.npz",
+      "t4_diff_npy": "results/t4_t5_canonical_dt1/t4_diff_om_minus_intact__area_band_pos.npy"
+    },
+    "sha256_head": "c1e1115cef7a10aa",
+    "verification": "per-trial bandpower 5x4x3, uncertainty (mean, SD, SEM, CI95, Cohen d, t, p), frontal vs V1 contrast, generated-owner"
+  },
+  "t5": {
+    "id": "T5",
+    "label": "gamma/rate coupling vs lower-frequency coupling (band-resolved, frozen gamma-vs-low)",
+    "estimand": "trial band power vs spike rate Pearson r, per area/band, gamma vs lower contrast",
+    "bands": [
+      "theta",
+      "alpha",
+      "beta",
+      "low_gamma",
+      "high_gamma"
+    ],
+    "lower_bands": [
+      "theta",
+      "alpha",
+      "beta"
+    ],
+    "gamma_bands": [
+      "low_gamma",
+      "high_gamma"
+    ],
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "n_trials_total": 96,
+    "gamma_vs_low": {
+      "V1": {
+        "mean_lower_r": -0.16525071023939178,
+        "mean_gamma_r": 0.973680964322472,
+        "gamma_minus_lower": 1.1389316745618638,
+        "low_gamma_r": 0.9611409967104432,
+        "high_gamma_r": 0.9862209319345008,
+        "low_gamma_minus_lower": 1.126391706949835,
+        "high_gamma_minus_lower": 1.1514716421738926,
+        "n_trials": 96,
+        "interpretation": "positive if gamma coupling > lower; correlational, not causal field->spike"
+      },
+      "V4": {
+        "mean_lower_r": -0.11015335608849137,
+        "mean_gamma_r": 0.9828974244583637,
+        "gamma_minus_lower": 1.093050780546855,
+        "low_gamma_r": 0.9755280932834162,
+        "high_gamma_r": 0.9902667556333112,
+        "low_gamma_minus_lower": 1.0856814493719076,
+        "high_gamma_minus_lower": 1.1004201117218027,
+        "n_trials": 96,
+        "interpretation": "positive if gamma coupling > lower; correlational, not causal field->spike"
+      },
+      "FEF": {
+        "mean_lower_r": -0.14553043666973906,
+        "mean_gamma_r": 0.9788733525833448,
+        "gamma_minus_lower": 1.1244037892530838,
+        "low_gamma_r": 0.9682473283536395,
+        "high_gamma_r": 0.9894993768130503,
+        "low_gamma_minus_lower": 1.1137777650233784,
+        "high_gamma_minus_lower": 1.1350298134827894,
+        "n_trials": 96,
+        "interpretation": "positive if gamma coupling > lower; correlational, not causal field->spike"
+      },
+      "PFC": {
+        "mean_lower_r": -0.07636744678783917,
+        "mean_gamma_r": 0.9641783225689773,
+        "gamma_minus_lower": 1.0405457693568165,
+        "low_gamma_r": 0.9366704329816179,
+        "high_gamma_r": 0.9916862121563368,
+        "low_gamma_minus_lower": 1.013037879769457,
+        "high_gamma_minus_lower": 1.068053658944176,
+        "n_trials": 96,
+        "interpretation": "positive if gamma coupling > lower; correlational, not causal field->spike"
+      }
+    },
+    "per_area_band_r": {
+      "V1": {
+        "theta": -0.6400890866440462,
+        "alpha": -0.8448765224805017,
+        "beta": 0.9892134784063726,
+        "low_gamma": 0.9611409967104432,
+        "high_gamma": 0.9862209319345008
+      },
+      "V4": {
+        "theta": -0.5102097873048842,
+        "alpha": -0.8091534713269813,
+        "beta": 0.9889031903663914,
+        "low_gamma": 0.9755280932834162,
+        "high_gamma": 0.9902667556333112
+      },
+      "FEF": {
+        "theta": -0.5802360849485391,
+        "alpha": -0.8436537276834023,
+        "beta": 0.9872985026227241,
+        "low_gamma": 0.9682473283536395,
+        "high_gamma": 0.9894993768130503
+      },
+      "PFC": {
+        "theta": -0.4190659927174144,
+        "alpha": -0.7982303796884107,
+        "beta": 0.9881940320423075,
+        "low_gamma": 0.9366704329816179,
+        "high_gamma": 0.9916862121563368
+      }
+    },
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "causal_claim": "correlational only; no causal field->spike",
+    "artifacts": {
+      "summary_json": "results/t4_t5_canonical_dt1/t4_t5_summary.json",
+      "t5_r_npy": "results/t4_t5_canonical_dt1/t5_pearson_r__area_band.npy",
+      "t5_gamma_low_npy": "results/t4_t5_canonical_dt1/t5_gamma_minus_lower__area.npy"
+    },
+    "verification": "per-trial r, Fisher CI, Spearman, gamma-vs-low frozen contrast, per-position secondary"
+  },
+  "provenance": {
+    "field_path": "jomission.recording.area_local.field_by_area_4d (linear partition, proxy)",
+    "rate_path": "area-mean spike rate (Hz) from spikes[:, idx].mean()*1000/dt",
+    "estimator_tests": "tests/test_t4_t5_analysis.py (7 tests, all on real field arrays)",
+    "area_local_tests": "tests/test_area_local_field.py (10 tests)",
+    "dt_ms_pilot": 1.0,
+    "dt_ms_canonical": 0.1,
+    "same_code_path_both_dt": true,
+    "replay_seed": 0,
+    "model_config_hash": "4f9fdeae7428199a"
+  },
+  "evidence": {
+    "test_result": "7 passed in test_t4_t5_analysis (real field, not synthetic)",
+    "artifact_shapes": {
+      "t4_per_trial_position_power": [
+        96,
+        4,
+        5,
+        3
+      ],
+      "t5_per_trial_bandpower": [
+        96,
+        4,
+        5
+      ],
+      "t4_diff": [
+        4,
+        5,
+        3
+      ],
+      "t5_r": [
+        4,
+        5
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "namespace": "canonical_supplementary_replay",
+  "parent": "e599155",
+  "init_state_post": "ckpt_trial_0260",
+  "init_state_pre": "fresh",
+  "dt_ms": 1.0,
+  "n_pre": 12,
+  "n_post": 12,
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88"
+}

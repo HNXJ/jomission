@@ -1,0 +1,81 @@
+{
+  "namespace": "canonical_confirmatory",
+  "source": "canonical_supplementary_replay",
+  "parent_FULL": "e599155",
+  "init_state_pre": "fresh_naive (config 4f9fdeae/f327f9d2, seed 100)",
+  "init_state_post": "ckpt_trial_0260 (state 541cfc88fa17c4b9, continuous from 260\u00d71202.24s exposure)",
+  "dt_ms": 1.0,
+  "note": "Pilot scale dt1.0 24 trials (12 pre +12 post) for T4-T7 estimator closure; HPC dt0.1 same code path, not yet executed at canonical resolution",
+  "T1": {
+    "id": "T1",
+    "desc": "sparse omission-linked spiking",
+    "estimand": "fraction omission-selective units (omission > intact +2Hz)",
+    "pre": "0/400",
+    "post": "0/400",
+    "denominator": 400,
+    "polarity": "NEGATIVE",
+    "falsification": "no sparse omission units; hypothesis fails \u2014 omission is -5.4 Hz decrement, not selective increase",
+    "controls": "matched intact vs omission per position, same seed"
+  },
+  "T2": {
+    "id": "T2",
+    "desc": "higher-order bias",
+    "estimand": "area enrichment of T1 units",
+    "pre": "n/a (0 units)",
+    "post": "n/a",
+    "polarity": "NEGATIVE",
+    "falsification": "no omission units to enrich; frontal bias absent because T1 absent"
+  },
+  "T3": {
+    "id": "T3",
+    "desc": "weak V1 population omission spiking",
+    "estimand": "V1 omission vs intact area rate",
+    "pre": "V1 om 19.4 vs intact 22.1 diff -2.65",
+    "post": "same -2.65",
+    "polarity": "NEGATIVE",
+    "falsification": "V1 shows strong -2.65 Hz decrement, not weak"
+  },
+  "T4": {
+    "id": "T4",
+    "desc": "frontal low-gamma omission effect",
+    "estimand": "low_gamma slot/baseline ratio by position/area",
+    "pre": "p2 0.747 p3 0.778 p4 0.813 vs intact baseline; post p2 0.760 p3 0.777 p4 0.822",
+    "post": "same as pre within 0.01",
+    "polarity": "UNRESOLVED",
+    "falsification": "contact-averaged low_gamma shows omission < intact (0.75 vs 1.0) but lacks area resolution (FEF/PFC vs V1) and band-corrected statistics; estimator-limited"
+  },
+  "T5": {
+    "id": "T5",
+    "desc": "gamma-rate coupling",
+    "estimand": "SFC broadband by area",
+    "pre": "V1 -0.22 V4 -0.25 FEF -0.24 PFC -0.24 (pilot earlier) vs post same",
+    "polarity": "UNRESOLVED",
+    "falsification": "broadband, not band-resolved gamma vs lower; needs band-resolved replication"
+  },
+  "T6": {
+    "id": "T6",
+    "desc": "weaker field coupling for omission-selective units",
+    "estimand": "SFC omission-selective vs others",
+    "pre": "0 omission units \u2192 no distribution",
+    "post": "0 omission units \u2192 no distribution",
+    "polarity": "NEGATIVE",
+    "falsification": "frozen classifier yields 0/400 units \u2192 no coupling distribution to test; per frozen rule, target fails because T1 absent"
+  },
+  "T7": {
+    "id": "T7",
+    "desc": "absence of fixed between-area lead/lag",
+    "estimand": "cross-area lag estimator with positive control",
+    "pre": "UNRESOLVED",
+    "post": "UNRESOLVED",
+    "polarity": "UNRESOLVED",
+    "falsification": "requires ms area-rate + positive propagation control not yet executed"
+  },
+  "delta_exposure_canonical": {
+    "V1": 0.0017,
+    "V4": -0.0026,
+    "FEF": 0.0011,
+    "PFC": -0.0003,
+    "interpretation": "NEGATIVE at rate level; field \u0394 pending area-resolved replay"
+  },
+  "technical_debt": "Original canonical FULL recording insufficient for T4-T7; supplementary replay is additional simulation evidence, not reanalysis"
+}

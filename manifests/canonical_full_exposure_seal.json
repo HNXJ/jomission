@@ -1,0 +1,44 @@
+{
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88",
+  "dt_ms": 0.1,
+  "exposure_trials": 260,
+  "exposure_wall_s": 1202.24,
+  "total_steps": 12022400,
+  "total_ms": 1202240.0,
+  "h_extrema": {
+    "min": 0.9838340878486633,
+    "max": 1.0900883674621582
+  },
+  "w_extrema": {
+    "min": -0.01944640837609768,
+    "max": 0.10926507413387299
+  },
+  "checkpoint_ok": 26,
+  "checkpoint_fail": 0,
+  "n_stability_issues": 0,
+  "stability_sample": [],
+  "numerical_valid": true,
+  "terminal_predicate": {
+    "expected_final_step": 12022400,
+    "actual_final_step": 12022400,
+    "expected_final_sim_time_ms": 1202240.0,
+    "actual_final_sim_time_ms": 1202240.0,
+    "expected_final_phase": "exposure",
+    "expected_final_trial_index": 259,
+    "actual_final_trial_index": 259,
+    "terminated_by_schedule": true,
+    "derived_from": "canonical_schedule()"
+  },
+  "worker_progress": {
+    "worker_started": "2026-08-24T14:35:12.343807+00:00",
+    "worker_progress_verified": true,
+    "worker_completed_expected_schedule": true,
+    "stopped_early": false,
+    "termination_reason": "completed_expected_schedule"
+  },
+  "heartbeat_len": 261,
+  "monotonic_ok": true,
+  "compile_wall_s": 0.0002228749799542129,
+  "execution_wall_s": 4918.359547583008
+}

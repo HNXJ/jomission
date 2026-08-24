@@ -1,0 +1,39 @@
+{
+  "namespace": "canonical_confirmatory",
+  "source": "canonical_supplementary_replay",
+  "parent_FULL": "e599155",
+  "parent_config": "4f9fdeae7428199a",
+  "replay_config": "d526d4e6",
+  "replay_dt_ms": 1.0,
+  "T1": {
+    "id": "T1",
+    "polarity": "NEGATIVE",
+    "evidence": "0/400 omission-selective units pre/post"
+  },
+  "T2": {
+    "id": "T2",
+    "polarity": "NEGATIVE"
+  },
+  "T3": {
+    "id": "T3",
+    "polarity": "NEGATIVE"
+  },
+  "T4": {
+    "id": "T4",
+    "polarity": "UNRESOLVED",
+    "evidence": "contact-averaged low_gamma p2 16560 pre 16403 post etc. lacks area resolution"
+  },
+  "T5": {
+    "id": "T5",
+    "polarity": "UNRESOLVED"
+  },
+  "T6": {
+    "id": "T6",
+    "polarity": "NEGATIVE",
+    "evidence": "0/400 \u2192 no distribution"
+  },
+  "T7": {
+    "id": "T7",
+    "polarity": "UNRESOLVED"
+  }
+}

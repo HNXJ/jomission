@@ -1,0 +1,46 @@
+{
+  "namespace": "canonical_confirmatory",
+  "seal": "T1-T7 experiment-facing CLOSED — corrected semantics per frozen comparison_matrix v0.1.0",
+  "parent_FULL": "e599155",
+  "parent_config": "4f9fdeae7428199a",
+  "supplementary_replay_config": "d526d4e6 dt1.0 (pilot, distinct from canonical dt0.1 4f9fdeae)",
+  "frozen_matrix_version": "jomission_comparison_matrix.v0.1.0",
+  "table": [
+    {
+      "Target": "T1",
+      "Polarity": "NEGATIVE",
+      "Finding": "No sparse omission-linked spiking — 0/400 units (omission > intact +2Hz) pre/post, uniform -15.6 Hz decrement not selective"
+    },
+    {
+      "Target": "T2",
+      "Polarity": "NEGATIVE",
+      "Finding": "No higher-order enrichment — 0 units to enrich; frontal bias absent because T1 absent"
+    },
+    {
+      "Target": "T3",
+      "Polarity": "NEGATIVE",
+      "Finding": "V1 omission response not weak — V1 om 19.4 vs intact 22.1 diff -2.65 Hz strong, not weak (d>0.2)"
+    },
+    {
+      "Target": "T4",
+      "Polarity": "NEGATIVE",
+      "Finding": "No frontal low-gamma omission enhancement — low_gamma om<intact at all areas/pos (p2 V1 -11k d-7.8, p3 -1.4k, p4 -0.09k) frontal not stronger (p2 +2243 p3 +707 p4 -212), area-local shows uniform suppression, not frontal 20-50 Hz increase"
+    },
+    {
+      "Target": "T5",
+      "Polarity": "POSITIVE",
+      "Finding": "Gamma/rate coupling exceeds lower-frequency aggregate — mean gamma vs lower +1.04-1.13 per area (gamma r 0.96-0.99 p<1e-12, lower mean -0.16) with specificity caveat: gamma vs beta alone NEG -0.006 to -0.024 and within-condition r~0 (drive-confounded); frozen gamma_vs_low aggregate POSITIVE, specificity NEG"
+    },
+    {
+      "Target": "T6",
+      "Polarity": "NEGATIVE",
+      "Finding": "0/400 omission-selective units → no coupling distribution per frozen rule; weaker coupling hypothesis fails because T1 absent"
+    },
+    {
+      "Target": "T7",
+      "Polarity": "POSITIVE",
+      "Finding": "No strong fixed between-area lead/lag detected — 18/18 per-position |mean|<0.5ms p>0.017 has_fixed False; positive controls MAE0 within5 1.0, null p0.247 FPR0; supports absence hypothesis"
+    }
+  ],
+  "note": "T4/T5/T7 now resolved with sufficient area-local/band-resolved/lag-control estimators; dt1.0 vs dt0.1 distinct configs per ALWAYS-01/NEVER-26; original FULL recording insufficiency remains debt"
+}

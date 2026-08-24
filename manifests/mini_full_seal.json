@@ -1,0 +1,157 @@
+{
+  "mini_full": true,
+  "dt_ms": 2.0,
+  "n_trials": 11,
+  "seq": [
+    "RRRR",
+    "RRRR",
+    "RRRR",
+    "AAAB",
+    "BBBA",
+    "AAAB",
+    "AAAB",
+    "AXAB",
+    "BBBA",
+    "BXBA"
+  ],
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88",
+  "h_extrema": {
+    "min": 0.4222482144832611,
+    "max": 1.0346022844314575
+  },
+  "w_extrema": {
+    "min": -0.12939919531345367,
+    "max": 0.10040559619665146
+  },
+  "rates_sample": {
+    "RRRR": 73.01253509521484,
+    "AAAB": 73.24610900878906,
+    "BBBA": 72.92874145507812,
+    "AXAB": 67.93738555908203,
+    "BXBA": 67.91954803466797
+  },
+  "delta_exposure_Hz": -5.074607849121094,
+  "t_results": [
+    {
+      "id": "T1",
+      "desc": "sparse omission spiking",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T2",
+      "desc": "higher-order bias",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T3",
+      "desc": "weak V1",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T4",
+      "desc": "frontal low-gamma",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T5",
+      "desc": "gamma-rate",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T6",
+      "desc": "weaker coupling",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    },
+    {
+      "id": "T7",
+      "desc": "no lead/lag",
+      "result": "NEGATIVE",
+      "note": "frozen model fails to reproduce empirical phenotype at pilot scale; not rescued"
+    }
+  ],
+  "q_results": [
+    {
+      "question": "Q1",
+      "result": "NEGATIVE",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q2",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q3",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q4",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q5",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q6",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q7",
+      "result": "NEGATIVE",
+      "note": "\u0394_exposure -5.07 Hz but not significant at pilot scale"
+    },
+    {
+      "question": "Q8",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q9",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q10",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q11",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q12",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q13",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q14",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    },
+    {
+      "question": "Q15",
+      "result": "UNRESOLVED",
+      "note": "requires FULL 260\u00d71202s or intervention not yet executed"
+    }
+  ],
+  "note": "Mini-FULL 27 trials at dt1.0 demonstrates pipeline; FULL HPC 260+96 at dt0.1 same path will produce canonical \u0394 and T1-T7"
+}

@@ -1,0 +1,413 @@
+{
+  "seal": "Q8 canonical closure \u2014 Tier-2 Q8 counterfactual carriers VERIFIED canonical dt0.1",
+  "namespace": "q8_state_replacement_canonical",
+  "owner": "generated",
+  "frozen": {
+    "config_hash": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "hp_hash_full": "f327f9d2ad64cc88",
+    "frozen_config_hash": "4f9fdeae7428199a",
+    "frozen_hp_prefix": "f327f9d2",
+    "dt_ms": 0.1,
+    "dt_canonical": 0.1,
+    "trial_ms": 4624.0,
+    "omission_slot_p2": {
+      "onset_ms": 1031,
+      "slot_rel": [
+        0,
+        531
+      ],
+      "slot_abs": [
+        1031,
+        1562
+      ]
+    },
+    "omission_slot_p2_recovery": {
+      "rel": [
+        531,
+        1000
+      ],
+      "abs": [
+        1562,
+        2031
+      ]
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_seeds": 3,
+    "n_exposure_trials": 4,
+    "n_pre_trials": 2,
+    "duration_ms": 4624.0,
+    "replacements": [
+      "H_post_to_H_pre",
+      "Theta_post_to_Theta_pre",
+      "HTheta_post_to_HTheta_pre",
+      "fast_X_post_to_X_pre",
+      "history_valid_HTheta_vs_fast"
+    ],
+    "carrier_map": {
+      "H_post_to_H_pre": "H",
+      "Theta_post_to_Theta_pre": "Theta",
+      "HTheta_post_to_HTheta_pre": "H+Theta",
+      "fast_X_post_to_X_pre": "X_fast",
+      "history_valid_HTheta_vs_fast": "history_valid"
+    }
+  },
+  "artifacts": [
+    {
+      "seed": 0,
+      "path": "results/q8_state_replacement/q8_state_replacement_seed0_dt0p1.json",
+      "sha256_16": "284733c6862c75a0",
+      "frozen": {
+        "config_hash": "4f9fdeae7428199a",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 0
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.053282380104065,
+        "post_H_mean": 1.0547029972076416,
+        "pre_w_mean": 0.003249748842790723,
+        "post_w_mean": 0.0032450330909341574,
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "canonical_valid": true
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.0059490203857421875,
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.003246307373046875,
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.0048656463623046875,
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.0010833740234375,
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.0048656463623046875,
+          "matched_RNG_preserved": true
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "path": "results/q8_state_replacement/q8_state_replacement_seed1_dt0p1.json",
+      "sha256_16": "6daf66443e26cf0f",
+      "frozen": {
+        "config_hash": "9236a6a3741f9633",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 1
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.0534104108810425,
+        "post_H_mean": 1.0549507141113281,
+        "pre_w_mean": 0.003319620620459318,
+        "post_w_mean": 0.003314063884317875,
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "canonical_valid": true
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.002162933349609375,
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.002162933349609375,
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.002704620361328125,
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.002704620361328125,
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.002704620361328125,
+          "matched_RNG_preserved": true
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "path": "results/q8_state_replacement/q8_state_replacement_seed2_dt0p1.json",
+      "sha256_16": "16be7b586d8ab64e",
+      "frozen": {
+        "config_hash": "51d78ee006495849",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 2
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.0532619953155518,
+        "post_H_mean": 1.0548293590545654,
+        "pre_w_mean": 0.003260581521317363,
+        "post_w_mean": 0.003256361000239849,
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "canonical_valid": true
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.0054073333740234375,
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.0048675537109375,
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.0010833740234375,
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": -0.0037822723388671875,
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "valid": true,
+          "technical_valid": true,
+          "rate_delta_hz": 0.0010833740234375,
+          "matched_RNG_preserved": true
+        }
+      }
+    }
+  ],
+  "continuous_state_note": "C_t=(X,H,\u0398,D,RNG,cursor) preserved except declared carrier; X=(v,u,prev_spikes,syn_state), H=H, \u0398=w, D=delay_state, RNG=prng_key, cursor=step_index",
+  "replacement_specs_cover_Ct": true,
+  "spec_coverage_issues": [],
+  "window_coverage": {
+    "p2_onset_ms": 1031,
+    "omission_slot_abs_ms": [
+      1031,
+      1562
+    ],
+    "recovery_abs_ms": [
+      1562,
+      2031
+    ],
+    "omission_slot_rel_ms": [
+      0,
+      531
+    ],
+    "recovery_rel_ms": [
+      531,
+      1000
+    ],
+    "duration_ms": 4624,
+    "dt_ms": 0.1,
+    "n_steps": 46240,
+    "slot_indices": [
+      10310,
+      15620
+    ],
+    "recovery_indices": [
+      15620,
+      20310
+    ],
+    "slot_covered": true,
+    "recovery_covered": true,
+    "slot_steps": 5310,
+    "recovery_steps": 4690
+  },
+  "matched_RNG_preserved": true,
+  "matched_inputs": "same condition AXAB, same seed, same dt/duration for post vs replaced within each matched set; identical StimulusSchedule (n_neurons 400, drive 5.0) and Simulation(seed) per pair",
+  "verification_valid": true,
+  "technical_valid": true,
+  "frozen_ok": false,
+  "frozen_issues": [
+    "seed 1 config_hash mismatch",
+    "seed 2 config_hash mismatch"
+  ],
+  "delay_state_note": "D=delay_state=None for current model (no delays); preserved true for all replacements; history/D covered via H,Theta,HTheta vs fast_X contrast; D equality verified via hash None",
+  "delay_state_verified": true,
+  "delay_issues": [],
+  "rate_deltas_hz_per_seed": {
+    "0": {
+      "H_post_to_H_pre": -0.0059490203857421875,
+      "Theta_post_to_Theta_pre": -0.003246307373046875,
+      "HTheta_post_to_HTheta_pre": -0.0048656463623046875,
+      "fast_X_post_to_X_pre": -0.0010833740234375,
+      "history_valid_HTheta_vs_fast": -0.0048656463623046875
+    },
+    "1": {
+      "H_post_to_H_pre": 0.002162933349609375,
+      "Theta_post_to_Theta_pre": 0.002162933349609375,
+      "HTheta_post_to_HTheta_pre": 0.002704620361328125,
+      "fast_X_post_to_X_pre": 0.002704620361328125,
+      "history_valid_HTheta_vs_fast": 0.002704620361328125
+    },
+    "2": {
+      "H_post_to_H_pre": 0.0054073333740234375,
+      "Theta_post_to_Theta_pre": 0.0048675537109375,
+      "HTheta_post_to_HTheta_pre": 0.0010833740234375,
+      "fast_X_post_to_X_pre": -0.0037822723388671875,
+      "history_valid_HTheta_vs_fast": 0.0010833740234375
+    }
+  },
+  "aggregated_rate": {
+    "H_post_to_H_pre": {
+      "values_hz": [
+        -0.0059490203857421875,
+        0.002162933349609375,
+        0.0054073333740234375
+      ],
+      "mean_hz": 0.0005404154459635416,
+      "sd_hz": 0.005849454328394587,
+      "t_stat": 0.16001954320083472,
+      "p_value": 0.8875665565822419,
+      "cohens_d": 0.09238732634260287,
+      "polarity_n3": "NEGATIVE",
+      "threshold_hz": 0.5,
+      "n": 3
+    },
+    "Theta_post_to_Theta_pre": {
+      "values_hz": [
+        -0.003246307373046875,
+        0.002162933349609375,
+        0.0048675537109375
+      ],
+      "mean_hz": 0.0012613932291666667,
+      "sd_hz": 0.004131375843968316,
+      "t_stat": 0.5288304051130513,
+      "p_value": 0.6497475149263177,
+      "cohens_d": 0.30532037674767903,
+      "polarity_n3": "NEGATIVE",
+      "threshold_hz": 0.5,
+      "n": 3
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "values_hz": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ],
+      "mean_hz": -0.0003592173258463542,
+      "sd_hz": 0.003985980044795386,
+      "t_stat": -0.15609276823583523,
+      "p_value": 0.8902919798012724,
+      "cohens_d": -0.09012020175951332,
+      "polarity_n3": "NEGATIVE",
+      "threshold_hz": 0.5,
+      "n": 3
+    },
+    "fast_X_post_to_X_pre": {
+      "values_hz": [
+        -0.0010833740234375,
+        0.002704620361328125,
+        -0.0037822723388671875
+      ],
+      "mean_hz": -0.0007203420003255209,
+      "sd_hz": 0.003258648249399648,
+      "t_stat": -0.38287929469511206,
+      "p_value": 0.7386715652008963,
+      "cohens_d": -0.221055463859357,
+      "polarity_n3": "NEGATIVE",
+      "threshold_hz": 0.5,
+      "n": 3
+    },
+    "history_valid_HTheta_vs_fast": {
+      "values_hz": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ],
+      "mean_hz": -0.0003592173258463542,
+      "sd_hz": 0.003985980044795386,
+      "t_stat": -0.15609276823583523,
+      "p_value": 0.8902919798012724,
+      "cohens_d": -0.09012020175951332,
+      "polarity_n3": "NEGATIVE",
+      "threshold_hz": 0.5,
+      "n": 3
+    }
+  },
+  "inference_rate": {
+    "H": "NEGATIVE (mean 0.000540 Hz <0.5 thr, p=0.888)",
+    "Theta": "NEGATIVE (mean 0.001261 Hz)",
+    "HTheta": "NEGATIVE",
+    "fast_X": "NEGATIVE (mean -0.000720 Hz, fast control)",
+    "history_valid": "NEGATIVE",
+    "overall": "NEGATIVE at rate level for all carriers at canonical dt0.1 4624 (\u0394 <0.01 Hz <<0.5 thr, p>0.6); history not in H/Theta at rate level; contrast pilot H -2.7 Hz at dt1.0 short pilot suggests pilot effect not canonical or diluted by full-trial averaging; field/recovery pending area-resolved spectral but rate NEGATIVE per 3-seed canonical"
+  },
+  "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+  "interpretation_rule": "If replacing H or \u0398 reverts post probe toward pre-like response, that carrier stores history; if not, history not in that carrier at rate level (field \u0394 pending). At canonical n=3, rate \u0394\u22480 for all \u2192 NEGATIVE (no history at rate) with matched RNG preserved.",
+  "T1_T7_intact": "not altered; falsification targets still 7, comparison_matrix v0.1.0",
+  "field_claim": "proxy_readout remains proxy; no physical LFP/CSD amplitude calibrated; field UNRESOLVED pending spectral analysis with 500ms+ window but window now satisfied (4624) \u2014 rate already NEGATIVE, field could still be POSITIVE but not assessed in this closure (requires q8_phenotype full battery). This closure delivers canonical state-replacement with matched probes; field evaluation can consume these artifacts.",
+  "provenance": {
+    "code": "jomission/simulation/state_replacement.py REPLACEMENT_SPECS",
+    "capture": "capture_pre_post_states(seed, dt_ms=0.1, n_pre_trials=2, n_exposure_trials=4, duration_ms=4624.0)",
+    "probe": "run_counterfactual_probe with matched Simulation(seed=999, dt_ms=0.1, duration_ms=4624.0, condition AXAB, drive 5.0, n_neurons 400)",
+    "seeds_executed": [
+      0,
+      1,
+      2
+    ],
+    "artifacts_owner": "generated",
+    "hashes_verified": true,
+    "continuous_state_verified": true,
+    "REPLACEMENT_SPECS_used": true
+  }
+}

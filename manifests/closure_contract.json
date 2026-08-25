@@ -1,0 +1,89 @@
+{
+  "objective_id": "RFxRate_2x2_factorial_v0.1.0",
+  "terminal_question": "Does retinotopic V1 drive and/or slow plasticity timescale enable exposure-dependent omission responses? Enable, independently verify, and seal a runnable 2×2 RF × plasticity-timescale factorial before expensive exposure compute.",
+  "required_artifacts": [
+    "RF_operator[unit,1024] implementation with 32×32 lattice",
+    "Plasticity rate intervention config (slow tau) with distinct hp_hash",
+    "4 factorial cell configs with unique reproducible identities (config_hash, hp_hash, numerical_config_hash)",
+    "Reference cell reproducing frozen reference semantics (4f9fdeae7428199a/f327f9d2)",
+    "Factor isolation proof (B-A RF only, C-A Rate only, D-A both)",
+    "Required recording outputs compiled (visual_field, external_drive, RF_operator, spikes, rate, field_proxy, H(t), Theta(t), event ledger, continuation state)",
+    "At least 2 independent verification agents passing integrated candidate",
+    "Relevant tests and smoke simulations passing",
+    "Parent diff/provenance review passing"
+  ],
+  "required_decisions": [
+    "RF operator validated (geometry, overlap, V1 targeting, no V4/FEF/PFC drive)",
+    "Plasticity timescale validated (fixed points/bounds unchanged, effective tau measured)",
+    "Factorial design validated (2-way ANOVA distinguishability)",
+    "T4/T5/T7 not yet — Tier-1 closed, Tier-2 pending"
+  ],
+  "dependency_DAG": {
+    "A_audit_retinotopy": [],
+    "B_design_RF": [],
+    "C_extract_Theta": [],
+    "D_design_rate": ["C_extract_Theta"],
+    "E_freeze_factorial": ["A_audit_retinotopy", "B_design_RF", "D_design_rate"],
+    "F1_RF_builder": ["E_freeze_factorial"],
+    "F2_Rate_builder": ["E_freeze_factorial"],
+    "F3_Provenance_builder": ["E_freeze_factorial"],
+    "V1_RF_verification": ["F1_RF_builder"],
+    "V2_plasticity_verification": ["F2_Rate_builder"],
+    "V3_factorial_adversary": ["F1_RF_builder", "F2_Rate_builder", "F3_Provenance_builder"],
+    "four_cell_smoke": ["V1_RF_verification", "V2_plasticity_verification", "V3_factorial_adversary"],
+    "compute_readiness_seal": ["four_cell_smoke"]
+  },
+  "frozen_authorities": [
+    "config_hash 4f9fdeae7428199a",
+    "hp_hash f327f9d2ad64cc88",
+    "dt_ms 0.1 canonical",
+    "trial_ms 4624",
+    "T1-T7 comparison_matrix v0.1.0",
+    "Q8 counterfactual specs",
+    "00_RULES_INVARIANTS.md",
+    "01_METHOD_PLAN.md",
+    "02_HYPOTHESES_PLAN.md"
+  ],
+  "allowed_mutations": [
+    "Add RF operator with new config_hash distinct from canonical",
+    "Add slow plasticity config with new hp_hash distinct from canonical",
+    "Add factorial cell identities",
+    "Add recording compilation",
+    "Add heartbeat instrumentation (operational)"
+  ],
+  "forbidden_mutations": [
+    "Modify canonical 4f9fdeae/f327f9d2",
+    "Alter T1-T7 estimands/thresholds",
+    "Promote pilot DEVELOPMENTAL to canonical CONFIRMATORY",
+    "Silently change dt without distinct hash",
+    "Tune to T1-T7 resemblance"
+  ],
+  "validation_requirements": {
+    "RF": ["geometry 32×32", "dva 0.25°/px 8° field MODEL_ASSUMPTION", "sigma 1.8px LITERATURE_PRIOR", "spacing 3.2 overlap 0.45 DERIVED", "V1 targeting", "no V4/FEF/PFC drive", "omission zero drive"],
+    "Rate": ["fixed points unchanged", "bounds unchanged", "tau_Theta measured via dense early sampling", "gain ratios preserved"],
+    "Factorial": ["4 cells unique hashes", "reference reproduces frozen", "B-A RF only", "C-A Rate only", "D-A both", "ANOVA distinguishability"]
+  },
+  "seal_predicate": {
+    "GOAL_COMPLETE_forbidden_until": [
+      "1. RF operator implemented and independently validated",
+      "2. Plasticity-timescale intervention implemented and independently validated",
+      "3. RF and rate factors are independently switchable",
+      "4. All four factorial cells have unique reproducible configuration identities",
+      "5. Reference cell reproduces the frozen reference semantics",
+      "6. RF-only changes only the declared sensory-input factor",
+      "7. Rate-only changes only the declared plasticity-timescale factor",
+      "8. Interaction cell contains exactly both changes",
+      "9. Required recording outputs for downstream frozen analyses are compiled before expensive compute",
+      "10. At least two independent verification agents have passed the integrated candidate",
+      "11. Relevant tests and smoke simulations pass",
+      "12. Parent diff/provenance review passes"
+    ]
+  },
+  "stop_conditions": {
+    "GOAL_COMPLETE": "all 12 above true, artifacts exist, independent review passed, seal conditions met",
+    "TRUE_BLOCKER": "required capability absent demonstrated by exact code/API evidence or would violate frozen invariant",
+    "RESOURCE_BOUNDARY": "compute/time/environment prevents continuation; preserve resumable state and exact next command",
+    "SCIENTIFIC_UNRESOLVED": "scientifically sufficient experiment actually performed but evidence legitimately cannot resolve proposition",
+    "forbidden_terminals": ["implementation complete", "instrumentation complete", "needs another analysis", "subagent recommends next step when bounded action available"]
+  }
+}

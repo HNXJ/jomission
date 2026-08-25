@@ -1,0 +1,90 @@
+{
+  "HEAD": "92b0ba9",
+  "sealed_milestones": [
+    {"id": "M01", "commit": "7e5d1d2", "desc": "replace stale mlxEngine with JaxFNE-native jomission"},
+    {"id": "T2", "commit": "d4138c1", "desc": "readiness gate — checkpoint/restart, L1 audit, shortened exposure"},
+    {"id": "T3_auth", "commit": "1e4eda1", "desc": "HDP-enabled integration + canonical schedule algebra"},
+    {"id": "T3_pilot", "commit": "cc578d2", "desc": "pilot 50.864s 11 trials — computational seal"},
+    {"id": "heartbeat", "commit": "60ab19c", "desc": "bounded liveness/progress + terminal predicate"},
+    {"id": "canonical_smoke", "commit": "c64b77f", "desc": "canonical dt0.1 smoke 2 trials PASS"},
+    {"id": "T1-T7_v2", "commit": "0459290", "desc": "T1-T7 corrected semantics — 4f9fdeae/f327f9d2 CLOSED"},
+    {"id": "Q8_canonical", "commit": "936d01b", "desc": "Q8 3-seed dt0.1 4624ms NEGATIVE rate, UNRESOLVED field/recovery"}
+  ],
+  "frozen_scientific_identity": {
+    "config_hash": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "trial_ms": 4624,
+    "hp_source": "jaxfne.hdp_network.v1_pfc_aaab_hdp_params()",
+    "estimand_versions": {
+      "comparison_matrix": "jomission_comparison_matrix.v0.1.0",
+      "q8_matrix": "jomission_q8_matrix.v0.1.0"
+    }
+  },
+  "current_T1_T7": {
+    "T1": "NEGATIVE",
+    "T2": "NEGATIVE",
+    "T3": "NEGATIVE",
+    "T4": "NEGATIVE",
+    "T5": "POSITIVE specificity-limited",
+    "T6": "NEGATIVE",
+    "T7": "POSITIVE"
+  },
+  "Q8_state": {
+    "rate": "NEGATIVE (H 0.0005±0.0058 Theta 0.0012±0.0041 HTheta -0.0003, all |mean|<0.01 <<0.5 p>0.6)",
+    "field_recovery": "UNRESOLVED (n=1 <4, window ok)",
+    "overall": "NEGATIVE at rate, field/recovery UNRESOLVED"
+  },
+  "invalidated_claims": [
+    "pilot H-dominance (H -2.7Hz vs Theta -0.025 at dt1.0 n=1) → invalidated by canonical Q8 936d01b (H 0.0005 vs Theta 0.0012, no dominance, seed 58% vs carrier 4.4%)"
+  ],
+  "technical_debt": [
+    "Original FULL recording insufficient for T4–T7 — supplementary replay is additional evidence, distinct owner",
+    "dt1.0 pilot vs dt0.1 canonical distinct configs (d526d4e6 vs 4f9fdeae) — not numerically identical without bridge",
+    "Checkpoints contain no H/Theta state (Δ=0) — use ContinuationState sampling for Delta Theta"
+  ],
+  "active_objective": {
+    "objective_id": "RFxRate_2x2_factorial_v0.1.0",
+    "terminal_question": "Does retinotopic V1 drive and/or slow plasticity timescale enable exposure-dependent omission responses?",
+    "seal_predicate_GOAL_COMPLETE_forbidden_until": [
+      "RF operator implemented and independently validated",
+      "Plasticity-timescale intervention implemented and independently validated",
+      "RF and rate factors are independently switchable",
+      "All four factorial cells have unique reproducible configuration identities",
+      "Reference cell reproduces frozen reference semantics",
+      "RF-only changes only sensory-input factor",
+      "Rate-only changes only plasticity-timescale factor",
+      "Interaction cell contains exactly both changes",
+      "Required recording outputs compiled before expensive compute",
+      "At least two independent verification agents have passed integrated candidate",
+      "Relevant tests and smoke simulations pass",
+      "Parent diff/provenance review passes"
+    ]
+  },
+  "dependency_DAG": {
+    "A_audit_retinotopy": [],
+    "B_design_RF": [],
+    "C_extract_Theta": [],
+    "D_design_rate": ["C_extract_Theta"],
+    "E_freeze_factorial": ["A_audit_retinotopy", "B_design_RF", "D_design_rate"],
+    "F1_RF_builder": ["E_freeze_factorial"],
+    "F2_Rate_builder": ["E_freeze_factorial"],
+    "F3_Provenance_builder": ["E_freeze_factorial"],
+    "V1_RF_verification": ["F1_RF_builder"],
+    "V2_plasticity_verification": ["F2_Rate_builder"],
+    "V3_factorial_adversary": ["F1_RF_builder", "F2_Rate_builder", "F3_Provenance_builder"],
+    "four_cell_smoke": ["V1_RF_verification", "V2_plasticity_verification", "V3_factorial_adversary"],
+    "compute_readiness_seal": ["four_cell_smoke"]
+  },
+  "authoritative_artifacts": [
+    "manifests/closure_contract.json",
+    "manifests/project_truth_ledger.json",
+    "jomission/evidence.py",
+    "jomission/analysis/namespaces.py",
+    "manifests/canonical_full_exposure_seal.json",
+    "manifests/canonical_smoke_seal.json",
+    "manifests/t1_t7_final_corrected.json",
+    "manifests/q8_canonical_closure_dt01.json",
+    "manifests/rf_rate_factorial_design.json"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "seal": "compute-readiness — 4-cell RF×Rate smoke",
+  "timestamp": "2026-08-24T02:30:00+00:00",
+  "closure_contract": "RFxRate_2x2_factorial_v0.1.0 GOAL_COMPLETE conditions 1-12 checked",
+  "cells": {
+    "A_RFoff_RateRef": {"hp_hash": "f327f9d2", "rf": "rf_off", "config_hash": "4f9fdeae7428199a", "note": "reference reproduces frozen semantics"},
+    "B_RFon_RateRef": {"hp_hash": "f327f9d2", "rf": "rf_on", "RF_weights": "(400,1024) L1-normalized sparse 0.16, V1 targeting correct, A/B blobs J<0.15"},
+    "C_RFoff_RateSlow": {"hp_hash": "b326f720", "rf": "rf_off", "tau_0_ms": 1000, "note": "rate-only changes tau, fixed points preserved"},
+    "D_RFon_RateSlow": {"hp_hash": "b326f720", "rf": "rf_on", "note": "both changes exactly"}
+  },
+  "factor_isolation": {
+    "B-A": "RF only (hp same f327f9d2, rf off→on)",
+    "C-A": "Rate only (rf off, hp f327f9d2→b326f720)",
+    "D-A": "RF+Rate (both)",
+    "verified": true
+  },
+  "smoke": {
+    "identity_correct": true,
+    "worker_progress": true,
+    "continuous_state": true,
+    "finite_dynamics": true,
+    "RF_behavior": "V1 selective, A/B sparsity 0.25 J0.0 omission zero",
+    "Theta_timescale": "slow 833s vs 4.1s direction correct",
+    "recording_completeness": "visual_field, external_drive, RF_operator, spikes, rate, field_proxy, H(t), Theta(t), event ledger, continuation_state compiled per observables.py"
+  },
+  "verification": {
+    "V1_RF_neurobiology": "PASS (geometry 32×32 8° 0.25°/px, sigma1.8 LITERATURE_PRIOR, spacing3.2 DERIVED, V1 L4 E/PV, no V4/FEF/PFC drive)",
+    "V2_plasticity_numerical": "PASS (tau eff 4.1s vs 833s, fixed points unchanged, bounds preserved)",
+    "V3_factorial_adversary": "PASS (4 cells distinct, reference reproduces, isolation holds, ANOVA distinguishability)"
+  },
+  "tests": "14 passed test_rf_rate_factorial.py",
+  "next": "expensive 260×1202.24s exposure per cell on HPC"
+}

@@ -15,6 +15,7 @@ from jomission.network.connectivity import (
     validate_connectivity,
 )
 from jomission.network.builder import build_jomission_network, build_jomission_model, validate_network
+from jomission.network.rf import RFConfig, RFOperator, build_jomission_network_with_rf, build_jomission_model_with_rf, apply_rf_to_configuration, prove_jaxfne_target_indices_capability
 
 __all__ = [
     "JOMISSION_AREAS",
@@ -34,4 +35,10 @@ __all__ = [
     "build_jomission_network",
     "build_jomission_model",
     "validate_network",
+    "RFConfig",
+    "RFOperator",
+    "build_jomission_network_with_rf",
+    "build_jomission_model_with_rf",
+    "apply_rf_to_configuration",
+    "prove_jaxfne_target_indices_capability",
 ]

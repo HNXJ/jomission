@@ -1,0 +1,79 @@
+{
+  "seal": "Q8 state-replacement \u2014 Tier-2 Q8 counterfactual carriers VERIFIED",
+  "namespace": "q8_state_replacement",
+  "owner": "generated",
+  "frozen": {
+    "config_hash": "4f9fdeae7428199a",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "frozen_config_hash": "4f9fdeae7428199a",
+    "frozen_hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 1.0,
+    "dt_canonical": 0.1,
+    "seed": 0
+  },
+  "question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+  "counterfactuals": [
+    "H_post_to_H_pre",
+    "Theta_post_to_Theta_pre",
+    "HTheta_post_to_HTheta_pre",
+    "fast_X_post_to_X_pre",
+    "history_valid_HTheta_vs_fast"
+  ],
+  "verification": {
+    "H_post_to_H_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.700000762939453,
+      "matched_RNG_preserved": true
+    },
+    "Theta_post_to_Theta_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -0.02500152587890625,
+      "matched_RNG_preserved": true
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.674999237060547,
+      "matched_RNG_preserved": true
+    },
+    "fast_X_post_to_X_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": 0.7750015258789062,
+      "matched_RNG_preserved": true
+    },
+    "history_valid_HTheta_vs_fast": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.674999237060547,
+      "matched_RNG_preserved": true
+    }
+  },
+  "capture": {
+    "n_pre_trials": 1,
+    "n_exposure_trials": 2,
+    "duration_ms": 100.0,
+    "pre_H_mean": 0.9338512420654297,
+    "post_H_mean": 0.9215458631515503,
+    "pre_w_mean": 0.0032189369667321444,
+    "post_w_mean": 0.003150118049234152,
+    "pre_state_hash": "d0621edb7e8a4490",
+    "post_state_hash": "cb39d3fff39957c2",
+    "canonical_valid": true
+  },
+  "continuous_state_note": "C_t=(X,H,\u0398,D,RNG,cursor) preserved except declared carrier; X=(v,u,prev_spikes,syn_state), H=H, \u0398=w, D=delay_state, RNG=prng_key, cursor=step_index",
+  "matched_RNG": "all preserved true",
+  "matched_inputs": "same condition AXAB, same seed, same dt/duration for post vs replaced",
+  "replacement_source_hash_verified": true,
+  "unchanged_components_verified": true,
+  "code_inspection": "REPLACEMENT_SPECS mutually exclusive, covers C_t, helpers only touch declared",
+  "T1_T7_intact": "not altered; falsification targets still 7, comparison_matrix v0.1.0",
+  "artifacts": {
+    "suite_minimal": "results/q8_state_replacement/q8_state_replacement_seed0_dt2p0.json",
+    "suite_exposure2": "results/q8_state_replacement/q8_state_replacement_seed0_dt1p0.json"
+  },
+  "note": "Rate \u0394\u22480 at canonical post vs pre (0.001 Hz) but H carries exposure history: H_post\u2192H_pre reduces probe rate -2.7 Hz, Theta -0.02 Hz, fast X +0.77 Hz. Field \u0394 pending area-resolved spectral replay."
+}

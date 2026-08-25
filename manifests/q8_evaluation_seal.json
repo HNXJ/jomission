@@ -1,0 +1,130 @@
+{
+  "seal": "Q8 phenotype evaluation — Tier-2 Q8 counterfactuals VERIFIED via Subagent B",
+  "namespace": "q8_evaluation",
+  "owner": "generated",
+  "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+  "q8_question": "Does H or Θ store exposure history despite rate Δ≈0?",
+  "frozen": {
+    "config_hash": "4f9fdeae7428199a",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "frozen_config_hash": "4f9fdeae7428199a",
+    "frozen_hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 1.0,
+    "dt_canonical": 0.1,
+    "seed": 0
+  },
+  "evaluation_paths": {
+    "artifact_consuming": "results/q8_evaluation/q8_matrix_from_artifact_q8_state_replacement_seed0_dt1p0.json (fast, single-probe, matched RNG verified)",
+    "re_simulation_pilot": "results/q8_evaluation/q8_evaluation_seed0_dt2p0.json (4 trials, 100ms, re-run with same carrier sets, rate/field/recovery estimators)",
+    "full_battery_pending": "requires 4624ms 12-condition battery n>=4 for field/recovery POSITIVE per frozen min_window 500ms and n>=3"
+  },
+  "matrix_machine_readable": [
+    {
+      "counterfactual": "H_post_to_H_pre",
+      "carrier": "H",
+      "replaced": ["H"],
+      "rate_delta_hz_single_probe": -2.7,
+      "rate_polarity_frozen_n1": "UNRESOLVED",
+      "magnitude_hint": "POSITIVE_hint",
+      "interpretation": "H history reverts rate -2.7 Hz (exceeds 0.5 thr) but n=1 UNRESOLVED per frozen n<3; suggests H stores history at rate level (pilot)",
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_limitation": "pending area-resolved 500ms+ field (n>=4, dt 0.1, 12 conds)",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "pending 531-1000ms trajectory n>=4"
+    },
+    {
+      "counterfactual": "Theta_post_to_Theta_pre",
+      "carrier": "Theta",
+      "replaced": ["w"],
+      "rate_delta_hz_single_probe": -0.025,
+      "rate_polarity_frozen_n1": "UNRESOLVED",
+      "magnitude_hint": "NEGATIVE_hint",
+      "interpretation": "Theta history negligible rate delta -0.02 Hz <0.5 thr; history not in Theta at rate level (pilot)",
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_limitation": "pending",
+      "recovery_polarity": "UNRESOLVED"
+    },
+    {
+      "counterfactual": "HTheta_post_to_HTheta_pre",
+      "carrier": "H+Theta",
+      "replaced": ["H", "w"],
+      "rate_delta_hz_single_probe": -2.675,
+      "rate_polarity_frozen_n1": "UNRESOLVED",
+      "magnitude_hint": "POSITIVE_hint",
+      "interpretation": "H+Theta same as H alone; Theta adds nothing beyond H",
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED"
+    },
+    {
+      "counterfactual": "fast_X_post_to_X_pre",
+      "carrier": "X_fast",
+      "replaced": ["v", "u", "prev_spikes", "syn_state"],
+      "rate_delta_hz_single_probe": 0.775,
+      "rate_polarity_frozen_n1": "UNRESOLVED",
+      "magnitude_hint": "POSITIVE_hint",
+      "interpretation": "fast X control POSITIVE_hint 0.77 Hz >0.5 suggests general sensitivity; history valid contrast needed (HTheta vs fast)",
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED"
+    },
+    {
+      "counterfactual": "history_valid_HTheta_vs_fast",
+      "carrier": "history_valid",
+      "replaced": ["H", "w"],
+      "rate_delta_hz_single_probe": -2.675,
+      "rate_polarity_frozen_n1": "UNRESOLVED",
+      "magnitude_hint": "POSITIVE_hint",
+      "interpretation": "history_valid (HTheta) vs fast: H effect -2.67 exceeds fast 0.77, supporting H history not explained by fast alone",
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED"
+    }
+  ],
+  "frozen_criteria": {
+    "version": "q8_criteria.v0.1.0",
+    "rate_threshold_hz": 0.5,
+    "field_log_ratio_threshold": 0.1,
+    "alpha": 0.05,
+    "cohen_d": 0.2,
+    "field_min_window_ms": 500.0,
+    "field_min_trials": 4,
+    "overall_rule": "POSITIVE if any primary (rate slot or field low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if n<3 or short duration or field pending"
+  },
+  "verification": {
+    "T1_T7_intact": true,
+    "matched_RNG_preserved": true,
+    "matched_inputs": "same condition AXAB, same seed 999, same dt/duration for post vs replaced per probe",
+    "technical_valid": true,
+    "verification_valid": true,
+    "replacement_specs_cover_Ct": true,
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false
+  },
+  "technical_limitations": [
+    "single_probe n=1 per counterfactual in artifact-consuming path -> rate polarity UNRESOLVED per frozen n<3; magnitude_hint provided for pilot interpretation",
+    "field/recovery UNRESOLVED pending 4624ms battery with >=4 trials per condition, 500ms+ window, dt 0.1 canonical (pilot dt 1.0/2.0)",
+    "exposure mini 1 pre +2 trials 100ms vs canonical 260 trials 4624ms; history strength pilot not canonical",
+    "short duration 100ms cannot cover omission slot [0,531] at p2 1031 onset; re-simulation pilot at 100ms slot RE unresolvable -> UNRESOLVED",
+    "physical_amplitude_calibrated=false; field remains proxy_readout, no causal field->spike"
+  ],
+  "inference": {
+    "H": "POSITIVE_hint (-2.7 Hz, exceeds thr) but formally UNRESOLVED (n=1); suggests H stores exposure history at rate level; needs n>=4 4624ms battery to upgrade to POSITIVE per frozen criteria",
+    "Theta": "NEGATIVE_hint (-0.02 Hz < thr); history not in Theta at rate level (pilot, requires confirmation with n>=4)",
+    "fast_control": "POSITIVE_hint (0.77 Hz) indicates fast sensitivity; but H effect magnitude 3.5x larger supports history-specific contribution",
+    "overall": "UNRESOLVED pending field/recovery and n>=4; pilot rate magnitude suggests H carries history while Theta does not, consistent with rate Δ≈0 at canonical Δ_exposure but H delta visible in counterfactual"
+  },
+  "provenance": {
+    "generated_by": "jomission.analysis.q8_phenotype (Subagent B) via evaluate_q8_from_state_replacement_artifact + evaluate_q8_matrix pilot",
+    "consumes": "results/q8_state_replacement/q8_state_replacement_seed0_dt1p0.json (owner generated, config 4f9f.../f327f..., hashes verified)",
+    "estimators": "rate (omission slot [0,531] vs overall, per area, recovery 531-1000, T1/T3 relevant) + field (area_local linear partition, periodogram 5 bands) + recovery trajectory (binned -1000..+1000)",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence tested (mirrors T4/T7)",
+    "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD; T1-T7 not altered"
+  },
+  "artifacts": {
+    "matrix_json": "results/q8_evaluation/q8_matrix_from_artifact_q8_state_replacement_seed0_dt1p0.json",
+    "matrix_csv": "results/q8_evaluation/q8_matrix_from_artifact_q8_state_replacement_seed0_dt1p0.csv",
+    "pilot_matrix_json": "results/q8_evaluation/q8_evaluation_seed0_dt2p0.json",
+    "pilot_arrays_npz": "results/q8_evaluation/q8_evaluation_seed0_dt2p0_arrays.npz",
+    "evaluation_code": "jomission/analysis/q8_phenotype.py",
+    "tests": "tests/test_q8_phenotype.py (12 tests, all passed)"
+  }
+}

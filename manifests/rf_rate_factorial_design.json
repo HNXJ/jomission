@@ -1,0 +1,521 @@
+{
+  "design_version": "rf_rate_factorial.v0.1.0",
+  "namespace": "rf_rate_factorial",
+  "owner": "frozen",
+  "freeze_note": "Frozen before execution; not tuned to results. Any expansion requires new version.",
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash_canonical": "f327f9d2ad64cc88",
+  "dt_ms_canonical": 0.1,
+  "dt_ms_pilot": 1.0,
+  "factors": {
+    "RF": {
+      "label": "receptive-field plasticity (HDP K_HDP on w)",
+      "levels": [
+        "off",
+        "on"
+      ],
+      "operational": {
+        "off": {
+          "K_HDP": 0.0,
+          "note": "w frozen at baseline, H still evolves, enable_hdp=True"
+        },
+        "on": {
+          "K_HDP": 0.003,
+          "note": "canonical v1_pfc_aaab_hdp_params"
+        }
+      }
+    },
+    "Rate": {
+      "label": "plasticity rate (H timescale via tau_0_ms, rate-only)",
+      "levels": [
+        "standard",
+        "slow"
+      ],
+      "operational": {
+        "standard": {
+          "tau_0_ms": 5.0,
+          "tau_eff_E_s": 4.1,
+          "note": "canonical, saturates 12 s"
+        },
+        "slow": {
+          "tau_0_ms": 1000.0,
+          "tau_eff_E_s": 833.0,
+          "factor": 200,
+          "note": "200x slow, 76% at 1200 s, preserves fixed points and bounds"
+        }
+      },
+      "rejected": {
+        "x3": {
+          "tau_0_ms": 15.0,
+          "tau_eff": 12.3,
+          "reason": "still 3% of exposure, rejected per PLASTICITY_RATE_INTERVENTION_DESIGN.md"
+        }
+      }
+    }
+  },
+  "cells": {
+    "A_RFoff_RateStd": {
+      "rf": "off",
+      "rate": "standard",
+      "hp": {
+        "H_min": 0.1,
+        "H_max": 10.0,
+        "alpha": 0.05,
+        "beta": 0.0,
+        "gamma": 0.5,
+        "delta": 0.0,
+        "C_spike": 0.0,
+        "barrier_eps": 0.001,
+        "w_floor": 0.01,
+        "w_ceiling": 10.0,
+        "H_boost_gain": 4.0,
+        "K_HDP": 0.0,
+        "tau_0_ms": 5.0,
+        "K_ctrl": 0.15,
+        "rho_passive": 0.0,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "K_w_ctrl": 0.001,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "PV": 1.0,
+          "Inl": 1.0,
+          "SST": 1.5,
+          "Ing": 1.5,
+          "VIP": 1.5
+        }
+      },
+      "hp_hash": "bb8277e7a8e0bca2",
+      "config_hash": "4f9fdeae7428199a"
+    },
+    "B_RFoff_RateSlow": {
+      "rf": "off",
+      "rate": "slow",
+      "hp": {
+        "H_min": 0.1,
+        "H_max": 10.0,
+        "alpha": 0.05,
+        "beta": 0.0,
+        "gamma": 0.5,
+        "delta": 0.0,
+        "C_spike": 0.0,
+        "barrier_eps": 0.001,
+        "w_floor": 0.01,
+        "w_ceiling": 10.0,
+        "H_boost_gain": 4.0,
+        "K_HDP": 0.0,
+        "tau_0_ms": 1000.0,
+        "K_ctrl": 0.15,
+        "rho_passive": 0.0,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "K_w_ctrl": 0.001,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "PV": 1.0,
+          "Inl": 1.0,
+          "SST": 1.5,
+          "Ing": 1.5,
+          "VIP": 1.5
+        }
+      },
+      "hp_hash": "f72a489841810a4b",
+      "config_hash": "4f9fdeae7428199a"
+    },
+    "C_RFon_RateStd": {
+      "rf": "on",
+      "rate": "standard",
+      "hp": {
+        "H_min": 0.1,
+        "H_max": 10.0,
+        "alpha": 0.05,
+        "beta": 0.0,
+        "gamma": 0.5,
+        "delta": 0.0,
+        "C_spike": 0.0,
+        "barrier_eps": 0.001,
+        "w_floor": 0.01,
+        "w_ceiling": 10.0,
+        "H_boost_gain": 4.0,
+        "K_HDP": 0.003,
+        "tau_0_ms": 5.0,
+        "K_ctrl": 0.15,
+        "rho_passive": 0.0,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "K_w_ctrl": 0.001,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "PV": 1.0,
+          "Inl": 1.0,
+          "SST": 1.5,
+          "Ing": 1.5,
+          "VIP": 1.5
+        }
+      },
+      "hp_hash": "f327f9d2ad64cc88",
+      "config_hash": "4f9fdeae7428199a"
+    },
+    "D_RFon_RateSlow": {
+      "rf": "on",
+      "rate": "slow",
+      "hp": {
+        "H_min": 0.1,
+        "H_max": 10.0,
+        "alpha": 0.05,
+        "beta": 0.0,
+        "gamma": 0.5,
+        "delta": 0.0,
+        "C_spike": 0.0,
+        "barrier_eps": 0.001,
+        "w_floor": 0.01,
+        "w_ceiling": 10.0,
+        "H_boost_gain": 4.0,
+        "K_HDP": 0.003,
+        "tau_0_ms": 1000.0,
+        "K_ctrl": 0.15,
+        "rho_passive": 0.0,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "K_w_ctrl": 0.001,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "PV": 1.0,
+          "Inl": 1.0,
+          "SST": 1.5,
+          "Ing": 1.5,
+          "VIP": 1.5
+        }
+      },
+      "hp_hash": "b326f7201c59b803",
+      "config_hash": "4f9fdeae7428199a"
+    }
+  },
+  "cell_order": [
+    "A_RFoff_RateStd",
+    "B_RFoff_RateSlow",
+    "C_RFon_RateStd",
+    "D_RFon_RateSlow"
+  ],
+  "cell_factors": {
+    "A_RFoff_RateStd": [
+      "off",
+      "standard"
+    ],
+    "B_RFoff_RateSlow": [
+      "off",
+      "slow"
+    ],
+    "C_RFon_RateStd": [
+      "on",
+      "standard"
+    ],
+    "D_RFon_RateSlow": [
+      "on",
+      "slow"
+    ]
+  },
+  "cell_hp_hashes": {
+    "A_RFoff_RateStd": "bb8277e7a8e0bca2",
+    "B_RFoff_RateSlow": "f72a489841810a4b",
+    "C_RFon_RateStd": "f327f9d2ad64cc88",
+    "D_RFon_RateSlow": "b326f7201c59b803"
+  },
+  "thresholds": {
+    "rate_hz": 0.5,
+    "log_ratio": 0.1,
+    "cohen_d": 0.2,
+    "alpha": 0.05,
+    "field_alpha": 0.05,
+    "h_delta": 0.01
+  },
+  "windows": {
+    "omission_slot": [
+      0.0,
+      531.0
+    ],
+    "omission_baseline": [
+      -250.0,
+      -50.0
+    ],
+    "omission_local": [
+      -1000.0,
+      1000.0
+    ]
+  },
+  "bands": {
+    "theta": [
+      4.0,
+      8.0
+    ],
+    "alpha": [
+      8.0,
+      14.0
+    ],
+    "beta": [
+      14.0,
+      30.0
+    ],
+    "low_gamma": [
+      30.0,
+      50.0
+    ],
+    "high_gamma": [
+      50.0,
+      80.0
+    ]
+  },
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "estimands": {
+    "primary": "Delta_exposure = Y_omission^{post} - Y_omission^{pre} per replicate per cell, Y = phenotype (H_mean, w_mean, rate_omission_effect, field_low_gamma, etc.)",
+    "matching": "within-replicate paired by seed, same condition order, same RNG, same trial battery (12 cond x8 reps=96)",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until per-position test (primary per-position, pooled secondary)",
+    "field_claim": "proxy_readout, physical_amplitude_calibrated=False, linear_solver via area_local"
+  },
+  "statistics": {
+    "model": "Y ~ RF + Rate + RF:Rate (2-way ANOVA, balanced, orthogonal effect coding)",
+    "type": "III (marginal means; for balanced same as II)",
+    "contrasts": {
+      "RF_main": "(C+D)/2 - (A+B)/2",
+      "Rate_main": "(B+D)/2 - (A+C)/2",
+      "Interaction": "(D-C)-(B-A)",
+      "simple_Rate_RFon": "D-C",
+      "simple_Rate_RFoff": "B-A"
+    },
+    "alpha": 0.05,
+    "effect_size": "Cohen d (contrast / SD_pooled), partial eta2",
+    "ci": "95% t-based",
+    "diagnostics": [
+      "Shapiro-Wilk on residuals",
+      "Levene across cells",
+      "QQ"
+    ],
+    "fallback": "permutation F (10k) if diagnostics fail, still alpha 0.05",
+    "multiplicity": {
+      "primary": "no correction across primary phenotype families (each separate claim)",
+      "exploratory_T4_grid": "FDR BH across 5 bands x4 areas x3 positions per position, secondary"
+    },
+    "interpretation_table": {
+      "RFonly": "RF p<.05, Rate NS, inter NS => RF drives Y",
+      "Rateonly": "Rate p<.05, RF NS, inter NS => timescale drives Y",
+      "additive": "both mains p<.05, inter NS => independent additive",
+      "interaction": "inter p<.05 => non-additive; examine simple effects Rate|RFon vs Rate|RFoff"
+    }
+  },
+  "completion_predicate": {
+    "FULL": {
+      "design_version": "rf_rate_factorial.v0.1.0",
+      "predicate": "FULL",
+      "C1_hashes": {
+        "config_hash": "4f9fdeae7428199a",
+        "cell_hp_hashes": {
+          "A_RFoff_RateStd": "bb8277e7a8e0bca2",
+          "B_RFoff_RateSlow": "f72a489841810a4b",
+          "C_RFon_RateStd": "f327f9d2ad64cc88",
+          "D_RFon_RateSlow": "b326f7201c59b803"
+        },
+        "dt_ms_canonical": 0.1
+      },
+      "C2_schedule": {
+        "initialization_s": 2.0,
+        "baseline_s": 10.0,
+        "exposure_trials": 260,
+        "exposure_wall_s": 1202.24,
+        "testing_trials": 96,
+        "testing_conditions": 12,
+        "testing_reps": 8,
+        "testing_wall_s": 443.904,
+        "recovery_s": 30.0,
+        "total_s": 1688.144,
+        "dt_ms": 0.1,
+        "n_seeds": 8,
+        "checkpoint_every_n_trials": 10,
+        "n_checkpoints_exposure": 26
+      },
+      "C3_testing": {
+        "n_trials_pre": 96,
+        "n_trials_post": 96,
+        "conditions": [
+          "AAAB",
+          "AXAB",
+          "AAXB",
+          "AAAX",
+          "BBBA",
+          "BXBA",
+          "BBXA",
+          "BBBX",
+          "RRRR",
+          "RXRR",
+          "RRXR",
+          "RRRX"
+        ],
+        "field_required": true,
+        "field_layout": "trial_A_C_T",
+        "n_contacts": 16,
+        "rate_range_hz": [
+          1.0,
+          80.0
+        ],
+        "h_bounds": [
+          0.1,
+          10.0
+        ],
+        "w_bounds": [
+          0.01,
+          10.0
+        ]
+      },
+      "C4_continuation": {
+        "checkpoint_restart_tolerance": {
+          "V_m_rtol": 1e-05,
+          "V_m_atol": 0.0001,
+          "spikes": "exact"
+        },
+        "rng_preserved": true
+      },
+      "C5_artifacts": {
+        "per_replicate_delta_arrays": true,
+        "denominators_explicit": true,
+        "provenance_field_claim": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "owner": "generated"
+      },
+      "C6_stats": {
+        "model": "Y ~ RF + Rate + RF:Rate",
+        "type": "II",
+        "alpha": 0.05,
+        "contrasts": [
+          "RF_main",
+          "Rate_main",
+          "Interaction"
+        ],
+        "pooling_rule": "DO NOT pool p2/p3/p4 until per-position test",
+        "fdr_for_exploratory_T4_grid": true
+      },
+      "C7_frozen": {
+        "generated_owner_path": "results/rf_rate_factorial/",
+        "manifest": "manifests/rf_rate_factorial_seal.json",
+        "no_mutation_of_frozen": true
+      }
+    },
+    "PILOT": {
+      "design_version": "rf_rate_factorial.v0.1.0",
+      "predicate": "PILOT",
+      "C1_hashes": {
+        "config_hash": "4f9fdeae7428199a",
+        "cell_hp_hashes": {
+          "A_RFoff_RateStd": "bb8277e7a8e0bca2",
+          "B_RFoff_RateSlow": "f72a489841810a4b",
+          "C_RFon_RateStd": "f327f9d2ad64cc88",
+          "D_RFon_RateSlow": "b326f7201c59b803"
+        },
+        "dt_ms_canonical": 0.1
+      },
+      "C2_schedule": {
+        "initialization_s": 2.0,
+        "baseline_s": 10.0,
+        "exposure_trials": 260,
+        "exposure_wall_s": 1202.24,
+        "testing_trials": 96,
+        "testing_conditions": 12,
+        "testing_reps": 8,
+        "testing_wall_s": 443.904,
+        "recovery_s": 30.0,
+        "total_s": 1688.144,
+        "dt_ms": 1.0,
+        "n_seeds": 4,
+        "checkpoint_every_n_trials": 10,
+        "n_checkpoints_exposure": 26,
+        "note": "pilot: dt 1.0 pilot, not promotion to FULL"
+      },
+      "C3_testing": {
+        "n_trials_pre": 96,
+        "n_trials_post": 96,
+        "conditions": [
+          "AAAB",
+          "AXAB",
+          "AAXB",
+          "AAAX",
+          "BBBA",
+          "BXBA",
+          "BBXA",
+          "BBBX",
+          "RRRR",
+          "RXRR",
+          "RRXR",
+          "RRRX"
+        ],
+        "field_required": true,
+        "field_layout": "trial_A_C_T",
+        "n_contacts": 16,
+        "rate_range_hz": [
+          1.0,
+          80.0
+        ],
+        "h_bounds": [
+          0.1,
+          10.0
+        ],
+        "w_bounds": [
+          0.01,
+          10.0
+        ]
+      },
+      "C4_continuation": {
+        "checkpoint_restart_tolerance": {
+          "V_m_rtol": 1e-05,
+          "V_m_atol": 0.0001,
+          "spikes": "exact"
+        },
+        "rng_preserved": true
+      },
+      "C5_artifacts": {
+        "per_replicate_delta_arrays": true,
+        "denominators_explicit": true,
+        "provenance_field_claim": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "owner": "generated"
+      },
+      "C6_stats": {
+        "model": "Y ~ RF + Rate + RF:Rate",
+        "type": "II",
+        "alpha": 0.05,
+        "contrasts": [
+          "RF_main",
+          "Rate_main",
+          "Interaction"
+        ],
+        "pooling_rule": "DO NOT pool p2/p3/p4 until per-position test",
+        "fdr_for_exploratory_T4_grid": true
+      },
+      "C7_frozen": {
+        "generated_owner_path": "results/rf_rate_factorial/",
+        "manifest": "manifests/rf_rate_factorial_seal.json",
+        "no_mutation_of_frozen": true
+      }
+    },
+    "rule": "COMPLETE iff all C1-C7 hold; NEGATIVE (all p NS) is still COMPLETE if C1-C7 hold \u2014 failures are evidence about model."
+  },
+  "provenance": {
+    "audit": "docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md (tau_0_ms rate-only, K_HDP/K_w_ctrl ratio preserves w*, 200x recommended, x3 rejected)",
+    "config_source": "jomission.network.builder.build_jomission_model, jaxfne.hdp_network.v1_pfc_aaab_hdp_params",
+    "paradigm": "jomission.paradigm.spec.JOMISSION_PARADIGM (4624 ms trial, 260 exposure=1202.24 s)",
+    "recording": "jomission.recording.area_local.field_by_area_4d, jomission.analysis.t4_t5_analysis",
+    "code": "jomission.ablations.rf_rate_factorial (this design)",
+    "jaxfne_version": "0.4.17",
+    "design_module": "jomission.ablations.rf_rate_factorial",
+    "frozen_hash": "computed via validate_design() and check_completion()"
+  },
+  "artifact_backing": {
+    "manifest_path": "manifests/rf_rate_factorial_design.json",
+    "module_path": "jomission/ablations/rf_rate_factorial.py",
+    "tests": "tests/test_rf_rate_factorial.py",
+    "results_dir": "results/rf_rate_factorial/"
+  },
+  "manifest_sha256_16": "0c2972525d1d0496"
+}

@@ -1,3 +1,35 @@
 from jomission.ablations.matrix import ABLATION_MATRIX, Ablation, validate_ablations
+from jomission.ablations.rf_rate_factorial import (
+    DESIGN_VERSION,
+    CELL_HP_HASHES,
+    CELL_ORDER,
+    CELL_FACTORS,
+    FROZEN_CONFIG_HASH,
+    RF_LEVELS,
+    RATE_LEVELS,
+    factorial_cells,
+    hp_for_cell,
+    validate_design,
+    check_completion,
+    anova_rf_rate,
+    FactorialANOVAInput,
+)
 
-__all__ = ["ABLATION_MATRIX", "Ablation", "validate_ablations"]
+__all__ = [
+    "ABLATION_MATRIX",
+    "Ablation",
+    "validate_ablations",
+    "DESIGN_VERSION",
+    "CELL_HP_HASHES",
+    "CELL_ORDER",
+    "CELL_FACTORS",
+    "FROZEN_CONFIG_HASH",
+    "RF_LEVELS",
+    "RATE_LEVELS",
+    "factorial_cells",
+    "hp_for_cell",
+    "validate_design",
+    "check_completion",
+    "anova_rf_rate",
+    "FactorialANOVAInput",
+]

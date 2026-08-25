@@ -1,14 +1,46 @@
 {
-  "HEAD": "92b0ba9",
+  "HEAD": "1cfe231",
   "sealed_milestones": [
-    {"id": "M01", "commit": "7e5d1d2", "desc": "replace stale mlxEngine with JaxFNE-native jomission"},
-    {"id": "T2", "commit": "d4138c1", "desc": "readiness gate — checkpoint/restart, L1 audit, shortened exposure"},
-    {"id": "T3_auth", "commit": "1e4eda1", "desc": "HDP-enabled integration + canonical schedule algebra"},
-    {"id": "T3_pilot", "commit": "cc578d2", "desc": "pilot 50.864s 11 trials — computational seal"},
-    {"id": "heartbeat", "commit": "60ab19c", "desc": "bounded liveness/progress + terminal predicate"},
-    {"id": "canonical_smoke", "commit": "c64b77f", "desc": "canonical dt0.1 smoke 2 trials PASS"},
-    {"id": "T1-T7_v2", "commit": "0459290", "desc": "T1-T7 corrected semantics — 4f9fdeae/f327f9d2 CLOSED"},
-    {"id": "Q8_canonical", "commit": "936d01b", "desc": "Q8 3-seed dt0.1 4624ms NEGATIVE rate, UNRESOLVED field/recovery"}
+    {
+      "id": "M01",
+      "commit": "7e5d1d2",
+      "desc": "replace stale mlxEngine with JaxFNE-native jomission"
+    },
+    {
+      "id": "T2",
+      "commit": "d4138c1",
+      "desc": "readiness gate \u2014 checkpoint/restart, L1 audit, shortened exposure"
+    },
+    {
+      "id": "T3_auth",
+      "commit": "1e4eda1",
+      "desc": "HDP-enabled integration + canonical schedule algebra"
+    },
+    {
+      "id": "T3_pilot",
+      "commit": "cc578d2",
+      "desc": "pilot 50.864s 11 trials \u2014 computational seal"
+    },
+    {
+      "id": "heartbeat",
+      "commit": "60ab19c",
+      "desc": "bounded liveness/progress + terminal predicate"
+    },
+    {
+      "id": "canonical_smoke",
+      "commit": "c64b77f",
+      "desc": "canonical dt0.1 smoke 2 trials PASS"
+    },
+    {
+      "id": "T1-T7_v2",
+      "commit": "0459290",
+      "desc": "T1-T7 corrected semantics \u2014 4f9fdeae/f327f9d2 CLOSED"
+    },
+    {
+      "id": "Q8_canonical",
+      "commit": "936d01b",
+      "desc": "Q8 3-seed dt0.1 4624ms NEGATIVE rate, UNRESOLVED field/recovery"
+    }
   ],
   "frozen_scientific_identity": {
     "config_hash": "4f9fdeae7428199a",
@@ -31,17 +63,18 @@
     "T7": "POSITIVE"
   },
   "Q8_state": {
-    "rate": "NEGATIVE (H 0.0005±0.0058 Theta 0.0012±0.0041 HTheta -0.0003, all |mean|<0.01 <<0.5 p>0.6)",
+    "rate": "NEGATIVE (H 0.0005\u00b10.0058 Theta 0.0012\u00b10.0041 HTheta -0.0003, all |mean|<0.01 <<0.5 p>0.6)",
     "field_recovery": "UNRESOLVED (n=1 <4, window ok)",
     "overall": "NEGATIVE at rate, field/recovery UNRESOLVED"
   },
   "invalidated_claims": [
-    "pilot H-dominance (H -2.7Hz vs Theta -0.025 at dt1.0 n=1) → invalidated by canonical Q8 936d01b (H 0.0005 vs Theta 0.0012, no dominance, seed 58% vs carrier 4.4%)"
+    "pilot H-dominance (H -2.7Hz vs Theta -0.025 at dt1.0 n=1) \u2192 invalidated by canonical Q8 936d01b (H 0.0005 vs Theta 0.0012, no dominance, seed 58% vs carrier 4.4%)"
   ],
   "technical_debt": [
-    "Original FULL recording insufficient for T4–T7 — supplementary replay is additional evidence, distinct owner",
-    "dt1.0 pilot vs dt0.1 canonical distinct configs (d526d4e6 vs 4f9fdeae) — not numerically identical without bridge",
-    "Checkpoints contain no H/Theta state (Δ=0) — use ContinuationState sampling for Delta Theta"
+    "Original FULL recording insufficient for T4\u2013T7 \u2014 supplementary replay is additional evidence, distinct owner",
+    "dt1.0 pilot vs dt0.1 canonical distinct configs (d526d4e6 vs 4f9fdeae) \u2014 not numerically identical without bridge",
+    "Checkpoints contain no H/Theta state (\u0394=0) \u2014 use ContinuationState sampling for Delta Theta",
+    "RF provenance patch: 8\u00b0 MODEL_ASSUMPTION, \u03c31.8 LITERATURE_PRIOR, spacing3.2 DERIVED, A(8,8)/B(24,24) MODEL_ASSUMPTION, amplitude MODEL_ASSUMPTION; 0.16 weight sparsity vs 0.18-0.30 population sparsity distinct; 0.45 adjacent overlap vs J0.0 distinct; \u00d7200 renamed PLASTICITY_TIMESCALE_LONG tau0 5\u21921000 (rate 1/200)"
   ],
   "active_objective": {
     "objective_id": "RFxRate_2x2_factorial_v0.1.0",
@@ -65,16 +98,42 @@
     "A_audit_retinotopy": [],
     "B_design_RF": [],
     "C_extract_Theta": [],
-    "D_design_rate": ["C_extract_Theta"],
-    "E_freeze_factorial": ["A_audit_retinotopy", "B_design_RF", "D_design_rate"],
-    "F1_RF_builder": ["E_freeze_factorial"],
-    "F2_Rate_builder": ["E_freeze_factorial"],
-    "F3_Provenance_builder": ["E_freeze_factorial"],
-    "V1_RF_verification": ["F1_RF_builder"],
-    "V2_plasticity_verification": ["F2_Rate_builder"],
-    "V3_factorial_adversary": ["F1_RF_builder", "F2_Rate_builder", "F3_Provenance_builder"],
-    "four_cell_smoke": ["V1_RF_verification", "V2_plasticity_verification", "V3_factorial_adversary"],
-    "compute_readiness_seal": ["four_cell_smoke"]
+    "D_design_rate": [
+      "C_extract_Theta"
+    ],
+    "E_freeze_factorial": [
+      "A_audit_retinotopy",
+      "B_design_RF",
+      "D_design_rate"
+    ],
+    "F1_RF_builder": [
+      "E_freeze_factorial"
+    ],
+    "F2_Rate_builder": [
+      "E_freeze_factorial"
+    ],
+    "F3_Provenance_builder": [
+      "E_freeze_factorial"
+    ],
+    "V1_RF_verification": [
+      "F1_RF_builder"
+    ],
+    "V2_plasticity_verification": [
+      "F2_Rate_builder"
+    ],
+    "V3_factorial_adversary": [
+      "F1_RF_builder",
+      "F2_Rate_builder",
+      "F3_Provenance_builder"
+    ],
+    "four_cell_smoke": [
+      "V1_RF_verification",
+      "V2_plasticity_verification",
+      "V3_factorial_adversary"
+    ],
+    "compute_readiness_seal": [
+      "four_cell_smoke"
+    ]
   },
   "authoritative_artifacts": [
     "manifests/closure_contract.json",

@@ -145,5 +145,43 @@
     "manifests/t1_t7_final_corrected.json",
     "manifests/q8_canonical_closure_dt01.json",
     "manifests/rf_rate_factorial_design.json"
-  ]
+  ],
+  "factorial_v0p2_cell_map": {
+    "A": {
+      "name": "A_RFoff_RateStd",
+      "RF": "OFF",
+      "plasticity": "Standard (HDP off K_HDP=0.0)",
+      "tau0_ms": 5.0,
+      "config": "4f9fdeae7428199a"
+    },
+    "B": {
+      "name": "B_RFoff_RateSlow",
+      "RF": "OFF",
+      "plasticity": "Slow (K_HDP=0.0)",
+      "tau0_ms": 1000.0,
+      "config": "4f9fdeae7428199a"
+    },
+    "C": {
+      "name": "C_RFon_RateStd",
+      "RF": "ON",
+      "plasticity": "Standard (K_HDP=0.003)",
+      "tau0_ms": 5.0,
+      "config": "e5e331a140ebd37e"
+    },
+    "D": {
+      "name": "D_RFon_RateSlow",
+      "RF": "ON",
+      "plasticity": "Slow (K_HDP=0.003)",
+      "tau0_ms": 1000.0,
+      "config": "e5e331a140ebd37e"
+    },
+    "note": "Authoritative v0.2 map \u2014 estimators MUST resolve factor levels from this manifest, not historical conversation labels (prevents beta_RF/beta_tau sign errors).",
+    "replication_hierarchy": "seed s in {0,1,2,3} = independent runtime replication unit; exposure age t_e = repeated observation; neuron = nested observation (not cell-level replicate)",
+    "three_levels": {
+      "configured": "config/hp hash",
+      "realized": "generated drive/dynamics",
+      "effective": "measured input/E heterogeneity + measured Theta(t) relaxation"
+    },
+    "protocol_740": "P0(pre,96)->E1(11)->P1(96)->E2(33)->P2(96)->E3(86)->P3(96)->E4(130)->P4(post,96) = 740 trials, 34,217,600 steps"
+  }
 }

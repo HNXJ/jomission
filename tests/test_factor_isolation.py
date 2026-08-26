@@ -278,3 +278,17 @@ def test_rfon_target_population_required():
     rep = assert_factor_isolation(("A_RFoff_RateStd", "C_RFon_RateStd"), ri)
     assert not rep["valid"]
     assert "target_population" in rep["issues"], rep["issues"]
+
+def test_v0p2_probe_semantics_frozen():
+    """The interleaved 96-trial probes are STATE-PERTURBING by frozen spec (not passive observation)."""
+    import json, pathlib
+    spec = json.loads(pathlib.Path("manifests/factorial_v0p2_design.json").read_text())
+    ps = spec["probe_semantics"]
+    assert ps["classification"] == "STATE_PERTURBING_LONGITUDINAL_PROTOCOL"
+    assert "NOT passive" in ps["freeze_note"]
+    # Identical insertion across all cells/seeds
+    assert "ALL four cells" in ps["protocol"] and "ALL four seeds" in ps["protocol"]
+    # Matched probe seeds across cells
+    assert "matched across cells" in ps["who_sees_what"]
+    # Estimand defined on the perturbed longitudinal trajectory
+    assert "probe-perturbed" in ps["estinand_interpretation"]

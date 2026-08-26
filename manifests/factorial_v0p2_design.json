@@ -525,6 +525,15 @@
     "results_dir": "results/rf_rate_factorial_v0p2/",
     "design_doc": "docs/FACTORIAL_V0P2_DESIGN.md"
   },
-  "manifest_sha256_16": "378492a24c8b331d",
-  "manifest_hash_method": "sha256(json.dumps(design_body, sort_keys=True).encode()).hexdigest()[:16], where design_body excludes manifest_sha256_16 and manifest_hash_method"
+  "manifest_sha256_16": "c0f4bbb8830b9190",
+  "manifest_hash_method": "sha256(json.dumps(design_body, sort_keys=True).encode()).hexdigest()[:16], where design_body excludes manifest_sha256_16 and manifest_hash_method",
+  "probe_semantics": {
+    "classification": "STATE_PERTURBING_LONGITUDINAL_PROTOCOL",
+    "freeze_note": "Interleaved 96-trial probe batteries (12 conditions x 8 reps, include omission testing) are STATE-PERTURBING interventions: enable_hdp=True, trials advance simulated age, affecting H/Theta/X/D. They are NOT passive observations.",
+    "protocol": "E1 -> P1 -> E2 -> P2 -> E3 -> P3 -> E4 -> P4 -> E5 (exposure segments of alternating AAAB/BBBA, 260 trials total) with probe batteries P1..P4 at t_e in {50.864, 203.456, 601.12}s and P5 at 1202.24s post-exposure; identical insertion applied to ALL four cells and ALL four seeds.",
+    "estinand_interpretation": "DeltaY(t_e) and D_Theta(t_e) are measured on the longitudinal (probe-perturbed) trajectory, NOT on a pure unperturbed exposure. The perturbation is common to all cells/seeds (identical probe battery order + seeds), so within-seed contrasts remain valid; the estimand is defined on this frozen protocol.",
+    "alternative_considered": "Independent matched trajectories terminated at each t_e would isolate pure-exposure state but require 5x trajectories per cell-seed (~80 runs); rejected for compute cost under the explicit authority that the perturbing protocol is identically applied and frozen.",
+    "who_sees_what": "Probe battery trial seeds are matched across cells per seed s (same seed logic as exposure), so probe-induced perturbation is cell-invariant by construction."
+  },
+  "probe_semantics_hash": "1fa6c8415994645a"
 }

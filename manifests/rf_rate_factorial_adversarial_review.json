@@ -1,0 +1,32 @@
+{
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "schema": "jomission.rf_rate_factorial.adversarial_review.v0.1.0",
+  "verdict": "DESCRIPTIVE_ONLY / CONFOUNDED \u2014 NOT mechanistic MEASURED",
+  "critical_findings": [
+    "Cell A misconfigured: exec_A used hp f327f9d2 (K_HDP=0.003, canonical RF-ON) with NO K_HDP=0 override; frozen design A_RFoff_RateStd requires hp bb8277e7a8e0bca2 (K_HDP=0.0). A failed frozen predicate C1.",
+    "B-A isolates drive-only (same hp f327, config off->on), NOT RF-plasticity",
+    "beta_tau=-0.0273 is a transient-sampling artifact: rate is rate-only timescale knob with fixed-point invariance; asymptotic Rate effect ~0 by construction; run-mean across settled (A,B) vs mid-relaxation (C,D) regimes is a confound",
+    "RF drive energy imbalance ~185x: RFoff uniform sum 42,480,000 vs RFon V1-graded 230,181; 'RF' compound intervention (config+graded drive+K_HDP) not isolated retinotopy",
+    "rate-level Delta_exposure slot-resolved [0,531]ms NOT_RECORDED for all cells -> UNRESOLVED correct",
+    "Theta phenotypes all below w_floor 0.01 -> Theta contrasts meaningless as stated (UNRESOLVED correct)",
+    "n=1 seed=0 per cell; no SE/inference; descriptive magnitudes only",
+    "E-degeneracy confirmed: 11-12 unique spike counts across 400 units, 99-100% duplicate"
+  ],
+  "corrected_status": {
+    "H_run_mean": "OBSERVED (all 4 cells, recompute-consistent)",
+    "beta_RF_h+0.0209": "CONFOUNDED (A wrong hp; drive-energy imbalance)",
+    "beta_tau_h-0.0273": "CONFOUNDED (transient-sampling artifact per rate-only fixed-point invariance)",
+    "beta_RFxTau_h-0.0245": "CONFOUNDED (A misconfig + settled-vs-unsettled comparison)",
+    "rate_level_Delta_exposure": "UNRESOLVED (slot-resolved NOT_RECORDED)",
+    "Theta": "UNRESOLVED (below floor)"
+  },
+  "required_for_mechanistic": [
+    "Correct A rerun with hp bb8277e7a8e0bca2 (K_HDP=0.0, RFoff) + EvidenceRef code_sha",
+    "Multi-seed (n>=4) per cell for SE/inference",
+    "Rate-level slot-resolved [0,531]ms post field volumes recorded",
+    "RF energy normalization across RFoff/RFon cells",
+    "Per-neuron H retention for stratification (E-degeneracy)"
+  ],
+  "note": "Reported betas are artifact-backed OBSERVED run-means but must NOT be reported as mechanistic MEASURED findings per adversarial review."
+}

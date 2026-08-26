@@ -1,0 +1,156 @@
+{
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "schema": "jomission.rf_rate_factorial.estimator.v0.2.0",
+  "design_version": "rf_rate_factorial.v0.1.0",
+  "level": "rate-level (population firing-rate Delta_exposure) + run-mean H and Theta phenotypes",
+  "factor_map": {
+    "A": "RFoff_RateRef",
+    "B": "RFon_RateRef",
+    "C": "RFoff_RateSlow",
+    "D": "RFon_RateSlow"
+  },
+  "contrast_definitions": {
+    "beta_RF": "(B-A+D-C)/2  [RF main: RFon minus RFoff, averaged over Rate]",
+    "beta_tau": "(C-A+D-B)/2  [Rate main: RateSlow minus RateRef, averaged over RF]",
+    "beta_RFxTau": "(D-C)-(B-A)  [interaction: rate effect at RFon minus rate effect at RFoff]"
+  },
+  "inputs": {
+    "A": {
+      "result": "0e529983ae1b39f3",
+      "analysis": "3de393c57bbfa735"
+    },
+    "B": {
+      "result": "58ee1358a0f8df2f",
+      "analysis": "79c56b4f4eb57ba8"
+    },
+    "C": {
+      "result": "d76ede5509189977",
+      "analysis": "90f5793dad77399c"
+    },
+    "D": {
+      "result": "2e8d19bccfcb1660",
+      "analysis": "96506728c8a7551a"
+    },
+    "hash_verify_note": "all eight files verified sha256_16 against each cell's artifact_hashes.json; matches_sealed=true"
+  },
+  "phenotypes": {
+    "H_run_mean": {
+      "definition": "run-mean H = h_extrema.mean over the full run (executor-computed in result.json)",
+      "evidence_status": "OBSERVED (all four cells)",
+      "per_cell_means": {
+        "A_RFoff_RateRef": 1.0289663,
+        "B_RFon_RateRef": 1.062090454112112,
+        "C_RFoff_RateSlow": 1.0138976887791558,
+        "D_RFon_RateSlow": 1.0225069351428377
+      },
+      "betas": {
+        "beta_RF": 0.020867,
+        "beta_tau": -0.027326,
+        "beta_RFxTau": -0.024515
+      },
+      "simple_effects": {
+        "RF_at_RateRef_B_minus_A": 0.033124,
+        "RF_at_RateSlow_D_minus_C": 0.008609,
+        "Rate_at_RFoff_C_minus_A": -0.015069,
+        "Rate_at_RFon_D_minus_B": -0.039584
+      },
+      "interpretation": "RF-on raises the run-mean H operating point (+0.0209); LONG/slow rate lowers it (-0.0273); interaction -0.0245 is comparable in size to the mains and negative, i.e. the RF boost is much weaker at the slow rate (B-A=+0.0331 vs D-C=+0.0086) and the slow-rate drop is stronger with RF on. Descriptive magnitudes at n=1/cell; no inferential SE."
+    },
+    "Theta_run_mean": {
+      "definition": "run-mean Theta = w_extrema.mean over the full run (executor-computed in result.json)",
+      "evidence_status": "OBSERVED (all four cells; recorded run means)",
+      "per_cell_means": {
+        "A_RFoff_RateRef": 0.0032665,
+        "B_RFon_RateRef": 0.003241197954537759,
+        "C_RFoff_RateSlow": 0.0032383170910179615,
+        "D_RFon_RateSlow": 0.003330615073013886
+      },
+      "betas": {
+        "beta_RF": 3.35e-05,
+        "beta_tau": 3.06e-05,
+        "beta_RFxTau": 0.0001176
+      },
+      "simple_effects": {
+        "RF_at_RateRef_B_minus_A": -2.53e-05,
+        "RF_at_RateSlow_D_minus_C": 9.23e-05,
+        "Rate_at_RFoff_C_minus_A": -2.82e-05,
+        "Rate_at_RFon_D_minus_B": 8.94e-05
+      },
+      "interpretation": "Theta/w is numerically near-static in every cell (all contrasts <= 1.2e-4 absolute, <4% of the recorded w value). Contrast signs are not mechanistically meaningful at this scale and the entire Theta trajectory of all four cells sits BELOW w_floor=0.01 (design bounds [0.01,10]) - flagged UNRESOLVED for physical interpretation, not adjudicated here. The recorded run-mean values themselves are OBSERVED."
+    },
+    "Delta_exposure_rate_level": {
+      "definition": "Y_post - Y_pre with Y = whole-trial [-500,4124] ms mean population rate per area (jomission_comparison_matrix.v0.1.0 proxy). PRIMARY design estimand is the slot-resolved [0,531] ms rate omission effect, which is NOT RECOVERABLE from any cell's retained artifacts.",
+      "evidence_status": "UNRESOLVED for the factorial (cells B and D NOT_RECORDED at the rate level; cell A single-replicate partial proxy). Betas NOT computed - never imputed.",
+      "per_cell": {
+        "A_RFoff_RateRef": {
+          "status": "OBSERVED_SINGLE_REPLICATE_PROXY",
+          "claim_level": "DESCRIPTIVE_SINGLE_REPLICATE_PROXY",
+          "n": "pre 1 / post 1 (of 8 by design)",
+          "conditions": {
+            "AAAB": {
+              "V1": 0.002163,
+              "V4": 0.006488,
+              "FEF": -0.019463,
+              "PFC": 0.004326
+            },
+            "AXAB": {
+              "V1": -0.183823,
+              "V4": -0.183823,
+              "FEF": -0.188149,
+              "PFC": -0.095156
+            },
+            "BBBA": {
+              "V1": -0.173011,
+              "V4": -0.16436,
+              "FEF": -0.181661,
+              "PFC": -0.194636
+            }
+          },
+          "note": "covers 3/12 conditions (AAAB intact, AXAB p2, BBBA intact); slot-resolved estimand NOT RECOVERABLE"
+        },
+        "B_RFon_RateRef": {
+          "status": "NOT_RECORDED",
+          "reason": "whole_trial_rate_per_area NOT_RECORDED in E_B_analysis (pre-fix run lost post per-area rates); E_B_analysis predates the save-fix deterministic rerun whose result.json supplies the run means"
+        },
+        "C_RFoff_RateSlow": {
+          "status": "OBSERVED",
+          "n": "8 paired replicates per condition (pre and post)",
+          "delta_hz_mean_over_areas_per_condition": {
+            "AAAB": 0.58952,
+            "AXAB": 0.45395,
+            "AAXB": 0.390288,
+            "AAAX": 0.450773,
+            "BBBA": 0.620067,
+            "BXBA": 0.454693,
+            "BBXA": 0.39191,
+            "BBBX": 0.447056,
+            "RRRR": 0.615741,
+            "RXRR": 0.45226,
+            "RRXR": 0.390693,
+            "RRRX": 0.449084
+          },
+          "note": "whole-trial proxy; slot-resolved estimand NOT RECOVERABLE; PRE-phase startup relaxation confounds early-battery conditions (drop-first-replicate sensitivity in E_C_analysis)"
+        },
+        "D_RFon_RateSlow": {
+          "status": "NOT_RECORDED",
+          "reason": "E_D_analysis is SMOKE_VALID only (no Delta_exposure section); deterministic rerun result.json carries run means only"
+        }
+      },
+      "betas": {
+        "beta_RF": "UNRESOLVED",
+        "beta_tau": "UNRESOLVED",
+        "beta_RFxTau": "UNRESOLVED"
+      },
+      "interpretation": "No rate-level Delta_exposure claim is made across the factorial: B and D lack observed rate Delta_exposure and A is a single-replicate 3-condition proxy. Missing execution/data is UNRESOLVED, never NEGATIVE, per frozen discipline."
+    }
+  },
+  "uncertainty_note": "n=1 run per cell; every estimate is a single-run magnitude with no within-cell SE; descriptive only, no inferential test (design 2-way ANOVA requires n>=4 per cell). Contrasts are balanced-cell arithmetic means of cell means.",
+  "consistency_flags": [
+    "Theta (w) run means sit below w_floor=0.01 in all four cells (design bounds [0.01,10]); physical interpretation UNRESOLVED (clamping-vs-recorded-mean not adjudicated)",
+    "A-cell w_extrema.min=-0.019446 < w_floor (pre-clamp artifact flagged UNRESOLVED in E_A_analysis); A's Theta mean 0.0032665 carries this caveat",
+    "B and D analyses (E_B_analysis.json, E_D_analysis.json) describe the PRE-fix crashed executions; B/D result.json are from the deterministic save-fix rerun (code_sha 3ea1038). Delta_exposure per-cell blocks for B/D therefore absent/stale and NOT merged into any factorial estimate.",
+    "A executes with hp_hash f327f9d2ad64cc88 (canonical RF-ON hash) while labeled RF-off; effective K_HDP during A's run is UNRESOLVED at the hp level (E_A_analysis, dossier 01/06)"
+  ],
+  "supersedes_note": "supersedes manifests/rf_rate_factorial_estimator.json (v0.1.0) and extends manifests/rf_rate_factorial_estimator_complete.json (v0.2.0 H-phenotype) with run-mean Theta and per-cell rate-level Delta_exposure accounting"
+}

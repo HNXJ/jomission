@@ -1,0 +1,18 @@
+{
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "schema": "jomission.rf_rate_factorial.estimator.v0.2.0",
+  "cells_H_run_mean": {
+    "A_RFoff_RateRef": 1.0289663,
+    "B_RFon_RateRef": 1.062090454112112,
+    "C_RFoff_RateSlow": 1.0138976887791558,
+    "D_RFon_RateSlow": 1.0225069351428377
+  },
+  "contrasts_H": {
+    "beta_RF": 0.02087,
+    "beta_tau": -0.02733,
+    "beta_RFxTau": -0.02451
+  },
+  "interpretation_H": "RF raises H (+), LONG lowers H (-); interaction magnitude relative to mains",
+  "note": "COMPLETE 4-cell H-phenotype after B/D deterministic rerun (save fix). Rate-level \u0394_exposure requires slot-resolved analysis; H/\u0398 run means are complete."
+}

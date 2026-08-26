@@ -95,38 +95,51 @@ def run_cell(cell_key: str, seed: int, results_dir: str):
         hb.append(rec)
         with open(rd/"heartbeat.jsonl","a") as f: f.write(json.dumps(rec)+"\n")
 
-    # run a sequence with probes interleaved
-    # E1 (11 exp trials) -> P1 -> E2 (33) -> P2 -> E3 (86) -> P3 -> E4 (130) -> P4 -> E5 (to 260) -> P5(post)
+    # run a sequence with probes interleaved — FROZEN 740-trial protocol:
+    # P0(pre, t_e0=0, 96) -> E1(11) -> P1(t_e1, 96) -> E2(33) -> P2(t_e2, 96)
+    #   -> E3(86) -> P3(t_e3, 96) -> E4(130) -> P4(post, t_e4=260, 96)
     # exposure boundaries: t_e1 at exp trial 11, t_e2 at 44, t_e3 at 130, t_e4 at 260
-    probe_after = {11:1, 44:2, 130:3, 260:4}  # exp_trial -> probe index
+    probe_after = {11: 1, 44: 2, 130: 3, 260: 4}  # exp_trial -> probe index
     exp_trial = 0
-    for te_idx, te in enumerate(PROBE_AGES):
-        if te_idx > 0:
-            # run probe battery (12 cond x 8 = 96)
-            for idx, cond in enumerate(POST_CONDS * 8):
-                sched = make_schedule(cell_key, cond, rf_op, model)
-                sim = Simulation(duration_ms=TRIAL_MS, dt_ms=DT_MS, seed=seed*1000+idx, runtime=runtime)
-                if state is None:
-                    sig, state = jtfne.simulate(model, sim, paradigm=sched, return_state=True)
-                else:
-                    sig, state = jtfne.simulate(model, sim, paradigm=sched, continuation=state, return_state=True)
-                record(f"probe_t{te_idx}", idx, cond)
-        # run exposure segments
-        while exp_trial < EXPOSURE_TRIALS:
+
+    def run_probe(te_idx: int, label: str):
+        # 12 conditions x 8 reps = 96 trials
+        for idx, cond in enumerate(POST_CONDS * 8):
+            sched = make_schedule(cell_key, cond, rf_op, model)
+            sim = Simulation(duration_ms=TRIAL_MS, dt_ms=DT_MS, seed=seed * 1000 + idx, runtime=runtime)
+            if state is None:
+                sig, state = jtfne.simulate(model, sim, paradigm=sched, return_state=True)
+            else:
+                sig, state = jtfne.simulate(model, sim, paradigm=sched, continuation=state, return_state=True)
+            record(label, idx, cond)
+
+    def run_exposure_until(boundary: int):
+        nonlocal exp_trial
+        while exp_trial < boundary:
             cond = "AAAB" if exp_trial % 2 == 0 else "BBBA"
             sched = make_schedule(cell_key, cond, rf_op, model)
-            sim = Simulation(duration_ms=TRIAL_MS, dt_ms=DT_MS, seed=seed*10+exp_trial, runtime=runtime)
+            sim = Simulation(duration_ms=TRIAL_MS, dt_ms=DT_MS, seed=seed * 10 + exp_trial, runtime=runtime)
             if state is None:
                 sig, state = jtfne.simulate(model, sim, paradigm=sched, return_state=True)
             else:
                 sig, state = jtfne.simulate(model, sim, paradigm=sched, continuation=state, return_state=True)
             record("exposure", exp_trial, cond)
-            if (exp_trial+1) % 10 == 0:
-                jtfne.checkpoint_state(model, str(rd/f"ckpt_trial_{exp_trial+1:04d}"))
+            if (exp_trial + 1) % 10 == 0:
+                jtfne.checkpoint_state(model, str(rd / f"ckpt_trial_{exp_trial + 1:04d}"))
                 ckpt_ok += 1
             exp_trial += 1
-            if exp_trial in probe_after:
-                break  # probe inserted here next outer iteration
+
+    # P0: pre-battery at t_e0 = 0
+    run_probe(0, "pre")
+    # E1 -> P1 -> E2 -> P2 -> E3 -> P3 -> E4 -> P4(post)
+    run_exposure_until(11)
+    run_probe(1, "probe_t1")
+    run_exposure_until(44)
+    run_probe(2, "probe_t2")
+    run_exposure_until(130)
+    run_probe(3, "probe_t3")
+    run_exposure_until(260)
+    run_probe(4, "post")
 
     # ---- Finalize ----
     result = {
@@ -135,6 +148,8 @@ def run_cell(cell_key: str, seed: int, results_dir: str):
         "total_steps": global_step, "n_trials": len(hb), "checkpoint_ok": ckpt_ok,
         "heartbeat_len": len(hb), "terminal_phase": hb[-1]["phase"],
         "probe_ages": PROBE_AGES, "n_probes": len(PROBE_AGES),
+        "protocol": "P0(pre,96)->E1(11)->P1(96)->E2(33)->P2(96)->E3(86)->P3(96)->E4(130)->P4(post,96)",
+        "expected_trials": 740,
     }
     # atomic result write
     atomic_write_json(rd/f"{c['name']}_result.json", result)

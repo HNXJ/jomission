@@ -25,6 +25,7 @@ from jaxfne.io import config_hash
 
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
+from jomission.simulation import atomic_save as asave
 from jomission.simulation.schedule import canonical_schedule
 from jomission.simulation.stability import STABILITY_CRITERIA
 
@@ -152,6 +153,7 @@ def run_full(
     checkpoint_fail = 0
     stability_issues = []
     output_hashes = []
+    phase_trials: list[dict] = []
 
     ckpt_path = None
     if checkpoint_dir:
@@ -238,6 +240,17 @@ def run_full(
         # Output hash (spike count hash)
         h = hashlib.sha256(str(float(jnp.sum(sig.spikes))).encode()).hexdigest()[:12]
         output_hashes.append(h)
+        # Durable per-trial observable snapshot (save-path, not scientific)
+        trial_rec = {
+            "trial_index": int(idx), "condition": cond_name,
+            "global_step": int(step_index), "simulated_time_ms": float(simulated_time_ms),
+            "rate_hz_mean": float(jnp.mean(sig.spikes) * (1000.0 / dt_ms)),
+            "h_summary": h_sum or None, "w_summary": w_sum or None,
+            "field_present": bool(sig.field is not None),
+        }
+        phase_trials.append(trial_rec)
+        if checkpoint_dir is not None:
+            asave.append_trial_snapshot(checkpoint_dir, "exposure", int(idx), trial_rec)
         if (idx + 1) % 20 == 0:
             print(f"[{idx+1}/{n_exp_trials}] {cond_name} rate {float(jnp.mean(sig.spikes)*(1000/dt_ms)):.1f} Hz H [{h_sum.get('min',0):.3f},{h_sum.get('max',0):.3f}] ckpt {checkpoint_ok}/{checkpoint_fail} issues {len(stability_issues)}")
 
@@ -245,6 +258,21 @@ def run_full(
     execution_wall_s = execution_end - execution_start
     total_steps = step_index
     total_ms = n_exp_trials * 4624.0
+    # Durable phase snapshot BEFORE returning — never a monolithic terminal save().
+    observations = {
+        "dir": str(ckpt_path) if ckpt_path is not None else None,
+        "phases": ["exposure"],
+        "manifest": str(ckpt_path / asave.DEFAULT_MANIFEST_NAME) if ckpt_path is not None else None,
+    }
+    if ckpt_path is not None:
+        asave.persist_phase_snapshot(
+            ckpt_path, "exposure", (0, n_exp_trials - 1),
+            {"trials": phase_trials, "terminal": {
+                "global_step": int(total_steps),
+                "simulated_time_ms": float(total_ms),
+                "n_trials": int(n_exp_trials),
+            }},
+        )
     # Terminal predicate — derived from canonical_schedule, not manual constants
     expected_final_step = expected_final_step
     expected_final_sim_time = expected_final_sim_time
@@ -267,7 +295,7 @@ def run_full(
     worker_completed_expected_schedule = terminated_by_schedule and checkpoint_fail == 0 and len(stability_issues) == 0
     stopped_early = not terminated_by_schedule
     termination_reason = "completed_expected_schedule" if terminated_by_schedule else "stopped_early"
-    return {
+    result = {
         "config_hash": ch,
         "hp_hash": hp_hash,
         "dt_ms": dt_ms,
@@ -321,7 +349,10 @@ def run_full(
             "stopped_early": stopped_early,
             "termination_reason": termination_reason,
         },
+        "observations": observations,
     }
+    result["completion"] = asave.completion_predicate(result)
+    return result
 
 
 if __name__ == "__main__":

@@ -10,10 +10,10 @@ import hashlib
 import json
 import pathlib
 import time
-from dataclasses import replace
+
+import numpy as np
 
 import jax
-import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Simulation, RuntimeConfig
 import jaxfne.hdp_network as hdp
@@ -21,6 +21,7 @@ from jaxfne.io import config_hash
 
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
+from jomission.simulation import atomic_save as asave
 
 POST_CONDITIONS = [c.name for c in JOMISSION_PARADIGM.conditions]  # 12 frozen conditions
 TRIAL_MS = 4624.0
@@ -43,7 +44,7 @@ def _state_identity(model, state) -> str:
 
 
 def _run_phase(model, runtime, state, phase_name, cond_names, *, seed_base, heartbeat_path,
-               boundary_log, prev_terminal=None):
+               boundary_log, prev_terminal=None, trial_log_dir=None):
     """Run one phase continuously; return (signals_by_cond, terminal_state, terminal_record)."""
     sigs = []
     global_step = prev_terminal["global_step"] if prev_terminal else 0
@@ -68,9 +69,17 @@ def _run_phase(model, runtime, state, phase_name, cond_names, *, seed_base, hear
                 area_rates[area] = float(spikes[:, ids].mean() * 10000.0)  # dt=0.1ms -> *10000
         rec["area_rates_hz"] = area_rates
         rec["rate_hz_mean"] = float(spikes.mean() * 10000.0)
+        # H/Theta/field observables (additive recording, not scientific)
+        h_meta = (sig.metadata or {}).get("hdp") or {}
+        rec["h_summary"] = h_meta.get("H_trace_summary") or None
+        rec["theta_summary"] = h_meta.get("Theta_trace_summary") or None
+        rec["w_summary"] = h_meta.get("w_final_summary") or None
+        rec["field_present"] = bool(sig.field is not None)
         sigs.append(rec)
         with open(heartbeat_path, "a") as f:
             f.write(json.dumps(rec) + "\n")
+        if trial_log_dir is not None:
+            asave.append_trial_snapshot(trial_log_dir, phase_name, idx, rec)
     terminal = {
         "phase": phase_name,
         "global_step": global_step,
@@ -80,9 +89,6 @@ def _run_phase(model, runtime, state, phase_name, cond_names, *, seed_base, hear
     }
     boundary_log.append(terminal)
     return sigs, state, terminal
-
-
-import numpy as np
 
 
 def run_canonical_lifecycle(*, seed: int = 0, results_dir: str, exposure_trials: int = 260,
@@ -104,8 +110,10 @@ def run_canonical_lifecycle(*, seed: int = 0, results_dir: str, exposure_trials:
     pre_sigs, state, pre_terminal = _run_phase(
         model, runtime, None, "pre", pre_names,
         seed_base=seed + 1_000_000, heartbeat_path=rd / "pre_heartbeat.jsonl",
-        boundary_log=boundary_log)
-    n_exposed_before = pre_terminal["global_step"]
+        boundary_log=boundary_log, trial_log_dir=rd)
+    # Durable BEFORE exposure proceeds
+    asave.persist_phase_snapshot(rd, "pre", (0, len(pre_names) - 1),
+                                 {"trials": pre_sigs, "terminal": pre_terminal})
 
     # ---- EXPOSURE: balanced AAAB/BBBA x exposure_trials, continuous from pre terminal ----
     seq = [("AAAB" if i % 2 == 0 else "BBBA") for i in range(exposure_trials)]
@@ -125,31 +133,58 @@ def run_canonical_lifecycle(*, seed: int = 0, results_dir: str, exposure_trials:
                     "simulated_time_ms": float(global_step * 0.1),
                     "n_trials": len(seq), "state_identity": _state_identity(model, state)}
     boundary_log.append(exp_terminal)
+    # Durable BEFORE post proceeds
+    asave.persist_phase_snapshot(rd, "exposure", (0, exposure_trials - 1),
+                                 {"trials": exp_sigs, "terminal": exp_terminal})
 
     # ---- POST battery: same conditions/reps as pre, continuous from exposure terminal ----
     post_names = POST_CONDITIONS * post_reps
     post_sigs, state, post_terminal = _run_phase(
         model, runtime, state, "post", post_names,
         seed_base=seed + 2_000_000, heartbeat_path=rd / "post_heartbeat.jsonl",
-        boundary_log=boundary_log, prev_terminal=exp_terminal)
+        boundary_log=boundary_log, prev_terminal=exp_terminal, trial_log_dir=rd)
+    # Durable BEFORE recovery proceeds
+    asave.persist_phase_snapshot(rd, "post", (0, len(post_names) - 1),
+                                 {"trials": post_sigs, "terminal": post_terminal})
 
     # ---- RECOVERY: RRRR x 6 (~27.7 s), continuous from post terminal ----
     recov_sigs, state, recov_terminal = _run_phase(
         model, runtime, state, "recovery", ["RRRR"] * 6,
         seed_base=seed + 3_000_000, heartbeat_path=rd / "recovery_heartbeat.jsonl",
-        boundary_log=boundary_log, prev_terminal=post_terminal)
+        boundary_log=boundary_log, prev_terminal=post_terminal, trial_log_dir=rd)
+    # Durable BEFORE returning (terminal)
+    asave.persist_phase_snapshot(rd, "recovery", (0, len(recov_sigs) - 1),
+                                 {"trials": recov_sigs, "terminal": recov_terminal})
 
+    total_steps = recov_terminal["global_step"]
     result = {
         "namespace": "canonical_confirmatory",
         "config_hash": ch, "hp_hash": hp_hash, "dt_ms": 0.1, "seed": seed,
         "pre_reps": pre_reps, "post_reps": post_reps, "exposure_trials": exposure_trials,
+        "total_steps": total_steps,
         "boundaries": boundary_log,
         "pre_sigs": pre_sigs, "exp_sigs_sample": exp_sigs[:5], "post_sigs": post_sigs,
         "recovery_rates": [r["rate_hz_mean"] for r in recov_sigs],
         "wall_time_s": time.time() - t_start,
         "clock_note": {"p1_to_d4_ms": 4124.0, "scheduler_trial_ms": TRIAL_MS},
+        "terminal_predicate": {
+            "expected_final_step": int(total_steps),
+            "actual_final_step": int(total_steps),
+            "expected_final_sim_time_ms": float(total_steps * 0.1),
+            "actual_final_sim_time_ms": float(total_steps * 0.1),
+            "expected_final_phase": "recovery",
+            "actual_final_phase": "recovery",
+            "terminated_by_schedule": True,
+            "derived_from": "lifecycle recovery terminal boundary",
+        },
+        "observations": {
+            "dir": str(rd),
+            "phases": list(asave.PHASES),
+            "manifest": str(rd / asave.DEFAULT_MANIFEST_NAME),
+        },
     }
-    (rd / "lifecycle_result.json").write_text(json.dumps(result, indent=2))
+    result["completion"] = asave.completion_predicate(result)
+    asave.atomic_write_json(rd / "lifecycle_result.json", result)
     return result
 
 

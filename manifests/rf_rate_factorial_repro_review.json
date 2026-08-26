@@ -1,0 +1,24 @@
+{
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "schema": "jomission.rf_rate_factorial.repro_review.v0.1.0",
+  "sealed_cells": {
+    "A": "COMPLETE",
+    "C": "COMPLETE"
+  },
+  "execution_failure_cells": {
+    "B": "trajectory ran to terminal step 20900480 (post 95/96) but executor crashed at save step (TypeError at spikes_example) -> result.json/EvidenceRef/artifact_hashes + post recordings NOT_RECORDED. CLASSIFICATION: execution_failure -> UNRESOLVED, NOT NEGATIVE.",
+    "D": "trajectory ran to terminal step 20900480 (post 95/96) but executor crashed at save step -> result.json/EvidenceRef/artifact_hashes + H/Theta/post recordings NOT_RECORDED. CLASSIFICATION: execution_failure -> UNRESOLVED, NOT NEGATIVE."
+  },
+  "A_hashes": {
+    "A_RFoff_RateRef_result.json": "0e529983ae1b39f3",
+    "EvidenceRef.json": "3be84901b97d0283",
+    "artifact_hashes.json": "30f1fdc2099c50b0"
+  },
+  "C_hashes": {
+    "C_RFoff_RateSlow_result.json": "d76ede5509189977",
+    "EvidenceRef.json": "fe73e88b53382f4f",
+    "artifact_hashes.json": "9b1178c14d7e426e"
+  },
+  "conclusion": "Factor-isolation of design verified (B-A RF only, C-A Rate only, D-A both) at config level. Rate-level factorial UNRESOLVED because B,D lost post recordings to save crash (execution failure, not scientific negative). Partial H-phenotype: beta_RF_h=+0.033 (RF raises H), beta_tau_h=-0.015 (LONG lowers H), beta_RFxTau UNRESOLVED (D missing). A/C full lifecycle valid."
+}

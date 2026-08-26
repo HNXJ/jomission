@@ -1,0 +1,23 @@
+{
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "schema": "jomission.rf_rate_factorial.estimator.v0.1.0",
+  "cells_H_mean": {
+    "A": 1.0289663,
+    "B": 1.06209,
+    "C": 1.013898,
+    "D": "UNRESOLVED(smoke-only, save crash)"
+  },
+  "partial_contrasts_H": {
+    "beta_RF_h_B_minus_A": 0.03312,
+    "beta_tau_h_C_minus_A": -0.01507,
+    "beta_RFxTau_h": "UNRESOLVED(D missing)"
+  },
+  "rate_level_delta_exposure": "UNRESOLVED(B,D lost post recordings; A,C partial)",
+  "factor_isolation_verified": {
+    "B-A": "RF only (hp same f327, rf off->on)",
+    "C-A": "Rate only (rf off, hp f327->f72a)",
+    "D-A": "RF+Rate"
+  },
+  "note": "D full trajectory reached terminal step 20900480 but executor crashed at save; H/Theta and post rate recordings not retained. Missing execution != NEGATIVE."
+}

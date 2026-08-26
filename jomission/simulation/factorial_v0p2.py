@@ -103,6 +103,7 @@ def run_cell(cell_key: str, seed: int, results_dir: str):
     exp_trial = 0
 
     def run_probe(te_idx: int, label: str):
+        nonlocal state
         # 12 conditions x 8 reps = 96 trials
         for idx, cond in enumerate(POST_CONDS * 8):
             sched = make_schedule(cell_key, cond, rf_op, model)
@@ -114,7 +115,7 @@ def run_cell(cell_key: str, seed: int, results_dir: str):
             record(label, idx, cond)
 
     def run_exposure_until(boundary: int):
-        nonlocal exp_trial
+        nonlocal exp_trial, state, ckpt_ok
         while exp_trial < boundary:
             cond = "AAAB" if exp_trial % 2 == 0 else "BBBA"
             sched = make_schedule(cell_key, cond, rf_op, model)

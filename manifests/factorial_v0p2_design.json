@@ -1,0 +1,530 @@
+{
+  "design_version": "rf_rate_factorial.v0.2.0",
+  "schema": "jomission.factorial_v0p2_design.v1",
+  "namespace": "rf_rate_factorial",
+  "owner": "frozen",
+  "status": "FROZEN - preregistered; not tuned to results",
+  "freeze_date": "2026-08-26",
+  "supersedes": {
+    "design_version": "rf_rate_factorial.v0.1.0",
+    "design_manifest": "manifests/rf_rate_factorial_design.json",
+    "git_head_at_freeze": "14165f9c6680379d4fe605f1e0ebf54bdf1499a6",
+    "reason": "v0.1 execution had three identification failures (see identified_failures_v01); v0.2 re-freezes corrected identities, energy-matched RF, and a trajectory/timescale estimand."
+  },
+  "identified_failures_v01": [
+    {
+      "id": 1,
+      "title": "Cell A ran with wrong HDP config (hp f327f9d2, K_HDP=0.003) instead of intended hp bb8277e7a8e0bca2 (K_HDP=0.0)",
+      "detail": "exec_A_RFoff_RateRef.py froze FROZEN_HP_HASH='f327f9d2ad64cc88' (the canonical RF-ON hash) and never applied the K_HDP=0.0 override, so the RFoff-standard cell ran with RF-ON plasticity. manifests/four_cell_lifecycle_seal.json also records cell A with hp_hash f327f9d2ad64cc88. The frozen design (jomission/ablations/rf_rate_factorial.py CELL_HP_HASHES) requires A hp bb8277e7a8e0bca2 (K_HDP=0.0).",
+      "fix": "Corrected A identity (section cells): A must run with hp_hash bb8277e7a8e0bca2 (K_HDP=0.0) and config_hash 4f9fdeae7428199a; the executor asserts the (factor, hp_hash, config_hash) tuple before running; completion predicate P5 re-checks all four cell hashes."
+    },
+    {
+      "id": 2,
+      "title": "RF drive energy imbalance ~185x",
+      "detail": "RFoff used condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0): uniform 5.0 over all 400 units -> per-trial AAAB L1 energy 42,480,000. RFon used RFOperator.to_stimulus_schedule(tier='graded', base_amplitude=5.0): per-unit amplitude 5.0*(drive/max) over V1 L4 E/PV active units -> 230,181. Ratio 42,480,000/230,181 = 184.55. 'RF' was therefore a compound intervention (config + graded sparse drive + K_HDP), not an isolated, energy-matched retinotopic manipulation.",
+      "fix": "Energy-matched RF (section energy_matching): frozen per-stimulus amplitude scale A_on(s) such that per-slot L1 drive energy matches the RFoff reference within 1%, verified pre-run."
+    },
+    {
+      "id": 3,
+      "title": "LONG condition measured during relaxation (run-mean timescale/phase confound)",
+      "detail": "v0.1 reported beta_tau (Rate main) and beta_RFxTau from run-mean H/Theta over the full run. Rate is a rate-only timescale knob (tau_0_ms divides dH/dt only; fixed points invariant per PLASTICITY_RATE_INTERVENTION_DESIGN.md), so the asymptotic Rate effect is ~0 by construction and a run-mean across settled (tau_ref) vs mid-relaxation (tau_LONG, 76% of asymptote at 1202 s) regimes mixes the timescale with the phase of relaxation.",
+      "fix": "Trajectory/timescale estimand (section trajectory_estimand): D_Theta(t_e) = Theta(t_e; tau_ref) - Theta(t_e; tau_LONG) and DeltaY(t_e) = Y_omission(t_e) - Y_omission(0) at preregistered exposure ages t_e, instead of endpoint run-means."
+    }
+  ],
+  "config_identity": {
+    "rf_off_config_hash": "4f9fdeae7428199a",
+    "rf_on_config_hash": "e5e331a140ebd37e",
+    "note": "RFon cells carry RF metadata (RFConfig.to_metadata) in the Configuration, giving a distinct config_hash. Both verified live at freeze time."
+  },
+  "dt_ms_canonical": 0.1,
+  "trial_ms": 4624.0,
+  "factors": {
+    "RF": {
+      "label": "receptive-field plasticity (HDP K_HDP on w)",
+      "levels": [
+        "off",
+        "on"
+      ],
+      "operational": {
+        "off": {
+          "K_HDP": 0.0,
+          "note": "w frozen at baseline, H still evolves, enable_hdp=True"
+        },
+        "on": {
+          "K_HDP": 0.003,
+          "note": "canonical v1_pfc_aaab_hdp_params"
+        }
+      }
+    },
+    "Rate": {
+      "label": "plasticity rate (H timescale via tau_0_ms, rate-only)",
+      "levels": [
+        "standard",
+        "slow"
+      ],
+      "operational": {
+        "standard": {
+          "tau_0_ms": 5.0,
+          "tau_eff_E_s": 4.1,
+          "label_long": "tau_ref",
+          "note": "saturates ~12 s"
+        },
+        "slow": {
+          "tau_0_ms": 1000.0,
+          "tau_eff_E_s": 833.0,
+          "factor": 200,
+          "label_long": "tau_LONG",
+          "note": "200x slow, 76% of asymptote at 1202 s, preserves fixed points and bounds"
+        }
+      },
+      "rejected": {
+        "x3": {
+          "tau_0_ms": 15.0,
+          "reason": "saturates in ~3% of exposure; rejected per PLASTICITY_RATE_INTERVENTION_DESIGN.md"
+        }
+      }
+    }
+  },
+  "cells": {
+    "A_RFoff_RateStd": {
+      "rf": "off",
+      "rate": "standard",
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "bb8277e7a8e0bca2",
+      "hp": {
+        "C_spike": 0.0,
+        "H_boost_gain": 4.0,
+        "H_max": 10.0,
+        "H_min": 0.1,
+        "K_HDP": 0.0,
+        "K_ctrl": 0.15,
+        "K_w_ctrl": 0.001,
+        "alpha": 0.05,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "barrier_eps": 0.001,
+        "beta": 0.0,
+        "delta": 0.0,
+        "gamma": 0.5,
+        "rho_passive": 0.0,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "Ing": 1.5,
+          "Inl": 1.0,
+          "PV": 1.0,
+          "SST": 1.5,
+          "VIP": 1.5
+        },
+        "tau_0_ms": 5.0,
+        "w_ceiling": 10.0,
+        "w_floor": 0.01
+      },
+      "hp_hash_verified_live": true
+    },
+    "B_RFoff_RateSlow": {
+      "rf": "off",
+      "rate": "slow",
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f72a489841810a4b",
+      "hp": {
+        "C_spike": 0.0,
+        "H_boost_gain": 4.0,
+        "H_max": 10.0,
+        "H_min": 0.1,
+        "K_HDP": 0.0,
+        "K_ctrl": 0.15,
+        "K_w_ctrl": 0.001,
+        "alpha": 0.05,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "barrier_eps": 0.001,
+        "beta": 0.0,
+        "delta": 0.0,
+        "gamma": 0.5,
+        "rho_passive": 0.0,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "Ing": 1.5,
+          "Inl": 1.0,
+          "PV": 1.0,
+          "SST": 1.5,
+          "VIP": 1.5
+        },
+        "tau_0_ms": 1000.0,
+        "w_ceiling": 10.0,
+        "w_floor": 0.01
+      },
+      "hp_hash_verified_live": true
+    },
+    "C_RFon_RateStd": {
+      "rf": "on",
+      "rate": "standard",
+      "config_hash": "e5e331a140ebd37e",
+      "hp_hash": "f327f9d2ad64cc88",
+      "hp": {
+        "C_spike": 0.0,
+        "H_boost_gain": 4.0,
+        "H_max": 10.0,
+        "H_min": 0.1,
+        "K_HDP": 0.003,
+        "K_ctrl": 0.15,
+        "K_w_ctrl": 0.001,
+        "alpha": 0.05,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "barrier_eps": 0.001,
+        "beta": 0.0,
+        "delta": 0.0,
+        "gamma": 0.5,
+        "rho_passive": 0.0,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "Ing": 1.5,
+          "Inl": 1.0,
+          "PV": 1.0,
+          "SST": 1.5,
+          "VIP": 1.5
+        },
+        "tau_0_ms": 5.0,
+        "w_ceiling": 10.0,
+        "w_floor": 0.01
+      },
+      "hp_hash_verified_live": true
+    },
+    "D_RFon_RateSlow": {
+      "rf": "on",
+      "rate": "slow",
+      "config_hash": "e5e331a140ebd37e",
+      "hp_hash": "b326f7201c59b803",
+      "hp": {
+        "C_spike": 0.0,
+        "H_boost_gain": 4.0,
+        "H_max": 10.0,
+        "H_min": 0.1,
+        "K_HDP": 0.003,
+        "K_ctrl": 0.15,
+        "K_w_ctrl": 0.001,
+        "alpha": 0.05,
+        "barrier_c": 0.01,
+        "barrier_d": 0.01,
+        "barrier_eps": 0.001,
+        "beta": 0.0,
+        "delta": 0.0,
+        "gamma": 0.5,
+        "rho_passive": 0.0,
+        "size_scale_by_cell_type": {
+          "E": 5.0,
+          "Ing": 1.5,
+          "Inl": 1.0,
+          "PV": 1.0,
+          "SST": 1.5,
+          "VIP": 1.5
+        },
+        "tau_0_ms": 1000.0,
+        "w_ceiling": 10.0,
+        "w_floor": 0.01
+      },
+      "hp_hash_verified_live": true
+    }
+  },
+  "cell_order": [
+    "A_RFoff_RateStd",
+    "B_RFoff_RateSlow",
+    "C_RFon_RateStd",
+    "D_RFon_RateSlow"
+  ],
+  "hp_hash_computation": "sha256(json.dumps(hp, sort_keys=True).encode()).hexdigest()[:16]; matches jomission/ablations/rf_rate_factorial.py CELL_HP_HASHES and hp_for_cell()",
+  "v01_execution_label_map": {
+    "A_RFoff_RateRef_exec": "A_RFoff_RateStd (design)",
+    "B_RFon_RateRef_exec": "C_RFon_RateStd (design)",
+    "C_RFoff_RateSlow_exec": "B_RFoff_RateSlow (design)",
+    "D_RFon_RateSlow_exec": "D_RFon_RateSlow (design)",
+    "note": "v0.1 execution used a different B/C ordering than the frozen v0.1 design manifest and the module; v0.2 freezes the design naming and requires runtime (factor, hp_hash, config_hash) assertions per cell."
+  },
+  "energy_matching": {
+    "objective": "Sigma_{t,i} I_RFon_i(t) ~= Sigma_{t,i} I_RFoff_i(t) while changing only spatial allocation",
+    "reference_rfoff": {
+      "generator": "jomission.paradigm.spec.condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0)",
+      "N_units": 400,
+      "A_off": 5.0,
+      "slot_duration_ms": 531.0,
+      "E_ref_per_slot": 10620000.0,
+      "E_ref_per_trial_AAAB": 42480000.0,
+      "E_ref_formula": "E_ref = (slot_duration_ms / dt_ms) * N_units * A_off = (531.0/0.1) * 400 * 5.0 = 10,620,000 per intact slot"
+    },
+    "rfon_graded": {
+      "generator": "jomission.network.rf.RFOperator.to_stimulus_schedule(cond, n_neurons=400, dt_ms=0.1, base_amplitude=A_on(s), tier='graded')",
+      "target_units": "V1 L4 E/PV (RFConfig target_layers=['L4'], target_cell_types=['E','PV'])",
+      "per_unit_amplitude": "amp_u(s) = A_on(s) * (d_u / max_u d_u) for active units with d_u >= 0.2 * max_u d_u (RFConfig.sparsity_threshold=0.2); otherwise no event for unit u",
+      "v01_measured_E_AAAB": 230180.8125,
+      "v01_measured_ratio_uniform_over_graded": 184.5505676,
+      "note": "v0.1 measured ratio confirmed live at freeze time"
+    },
+    "formula": {
+      "G_s": "G(s) = sum over active target units u of d_u(s)/max_u d_u(s)",
+      "A_on_s": "A_on(s) = N_units * A_off / G(s) = 2000.0 / G(s)",
+      "scaled_slot_energy": "E_on(slot;s) = (slot_duration_ms / dt_ms) * sum_u amp_u(s) = (531.0/0.1) * A_on(s) * G(s) = E_ref exactly (by construction)",
+      "l1_equivalence": "per-slot L1 norm of the materialized 400-unit drive array equals E_on(slot;s) (StimulusSchedule.to_array is additive and per-unit events do not overlap); per-trial L1 equals the sum over intact slots",
+      "spatial_allocation_only": "only the spatial allocation of the fixed per-slot energy changes (RFoff: uniform 400 units; RFon: graded V1 L4 E/PV units); total per-slot energy is identical"
+    },
+    "frozen_scale_table": {
+      "A_on(stimulus_A)": 923.0238702332183,
+      "A_on(stimulus_B)": 921.9403481446361,
+      "A_on(random_stimulus)": 188.4933551695342,
+      "computed_from": "RFConfig() (lattice 32x32, 8 dva, sigma_px 1.8, spacing_px 3.2, seed 0, sparsity_threshold 0.2, target V1 L4 E/PV), deterministic at freeze; structural input calibration, not tuned to behavioral/neural results"
+    },
+    "frozen_constraint": {
+      "per_slot": "for every intact p-slot of every condition, |E_on(slot;s)/E_ref - 1| < 0.01 (relative diff < 1%)",
+      "omission_slot": "E == 0 for every omitted p-slot (temporal geometry preserved, drive zeroed)",
+      "verification_pre_run": [
+        "1. build model with config_hash 4f9fdeae7428199a; instantiate RFOperator(RFConfig(), model); assert operator.validate() valid (L1 rows, V1 targeting, sparsity, omission zero drive, Jaccard)",
+        "2. recompute G(s) and A_on(s); assert |A_on(s) - sealed_value| / sealed_value < 1e-6 (drift guard)",
+        "3. for each of the 12 conditions: materialize RFoff (uniform 5.0) and RFon (graded, per-slot A_on(s)) drive arrays via to_array(n_steps=46240, dt_ms=0.1)",
+        "4. per p-slot compute L1 energy; assert intact ratio in [0.99, 1.01] and omission ratio == 0",
+        "5. write energy_verified receipt (per-slot ratios for all 12 conditions) into the run manifest before the decisive run"
+      ]
+    },
+    "jaxfne_capability_confirmed": {
+      "per_unit_amplitude_scaling_supported": true,
+      "evidence": "jaxfne.StimulusSchedule.to_array source inspected: each event may carry target_indices=[unit] and a distinct amplitude, applied additively to that unit only; RFOperator.to_stimulus_schedule graded tier already emits one event per active unit with amplitude = base_amplitude * normalized_drive (see jomission/network/rf.py to_stimulus_schedule). No engine modification needed.",
+      "materialized_verification_at_freeze": {
+        "AAAB_p1_p2_p3_ratio": 1.0,
+        "AAAB_p4_stimulus_B_ratio_with_A_on_B": 1.0,
+        "AXAB_p2_omission_energy": 0.0,
+        "note": "p4 ratio is 1.001175 if A_on(A) is misapplied to a stimulus-B slot, i.e. within the 1% tolerance, but the frozen design applies the per-stimulus scale exactly"
+      }
+    }
+  },
+  "trajectory_estimand": {
+    "rationale": "Replaces v0.1 endpoint run-means, which confounded settled (tau_ref) vs mid-relaxation (tau_LONG) regimes. Rate is rate-only with invariant fixed points, so the timescale hypothesis is a trajectory claim: both cells are measured at matched simulated ages.",
+    "estimand_theta": {
+      "definition": "D_Theta(t_e) = Theta(t_e; tau_ref) - Theta(t_e; tau_LONG), seed-matched",
+      "formula": "per seed s: D_Theta_s(t_e) = (Theta_A_s(t_e) + Theta_C_s(t_e))/2 - (Theta_B_s(t_e) + Theta_D_s(t_e))/2, i.e. the negative of the Rate-main contrast at age t_e (frozen design naming)",
+      "tau_ref": "tau_0_ms = 5.0 (tau_eff,E ~4.1 s, saturates ~12 s)",
+      "tau_LONG": "tau_0_ms = 1000.0 (tau_eff,E ~833 s, 76% of asymptote at 1202 s)",
+      "source": "Theta(t) = HDP weight trajectory recorded at every exposure checkpoint (every 10 trials = 46.24 s), per-neuron and per-area mean, for every cell and seed",
+      "expected_shape": "D_Theta(t_e) ~ 0 at t_e = 0, grows as LONG lags REF during relaxation, and decays toward 0 as both approach the shared w* fixed point (rate-only invariance)",
+      "floor_caveat": "if |Theta(t)| <= w_floor (0.01) throughout, the Theta estimand is UNRESOLVED (v0.1 adversarial review flagged Theta run-means below floor); the behavioral DeltaY then carries the primary evidence. Do not reinterpret below-floor values as mechanistically meaningful."
+    },
+    "estimand_behavioral": {
+      "definition": "DeltaY(t_e) = Y_omission(t_e) - Y_omission(0), within-replicate paired per seed per cell",
+      "Y_omission": "slot-resolved [0,531] ms omission-vs-intact contrast at position p2/p3/p4, per area, measured by a frozen testing probe at exposure age t_e",
+      "phenotypes": [
+        "rate_omission_effect: mean omission rate - mean intact rate in [0,531] ms, per area V1, V4, FEF, PFC, per position p2/p3/p4",
+        "field_low_gamma: log band power (30-50 Hz) omission vs intact in [0,531] ms, per area, per position (proxy_readout, area_local, physical_amplitude_calibrated=False)",
+        "field_broadband: 5 bands x 4 areas x 3 positions (secondary, FDR BH)"
+      ],
+      "t_e0": "Y_omission(0) = pre-exposure probe; DeltaY(0) = 0 by construction"
+    },
+    "probe_ages": {
+      "table": [
+        {
+          "label": "t_e0",
+          "t_e_s": 0.0,
+          "exposure_trial": 0,
+          "phase": "pre",
+          "battery": "12 conditions x 8 reps = 96 trials"
+        },
+        {
+          "label": "t_e1",
+          "t_e_s": 50.864,
+          "exposure_trial": 11,
+          "phase": "probe_t1",
+          "battery": "12 conditions x 8 reps = 96 trials"
+        },
+        {
+          "label": "t_e2",
+          "t_e_s": 203.456,
+          "exposure_trial": 44,
+          "phase": "probe_t2",
+          "battery": "12 conditions x 8 reps = 96 trials"
+        },
+        {
+          "label": "t_e3",
+          "t_e_s": 601.12,
+          "exposure_trial": 130,
+          "phase": "probe_t3",
+          "battery": "12 conditions x 8 reps = 96 trials"
+        },
+        {
+          "label": "t_e4",
+          "t_e_s": 1202.24,
+          "exposure_trial": 260,
+          "phase": "post",
+          "battery": "12 conditions x 8 reps = 96 trials"
+        }
+      ],
+      "derivation": "t_e = exposure_trial * 4624 ms / 1000; exposure_trial = ceil(t_e_s / 4.624) for t_e > 0",
+      "probe_insertion": "probe batteries interleave the exposure (which remains 260 trials alternating AAAB/BBBA, identical order for all cells and seeds); probes run with enable_hdp=True and their trials advance simulated age"
+    },
+    "schedule": {
+      "total_trials": 740,
+      "total_wall_s": 3421.76,
+      "phases": "pre (96) + exposure (260) + probe_t1 (96) + probe_t2 (96) + probe_t3 (96) + post (96) + recovery (30 s)",
+      "checkpoints": "exposure checkpoints every 10 exposure trials (26 checkpoints), atomic-saved with Theta(t) and H(t) trajectory"
+    },
+    "position_rule": "primary per position p2/p3/p4; DO NOT pool p2/p3/p4 before the per-position test; pooled is secondary and flagged"
+  },
+  "recording_requirement": {
+    "fixes_v01_gap": "v0.1 saved field_proxy only for the first 5 trials of each phase and did not retain slot-resolved [0,531] ms rate/field for all cells (B and D NOT_RECORDED at the rate level; slot-resolved estimand NOT RECOVERABLE). v0.2 records slot-resolved post-phase field low-gamma and per-area rates for ALL cells.",
+    "required_per_cell_per_seed": {
+      "slot_rate": "per-trial slot-resolved [0,531] ms per-area (V1, V4, FEF, PFC) firing rates, aligned to each position's expected onset (p2/p3/p4), for every probe trial (intact and omission), for all 5 probes",
+      "slot_field_low_gamma": "per-trial [0,531] ms low-gamma (30-50 Hz) band power per area per contact (area_local proxy_readout, layout trial_A_C_T, 16 contacts), omission vs intact, for every probe trial, for all 5 probes",
+      "theta_h_trajectory": "Theta(t) and H(t) per exposure checkpoint (every 10 trials), per-neuron and per-area mean, for D_Theta",
+      "finite_state": "spikes, V_m, field.lfp_proxy finite; rates in [1,80] Hz; H in [0.1,10]; w in [0.01,10]; V_m mean in [-90,-50] per STABILITY_CRITERIA"
+    },
+    "atomic_persistence": "each phase (pre, probe_t1, probe_t2, probe_t3, exposure, post, recovery) persisted via jomission.simulation.atomic_save: temp file -> fsync -> sha256 -> atomic os.replace -> manifest receipt, durable before the next phase",
+    "artifact_layout": "results/rf_rate_factorial_v0p2/{cell}/seed_{seed}/recording/* and phase snapshots per atomic_save"
+  },
+  "seeds": {
+    "n_min": 4,
+    "values": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "paired": true,
+    "rule": "identical seed set across all four cells; within-replicate pairing by seed (same condition order, same RNG, same trial battery); n < 4 or mismatched seed sets across cells -> INCOMPLETE"
+  },
+  "statistics": {
+    "model": "Y(t_e) ~ RF + Rate + RF:Rate (2-way ANOVA, balanced, orthogonal effect coding), run per t_e, per position, per phenotype; one Y per cell per seed",
+    "type": "III (marginal means; for balanced same as II)",
+    "contrasts": {
+      "RF_main": "(C + D)/2 - (A + B)/2",
+      "Rate_main": "(B + D)/2 - (A + C)/2",
+      "Interaction": "(D - C) - (B - A)",
+      "simple_Rate_given_RFon": "D - C",
+      "simple_Rate_given_RFoff": "B - A"
+    },
+    "alpha": 0.05,
+    "effect_size": "Cohen d (contrast / SD_pooled), partial eta2",
+    "ci": "95% t-based",
+    "diagnostics": [
+      "Shapiro-Wilk on residuals",
+      "Levene across cells",
+      "QQ"
+    ],
+    "fallback": "permutation F (10k) if diagnostics fail, still alpha 0.05",
+    "trajectory_interpretation": {
+      "POSITIVE_timescale": "Rate main on DeltaY(t_e) significant (p < .05, |d| > 0.2, |delta| above phenotype threshold) at some t_e >= 200 s AND |Rate effect| non-decreasing across t_e with maximum at t_e3 or t_e4 (LONG still evolving) AND D_Theta(t_e) deviates from 0 consistent with a LONG lag",
+      "NEGATIVE_timescale": "no Rate effect at any t_e (all p NS, |delta| below phenotype threshold at all t_e)",
+      "UNRESOLVED": "otherwise (underpowered or mixed signs); missing execution/data is UNRESOLVED, never NEGATIVE",
+      "RF_interpretation_table": {
+        "RFonly": "RF p<.05, Rate NS, inter NS at t_e4 => RF drives Y, timescale irrelevant",
+        "Rateonly": "Rate p<.05 at t_e>=200 with growing trajectory, RF NS => timescale drives Y, RF irrelevant",
+        "additive": "both mains p<.05, inter NS => independent additive",
+        "interaction": "inter p<.05 => non-additive; examine simple effects Rate|RFon vs Rate|RFoff"
+      }
+    },
+    "phenotype_thresholds": {
+      "rate_hz": 0.5,
+      "log_ratio": 0.1,
+      "cohen_d": 0.2,
+      "h_delta": 0.01
+    },
+    "multiplicity": {
+      "primary": "no correction across primary phenotype families (each separate claim)",
+      "exploratory_broadband_grid": "FDR BH across 5 bands x 4 areas x 3 positions per position, secondary"
+    }
+  },
+  "completion_predicate": {
+    "rule": "COMPLETE iff all P1-P6 hold; NEGATIVE results (all p NS) are still COMPLETE if the predicate holds - failures are evidence about the model, not design flaws.",
+    "P1_atomic_save_5flag": {
+      "gates": [
+        "simulation_terminal",
+        "observations_persisted",
+        "artifacts_readable",
+        "hashes_verified",
+        "manifest_committed"
+      ],
+      "all": true,
+      "source": "jomission.simulation.atomic_save.completion_predicate",
+      "phases": [
+        "pre",
+        "probe_t1",
+        "probe_t2",
+        "probe_t3",
+        "exposure",
+        "post",
+        "recovery"
+      ]
+    },
+    "P2_seeds": {
+      "n_seeds_per_cell": 4,
+      "seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "identical_across_cells": true,
+      "paired_by_replicate": true
+    },
+    "P3_energy_matched": {
+      "requirement": "for RFon cells C and D, pre-run energy_verified receipt exists with per-slot intact ratios in [0.99, 1.01] and omission zeros, for all 12 conditions",
+      "rfoff_cells": "A and B use the unchanged uniform reference (no receipt required)"
+    },
+    "P4_slot_resolved_observables": {
+      "per_cell_all_seeds": "slot-resolved [0,531] ms per-area rates and low-gamma field present for pre, probe_t1, probe_t2, probe_t3, post, per position p2/p3/p4, omission and intact",
+      "theta_h_trajectory_present": true,
+      "post_phase_field_present_for_all_cells": true
+    },
+    "P5_identity_hashes": {
+      "config_hash": {
+        "A_RFoff_RateStd": "4f9fdeae7428199a",
+        "B_RFoff_RateSlow": "4f9fdeae7428199a",
+        "C_RFon_RateStd": "e5e331a140ebd37e",
+        "D_RFon_RateSlow": "e5e331a140ebd37e"
+      },
+      "hp_hash": {
+        "A_RFoff_RateStd": "bb8277e7a8e0bca2",
+        "B_RFoff_RateSlow": "f72a489841810a4b",
+        "C_RFon_RateStd": "f327f9d2ad64cc88",
+        "D_RFon_RateSlow": "b326f7201c59b803"
+      },
+      "runtime_assert": "executor asserts the (factor, hp_hash, config_hash) tuple for its cell before running; a mismatch aborts the run"
+    },
+    "P6_schedule": {
+      "dt_ms": 0.1,
+      "exposure_trials": 260,
+      "probe_battery_trials": 96,
+      "n_probes": 5,
+      "n_exposure_checkpoints": 26
+    }
+  },
+  "not_tuned_to_results": true,
+  "provenance": {
+    "audit_sources": [
+      "docs/RF_RATE_FACTORIAL_DESIGN.md (v0.1)",
+      "docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md",
+      "docs/L1_PROVENANCE.md",
+      "manifests/rf_rate_factorial_design.json",
+      "manifests/rf_rate_factorial_adversarial_review.json",
+      "manifests/rf_rate_factorial_estimator_ratelevel.json",
+      "manifests/four_cell_lifecycle_seal.json"
+    ],
+    "cell_definitions": "jomission/ablations/rf_rate_factorial.py (CELL_ORDER, CELL_HP_HASHES, hp_for_cell)",
+    "rf_operator": "jomission/network/rf.py (RFConfig, RFOperator.to_stimulus_schedule, graded tier, V1 L4 E/PV target)",
+    "paradigm": "jomission/paradigm/spec.py (JOMISSION_PARADIGM, SLOT_ONSET_MS, SLOT_DURATION_MS, condition_to_stimulus_schedule)",
+    "schedule": "jomission/simulation/schedule.py (canonical_schedule)",
+    "recording": "jomission/recording/area_local.py (field_by_area_array, trial_A_C_T), jomission/recording/observables.py (REQUIRED_OBSERVABLES)",
+    "atomic_save": "jomission/simulation/atomic_save.py (5-flag completion predicate)",
+    "engine": "jaxfne 0.4.17 (StimulusSchedule.to_array per-event target_indices verified live)",
+    "verifications_at_freeze": [
+      "A hp dict computed live -> hash bb8277e7a8e0bca2 (K_HDP=0.0, tau_0_ms=5.0, K_w_ctrl=0.001, K_ctrl=0.15, alpha=0.05, gamma=0.5)",
+      "B/C/D hp hashes computed live -> f72a489841810a4b / f327f9d2ad64cc88 / b326f7201c59b803",
+      "RFoff config_hash 4f9fdeae7428199a and RFon config_hash e5e331a140ebd37e computed live",
+      "v0.1 energy imbalance measured live: RFoff AAAB 42,480,000 vs RFon graded 230,180.8, ratio 184.55",
+      "per-slot L1 energy with frozen A_on(s): AAAB p1/p2/p3 ratio 1.000000, p4 (stimulus B with A_on(B)) ratio 1.000000; AXAB p2 omission energy 0.0",
+      "StimulusSchedule.to_array source inspected: per-event target_indices + distinct amplitude supported (additive), no engine modification needed"
+    ]
+  },
+  "artifact_backing": {
+    "manifest_path": "manifests/factorial_v0p2_design.json",
+    "results_dir": "results/rf_rate_factorial_v0p2/",
+    "design_doc": "docs/FACTORIAL_V0P2_DESIGN.md"
+  },
+  "manifest_sha256_16": "378492a24c8b331d",
+  "manifest_hash_method": "sha256(json.dumps(design_body, sort_keys=True).encode()).hexdigest()[:16], where design_body excludes manifest_sha256_16 and manifest_hash_method"
+}

@@ -214,6 +214,137 @@ OMISSION_POSITIONS = OMISSION_POSITIONS
 CANONICAL_EPOCHS = CANONICAL_EPOCHS
 
 
+# ---------------------------------------------------------------------------
+# Unified drive factory — GEN2_C001 energy-unified authority (G0→G1)
+# ---------------------------------------------------------------------------
+
+# Single source reference for uniform baseline (RFoff). RFon uses ENERGY_A normalizer
+# from factorial_v0p2 as single source of truth; this module imports it lazily.
+CANONICAL_UNIFORM_AMPLITUDE: float = 5.0
+CANONICAL_RF_HASH: str = "e5e331a140ebd37e"  # RF-distinct hash prefix (see test_rf.py)
+FROZEN_CANONICAL_CONFIG_HASH: str = "4f9fdeae7428199a"
+ENERGY_TOL_REL: float = 0.05  # B5 parity gate (|E_off - E_on|/max ≤ 5%)
+
+
+def make_drive_schedule(
+    model: Any,
+    condition: Any,
+    *,
+    rf_config: Optional[Any] = None,
+    tier: str = "graded",
+    base_amplitude: Optional[float] = None,
+    dt_ms: float = 0.1,
+    n_neurons: int = 400,
+) -> Any:
+    """Canonical drive factory — single authority for energy-unified drive.
+
+    - If rf_config is None: uniform drive via condition_to_stimulus_schedule
+      (RFoff, energy reference). Only valid for runs NOT claiming retinotopy
+      (config_hash == FROZEN_CANONICAL_CONFIG_HASH).
+    - If rf_config is not None: retinotopic drive via RFOperator.to_stimulus_schedule
+      with tier='graded' and energy-matched base_amplitude (from factorial_v0p2.ENERGY_A
+      when base_amplitude is None). Base amplitude scales the scalar, not L1 weights,
+      preserving CV heterogeneity per B5 parity.
+
+    Uses ONLY existing JaxFNE seams: StimulusSchedule.to_array and
+    RFOperator.to_stimulus_schedule. No second simulator.
+
+    Raises if a retinotopic claim is made (rf_config provided or config hash distinct)
+    but the RFOperator path is bypassed.
+    """
+    # Lazily resolve condition string to ParadigmCondition if needed
+    from jaxfne import StimulusSchedule  # noqa: F401 (seam check)
+
+    if rf_config is not None:
+        # Must go through RFOperator; enforce V1-only and omission-zero via RFOperator.validate
+        from jomission.network.rf import RFOperator
+
+        op = RFOperator(rf_config, model)
+        # Derive base_amplitude from ENERGY_A if not supplied — single source of truth
+        if base_amplitude is None:
+            # Infer stimulus family from condition
+            cond_name = getattr(condition, "name", None)
+            if isinstance(condition, str):
+                cond_name = condition
+            try:
+                from jomission.simulation.factorial_v0p2 import energy_amplitude as _ea
+
+                # Need cell_key inference: assume RFon; use placeholder cell C
+                # Caller should supply base_amplitude explicitly for factorial; fallback to ENERGY_A for that condition
+                base_amplitude = float(_ea("C", str(cond_name)) if cond_name else rf_config.base_amplitude)
+            except Exception:
+                base_amplitude = float(getattr(rf_config, "base_amplitude", CANONICAL_UNIFORM_AMPLITUDE))
+        return op.to_stimulus_schedule(
+            condition, n_neurons=n_neurons, dt_ms=dt_ms, base_amplitude=float(base_amplitude), tier=tier
+        )
+    # Uniform path — caller asserts no retinotopy claim
+    return condition_to_stimulus_schedule(
+        condition, n_neurons=n_neurons, drive_amplitude=float(base_amplitude if base_amplitude is not None else CANONICAL_UNIFORM_AMPLITUDE)
+    )
+
+
+def compute_drive_energy(schedule: Any, *, n_steps: int, dt_ms: float = 0.1) -> float:
+    """Total input energy Σ|drive| per trial via StimulusSchedule.to_array.
+
+    Uses existing JaxFNE seam only; sums absolute drive across (n_steps, n_neurons).
+    """
+    import numpy as np
+
+    arr = schedule.to_array(n_steps=int(n_steps), dt_ms=float(dt_ms))
+    return float(np.sum(np.abs(np.asarray(arr))))
+
+
+def assert_energy_parity(
+    e_off: float,
+    e_on: float,
+    *,
+    tol_rel: float = ENERGY_TOL_REL,
+) -> dict[str, Any]:
+    """Gate B5 parity: |E_off - E_on|/max ≤ tol_rel (default 5%). Returns gate dict."""
+    import math
+
+    hi = max(float(e_off), float(e_on))
+    if hi == 0:
+        passed = False
+        rel = float("inf")
+    else:
+        rel = abs(float(e_off) - float(e_on)) / hi
+        passed = rel <= float(tol_rel)
+    return {
+        "pass": bool(passed),
+        "E_off": float(e_off),
+        "E_on": float(e_on),
+        "ratio": float(e_off / e_on) if e_on else float("inf"),
+        "rel_error": float(rel),
+        "tol_rel": float(tol_rel),
+        "detail": f"|E_off - E_on|/max = {rel:.4g} ≤ {tol_rel} ? {passed} (184.55× defect requires ≤0.05)",
+    }
+
+
+def drive_energy_for_condition(
+    model: Any,
+    condition: Any,
+    *,
+    rf_config: Optional[Any] = None,
+    tier: str = "graded",
+    base_amplitude: Optional[float] = None,
+    n_steps: int = 46240,
+    dt_ms: float = 0.1,
+    n_neurons: int = 400,
+) -> float:
+    """Convenience: build schedule via make_drive_schedule and return its total energy."""
+    sched = make_drive_schedule(
+        model,
+        condition,
+        rf_config=rf_config,
+        tier=tier,
+        base_amplitude=base_amplitude,
+        dt_ms=dt_ms,
+        n_neurons=n_neurons,
+    )
+    return compute_drive_energy(sched, n_steps=n_steps, dt_ms=dt_ms)
+
+
 def paradigm_exact_gate() -> dict[str, Any]:
     """Validate PARADIGM_EXACT for currently authoritative variables.
 

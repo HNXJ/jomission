@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gen2_ledger.schema.json",
+  "title": "Gen-2 Modification/Causal Ledger Record",
+  "description": "One append-only record per Ledger edge G0->G1. Spec: scratch/gen2_qualification_skeleton_A.md §5.2 + scratch/gen2_qualification_skeleton_A.json modification_causal_ledger + scratch/gen2_parent_integration_v0.1.md §7. File: manifests/gen2_modification_ledger.jsonl (JSONL, comment lines starting with # are header). Invariants: append-only, write-once, evidence_state SPECIFIED->IMPLEMENTED->TESTED->OBSERVED, reason_before_results precedes observed.",
+  "version": "BIOPHYSICAL_QUALIFICATION_v0.1",
+  "type": "object",
+  "required": [
+    "change_id",
+    "parent_model",
+    "parameter_path",
+    "pathway",
+    "old_value",
+    "new_value",
+    "delta",
+    "reason_before_results",
+    "provenance",
+    "qualification_target",
+    "predicted_generic_effect",
+    "observed_generic_effect",
+    "tests_passed",
+    "tests_failed",
+    "resulting_model",
+    "evidence_state",
+    "timestamp",
+    "author",
+    "gate"
+  ],
+  "properties": {
+    "change_id": {
+      "type": "string",
+      "pattern": "^GEN2_C[0-9]{3,}$",
+      "description": "Unique Ledger edge ID, e.g. GEN2_C000 scaffold, GEN2_C001 etc. Write-once."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["ledger_entry", "b12_extension"],
+      "description": "Optional discriminator; absent means ledger_entry. b12_extension records are companion records after B12."
+    },
+    "parent_model": {
+      "type": "object",
+      "required": ["config_hash", "hp_hash"],
+      "properties": {
+        "config_hash": {"type": "string", "pattern": "^[0-9a-f]{16}$", "description": "Gen-1 or prior Gen-2 config_hash (immutable reference 4f9fdeae7428199a for C000)"},
+        "hp_hash": {"type": "string", "pattern": "^[0-9a-f]{8,16}$", "description": "HDP hp_hash (full f327f9d2ad64cc88 or prefix f327f9d2 at C000)"},
+        "rf_hash": {"type": ["string", "null"], "description": "RFConfig.hash() if RF present, else null"},
+        "dt_ms": {"type": "number", "description": "Integrator step, frozen 0.1 ms"},
+        "numerical_config_hash": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "parameter_path": {
+      "type": "string",
+      "description": "Dotted path to changed parameter, e.g. network.builder.within_gain or 'scaffold' for C000"
+    },
+    "pathway": {
+      "type": "string",
+      "description": "Mechanistic pathway, e.g. H->b_eff, E/I, RF retinotopy, ledger.init"
+    },
+    "old_value": {
+      "description": "Value before change (same hash/value for scaffold C000)"
+    },
+    "new_value": {
+      "description": "Value after change"
+    },
+    "delta": {
+      "type": "object",
+      "properties": {
+        "factor": {"type": ["number", "null"], "description": "Multiplicative factor if applicable"},
+        "absolute": {"description": "Absolute delta"},
+        "description": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "reason_before_results": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Why change was proposed BEFORE results observed (temporal invariant; violation = B11 FAIL)"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": ["LITERATURE_PRIOR", "MODEL_ASSUMPTION", "DERIVED", "ENGINE_DEFAULT", "EMPIRICAL_FIT"]
+    },
+    "qualification_target": {
+      "type": "string",
+      "description": "Which Bk gap this change targets, e.g. B0 provenance audit or scaffold"
+    },
+    "predicted_generic_effect": {
+      "description": "Predicted generic biophysical effect (string or dict) — never T1-T7"
+    },
+    "observed_generic_effect": {
+      "description": "Measured generic effect after test (string/dict or null before TESTED)"
+    },
+    "unexpected_effects": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "tests_passed": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "tests_failed": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "resulting_model": {
+      "type": "object",
+      "required": ["config_hash", "hp_hash"],
+      "properties": {
+        "config_hash": {"type": "string"},
+        "hp_hash": {"type": "string"},
+        "rf_hash": {"type": ["string", "null"]},
+        "dt_ms": {"type": "number"},
+        "numerical_config_hash": {"type": ["string", "null"]},
+        "artifact": {"type": ["string", "null"], "description": "Evidence artifact path"}
+      },
+      "additionalProperties": true
+    },
+    "evidence_state": {
+      "type": "string",
+      "enum": ["SPECIFIED", "IMPLEMENTED", "TESTED", "OBSERVED"]
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO8601 UTC, e.g. 2026-08-27T00:00:00Z"
+    },
+    "author": {
+      "type": "string"
+    },
+    "gate": {
+      "type": "string",
+      "pattern": "^B([0-9]|1[0-2])$",
+      "description": "Gate this change is sealed under"
+    },
+    "b12_extension": {
+      "type": "object",
+      "description": "Post-B12 extension appended without mutating pre-B12 line (via extend_ledger_after_B12). Only after B11 freeze.",
+      "properties": {
+        "T1_T7_delta": {"type": "object", "description": "Per-T delta Gen-1->Gen-2"},
+        "Q1_Q15_delta": {"type": "object"},
+        "polarity_transitions": {"type": "array", "items": {"type": "string"}, "description": "e.g. T4 NEGATIVE->POSITIVE"},
+        "unchanged": {"type": "array", "items": {"type": "string"}},
+        "attribution": {"type": "string"},
+        "impossible_remains": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gen2_Bk_seal.schema.json",
+  "title": "Gen-2 Gate Seal (generic per-k, B0..B12)",
+  "description": "Generic seal template for any Bk. One file per gate: manifests/gen2_B{k}_seal.json. Spec: scratch/gen2_qualification_skeleton_A.md §4 + §3 DAG (seal_predicate per gate). Evidence grammar: SPECIFIED->IMPLEMENTED->TESTED->OBSERVED (frozen artifacts are write-once).",
+  "version": "BIOPHYSICAL_QUALIFICATION_v0.1",
+  "type": "object",
+  "required": ["gate", "seal", "status", "parent_model", "evidence_state", "timestamp"],
+  "properties": {
+    "gate": {
+      "type": "string",
+      "pattern": "^B([0-9]|1[0-2])$",
+      "description": "Gate id"
+    },
+    "seal": {
+      "type": "string",
+      "pattern": "^B([0-9]|1[0-2])_(PASS|FAIL|UNRESOLVED|SEALED)$",
+      "description": "Seal label, e.g. B0_PASS, B12_SEALED"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNRESOLVED", "SEALED"],
+      "description": "Polarity orthogonal to evidence_state"
+    },
+    "claim_level": {
+      "type": "string",
+      "enum": ["POSITIVE", "NEGATIVE", "UNRESOLVED"],
+      "description": "Optional claim polarity per evidence grammar"
+    },
+    "parent_model": {
+      "type": "object",
+      "required": ["config_hash", "hp_hash"],
+      "properties": {
+        "config_hash": {"type": "string"},
+        "hp_hash": {"type": "string"},
+        "rf_hash": {"type": ["string", "null"]},
+        "dt_ms": {"type": "number"}
+      }
+    },
+    "resulting_model": {
+      "type": "object",
+      "properties": {
+        "config_hash": {"type": "string"},
+        "hp_hash": {"type": "string"}
+      }
+    },
+    "evidence_state": {
+      "type": "string",
+      "enum": ["SPECIFIED", "IMPLEMENTED", "TESTED", "OBSERVED"]
+    },
+    "timestamp": {"type": "string", "description": "ISO8601 UTC"},
+    "author": {"type": "string"},
+    "ledger_change_id": {
+      "type": "string",
+      "pattern": "^GEN2_C[0-9]{3,}$",
+      "description": "Ledger entry that enabled this seal (if any)"
+    },
+    "ledger_sha256_16": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$",
+      "description": "Hash chain over manifests/gen2_modification_ledger.jsonl at seal time (tamper evidence)"
+    },
+    "seal_predicate": {
+      "type": "string",
+      "description": "SPECIFIED predicate evaluated, e.g. B0_PASS iff provenance_coverage==1.0 ..."
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Gate-specific measured observables (e.g. B1 global mu, B2 CV_rate, B3 Efrac, etc.)"
+    },
+    "issues": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Empty if PASS; lists failing predicates"
+    },
+    "limitation": {
+      "type": "string",
+      "description": "UNRESOLVED limitation note, e.g. H_conceptual vs H_implemented mismatch — see M-06"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Result artifact paths, e.g. results/gen2/B0_provenance_audit.json"
+    },
+    "h_terminology": {
+      "type": "object",
+      "description": "B0 only: output of check_h_terminology()",
+      "properties": {
+        "mismatch": {"type": "boolean"},
+        "limitation": {"type": "string"},
+        "has_conceptual_vs_implemented_qualifier": {"type": "boolean"}
+      }
+    }
+  },
+  "additionalProperties": true
+}

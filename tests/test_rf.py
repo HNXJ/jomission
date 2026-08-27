@@ -29,7 +29,9 @@ from jomission.network.rf import (
 )
 from jomission.paradigm.spec import JOMISSION_PARADIGM
 
-FROZEN_CANONICAL_HASH = "4f9fdeae7428199a"
+# GEN2 cumulative hash after W2.3 (explicit hierarchy FF L2/3→L4 8ms / FB L6→L1/L5 12ms + delays)
+# Gen-1 frozen was 4f9fdeae7428199a; W1.1-1.3 cumulative 57b9f98c3f8bacb8; W2.1 motif 4a8908e7064c32bf; W2.2 Poisson opt-in hash dad7290b21e447dc (with Poisson 1kHz), baseline (no Poisson) 822949392c225622
+FROZEN_CANONICAL_HASH = "822949392c225622"
 
 
 def test_rf_config_geometry():

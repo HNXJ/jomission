@@ -686,3 +686,231 @@ def assert_factor_isolation(
         details = "\n".join(f"  - {name}: {checks[name]['detail']}" for name in issues)
         raise AssertionError(f"factor-isolation FAILED ({pair.intervention}, {pair.a}→{pair.b}):\n{details}")
     return report
+
+
+# ---------------------------------------------------------------------------
+# GEN2_C001 — schedule-to-energy bridge and direct parity gate (G0→G1)
+# ---------------------------------------------------------------------------
+
+def compute_energy_from_schedule(schedule: Any, *, n_steps: int = 46240, dt_ms: float = 0.1) -> float:
+    """Total input energy Σ|drive| via StimulusSchedule.to_array (existing JaxFNE seam)."""
+    import numpy as np
+
+    arr = schedule.to_array(n_steps=int(n_steps), dt_ms=float(dt_ms))
+    return float(np.sum(np.abs(np.asarray(arr))))
+
+
+def assert_energy_parity_from_schedules(
+    sched_off: Any,
+    sched_on: Any,
+    *,
+    n_steps: int = 46240,
+    dt_ms: float = 0.1,
+    tol_rel: float = ENERGY_TOL_REL,
+    strict: bool = False,
+) -> dict[str, Any]:
+    """Direct B5 parity gate on two StimulusSchedules (E_off vs E_on)."""
+    e_off = compute_energy_from_schedule(sched_off, n_steps=n_steps, dt_ms=dt_ms)
+    e_on = compute_energy_from_schedule(sched_on, n_steps=n_steps, dt_ms=dt_ms)
+    hi = max(e_off, e_on)
+    rel = abs(e_off - e_on) / hi if hi else float("inf")
+    passed = bool(hi > 0 and rel <= tol_rel)
+    gate = {
+        "pass": passed,
+        "E_off": float(e_off),
+        "E_on": float(e_on),
+        "ratio": float(e_off / e_on) if e_on else float("inf"),
+        "rel_error": float(rel),
+        "tol_rel": float(tol_rel),
+        "n_steps": int(n_steps),
+        "dt_ms": float(dt_ms),
+        "detail": f"|E_off - E_on|/max = {rel:.4g} ≤ {tol_rel} ? {passed} (need ≤{tol_rel} to clear 184.55× defect)",
+    }
+    if strict and not passed:
+        raise AssertionError(f"energy parity FAILED: E_off={e_off:.3g} E_on={e_on:.3g} rel={rel:.4g} > {tol_rel}")
+    return gate
+
+
+def realized_inputs_from_schedule(
+    cell: str,
+    schedule: Any,
+    model: Any,
+    rf_operator: Any | None,
+    *,
+    config_hash: str = "",
+    hp_hash: str = "",
+    hdp_params: dict | None = None,
+    n_steps: int = 46240,
+    dt_ms: float = 0.1,
+    condition_name: str = "AAAB",
+) -> RealizedInputs:
+    """Build RealizedInputs with measured energy from a StimulusSchedule.
+
+    Measures total_input_energy via to_array (Σ|drive|), per-slot energies,
+    omission slot energy, drive mean/std — all from the realized drive array,
+    not from config nominal values. For RFoff→RFon parity, these RealizedInputs
+    can be passed directly to assert_factor_isolation.
+    """
+    import numpy as np
+
+    n_neurons = int(getattr(schedule, "n_neurons", 400))
+    arr = np.asarray(schedule.to_array(n_steps=int(n_steps), dt_ms=float(dt_ms)))
+    total = float(np.sum(np.abs(arr)))
+    # slot windows
+    per_slot: dict[str, float] = {}
+    for slot, onset in SLOT_ONSET_MS.items():
+        dur = SLOT_DURATION_MS.get(slot, 531.0)
+        s = int(round(float(onset) / dt_ms)) if onset >= 0 else 0
+        e = int(round((float(onset) + float(dur)) / dt_ms)) if onset >= 0 else 0
+        # Clamp fx which starts negative: fx maps to [0, 500) ms after paradigm shift? Use full trial 0..4624
+        # For energy we treat fx/d intervals as 0-based after trial start (-500→0)
+        # Simpler: handle via schedule events directly — sum events covering slot label
+        # Fallback: slice array if within bounds
+        if s < 0:
+            s = 0
+        e = max(s, min(e, n_steps))
+        if 0 <= s < n_steps and e > s:
+            per_slot[slot] = float(np.sum(np.abs(arr[s:e])))
+        else:
+            per_slot[slot] = 0.0
+    # Omission energy: if condition has omission, measure that slot; else 0
+    from jomission.paradigm.conditions import CANONICAL_CONDITIONS
+
+    omission = CANONICAL_CONDITIONS.get(condition_name, {}).get("omission")
+    omission_energy = float(per_slot.get(omission, 0.0)) if omission else 0.0
+    # Drive moments: time-averaged drive per unit
+    n = n_neurons * n_steps
+    drive_mean = float(total / n) if n else 0.0
+    # std across units of time-averaged drive
+    if arr.size:
+        time_mean_per_unit = np.mean(np.abs(arr), axis=0)  # (n_neurons,)
+        drive_std = float(np.std(time_mean_per_unit))
+    else:
+        drive_std = 0.0
+    # Active unit counts at 0.2*max per intact slot (measure max across target indices if rf_operator)
+    # For uniform RFoff, active = n_neurons; for RFon, derive from rf_operator
+    if rf_operator is not None:
+        target_indices = tuple(int(x) for x in getattr(rf_operator, "target_indices", []))
+        v1_indices = tuple(int(x) for x in getattr(rf_operator, "v1_indices", []))
+        tgt_area = str(getattr(rf_operator.config, "target_area", "V1"))
+        tgt_layers: tuple[str, ...] = tuple(getattr(rf_operator.config, "target_layers", ()))
+        tgt_types: tuple[str, ...] = tuple(getattr(rf_operator.config, "target_cell_types", ()))
+        # Estimate active units for this condition via drive_for_stimulus per intact stimulus
+        active_counts: dict[str, int] = {}
+        seq = CANONICAL_CONDITIONS.get(condition_name, {}).get("sequence", ())
+        for stim in set(seq):
+            if stim == "stimulus_omitted" or stim is None:
+                continue
+            try:
+                d = rf_operator.drive_for_stimulus(str(stim))
+                tgt = d[list(target_indices)] if target_indices else np.array([])
+                if tgt.size:
+                    max_d = float(np.max(tgt))
+                    thr = float(rf_operator.config.sparsity_threshold)
+                    active_counts[str(stim)] = int(np.sum(tgt > thr * max_d))
+            except Exception:
+                active_counts[str(stim)] = 0
+    else:
+        target_indices = tuple(range(n_neurons))
+        v1_indices = tuple(range(min(100, n_neurons)))
+        tgt_area = "all"
+        tgt_layers = ()
+        tgt_types = ()
+        active_counts = {str(s): int(n_neurons) for s in CANONICAL_CONDITIONS.get(condition_name, {}).get("sequence", ()) if s != "stimulus_omitted"}
+    # Stimulus identity per-presentation energy: measure isolated p1 energy if possible
+    stim_energy: dict[str, float] = {}
+    try:
+        seq = CANONICAL_CONDITIONS.get(condition_name, {}).get("sequence", ())
+        for label in ("p1", "p2", "p3", "p4"):
+            per_slot.get(label, 0.0)
+        # approximate A vs B per presentation as mean of their intact slots
+        if rf_operator is None:
+            # uniform: per intact slot equal share
+            intact_slots = [k for k in per_slot if k.startswith("p") and per_slot[k] > 0]
+            if intact_slots:
+                mean_slot = float(np.mean([per_slot[k] for k in intact_slots]))
+                stim_energy["A"] = mean_slot
+                stim_energy["B"] = mean_slot
+        else:
+            # use per-stimulus sums directly from drive_for_stimulus scaled to slot
+            # need to map per_slot to stimulus identity
+            slot_to_stim = {f"p{i+1}": seq[i] for i in range(len(seq))} if seq else {}
+            for stim_id in ("stimulus_A", "stimulus_B"):
+                slots = [k for k, v in slot_to_stim.items() if v == stim_id]
+                if slots:
+                    stim_energy[stim_id.split("_")[1]] = float(np.mean([per_slot.get(k, 0) for k in slots]))
+    except Exception:
+        pass
+    return RealizedInputs(
+        cell=str(cell),
+        total_input_energy=float(total),
+        target_indices=tuple(target_indices),
+        v1_indices=tuple(v1_indices),
+        target_area=str(tgt_area),
+        target_layers=tuple(tgt_layers),
+        target_cell_types=tuple(tgt_types),
+        per_slot_energy=dict(per_slot),
+        slot_onsets_ms=dict(SLOT_ONSET_MS),
+        slot_durations_ms=dict(SLOT_DURATION_MS),
+        omission_energy=float(omission_energy),
+        stimulus_identity_energy=dict(stim_energy),
+        active_unit_count=dict(active_counts),
+        drive_mean=float(drive_mean),
+        drive_std=float(drive_std),
+        n_neurons=int(n_neurons),
+        n_steps_per_trial=int(n_steps),
+        config_hash=str(config_hash),
+        hp_hash=str(hp_hash),
+        hdp_params=dict(hdp_params or {}),
+    )
+
+
+def assert_factor_isolation_via_schedules(
+    cell_pair: Tuple[str, str] | FactorPair,
+    model_off: Any,
+    sched_off: Any,
+    model_on: Any,
+    sched_on: Any,
+    *,
+    config_hash_off: str = "",
+    config_hash_on: str = "",
+    hp_hash_off: str = "",
+    hp_hash_on: str = "",
+    hdp_params_off: dict | None = None,
+    hdp_params_on: dict | None = None,
+    rf_operator_on: Any | None = None,
+    condition_name: str = "AAAB",
+    n_steps: int = 46240,
+    dt_ms: float = 0.1,
+    strict: bool = False,
+) -> dict[str, Any]:
+    """Convenience: build RealizedInputs from two schedules and call assert_factor_isolation.
+
+    This wires StimulusSchedule.to_array → RealizedInputs → assert_factor_isolation,
+    ensuring the energy gate is evaluated on realized drive, not nominal config.
+    Intended to be called on every run_cell / factorial path for any retinotopic claim.
+    """
+    pair = FactorPair.of(*cell_pair) if not isinstance(cell_pair, FactorPair) else cell_pair
+    off_cell, on_cell = (pair.a, pair.b) if pair.intervention == "rf" and pair.a[0] == "A" else (pair.a, pair.b)
+    # For rf, ensure off is RFoff, on is RFon regardless of order
+    if pair.intervention == "rf":
+        from jomission.ablations.rf_rate_factorial import CELL_FACTORS
+
+        if CELL_FACTORS[pair.a][0] == "on" and CELL_FACTORS[pair.b][0] == "off":
+            off_cell, on_cell = pair.b, pair.a
+            sched_off, sched_on = sched_on, sched_off
+            model_off, model_on = model_on, model_off
+            config_hash_off, config_hash_on = config_hash_on, config_hash_off
+            hp_hash_off, hp_hash_on = hp_hash_on, hp_hash_off
+            hdp_params_off, hdp_params_on = hdp_params_on, hdp_params_off
+    ri_off = realized_inputs_from_schedule(
+        off_cell, sched_off, model_off, None,
+        config_hash=config_hash_off, hp_hash=hp_hash_off, hdp_params=hdp_params_off or {},
+        n_steps=n_steps, dt_ms=dt_ms, condition_name=condition_name,
+    )
+    ri_on = realized_inputs_from_schedule(
+        on_cell, sched_on, model_on, rf_operator_on,
+        config_hash=config_hash_on, hp_hash=hp_hash_on, hdp_params=hdp_params_on or {},
+        n_steps=n_steps, dt_ms=dt_ms, condition_name=condition_name,
+    )
+    return assert_factor_isolation(pair, {off_cell: ri_off, on_cell: ri_on}, None, strict=strict)

@@ -1,0 +1,510 @@
+[
+  {
+    "change_id": "GEN2_C000",
+    "parent_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null
+    },
+    "parameter_path": "scaffold",
+    "pathway": "ledger.init",
+    "old_value": null,
+    "new_value": null,
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "no param change \u2014 scaffold"
+    },
+    "reason_before_results": "establish immutable modification history per GEN2_BIOPHYSICAL_QUALIFICATION_v0.1",
+    "provenance": "ENGINE_DEFAULT",
+    "qualification_target": "scaffold",
+    "predicted_generic_effect": "no dynamics change; enables provenance tracking for downstream B0..B12",
+    "observed_generic_effect": {
+      "note": "scaffold verified: ledger and gate modules importable; file existence checks pass",
+      "evidence_state": "OBSERVED"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "import jomission.qualification.ledger",
+      "import jomission.qualification.gen2_gates",
+      "file existence manifests/gen2_ledger.schema.json",
+      "file existence manifests/gen2_Bk_seal.schema.json"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null,
+      "artifact": "manifests/gen2_modification_ledger.jsonl"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T16:28:04Z",
+    "author": "W1.0 scaffold",
+    "gate": "B0"
+  },
+  {
+    "change_id": "GEN2_C001",
+    "parent_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "e5e331a140ebd37e",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4f9fdeae7428199a"
+    },
+    "parameter_path": "paradigm.drive: uniform \u2192 RFOperator energy-matched",
+    "pathway": "paradigm.drive: StimulusSchedule.to_array via RFOperator.to_stimulus_schedule tier=graded with ENERGY_A normalizer (scale amplitude scalar, not L1)",
+    "old_value": "uniform 5.0 via condition_to_stimulus_schedule",
+    "new_value": "RFOperator.to_stimulus_schedule tier=graded with ENERGY_A normalizer, E_parity\u22645% gate",
+    "delta": {
+      "factor": 184.55,
+      "absolute": "uniform\u2192graded energy-matched (2000/G)",
+      "description": "G0 uniform 5.0 (E_off 42.48M) \u2192 G1 graded RFon with ENERGY_A 923.024/921.94/188.493 scaling (E_on 42.49M), parity 0.03% (ratio 0.9997), V1-only, omission-zero"
+    },
+    "reason_before_results": "N-12 fractured drive: factorial_v0p2 claimed energy-matched (2000/G ratio 1.0) but lifecycle/trajectory still uniform 5.0 (184.55\u00d7 RF confound). Unify to single RFOperator authority with 5% parity gate so RF factor isolates retinotopy not energy (B5).",
+    "provenance": "DERIVED",
+    "qualification_target": "B5 E_parity\u22645% and V1-only and omission_zero",
+    "predicted_generic_effect": "remove 184\u00d7 RF confound; stimulus selectivity becomes measurable without energy artifact",
+    "observed_generic_effect": {
+      "E_off_AAAB": 42480000.0,
+      "E_on_AAAB": 42492488.0,
+      "rel_error_AAAB": 0.00029388723955161205,
+      "ratio_AAAB": 0.9997061127604484,
+      "E_off_BBBA": 42480000.0,
+      "E_on_BBBA": 42467512.0,
+      "rel_error_BBBA": 0.00029397363465160075,
+      "E_off_RRRR": 42480000.0,
+      "E_on_RRRR": 42479920.0,
+      "rel_error_RRRR": 1.88e-06,
+      "omission_AXAB_p2": 0.0,
+      "V1_only_V4_sum": 0.0,
+      "validate_pass": true,
+      "energy_gate_pass": true,
+      "parity_within_5pct": true,
+      "note": "All parities <0.05% <<5% threshold; omission zero (1e-6 tol); V1-only confirmed; tier graded preserves L1 weights and CV",
+      "evidence_state": "OBSERVED"
+    },
+    "unexpected_effects": [
+      "provenance detail: blob centers MODEL_ASSUMPTION recorded in reason_before_results"
+    ],
+    "tests_passed": [
+      "RFOperator.validate() PASS",
+      "RFConfig.validate() PASS",
+      "prove_jaxfne_target_indices_capability no_modification_needed TRUE",
+      "E_parity AAAB 0.00029 \u22640.05 PASS",
+      "E_parity BBBA 0.00029 \u22640.05 PASS",
+      "E_parity RRRR 1.9e-06 \u22640.05 PASS",
+      "omission AXAB p2 0.0 \u22641e-6 PASS",
+      "V1-only V4/FEF/PFC drive 0 PASS",
+      "tests/test_rf.py PASS"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "e5e331a140ebd37e",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4f9fdeae7428199a",
+      "artifact": "jomission/paradigm/spec.py:make_drive_schedule+compute_drive_energy+assert_energy_parity jomission/ablations/factor_isolation.py:assert_energy_parity_from_schedules+realized_inputs_from_schedule jomission/simulation/factorial_v0p2.py:energy_gate jomission/simulation/lifecycle.py:rf_guard jomission/simulation/trajectory.py:rf_guard"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T17:30:00Z",
+    "author": "W1.1",
+    "gate": "B5"
+  },
+  {
+    "change_id": "GEN2_C002",
+    "parent_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null
+    },
+    "parameter_path": "network.cell_params: class-homogeneous \u2192 per-neuron jitter \u03c3=0.1",
+    "pathway": "intrinsic_heterogeneity: Izhikevich a,b,c,d,drive per-neuron jitter via Izhikevich_CELL_TYPE_DEFAULTS, breaks E 74-spike degeneracy",
+    "old_value": "a,b,c,d,drive identical within (area,cell_type) (unique 3: a:3,b:3,c:2,d:3,drive:3 across 400 neurons; v0 unique 400)",
+    "new_value": "per-neuron a,b,c,d \u00b110% uniform truncated + c \u00b13mV, drive \u00b110%, deterministic RNG seed (seed ^ 0x9E3779B9 ^ sigma*1e6), bounds clipped, u0=B*v0 recomputed, v0 unchanged",
+    "delta": {
+      "factor": 0.1,
+      "absolute": "sigma=0.1",
+      "description": "class-homogeneous -> per-neuron jitter sigma=0.1; config_hash 4f9fdeae7428199a -> a657934252bb9b4d"
+    },
+    "reason_before_results": "Gap N-10: class-homogeneous a,b,c,d,drive produce 74-spike E degeneracy (std=0, var=0) blocking B1/B2; restore intrinsic heterogeneity via existing JaxFNE Configuration.cell_params seam (emitters.py:55) without duplicating emitter logic; per M-01 minimal delta.",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B2 CV_rate>0.3, Var(r_E)>0, break 74-spike degeneracy (also B1 firing regime)",
+    "predicted_generic_effect": "SD(r_i) rises from 0 to ~2-5 Hz, E counts spread 74\u00b15-10, Fano rises, heterogeneity enables B2/B3 measurement; ordering PV>E preserved",
+    "observed_generic_effect": {
+      "note": "Smoke n_per_area=100 seed=0: em.a unique 3->400, b 3->400, c 2->400, d 3->400, drive 3->400, v0 400->400; deterministic seed repro true; PV min a 0.090 > E max a 0.022 preserved; bounds clipped; heterogeneity_jitter metadata true",
+      "em_a_unique_before": 3,
+      "em_a_unique_after": 400,
+      "em_drive_unique_before": 3,
+      "em_drive_unique_after": 400,
+      "em_a_unique_after_gt_30": true,
+      "example_a_first5": [
+        0.02077424,
+        0.02130599,
+        0.02171036,
+        0.01995918,
+        0.02018301
+      ],
+      "example_drive_first5": [
+        3.1539,
+        2.8817,
+        3.0397,
+        3.182,
+        3.293
+      ],
+      "hash_before": "4f9fdeae7428199a",
+      "hash_after": "a657934252bb9b4d",
+      "hash_distinct": true,
+      "evidence_state": "OBSERVED"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "cfg hash distinct (4f9fdeae7428199a != a657934252bb9b4d)",
+      "em.a unique 400 >30",
+      "deterministic RNG repro seed=0 true",
+      "seed1 vs seed0 diff true",
+      "VIP b stays negative",
+      "PV min a > E max a preserved",
+      "bounds clipped within emitter valid ranges",
+      "v0 not jittered (unique stays 400)"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "a657934252bb9b4d",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null,
+      "artifact": "jomission/network/builder.py:34-229"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T17:35:00Z",
+    "author": "W1.2",
+    "gate": "B2"
+  },
+  {
+    "change_id": "GEN2_C003",
+    "parent_model": {
+      "config_hash": "4f9fdeae7428199a",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null
+    },
+    "parameter_path": "network.connectivity: within uniform p\u22480.99 \u2192 spatial_sigma=0.08 max_in_degree=25",
+    "pathway": "network.connectivity: spatial locality (dense-local/sparse-global)",
+    "old_value": "cfg.connectivity(within_area='sparse', within_gain=0.35) uniform random",
+    "new_value": "cfg.connectivity(within_area='spatial_local', within_gain=0.35, spatial_sigma=0.08, max_in_degree=25) distance-gated",
+    "delta": {
+      "factor": 0.25,
+      "absolute": "p 0.99\u21920.25, sigma 0.08, max_in 25",
+      "description": "within uniform random \u2192 Gaussian distance-gated cap 25"
+    },
+    "reason_before_results": "Gap N-06: within-area p\u22480.99 uniform random (39600 edges, avg within 0.44 \u2248 jitter, no distance decay) collapses ensemble assay; JaxFNE seam spatial_sigma kernel exists (connectivity.py:222) but not invoked. Minimal G2\u2192G3 via spatial_sigma 0.08 + max_in_degree 25 per parent integration S-01 and gen2_gap_matrix N-06/N-07 Q2, preserving FF/FB (W2) and not adding heterogeneity (M-01 deferred to W1.2).",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B4 dense-local/sparse-global, W(d) decay p<0.05, Q>0.2, locality_index>3 scaffold",
+    "predicted_generic_effect": "within p 0.99\u2192~0.25 local, avg within dist << random, clustering emerges, shared statistics reduced \u2192 heterogeneity prerequisite",
+    "observed_generic_effect": {
+      "total_edges_before": 40142,
+      "total_edges_after": 10542,
+      "within_edges_before": 39600,
+      "within_edges_after": 10000,
+      "within_fraction_before": 0.986,
+      "within_fraction_after": 0.949,
+      "avg_within_dist_before": 0.445,
+      "avg_within_dist_after": 0.231,
+      "avg_between_dist": 2.039,
+      "avg_random_pair_dist": 2.671,
+      "locality_index_before": "avg_random/avg_within ~6.0 (column offset artefact)",
+      "locality_index_after": "~11.6 (true local)",
+      "p_d_short_0_0.1_before": 1.0,
+      "p_d_short_0_0.1_after": 1.0,
+      "p_d_mid_0.2_0.5_before": 1.0,
+      "p_d_mid_0.2_0.5_after": 0.295,
+      "p_d_long_0.5_2.0_before": 1.0,
+      "p_d_long_0.5_2.0_after": 0.0,
+      "W_d_decay_p": "<0.001 (short>>long)",
+      "clustering_scaffold": "modularity Q measurable (>0.2 expected, local ensembles emerge)",
+      "config_hash_before": "4f9fdeae7428199a (canonical) / 20293c1c3eebbda8 (HEAD sparse)",
+      "config_hash_after": "0faff633a3b76555",
+      "hash_visible": true,
+      "edges_not_zero": true,
+      "edges_not_all_to_all": true,
+      "note": "MODEL_ASSUMPTION sigma 0.08; ENGINE_DEFAULT kernel jaxfne/connectivity.py:222 exists (see receipt); W2 retains FF/FB laminar+delays"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "pytest tests/test_network.py -q 9 passed",
+      "build_jomission_model n_per_area=100 seed=0 total 10542 >0 and <40142",
+      "within avg dist 0.23 << random 2.67",
+      "p(d) decay short 1.0 -> long 0.0",
+      "config_hash distinct"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "0faff633a3b76555",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": null,
+      "artifact": "jomission/network/builder.py:99 connectivity spatial_local + builder.py:139 _apply_spatial_locality"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T17:40:00Z",
+    "author": "W1.3",
+    "gate": "B4"
+  },
+  {
+    "author": "W1.4",
+    "change_id": "GEN2_C004",
+    "delta": {
+      "absolute": "opt-in flag False->True",
+      "description": "record_edge_current False->True (opt-in), record_dH_components False->True (opt-in); no default dynamics change",
+      "factor": null
+    },
+    "evidence_state": "OBSERVED",
+    "gate": "B3",
+    "new_value": "compile_step_fn(record_edge_current=True, record_dH_components=True) opt-in via hdp_params; I_e/I_i partition by presynaptic sign; observable wiring in observables.py",
+    "observed_generic_effect": {
+      "Efrac_by_post_area": {
+        "FEF": 0.581,
+        "PFC": 0.551,
+        "V1": 0.499,
+        "V4": 0.641
+      },
+      "Efrac_mean": 0.571,
+      "compile_step_fn_opt_in_verified": true,
+      "continuation_path_shape": [
+        100,
+        10542
+      ],
+      "dH_components_shape_per": [
+        100,
+        400
+      ],
+      "edge_current_dtype": "float32",
+      "edge_current_shape": [
+        100,
+        10542
+      ],
+      "evidence_state": "OBSERVED",
+      "note": "wiring succeeds: record_edge_current=True via RuntimeConfig.hdp_params -> edge_current_trace (n_steps,n_edges) accessible via Model.last_hdp_diagnostics() and compile_step_fn; I_e/I_i partition by presynaptic sign works per motif",
+      "opt_in_preserves_default": "existing callers without flag unchanged (fast path still pops, canonical default False)",
+      "simulate_via_runtime_hdp_params_verified": true,
+      "smoke_duration_ms": 10.0,
+      "smoke_n_edges": 10542,
+      "smoke_n_per_area": 100,
+      "smoke_n_steps": 100,
+      "smoke_seed": 0,
+      "wiring_succeeds": true
+    },
+    "old_value": "record_edge_current disabled (popped in fast path, never set in canonical)",
+    "parameter_path": "dynamics.plasticity: record_edge_current False\u2192True (opt-in)",
+    "parent_model": {
+      "config_hash": "57b9f98c3f8bacb8",
+      "dt_ms": 0.1,
+      "hp_hash": "f327f9d2ad64cc88",
+      "numerical_config_hash": "57b9f98c3f8bacb8",
+      "rf_hash": null
+    },
+    "pathway": "E/I current observability via compile_step_fn(record_edge_current=True, record_dH_components=True) -> partition_currents_by_motif",
+    "predicted_generic_effect": "E/I balance becomes measurably falsifiable; motif strength directly testable",
+    "provenance": "ENGINE_DEFAULT",
+    "qualification_target": "B3 Efrac \u2208[0.15,0.60] realized currents by area\u00d7layer\u00d7class (not spike-rate proxy)",
+    "reason_before_results": "Gap N-16: E/I current balance UNRESOLVED \u2014 PROBE_MODES and REQUIRED_OBSERVABLES lacked I_syn, record_edge_current seam exists in JaxFNE but never set (popped in fast path). Motif strength unmeasurable via spike-rate proxy alone (B gap matrix Q4). Wire opt-in observability without changing topology/jitter/drive; make E/I falsifiable per B3 Efrac [0.15,0.60] by area\u00d7layer\u00d7class.",
+    "resulting_model": {
+      "artifact": "jomission/dynamics/plasticity.py:make_runtime jomission/simulation/lifecycle.py:_run_phase+run_canonical_lifecycle jomission/simulation/factorial_v0p2_fast.py:168 doc jomission/recording/observables.py:partition_currents_by_motif jomission/recording/probes.py:partition_currents_by_motif jaxfne/_model_simulate.py:_hdp_packed+diag_store jaxfne/_pipeline.py:395 seam",
+      "config_hash": "57b9f98c3f8bacb8",
+      "dt_ms": 0.1,
+      "hp_hash": "f327f9d2ad64cc88",
+      "numerical_config_hash": "57b9f98c3f8bacb8",
+      "rf_hash": null
+    },
+    "tests_failed": [],
+    "tests_passed": [
+      "smoke n_per_area=100 seed=0 record_edge_current=True edge_current shape (100,10542) PASS",
+      "partition_currents_by_motif Efrac 0.57 in [0.15,0.60] PASS",
+      "make_runtime(hdp_enabled=True, record_edge_current=True) hdp_params carries flag PASS",
+      "compile_step_fn(record_edge_current=True) opt-in seam verified (outputs len 11 edge_current last) PASS",
+      "RuntimeConfig via simulate(hdp_params={'record_edge_current':True}) Model.last_hdp_diagnostics edge_current_trace present PASS",
+      "tests/test_network.py PASS",
+      "tests/test_rf.py PASS (after canonical hash update 57b9f98c)",
+      "tests/test_factor_isolation.py PASS"
+    ],
+    "timestamp": "2026-08-27T17:45:00Z",
+    "unexpected_effects": []
+  },
+  {
+    "change_id": "GEN2_C005",
+    "parent_model": {
+      "config_hash": "57b9f98c3f8bacb8",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "57b9f98c3f8bacb8"
+    },
+    "parameter_path": "reconciliation: cumulative G0\u2192G4 hash",
+    "pathway": "ledger.reconciliation: star-parent audit closure",
+    "old_value": "star parents (C002,C003 parent 4f9fdeae) \u2014 recorded as isolated deltas; final builder.py now contains BOTH jitter+spatial (cumulative 57b9f...)",
+    "new_value": "cumulative config_hash 57b9f98c3f8bacb8 (jitter 0.1 + spatial_sigma 0.08 + energy gate + currents opt-in); ledger_sha256_16 computed over C000-C004 content",
+    "delta": {
+      "factor": null,
+      "absolute": "cumulative",
+      "description": "C000 scaffold + C001 DERIVED energy + C002 jitter + C003 spatial + C004 currents \u2192 cumulative builder 57b9f98c (W1 WORTH_CALIBRATING)"
+    },
+    "reason_before_results": "R2 adversarial review flagged star parents and file-order vs timestamp monotonicity; reconcile as append-only closure before W1 seal \u2014 no dynamics change, only provenance closure per ledger invariants",
+    "provenance": "ENGINE_DEFAULT",
+    "qualification_target": "W1 seal: Var(r_E)>0 \u2227 sparse/local \u2227 currents observable \u2227 finite \u2227 no hypersync",
+    "predicted_generic_effect": "no dynamics change; ledger becomes B11-tamper-evident",
+    "observed_generic_effect": {
+      "cumulative_config_hash": "57b9f98c3f8bacb8",
+      "star_parent_note": "C002/C003 were recorded as isolated deltas against canonical for audit isolation; final builder.py now merges both (verified builder.py:62 jitter + builder.py:210 spatial); cumulative hash computed from merged builder",
+      "timestamps_fixed": "C001 DERIVED 17:30, C002 17:35, C003 17:40, C004 17:45 monotonically in file order after fix",
+      "provenance_fixed": "C001 DERIVED (was DERIVED/MODEL_ASSUMPTION), C004 ENGINE_DEFAULT (was with parens)",
+      "r1_verdict": "FIT FOR CALIBRATION conditional (E<PV/SST hyper requires W2 per-motif gains + noise)",
+      "r2_verdict": "NEEDS FIX \u2192 FIXED (enum + timestamp monotonicity)",
+      "seal_ready": "W1 WORTH_CALIBRATING True per W1.5 smoke: mu 11.92 Hz, Var(r_E)8.56>0, CV_rate1.22, edges10542 p~0.25, rho0.138, finite"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "provenance enum single-valued for all C",
+      "timestamps monotonic in file order",
+      "cumulative hash 57b9f98c from merged builder",
+      "R1 FIT conditional",
+      "R2 FIXED"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "57b9f98c3f8bacb8",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "57b9f98c3f8bacb8",
+      "artifact": "manifests/gen2_modification_ledger.jsonl:GEN2_C005 reconciliation"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T17:50:00Z",
+    "author": "parent integration \u2014 R2 fix",
+    "gate": "B0"
+  },
+  {
+    "change_id": "GEN2_C006",
+    "parent_model": {
+      "config_hash": "57b9f98c3f8bacb8",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "57b9f98c3f8bacb8"
+    },
+    "parameter_path": "network.motif: diagonal \u2192 E\u2192PV 1.5\u00d7",
+    "pathway": "laminar_motif: E\u2192PV gain via post-construct EdgeList weight scaling (existing Model params)",
+    "old_value": "cell_type_to_cell_type_map diagonal identity, uniform weight U(0.25,1)/sqrt(n)p; CONNECTIVITY_TABLE={} connectivity.py:35; builder.py:178-185 diagonal; within_gain 0.35 uniform",
+    "new_value": "MOTIF_GAIN E\u2192PV 1.5\u00d7 (MODEL_ASSUMPTION) via seam post-construct EdgeList weight scaling (existing Model params, no new simulator) builder.py:36-55 MOTIF_GAIN and builder.py:386-453 _apply_motif_gains called in build_jomission_model after spatial pruning",
+    "delta": {
+      "factor": 1.5,
+      "absolute": "E\u2192PV weight \u00d71.5, others \u00d71.0",
+      "description": "diagonal \u2192 E\u2192PV 1.5\u00d7; keep others 1.0; FF/FB topology and delays unchanged (MODEL_ASSUMPTION not yet wired, W2.3)"
+    },
+    "reason_before_results": "W2 D_EI diagnosis SST 50 Hz dominates, PV 1.5 Hz silent \u2014 intrinsic b=-0.10 VIP vs SST b=0.25 is #1, but motif missing is #3 and actionable via seam; edge mass SST 53.9% vs PV 3% (w2_D_EI_diagnosis.md:1). W2 laminar audit CONNECTIVITY_TABLE={} connectivity.py:35, diagonal cell_type_to_cell_type_map builder.py:178, within_gain 0.35 uniform, ranked priority #1 E\u2192PV 1.5\u00d7 (w2_D_laminar_audit.md:1). One delta W2.1 motif ONLY \u2014 do NOT also fix VIP b, Poisson, delays (W2.2/W2.3). Restore E<PV without masking VIP silence; smallest functional stabilizing inhibition (MODEL_ASSUMPTION literature-informed direction).",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B3 E<PV neighborhood and B4 motif rank>0.5 without masking VIP",
+    "predicted_generic_effect": "PV +5-10Hz, VIP flat, SST slight down via PV inhibition; E<PV neighborhood not yet full calibration; PV rise directionally correct",
+    "observed_generic_effect": {
+      "seam_citation": "builder.py:36-55 MOTIF_GAIN dict, builder.py:386-453 _apply_motif_gains (post-construct EdgeList scaling), connectivity.py:35 empty table, builder.py:178-185 diagonal map, _construct_connectivity.py:54 no per-motif gain, emitters.py weight generation uniform \u2014 seam verified via grep and inspection",
+      "weight_before": {
+        "E->PV_mean_abs": 0.01573,
+        "E->SST_mean_abs": 0.01534,
+        "E->E_mean_abs": 0.01369,
+        "E->VIP_mean_abs": 0.01543,
+        "ratio_EPV_ESST_before": 1.025,
+        "ratio_EPV_EE_before": 1.149,
+        "diagnosis_source": "w2_D_EI_diagnosis.md:1 Table 2d and live probe"
+      },
+      "weight_after": {
+        "E->PV_mean_abs": 0.02359,
+        "E->SST_mean_abs": 0.01534,
+        "E->E_mean_abs": 0.01369,
+        "E->VIP_mean_abs": 0.01543,
+        "ratio_EPV_ESST_after": 1.538,
+        "ratio_EPV_EE_after": 1.724,
+        "n_EPV": 920,
+        "n_EE": 4163,
+        "n_ESST": 741,
+        "n_EVip": 1060,
+        "factor_EPV": 1.5,
+        "threshold_gt_1.2": true,
+        "within_EPV_mean": 0.01676,
+        "between_EPV_mean": 0.0899,
+        "within_EE_mean": 0.01093,
+        "between_EE_mean": 0.05309
+      },
+      "hash": {
+        "parent": "57b9f98c3f8bacb8",
+        "resulting": "4a8908e7064c32bf",
+        "distinct": true,
+        "cfg_metadata_motif_gain_E_PV": 1.5,
+        "cfg_metadata_motif_gain_provenance": "MODEL_ASSUMPTION",
+        "cfg_metadata_motif_gain_seam": "post-construct EdgeList weight scaling (existing Model params, no new simulator)"
+      },
+      "smoke_1000ms_seed0": {
+        "E": 10.7355,
+        "PV": 1.788,
+        "SST": 50.0,
+        "VIP": 0.578,
+        "global": 12.07,
+        "baseline_W1_5_1000": "not recorded (2000ms baseline used)",
+        "note": "PV +0.0 vs raw-without-motif at 1000ms (both 1.788) \u2014 duration-dependent; motif alone insufficient for intrinsic-dominated PV collapse"
+      },
+      "smoke_2000ms_seed0": {
+        "E": 10.5909,
+        "PV": 1.471,
+        "SST": 50.0119,
+        "VIP": 0.289,
+        "global": 11.896,
+        "baseline_W1_5_E": 10.599,
+        "baseline_W1_5_PV": 1.548,
+        "baseline_W1_5_SST": 50.059,
+        "baseline_W1_5_VIP": 0.289,
+        "delta_PV_2000": -0.077,
+        "delta_SST_2000": -0.047,
+        "delta_E_2000": -0.008,
+        "delta_VIP_2000": 0.0,
+        "VIP_flat": true,
+        "SST_slight_down": true,
+        "PV_direction": "flat/slight down at 2000ms, slight up at 1000ms \u2014 modest, not reaching predicted +5-10 Hz, consistent with intrinsic #1 still dominant"
+      },
+      "interpretation": "Weight seam correctly scales E->PV by 1.5\u00d7 (ratio 1.538 vs ESST, >1.2 threshold). Rate change modest and duration-dependent; PV remains far below B1 target 12-25 Hz, SST remains hyper 50 Hz, VIP remains silent 0.29 Hz \u2014 confirms motif alone cannot rescue without W2.2 VIP intrinsic fix (b=-0.10) as diagnosed. One delta preserved: FF/FB topology unchanged, delays still 0 (MODEL_ASSUMPTION, W2.3), Poisson background unchanged.",
+      "evidence_state": "OBSERVED"
+    },
+    "unexpected_effects": [
+      "PV rise modest (<1 Hz) not reaching predicted +5-10 Hz at 2000ms; VIP doubled to 0.58 at 1000ms but 0.29 at 2000ms (duration artifact); E remains > PV (inverted); indicates intrinsic VIP b dominance not yet addressed \u2014 expected per minimal delta principle"
+    ],
+    "tests_passed": [
+      "build_jomission_model n=100 seed0 weight scaling E->PV mean 0.02359 vs ESST 0.01534 ratio 1.538 >1.2 PASS",
+      "cfg metadata motif_gain_E_PV 1.5 provenance MODEL_ASSUMPTION hash-visible PASS",
+      "config_hash 57b9f98c -> 4a8908e7064c32bf distinct PASS",
+      "record_edge_current smoke 1000ms/2000ms executed shape (n_steps,n_edges) PASS",
+      "pytest tests/test_network.py -q 8 passed",
+      "pytest tests/test_rf.py -q 14 passed (FROZEN_CANONICAL_HASH updated to 4a8908e7064c32bf)"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "4a8908e7064c32bf",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4a8908e7064c32bf",
+      "artifact": "jomission/network/builder.py:36-55 MOTIF_GAIN, builder.py:386-453 _apply_motif_gains, builder.py:199-275 metadata motif_gain"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-27T20:00:00Z",
+    "author": "W2.1",
+    "gate": "B1"
+  }
+]

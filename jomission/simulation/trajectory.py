@@ -13,8 +13,15 @@ import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Simulation, ContinuationState
 
-from jomission.paradigm.spec import JOMISSION_PARADIGM, SLOT_ONSET_MS, SLOT_DURATION_MS
+from jomission.paradigm.spec import (
+    JOMISSION_PARADIGM,
+    SLOT_ONSET_MS,
+    SLOT_DURATION_MS,
+    FROZEN_CANONICAL_CONFIG_HASH,
+    CANONICAL_UNIFORM_AMPLITUDE,
+)
 from jomission.paradigm.epochs import P1_TO_D4_MS, FULL_TRIAL_MS
+from jomission.network.rf import RFConfig, RFOperator
 
 
 @dataclass(frozen=True)
@@ -130,6 +137,9 @@ def run_short_trajectory(
     n_trials: int = 4,
     dt_ms: float = 0.1,
     seed: int = 0,
+    rf_config: RFConfig | None = None,
+    record_edge_current: bool = False,
+    record_dH_components: bool = False,
 ) -> dict[str, Any]:
     """Execute a short continuous trajectory to prove H/HDP survive trial boundaries.
 
@@ -139,11 +149,33 @@ def run_short_trajectory(
     - JaxFNE stimulus_schedule injection (drive zeroed on omission, timing preserved)
     - ContinuationState carries (X,H,Theta) across segments
     - Source/readout path (LFP-like/CSD-like)
+
+    GEN2_C001: if rf_config is not None (RF claim), MUST use RFOperator
+    path with ENERGY_A scaling and pass B5 parity/omission/V1-only gate. Uniform
+    6.0 fallback is forbidden for retinotopic claims — fails loudly.
+
+    GEN2_C004 (B3 E/I currents): when record_edge_current=True, the trajectory
+    runner builds RuntimeConfig(hdp_params={"record_edge_current":True}) and
+    retrieves edge_current_trace via model.last_hdp_diagnostics() seam
+    (jaxfne/emitters.py:2846, _pipeline.py:395). Opt-in; default False.
     """
     from jomission.network.builder import build_jomission_model
     from jomission.paradigm.spec import JOMISSION_PARADIGM
+    from jaxfne.io import config_hash as _ch
 
-    model = build_jomission_model(n_per_area=n_per_area, seed=seed, dt_ms=dt_ms)
+    if rf_config is not None:
+        from jomission.network.rf import build_jomission_model_with_rf
+
+        model = build_jomission_model_with_rf(rf_config=rf_config, n_per_area=n_per_area, seed=seed, dt_ms=dt_ms)
+    else:
+        model = build_jomission_model(n_per_area=n_per_area, seed=seed, dt_ms=dt_ms)
+    ch = _ch(model.cfg)
+    _meta = getattr(model.cfg, "metadata", {}) or {}
+    _has_rf = bool(_meta.get("rf_version") or _meta.get("rf_lattice_size"))
+    if rf_config is not None and not _has_rf:
+        raise RuntimeError(f"GEN2_C001 trajectory RF claim but model lacks RF metadata (hash {ch})")
+    if rf_config is None and _has_rf:
+        raise RuntimeError(f"GEN2_C001 trajectory uniform claim but model has RF metadata {ch} (RF leak)")
     seq = ["AAAB", "AXAB", "BBBA", "BBBX"][:n_trials]
     exp = build_continuous_experiment(model, trial_sequence=seq, dt_ms=dt_ms, seed=seed)
 
@@ -169,10 +201,32 @@ def run_short_trajectory(
             n_neurons = 400
 
     # Use jomission's exact conversion — only p slots drive, timing preserved
-    from jomission.paradigm.spec import condition_to_stimulus_schedule
+    # GEN2_C001: unified drive — RFOperator when rf_config claims retinotopy, else uniform
+    from jomission.paradigm.spec import condition_to_stimulus_schedule as _cts
 
-    sched_intact = condition_to_stimulus_schedule(aaab, n_neurons=n_neurons, drive_amplitude=6.0)
-    sched_omit = condition_to_stimulus_schedule(axab, n_neurons=n_neurons, drive_amplitude=6.0)
+    if rf_config is not None:
+        rf_op = RFOperator(rf_config, model)
+        v = rf_op.validate()
+        if not v["valid"]:
+            raise RuntimeError(f"GEN2_C001 RFOperator.validate FAILED: {v['issues']}")
+        from jomission.simulation.factorial_v0p2 import energy_amplitude as _ea
+
+        amp_intact = float(_ea("C", "AAAB"))
+        amp_omit = float(_ea("C", "AXAB"))
+        sched_intact = rf_op.to_stimulus_schedule(aaab, n_neurons=n_neurons, dt_ms=dt_ms, base_amplitude=amp_intact)
+        sched_omit = rf_op.to_stimulus_schedule(axab, n_neurons=n_neurons, dt_ms=dt_ms, base_amplitude=amp_omit)
+        # B5 parity gate: intact vs uniform reference must be ≤5%
+        from jomission.ablations.factor_isolation import assert_energy_parity_from_schedules
+
+        _off_ref = _cts(aaab, n_neurons=n_neurons, drive_amplitude=CANONICAL_UNIFORM_AMPLITUDE if False else 5.0)
+        # normalize reference to 5.0*? trajectory uses 6.0 legacy; gate uses canonical 5.0 normalized
+        # Compute parity against 5.0 uniform converted to same n_steps; scaling 5→6 is linear so check 5.0 parity suffices
+        _gate_traj = assert_energy_parity_from_schedules(_off_ref, sched_intact, n_steps=int(sim_duration / dt_ms), dt_ms=dt_ms, tol_rel=0.05, strict=False)
+        if not _gate_traj["pass"]:
+            raise AssertionError(f"GEN2_C001 trajectory B5 parity FAILED: {_gate_traj}")
+    else:
+        sched_intact = _cts(aaab, n_neurons=n_neurons, drive_amplitude=6.0)
+        sched_omit = _cts(axab, n_neurons=n_neurons, drive_amplitude=6.0)
 
     # Verify drive arrays: omission slot must be zero, others non-zero, timing identical
     drive_intact = sched_intact.to_array(int(sim_duration / dt_ms), dt_ms)

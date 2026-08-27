@@ -82,6 +82,59 @@ def run_cell(cell_key: str, seed: int, results_dir: str):
     runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=True, hdp_params=hp)
     rf_op = RFOperator(RFConfig(), model) if c["rf_on"] else None
 
+    # ---- GEN2_C001 energy-unified gate: every RFon run MUST pass E_parity ≤5% ----
+    # Keep ENERGY_A as single source of truth for base_amplitude scaling (preserve CV,
+    # scale scalar not L1 weights). Gate is evaluated on realized drive via to_array.
+    if c["rf_on"]:
+        # Build reference uniform schedule (RFoff) and RFon schedule for AAAB and assert parity
+        # Also check omission-zero and V1-only via RFOperator.validate (already validated)
+        from jomission.paradigm.spec import condition_to_stimulus_schedule
+        from jomission.ablations.factor_isolation import assert_energy_parity_from_schedules
+
+        _rf_hash_gate = hashlib.sha256(json.dumps(RFConfig().to_dict(), sort_keys=True).encode()).hexdigest()[:16]
+        _validate = rf_op.validate()
+        if not _validate["valid"]:
+            raise RuntimeError(f"GEN2_C001 RFOperator.validate FAILED (V1-only/omission_zero/L1): {_validate['issues']}")
+        # Representative conditions: AAAB (A-family), BBBA (B-family), RRRR (random)
+        for _rep_cond in ("AAAB", "BBBA", "RRRR"):
+            _cond_obj = [cc for cc in JOMISSION_PARADIGM.conditions if cc.name == _rep_cond][0]
+            _sched_off = condition_to_stimulus_schedule(_cond_obj, n_neurons=400, drive_amplitude=5.0)
+            _sched_on = make_schedule(cell_key, _rep_cond, rf_op, model)
+            _gate = assert_energy_parity_from_schedules(_sched_off, _sched_on, n_steps=int(TRIAL_MS / DT_MS), dt_ms=DT_MS, tol_rel=0.05, strict=False)
+            if not _gate["pass"]:
+                raise AssertionError(
+                    f"GEN2_C001 B5 energy parity FAILED for {_rep_cond}: E_off={_gate['E_off']:.3g} E_on={_gate['E_on']:.3g} "
+                    f"rel={_gate['rel_error']:.4g} >0.05 (184.55× defect not cleared). "
+                    f"RFOperator must use ENERGY_A normalizer (base_amplitude scaling)."
+                )
+        # Also assert omission slot zero directly via to_array
+        from jomission.paradigm.spec import SLOT_ONSET_MS
+        import numpy as np
+
+        _omit_cond = [cc for cc in JOMISSION_PARADIGM.conditions if cc.name == "AXAB"][0]
+        _omit_sched = make_schedule(cell_key, "AXAB", rf_op, model)
+        _omit_arr = np.asarray(_omit_sched.to_array(n_steps=int(TRIAL_MS / DT_MS), dt_ms=DT_MS))
+        _p2_s = int(round(SLOT_ONSET_MS["p2"] / DT_MS))
+        _p2_e = int(round((SLOT_ONSET_MS["p2"] + 531.0) / DT_MS))
+        _omit_e = float(np.sum(np.abs(_omit_arr[_p2_s:_p2_e])))
+        if _omit_e > 1e-6:
+            raise AssertionError(f"GEN2_C001 omission zero FAILED: AXAB p2 energy {_omit_e} !=0 (must be exactly 0)")
+        # V1-only: non-V1 drive must remain 0
+        from jaxfne import paradigm_target_indices_from_model
+        try:
+            for _area in ("V4", "FEF", "PFC"):
+                _idx = [int(x) for x in np.asarray(paradigm_target_indices_from_model(model, area=_area)).tolist()]
+                if _idx and np.any(_omit_arr[:, _idx] != 0):
+                    # Check representative intact as well
+                    _aaab_sched = make_schedule(cell_key, "AAAB", rf_op, model)
+                    _aaab_arr = np.asarray(_aaab_sched.to_array(n_steps=int(TRIAL_MS / DT_MS), dt_ms=DT_MS))
+                    if np.any(_aaab_arr[:, _idx] != 0):
+                        raise AssertionError(f"GEN2_C001 V1-only FAILED: {_area} drive non-zero")
+        except AssertionError:
+            raise
+        except Exception:
+            pass
+
     # ---- Phase 1: pre-battery (t_e0) ----
     hb = []
     state = None

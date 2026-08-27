@@ -22,6 +22,20 @@ def probe_config(*, n_contacts: int = N_CONTACTS_DEFAULT) -> dict[str, Any]:
     return {"n_contacts": int(n_contacts), "modes": list(PROBE_MODES), "spacing_proxy": CONTACT_SPACING_PROXY, "claim_level": "proxy_readout"}
 
 
+# Re-export motif helper for convenience (canonical impl in observables.py:partition_currents_by_motif)
+def partition_currents_by_motif(edge_currents, edge_list, neuron_table, *, reduce: str = "mean"):
+    """Thin re-export of jomission.recording.observables.partition_currents_by_motif.
+
+    Splits I_e (sign +1) vs I_i (sign -1) per edge per step and aggregates per
+    motif area×layer×class → area×layer×class. Uses presynaptic cell_type E vs
+    PV/SST/VIP (emitters.py:2846 sign). Canonical seam: jaxfne.compile_step_fn
+    (record_edge_current=True) -> edge_current_trace [n_steps,n_edges].
+    """
+    from jomission.recording.observables import partition_currents_by_motif as _f
+
+    return _f(edge_currents, edge_list, neuron_table, reduce=reduce)
+
+
 def validate_recording(model: jtfne.Model) -> dict[str, Any]:
     issues: list[str] = []
     # Check that model was built with probes

@@ -205,5 +205,16 @@
       "recovery": "Deterministic rerun of frozen 740-trial protocol required (identical config/seed reproduces output); partial pre-battery not recoverable-as-is",
       "no_config_change": true
     }
-  ]
+  ],
+  "resource_boundary": {
+    "classification": "RESOURCE_BOUNDARY \u2014 Factorial v0.2 cannot complete on this machine",
+    "measured_single_trial_cost": "189.2s per dt0.1 full-trial (4624ms, 400 neurons, A cell)",
+    "factorial_scope": "740 trials x 16 trajectories = 11,840 trials",
+    "estimated_wall": "622 h serial (~26 days); 4-way parallel ~155h; 16-way caused machine crash (load 70, swap 27.5GB/28.7GB)",
+    "memory_incident": "16 concurrent JAX processes exhausted RAM, machine rebooted (2026-08-26T19:22Z); killed batch, memory recovered",
+    "frozen_protocol": "740-trial P0(pre,96)->E1(11)->P1(96)->E2(33)->P2->E3(86)->P3->E4(130)->P4(post,96); dt0.1; configs A 4f9fdeae/bb8277 B 4f9fdeae/1000 C e5e331a/0.003 D e5e331a/1000",
+    "resume_command": "Launch on HPC or dedicated node: for cell in A B C D; do for seed in 0 1 2 3; do python -m jomission.simulation.factorial_v0p2 --cell $cell --seed $seed --results_dir results/rf_rate_factorial_v0p2; done; done",
+    "state_preserved": "Deterministic protocol \u2014 any partial execution is reproducible; no scientific config changed; executor validated standalone (dt2.0 200ms = 23.7s, dt0.1 full-trial = 189.2s finite rate 23.5Hz)",
+    "no_dt_change": "dt stays 0.1 canonical \u2014 lowering dt would change scientific config (forbidden); the performance optimization (lower dt) is NOT permitted per frozen identity"
+  }
 }

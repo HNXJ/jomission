@@ -195,5 +195,15 @@
       "total_steps": 34217600,
       "estimated_wall": "~18-20h under current contention"
     }
-  }
+  },
+  "execution_exceptions": [
+    {
+      "event": "MACHINE_REBOOT",
+      "timestamp_utc": "2026-08-26T19:22Z (boot)",
+      "impact": "All 16 factorial v0.2 trajectories interrupted at pre-battery ~28-39 trials (heartbeats stop, empty logs = external termination, no traceback)",
+      "classification": "RESOURCE_BOUNDARY / execution exception \u2014 NOT scientific negative",
+      "recovery": "Deterministic rerun of frozen 740-trial protocol required (identical config/seed reproduces output); partial pre-battery not recoverable-as-is",
+      "no_config_change": true
+    }
+  ]
 }

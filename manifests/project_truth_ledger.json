@@ -183,5 +183,17 @@
       "effective": "measured input/E heterogeneity + measured Theta(t) relaxation"
     },
     "protocol_740": "P0(pre,96)->E1(11)->P1(96)->E2(33)->P2(96)->E3(86)->P3(96)->E4(130)->P4(post,96) = 740 trials, 34,217,600 steps"
+  },
+  "performance_ledger": {
+    "factorial_v0p2_execution": {
+      "observed_throughput_pre_battery": "~40 trials/hour/process under 16-worker CPU contention (dt0.1, 400 neurons)",
+      "note": "Do not optimize concurrency/JAX/affinity/checkpoint mid-experiment. Benchmark aggregate throughput vs worker count AFTER this reference execution path completes (per project rules).",
+      "n_workers": 16,
+      "cells": 4,
+      "seeds": 4,
+      "protocol_trials": 740,
+      "total_steps": 34217600,
+      "estimated_wall": "~18-20h under current contention"
+    }
   }
 }

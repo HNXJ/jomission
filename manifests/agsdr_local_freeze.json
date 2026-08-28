@@ -1,0 +1,268 @@
+{
+  "freeze_id": "AGSDR_LOCAL_CL1_FREEZE_v1",
+  "workspace": "/Users/hamednejat/workspace/computational/jomission",
+  "mode": "G (ADAPT) — freeze literal input, no optimizer launch",
+  "timestamp": "2026-08-28T16:00:00Z",
+  "author": "Freeze Agent 1 — Primitives + 5-D Coordinate Semantics",
+  "context_verdict": {
+    "CL1_A": "PASS",
+    "CL1_B": "PARTIAL (heterogeneity qualified, B2 rho soft FAIL 0.41-0.43>0.30, Efrac high)",
+    "CL1_C": "NOT PASS (functional dissociated)",
+    "E_primitive": "QUALIFIED_ENOUGH via C018 typed mixture M2 RS70/CH20/E_FS10",
+    "provenance_C018": "be9b96ab679c9802 (seed0) / cdac08787974eb77 (seed1), hp f327f9d2ad64cc88, parent f3707cd55894787e",
+    "AGSDR_gate": "READY_FOR_LOCAL_CL1 with firewall no T1-T7"
+  },
+  "provenance_classes": {
+    "LITERATURE_PRIOR": "Phenotype a/b/c/d direction per Izhikevich2003 Fig1 RS/CH/IB, Pfeffer2013 VIP→SST direction, Song2005 lognormal direction, Brunel2000 Poisson barrage direction",
+    "MODEL_ASSUMPTION": "Magnitudes without single citation — 70/20/10 proportions, VIP→SST 5.00 gain magnitude, SST b0.21, VIP b0.20, PV drive 1.7, lognormal CV1.5, tonic 3.0/Poisson 2kHz amp2.0, delays 8/12/2ms values, within_gain 0.35, spatial sigma 0.08, p_FF 0.30 p_FB 0.20, RF 32×32 geometry, H taus 0.1/1/10/100/1000 conceptual, Theta tau 1000",
+    "ENGINE_DEFAULT": "JaxFNE seams: Izhikevich kernel dv=0.04v²+5v+140-u+I du=a(bv-u) v>=30→c u+=d, edge_list backend, StimulusSchedule.to_array target_indices, _make_poisson_drive Bernoulli, cell_params jitter seam",
+    "DERIVED": "Ordering FB>FF>within, p·amp algebra μ0.40 σ0.80 σ_total0.943, overlap exp(-d²/4σ²)=0.45, L1-normalized RF, variance-matched controls"
+  },
+  "frozen_primitives": {
+    "_freeze_rule": "AGSDR_LOCAL_CL1 MUST NOT mutate primitives below. Any change requires new C-number Ledger edge, not silent theta. g_* local search scales motif WEIGHTS only via orthogonal masks, not intrinsic a/b/c/d, jitter, spatial, delays, H/Theta, RF geometry, or tonic baseline composition beyond g_background mean-controlled redistribution.",
+    "E_typed_mixture_M2": {
+      "value": "70% RS / 20% CH / 10% E_FS (renamed FS-like, not inhibitory)",
+      "params": {
+        "RS": {"a": 0.02, "b": 0.2, "c": -65.0, "d": 8.0, "frac": 0.70, "n_at_nE242": 169},
+        "CH": {"a": 0.02, "b": 0.2, "c": -50.0, "d": 2.0, "frac": 0.20, "n_at_nE242": 48},
+        "E_FS": {"a": 0.10, "b": 0.2, "c": -65.0, "d": 2.0, "frac": 0.10, "n_at_nE242": 25}
+      },
+      "provenance": "LITERATURE_PRIOR phenotypes RS/CH/IB Izhikevich2003 Fig1 / MODEL_ASSUMPTION proportions 70/20/10",
+      "seam": "pre-jitter emitter a/c/d override via builder.py:1008 _apply_typed_E_phenotypes deterministic seed ^0x9E3779B9 ^0xC018 permutation then _apply_per_neuron_jitter sigma0.10 on top preserves c/d clusters Δc15>>±3mV Δd6>>±10%, u0=b·v0 recompute, hash-visible e_mixture_version=M2",
+      "citations": ["jomission/network/builder.py:187-196 E_MIXTURE_*", "jomission/network/builder.py:1008-1134 _apply_typed_E_phenotypes", "jomission/network/builder.py:1059 permutation", "jaxfne/emitters.py:55 IZHIKEVICH_CELL_TYPE_DEFAULTS E a0.02 b0.20 c-65 d8", "scratch/gen2_C018_receipt.md:62 weighted a0.028 c-62 d6.2 preserved"],
+      "observed_C018": "isolated M2 meanCV 0.284-0.368 vs RS100 0.019-0.155 frac>0.5 0.19-0.22 vs 0.00-0.08 max1.82-2.47, variance-matched σ0.40 Var48.0 vs42.0 Δ12.5% still 0.037 vs0.284 Fisher 0/51 vs11/38 p<1e-6; network CV_ISI 0.078→0.344 mean0.344 median0.079 max1.98 Fano0.67→0.95 PV6.39→6.37 SST5.37→5.38 VIP0.29→0.39 ρ0.419→0.417 Efrac0.70",
+      "must_not_mutate": "fractions, a/c/d phenotype values, b0.20, assignment seed, pre-jitter ordering",
+      "frozen": true
+    },
+    "SST_intrinsic": {
+      "value": "b=0.21 [0.189,0.231] after jitter ±10%",
+      "provenance": "MODEL_ASSUMPTION magnitude 0.21 / LITERATURE_PRIOR direction SST LTS Izhikevich2003 / ENGINE_DEFAULT emitter seam / DERIVED f-I I_rh3.5 r20.5@3.5 gain12.7 PASS all6",
+      "seam": "pre-jitter emitter b override _apply_sst_b_correction builder.py:936-1005 then jitter σ0.10 clip b∈[-0.20,0.35] u0=b·v0, hash-visible sst_b_corrected=0.21",
+      "citations": ["jomission/network/builder.py:114-120 SST_B_CORRECTED 0.21", "jomission/network/builder.py:936-1005 _apply_sst_b_correction", "scratch/review_C015_SST_fI.md:38 b0.21 I_rh3.5 r20.5 gain12.7", "gen2_C018_receipt.md:65 SST b0.21023 [0.1897,0.2308]"],
+      "frozen": true
+    },
+    "VIP_intrinsic": {
+      "value": "b=0.20 [0.18,0.22] after jitter ±10%, V_m -77.79→-64.99 thr107.79→94.99 I_rh>15→4",
+      "provenance": "MODEL_ASSUMPTION 0.20 magnitude / LITERATURE_PRIOR b>=0 Izhikevich2003 / ENGINE_DEFAULT emitter seam / DERIVED f-I I_rh4 r21 thr95 equals E, operating μ2.19 σ0.943 μ+2σ4.07 → b0.20 at μ+1.92σ 2.7% tail",
+      "seam": "pre-jitter emitter b override _apply_vip_b_correction builder.py:861-933 then jitter σ0.10 clip b∈[-0.20,0.35] u0=b·v0, hash-visible vip_b_corrected=0.20",
+      "citations": ["jomission/network/builder.py:99-109 VIP_B_CORRECTED 0.20", "jomission/network/builder.py:861-933 _apply_vip_b_correction", "jaxfne/emitters.py:55 VIP b-0.10 origin", "gen2_C018_receipt.md:65 VIP b0.20048 [0.1808,0.2198]"],
+      "frozen": true
+    },
+    "PV_intrinsic_family": {
+      "value": "a0.10 b0.20 c-65 d2 drive boosted 1.77→3.01 scale1.7 [2.75,3.36] cliff gain50 I_rh4.0",
+      "provenance": "MODEL_ASSUMPTION 1.7 magnitude to reach rheobase / LITERATURE_PRIOR fast-spiking PV Pfeffer2013 Hu2014 / ENGINE_DEFAULT drive seam",
+      "seam": "post-jitter per-class drive scaling _apply_pv_drive_boost builder.py:1271-1347 after tonic scale before delays, neuron_table PV identification, deterministic, hash-visible pv_drive_scale=1.7 pv_drive_PV_new=3.01",
+      "citations": ["jomission/network/builder.py:125-130 PV_DRIVE_SCALE_DEFAULT 1.7", "jomission/network/builder.py:1271-1347 _apply_pv_drive_boost", "jaxfne/emitters.py:55 PV a0.10 b0.20 c-65 d2 drive3", "scratch/review_C016_PV_operating.md:§1 I_rh4 gain50"],
+      "observed": "r_PV 6.37 seed0 14.08 seed1 2.2× variance, steep cliff; borderline recruitable",
+      "frozen_intrinsic_a_b_c_d": true,
+      "note": "PV a/b/c/d frozen; g_fastEI may scale PV↔E WEIGHTS within ±20% via orthogonal mask, not intrinsic drive or a/b"
+    },
+    "per_neuron_jitter": {
+      "value": "sigma 0.10 uniform relative for a,b,d,drive + c ±3mV, bounds clipped, u0 recomputed, deterministic seed ^0x9E3779B9 ^sigma*1e6",
+      "bounds": {"a": "[0.005,0.20]", "b": "[-0.20,0.35]", "c": "[-75,-45]", "d": "[0.5,10]", "drive": "[1,8]"},
+      "citations": ["jomission/network/builder.py:39 HETEROGENEITY_JITTER_SIGMA_DEFAULT 0.10 (task cites builder.py:34)", "jomission/network/builder.py:212-296 _apply_per_neuron_jitter", "jomission/network/builder.py:232 jitter b_j clip", "jomission/network/builder.py:289 u0=b·v0"],
+      "frozen": true
+    },
+    "spatial_locality": {
+      "value": "sigma 0.08 max_in_degree 25 Gaussian exp(-d²/2σ²) per-post cap, within 10000 vs 39600 before, avg_within 0.231 vs 0.445, locality_index ~11.6",
+      "citations": ["jomission/network/builder.py:395-407 cfg.connectivity spatial_sigma0.08 max_in_degree25", "jomission/network/builder.py:630-736 _apply_spatial_locality", "jomission/network/connectivity.py:14 WITHIN_GAIN_DEFAULT 0.35"],
+      "frozen": true
+    },
+    "lognormal_weights": {
+      "value": "CV1.5 sigma1.0856587845 mu-0.5893274982 E[L]=1 per-motif mean-preserving, deterministic seed ^motif_hash, sign-preserving L>0",
+      "provenance": "MODEL_ASSUMPTION CV1.5 magnitude / LITERATURE_PRIOR direction Song2005 lognormal",
+      "seam": "post-construct EdgeList weight scaling W·L after _apply_motif_gains before delays, hash-visible weight_lognormal_cv1.5",
+      "citations": ["jomission/network/builder.py:142-148 LOGNORMAL_CV1.5 LOGNORMAL_SIGMA1.08566 LOGNORMAL_MU-0.58933", "jomission/network/builder.py:1139-1222 _apply_lognormal_weights", "gen2_C018_receipt.md:65 weight mean0.006 CV5.13"],
+      "frozen": true
+    },
+    "receptive_field": {
+      "value": "32×32 lattice field 8° dva 0.25°/px σ1.8px spacing3.2px overlap0.45, centers 10×10 tiling for 100 V1, L1-normalized sparse, V1-only, sparsity 0.18-0.30 Jaccard<0.15 omission-zero",
+      "provenance": "MODEL_ASSUMPTION geometry 32×32 / DERIVED dva/spacing/overlap / LITERATURE_PRIOR sigma1.8 macaque V1 / ENGINE_DEFAULT StimulusSchedule.to_array target_indices seam",
+      "citations": ["jomission/network/rf.py:1 RF 32×32", "jomission/network/rf.py:7 geometry 32×32", "jomission/network/rf.py:47 LATTICE_SIZE_DEFAULT 32", "jomission/network/rf.py:50-52 sigma/spacing/overlap", "jomission/network/rf.py:92 lattice_dtype"],
+      "frozen": true
+    },
+    "cell_fractions_and_counts": {
+      "value": "V1/V4/FEF/PFC × L1/L2/3/L4/L5/L6 × E/PV/SST/VIP tables populations.py:31-85, n_per_area100 n_total400 (E242 PV52 SST42 VIP64 at seed0), flat fallback E0.70 PV0.12 SST0.10 VIP0.08",
+      "citations": ["jomission/network/populations.py:12 JOMISSION_AREAS V1 V4 FEF PFC", "jomission/network/populations.py:13 JOMISSION_LAYERS L1 L2/3 L4 L5 L6", "jomission/network/populations.py:21 LAYER_DEPTH_BANDS", "jomission/network/populations.py:31 LAYER_COUNT_FRAC_DEFAULT L1 0.08 L2/3 0.30 L4 0.15 L5 0.27 L6 0.20", "jomission/network/populations.py:44 V1_LAYER_CELL_TYPES", "jomission/network/populations.py:85 FLAT_CELL_TYPE_FRACTIONS E0.70 PV0.12 SST0.10 VIP0.08", "jomission/network/builder.py:327 n_per_area>=100"],
+      "frozen": true
+    },
+    "delays": {
+      "value": "within 2ms (20 steps) FF 8ms (80 steps) FB 12ms (120 steps) at dt0.1, via edge_list_with_delay_ms, layer maps FF L2/3→L4 FB L6→L1/L6→L5",
+      "provenance": "MODEL_ASSUMPTION values 8/12/2 / DERIVED ordering FB>FF>within",
+      "citations": ["jomission/network/builder.py:90-97 FF_LAYER_MAP FB_LAYER_MAPS DELAY_*", "jomission/network/connectivity.py:38-45 DELAY_FF_MS8 DELAY_FB_MS12 DELAY_WITHIN_MS2", "jomission/network/builder.py:807-858 _apply_laminar_delays", "jaxfne/emitters.py:545 edge_list_with_delay_ms", "gen2_C018_receipt.md:65 delays [20,80,120] edges10590"],
+      "frozen": true
+    },
+    "H_Theta_and_dt": {
+      "H_conceptual": "5-dim coordinates taus [0.1,1,10,100,1000]s per jomission/dynamics/h_state.py:28-69 H_fast H_medium H_slow H_very_slow H_context, semantic driver/domain/coupling, gated B0 H_conceptual vs H_implemented mismatch until M-06",
+      "H_implemented": "scalar h per jaxfne emitters tau_i=tau_0_ms*size^3 single H ODE H∈[0.1,10], DT0.1ms",
+      "Theta": "tau_theta_s 1000s >> tau_X, learning_rate1e-4 bounds [-0.1,0.1] channels edge_weight+intrinsic_drive locality population, h_state_dim2 jaxfne population restoring (maps to 5-coord conceptual)",
+      "provenance": "MODEL_ASSUMPTION conceptual taus / ENGINE_DEFAULT jaxfne scalar h / DERIVED H_conceptual→implemented mapping",
+      "citations": ["jomission/dynamics/h_state.py:28-69 H_COORDINATES 5 taus", "jomission/dynamics/h_state.py:73 HStateConfig h_state_dim5 locality node", "jomission/dynamics/hdp.py:14-22 HDPConfig tau_theta 1000 lr1e-4 bounds", "jomission/qualification/gen2_gates.py:110 h_terminology_gate conceptual 5-dim vs implemented scalar"],
+      "dt": "0.1ms fixed",
+      "citations_dt": ["jomission/network/builder.py:327 dt_ms 0.1", "gen2_C018_receipt.md:8 dt_ms0.1"],
+      "frozen": true,
+      "gate_note": "B7 tau_E~4.1s target[2,8]s etc per gen2_gates.py:189 thresholds; B9 slopes >0.3 etc — H/Theta NOT retuned by AGSDR local"
+    },
+    "hierarchy_and_gains": {
+      "within_gain": "0.35 frozen, scaled only via g_rec orthogonal mask, not via builder default mutation",
+      "p_feedforward": "0.30 frozen per jomission/network/connectivity.py:17",
+      "p_feedback": "0.20 frozen",
+      "pseudogenome_v0_DESIRED_MOTIF_GAIN": {
+        "full_16": {
+          "E->E": 1.0, "E->PV": 1.7, "E->SST": 0.7, "E->VIP": 1.0,
+          "PV->E": 1.3, "PV->PV": 1.0, "PV->SST": 1.0, "PV->VIP": 1.0,
+          "SST->E": 0.6, "SST->PV": 0.6, "SST->SST": 1.0, "SST->VIP": 0.8,
+          "VIP->E": 1.0, "VIP->PV": 1.0, "VIP->SST": 5.0, "VIP->VIP": 1.0
+        },
+        " Provenance": "MODEL_ASSUMPTION magnitudes / LITERATURE_PRIOR direction Pfeffer2013 etc, v0",
+        "seam": "post-construct EdgeList weight scaling _apply_motif_gains builder.py:738-804 hash-visible pseudogenome_version v0, W_base at g=1 baseline is this 16-gain",
+        "citations": ["jomission/network/builder.py:62-89 MOTIF_GAIN DESIRED_MOTIF_GAIN v0", "jomission/network/builder.py:83 PSEUDOGENOME_VERSION v0", "jomission/network/builder.py:692-804 _apply_motif_gains", "jomission/network/builder.py:454-469 ff/fb/delay metadata"]
+      },
+      "citations": ["jomission/network/connectivity.py:14 WITHIN_GAIN_DEFAULT 0.35", "jomission/network/connectivity.py:17 P_FEEDFORWARD 0.30", "jomission/network/connectivity.py:18 P_FEEDBACK 0.20"]
+    },
+    "background_composition_Ibg": {
+      "I_tonic": "3.0 after scale0.6 (5.0*0.6) uniform across classes clip[1,8] post-jitter",
+      "Poisson": "rate 2000Hz amp2.0 target all seed+7919 Bernoulli p0.20 mu0.40 sigma0.80 shape (n_steps,n_neurons) Corr≈0 per-neuron private via _make_poisson_drive",
+      "I_bg_total": "I_bg=I_tonic+I_private+I_noise+I_syn μ≈3.405 σ_total0.943 σ/μ0.277 fixed near rheobase, single lambda composition I_bg(λ) mean-controlled",
+      "citations": ["jomission/network/builder.py:49-53 BACKGROUND_POISSON_RATE 2000 amp2.0", "jomission/network/builder.py:159-166 TONIC_DRIVE_SCALE_DEFAULT 0.6 (3.0/5.0)", "jomission/network/builder.py:1592-1611 simulation_with_background_poisson", "jaxfne/_signals.py:670 _make_poisson_drive", "scratch/review_CL1v2_AGSDR.md:43 I_bg μ_total3.405 σ0.943"],
+      "frozen_baseline": "tonic 3.0 + Poisson 2kHz amp2.0 is baseline for AGSDR g_background; mean μ preserved via g_background redistribution, not mutated as primitive"
+    }
+  },
+  "five_dimensions_orthogonal": {
+    "_critical": "g_rec MUST NOT overlap g_fastEI/g_dend/g_disinh — each motif belongs to EXACTLY ONE mask; weights are multiplicative orthogonal W[pre,post]=W_base[pre,post] * g_k where k=mask(pre,post). Additive form W=g_rec·W_base+g_fastEI·W_PV+g_dend·W_SST+g_disinh·W_VIP is equivalent ONLY if W_base partitioned into orthogonal subsets (W_base=W_rec+W_PV+W_SST+W_VIP+W_other). Do NOT implement as full W_base scaled by g_rec plus adding W_PV subset (double-count E→PV).",
+    "formulation_multiplicative_orthogonal_preferred": "W_ij = W_base[pre_i->post_j] * g_{mask(pre_i,post_j)}  where W_base is DESIRED_MOTIF_GAIN v0 at g=1 (16 gains above), g_k is one of {g_rec,g_fastEI,g_dend,g_disinh} per orthogonal partition, and W_other motifs (fixed) have g=1. Then: g_rec controls only M_rec, g_fastEI only M_fastEI, etc. For search, initial g_k=1.0 is C018 baseline. Range bounds below are LOCAL calibration only (±20-30%).",
+    "formulation_additive_orthogonal_equivalent": "W = g_rec·W_rec + g_fastEI·W_PV + g_dend·W_SST + g_disinh·W_VIP + 1·W_other  where W_rec = W_base ⊙ M_rec etc., M_rec+M_fastEI+M_dend+M_disinh+M_other = all-ones partition over 16 motifs. This equals multiplicative above.",
+    "prohibited_non_orthogonal": "Do NOT implement W = g_rec·W_base + g_fastEI·W_PV ... with W_base containing overlapping motifs (would scale E→PV twice by g_rec*g_fastEI). g_rec overlaps zero motifs with other three.",
+    "dimensions": [
+      {
+        "symbol": "g_rec",
+        "name": "within-area recurrent gain (dense-local spatial)",
+        "maps_to": "within_gain effective W·L lognormal for within-area edges, spatial sigma0.08 max_in_degree25",
+        "mask_M_rec": {"motifs": ["E->E","E->VIP","PV->PV","PV->SST","PV->VIP","SST->SST","VIP->E","VIP->PV","VIP->VIP"], "description": "9 motifs NOT in fastEI/dend/disinh — recurrent baseline, plus optionally global scaling of within vs between ratio"},
+        "also_scales": "Optionally within_gain scalar 0.35 via same factor (kept coherent with W_rec weight scaling); spatial_sigma and max_in_degree remain FROZEN",
+        "baseline": 1.0,
+        "search_range": "[0.70, 1.30] (±30% around C018 within_gain0.35 → 0.245-0.455)",
+        "allowed_effect": "modulate recurrent excitation/inhibition balance baseline without touching fast PV loop, SST dendritic, or VIP disinhibition motifs",
+        "must_not_change": ["spatial_sigma 0.08", "max_in_degree25", "FF/FB gains or delays", "E→PV/PV→E fast loops", "SST loops", "VIP→SST", "intrinsic a/b/c/d", "jitter σ0.10", "lognormal CV", "delays", "RF", "H/Theta"],
+        "builder_seam": "builder.py:395-407 connectivity within_gain + _apply_spatial_locality 630-736 + _apply_motif_gains partitioned; g_rec applied as per-motif uniform multiplier on M_rec after lognormal",
+        "citations": ["jomission/network/builder.py:395-407 within_gain spatial_sigma0.08", "jomission/network/connectivity.py:14 WITHIN_GAIN_DEFAULT 0.35"]
+      },
+      {
+        "symbol": "g_fastEI",
+        "name": "fast perisomatic E↔PV loop",
+        "mask_M_fastEI": {"motifs": ["E->PV","PV->E"], "description": "2 motifs: E→PV1.70 (feedforward excitation to PV) and PV→E1.30 (feedback perisomatic inhibition) — fast loop, τPV 0.03s"},
+        "baseline_gains": {"E->PV": 1.7, "PV->E": 1.3},
+        "search_range": "[0.80, 1.20] (±20% → E->PV 1.36-2.04 PV->E 1.04-1.56) per review_CL1v2_AGSDR.md:121",
+        "alternative_range_note": "review_CL1v2_AGSDR.md:121 proposes 1.4-2.0 /1.0-1.6 absolute gains, equivalent to ±20% around 1.70/1.30",
+        "allowed_effect": "tune fast E/I stabilization, PV recruitment steep cliff compensation, rho decorrelation PV↑→ρ↓ H_fastPV",
+        "must_not_change": ["g_rec motifs E->E etc", "SST dendritic motifs E->SST SST->E SST->PV SST->VIP", "VIP->SST 5.00", "PV intrinsic a0.10 b0.20 c-65 d2 and drive1.7 (frozen intrinsic)", "delays within20 FF80 FB120", "spatial", "H/Theta"],
+        "seam": "post-EdgeList weight scaling per motif via _apply_motif_gains partitioned, hash-visible motif_gain_E_PV",
+        "citations": ["jomission/network/builder.py:62-79 MOTIF_GAIN (E,PV):1.70 (PV,E):1.30", "jomission/network/builder.py:692-804 _apply_motif_gains"]
+      },
+      {
+        "symbol": "g_dend",
+        "name": "dendritic SST loop",
+        "mask_M_dend": {"motifs": ["E->SST","SST->E","SST->PV","SST->VIP"], "description": "4 motifs: E→SST0.70 dendritic drive, SST→E0.60 dendritic inhibition, SST→PV0.60, SST→VIP0.80 — SST LTS slow, τSST/VIP0.11s"},
+        "baseline_gains": {"E->SST": 0.7, "SST->E": 0.6, "SST->PV": 0.6, "SST->VIP": 0.8},
+        "search_range": "[0.70, 1.30] (±30% → 0.49-0.91 /0.42-0.78 /0.42-0.78 /0.56-1.04)",
+        "allowed_effect": "tune dendritic inhibition, SST→E↓ / SST→PV coordination, H_slow gain, B2 Efrac [0.15,0.60] without abolishing SST",
+        "must_not_change": ["g_rec", "g_fastEI E<->PV", "VIP->SST 5.00", "SST b0.21 [0.189,0.231] frozen intrinsic", "within/spatial/lognormal/delays/RF"],
+        "citations": ["jomission/network/builder.py:66 (E,SST):0.70", "jomission/network/builder.py:71-73 (SST,E):0.60 (SST,PV):0.60 (SST,VIP):0.80", "scratch/review_CL1v2_AGSDR.md:122"]
+      },
+      {
+        "symbol": "g_disinh",
+        "name": "disinhibitory VIP→SST loop",
+        "mask_M_disinh": {"motifs": ["VIP->SST"], "description": "1 dominant motif VIP→SST5.00 (5×) — disinhibition VIP↑→SST↓→E↑ via H_secondary; optional secondary VIP->E/PV/VIP kept in M_rec fixed so disinh is isolated to 5.00 gain"},
+        "baseline_gain": {"VIP->SST": 5.0},
+        "search_range": "[0.70, 1.30] bounded (3.5-6.5 absolute) — review warns not 8× to hide VIP silence; latent 5× mass 121/118 edges -0.04885/-0.06228 0.45% vs SST53.9% until VIP rate rises to 1-4Hz",
+        "allowed_effect": "test VIP→SST brake functional: Δr_VIP>0 then r_SST≤3.8, disinhibition gain without masking VIP b0.20 silence via weight inflation",
+        "must_not_change": ["VIP b0.20 [0.18,0.22] frozen", "g_fastEI", "g_dend SST loops beyond VIP->SST", "g_rec", "within/spatial/lognormal/delays"],
+        "citations": ["jomission/network/builder.py:77 (VIP,SST):5.00", "gen2_C014:58 mean -0.04885 6.37× latent 0.09%→0.45% per gen2_C017:63", "scratch/review_C017_disinhibition.md:§1.2 Δr_VIP>0 test"]
+      },
+      {
+        "symbol": "g_background",
+        "name": "background composition I_bg(λ) — mean-controlled",
+        "mask": "NOT a W mask — modulates input currents, orthogonal to all W motifs by construction",
+        "definition": "I_bg(λ)=I_tonic(λ)+I_private(λ)+I_noise+I_syn, E[I_bg]≈μ_target fixed near rheobase while redistributing deterministic→private stochastic via single λ; Poisson private p=rate·dt/1000 mu=p·amp sigma=sqrt(p(1-p))·amp per _make_poisson_drive",
+        "baseline": {"tonic_drive_scale": 0.6, "tonic_E_drive": 3.0, "PV_drive_after_boost": 3.01, "poisson_rate_hz": 2000, "poisson_amp": 2.0, "poisson_p": 0.2, "poisson_mu": 0.4, "poisson_sigma": 0.8, "sigma_total": 0.943, "mu_total": 3.405, "sigma_over_mu": 0.277},
+        "search_range": "jointly vary Poisson rate/amp and tonic scale preserving μ_total∈[3.4,4.0] (±15% around 3.405) while redistributing private variance σ/μ 0.20-0.35; e.g., tonic E 2.7-3.3 with Poisson p·amp compensating to keep μ fixed, not adding mean to recruit VIP artifactually",
+        "allowed_effect": "tune fluctuation-driven regime, CV_ISI mean0.344→0.5 without mean-driven saturation, P(CV) frac>0.5≥0.20 non-collapse, VIP tail recruitment via variance not mean",
+        "must_not_change": ["mean μ_total not >4.0 artifactually", "jitter σ0.10 per-neuron heterogeneity already", "W motifs any", "RF", "delays", "H/Theta taus"],
+        "constraints": ["mean-controlled: Δμ ≤0.5Hz equivalent (±15%)", "preserve Corr≈0 private per-neuron Bernoulli shape (n_steps,n_neurons) via _signals.py:670 seed+7919", "do not widen σ to mask PV cliff beyond g_fastEI"],
+        "citations": ["jomission/network/builder.py:49-53 BACKGROUND_POISSON", "jomission/network/builder.py:159-166 TONIC_DRIVE_SCALE 0.6", "jomission/network/builder.py:1592-1611 simulation_with_background_poisson", "jaxfne/_signals.py:670 _make_poisson_drive", "scratch/review_CL1v2_AGSDR.md:124 g_background μ_total[3.4,4.0] σ/μ0.20-0.35"]
+      }
+    ],
+    "orthogonality_proof": "Union M_rec ∪ M_fastEI ∪ M_dend ∪ M_disinh ∪ M_other = 16 motifs, pairwise intersections ∅. Check: M_rec 9 + M_fastEI2 + M_dend4 + M_disinh1 =16; M_other empty because we partitioned all 16 (VIP disinh secondary kept in M_rec). No motif belongs to two masks, so g_rec scaling never touches E→PV (fastEI) nor SST→E (dend) nor VIP→SST (disinh). Weights remain multiplicative independent, single-delta attribution preserved per C018 lineage.",
+    "frozen_not_in_theta": ["g_vertical (L4->L2/3->L5 laminar counts LAYER_COUNT_FRAC_DEFAULT populations.py:31 + AREA_LAYER_CELL_TYPES populations.py:44)", "g_FF (L2/3_E->L4 delay FF 8ms 80steps)", "g_FB (L6->L1/L5 delay FB12ms120steps within2ms20steps)", "RF 32×32", "delays", "H 0.1/1/10/100/1000 conceptual, Theta 1000", "All PV/SST/VIP/E intrinsic b/a/c/d", "jitter σ0.10", "spatial sigma0.08", "lognormal", "p_ff0.30 p_fb0.20"],
+    "citations_frozen_vertical": ["jomission/network/builder.py:90-97 FF_LAYER_MAP FB_LAYER_MAPS", "jomission/network/builder.py:454-469 hierarchy_provenance", "jomission/network/populations.py:31 LAYER_COUNT_FRAC_DEFAULT", "jomission/network/populations.py:44 AREA_LAYER_CELL_TYPES", "jomission/network/connectivity.py:14 WITHIN_GAIN 0.35"]
+  },
+  "W_base_g1_baseline": {
+    "pseudogenome_version": "v0",
+    "DESIRED_MOTIF_GAIN_v0_16_gain_at_g1": {
+      "E->E": 1.0, "E->PV": 1.7, "E->SST": 0.7, "E->VIP": 1.0,
+      "PV->E": 1.3, "PV->PV": 1.0, "PV->SST": 1.0, "PV->VIP": 1.0,
+      "SST->E": 0.6, "SST->PV": 0.6, "SST->SST": 1.0, "SST->VIP": 0.8,
+      "VIP->E": 1.0, "VIP->PV": 1.0, "VIP->SST": 5.0, "VIP->VIP": 1.0
+    },
+    "hash_visible_via": "cfg.metadata pseudogenome_version v0 desired_motif_gain_v0 motif_gain_E_PV1.70 motif_gain_provenance MODEL_ASSUMPTION/LITERATURE_PRIOR Pfeffer2013",
+    "citations": ["jomission/network/builder.py:62-89 MOTIF_GAIN DESIRED_MOTIF_GAIN_V0", "jomission/network/builder.py:83 PSEUDOGENOME_VERSION v0"]
+  },
+  "freeze_provenance_hashes": {
+    "config_hash_C018_seed0": "be9b96ab679c9802",
+    "config_hash_C018_seed1": "cdac08787974eb77",
+    "hp_hash": "f327f9d2ad64cc88",
+    "parent_C017": "f3707cd55894787e",
+    "dt_ms": 0.1,
+    "RF_hash_distinct_example": "e5e331a140ebd37e",
+    "ledger_chain": "C000 scaffold →C001 energy→C002 jitter→C003 spatial→C004 currents→C005 reconciliation→C006 motif1.5×→C007 Poisson→C008 hierarchy delays→C009 VIP0.05→C010 lognormal→C011 tonic3.5→C012 I_bg3.0+Poisson2k→C013 SST×0.5→C014 pseudogenome v0→C015 SSTb0.21→C016 PV1.7→C017 VIPb0.20→C018 E mixture M2",
+    "cfg_metadata_hash_visible_keys": ["e_mixture_version M2", "e_mixture_RS70_CH20_EFS10", "e_mixture_RS/CH/EFS a/b/c/d", "e_mixture_provenance LITERATURE_PRIOR/MODEL_ASSUMPTION", "vip_b_corrected 0.20", "sst_b_corrected 0.21", "pv_drive_scale1.7", "weight_lognormal CV1.5 sigma1.085", "tonic_drive_scale0.6", "background_poisson 2000 amp2.0", "spatial_sigma0.08 max_in_degree25", "delay_ff80 fb120 within20", "pseudogenome_version v0", "motif_gain 16 entries"]
+  },
+  "objectives_and_gates": {
+    "J_local": "J_rates per-class distributions P(r_E),P(r_PV),P(r_SST),P(r_VIP) E<PV ordering, J_CV-dist P(CV_ISI) mean/median/max/frac>0.5/frac>1 target mean[0.5,1.5] but primary frac>0.5≥0.20 max≥1.5, J_rho mean rho [-0.05,0.2] rho(d) decay>0.05 hard<0.60, J_Fano median[0.7,2.0] now0.95 PASS, J_heterogeneity CV_rate>0.3 SD2-12 now1.78, J_EI Efrac[0.15,0.60]≥80% pops PROXY via W·r, J_CL1C PV→rho SST↔E VIP↑→SST↓ tests",
+    "B2_thresholds_SPECIFIED": "gen2_gates.py:139 CV_rate>0.3 CV_ISI[0.5,1.5] Fano[0.7,2.0] rho[-0.05,0.2] rho_fail0.30",
+    "B10_firewall": "FORBIDDEN_TERMS_B10 no T1-T7 omission AXAB/BXBA/AAXB/BBXA/AAAX/BBBX/RXRR/RRXR/RRRX Delta_exposure omission_effect q8_history_valid history_valid_HTheta_vs_fast per gen2_gates.py:32; J_generic=Σ w_k normalized_score(B_k) k∈{B1,B2,B3,B6,B7,B8} w=1/6 NO T1-T7 term w_k=1/7 local; audit_b10_objective grep 0 hits required; controller not in C_t",
+    "B1_B2_B3_targets_for_local": "B1 global mu[3,15] coverage≥60% E<PV; B2 CV_rate>0.3 meanCV[0.5,1.5] medianFano[0.7,2.0] rho[-0.05,0.2] ; B3 Efrac[0.15,0.60]; must preserve after theta move"
+  },
+  "constraints_protected_properties": {
+    "P_CV_E_non_collapse": "frac CV>0.5 ≥0.15 and maxCV≥1.5 and meanCV≥0.25 in isolated 100-E smoke I3.5-5 jitter0.10 after any theta move; CH c-50 vs RS c-65 Δ15>>jitter±3mV d8vs2 Δ6>>±10% must remain distinct; falsifier if theta reduces 0.344→<0.20 or frac0.22→0.00 while improving rho → reject",
+    "Var_heterogeneity": "CV_rate≥0.3 SD(r_i)≥2 Var>0 P(r) broad CV_r0.78-2.45 not collapsed",
+    "sparse_local_topology": "p_local0.2-0.5 short vs<0.1 long p_FF0.2-0.4 p_FB0.1-0.3 Q>0.2 locality>3, weights not saturating Δr<5% at 2× gain",
+    "finite_no_hypersync": "bar_r∈[1,30] E<PV no class>80 rho hard<0.60 finite Vm mean-65.61 not clipping H_min0.1 H_max10",
+    "one_delta_lineage": "single theta delta per iteration ledgered, reproduce P(CV) verification before next delta",
+    "citations": ["jomission/qualification/gen2_gates.py:139 B2 thresholds", "jomission/qualification/gen2_gates.py:32 FORBIDDEN_TERMS_B10", "scratch/review_CL1v2_AGSDR.md:147-153 constraints"]
+  },
+  "citations_top": {
+    "builder_jitter": "jomission/network/builder.py:39 HETEROGENEITY_JITTER_SIGMA_DEFAULT 0.10 (task cites 34)", 
+    "emitters": "jaxfne/emitters.py:55 IZHIKEVICH_CELL_TYPE_DEFAULTS + emitters.py:211 dynamics dv/du + emitters.py:545 edge_list_with_delay_ms",
+    "motif": "jomission/network/builder.py:62-89 MOTIF_GAIN DESIRED_MOTIF_GAIN v0 E->PV1.70 E->SST0.70 PV->E1.30 SST->E0.60 SST->PV0.60 VIP->SST5.00",
+    "SST": "jomission/network/builder.py:114-120 SST_B_CORRECTED 0.21 [0.189,0.231] builder.py:936-1005",
+    "VIP": "jomission/network/builder.py:99-109 VIP_B_CORRECTED 0.20 [0.18,0.22] builder.py:861-933",
+    "PV": "jomission/network/builder.py:125-130 PV_DRIVE_SCALE_DEFAULT1.7 builder.py:1271-1347",
+    "delays": "jomission/network/builder.py:90-97 FF L2/3->L4 FB L6->L1/L5 delays 2/8/12ms builder.py:807-858 jaxfne/emitters.py:545",
+    "lognormal": "jomission/network/builder.py:142-148 LOGNORMAL_CV1.5 sigma1.085",
+    "tonic": "jomission/network/builder.py:161-166 TONIC_DRIVE_SCALE_DEFAULT0.6 E3.0",
+    "poisson": "jomission/network/builder.py:49-53 BACKGROUND_POISSON 2000 amp2.0 jaxfne/_signals.py:670",
+    "spatial": "jomission/network/builder.py:395-407 spatial_sigma0.08 max_in_degree25 builder.py:630-736",
+    "RF": "jomission/network/rf.py:47 LATTICE_SIZE32 field8 sigma1.8 spacing3.2 overlap0.45",
+    "H": "jomission/dynamics/h_state.py:28-69 H_COORDINATES 5 taus 0.1/1/10/100/1000",
+    "Theta": "jomission/dynamics/hdp.py:14-22 HDPConfig tau_theta1000 lr1e-4",
+    "E_mixture": "jomission/network/builder.py:179-196 E_MIXTURE_M2 RS70 CH20 EFS10 builder.py:1008",
+    "populations": "jomission/network/populations.py:12 AREAS 31 LAYER_COUNT_FRAC 44 V1 cell types",
+    "connectivity": "jomission/network/connectivity.py:14 WITHIN_GAIN0.35 17 p_FF0.30 18 p_FB0.20 38 DELAYs",
+    "gates": "jomission/qualification/gen2_gates.py:32 FORBIDDEN_TERMS_B10 139 B2 212 B10",
+    "C018_receipt": "scratch/gen2_C018_receipt.md:62 weighted a0.028 c-62 d6.2 95 CV0.344 median0.079 Fano0.95 rho0.417 seed0/1",
+    "CL1v2_verdict": "scratch/review_CL1v2_AGSDR.md:11 READY_FOR_LOCAL_CL1 19-24 E qualified 147 protected P(CV) 155 firewall",
+    "atlas": "scratch/review_CL1v2_atlas.md:68 table r_E_RS3.77 E_CH9.95 E_FS10.60 etc rho0.44→0.05 s0.6-1.0"
+  },
+  "firewall_AGSDR_must_not": [
+    "Mutate frozen primitives above (E fractions a/c/d, SST/VIP b, PV intrinsic, jitter sigma0.10, spatial sigma0.08 max25, lognormal CV1.5, RF 32×32, cell fractions n400, delays [20,80,120], H/Theta taus, dt0.1) — requires new Ledger C-number, not theta scaling",
+    "Scale W motifs outside orthogonal mask (g_rec must not scale E->PV/PV->E/SST loops/VIP->SST)",
+    "Use forbidden terms T1-T7 omission AXAB/BXBA etc in objective J — audit_b10_objective hits must be 0",
+    "Insert controller in ContinuationState (X,H,Theta,D,RNG,cursor) — seal_predicate_B10 forbids",
+    "Peek B12 blind omission (T1<0.10 T2 enrichment>1.5 T3 d<0.2 T4 frontal p<0.05 T5 meanr>0 T6 T1+<T1- T7 no fixed lag Delta_exposure|<0.5Hz NEGATIVE per gen2_gates.py:230) — B12 after B11 freeze only",
+    "Collapse P(CV_E) typed diversity, Efrac pure >0.95/<0.05, rho>0.60 hypersync, VIP silent <0.1Hz, PV>80Hz"
+  ],
+  "next_step": "Do not launch optimizer yet — freeze sealed. AGSDR_LOCAL_CL1 optimizer must import this freeze, enforce orthogonal masks, mean-controlled g_background, distribution objectives J_local, protected P(CV) verification per move, firewall grep, single-delta ledger.",
+  "evidence_state": "SPECIFIED (B0-B2 thresholds gen2_gates.py:139) → IMPLEMENTED (C018 M2 builder.py:1008 hash be9b96ab) → TESTED (isolated 100-E smokes I3-6 0.28-0.37 frac0.19-0.22 vs RS 0.02-0.08 + network 16 smokes s0.6-1.0 + 2000ms network smoke 0.344/0.373) → OBSERVED (this freeze artifact, read-only R phase, no builder mutation beyond freeze documentation)",
+  "seal_note": "Literal AGSDR input freeze — target-state mutation only under ADAPT G-phase freeze creation, R was read-only. Frozen artifacts write-once. Do not edit builder.py primitives beyond documenting freeze."
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "agsdr_local_seeds.v1.0",
+  "version": "AGSDR_LOCAL_CL1_SEEDS_v1.0",
+  "created": "2026-08-28T20:00:00Z",
+  "author": "AGSDR Freeze Agent 3 — companion to agsdr_local_harness.json",
+  "evidence_state": "SPECIFIED",
+  "mode": "G_ADAPT_freeze",
+  "parent_model": {
+    "config_hash": "be9b96ab679c9802",
+    "hp_hash": "f327f9d2ad64cc88",
+    "ledger_tip": "GEN2_C018"
+  },
+  "policy": "Seed sets S_1, S_2, S_4 frozen BEFORE first optimizer evaluation (successive fidelity). Final rank uses declared multi-seed mean, not per-seed cherry-pick. Seeds are ledger entries not ad-hoc choices per jomission/simulation/ledger.py:11-19 PRODUCTION_SEED_LEDGER 0..31.",
+  "seed_pool": {
+    "provisioned": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+    "replicates": 8,
+    "pairing_scheme": "paired_by_replicate per jomission/simulation/ledger.py:15 intact vs omission share seed, but AGSDR_LOCAL_CL1 generic branch uses seeds as independent realizations",
+    "deterministic_fold": "seed ^ 0x9E3779B9 ^ sigma*1e6 (jomission/network/builder.py:228) + seed+7919 Poisson (builder.py:612) + seed ^0x9E3779B9 ^0xC018 E mixture (builder.py:1059)"
+  },
+  "stages": {
+    "S0_coarse": {
+      "N_candidates": 24,
+      "seeds_per_candidate": 1,
+      "S_1": [0],
+      "frozen": true,
+      "total_sims": 24,
+      "note": "Single seed coarse elimination. Seed 0 fixed. Do NOT re-rank survivors by seed1 later. Survivors = 8 Pareto non-dominated hard-PASS.",
+      "output": "trace S0: results/agsdr_local/S0/candidate_AGS_S0_00x_seed0.json x24"
+    },
+    "S1_refine": {
+      "N_candidates": 8,
+      "seeds_per_candidate": 2,
+      "S_2": [0,1],
+      "frozen": true,
+      "total_sims": 16,
+      "selection_statistic": "mean_{s in [0,1]} y(s); also report spread max-min; hard requires both seeds individually finite & no hyper>80/silence<0.5",
+      "alternative_stratified": "If HPC allows better spread, may declare S_2=[7,19] non-adjacent pair instead, but must declare before S1 launch and record here — not post-hoc. Default is [0,1] for cheap reproducibility with C018 seed0/seed1 receipts (be9b96ab/cdac08).",
+      "output": "trace S1: results/agsdr_local/S1/candidate_AGS_S1_0x_seed{0,1}.json x16 + per-candidate mean bar_2 json"
+    },
+    "S2_confirm": {
+      "N_candidates": 3,
+      "seeds_per_candidate": 4,
+      "S_4": [0,1,2,3],
+      "frozen": true,
+      "total_sims": 12,
+      "selection_statistic": "mean_{s in [0,1,2,3]} y(s) with t3 95% CI; theta_star = argmin Pareto mean among 3; variance across seeds breaks ties (lower var wins)",
+      "alternative_stratified": "If variance estimate needs broader coverage, may declare S_4=[0,7,14,21] stratified before S2 launch; default [0,1,2,3] is sequential and matches ledger 0..31 linear provision. Any change requires new seeds artifact version, not silent edit.",
+      "final_ledger_rule": "theta_star mean_4 advances as GEN2_C019 single delta be9b96ab->new_hash; other 2 finalists and all earlier candidates remain as evidence artifacts, not ledger forks",
+      "output": "trace S2: results/agsdr_local/S2/candidate_AGS_S2_0x_seed{0..3}.json x12 + per-candidate mean_4 + jacobian_estimate.json dY_k/d theta_j"
+    }
+  },
+  "totals": {
+    "candidates": 35,
+    "simulations": 52,
+    "anti_cherry_pick": "Final selection on S2 mean_4 not on max seed nor seed0; S0 single-seed rank never overrides S1/S2 mean; eliminated candidates never reinstated; seeds frozen write-once"
+  },
+  "verification": {
+    "hash_command": "python3 -c \"import hashlib,json,pathlib; p=pathlib.Path('manifests/agsdr_local_seeds.json'); h=hashlib.sha256(p.read_bytes()).hexdigest()[:16]; print(h)\"",
+    "ledger_hash_at_freeze": "computed at seal time via jomission/qualification/ledger.py:139 ledger_sha256_16",
+    "harness_link": "manifests/agsdr_local_harness.json AGSDR_LOCAL_CL1_HARNESS_v1.0 must reference this seeds hash"
+  },
+  "citations": {
+    "seeds_ledger": "jomission/simulation/ledger.py:11-19 PRODUCTION_SEED_LEDGER seeds 0..31",
+    "builder_seed_fold": "jomission/network/builder.py:228 seed folding + 612 Poisson seed+7919 + 1059 E mixture permutation",
+    "gates_B2_hard_vs_soft": "jomission/qualification/gen2_gates.py:139-154 B2 + manifests/agsdr_local_objectives.json H05/H06/H12 hard protects P(CV) tail not mean",
+    "harness": "manifests/agsdr_local_harness.json seeds_fidelity_schedule successive fidelity N0 24x1 -> N1 8x2 -> N2 3x4"
+  }
+}

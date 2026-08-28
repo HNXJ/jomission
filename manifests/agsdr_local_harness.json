@@ -1,0 +1,323 @@
+{
+  "schema": "agsdr_local_harness.v1.0",
+  "version": "AGSDR_LOCAL_CL1_HARNESS_v1.0",
+  "mode": "G_ADAPT_freeze",
+  "created": "2026-08-28T20:00:00Z",
+  "author": "AGSDR Freeze Agent 3 — Seeds/Fidelity + Firewall + EvidenceRef/Ledger",
+  "workspace": "/Users/hamednejat/workspace/computational/jomission",
+  "task_checkpoint": "Seeds/Fidelity + Firewall + EvidenceRef/Ledger for JOMISSION GEN-2 AGSDR_LOCAL_CL1 — no optimizer launch",
+  "evidence_state": "SPECIFIED",
+  "parent_model": {
+    "config_hash": "be9b96ab679c9802",
+    "config_hash_seed1": "cdac08787974eb77",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "trial_ms": 4624,
+    "ledger_tip": "GEN2_C018",
+    "ledger_path": "manifests/gen2_modification_ledger.jsonl",
+    "builder_tip": "be9b96ab679c9802",
+    "artifact": "scratch/gen2_C018_receipt.md",
+    "parent_generation": "C018 M2 RS70_CH20_EFS10"
+  },
+  "seeds_fidelity_schedule": {
+    "policy": "Successive fidelity multi-seed elimination frozen BEFORE first optimizer evaluation. Seed order, stage budgets, and selection statistic declared here; final rank uses declared multi-seed stage, never single-seed re-ranking. No cherry-picking per-seed-per-candidate for final decision.",
+    "seed_pool": {
+      "provisioned": "0..31",
+      "provision_source": "jomission/simulation/ledger.py:11-19 PRODUCTION_SEED_LEDGER seeds list(range(0,32)) replicates 8 paired_by_replicate",
+      "base_seed": 0,
+      "pairing_scheme": "paired_by_replicate — intact vs omission share seed per replicate (ledger.py:18), but AGSDR_LOCAL_CL1 uses only generic seeds, no omission branch",
+      "deterministic_fold": "per-neuron RNG seed ^ 0x9E3779B9 ^ sigma*1e6 (builder.py:228-238) + motif/provider seeds seed+7919 (builder.py:612) + E mixture seed ^0x9E3779B9 ^0xC018 (builder.py:1059) — same mechanism, no ad-hoc seed choice",
+      "frozen_declaration": "Seed sets S_N per stage frozen in manifests/agsdr_local_seeds.json; optimizer may not mutate seeds mid-stage"
+    },
+    "fidelity": {
+      "window": {
+        "spontaneous_duration_ms": 2000,
+        "dt_ms": 0.1,
+        "note": "2000ms spontaneous smoke matches C018 receipt 2000ms (scratch/gen2_C018_receipt.md:95-101) and prior readiness checks; consistent with PRODUCTION_SEED_LEDGER checkpoint cadence every 46240ms (ledger.py:22) but for AGSDR smoke use 2000ms to keep N0 cheap"
+      },
+      "parallel": "evaluations theta1 || theta2 || ... || thetaN independent simulations, then evaluators E_rates || E_B2 || E_EI || E_CL1C parallel, then parent/AGSDR proposes next distribution (see parallel_topology)"
+    },
+    "stages": [
+      {
+        "stage": "S0_coarse",
+        "N_candidates": 24,
+        "seeds_per_candidate": 1,
+        "seed_set": "S_1 = {0} declared (or {0} fixed per manifests/agsdr_local_seeds.json S0 field)",
+        "total_sims": 24,
+        "purpose": "Coarse elimination over 5-D theta_local box; rank on hard feasibility + Pareto soft; eliminate infeasible and dominated",
+        "selection": "Keep N1=8 survivors: all HARD-PASS (H01-H12 per agsdr_local_objectives.json), then Pareto non-dominated on (J_rates,J_irregularity,J_synchrony,J_Fano,J_hetero,J_EI,J_CL1C) with w=1/6 tie-breaker only among non-dominated (optimization_policy Pareto). Eliminate remainder regardless of single scalar.",
+        "budget_note": "24x1 cheap; mirrors B1/B2 smoke cost ~5s per 2000ms at n=400 dt0.1; parallel across 24 workers"
+      },
+      {
+        "stage": "S1_refine",
+        "N_candidates": 8,
+        "seeds_per_candidate": 2,
+        "seed_set": "S_2 = {0,1} declared frozen (or {0,1} or {7,19} non-adjacent pair — declared in seeds.json, not chosen post-hoc)",
+        "total_sims": 16,
+        "purpose": "Refine survivors with seed heterogeneity estimate; detect seed-sensitive PV cliff (r_PV 6.37 vs 14.08) and VIP tail variance",
+        "selection_statistic": "For each scalar y (bar_r, rho, CV_mean, Fano, Efrac_proxy), compute cross-seed mean y_bar = mean_{s in S_2} y(s) and SE; rank uses y_bar not best seed. Also report max-min spread as robustness. Pareto uses y_bar.",
+        "selection": "Keep N2=3 finalists: hard PASS on y_bar (all seeds individually must be finite and no seed >80/<0.5 for E) and Pareto on y_bar distributions. Require protected P(CV_E>0.5)_bar >=0.15 and max_bar >=1.5 on mean across seeds.",
+        "no_cherry_pick": "Final set not defined as 'best seed among 2 per candidate'; declared mean is the ranking statistic. Single-seed outlier improvement does not promote."
+      },
+      {
+        "stage": "S2_confirm",
+        "N_candidates": 3,
+        "seeds_per_candidate": 4,
+        "seed_set": "S_4 = {0,1,2,3} declared frozen (or {0,1,2,3} or {0,7,14,21} stratified — frozen choice in seeds.json)",
+        "total_sims": 12,
+        "purpose": "Confirmation with 4-seed distribution; estimate Jacobian dY_k/d theta_j and finalize one theta* for Ledger",
+        "selection_statistic": "Per-candidate y_bar_4 = mean_{s in S_4} y(s); 95% CI via t_{3}; report pooled distribution P(y) not just mean. Final model theta* is argmin among N2 of Pareto y_bar_4 (or scalar w=1/6 tie-breaker). Single-seed final claim forbidden.",
+        "selection": "Choose exactly 1 theta* (theta_star) to advance to ledger GEN2_C019: must be hard PASS on all 4 seeds pooled (no seed violates H01/H10 hyper>80 / silence<0.5) and best Pareto y_bar_4. If tie, lower var across seeds wins (stability). Document all 3 finalists' 4-seed receipts even for non-selected.",
+        "final_ledger_rule": "theta_star enters ledger as single delta parent be9b96ab -> new hash; other N0+N1+N2-1 candidates remain as evidence artifacts under results/agsdr_local/ not ledger forks. No post-hoc switch to seed0-best among S4."
+      }
+    ],
+    "totals": {
+      "candidates_evaluated": "24 + 8 + 3 = 35 distinct theta vectors (N0+N1+N2)",
+      "simulations": "24*1 + 8*2 + 3*4 = 52 simulations of 2000ms n400",
+      "seeds_reused": "Seeds 0..3 reused across stages but frozen selection forbids cherry-picking; earlier S0 single-seed rank never overrides later multi-seed mean",
+      "anti_cherry_pick_rules": [
+        "Seed sets S_1,S_2,S_4 frozen in manifests/agsdr_local_seeds.json BEFORE first optimizer evaluation; optimizer code may not change them adaptively.",
+        "Stage transition keeps top N by declared stage statistic (S0 uses 1-seed, S1 uses 2-seed mean, S2 uses 4-seed mean); never re-rank earlier stage with later seeds to promote a previously eliminated candidate.",
+        "Final theta_star selected on S2 4-seed mean (or Pareto of means), not on max_{s in S4} y(s) nor on seed0 alone. Reporting must show per-seed table + mean; claim based on seed0 alone is invalid.",
+        "Elimination is monotonic: once eliminated at S0 or S1, candidate never reinstated via single good seed; ledger preserves attribution single theta_star edge.",
+        "All stages use same 2000ms window and same dt 0.1; no window-length tuning per seed."
+      ]
+    },
+    "citations": {
+      "seeds_provision": "jomission/simulation/ledger.py:11-19 PRODUCTION_SEED_LEDGER seeds 0..31 replicates 8 paired_by_replicate base 0",
+      "checkpoint_cadence": "jomission/simulation/ledger.py:21-28 CHECKPOINT_CADENCE every 46240ms keep_last_n 5 ContinuationState pytree verification rtol1e-5",
+      "deterministic_jitter_seed": "jomission/network/builder.py:215 seed folding seed ^0x9E3779B9 ^ sigma*1e6 + 232-238 jitter arr clipping",
+      "poisson_seed": "jomission/network/builder.py:612 background_poisson_seed seed+7919",
+      "e_mixture_seed": "jomission/network/builder.py:1059 permutation seed ^0x9E3779B9 ^0xC018 n_RS169 CH48 EFS25 pre-jitter"
+    }
+  },
+  "firewall": {
+    "policy": "Omission/T1-T7 invisible to AGSDR_LOCAL_CL1. Generic-state calibration only. B12 blind omission is after B11 freeze per gen2_gates.py:230-235.",
+    "forbidden_terms_B10": {
+      "list": ["T1","T2","T3","T4","T5","T6","T7","omission","AXAB","BXBA","AAXB","BBXA","AAAX","BBBX","RXRR","RRXR","RRRX","Delta_exposure","delta_exposure","omission_effect","q8_history_valid","history_valid_HTheta_vs_fast"],
+      "source": "jomission/qualification/gen2_gates.py:32-55 FORBIDDEN_TERMS_B10 + scratch/gen2_qualification_skeleton_A.json:75 forbidden_terms_B10 + scratch/gen2_qualification_skeleton_A.md:331 forbidden substrings table",
+      "allowed_objective_terms_B10": ["firing_regime","heterogeneity","AI dynamics","asynchronous_irregular","E/I","propagation","FF/FB","H response","H(t)","Theta memory","Theta(t)","retention"],
+      "allowed_source": "jomission/qualification/gen2_gates.py:57-70 ALLOWED_OBJECTIVE_TERMS_B10"
+    },
+    "audit": {
+      "function": "jomission/qualification/gen2_gates.py:645-669 audit_b10_objective(objective_source: str|Path) -> {hits, clean, forbidden_terms}",
+      "predicate": "audit_b10_objective must be 0 hits on AGSDR optimizer objective code and on J_generic definition and on ledger reason_before_results for any AGSDR step. Hits = immediate B10 FAIL per seal_predicate_B10 gen2_gates.py:553-577.",
+      "when": "Freeze audit B10_objective_audit.json required as artifact before optimizer launch and after any objective change; grep list is SPECIFIED constant not tuned.",
+      "controller_not_in_Ct": "Controller state not inserted into ContinuationState (X,H,Theta,D,RNG,cursor) per gen2_gates.py:560-577 'controller_in_Ct' FORBIDDEN and gen2_qualification_skeleton_A.md:329 'AGSDR external in scratch/jomission/calibration not dynamics/h_state.py' + 334 seal_predicate B10_PASS iff controller not in C_t and final re-passes B1-B9 without controller.",
+      "no_T1_T7_in_J_generic": "J_generic = sum w_k normalized_score(B_k) for k in {B1,B2,B3,B6,B7,B8} weights frozen equal 1/6 NO T1-T7 term per gen2_gates.py:213-220 SPECIFIED_GATES B10 candidate_metric + thresholds w_k 1/6:218; re-passes B1-B9 without controller required for B10_PASS."
+    },
+    "allowed_in_J_generic": {
+      "note": "AGSDR objective may include generic B1/B2/B3/B6 terms and B7/B8 when available, but not T1-T7.",
+      "generic_Bk": ["B1 firing_regime global mu 3-15 coverage>=60% E<PV (gen2_gates.py:117-138)","B2 heterogeneity AI CV_rate>0.3 CV_ISI mean[0.5,1.5] Fano[0.7,2.0] rho[-0.05,0.2] rho(d)>0.05 (gen2_gates.py:139-154)","B3 laminar E/I Efrac[0.15,0.60] >=80% (gen2_gates.py:156-164)","B6 propagation acc>chance PI[0.3,1.0] latencies ordered FF>15% FB>15% shuffle<8% (gen2_gates.py:181-188) when RF-qualified","B7 H tau 4.1s [2,8] R2>0.7 DeltaH>0.01 (gen2_gates.py:189-196)","B8 Theta tau Theta_inf DeltaTheta>0.001 functional Delta_rate>0.5 retention>30% (gen2_gates.py:197-204)"],
+      "for_local_AGSDR": "Pre-B6/B7/B8 stage uses local soft set (J_rates,J_irregularity,J_synchrony,J_Fano,J_hetero,J_EI,J_CL1C) per manifests/agsdr_local_objectives.json — all generic, none T-related, frozen w=1/6 or 1/7 local distribution-aware (objectives document hard vs soft split).",
+      "forbidden": "Any term containing forbidden substrings above, even as comment, fails audit. Delta_exposure |Delta|<0.5 is B12 NEGATIVE per gen2_gates.py:230-235, not an AGSDR target."
+    },
+    "enforcement": [
+      "Run audit_b10_objective on jomission/calibration/* and manifests/agsdr_local_harness.json and candidate ledger reason_before_results; commit B10_objective_audit.json with hits=[] before first theta evaluation.",
+      "Verify C_t unchanged given same hashes by rebuilding theta_star model and comparing H/Theta traces without controller (continuation_verified per ledger.py:21-28).",
+      "B10 seal requires final theta_star model re-passes B1-B9 without controller (gen2_gates.py:575).",
+      "B12 T1-T7 computation blocked until B11 freeze; AGSDR code must not import jomission/analysis/comparison_matrix T1 branches or estimand q8_history_valid."
+    ],
+    "citations": {
+      "forbidden_list_line": "jomission/qualification/gen2_gates.py:32-55 FORBIDDEN_TERMS_B10",
+      "allowed_list_line": "jomission/qualification/gen2_gates.py:57-70 ALLOWED_OBJECTIVE_TERMS_B10",
+      "audit_fn": "jomission/qualification/gen2_gates.py:645-669 def audit_b10_objective",
+      "seal_predicate_B10": "jomission/qualification/gen2_gates.py:553-577 seal_predicate_B10 forbidden_hits + repasses_B1_B9 + controller_in_Ct",
+      "B10_gate_spec": "jomission/qualification/gen2_gates.py:213-227 SPECIFIED_GATES B10 candidate_metric J_generic weights 1/6 no T1-T7 term",
+      "skeleton_forbidden": "scratch/gen2_qualification_skeleton_A.json:75 forbidden_terms_B10 and :76 allowed_objective_terms_B10; scratch/gen2_qualification_skeleton_A.md:331 B10 forbidden substrings table",
+      "B12_blind": "jomission/qualification/gen2_gates.py:230-236 SPECIFIED_GATES B12 candidate_metric T1<0.10 etc blind only after qualification"
+    }
+  },
+  "candidate_EvidenceRef_ledger_schema": {
+    "schema_id": "agsdr_candidate_record.v1.0",
+    "description": "Machine-readable per-candidate record for AGSDR_LOCAL_CL1 — parallel simulations theta_i, then parallel evaluators, then parent/AGSDR proposal update learning Jacobian dY_k/d theta_j. Extends jomission/evidence.py EvidenceRef with theta and distributional B-metrics.",
+    "file_pattern": "results/agsdr_local/candidate_{candidate_id}.json  + manifest trace results/agsdr_local/trace.jsonl (one JSON per candidate per seed)",
+    "candidate_id": "AGS_Cxxx where xxx = zero-padded index per stage S (e.g., AGS_S0_007, AGS_S1_03, AGS_S2_01) — globally unique",
+    "fields": {
+      "candidate_id": {"type": "string", "pattern": "^AGS_S[0-2]_[0-9]{2,3}$", "description": "Unique per theta vector; stage prefix S0/S1/S2"},
+      "parent_generation": {"type": "string", "example": "GEN2_C018", "description": "Ledger parent change_id this candidate branches from (always GEN2_C018 for S0, theta_star parent otherwise)"},
+      "theta": {
+        "type": "object",
+        "description": "5-D theta_local vector — proposal distribution domain frozen per agsdr_local_objectives.json theta_local_dimensions",
+        "properties": {
+          "g_rec": {"type": "number", "range": "[0.25,0.45]", "maps_to": "within_gain spatial_sigma0.08 max_in_degree25 effective W·L lognormal", "seam": "jomission/network/builder.py:395-407 cfg.connectivity + 630-736 _apply_spatial_locality"},
+          "g_fastEI": {"type": "object", "properties": {"E_to_PV": {"type": "number", "range": "[1.4,2.0]", "prior": 1.7}, "PV_to_E": {"type": "number", "range": "[1.0,1.6]", "prior": 1.3}}, "maps_to": "E<->PV loop", "seam": "jomission/network/builder.py:62-79 MOTIF_GAIN + 692-804 _apply_motif_gains"},
+          "g_dend": {"type": "object", "properties": {"E_to_SST": {"type": "number", "range": "[0.5,0.9]", "prior": 0.7}, "SST_to_E": {"type": "number", "range": "[0.42,0.78]", "prior": 0.6}, "SST_to_PV": {"type": "number", "range": "[0.42,0.78]", "prior": 0.6}, "SST_to_VIP": {"type": "number", "range": "[0.56,1.04]", "prior": 0.8}}, "maps_to": "SST dendritic loop", "seam": "same MOTIF_GAIN"},
+          "g_disinh": {"type": "number", "range": "[3.5,6.5]", "prior": 5.0, "maps_to": "VIP->SST", "seam": "jomission/network/builder.py:62-79 (VIP,SST):5.00"},
+          "g_background": {"type": "object", "properties": {"tonic_drive_scale": {"type": "number", "range": "[0.45,0.75]", "prior": 0.6, "note": "3.0/5.0 mean, mean-controlled lambda"}, "poisson_rate_hz": {"type": "number", "range": "[1000,3000]"}, "poisson_amplitude": {"type": "number", "range": "[1.0,3.0]"}, "mu_total_constrained": {"type": "boolean", "const": true, "description": "E[I_bg] in [3.4,4.0] fixed per builder I_bg lambda"}}, "maps_to": "I_bg(lambda)=I_tonic+I_private+I_noise+I_syn mu 3.405 sigma0.943 sigma/mu0.277", "seam": "jomission/network/builder.py:49-53 BACKGROUND_POISSON + 159-166 TONIC_DRIVE_SCALE + jaxfne/_signals.py:670 Bernoulli private"}
+        },
+        " Provenance": "MODEL_ASSUMPTION magnitudes / LITERATURE_PRIOR Pfeffer2013 direction per builder.py:62-89",
+        "hash_visible": "All theta entries hash-visible via cfg.update_metadata (builder.py:440-469 motif_gain/pseudogenome, 454-469 delays, 492-500 weight_lognormal, 514-525 tonic, 608-617 poisson, 545-596 e_mixture etc.) so config_hash distinguishes theta"
+      },
+      "config_hash": {"type": "string", "pattern": "^[0-9a-f]{16}$", "description": "jaxfne.io.config_hash(model.cfg) per jomission/simulation/lifecycle.py:20,231 and evidence.py:18; distinct from parent be9b96ab when theta !=0"},
+      "numerical_config_hash": {"type": "string", "pattern": "^[0-9a-f]{16}$", "description": "hash of numerical config (dt,trial_ms) per jomission/evidence.py:19 + exec_A_RFoff_RateRef.py:370 numerical_config_hash"},
+      "hp_hash": {"type": "string", "pattern": "^[0-9a-f]{8,16}$", "description": "hdp hp_hash f327f9d2ad64cc88 frozen (no HDP tuning in AGSDR_LOCAL_CL1)"},
+      "seed": {"type": "integer", "description": "Single seed for this record; multi-seed candidate aggregates over multiple records with same candidate_id but different seed"},
+      "seeds_aggregated": {"type": "array", "items": {"type": "integer"}, "description": "For aggregated view: list of seeds used for this candidate (S_1, S_2, or S_4)"},
+      "rates": {
+        "type": "object",
+        "description": "J_rates per-class distributions from 2000ms window",
+        "properties": {
+          "bar_r_Hz": {"type": "number", "hard": "(1,30) H02", "soft": "[3,15] B1"},
+          "r_E_Hz": {"type": "number", "target": "5-8 ±50% => [2.5,12] soft"},
+          "r_PV_Hz": {"type": "number", "target": "12-25 ±50% => [6,37.5] soft, E<PV ordering"},
+          "r_SST_Hz": {"type": "number", "target": "6-12 ±50% => [3,18]"},
+          "r_VIP_Hz": {"type": "number", "target": "8-15 ±50% => [4,22.5] soft, finite >0.5 hard"},
+          "coverage_fraction": {"type": "number", "soft": ">=0.60 per B1", "evaluation": "fraction pops mu in class ±50%"},
+          "E_lt_PV": {"type": "boolean"},
+          "per_pop_mu": {"type": "object", "description": "map area_layer_class -> mu"},
+          "n_E_n_PV_n_SST_n_VIP": {"type": "object"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:117-136 B1 + jomission/qualification/b1_targets.py:19-64 + manifests/agsdr_local_objectives.json J_rates"
+      },
+      "CV_distribution": {
+        "type": "object",
+        "description": "J_irregularity P(CV_ISI) distribution — not scalar mean",
+        "properties": {
+          "mean_CV_ISI": {"type": "number", "soft": "[0.5,1.5] B2, not hard (H12)"},
+          "median_CV_ISI": {"type": "number"},
+          "max_CV_E": {"type": "number", "hard": ">=1.5 H06"},
+          "P_CV_gt_0p5": {"type": "number", "hard": ">=0.15 H05", "soft": ">=0.20"},
+          "P_CV_gt_1": {"type": "number", "soft": ">=0.10"},
+          "per_phenotype_P_gt_0p5": {"type": "object", "description": "CH vs RS vs EFS breakdown isolated verification"},
+          "meanCV_isolated_I3p5": {"type": "number", "description": "100-E smoke I=3.5 verification per C018 Fisher test"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:139-152 B2 + manifests/agsdr_local_objectives.json H05 H06 H12 + jomission/network/builder.py:187-196 E_MIXTURE M2"
+      },
+      "rho": {
+        "type": "object",
+        "description": "J_synchrony — mean rho and rho(d) slope",
+        "properties": {
+          "mean_rho_ij": {"type": "number", "hard": "<0.60 H03", "soft": "[-0.05,0.2] B2, >0.30 soft FAIL"},
+          "rho_EE": {"type": "number"},
+          "rho_PV": {"type": "number"},
+          "rho_d_slope": {"type": "number", "soft": ">0.05 B2"},
+          "n_pairs": {"type": "integer"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:139-151 B2 thresholds + jomission/network/builder.py:395-407 spatial locality"
+      },
+      "Fano": {
+        "type": "object",
+        "properties": {
+          "median_Fano": {"type": "number", "soft": "[0.7,2.0] B2"},
+          "mean_Fano": {"type": "number"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:148 Fano_range (0.7,2.0)"
+      },
+      "heterogeneity": {
+        "type": "object",
+        "properties": {
+          "CV_rate": {"type": "number", "hard": ">0.15 fail guard CV_rate_fail H04", "soft": ">0.30 PASS"},
+          "SD_r_Hz": {"type": "number", "soft": "[2,12] B2"},
+          "Var_r_E": {"type": "number", "hard": ">0 H04"},
+          "Var_Vm": {"type": "number", "description": "mV^2, stable not collapsing"},
+          "Vm_mean": {"type": "number"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:141-152 B2 candidate_metric + jomission/network/builder.py:39 heterogeneity jitter"
+      },
+      "EI": {
+        "type": "object",
+        "description": "PROXY_LIMITED until JaxFNE supports delayed+HDP edge_current",
+        "properties": {
+          "Efrac_proxy": {"type": "number", "hard": "(0.05,0.95) H09", "soft": "[0.15,0.60] B3 >=80%"},
+          "Efrac_per_area": {"type": "object"},
+          "proxy_flag": {"type": "string", "const": "PROXY_LIMITED", "description": "until jaxfne/_model_simulate.py:280 enable_hdp compatible with delay_steps"},
+          "sign_correct": {"type": "boolean"}
+        },
+        "citation": "jomission/qualification/gen2_gates.py:156-164 B3 + jomission/recording/observables.py:34-93 partition_currents_by_motif + jaxfne/emitters.py:2846 + scratch/gen2_C014_receipt.md:166 PROXY"
+      },
+      "CL1C": {
+        "type": "object",
+        "description": "CL1-C functional perturbation metrics inside optimizer (soft objectives, not just hard gate)",
+        "properties": {
+          "PV_fast": {"type": "object", "properties": {"delta_r_PV_Hz": {"type": "number", "soft": ">+15 >+20 ideal"}, "delta_rho": {"type": "number", "soft": "<-0.05 PASS"}, "delta_r_E_Hz": {"type": "number", "note": "E down preferred bonus not hard"}}},
+          "SST_control": {"type": "object", "properties": {"delta_r_SST_Hz": {"type": "number", "soft": ">+8"}, "delta_r_E_Hz": {"type": "number", "soft": "<-0.1 hint <-0.5 strong"}}},
+          "VIP_disinhib": {"type": "object", "properties": {"delta_r_VIP_Hz": {"type": "number", "soft": ">+1.5"}, "delta_r_SST_Hz": {"type": "number", "soft": "<-1.0 PASS SST<=3.8"}}}
+        },
+        "citation": "jomission/network/builder.py:62-79 MOTIF_GAIN PV->E1.30 SST->E0.60 VIP->SST5.00 + manifests/agsdr_local_objectives.json J_CL1C + scratch/review_CL1v2_functional.md"
+      },
+      "constraints": {
+        "type": "object",
+        "description": "Hard feasibility verdict per manifests/agsdr_local_objectives.json H01-H12",
+        "properties": {
+          "hard": {"type": "object", "properties": {"H01_finite": {"type": "boolean"}, "H02_bar_r": {"type": "boolean"}, "H03_rho_hard": {"type": "boolean"}, "H04_Var_rE": {"type": "boolean"}, "H05_P_CV_E": {"type": "boolean"}, "H06_max_CV_E": {"type": "boolean"}, "H07_locality": {"type": "boolean"}, "H08_pseudogenome_locality": {"type": "boolean"}, "H09_Efrac_hard": {"type": "boolean"}, "H10_no_hyper": {"type": "boolean"}, "H11_CL1A_PASS": {"type": "boolean"}, "H12_distributional_mean_not_hard": {"type": "string", "const": "soft only"}}},
+          "feasible": {"type": "boolean", "description": "AND over all hards; FALSE => infeasible regardless of soft scores"},
+          "soft_J_vector": {"type": "object", "properties": {"J_rates": {"type": "number"}, "J_irregularity": {"type": "number"}, "J_synchrony": {"type": "number"}, "J_Fano": {"type": "number"}, "J_hetero": {"type": "number"}, "J_EI": {"type": "number"}, "J_CL1C": {"type": "number"}, "J_scalar_w1_6": {"type": "number"}}}
+        }
+      },
+      "valid": {"type": "boolean", "description": "feasible AND not NaN AND hard PASS; soft FAIL does not invalidate (feasibility vs Pareto)"},
+      "artifact_hashes": {
+        "type": "object",
+        "description": "Per jomission/evidence.py:14-44 EvidenceRef, each simulation emits machine-readable artifact hash",
+        "properties": {
+          "spikes_artifact_sha": {"type": "string", "description": "hash of spikes array / spikes.npz"},
+          "rates_artifact_sha": {"type": "string"},
+          "field_artifact_sha": {"type": "string"},
+          "evidence_ref": {"type": "object", "description": "jomission/evidence.py:14 EvidenceRef dataclass fields", "properties": {"code_sha": {"type": "string"}, "parent_run": {"type": ["string","null"]}, "config_hash": {"type": "string"}, "numerical_config_hash": {"type": "string"}, "hp_hash": {"type": "string"}, "dt_ms": {"type": "number"}, "seed": {"type": "integer"}, "network_realization": {"type": "string"}, "phase": {"type": "string"}, "initial_state_hash": {"type": ["string","null"]}, "namespace": {"type": "string"}, "evidence_class": {"type": "string"}, "estimand_version": {"type": "string"}, "generated_owner": {"type": "string"}, "artifact_hash": {"type": "string"}}},
+          "trace_jsonl_sha": {"type": "string"}
+        },
+        "citation": "jomission/evidence.py:14-44 EvidenceRef + jomission/simulation/atomic_save.py"
+      },
+      "ledger_link": {
+        "type": "object",
+        "description": "Only theta_star that wins S2 becomes ledger entry GEN2_C019 with full jomission/qualification/ledger.py LedgerEntry fields (change_id, parent_model, parameter_path pathway old/new delta reason_before_results provenance qualification_target predicted/observed generic_effect tests_passed/failed resulting_model evidence_state timestamp author gate). Other candidates remain as trace.jsonl artifacts not ledger forks (one-delta lineage).",
+        "citation": "jomission/qualification/ledger.py:76-137 LedgerEntry + manifests/gen2_ledger.schema.json + manifests/gen2_modification_ledger.jsonl"
+      }
+    },
+    "parallel_topology": {
+      "description": "Evaluations are embarrassingly parallel per theta; evaluators are parallel per metric; AGSDR learns Jacobian dY_k/d theta_j for local linearization.",
+      "diagram": "theta1 || theta2 || ... || thetaN  [each builds model via jomission/network/builder.py:318 build_jomission_network n_per_area100 && jaxfne.io.config_hash -> 2000ms simulation] -> per-theta records (spikes, V_m, traces, edge_current proxy) -> evaluators E_rates || E_B2 || E_EI || E_CL1C (each reads same artifacts, computes one J_k) -> join per candidate valid/feasible/J_vector -> parent/AGSDR updates proposal distribution P(theta) via Pareto ranking (optimization_policy feasible-first) -> learns Jacobian dY_k/d theta_j by local finite differences across nearby thetas (e.g., delta g_fastEI +0.15 => delta rho, delta P(CV>0.5))",
+      "theta_parallel": {
+        "spec": "N independent simulations (N = N0 or N1 or N2) dispatched as array job; each simulation deterministic per seed (builder.py seeds), no shared RNG, no controller state coupling; config_hash + seed uniquely identifies realization.",
+        "resource": "per sim ~2000ms *400 neurons dt0.1 = 8e6 steps *n_edges ~10k ; O(400*4624/0.1) memory ~74MB V_m per trial per ledger.py RESOURCE_ESTIMATE; exposure_batch_size 11 for 38GB OOM guard per factorial_v0p2_fast.py:198,383"
+      },
+      "evaluator_parallel": {
+        "E_rates": "computes bar_r, per-class r_E/PV/SST/VIP, coverage>=60%, E<PV from spikes (jomission/qualification/b1_targets.py + gen2_gates.py:117-138 B1)",
+        "E_B2": "computes CV_rate, CV_ISI per neuron, Fano median[0.7,2.0], mean rho[-0.05,0.2] hard<0.60, rho(d) slope>0.05 from binned correlations (gen2_gates.py:139-154 + ledger RESOURCE_ESTIMATE)",
+        "E_EI": "computes Efrac proxy via partition_currents_by_motif W·r·tau (jomission/recording/observables.py:34-156) until jaxfne supports edge_current with delays; flags PROXY_LIMITED (gen2_gates.py:156-164 B3)",
+        "E_CL1C": "computes PV+50%/SST+50%/VIP+50% and additive +2.0 perturbations vs baseline same seed (review_CL1v2_functional); deltas r_PV, rho, E, SST (manifests/agsdr_local_objectives.json J_CL1C)",
+        "note": "Evaluators share same per-theta artifacts but compute disjoint J_k; embarrassingly parallel after simulation join; no cross-evaluator leakage to T1-T7"
+      },
+      "proposal_update": {
+        "AGSDR_step": "Parent/AGSDR receives per-candidate feasible+J_vector and updates proposal distribution P_{t+1}(theta) supported on theta_local 5-D box [0.25,0.45] etc. Use feasible-first Pareto: keep non-dominated feasible set; scalar w=1/6 only tie-breaks among non-dominated (manifests/agsdr_local_objectives.json optimization_policy). Proposal may be Bayesian optimization or evolutionary; frozen equal weights w_k=1/6 per B10 SPECIFIED, not empirical T weighting.",
+        "jacobian_learning": {
+          "Y_k": ["bar_r","r_E","r_PV","r_VIP","mean_CV_ISI","P_CV_gt0p5","max_CV_E","mean_rho","median_Fano","CV_rate","Efrac_proxy","delta_rho_PV","delta_r_E_SST","delta_SST_VIP"],
+          "theta_j": ["g_rec","g_fastEI_E_PV","g_fastEI_PV_E","g_dend_E_SST","g_dend_SST_E","g_disinh_VIP_SST","g_background_tonic","g_background_poisson_rate","g_background_poisson_amp"],
+          "estimate": "Jacobian dY_k/d theta_j ≈ (Y_k(theta + delta e_j) - Y_k(theta - delta e_j))/(2 delta) using nearby candidates within same stage (finite differences). AGSDR maintains running linear surrogate Y ≈ Y0 + J (theta - theta0) for local acquisition; not a cortical mechanism, external optimizer state.",
+          "use": "Guides next proposal toward Pareto improvement: e.g., positive d(rho)/d(g_rec) suggests lower g_rec reduces sync; positive d(P_CV>0.5)/d(g_background private variance) quantifies trade-off noted in c011_counterexample where bar_r improvement co-degraded rho; Jacobian makes trade-off explicit.",
+          "store": "Per-stage jacobian_estimate.json with 5xK matrix and se across seeds (se over S_2 or S_4 means)."
+        },
+        "one_delta_ledger": "Only one theta_star advances to ledger GEN2_C019 (f3707cd->be9b96ab style single edge per C018); attribution preserved via reason_before_results before observed_generic_effect (ledger.py:18-20 invariants SPECIFIED->IMPLEMENTED->TESTED->OBSERVED)"
+      }
+    },
+    "ledger_schema_compliance": {
+      "candidate_record_vs_ledger": "Candidate records are EvidenceRef/artifact level (evidence.py:14), not yet LedgerEntry. Only theta_star promoted to LedgerEntry via jomission/qualification/ledger.py append_ledger with change_id GEN2_C019, parameter_path theta_local.* , pathway intrinsic/microcircuit, delta factor/absolute, reason_before_results frozen pre-observation, provenance MODEL_ASSUMPTION, qualification_target B2/CL1-B, predicted_generic_effect delta rho/delta P(CV), observed_generic_effect measured Y_k bar_4, tests_passed B1/B2 hard, evidence_state OBSERVED, gate B2/B3, timestamp ISO8601, author AGSDR_LOCAL_CL1.",
+      "additionalProperties": "candidate records may carry ledger_link stub only for theta_star; trace.jsonl holds all candidates for audit; ledger remains append-only write-once per ledger.py:200-263 and gen2_ledger.schema.json required fields"
+    },
+    "citations": {
+      "evidence_ref_line": "jomission/evidence.py:14-44 EvidenceRef dataclass code_sha parent_run config_hash numerical_config_hash hp_hash dt_ms seed network_realization phase initial_state_hash namespace evidence_class estimand_version generated_owner artifact_hash",
+      "ledger_entry_line": "jomission/qualification/ledger.py:76-137 LedgerEntry required_fields change_id parent_model parameter_path pathway old_value new_value delta reason_before_results provenance qualification_target predicted/observed generic_effect unexpected tests_passed/failed resulting_model evidence_state timestamp author gate + 33 LEDGER_PATH manifests/gen2_modification_ledger.jsonl append_only",
+      "ledger_schema": "manifests/gen2_ledger.schema.json + manifests/gen2_Bk_seal.schema.json seal predicates",
+      "builder_seams": "jomission/network/builder.py:318-627 build_jomission_network + 395-407 connectivity + 630-736 _apply_spatial_locality + 692-804 _apply_motif_gains + 99-196 intrinsic MIXTURE VIP/SST/PV/POISSON/TONIC + 142-166 LOGNORMAL",
+      "gates_B10_firewall": "jomission/qualification/gen2_gates.py:32-70 FORBIDDEN/ALLOWED + 213-220 B10 J_generic w_k 1/6 + 553-577 seal_predicate_B10 + 645-669 audit_b10_objective",
+      "seeds": "jomission/simulation/ledger.py:11-28 PRODUCTION_SEED_LEDGER + jomission/network/builder.py:228 deterministic jitter seed",
+      "objectives": "manifests/agsdr_local_objectives.json H01-H12 hard + soft distributional + optimization_policy Pareto",
+      "current_model_C018": "scratch/gen2_C018_receipt.md:95-101 C018 2000ms metrics be9b96ab/cdac08"
+    }
+  },
+  "file_line_citations_index": {
+    "gen2_gates_firewall": "jomission/qualification/gen2_gates.py:32 FORBIDDEN_TERMS_B10 list + :57 ALLOWED_OBJECTIVE_TERMS_B10 + :213-220 B10 candidate_metric J_generic sum w_k 1/6 + :553-577 seal_predicate_B10 + :645-669 audit_b10_objective",
+    "builder_typed_mixture": "jomission/network/builder.py:187-196 E_MIXTURE M2 RS70/CH20/EFS10 + :39 HETEROGENEITY_JITTER sigma0.10 + :62-89 MOTIF_GAIN 12-gain + :90-97 FF/FB delays + :142-144 LOGNORMAL + :159-166 TONIC 0.6 + :49-53 POISSON 2kHz + :545-596 metadata hash-visible",
+    "ledger_EvidenceRef": "jomission/qualification/ledger.py:32-35 LEDGER_PATH + :76-137 LedgerEntry + :200-263 append_ledger + jomission/evidence.py:14-44 EvidenceRef + manifests/gen2_ledger.schema.json + manifests/gen2_Bk_seal.schema.json",
+    "seeds_ledger": "jomission/simulation/ledger.py:11-19 PRODUCTION_SEED_LEDGER 0..31 + :21-28 CHECKPOINT_CADENCE",
+    "config_hash_api": "jaxfne/io config_hash via jomission/simulation/lifecycle.py:20,231 + jomission/simulation/factorial_v0p2.py:19,79 + jomission/evidence.py:39 distinct_from_canonical"
+  },
+  "frozen_policy": "This harness is SPECIFIED and write-once under G ADAPT; any change creates new version AGSDR_LOCAL_CL1_HARNESS_v1.1, not silent edit. Optimizer launch must reference this hash and manifests/agsdr_local_seeds.json hash.",
+  "next_actions": [
+    "Freeze manifests/agsdr_local_seeds.json with explicit S_1,S_2,S_4 sets (companion artifact).",
+    "Run audit_b10_objective on optimizer repo before first theta evaluation; commit B10_objective_audit.json.",
+    "Launch S0 24x1 parallel via jomission/network/builder.py seams; collect trace.jsonl per candidate_EvidenceRef schema; evaluate hard feasibility first."
+  ],
+  "allowed_next": "AGSDR may search theta_local within frozen 5-D box via successive fidelity S0->S1->S2; may compute Jacobian dY_k/d theta_j externally; must not peek at omission/T1-T7.",
+  "prohibited_next": "Do not launch B12; do not compute T1-T7 Delta_exposure q8_history_valid; do not cherry-pick single-seed best; do not densify topology or add mean to background beyond mu [3.4,4.0]; do not retune g_vertical/g_FF/g_FB until B1/B2/B3 generic passes."
+}

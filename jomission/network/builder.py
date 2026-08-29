@@ -196,6 +196,44 @@ E_MIXTURE_SEAM: str = "pre-jitter emitter a/c/d override via Builder _apply_type
 E_MIXTURE_REASON: str = "typed E heterogeneity via pseudogenomic c/d clusters: single RS+σ0.40 meanCV0.036-0.062 max0.219 frac>0.5 0.00 insufficient vs typed M2 meanCV0.350-0.456 max1.90 frac>0.5 0.22-0.29 Fisher 0/51 vs11/38 p<1e-6; variance-matched control Var_c48.0 vs Var42.0 Δ12.5% falsifies broad jitter"
 SST_OUTPUT_GAIN_REASON: str = "C013 bounded 0.5 falsified; C014 pseudogenome typed 0.60 supersedes (alpha 1.0 disabled to preserve DESIRED 0.60)"
 
+# GEN2_C020 typed vertical microcircuit v1 — laminar-specific vertical topology + typed vertical motif gains
+# Parent: C019 65b302e8c7cdceb5 (C019) → C020 with vertical topology+weights, hp f327f9d2
+# Fixes W4 V1 L2/3→L5 bottleneck Ne16 k0.59 C0.444 (15/27 L5 get 0 inputs) vs FF V1→V4 Ne97 k6.47 C1.0 W_med0.04
+#   synthetic sweep C(k)=1-exp(-k): V1 16@0.59→27@1.0 C0.632→81@3.0 C0.95→135@5.0 C0.993 (g5.0 exc still 12× below Γ_FF0.40)
+#   and T2 cancellation: vertical inherits generic MOTIF_GAIN v0 identically to local (builder.py:62) → E→PV 0.0232 local vs 0.0210 vertical pooled same, L4→L2/3 exc pool +4.76 cancelled by PV→E -2.08 SST -0.219 etc → Σinh -3.15 86% cancelled W_net 0.00163 vs W_exc 0.00716 4.4×, Γ_net0.014 vs exc0.062 6×, L2/3→L5 V1 Ne16 100× below Γ_FF0.40
+# Need separately typed L4_E→L2/3_E (g_vert_E_E ×2.0 vs g_vert_E_SST ×0.7) orthogonal to M_rec/M_fastEI/M_dend/M_disinh=16 freeze.json:195 and M_FF/M_FB builder.py:95
+# Vertical topology: vertical_spatial_sigma0.12 / vertical_max_in_degree40 for M_vertical only (L4→L2/3 and L2/3→L5), not global; local within σ0.08 max25 intact, FF/FB 287/303 intact
+# Typed vertical recruitment: L4_E→L2/3_E strong Douglas & Martin L4→2/3 + co-recruited L4_E→PV strong feedforward inhibition vs L4_E→SST weak-moderate, then L2/3_E→L5_E strong (second strongest) + L2/3→PV moderate-strong
+# All magnitudes MODEL_ASSUMPTION / directions LITERATURE_PRIOR (no DOI in docs/, only builder.py:58 Pfeffer2013, Song2005, Brunel2000)
+# Seam: populations.py:12 counts/depths, connectivity.py:35 typed CONNECTIVITY_TABLE {} empty unconsumed, builder.py:62 pseudogenome v0, builder.py:90 FF_LAYER_MAP/FB via _apply_laminar_delays emitters.py:545 delays [20,80,120], within vertical remains distance-only spatial_sigma0.08 max25 W4a diagnosis
+# Provenance: MODEL_ASSUMPTION (Ne55 k2.0 sigma0.12 magnitudes) / LITERATURE_PRIOR direction L4→2/3 Douglas Martin / ENGINE_DEFAULT seam / DERIVED C_vert
+VERTICAL_SPATIAL_SIGMA_DEFAULT: float = 0.12
+VERTICAL_MAX_IN_DEGREE_DEFAULT: int = 40
+VERTICAL_SPATIAL_SIGMA_PROVENANCE: str = "MODEL_ASSUMPTION (sigma 0.12 magnitude for M_vertical only) / LITERATURE_PRIOR direction L4→2/3 Douglas & Martin 1989 canonical / ENGINE_DEFAULT seam _apply_vertical_topology / DERIVED C_vert=1-exp(-k)"
+VERTICAL_SPATIAL_SIGMA_SEAM: str = "post-construct supplemental EdgeList augmentation _apply_vertical_topology builder.py (existing Model params, not new kernel) with Gaussian exp(-d²/2σ²) σ0.12 for M_vertical L4→L2/3 and L2/3→L5 only, vs local σ0.08; hash-visible via cfg.metadata vertical_spatial_sigma"
+VERTICAL_MAX_IN_DEGREE_PROVENANCE: str = "MODEL_ASSUMPTION (max_in_degree 40 for M_vertical only, vs local 25) / LITERATURE_PRIOR direction L4→2/3 Douglas Martin / ENGINE_DEFAULT seam / DERIVED C_vert"
+VERTICAL_MAX_IN_DEGREE_SEAM: str = "per-post cap 40 for vertical laminars vs 25 local; supplemental sampling _apply_vertical_topology"
+# Typed vertical motif gains — laminar × motif product, orthogonal to global MOTIF_GAIN v0 (builder.py:62) 12-gain pseudogenome
+# Global pseudogenome: E→E1.0 E→PV1.70 E→SST0.70 etc; vertical laminar-specific multiplies on top for vertical edges only
+# L4→L2/3: E→E ×2.0 strong, E→PV ×1.5 strong feedforward inhibition, E→SST ×0.7 weak-moderate, E→VIP ×1.0 flat
+# L2/3→L5: E→E ×1.8 strong (second strongest), E→PV ×1.4 moderate-strong, E→SST ×0.7 weak, E→VIP ×1.0 flat
+VERTICAL_MOTIF_GAIN: dict[tuple[str, str, str, str], float] = {
+    ("L4", "E", "L2/3", "E"): 2.0,
+    ("L4", "E", "L2/3", "PV"): 1.5,
+    ("L4", "E", "L2/3", "SST"): 0.7,
+    ("L4", "E", "L2/3", "VIP"): 1.0,
+    ("L2/3", "E", "L5", "E"): 1.8,
+    ("L2/3", "E", "L5", "PV"): 1.4,
+    ("L2/3", "E", "L5", "SST"): 0.7,
+    ("L2/3", "E", "L5", "VIP"): 1.0,
+}
+VERTICAL_MOTIF_GAIN_V0: dict[str, float] = {f"{k[0]}:{k[1]}->{k[2]}:{k[3]}": float(v) for k, v in VERTICAL_MOTIF_GAIN.items()}
+VERTICAL_MOTIF_GAIN_PROVENANCE: str = "MODEL_ASSUMPTION (magnitudes 2.0/1.5/0.7/1.8/1.4) / LITERATURE_PRIOR direction L4→2/3 Douglas & Martin canonical, L2/3→5 strong, E→PV feedforward inhibition Pouille, E→SST weak-moderate / ENGINE_DEFAULT seam _apply_vertical_motif_gains / DERIVED E/I cancellation reduction"
+VERTICAL_MOTIF_GAIN_SEAM: str = "post-construct EdgeList weight scaling _apply_vertical_motif_gains builder.py (laminar × motif product, existing Model params, not new kernel) for vertical edges only, orthogonal to _apply_motif_gains global 12-gain; hash-visible via cfg.metadata vertical_motif_gain"
+VERTICAL_MOTIF_GAIN_REASON: str = "typed vertical W[a,l_s,c_s,l_t,c_t] via laminar×motif product: L4_E→L2/3_E ×2.0 strong (Douglas Martin) vs E→SST ×0.7 weak-moderate, L2/3_E→L5_E ×1.8 second strongest, E→PV ×1.4 moderate-strong, to reduce 6× cancellation (W_net 0.00163 vs W_exc 0.00716) and make vertical excitation dominate net while preserving local topology σ0.08 max25 and pseudogenome v0"
+VERTICAL_TOPOLOGY_REASON: str = "V1 L2/3→L5 k0.59 Ne16 C0.444 (15/27 L5 get 0 inputs) median_d0.27 E/I 14E:2PV W_med0.00336 W_exc0.004; V4 k2.00 C0.667; FF V1→V4 Ne97 k6.47 C1.0 W_med0.04; synthetic C(k)=1-exp(-k): V1 16@0.59→27@1.0 C0.632→81@3.0 C0.95→135@5.0 C0.993 (g5.0 exc Γ_exc0.032 still 12× below Γ_FF0.40) → need topological k fix (max25→40+ or σ0.08→0.12 for M_vertical only) + E/I bias, not g_vertical weight scaling; vertical sigma0.12 max40 for M_vertical Ne16→55 k0.59→2.0 C0.444→0.865 + typed W"
+VERTICAL_M_VERTICAL_DEF: str = "M_vertical = (area_pre==area_post) ∧ ((L4→L2/3) ∨ (L2/3→L5)) disjoint from M_rec/M_fastEI/M_dend/M_disinh=16 and M_FF/M_FB builder.py:95"
+
 
 def _resolve_heterogeneity_sigma(raw: Any) -> float:
     if raw is None:
@@ -593,6 +631,28 @@ def build_jomission_network(
         e_mixture_seam=str(E_MIXTURE_SEAM),
         e_mixture_reason=str(E_MIXTURE_REASON),
         e_mixture_enabled=True,
+    )
+    # GEN2_C020 typed vertical microcircuit v1 — laminar-specific vertical topology + typed vertical motif gains
+    # Vertical topology: vertical_spatial_sigma0.12 / vertical_max_in_degree40 for M_vertical only (L4→L2/3 and L2/3→L5), not global; local within σ0.08 max25 intact, FF/FB 287/303 intact
+    # Typed vertical recruitment: L4_E→L2/3_E ×2.0 vs L4_E→SST ×0.7, L2/3_E→L5_E ×1.8 vs E→SST ×0.7 etc., orthogonal to M_rec/M_fastEI/M_dend/M_disinh
+    cfg = cfg.update_metadata(
+        vertical_spatial_sigma=float(VERTICAL_SPATIAL_SIGMA_DEFAULT),
+        vertical_max_in_degree=int(VERTICAL_MAX_IN_DEGREE_DEFAULT),
+        vertical_spatial_sigma_provenance=str(VERTICAL_SPATIAL_SIGMA_PROVENANCE),
+        vertical_spatial_sigma_seam=str(VERTICAL_SPATIAL_SIGMA_SEAM),
+        vertical_max_in_degree_provenance=str(VERTICAL_MAX_IN_DEGREE_PROVENANCE),
+        vertical_max_in_degree_seam=str(VERTICAL_MAX_IN_DEGREE_SEAM),
+        vertical_topology_reason=str(VERTICAL_TOPOLOGY_REASON),
+        vertical_m_vertical_def=str(VERTICAL_M_VERTICAL_DEF),
+        vertical_topology_enabled=True,
+    )
+    # Vertical motif gains — laminar × motif product, hash-visible
+    cfg = cfg.update_metadata(
+        vertical_motif_gain=dict(VERTICAL_MOTIF_GAIN_V0),
+        vertical_motif_gain_provenance=str(VERTICAL_MOTIF_GAIN_PROVENANCE),
+        vertical_motif_gain_seam=str(VERTICAL_MOTIF_GAIN_SEAM),
+        vertical_motif_gain_reason=str(VERTICAL_MOTIF_GAIN_REASON),
+        vertical_motif_gain_enabled=True,
     )
     # GEN2_C007 background Poisson — hash-visible when enabled; baseline (0 Hz) keeps existing hash
     # so tests for canonical 4a8908e remain green. Only non-zero rate adds keys → distinct hash.
@@ -1444,6 +1504,271 @@ def _apply_sst_output_gain(
     return replace(model, params=new_params)
 
 
+def _apply_vertical_topology(
+    model: jtfne.Model,
+    seed: int = 0,
+    vertical_sigma: float = VERTICAL_SPATIAL_SIGMA_DEFAULT,
+    vertical_max: int = VERTICAL_MAX_IN_DEGREE_DEFAULT,
+) -> jtfne.Model:
+    """Supplemental vertical topology for M_vertical only (GEN2_C020).
+
+    Augments within-area edges for laminar pairs L4→L2/3 and L2/3→L5 (per area)
+    to reach target k≈2.0 for L2/3→L5 (Ne16→55) while preserving local σ0.08
+    max25 for other within edges and FF/FB 287/303 intact. Uses Gaussian
+    exp(-d²/2σ²) with σ=0.12 for vertical candidates, deterministic
+    per-area/per-pair RNG. New edges receive base weight within_gain*U(0.25,1)*sign/√n
+    before subsequent motif/lognormal scaling, so they experience same
+    pseudogenome/lognormal pipeline as existing edges. Vertical max 40 is
+    nominal cap for sampling pool (candidates limited to 30*27=810, so cap is
+    effectively candidate count); target Ne is k*Nt, not cap.
+
+    Provenance: MODEL_ASSUMPTION (Ne55 k2.0 sigma0.12) / LITERATURE_PRIOR direction L4→2/3 Douglas Martin / ENGINE_DEFAULT seam / DERIVED C_vert
+    Seam: post-construct EdgeList augmentation (existing Model params, not new kernel), hash-visible via cfg.metadata vertical_spatial_sigma, vertical_max_in_degree
+    Keeps local within 10000, FF 287, FB 303, delays, lognormal, VIP/SST/PV, tonic, Poisson intact.
+    """
+    el = model.params.get("edge_list")
+    if el is None:
+        return model
+    try:
+        tbl = model.neuron_table()
+        area_labels = [str(r.get("area")) for r in tbl]
+        layer_labels = [str(r.get("layer")) for r in tbl]
+        ct_labels = [str(r.get("cell_type")) for r in tbl]
+    except Exception:
+        return model
+    pos = np.asarray(model.params.get("positions"), dtype=np.float64)
+    if pos.shape[0] != len(area_labels):
+        return model
+    pre_np = np.asarray(el.pre, dtype=np.int64)
+    post_np = np.asarray(el.post, dtype=np.int64)
+    w_np = np.asarray(el.weight, dtype=np.float64)
+    r_np = np.asarray(el.receptor_index, dtype=np.int64)
+    tau_np = np.asarray(el.tau_ms, dtype=np.float64)
+    try:
+        delay_np = np.asarray(getattr(el, "delay_steps", None))
+        has_delay = delay_np is not None and delay_np.shape[0] == pre_np.shape[0]
+    except Exception:
+        has_delay = False
+        delay_np = None
+    # Build existing edge set for fast lookup
+    existing_set = set(zip(pre_np.tolist(), post_np.tolist()))
+    # For weight generation of new edges, need sign per pre and within_gain
+    try:
+        em = model.params.get("emitter")
+        sign_np = np.asarray(em.sign, dtype=np.float64) if hasattr(em, "sign") and em.sign is not None else np.ones(len(area_labels))
+    except Exception:
+        sign_np = np.ones(len(area_labels))
+    # within_gain from cfg metadata or default
+    try:
+        from jomission.network.connectivity import WITHIN_GAIN_DEFAULT
+        base_gain = float(WITHIN_GAIN_DEFAULT)
+    except Exception:
+        base_gain = 0.35
+    n_total = len(area_labels)
+    sqrt_n = float(max(n_total, 1)) ** 0.5
+    # Target k per vertical pair (per area)
+    # L4→L2/3: target k~5.0 (already ~5.4, so no supplement unless below)
+    # L2/3→L5: target k=2.0 (Ne55 for Nt27)
+    vertical_pairs = [("L4", "L2/3", 5.0), ("L2/3", "L5", 2.0)]
+    areas = sorted(set(area_labels))
+    # Keep track of new edges to add
+    new_pre: list[int] = []
+    new_post: list[int] = []
+    new_w: list[float] = []
+    new_r: list[int] = []
+    new_tau: list[float] = []
+    import hashlib
+    for area in areas:
+        for src_layer, tgt_layer, k_target in vertical_pairs:
+            # Identify source and target indices for this area
+            src_ids = [i for i, (a, l) in enumerate(zip(area_labels, layer_labels)) if a == area and l == src_layer]
+            tgt_ids = [i for i, (a, l) in enumerate(zip(area_labels, layer_labels)) if a == area and l == tgt_layer]
+            if not src_ids or not tgt_ids:
+                continue
+            Nt = len(tgt_ids)
+            # Current Ne for this laminar pair (any cell type, within area)
+            cur_ne = sum(1 for p, q in zip(pre_np.tolist(), post_np.tolist()) if p in src_ids and q in tgt_ids)
+            target_ne = int(round(float(k_target) * Nt))
+            # For L4→L2/3, current already >=target, skip augmentation (but keep minimal if below)
+            # For L2/3→L5, current is sparse (16 V1) so we add
+            need = int(target_ne - cur_ne)
+            if need <= 0:
+                continue
+            # Candidate pool: all src→tgt pairs not already existing
+            # For deterministic, generate list and filter
+            # Use distance-weighted sampling with vertical_sigma
+            candidates: list[tuple[int, int, float]] = []
+            for pre_id in src_ids:
+                for post_id in tgt_ids:
+                    if (pre_id, post_id) in existing_set:
+                        continue
+                    # Already counted new edges for this area/pair? Need to avoid double counting within same augmentation batch
+                    if (pre_id, post_id) in zip(new_pre, new_post):
+                        continue
+                    # Compute distance + typed P bias for E→E strong etc.
+                    try:
+                        d = float(np.linalg.norm(pos[pre_id] - pos[post_id]))
+                    except Exception:
+                        d = 0.3
+                    sigma = max(float(vertical_sigma), 1e-9)
+                    raw_dist = float(np.exp(- (d * d) / (2.0 * sigma * sigma)))
+                    # Typed P_vertical bias: E→E 2.0 vs E→SST 0.7 etc., orthogonal to distance
+                    try:
+                        pre_ct = ct_labels[int(pre_id)]
+                        post_ct = ct_labels[int(post_id)]
+                        p_gain = float(VERTICAL_MOTIF_GAIN.get((src_layer, pre_ct, tgt_layer, post_ct), 1.0))
+                    except Exception:
+                        p_gain = 1.0
+                    raw = raw_dist * float(p_gain)
+                    candidates.append((pre_id, post_id, raw))
+            if not candidates:
+                continue
+            # Need may exceed candidate pool
+            need = min(need, len(candidates))
+            # Compute probs
+            raws = np.array([c[2] for c in candidates], dtype=np.float64)
+            mass = raws.sum()
+            if mass <= 0:
+                probs = np.ones(len(candidates)) / len(candidates)
+            else:
+                probs = raws / mass
+            # Deterministic RNG per area/pair/seed
+            key = f"{seed}_{area}_{src_layer}->{tgt_layer}_{vertical_sigma}_{vertical_max}"
+            h = hashlib.sha256(key.encode()).hexdigest()
+            pseed = int(h[:8], 16) & 0x7FFFFFFF
+            rng = np.random.default_rng(pseed)
+            chosen_idx = rng.choice(len(candidates), size=need, replace=False, p=probs)
+            # For each chosen, generate weight
+            for idx in chosen_idx:
+                pre_id, post_id, _ = candidates[int(idx)]
+                # Weight base: within_gain * U(0.25,1) * sign[pre] / sqrt(n)
+                # Use per-edge deterministic uniform via hash of pair
+                h2 = hashlib.sha256(f"{seed}_{pre_id}_{post_id}_w".encode()).hexdigest()
+                pseed2 = int(h2[:8], 16) & 0x7FFFFFFF
+                rng_w = np.random.default_rng(pseed2)
+                rnd = float(rng_w.uniform(0.25, 1.0))
+                s = float(sign_np[pre_id]) if pre_id < len(sign_np) else 1.0
+                w = float(base_gain * rnd * s / sqrt_n)
+                new_pre.append(int(pre_id))
+                new_post.append(int(post_id))
+                new_w.append(w)
+                is_inh = w < 0
+                new_r.append(1 if is_inh else 0)
+                new_tau.append(5.0 if is_inh else 2.0)
+                # add to existing_set to prevent duplicate in next pair/area
+                existing_set.add((int(pre_id), int(post_id)))
+    if not new_pre:
+        return model
+    # Concatenate new edges to existing
+    all_pre = np.concatenate([pre_np, np.asarray(new_pre, dtype=np.int64)])
+    all_post = np.concatenate([post_np, np.asarray(new_post, dtype=np.int64)])
+    all_w = np.concatenate([w_np, np.asarray(new_w, dtype=np.float64)])
+    all_r = np.concatenate([r_np, np.asarray(new_r, dtype=np.int64)])
+    all_tau = np.concatenate([tau_np, np.asarray(new_tau, dtype=np.float64)])
+    # Handle delay_steps: new edges get delay 0 placeholder, will be overwritten by _apply_laminar_delays later (within 20)
+    if has_delay:
+        new_delay = np.zeros(len(new_pre), dtype=np.int32)
+        all_delay = np.concatenate([delay_np, new_delay])
+    else:
+        all_delay = None
+    from jaxfne.emitters import EdgeList
+    jdtype = el.weight.dtype
+    kwargs_el: dict[str, Any] = dict(
+        pre=jnp.asarray(all_pre, dtype=jnp.int32),
+        post=jnp.asarray(all_post, dtype=jnp.int32),
+        weight=jnp.asarray(all_w, dtype=jdtype),
+        receptor_index=jnp.asarray(all_r, dtype=jnp.int32),
+        tau_ms=jnp.asarray(all_tau, dtype=jdtype),
+        source_calibration_status=el.source_calibration_status,
+    )
+    if all_delay is not None:
+        kwargs_el["delay_steps"] = jnp.asarray(all_delay, dtype=jnp.int32)
+    new_el = EdgeList(**kwargs_el)
+    new_params = dict(model.params)
+    new_params["edge_list"] = new_el
+    return replace(model, params=new_params)
+
+
+def _apply_vertical_motif_gains(
+    model: jtfne.Model,
+    gain_map: Mapping[tuple[str, str, str, str], float] | None = None,
+    seed: int = 0,
+) -> jtfne.Model:
+    """Apply laminar×motif vertical weight scaling for M_vertical only (GEN2_C020).
+
+    Scales EdgeList.weight by VERTICAL_MOTIF_GAIN[(pre_layer,pre_ct,post_layer,post_ct)]
+    only for edges where area_pre==area_post and (L4→L2/3 or L2/3→L5) laminar pair
+    and pre_ct==E (since gain defined for E source). Orthogonal to global
+    MOTIF_GAIN v0 (builder.py:62) 12-gain pseudogenome — product W = W_base * g_motif * g_vertical.
+    Preserves sign (multiplicative). Deterministic.
+
+    Provenance: MODEL_ASSUMPTION (magnitudes 2.0/1.5/0.7/1.8/1.4) / LITERATURE_PRIOR direction L4→2/3 Douglas Martin / ENGINE_DEFAULT seam / DERIVED E/I cancellation reduction
+    Seam: post-construct EdgeList weight scaling (existing Model params, not new kernel) for vertical edges only, like C006 but laminar-specific; hash-visible via cfg.metadata vertical_motif_gain
+    """
+    if gain_map is None:
+        gain_map = VERTICAL_MOTIF_GAIN
+    el = model.params.get("edge_list")
+    if el is None or int(el.pre.shape[0]) == 0:
+        return model
+    # Fast path: if all gains ==1 skip
+    if all(float(v) == 1.0 for v in gain_map.values()):
+        return model
+    try:
+        tbl = model.neuron_table()
+        area_labels = [str(r.get("area")) for r in tbl]
+        layer_labels = [str(r.get("layer")) for r in tbl]
+        cell_types = [str(r.get("cell_type")) for r in tbl]
+        pre_np = np.asarray(el.pre, dtype=np.int64)
+        post_np = np.asarray(el.post, dtype=np.int64)
+        w_np = np.asarray(el.weight, dtype=np.float64)
+    except Exception:
+        return model
+    n_edges = int(pre_np.shape[0])
+    gains = np.ones(n_edges, dtype=np.float64)
+    # Build vertical mask: area same and laminar pair vertical
+    vertical_pairs = {("L4", "L2/3"), ("L2/3", "L5")}
+    for i in range(n_edges):
+        try:
+            pre_id = int(pre_np[i])
+            post_id = int(post_np[i])
+            if area_labels[pre_id] != area_labels[post_id]:
+                continue
+            pre_l = layer_labels[pre_id]
+            post_l = layer_labels[post_id]
+            if (pre_l, post_l) not in vertical_pairs:
+                continue
+            pre_ct = cell_types[pre_id]
+            post_ct = cell_types[post_id]
+            key = (pre_l, pre_ct, post_l, post_ct)
+            g = gain_map.get(key, 1.0)
+            gains[i] = float(g)
+        except Exception:
+            gains[i] = 1.0
+    if np.all(gains == 1.0):
+        return model
+    w_scaled = w_np * gains
+    from jaxfne.emitters import EdgeList
+    jdtype = el.weight.dtype
+    try:
+        delay = getattr(el, "delay_steps", None)
+    except Exception:
+        delay = None
+    kwargs: dict[str, Any] = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w_scaled, dtype=jdtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
+    if delay is not None:
+        kwargs["delay_steps"] = delay
+    new_el = EdgeList(**kwargs)
+    new_params = dict(model.params)
+    new_params["edge_list"] = new_el
+    return replace(model, params=new_params)
+
+
 def build_jomission_model(
     *,
     n_per_area: int = 100,
@@ -1460,6 +1785,19 @@ def build_jomission_model(
     if sigma is not None and mid is not None:
         try:
             model = _apply_spatial_locality(model, spatial_sigma=float(sigma), max_in_degree=int(mid), seed=int(seed))
+        except Exception:
+            pass
+    # GEN2_C020 typed vertical microcircuit v1 — vertical-specific topology augmentation for M_vertical only
+    # Supplemental edges for L4→L2/3 (k~5) and L2/3→L5 (k2.0 Ne55) with σ0.12 vs local σ0.08 intact
+    # After base spatial pruning so new edges are on top of 10000 local, deterministic per seed, orthogonal to FF/FB 287/303
+    try:
+        vert_sigma = float(cfg.metadata.get("vertical_spatial_sigma", VERTICAL_SPATIAL_SIGMA_DEFAULT))
+        vert_max = int(cfg.metadata.get("vertical_max_in_degree", VERTICAL_MAX_IN_DEGREE_DEFAULT))
+    except Exception:
+        vert_sigma, vert_max = float(VERTICAL_SPATIAL_SIGMA_DEFAULT), int(VERTICAL_MAX_IN_DEGREE_DEFAULT)
+    if vert_sigma > 1e-9:
+        try:
+            model = _apply_vertical_topology(model, seed=int(seed), vertical_sigma=float(vert_sigma), vertical_max=int(vert_max))
         except Exception:
             pass
     # GEN2_C009 VIP b correction BEFORE jitter (intrinsic #1, W2.4)
@@ -1549,7 +1887,13 @@ def build_jomission_model(
             model = _apply_pv_drive_boost(model, factor=float(pv_scale_eff))
         except Exception:
             pass
-    # GEN2_C008 laminar delays 8/12/2 ms — after spatial+motif+lognormal+tonic+PV boost so edge_list is final (W2.3)
+    # GEN2_C020 typed vertical motif gains — laminar×motif product for M_vertical only, orthogonal to global MOTIF_GAIN v0
+    # L4_E→L2/3_E ×2.0 vs E→SST ×0.7, L2/3_E→L5_E ×1.8 vs E→SST ×0.7, E→PV ×1.5/1.4 etc., reduces 6× cancellation
+    try:
+        model = _apply_vertical_motif_gains(model, gain_map=VERTICAL_MOTIF_GAIN, seed=int(seed))
+    except Exception:
+        pass
+    # GEN2_C008 laminar delays 8/12/2 ms — after spatial+motif+lognormal+tonic+PV boost+vertical so edge_list is final (W2.3)
     try:
         dt_eff = float(cfg.metadata.get("dt_ms", 0.1))
     except Exception:

@@ -2202,5 +2202,359 @@
     "timestamp": "2026-08-28T23:30:00Z",
     "author": "AGSDR-L1",
     "gate": "B2/B4"
+  },
+  {
+    "change_id": "GEN2_C020",
+    "parent_model": {
+      "config_hash": "65b302e8c7cdceb5",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "65b302e8c7cdceb5"
+    },
+    "parameter_path": "network.vertical: sparse generic \u2192 typed vertical microcircuit v1 (P,W,D)",
+    "pathway": "vertical_microcircuit: typed W[a,l_s,c_s,l_t,c_t] via laminar\u00d7motif product + supplemental topology P_vertical \u03c30.12 max40 (M_vertical L4\u2192L2/3, L2/3\u2192L5)",
+    "old_value": "V1 L4\u2192L2/3 Ne162 k5.40 C0.933 W_net0.00163 W_exc0.00716, V1 L2/3\u2192L5 Ne16 k0.59 C0.444 (15/27 L5 get 0 inputs) median_d0.27 W_med0.00336 W_exc0.004 100\u00d7 below \u0393_FF0.40, generic motif inherited (MOTIF_GAIN v0 cell-type only builder.py:62)",
+    "new_value": "vertical_spatial_sigma 0.08\u21920.12 vertical_max_in_degree 25\u219240 for M_vertical only Ne16\u219254 k0.59\u21922.0 C0.444\u21920.704 (seed0) 0.444\u21920.519 (seed1) median_d0.293 + typed W L4_E\u2192L2/3_E \u00d72.0 L4_E\u2192L2/3_PV\u00d71.5 L4_E\u2192SST\u00d70.7 L2/3_E\u2192L5_E\u00d71.8 L2/3_E\u2192PV\u00d71.4 L2/3_E\u2192SST\u00d70.7 orthogonal to M_rec/M_fastEI/M_dend/M_disinh=16, local \u03c30.08 max25 intact, FF287 FB303 delays [20,80,120] preserved",
+    "delta": {
+      "factor": 3.375,
+      "absolute": "Ne16\u219254 k0.59\u21922.0 C0.444\u21920.704, W vertical E\u2192E 1.0\u21922.0/1.8",
+      "description": "V1 L2/3\u2192L5 Ne16 k0.59 C0.444 \u2192 Ne54 k2.0 C0.704 (seed0) Ne16\u219254 (seed1 0.519) via supplemental topology \u03c30.12 max40 + laminar\u00d7motif W gains; L4\u2192L2/3 Ne162 k5.40 C0.933 preserved; within 10000\u219210076 (+76 vertical supplement), FF287 FB303 intact"
+    },
+    "reason_before_results": "Consensus three reviewers: T1 topology V1 L4\u2192L2/3 Ne162 k5.40 C0.933 vs V1 L2/3\u2192L5 Ne16 k0.59 C0.444 (15/27 L5 get 0 inputs) median_d0.27 E/I 14E:2PV W_med0.00336 W_exc0.004; V4 L2/3\u2192L5 Ne54 k2.00 C0.667; FF V1\u2192V4 Ne97 k6.47 C1.0 W_med0.04 synthetic sweep C(k)=1-exp(-k): V1 16@0.59\u219227@1.0 C0.632\u219281@3.0 C0.95\u2192135@5.0 C0.993 (g5.0 exc \u0393_exc0.032 still 12\u00d7 below \u0393_FF0.40) \u2192 need topological k fix (max25\u219240+ or \u03c30.08\u21920.12 for M_vertical only) + E/I bias, not g_vertical weight scaling. T2 cancellation vertical inherits generic MOTIF_GAIN v0 identically to local (builder.py:62) \u2192 E\u2192PV 0.0232 local vs 0.0210 vertical pooled same, L4\u2192L2/3 exc pool +4.76 cancelled by PV\u2192E -2.08 SST -0.219 etc \u03a3inh -3.15 86% cancelled W_net 0.00163 vs W_exc 0.00716 4.4\u00d7, \u0393_net0.014 vs exc0.062 6\u00d7, L2/3\u2192L5 V1 Ne16 100\u00d7 below \u0393_FF0.40 \u2192 need separately typed L4_E\u2192L2/3_E (g_vert_E_E \u00d72.0 vs g_vert_E_SST \u00d70.7) orthogonal to M_rec/M_fastEI/M_dend/M_disinh=16. T3 neurobio typed W[a,l_s,c_s,l_t,c_t] vertical chain L4_E\u2192L2/3_E strong Douglas & Martin + co-recruited L4_E\u2192PV strong vs L4_E\u2192SST weak-moderate, then L2/3_E\u2192L5_E strong (second strongest) + L2/3\u2192PV moderate-strong. All magnitudes MODEL_ASSUMPTION / directions LITERATURE_PRIOR. Seam populations.py:12 counts/depths, connectivity.py:35 typed CONNECTIVITY_TABLE {} empty unconsumed, builder.py:62 pseudogenome v0, builder.py:90 FF_LAYER_MAP/FB via _apply_laminar_delays emitters.py:545 delays [20,80,120], within vertical remains distance-only spatial_sigma0.08 max25 W4a diagnosis V1 L2/3\u2192L5 k0.59\u21922-3 deficit dominant. Parent C019 65b302e8c7cdceb5 \u2192 new hash with vertical topology+weights preserving local topology (local \u03c30.08 max25 intact) \u2014 not global spatial_sigma increase.",
+    "provenance": "MODEL_ASSUMPTION (Ne55 k2.0 sigma0.12 magnitudes) / LITERATURE_PRIOR direction L4\u21922/3 Douglas & Martin 1989 canonical / ENGINE_DEFAULT seam _apply_vertical_topology/_apply_vertical_motif_gains / DERIVED C_vert=1-exp(-k)",
+    "qualification_target": "W4 V1 L4\u2192L2/3\u2192L5 information transmission (V1 L2/3 acc>chance) while preserving C019 local Q (bar, CV, rho, Efrac) and B4 spatial locality",
+    "predicted_generic_effect": "V1 L2/3 \u03940.02\u21920.5 d0.13\u21921.0 acc0.542\u21920.75 PASS, L5 \u03940.07\u21920.5, cascade \u03930.00023\u21920.00195\u21920.02 approaching \u0393_FF0.40, no Q_local regression (bar5.09 rho0.353 Fano0.95 Efrac0.79 hard PASS), local within 10000 preserved, FF287 FB303 delays [20,80,120] intact",
+    "observed_generic_effect": {
+      "seed0": {
+        "V1_L4_L23_Ne_k_C": {
+          "Ne": 162,
+          "k": 5.4,
+          "C": 0.933,
+          "median_d": 0.232
+        },
+        "V1_L23_L5_Ne_k_C_before": {
+          "Ne": 16,
+          "k": 0.59,
+          "C": 0.444,
+          "median_d": 0.2747
+        },
+        "V1_L23_L5_Ne_k_C_after": {
+          "Ne": 54,
+          "k": 2.0,
+          "C": 0.704,
+          "median_d": 0.293,
+          "W_med": 0.00596,
+          "W_exc_med": 0.00627
+        },
+        "within_per_area": {
+          "V1": 2538,
+          "V4": 2500,
+          "FEF": 2518,
+          "PFC": 2520
+        },
+        "total_within": 10076,
+        "total_edges": 10666,
+        "FF_edges": 287,
+        "FB_edges": 303,
+        "delays": {
+          "20": 10076,
+          "80": 287,
+          "120": 303
+        },
+        "vertical_motif_gain": {
+          "L4_E->L2/3_E": 2.0,
+          "L4_E->L2/3_PV": 1.5,
+          "L4_E->L2/3_SST": 0.7,
+          "L2/3_E->L5_E": 1.8,
+          "L2/3_E->L5_PV": 1.4,
+          "L2/3_E->L5_SST": 0.7
+        },
+        "W_net_vs_W_exc_V1_L4_L23": {
+          "W_net_median": 0.00231,
+          "W_exc_median": 0.01141,
+          "ratio": 4.94
+        },
+        "W_net_vs_W_exc_V1_L23_L5": {
+          "W_net_median": 0.00596,
+          "W_exc_median": 0.00627,
+          "ratio": 1.05
+        },
+        "Gamma_V1_L23_L5_exc": 0.016,
+        "Gamma_cascade": 0.0016,
+        "vs_Gamma_FF0.40_ratio": 25,
+        "Q_local_bar": 5.09,
+        "Q_local_rho": 0.353,
+        "Q_local_Fano": 0.95,
+        "Q_local_Efrac": 0.798,
+        "Q_local_meanCV": 0.321,
+        "Q_local_maxCV": 2.02,
+        "Q_local_frac_gt05": 0.162,
+        "hard_feasible": true
+      },
+      "seed1": {
+        "V1_L4_L23_Ne_k_C": {
+          "Ne": 150,
+          "k": 5.0,
+          "C": 0.967
+        },
+        "V1_L23_L5_Ne_k_C_after": {
+          "Ne": 54,
+          "k": 2.0,
+          "C": 0.519,
+          "median_d": 0.296
+        },
+        "within_per_area": {
+          "V1": 2535,
+          "V4": 2517,
+          "FEF": 2510,
+          "PFC": 2500
+        },
+        "total_within": 10062,
+        "total_edges": 10642
+      },
+      "transmission_RF_graded_1000ms_12reps_seed0_theta": {
+        "V1_L4_mA": 299.51,
+        "V1_L4_mB": 129.72,
+        "V1_L4_delta": 169.79,
+        "V1_L4_d": 646.94,
+        "V1_L4_acc": 1.0,
+        "V1_L23_mA": 5.39,
+        "V1_L23_mB": 5.42,
+        "V1_L23_delta": -0.03,
+        "V1_L23_d": -0.34,
+        "V1_L23_acc": 0.542,
+        "V1_L23_thresh": 0.703,
+        "V1_L23_carries": false,
+        "V1_L5_delta": 0.09,
+        "V1_L5_d": 0.64,
+        "V1_L5_acc": 0.542,
+        "V1_L5_carries": false,
+        "note": "V1 L4 carries strongly (\u0394169 d646 acc1.00 PASS) but downstream V1 L2/3/L5 still at chance (\u0394~0.03-0.09 d~0.3-0.6 acc0.542 FAIL) \u2014 vertical topology+weights improved k/C and W ratio (\u0393_exc 0.0038\u21920.016, cascade 0.00023\u21920.0016) but not sufficient for information transmission at current drive/noise; Q_local preserved (bar5.09 rho0.353). Local within \u03c30.08 max25 intact (non-vertical 10000 preserved, vertical supplement +76), FF287 FB303 delays [20,80,120] intact, pseudogenome v0 VIP b0.20 SST b0.21 PV1.7 lognormal Poisson2kHz intact."
+      },
+      "evidence_state": "OBSERVED"
+    },
+    "unexpected_effects": [
+      "V1 L2/3\u2192L5 k/C improved Ne16\u219254 C0.444\u21920.704 but RF transmission V1 L2/3/L5 still at chance (acc0.542, d<0.5) \u2014 topology+W alone insufficient for W4 information transmission at current drive/noise; need larger k (5.0) or stronger E\u2192E (>3\u00d7) or reduced PV hyper or different assay; Q_local preserved as predicted"
+    ],
+    "tests_passed": [
+      "build_jomission_network n100 seed0 hash 4574a15519ee8c33 vertical_spatial_sigma 0.12",
+      "build_jomission_network n100 seed1 hash bbe6bc709a4b4c5b",
+      "build_jomission_model n100 seed0 total_edges 10666 within10076 FF287 FB303 delays [20,80,120]",
+      "V1 L4->L2/3 Ne162 k5.40 C0.933 preserved",
+      "V1 L2/3->L5 Ne16->54 k0.59->2.0 C0.444->0.704",
+      "vertical_motif_gain E->E 2.0/1.8 E->PV 1.5/1.4 E->SST 0.7 preserved local motif v0",
+      "Q_local bar5.09 rho0.353 Fano0.95 Efrac0.798 hard PASS",
+      "pytest tests/test_rf.py tests/test_network.py -q 22 passed"
+    ],
+    "tests_failed": [
+      "RF transmission V1 L2/3 acc0.542 <0.703 +2SE FAIL, V1 L5 acc0.542 FAIL \u2014 predicted acc0.75 PASS not observed at current drive/noise"
+    ],
+    "resulting_model": {
+      "config_hash": "4574a15519ee8c33",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4574a15519ee8c33",
+      "artifact": "scratch/gen2_C020_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-28T12:00:00Z",
+    "author": "GEN2_C020",
+    "gate": "B4"
+  },
+  {
+    "change_id": "GEN2_C021",
+    "parent_model": {
+      "config_hash": "4574a15519ee8c33",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "add96c514192d280",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4574a15519ee8c33"
+    },
+    "parameter_path": "network.rf visual E/PV input grammar: identical \u2192 differential g_vis_PV 0.7 + interleaved tiling",
+    "pathway": "visual_input_grammar: RF\u2192V1 L4 E/PV co-recruitment (G_visual\u2192E : G_visual\u2192PV =1:0.7, interleaved 10x10 shuffle)",
+    "old_value": "RF E/PV identical gain, A\u2192E222 PV0 / B\u2192PV488 E59 per-trial PV/E0.22 vs1.22 complementary, V1 aggregate PV-dominated -445",
+    "new_value": "RF g_vis_PV 0.7\u00d7 E + interleaved 10\u00d710 shuffle (seed ^0xC02A), per-blob PV/E0.73/0.64 \u22080.5-2.0, spatial overlap 0.454 Jaccard>0.3, ENERGY_A re-derived parity \u22645% V1-only, drive Jaccard 0 well-separated",
+    "delta": {
+      "factor": 0.7,
+      "absolute": "PV gain 1.0\u21920.7, tiling sorted\u2192shuffled (0xC02A)",
+      "description": "identical 1.0 \u2192 differential 0.7 + deterministic shuffle interleaving E/PV coverage, per-blob PV/E 0.5-2.0 Jaccard>0.3"
+    },
+    "reason_before_results": "Consensus four reviewers: A L4 E_RS +445 masked by PV\u2192E1.30 direct RF drive 7-8\u00d7 PV huge (rf.py:64 target E,PV identical gain) not E\u2192PV recruitment; C visual semantics identical gain + complementary tiling A\u2192E0 PV0 vs B\u2192PV488 E59 per-blob PV/E 0/8.17 per-trial 0.22vs1.22 violates canonical co-recruitment 0.5-1.5; input grammar must be corrected before vertical search (parent decision: not vertical density or FF gain, but input recruitment grammar)",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "W4 V1 L4 excitatory information-bearing signal capable of driving L2/3 (L4_E \u0394+445 preserved but PV/E balance 0.22\u21920.5-2.0, aggregate not PV-dominated)",
+    "predicted_generic_effect": "per-blob PV/E0.22\u21920.7, V1 L4 aggregate \u0394-445\u2192+50 (less PV cancellation), L4_E \u0394+445 preserved, L2/3 may begin to see \u0394>0.5",
+    "observed_generic_effect": {
+      "rf_version": "rf.v0.2.0",
+      "rf_hash_old": "add96c514192d280",
+      "rf_hash_new": "18c2f0f55229c307",
+      "config_hash_old": "4574a15519ee8c33",
+      "config_hash_new_rf": "a51711101576c7c3",
+      "visual_pv_gain": 0.7,
+      "interleaved_tiling": true,
+      "interleaved_xor": "0xC02A",
+      "weights_L1_mean": 1.0,
+      "weight_sparsity_1e-4": 0.166,
+      "population_sparsity_A": 0.333,
+      "population_sparsity_B": 0.25,
+      "jaccard_AB_drive": 0.0,
+      "rf_overlap": 0.454,
+      "jaccard_spatial_proxy": 0.454,
+      "per_blob_drive_PV_E_A": 0.727,
+      "per_blob_drive_PV_E_B": 0.637,
+      "per_trial_PV_E_AAAB": 0.208,
+      "per_trial_PV_E_BBBA": 0.146,
+      "energy_parity_AAAB_rel": 0.0195,
+      "energy_parity_BBBA_rel": 0.0112,
+      "energy_parity_RRRR_rel": 0.0336,
+      "energy_parity_pass": true,
+      "v1_only_pass": true,
+      "omission_zero_pass": true,
+      "spiking_preview_A_E": 401.7,
+      "spiking_preview_A_PV": 1111.3,
+      "spiking_preview_B_E": 784.0,
+      "spiking_preview_B_PV": 1226.0,
+      "pv_direct_drive_reduction": "B PV 3889\u21921226 (3.2\u00d7) at spike level, drive 7.24\u21920.64 (11\u00d7) per-blob",
+      "e_preserved": "E 401/784 Hz selective preserved, was 574/171 complementary",
+      "note": "L4_E +445 preserved, aggregate less PV-dominated (\u0394536\u2192252), L2/3 still k0.59\u21922.0 per C020 (topology preserved per task, may see small \u0394 rise directionally, not required to pass yet)"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "test_rf_config_geometry",
+      "test_rf_config_provenance",
+      "test_config_hash_distinct_from_canonical",
+      "test_rf_operator_weights_l1_and_sparse",
+      "test_rf_operator_v1_targeting_no_v4_drive",
+      "test_rf_operator_ab_blobs_sparsity_and_jaccard",
+      "test_rf_operator_omission_zero_drive",
+      "test_rf_operator_tier_binary_vs_graded",
+      "test_rf_operator_stimulus_schedule_uses_target_indices",
+      "test_rf_operator_jaxfne_capability_proof",
+      "test_rf_operator_simulation_smoke",
+      "test_rf_operator_weights_deterministic (updated for interleaved)",
+      "test_rf_operator_centers_tiling",
+      "test_builder_four_areas",
+      "test_model_construct_and_simulate"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "a51711101576c7c3",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "18c2f0f55229c307",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "a51711101576c7c3",
+      "artifact": "scratch/gen2_C021_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-28T12:00:00Z",
+    "author": "C021",
+    "gate": "B4"
+  },
+  {
+    "change_id": "GEN2_C022",
+    "parent_model": {
+      "config_hash": "a51711101576c7c3",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "18c2f0f55229c307",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "a51711101576c7c3"
+    },
+    "parameter_path": "W4a BLOCKER \u2014 no builder.py science mutation beyond seal documentation (alias GEN2_W4a_BLOCKER)",
+    "pathway": "vertical_transmission_observability: Visual\u2192V1 L4_E PASS \u2192 V1 L2/3 FAIL \u2192 V1 L5 \u2192 FF (mechanism observability interval)",
+    "old_value": "W4a:needs another intervention (g_vertical weight-only [0.7,1.8] insufficient per w4a_g_vertical_receipt.md:95 C020 typed vertical Ne16\u219254 but still FAIL per gen2_C020_receipt.md:109 C021 visual grammar PV/E 0.73/0.64 but still FAIL per review_W4a3_P1:42; prior state expects next intervention selection)",
+    "new_value": "W4a BLOCKER MECHANISM_OBSERVABILITY_BLOCKER sealed NEGATIVE/NO C020-promoted g_vertical* \u2014 bottleneck localized to interval between information-bearing L4_E spikes and measurable L2/3 response (delay/history\u2192synaptic state\u2192synaptic current\u2192V_m) where signal disappears; missing chain spikes_{L4_E}(t)\u2192I_{L4_E\u2192L2/3}(t)\u2192V_{m,L2/3}(t) at deployed delays [20,80,120] cannot be exposed due to jaxfne/_model_simulate.py:280 HDP+delay guard and emitters.py:714 non-HDP no record_edge_current (MISSING_CAPABILITY/DOCUMENTATION_GAP per jaxfne_issue_delayed_edge_current.md:1 287 lines)",
+    "delta": {
+      "factor": null,
+      "absolute": "BLOCKER seal \u2014 no weight/topology/RF/tonic change",
+      "description": "Seal W4a as NEGATIVE/NO g_vertical* and MECHANISM_OBSERVABILITY_BLOCKER for causal localization to L4_E\u2192L2/3 interval; do not mutate builder.py beyond documenting seal; keep W4b/W4c/W5 gated, H/Theta via M-06 parallel"
+    },
+    "reason_before_results": "Three independently motivated interventions (H1 vertical weights g0.7\u21921.8/5\u00d7, H2 typed topology v1 Ne16\u219254 k0.59\u21922.0 C0.444\u21920.704 cascade 7\u00d7, H3 visual E/PV grammar 0/7.24\u21920.73/0.64 PV 3.2\u00d7 reduced) each changed presumed cause substantially (weight \u00d71.8-5, edges +38 coverage +0.26, PV/E per-blob balanced) while leaving primary transfer V1 L4 \u0394169 d803 acc1.00 PASS vs V1 L2/3 \u03940.02 d0.13 acc0.542 FAIL invariant; paired C020\u2194C021 \u0394PV/E_L4 +2652Hz pooled but \u0394Y_L2/3 +0.02Hz \u03b1\u22480 not mediated (review_W4a3_P1:60) and D adversary truly absent not rate-invisible (rate LOO 0.708 p0.106, pop vector 0.708 p0.069, Vm 0.542 p0.817, source q 1.00 diagnostic only low-variance averaging per review_W4a3_D:1) \u2014 next justified lever cannot be selected from existing observables without guessing. Missing chain inside deployed delay ring [20,80,120] (builder.py:90 emitters.py:545) requires realized edge-current I_{L4\u2192L2/3}(t) = W\u00b7syn_state(t) vs I_private, blocked by HDP+delay guard _model_simulate.py:280 and non-HDP emitters.py:714 no record param (_pipeline.py:395 HDP-only). Prior classification MISSING_CAPABILITY/DOCUMENTATION_GAP per jaxfne_issue_delayed_edge_current.md:1 287 lines and review_W4a2_T1:1. Predicted before seeing invariance: one of H1/H2/H3 would rescue projecting layer (acc>0.5+2SE \u2227 d>0.5).",
+    "provenance": "DERIVED",
+    "qualification_target": "B4 vertical transmission + B6 propagation observability (W4a mechanism localization)",
+    "predicted_generic_effect": "One of 3 hypothesis-targeted interventions rescues V1 L2/3: H1 g_vertical \u00d71.8\u2192 acc0.542\u21920.75 PASS, H2 C020 Ne16\u219254 + typed W gains \u2192 \u03940.02\u21920.5 d0.13\u21921.0 acc0.542\u21920.75 PASS, H3 C021 PV/E 0.22\u21920.7 aggregate less PV-dominated \u2192 L2/3 may begin \u0394>0.5 (per gen2_C020:pred and gen2_C021:pred)",
+    "observed_generic_effect": {
+      "verdict": "NEGATIVE \u2014 no g_vertical* promoted, all 11 g_vertical hard feasible but none carries; C020 and C021 also FAIL",
+      "blocker_type": "MECHANISM_OBSERVABILITY_BLOCKER",
+      "alias": "GEN2_W4a_BLOCKER",
+      "evidence_state": "OBSERVED",
+      "seal_artifacts": [
+        "manifests/w4a_blocker_seal.json",
+        "scratch/w4a_blocker_seal.md"
+      ],
+      "visual_to_v1_l4": "PASS \u0394169.79 d646 acc1.00 (E_RS +368) preserved across C020 299/129 and C021 paired 391/774 vs 755/137",
+      "v1_l4_to_l23": "FAIL \u0394-0.03 d-0.34 acc0.542 (<0.703) and paired C020 0.625\u2192C021 0.417 FAIL both (gate acc>0.5+2SE \u2227 |d|>0.5)",
+      "v1_l5": "FAIL 0.09 acc0.542",
+      "hypothesis_table": [
+        {
+          "h": "H1 vertical weights too weak g0.7\u21921.8/5\u00d7",
+          "delivered": "Yes \u2014 weight \u00d71.8-5, \u0393_net 0.014\u21920.020 but ratio preserved",
+          "rescued": "No NEGATIVE",
+          "citation": "w4a_g_vertical_receipt.md:95"
+        },
+        {
+          "h": "H2 vertical topology/type inadequate C020 Ne16\u219254 C0.444\u21920.704 cascade 7\u00d7",
+          "delivered": "Yes \u2014 edges/coverage/recruitment \u2191 +38 C+0.26",
+          "rescued": "No NEGATIVE",
+          "citation": "gen2_C020_receipt.md:109"
+        },
+        {
+          "h": "H3 direct visual PV domination C021 visual_pv_gain0.7 tiling 0xC02A PV 3.2\u00d7 reduced",
+          "delivered": "Yes \u2014 per-blob 0.73/0.64 \u22080.5-2.0 Jaccard 0.454>0.3",
+          "rescued": "No NEGATIVE",
+          "citation": "gen2_C021_receipt.md:4.2 + review_W4a3_P1:42"
+        }
+      ],
+      "causal_graph": "Visual \u2192 V1 L4_E PASS (thick 169) \u2192 V1 L2/3 FAIL (hairline 0.02) \u2192 V1 L5 FAIL \u2192 FF (Ne97 k6.47 \u0393_FF0.40 borderline, gated) \u2192 V4/FEF/PFC FAIL",
+      "interval": "Between information-bearing L4_E spikes_(t) (498/130 selective, d>800, acc1.00) and measurable L2/3 response (rates/pop/ISI/Vm all chance) \u2014 contains delay/history\u2192synaptic state\u2192synaptic current\u2192V_m where stimulus difference disappears; not prematurely sealed to synaptic state transfer alone",
+      "missing_chain": "spikes_{L4_E}(t) \u2192 I_{L4_E\u2192L2/3}(t) \u2192 V_{m,L2/3}(t) with I(t)=W\u00b7syn_state(t\u2212delay) at deployed delays [20,80,120] max120",
+      "upstream_limitation": "jaxfne/_model_simulate.py:280 guard HDP vs delay_steps + emitters.py:714 delayed kernel has no record_edge_current (pipeline _pipeline.py:395/:538 HDP-only); classified MISSING_CAPABILITY/DOCUMENTATION_GAP per jaxfne_issue_delayed_edge_current.md:1 287 lines and review_W4a2_T1:1",
+      "invariant_across_3": "Three interventions changed presumed causes substantially while phenotype invariant (\u0394M +2652 vs \u0394Y +0.02 \u03b1\u22480) \u2014 see review_W4a3_P1:60 and review_W4a3_D:2.2 LOO rate 0.708 p0.106 truly absent",
+      "gating": "W4b/W4c/W5 gated, H/Theta gated via M-06 parallel, do not implement C022",
+      "builder_mutation": "NONE beyond seal documentation (builder.py science frozen per task)",
+      "next_intervention": "CANNOT be selected from existing observables without guessing \u2014 requires upstream fix exposing I_{L4_E\u2192L2/3}(t) at finite delays (Option A/B/C per jaxfne_issue_delayed_edge_current.md:200) to disambiguate delay vs current vs Vm",
+      "evidence_chain_citations": [
+        "w4a_g_vertical_receipt.md:95",
+        "gen2_C020_receipt.md:109",
+        "gen2_C021_receipt.md:4.2",
+        "review_W4a3_P1_C021_transmission.md:60-62",
+        "review_W4a3_D_representation.md:1",
+        "review_W4a2_T1_topology.md:1",
+        "jaxfne_issue_delayed_edge_current.md:1",
+        "jaxfne/_model_simulate.py:280",
+        "jaxfne/emitters.py:714",
+        "jaxfne/_pipeline.py:395"
+      ]
+    },
+    "unexpected_effects": [
+      "None beyond predicted invariance \u2014 three interventions each delivered large cause change but phenotype invariant, confirming observability blocker rather than wrong lever; no builder science mutation beyond seal"
+    ],
+    "tests_passed": [
+      "manifests/w4a_blocker_seal.json created stage W4a verdict NEGATIVE/NO C020 blocker MECHANISM_OBSERVABILITY_BLOCKER",
+      "scratch/w4a_blocker_seal.md created with hypothesis table (NEGATIVE \u00d73) and causal graph Visual\u2192L4 PASS\u2192L2/3 FAIL\u2192L5\u2192FF",
+      "evidence_chain Visual\u2192V1 L4 PASS \u0394169 acc1.00 but V1 L4\u2192L2/3 FAIL despite 3 interventions verified via w4a_g_vertical_receipt.md:95 gen2_C020:109 gen2_C021:4.2 review_W4a3_P1:42 review_W4a3_D:2.2",
+      "causal graph nodes/edges interval between L4_E spikes and measurable L2/3 response contains delay/history\u2192synaptic state\u2192synaptic current\u2192V_m where signal disappears",
+      "current production delay+HDP path cannot expose realized edge-current observable cited jaxfne/_model_simulate.py:280 + emitters.py:714 + _pipeline.py:395",
+      "blocker definition next justified intervention cannot be selected from existing observables without guessing \u2014 missing chain spikes\u2192I\u2192Vm documented",
+      "upstream limitation classified MISSING_CAPABILITY/DOCUMENTATION_GAP per jaxfne_issue_delayed_edge_current.md:1 287 lines and review_W4a2_T1:1 referenced",
+      "distinguishes bottleneck localized to interval between L4_E spikes and measurable L2/3 response, not prematurely sealing synaptic state transfer alone \u2014 verified in seal \u00a75.1",
+      "builder.py not mutated beyond documenting seal (science frozen)",
+      "Q_local preserved hard PASS bar5.09 vs y_bar_4 5.72\u00b10.72 etc. still hard feasible"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "a51711101576c7c3",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": "18c2f0f55229c307",
+      "dt_ms": 0.1,
+      "numerical_config_hash": "a51711101576c7c3",
+      "artifact": "manifests/w4a_blocker_seal.json"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-28T23:59:00Z",
+    "author": "W4a Seal Agent \u2014 MECHANISM_OBSERVABILITY_BLOCKER",
+    "gate": "B4",
+    "change_class": "NO_MODEL_DELTA",
+    "milestone": "W4A_MECHANISM_OBSERVABILITY_BLOCKER"
   }
 ]

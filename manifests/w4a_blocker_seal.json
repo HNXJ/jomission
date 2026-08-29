@@ -1,0 +1,238 @@
+{
+  "stage": "W4a",
+  "verdict": "NEGATIVE",
+  "no_c020_promoted_g_vertical_star": true,
+  "c020_promoted": null,
+  "blocker_type": "MECHANISM_OBSERVABILITY_BLOCKER",
+  "claim_level": "NEGATIVE",
+  "evidence_state": "OBSERVED",
+  "gate": "B4",
+  "provenance": "DERIVED",
+  "timestamp": "2026-08-28T23:59:00Z",
+  "author": "W4a Seal Agent — MECHANISM_OBSERVABILITY_BLOCKER",
+  "workspace": "/Users/hamednejat/workspace/computational/jomission",
+  "parent_model": {
+    "config_hash": "a51711101576c7c3",
+    "hp_hash": "f327f9d2ad64cc88",
+    "rf_hash": "18c2f0f55229c307",
+    "dt_ms": 0.1,
+    "numerical_config_hash": "a51711101576c7c3"
+  },
+  "resulting_model": {
+    "config_hash": "a51711101576c7c3",
+    "hp_hash": "f327f9d2ad64cc88",
+    "rf_hash": "18c2f0f55229c307",
+    "dt_ms": 0.1,
+    "numerical_config_hash": "a51711101576c7c3",
+    "artifact": "manifests/w4a_blocker_seal.json"
+  },
+  "ledger_reference": "GEN2_W4a_BLOCKER (appended as GEN2_C022 for schema compliance)",
+  "ledger_change_id_canonical": "GEN2_C022",
+  "ledger_alias": "GEN2_W4a_BLOCKER",
+  "evidence_chain": {
+    "summary": "Visual→V1 L4 PASS (Δ169 d803 acc1.00) but V1 L4→L2/3 FAIL despite 3 independently motivated interventions — no g makes projecting layer carry info (acc>0.5+2SE ∧ d>0.5).",
+    "visual_to_v1_l4": {
+      "status": "PASS",
+      "v1_l4_delta_hz": 169.79,
+      "v1_l4_d": 646.94,
+      "v1_l4_acc": 1.0,
+      "v1_l4_acc_thresh": 0.703,
+      "v1_l4_source_E_delta_hz": 368.03,
+      "v1_l4_source_E_d": 999,
+      "v1_l4_source_E_acc": 1.0,
+      "citations": [
+        "scratch/w4a_g_vertical_receipt.md:95 V1 L4 Δ169 d803 acc1.00 PASS",
+        "scratch/gen2_C020_receipt.md:109 V1 L4 299.51/129.72 Δ169.79 d646 acc1.00 PASS",
+        "scratch/review_W4_P1_propagation.md:75 V1 L4 299→745 Δ-445 vs downstream <0.15",
+        "scratch/review_W4a3_P1_C021_transmission.md:39 L4_E Δ+368/Δ-382 preserved acc1.00 PASS paired"
+      ]
+    },
+    "v1_l4_to_l23_vertical": {
+      "status": "FAIL",
+      "gate": "acc>0.5+2SE (0.703 at n24) ∧ |d|>0.5 ∧ p<0.05",
+      "v1_l23_delta_hz": -0.03,
+      "v1_l23_d": -0.34,
+      "v1_l23_acc": 0.542,
+      "v1_l23_acc_thresh": 0.703,
+      "v1_l23_p_perm": 0.381,
+      "v1_l23_loo_acc": 0.625,
+      "v1_l5_delta_hz": 0.09,
+      "v1_l5_acc": 0.542,
+      "all_11_g_vertical_hard_feasible_but_no_carry": true,
+      "citations": [
+        "scratch/w4a_g_vertical_receipt.md:95 V1 L2/3 Δ0.02 d0.13 acc0.542 FAIL vs V1 L5 Δ0.07: all 11 candidates hard feasible but no g makes projecting layer carry",
+        "scratch/gen2_C020_receipt.md:109 V1 L2/3 -0.03 d-0.34 acc0.542 FAIL L5 0.09 acc0.542 FAIL (topology improved Ne16→54 but FAIL)",
+        "scratch/review_W4a3_P1_C021_transmission.md:42 L2/3 E Δ+0.04 d0.34 acc0.625 FAIL; C021 Δ-0.02 d-0.18 acc0.417 FAIL",
+        "scratch/review_W4a3_D_representation.md:2.2 LOO 0.708 p0.106 FAIL both, pop vector LOO 0.708 p0.069 FAIL"
+      ]
+    },
+    "three_interventions_invariant": {
+      "note": "Three independently motivated interventions changed presumed causes substantially while leaving primary transfer phenotype essentially invariant (Δ(PV/E)L4 +2652 Hz pooled but ΔY_L2/3 +0.02 Hz pooled α≈0).",
+      "paired_mediation": {
+        "delta_PV_E_L4_pooled_hz": 2652,
+        "delta_Y_L23_pooled_hz": 0.02,
+        "alpha_approx": 7e-06,
+        "mediated": false,
+        "citation": "scratch/review_W4a3_P1_C021_transmission.md:60-62 mediation ΔM +2652 vs ΔY +0.02 α≈0 not mediated"
+      },
+      "representation_adversary": {
+        "spiking_rate_LOO": "0.708 p0.106 FAIL",
+        "pop_vector_LOO": "0.708 p0.069 FAIL",
+        "Vm": "0.542 p0.817 FAIL",
+        "source_q": "1.00 p0.001 diagnostic only low-variance averaging",
+        "verdict": "truly absent not rate-invisible",
+        "citation": "scratch/review_W4a3_D_representation.md:2.1-3"
+      }
+    }
+  },
+  "hypothesis_table": [
+    {
+      "hypothesis": "H1: vertical weights too weak",
+      "intervention": "g_vertical [0.7,1.8] uniform 11 points + exc-only g5.0; scaling only vertical M_vertical={L4→L2/3, L2/3→L5} (V1 162 k5.40/V4 178 k5.93 vs L2/3→L5 16 k0.59) disjoint from M_rec9/M_fastEI2/M_dend4/M_disinh1=16 ∅ and M_FF L2/3→L4 287/M_FB 303 delays [20,80,120]",
+      "citations": [
+        "scratch/w4a_g_vertical_receipt.md:27 M_vertical disjoint proof",
+        "scratch/w4a_g_vertical_receipt.md:22 g_vertical ∈[0.7,1.8]",
+        "jomission/network/builder.py:62 MOTIF_GAIN pseudogenome v0",
+        "jomission/network/builder.py:90 FF_LAYER_MAP/FB_LAYER_MAPS delays [20,80,120]"
+      ],
+      "presumed_cause_changed": "Yes — delivered weight scaling ×1.8 (exc-only ×5); W_exc +60% but ratio E/I preserved; Γ_net 0.014→0.020 still 25×<FF0.40",
+      "phenotype_rescued": "No",
+      "polarity": "NEGATIVE",
+      "verdict": "NEGATIVE — g_vertical weight scaling cannot rescue projecting layer; coverage C_vert 0.444 (15/27 L5 get 0 inputs) flat; even g5.0 leaves acc0.562 FAIL"
+    },
+    {
+      "hypothesis": "H2: vertical topology/type inadequate (sparse recruitment + cancellation)",
+      "intervention": "C020 typed vertical microcircuit v1 (Ne16→54 k0.59→2.0 C0.444→0.704 cascade 0.00023→0.0016 7×, reduced cancellation W_net vs W_exc ratio 4.94→1.05; VERTICAL_SPATIAL_SIGMA 0.08→0.12 VERTICAL_MAX_IN_DEGREE 25→40 for M_vertical only; laminar×motif gains L4_E→L2/3_E ×2.0 etc.) orthogonal to M_rec16 etc.",
+      "citations": [
+        "scratch/gen2_C020_receipt.md:43 Ne16→54 k0.59→2.0 C0.444→0.704",
+        "scratch/gen2_C020_receipt.md:63 cascade 0.00023→0.0016 7×",
+        "jomission/network/builder.py:210 VERTICAL_SPATIAL_SIGMA_DEFAULT 0.12",
+        "jomission/network/builder.py:220 VERTICAL_MOTIF_GAIN laminar×motif",
+        "scratch/review_W4a2_T1_topology.md:1 C(k)=1-exp(-k) synthetic sweep"
+      ],
+      "presumed_cause_changed": "Yes — delivered supplemental +38 edges coverage +0.26, W_exc +60% reduced cancellation",
+      "phenotype_rescued": "No",
+      "polarity": "NEGATIVE",
+      "verdict": "NEGATIVE — V1 L2/3 -0.03 d-0.34 acc0.542 FAIL L5 0.09 acc0.542 FAIL; Γ still 25× below FF0.40; Q_local preserved hard PASS"
+    },
+    {
+      "hypothesis": "H3: direct visual PV domination masks excitatory carrier",
+      "intervention": "C021 visual drive E/PV input grammar correction (RFConfig visual_pv_gain 0.7 + interleaved tiling 0xC02A shuffle, PV/E per-blob 0/7.24→0.73/0.64 ∈0.5-2.0 Jaccard 0.454>0.3, PV huge 3889→1226 3.2× reduction at spike level, drive 7.24→0.64 11× per-blob; ENERGY_A re-derived parity ≤5% V1-only, L1 preserved)",
+      "citations": [
+        "scratch/gen2_C021_receipt.md:4.2 per-blob PV/E 0.73/0.64 ∈0.5-2.0 Jaccard 0.454>0.3",
+        "scratch/gen2_C021_receipt.md:4.4 PV huge 3889→1226 3.2× E preserved 401/784",
+        "jomission/network/rf.py:68 VISUAL_PV_GAIN_DEFAULT 0.7",
+        "jomission/network/rf.py:73 INTERLEAVED_SEED_XOR 0xC02A",
+        "scratch/review_W4a3_P1_C021_transmission.md:60 paired ΔPV/E_L4 +2652Hz but ΔY_L23 +0.02Hz not mediated"
+      ],
+      "presumed_cause_changed": "Yes — delivered per-blob co-recruitment balanced, aggregate less PV-dominated Δ536→252",
+      "phenotype_rescued": "No",
+      "polarity": "NEGATIVE",
+      "verdict": "NEGATIVE — also V1 L2/3 -0.03 acc0.542 FAIL after correction; paired mediation shows ΔPV/E huge but ΔY≈0 α≈0; D adversary confirms truly absent"
+    }
+  ],
+  "causal_graph": {
+    "nodes": ["Visual (RF 32×32 graded ENERGY_A)", "V1 L4_E (source, Δ169-368 d>800 acc1.00 PASS)", "V1 L4_PV (direct PV domination 3889→1226 reduced)", "V1 L2/3 (projecting layer, Δ0.02 d0.13 acc0.542 FAIL)", "V1 L5 (Δ0.07)", "FF L2/3→L4 (287 edges, Γ_FF0.40)", "V4/FEF/PFC (downstream at chance)"],
+    "edges": [
+      "Visual → V1 L4_E  PASS  (information-bearing L4_E spikes, E_RS 1200-1991Hz subset 37%)",
+      "Visual → V1 L4_PV  (direct drive 7-8× larger than E, reduced by C021 but not mediating)",
+      "V1 L4_E → V1 L2/3  FAIL  (vertical intra-area V1 L4→L2/3: Ne162 k5.40 vs L2/3→L5 Ne16 k0.59; Γ_vert net 0.003-0.014 vs Γ_FF0.40)",
+      "V1 L2/3 → V1 L5  FAIL  (Ne16 k0.59 C0.444 → Ne54 k2.0 C0.704 after C020 but still gated; 15/27→7/27 L5 get 0 inputs)",
+      "V1 L2/3 → FF (V1 L2/3_E→V4 L4)  GATED  (source at chance so downstream at chance; FF_OFF shows 0 degradation)",
+      "V1 L4 → V1 L2/3 → V1 L5 → FF chain blocked at L4→L2/3"
+    ],
+    "ascii": "Visual (RF A/B graded, energy-matched) → V1 L4_E [+169-368 Hz, d>800, acc1.00 PASS] ──thick──► V1 L2/3 [Δ0.02 d0.13 acc0.542 FAIL] ──thin──► V1 L5 [Δ0.07 d0.49 acc0.542 FAIL] ──thin──► FF V1 L2/3→V4 L4 [Ne97 k6.47 W0.04 Γ_FF0.40 borderline] → V4 [Δ-0.05 acc0.389 FAIL]  // Lateral PV path: Visual → V1 L4_PV [3889→1226 reduced 3.2×] ──┤ (inh) antagonizes but not mediating vertical",
+    "throughput": "V1 L4 carries huge (169-445 Hz) but V1 L2/3 at chance; cascade Γ product 0.00023→0.0016 after C020 still 250× below FF0.40; all 11 g_vertical + C020 + C021 leave primary transfer invariant"
+  },
+  "blocker": {
+    "type": "MECHANISM_OBSERVABILITY_BLOCKER",
+    "definition": "Next scientifically justified intervention cannot be selected from existing observables without guessing. The observable space does not contain a signal that covaries with the transfer failure to prescribe the next causal knob.",
+    "localized_interval": "Between information-bearing V1 L4_E spiking output (spikes_{L4_E}(t), t in [100,531] ms, rate 498/130 Hz selective, d>800, acc1.00) and measurable V1 L2/3 neural response (rates, population vector, ISI, latency, transient, V_m, source q diagnostic) — i.e. the interval that contains delay/history → synaptic state → synaptic current → V_m where the stimulus-conditioned difference disappears (Δ_L2/3 ≈0.02 Hz, |d|<0.5, acc≈chance vs source Δ169).",
+    "not_prematurely_sealed": "Bottleneck is localized to the interval between L4_E spikes and measurable L2/3 response, NOT prematurely sealed to synaptic state transfer alone. The disappearance could be at realized edge-current production (I_{L4_E→L2/3}(t) = W·syn_state(t−delay)), at synaptic current aggregation, at V_m integration, or at spiking threshold — we cannot distinguish these sub-steps without I_edge observability.",
+    "exposed_observables": [
+      "spikes_{L4_E}(t) — PASS, huge Δ preserved across C020/C021",
+      "spikes_{L2/3}(t) / rate 0.431s window 100-531ms — FAIL at chance even with population/ISI/transient/V_m decoders",
+      "V_{m,L2/3}(t) — FAIL (Vm LOO 0.542 p0.817)",
+      "source q diagnostic Acc1.00 Δ0.015 SD0.002 — tiny Δ averaging artifact, DIAGNOSTIC_ONLY not rescue",
+      "field proxy — DIAGNOSTIC_ONLY linear averaging 30×4310 reduces variance 100×"
+    ],
+    "missing_observable": "spikes_{L4_E}(t) → I_{L4_E→L2/3}(t) → V_{m,L2/3}(t) chain requires realized edge-current I_{L4_E→L2/3}(t) per edge (n_steps × n_edges) at deployed finite delays [20,80,120] (max 120 via builder.py:90 + jaxfne/emitters.py:545 edge_list_with_delay_ms). This is I_private → I_syn → V_m falsification needed for C013 clamp and W4 vertical budget.",
+    "missing_chain_formal": "spikes_{L4_E}(t) --[delay_steps + syn_state decay exp(-dt/τ)]--> I_{L4_E→L2/3}(t) = Σ_{pre∈L4_E} W_{pre→post}·syn_state_{pre→post}(t)  --[I_syn aggregation + I_private + tonic]--> V_{m,L2/3}(t) --[Izhikevich dv=0.04v²+5v+140-u+I]--> spikes_{L2/3}(t). First arrow produces realized current observable blocked."
+  },
+  "upstream_limitation": {
+    "classification": "MISSING_CAPABILITY primary; DOCUMENTATION_GAP secondary if intentional",
+    "location": "jaxfne/_model_simulate.py:280 (also :572 continuation, :1063 batch) guard: if int(jnp.asarray(edges.delay_steps).sum()) != 0: raise ValueError(\"enable_hdp does not support nonzero edge delay_steps ...\") — and non-HDP delayed kernel jaxfne/emitters.py:714 _simulate_edge_recurrent_izhikevich_delayed has no record_edge_current parameter (signature lacks it, inspect.getsource lacks 'record_edge_current'), dispatch at emitters.py:896→928, pipeline at _pipeline.py:395 compile_step_fn + :483 + :538 record_edge_current wired only for kernel=='hdp'.",
+    "citations": [
+      "scratch/jaxfne_issue_delayed_edge_current.md:1 287 lines total, summary at :1, guard at :280, HDP seam at emitters.py:2846 + :3066 documented edge_current_trace (n_steps,n_edges), diagnostics wired at :3507/:3567, pipeline at _pipeline.py:395/:538 HDP-only guard",
+      "scratch/jaxfne_issue_delayed_edge_current.md:15-19 C012 deployed n=400 n_edges=10590 delay_steps [20,80,120] max120 via builder.py:648 + emitters.py:545",
+      "scratch/jaxfne_issue_delayed_edge_current.md:20 blocks direct I_private → I_syn → V_m measurement, labeled PROXY (W·r·τ) not REALIZED",
+      "scratch/review_W4a2_T1_topology.md:1 synthetic coverage audit Ne/k/C_vert Γ proxy; same delay+HDP incompatibility noted",
+      "jaxfne/_model_simulate.py:280 for deployed C012/C020/C021 delays",
+      "jaxfne/emitters.py:714 _simulate_edge_recurrent_izhikevich_delayed no record param; :2846 HDP-only",
+      "jaxfne/_pipeline.py:395 compile_step_fn(record_edge_current) :538 if record_edge_current and kernel==\"hdp\"",
+      "jomission/recording/observables.py:32 OPTIONAL_OBSERVABLES {\"I_edge_current\"} + :35 partition_currents_by_motif — seam correct but upstream blocked",
+      "jomission/network/builder.py:90 DELAY_FF 8→80 steps FB 12→120 within 2→20 dt0.1"
+    ],
+    "why_blocks_W4a": "Current production path delay+HDP cannot expose realized edge-current observable even opt-in record_edge_current=True via RuntimeConfig(hdp_params) → ValueError at _model_simulate.py:280 for HDP, and None/no trace for non-HDP delayed. Smallest upstream fix options A/B/C documented in jaxfne_issue_delayed_edge_current.md:200-227 (Option A: expose edge_current_trace in delayed non-HDP path; Option B: dedicated diagnostic buffer; Option C: documentation-only). Until then W4a numbers remain PROXY W·r·τ, not Temporal coherence Corr(I_private[t], I_SST[t+τ]) realizable.",
+    "workaround_not_allowed": "NEVER-02/03 forbids recreating JaxFNE primitive downstream — cannot duplicate edge_current = weight*syn_state → segment_sum → current_native in jomission/. Fix must be upstream or documented validated equivalence with bound (proxy bias +5.3% proxy / +1.9% realized ordering preserved, but temporal UNRESOLVED).",
+    "status": "Reproduced verbatim on jaxfne 0.4.17 (issue bundle §2 configs A/B/C). Jomission retains PROXY flag until upstream fix or validated equivalence."
+  },
+  "distinguishes_bottleneck_localization": {
+    "localized_to": "interval between information-bearing L4_E spikes and measurable L2/3 neural response (delay/history→synaptic state→synaptic current→V_m where signal disappears)",
+    "not_prematurely_sealed_to": "synaptic state transfer alone (e.g., claiming specifically that synaptic_state_{L4→L2/3}(t) fails to represent stimulus). The disappearance point within synaptic_state → I_edge → V_m sub-steps is UNRESOLVED — could be current aggregation cancellation, V_m integration, or threshold, not attributable without I_edge observable.",
+    "why_not_synaptic_state_alone": "C020 improved k and W_ratio but still failed; C021 changed PV recruitment but mediation α≈0; both rule out upstream spikes and downstream spiking code (D adversary) but leave interior delay→current→Vm interval opaque. Realized I_{L4→L2/3}(t) is necessary to localize within interval."
+  },
+  "invariance_across_interventions": {
+    "note": "Three independently motivated interventions changed presumed causes substantially while leaving primary transfer phenotype essentially invariant — strongest evidence for observability blocker rather than wrong lever.",
+    "vertical_weights_g": "g 0.7→1.8 (×2.57) + exc-only g5.0 delivered Yes — Γ_net ×1.8 but acc flat 0.542→0.542 FAIL",
+    "vertical_topology_typed": "C020 Ne16→54 (×3.4) C0.444→0.704 + typed W gains delivered Yes — Γ cascade 7× but acc -0.03→-0.03 FAIL",
+    "visual_PV_grammar": "C021 PV/E 0→0.73/0.64 PV huge 3.2× reduced delivered Yes — mediation α≈0 but L2/3 acc 0.542→0.542 FAIL"
+  },
+  "seal_predicate": "W4a G g_vertical [0.7,1.8] (11 uniform, plus exc-only g5.0) scaling only vertical M_vertical disjoint from M_rec16 and M_FF287/M_FB303 delays [20,80,120] C019 theta* [1.2565,1.1872,0.7088,1.2182,1.2887] tonic2.885 Poisson2.577 Q_local preserved hard PASS vs L2/3 transmission V1 L4 Δ169 acc1.00 PASS vs V1 L2/3 Δ0.02 d0.13 acc0.542 FAIL: no g makes projecting layer carry info (acc>0.5+2SE ∧ d>0.5) after 3 hypothesis-targeted interventions → verdict NEGATIVE / NO C020-promoted g_vertical* and BLOCKER type MECHANISM_OBSERVABILITY_BLOCKER for causal localization to L4_E spikes → L2/3 response interval (spikes→I→Vm) blocked by delay+HDP edge-current observability (jaxfne/_model_simulate.py:280).",
+  "gating": {
+    "W4b_g_FF": "GATED — do not implement C022 FF scaling; source L2/3 at chance so FF would scale weak source",
+    "W4c_g_FB": "GATED",
+    "W5": "GATED",
+    "H_Theta": "GATED — conceptual H/Theta frozen per h_state.py:28 5 taus vs 1-D execution mismatch M-06 parallel",
+    "M_06": "PARALLEL — upstream HDP/delay fix tracked separately, not blocking W4a seal",
+    "H_via_M06": "H/Θ via M-06 parallel exposure_batch_size optimization, not via W4 vertical"
+  },
+  "provenance_chain": [
+    "scratch/w4a_g_vertical_receipt.md:1 211 lines G_W4a 11 g_vertical hard feasible but acc FAIL",
+    "scratch/gen2_C020_receipt.md:1 155 lines typed vertical v1 Ne16→54 but RF transmission still gated",
+    "scratch/gen2_C021_receipt.md:1 190 lines visual grammar PV/E 0.73/0.64 but transmission preview invariant",
+    "scratch/review_W4a3_P1_C021_transmission.md:1 181 lines paired C020↔C021 ΔPV/E +2652 vs ΔY +0.02 not mediated, Outcome C invariant",
+    "scratch/review_W4a3_D_representation.md:1 176 lines truly absent not rate-invisible, LOO rate 0.708 p0.106 FAIL",
+    "scratch/review_W4a2_T1_topology.md:1 193 lines C(k)=1-exp(-k) synthetic sweep, PROXY Γ due delay+HDP",
+    "scratch/review_W4_P1_propagation.md:1 263 lines V1 L4 -445 vs downstream <0.15",
+    "scratch/review_W4_P2_budget.md:1 204 lines Γ_FF0.40 vs Γ_vert 0.003-0.014 PRIMARY bottleneck",
+    "scratch/jaxfne_issue_delayed_edge_current.md:1 287 lines MISSING_CAPABILITY delay+HDP no edge_current_trace"
+  ],
+  "builder_mutation": "NONE — builder.py not mutated beyond documenting seal (hash-visible metadata via this seal JSON only; builder.py science frozen per task). Only seal JSON and ledger entry and markdown artifact created.",
+  "next_scientifically_justified_intervention": "CANNOT be selected from existing observables without guessing. Candidate next interventions (raise L2/3→L5 k to 5.0 C0.993, boost L4_E→L2/3_E ×3, reduce E→SST ×0.5 etc.) are all plausible but indistinguishable given invariant phenotype across 3 hypothesis families and missing interior I_edge observable. Upstream fix to expose I_{L4_E→L2/3}(t) at deployed delays is prerequisite to disambiguate among: (i) delay ring mis-alignment, (ii) synaptic current cancellation (E/I 4.4×), (iii) V_m integration/threshold filtering.",
+  "evidence_grammar": "SPECIFIED (W4a g_vertical search + 2 follow-ups C020/C021) → IMPLEMENTED (overlay via existing Model params seams, no new simulator) → TESTED (2000ms spont + 1000ms×12×3 RF 32×32 paired seeds 0,1, permutation null 1000, LOO) → OBSERVED (this seal, NEGATIVE + BLOCKER). Frozen artifacts write-once.",
+  "artifacts": [
+    "manifests/w4a_blocker_seal.json (this file)",
+    "scratch/w4a_blocker_seal.md (human-readable seal table + causal graph)",
+    "manifests/gen2_modification_ledger.jsonl:GEN2_C022 (alias GEN2_W4a_BLOCKER) blocker ledger entry",
+    "manifests/gen2_modification_ledger.json aggregate regenerated",
+    "scratch/jaxfne_issue_delayed_edge_current.md:1 already classified MISSING_CAPABILITY/DOCUMENTATION_GAP",
+    "scratch/review_W4a2_T1_topology.md:1 already PROXY Γ budget",
+    "results/agsdr_local_w4a/trace.jsonl still 11 candidates hard PASS but no carry (preserved)"
+  ],
+  "frozen_artifacts_write_once": true,
+  "do_not_implement": ["C022", "g_FF scaling before vertical rescue", "H/Theta via W4", "builder.py science mutation beyond seal documentation"],
+  "references_file_line": {
+    "delay_HDP_guard": "jaxfne/_model_simulate.py:280 + :572 + :1063",
+    "edge_current_HDP_seam": "jaxfne/emitters.py:2846 record_edge_current + :3066 doc + :3507/:3567 wiring",
+    "delayed_kernel_no_record": "jaxfne/emitters.py:714 _simulate_edge_recurrent_izhikevich_delayed (lacks record param)",
+    "delay_declaration": "jaxfne/emitters.py:545 edge_list_with_delay_ms + jomission/network/builder.py:90 DELAY_* + :807 _apply_laminar_delays dt0.1 → [20,80,120]",
+    "pipeline_HDP_only": "jaxfne/_pipeline.py:395 compile_step_fn + :483 + :538 if kernel==\"hdp\"",
+    "poisson_private": "jaxfne/_signals.py:670 _make_poisson_drive + jaxfne/_model_simulate.py:771 Bernoulli private Corr≈0",
+    "syn_decay": "jaxfne/emitters.py:457,821,961 decay=exp(-dt/tau_ms) edge_current=weight*syn_state",
+    "jomission_seam_correct_but_blocked": "jomission/recording/observables.py:32 OPTIONAL_OBSERVABLES + :35 partition_currents_by_motif + jomission/network/builder.py:90 delays + :210 vertical topology",
+    "provenance_local_Q": "manifests/gen2_modification_ledger.jsonl:GEN2_C019 y_bar_4 bar5.72 cv0.35 rho0.388 hard PASS",
+    "ledger_schema": "manifests/gen2_ledger.schema.json",
+    "seal_schema": "manifests/gen2_Bk_seal.schema.json"
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "observables": [
+    {
+      "name": "V_m",
+      "owner": "STATE",
+      "dimensionality": "(n_neurons,) per step, (n_steps, n_neurons) trajectory; n_neurons=400",
+      "units": "mV",
+      "independence": true,
+      "parent": null,
+      "classification": "X",
+      "description": "Membrane voltage per neuron \u2014 fast state variable in DynamicState.v",
+      "provenance": "jaxfne/emitters.py:211 _izhikevich_dv_du dv=0.04v\u00b2+5v+140-u+I du=a(bv-u); jaxfne/_pipeline.py:48 DynamicState.v",
+      "time_units": "ms",
+      "independence_note": "Independent state \u2014 part of X_t slice of C_t"
+    },
+    {
+      "name": "spikes",
+      "owner": "STATE/OUTPUT*",
+      "dimensionality": "(n_neurons,) bool per step, (n_steps, n_neurons) trajectory",
+      "units": "bool (threshold V>=30 mV) \u2192 Hz when binned",
+      "independence": true,
+      "parent": null,
+      "classification": "X",
+      "description": "Spike events \u2014 threshold crossings V>=30 mV, stored as prev_spikes in DynamicState + emitted as event",
+      "provenance": "jaxfne/emitters.py:211 v>=30\u2192c u+=d; jaxfne/_pipeline.py:48 DynamicState.prev_spikes",
+      "independence_note": "Ambiguous ownership: STATE as prev_spikes (carry) + OUTPUT as event stream; independent yes* with ownership STATE/OUTPUT where ambiguous per task",
+      "time_units": "ms"
+    },
+    {
+      "name": "u",
+      "owner": "STATE",
+      "dimensionality": "(n_neurons,)",
+      "units": "mV (recovery variable)",
+      "independence": true,
+      "parent": null,
+      "classification": "X",
+      "description": "Recovery variable u \u2014 second Izhikevich state, DynamicState.u",
+      "provenance": "jaxfne/emitters.py:211 du=a(bv-u)",
+      "time_units": "ms"
+    },
+    {
+      "name": "syn_state",
+      "owner": "STATE",
+      "dimensionality": "(n_edges,) n_edges=10590",
+      "units": "native current (uncalibrated)",
+      "independence": true,
+      "parent": null,
+      "classification": "X",
+      "description": "Synaptic state per edge \u2014 carries filtered spike history for edge i",
+      "provenance": "jaxfne/_pipeline.py:48 DynamicState.syn_state",
+      "time_units": "ms"
+    },
+    {
+      "name": "H",
+      "owner": "STATE",
+      "dimensionality": "(n_neurons,) scalar (conceptual 5 dims taus 0.1/1/10/100/1000s)",
+      "units": "dimensionless (adaptation state)",
+      "independence": true,
+      "parent": null,
+      "classification": "A",
+      "description": "Adaptive history state H \u2014 scalar per neuron implemented, conceptual 5-coord per jomission/dynamics/h_state.py:28",
+      "provenance": "jomission/dynamics/h_state.py:28 H_COORDINATES 5 taus + jaxfne/_pipeline.py DynamicState.H + manifests/agsdr_local_freeze.json:97",
+      "independence_note": "Independent adaptive state \u2014 slow, history; gated mismatch until M-06 per gen2_gates.py:110",
+      "time_units": "ms"
+    },
+    {
+      "name": "Theta",
+      "owner": "STATE",
+      "dimensionality": "(theta_dim,) population: theta_dim=2 (h_state_dim=2)",
+      "units": "dimensionless (bounded [-0.1,0.1])",
+      "independence": true,
+      "parent": null,
+      "classification": "A (plastic)",
+      "description": "Plastic parameters Theta \u2014 slow variables with tau_theta 1000s, lr1e-4, channels edge_weight+intrinsic_drive",
+      "provenance": "jomission/dynamics/hdp.py:14 HDPConfig tau_theta 1000 lr1e-4 + manifests/agsdr_local_freeze.json:97",
+      "independence_note": "Independent plastic state \u2014 carried in ContinuationState.w / HDP, not derived from X",
+      "time_units": "s (tau_theta 1000s)"
+    },
+    {
+      "name": "delay_state",
+      "owner": "STATE",
+      "dimensionality": "(D_max, n_neurons) D_max=120\u00d7400=48000 buffer",
+      "units": "bool (spike history)",
+      "independence": true,
+      "parent": null,
+      "classification": "A (history)",
+      "description": "Delay/history ring buffer B_t \u2014 ring of past spikes for delayed edges",
+      "provenance": "jaxfne/_pipeline.py ContinuationState.delay_state + jaxfne/emitters.py:545 delay_steps + builder.py:807 _apply_laminar_delays",
+      "time_units": "steps (120 steps \u00d7 0.1ms =12ms)"
+    },
+    {
+      "name": "V_centered (V_i - bar V) \u2014 relative_V",
+      "owner": "OUTPUT",
+      "dimensionality": "(n_neurons,) per step \u2014 same as V_m",
+      "units": "mV (relative)",
+      "independence": false,
+      "parent": "V_m",
+      "classification": "DERIVED_FROM(V_m)",
+      "semantic_class": "DERIVED",
+      "description": "Relative voltage V_i - mean(V) \u2014 mean subtraction per field gauge, not independent state; DERIVED_FROM(V_m) (V1 graph C_t\u2192X_t\u2192q_t\u2192\u03c6_t\u2192y_t, jomission/visualization/model_summary.py:observable_basis())",
+      "provenance": "jaxfne/_signals.py Signals.field diagnostics gauge='mean_zero'",
+      "independence_note": "DERIVED_FROM(V_m) \u2014 dependent on V_m; must label DERIVED_FROM(V_m) per V4 adversary N1/Misleading normalization; semantic_class DERIVED",
+      "time_units": "ms"
+    },
+    {
+      "name": "q (source / current proxy)",
+      "owner": "OUTPUT",
+      "dimensionality": "(n_neurons,) per step",
+      "units": "native current (source_scale * I)",
+      "independence": false,
+      "parent": null,
+      "classification": "q",
+      "description": "Source/current proxy q_t = source_scale * (I_tonic+I_private+I_noise+I_syn + gain*spikes) \u2014 per-neuron continuous source",
+      "provenance": "jaxfne/emitters.py:55 source_scale + jaxfne/presets.py DEFAULT_SPIKE_IMPULSE_GAIN + builder.py:49 Poisson2kHz amp2.0 + :159 tonic3.0",
+      "independence_note": "q source depends on definition \u2014 if defined as instantaneous current from X+A+Static, then DERIVED_FROM(X,A); if defined as filtered source with own dynamics, ownership ambiguous. Here: OUTPUT derived from X_t,A_t,Static per advisor (not independent state)",
+      "time_units": "ms",
+      "parent_detail": "DERIVED_FROM(X,A,Static) \u2014 deterministic transform of V_m/spikes/H/w/W/drive"
+    },
+    {
+      "name": "phi (field_proxy / LFP-like proxy_readout)",
+      "owner": "OUTPUT",
+      "dimensionality": "(n_contacts,) or (depth, time) proxy field",
+      "units": "a.u. (proxy_readout, physical_amplitude_calibrated=False, never physical LFP)",
+      "independence": false,
+      "parent": "q",
+      "classification": "phi",
+      "semantic_class": "FIELD_PROXY",
+      "description": "Field proxy phi_t = project_laminar_sources(q_t) \u2014 laminar field_proxy (mean_zero_neumann gauge, proxy_no_field_solve jomission/network/builder.py:409, not PDE solve, never physical LFP, proxy_readout)",
+      "provenance": "jaxfne/_config.py field(source_mode='proxy_no_field_solve') builder.py:409 + jaxfne/fields/proxy.py:148 project_laminar_sources + jaxfne/io.py manifest field_solver_status 'linear_solver' claim_level 'proxy_readout'",
+      "independence_note": "DERIVED_FROM(q) \u2014 deterministic projection of source; FIELD_PROXY proxy_readout not physical LFP per V4 adversary U3; semantic_class FIELD_PROXY, proxy_status True",
+      "time_units": "ms"
+    },
+    {
+      "name": "CSD (CSD-like second derivative) \u2014 CSD_proxy",
+      "owner": "OUTPUT",
+      "dimensionality": "(n_contacts,) or (depth,)",
+      "units": "a.u./mm\u00b2 (proxy second derivative, proxy_readout, physical_amplitude_calibrated=False)",
+      "independence": false,
+      "parent": "phi",
+      "classification": "DERIVED_FROM(field_proxy)",
+      "semantic_class": "DERIVED",
+      "description": "CSD-like = second spatial derivative of phi_proxy along depth \u2014 post-hoc DERIVED_FROM(field_proxy) (field_proxy / LFP-like proxy_readout, never physical CSD)",
+      "provenance": "jaxfne/fields.py probe_laminar_modes + builder.py:409 proxy_no_field_solve + builder.py:410 probe + jaxfne/io.py manifest csd_sign_convention + jaxfne/fields/proxy.py:192 + vis_V4_adversary.md N2",
+      "independence_note": "DERIVED_FROM(field_proxy) \u2014 not independent measurement; labeling as independent CSD double-counts phi evidence per V4; semantic_class DERIVED, proxy_status True",
+      "time_units": "ms"
+    },
+    {
+      "name": "y (probe readout)",
+      "owner": "OUTPUT",
+      "dimensionality": "(n_contacts, n_steps) n_contacts=16",
+      "units": "a.u. (proxy_readout linear)",
+      "independence": false,
+      "parent": "phi",
+      "classification": "y",
+      "description": "Probe readout y_t = Probe(n_contacts=16) @ phi_t \u2014 linear readout per laminar contact",
+      "provenance": "jomission/network/builder.py:410 cfg.probe(n_contacts=16) + jaxfne/fields.py probe_laminar_modes + manifests/agsdr_local_freeze.json:1",
+      "independence_note": "DERIVED_FROM(phi) \u2014 linear transform of field; readout, not state",
+      "time_units": "ms"
+    },
+    {
+      "name": "W (EdgeList weights)",
+      "owner": "STATE (static latched)",
+      "dimensionality": "(n_edges,) n_edges=10590",
+      "units": "native current * gain (includes lognormal CV1.5 + motif gains) \u2014 display log: sign\u00b7log1p(|W|/1e-6) heavy tail, builder.py:142 sigma1.085",
+      "independence": true,
+      "parent": null,
+      "classification": "Static per-edge",
+      "description": "Edge weights \u2014 per-edge static after spatial locality + motif scaling + lognormal (heavy tail CV1.5). Visualization: log abs weight with sign preserved (_safe_log_abs_weight, zero/sign-safe via log1p(|W|/eps)), linear for CV/rho/Fano per A2. Network_viz weight heatmaps log10.",
+      "provenance": "jomission/network/builder.py:62 MOTIF_GAIN 16 + :395 spatial_sigma0.08 + :142 CV1.5 sigma1.085 mu-0.589 (heavy tail) + jaxfne/emitters.py EdgeList + V0-P1 log scaling",
+      "independence_note": "Static latched per model instance (hash-visible), not per-step dynamic; counts toward N_static per-edge; vis scaling log for weight, linear for CV/rho/Fano (A2)",
+      "time_units": "\u2014",
+      "scaling": {
+        "weight": "log (sign\u00b7log1p(|W|/1e-6), zero-safe)",
+        "H_tau": "log10 (0.1-1000s, 4 orders, h_state.py:28)",
+        "CV": "linear [0,2.5]",
+        "rho": "linear [-0.6,0.6]",
+        "Fano": "linear"
+      }
+    },
+    {
+      "name": "positions",
+      "owner": "STATE (static)",
+      "dimensionality": "(n_neurons,3)",
+      "units": "dva proxy (0..8\u00b0) / arbitrary units",
+      "independence": true,
+      "parent": null,
+      "classification": "Static per-neuron",
+      "description": "Neuron positions \u2014 3D per neuron for spatial pruning, depth bands L1 0-0.10 etc.",
+      "provenance": "jomission/network/populations.py:21 LAYER_DEPTH_BANDS + builder.py:630 _apply_spatial_locality",
+      "time_units": "\u2014"
+    }
+  ],
+  "observable_basis_hash": "7c51f040c16aef46",
+  "graph": "C_t -> X_t -> q_t -> phi_t -> y_t",
+  "nodes": {
+    "C_t": {
+      "label": "Full continuation state",
+      "contains": [
+        "DynamicState(v,u,prev_spikes,syn_state,H,w)",
+        "RNG prng_key",
+        "step_index",
+        "delay_state ring buffer (120\u00d7400)"
+      ],
+      "provenance": "jaxfne/_pipeline.py:48 DynamicState + :72 ContinuationState + jaxfne/emitters.py:545 delay_steps",
+      "storage": "ContinuationState pytree \u2014 every simulation segment carry"
+    },
+    "X_t": {
+      "label": "Fast neural state",
+      "depends_on": "C_t.DynamicState.v,u,prev_spikes,syn_state",
+      "classification": "X",
+      "variables": [
+        "V_m (400\u00d71 float32) membrane voltage",
+        "spikes (400 bool) threshold V>=30",
+        "u (400) recovery",
+        "syn_state (10590)"
+      ],
+      "provenance": "jaxfne/emitters.py:211 _izhikevich_dv_du dv=0.04v\u00b2+5v+140-u+I du=a(bv-u)",
+      "note": "X is strictly fast (dt0.1ms); no H/Theta"
+    },
+    "A_t": {
+      "label": "Adaptive / history state",
+      "depends_on": "C_t.DynamicState.H,w + delay_state + Theta",
+      "classification": "A",
+      "variables": [
+        "H scalar per neuron (1\u00d7400) conceptual 5 dims taus 0.1/1/10/100/1000s",
+        "Theta vector theta_dim=2 population restoring (tau_theta 1000s, lr1e-4, bounds [-0.1,0.1])",
+        "delay_state (120\u00d7400) ring buffer B_t"
+      ],
+      "provenance": "jomission/dynamics/h_state.py:28 H_COORDINATES 5 taus + jomission/dynamics/hdp.py:14 HDPConfig + jaxfne/_pipeline.py ContinuationState.delay_state",
+      "note": "A is slow/history; H is H_fast\u2026H_context conceptual vs implemented scalar per freeze"
+    },
+    "q_t": {
+      "label": "Source / current",
+      "depends_on": "X_t + A_t + Static(W, drive, I_bg)",
+      "classification": "q",
+      "variables": [
+        "q_t = source_scale * (I_tonic+I_private+I_noise+I_syn + spike_gain*spikes) \u2014 canonical relative source"
+      ],
+      "provenance": "jaxfne/emitters.py:55 IZHIKEVICH_CELL_TYPE_DEFAULTS + jaxfne/presets.py DEFAULT_SPIKE_IMPULSE_GAIN + jomission/network/builder.py:49 Poisson 2kHz amp2.0 + :159 tonic 3.0",
+      "note": "q is not spike count; it is continuous source proxy per neuron"
+    },
+    "phi_t": {
+      "label": "Field (field_proxy / LFP-like proxy_readout, never physical LFP)",
+      "depends_on": "q_t",
+      "classification": "phi",
+      "semantic_class": "FIELD_PROXY",
+      "variables": [
+        "phi_t = project_laminar_sources(q_t) \u2014 laminar field_proxy (mean_zero_neumann gauge, proxy_no_field_solve builder.py:409, not PDE solve)"
+      ],
+      "provenance": "jaxfne/fields + jaxfne/_config.py field(source_mode='proxy_no_field_solve') builder.py:409 + jaxfne/io.py manifest field_solver_status 'linear_solver' claim_level 'proxy_readout'",
+      "note": "Field is field_proxy (LFP-like proxy_readout); not calibrated in physical units (truth gate clamped); FIELD_PROXY, proxy_status True"
+    },
+    "y_t": {
+      "label": "Probe / CSD (probe READOUT, CSD DERIVED_FROM(field_proxy))",
+      "depends_on": "phi_t",
+      "classification": "y",
+      "semantic_class": "READOUT",
+      "variables": [
+        "y_t = Probe(n_contacts=16) @ phi_t \u2014 linear readout per contact (READOUT, proxy_readout)",
+        "CSD = second spatial derivative of phi_proxy (DERIVED_FROM(field_proxy), proxy_readout)"
+      ],
+      "provenance": "jaxfne/_config.py probe(n_contacts=16) + jaxfne/fields.py probe_laminar_modes + jomission/network/builder.py:410 cfg.probe(n_contacts=16)",
+      "note": "Probe is READOUT; CSD is DERIVED_FROM(field_proxy) post-hoc, not independent state"
+    }
+  },
+  "edges": [
+    {
+      "src": "C_t",
+      "dst": "X_t",
+      "transform": "slice DynamicState.v,u,prev_spikes,syn_state",
+      "kind": "STATE_SLICE"
+    },
+    {
+      "src": "C_t",
+      "dst": "A_t",
+      "transform": "slice DynamicState.H,w + delay_state + Theta",
+      "kind": "STATE_SLICE"
+    },
+    {
+      "src": "X_t",
+      "dst": "q_t",
+      "transform": "source_proxy = source_scale*(I_native + gain*spikes)",
+      "kind": "EMITTER"
+    },
+    {
+      "src": "A_t",
+      "dst": "q_t",
+      "transform": "H modulates I, w scales syn_state",
+      "kind": "ADAPTIVE_MODULATION"
+    },
+    {
+      "src": "q_t",
+      "dst": "phi_t",
+      "transform": "project_laminar_sources(q, geometry)",
+      "kind": "PROJECTION"
+    },
+    {
+      "src": "phi_t",
+      "dst": "y_t",
+      "transform": "probe_laminar_modes(phi) @ W_probe",
+      "kind": "LINEAR_READOUT"
+    }
+  ],
+  "derived_transforms": [
+    {
+      "name": "relative_V (V_i - bar V)",
+      "inputs": [
+        "V_m",
+        "mean(V_m)"
+      ],
+      "output": "relative_V",
+      "kind": "DERIVED_FROM(V_m)",
+      "semantic_class": "DERIVED",
+      "units": "mV (relative)",
+      "derived_from": "V_m",
+      "proxy_status": false,
+      "note": "Not independent state; mean subtraction per field gauge; DERIVED_FROM(V_m) (V1 graph C_t\u2192X_t\u2192q_t\u2192\u03c6_t\u2192y_t)",
+      "provenance": "jaxfne/_signals.py Signals.field diagnostics gauge='mean_zero'"
+    },
+    {
+      "name": "CSD",
+      "inputs": [
+        "phi_t (field_proxy)"
+      ],
+      "output": "CSD_proxy",
+      "kind": "DERIVED_FROM(field_proxy)",
+      "semantic_class": "DERIVED",
+      "units": "a.u./mm\u00b2 (proxy_readout)",
+      "derived_from": "field_proxy",
+      "proxy_status": true,
+      "note": "Second spatial derivative of phi_proxy along depth; not independent state; DERIVED_FROM(field_proxy) via linear_solver",
+      "provenance": "jaxfne/fields.py + jaxfne/io.py manifest csd_sign_convention + builder.py:409 proxy_no_field_solve"
+    },
+    {
+      "name": "field_proxy (LFP-like proxy_readout)",
+      "inputs": [
+        "phi (proxy_no_field_solve)"
+      ],
+      "output": "field_proxy",
+      "kind": "DERIVED_FROM(field_proxy)",
+      "semantic_class": "FIELD_PROXY",
+      "units": "a.u. (proxy_readout, physical_amplitude_calibrated=False)",
+      "derived_from": "phi_t",
+      "proxy_status": true,
+      "note": "Weighted sum of sources per laminar mode via project_laminar_sources; proxy_no_field_solve not physical LFP/EEG",
+      "provenance": "jaxfne/fields.py probe_laminar_modes + jaxfne/_config.py field(source_mode='proxy_no_field_solve') builder.py:409"
+    },
+    {
+      "name": "EI_proxy (Efrac_proxy W\u00b7r)",
+      "inputs": [
+        "W (EdgeList weight)",
+        "r (spike rate)"
+      ],
+      "output": "Efrac_proxy",
+      "kind": "DERIVED_FROM(W\u00b7r)",
+      "semantic_class": "PROXY_ESTIMATE",
+      "units": "dimensionless proxy",
+      "derived_from": "W\u00b7r",
+      "proxy_status": true,
+      "note": "Efrac_proxy W\u00b7r is PROXY_ESTIMATE not realized; realized requires edge_current_trace blocked by jaxfne/_model_simulate.py:280 when delay_steps [20,80,120]+HDP",
+      "provenance": "jomission/recording/observables.py:93 + jaxfne/_model_simulate.py:280 + jaxfne/emitters.py:2846"
+    },
+    {
+      "name": "Population rate",
+      "inputs": [
+        "spikes"
+      ],
+      "output": "r(t) per class/area",
+      "kind": "DERIVED_FROM(X)",
+      "semantic_class": "DERIVED",
+      "units": "Hz",
+      "derived_from": "spikes",
+      "proxy_status": false,
+      "note": "Binned spike counts; not state; DERIVED_FROM(spikes) X"
+    },
+    {
+      "name": "ISI CV / Fano",
+      "inputs": [
+        "spikes"
+      ],
+      "output": "CV_ISI, Fano",
+      "kind": "DERIVED_FROM(X)",
+      "semantic_class": "DERIVED",
+      "units": "dimensionless",
+      "derived_from": "spikes",
+      "proxy_status": false,
+      "note": "Statistics of spike train; not state; DERIVED_FROM(spikes)"
+    }
+  ],
+  "dependency_classification": {
+    "X": "V_m, spikes, syn_state \u2014 fast, per dt0.1, advisor class X \u2192 STATE",
+    "A": "H, Theta, delay/history \u2014 slow/history, advisor class A \u2192 ADAPTIVE_STATE",
+    "q": "source/current \u2014 per neuron continuous, class q \u2192 SOURCE",
+    "phi": "field_proxy (LFP-like proxy_readout) \u2014 laminar proxy, class phi \u2192 FIELD_PROXY",
+    "y": "probe (READOUT) / CSD (DERIVED_FROM(field_proxy)) \u2014 measurement, class y \u2192 READOUT / DERIVED"
+  },
+  "invariant": "C_t carries truth; X_t and A_t are slices; q,phi,y are deterministic transforms; derived quantities (relative_V DERIVED_FROM(V_m), CSD DERIVED_FROM(field_proxy)) are not added to state count; V1 graph C_t\u2192X_t\u2192q_t\u2192\u03c6_t\u2192y_t",
+  "frozen_note": "No mutation of primitives: E mixture M2, SST b0.21, VIP b0.20, PV 1.7, pseudogenome v0, tonic3.0, Poisson2kHz, delays [20,80,120] frozen per manifests/agsdr_local_freeze.json:1 be9b96ab; builder.py:409 proxy_no_field_solve preserved"
+}

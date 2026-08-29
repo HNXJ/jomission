@@ -29,9 +29,9 @@ from jomission.network.rf import (
 )
 from jomission.paradigm.spec import JOMISSION_PARADIGM
 
-# GEN2 cumulative hash after W3.6 (C016 PV recruitment PV drive 1.77->3.01 scale1.7) → W3.7 C017 VIP b0.05→0.20 intrinsic recruitment → W3.8 C018 typed E mixture pseudogenome M2 70% RS /20% CH /10% E_FS
-# Gen-1 frozen was 4f9fdeae7428199a; W1.1-1.3 cumulative 57b9f98c3f8bacb8; W2.1 motif 4a8908e7064c32bf; W2.2 Poisson opt-in hash dad7290b21e447dc (with Poisson 1kHz), baseline (no Poisson) 822949392c225622; W2.3 hierarchy dad7290b21e447dc; W2.4 VIP fix → plain 52d59748bc553a1b, poisson 05226a6bbf3e265c; W2.5 lognormal → plain 5d3c769e0e87c6cf, poisson fdc7fe71297d328b; W3.1 tonic 3.5 scale0.7 → plain 4bf1403e628ac06f (baseline 1.0 is 55047c16e7172554), poisson+tonic 14f4201ed5d4f478; W3.2 C012 I_bgλ 3.0+Poisson2k/2.0 → 35a59588ac09c91c (seed0) / 6ca586cd76ef14ae (seed1); W3.3 C013 SST×0.5 bounded → 9a60b672e4db3a39 (seed0) / f490a00dc0ee3506 (seed1); W3.4 C014 pseudogenome DESIRED_MOTIF_GAIN v0 (E→PV1.70 E→SST0.70 PV→E1.30 SST→E0.60 SST→PV0.60 VIP→SST5.00 etc, SST alpha 1.0 supersedes 0.5) → 9f8abf33bffb4df0 (seed0) / 2311280573a72806 (seed1), pseudogenome_version v0; W3.5 C015 SST b 0.25→0.21 operating-point correction (MODEL_ASSUMPTION magnitude 0.21 / LITERATURE_PRIOR SST LTS) → 8d94ecf9c46378f4 (seed0) / eace803b159c4b8c (seed1), sst_b_corrected 0.21 jitter [0.189,0.231]; W3.6 C016 PV recruitment PV drive 1.77->3.01 scale1.7 per-class drive seam _apply_pv_drive_boost (MODEL_ASSUMPTION 1.7 magnitude to reach rheobase / LITERATURE_PRIOR fast PV) → 393c58c2dc6b6519 (seed0) / 54aa6eec5c517621 (seed1), pv_drive_scale 1.7 deterministic per-PV, VIP b0.05 frozen; W3.7 C017 VIP b0.05→0.20 intrinsic recruitment (MODEL_ASSUMPTION 0.20 / LITERATURE_PRIOR b>=0 Izhikevich2003 / DERIVED f-I I_rh>15→4 thr107.79→94.99 V_m-77.79→-64.99) → f3707cd55894787e (seed0) / 0f6d2e04524fa534 (seed1), vip_b_corrected 0.20 jitter [0.18,0.22] I_rh4 r21@I8, PV1.7 SST0.21 lognormal Poisson2kHz pseudogenome delays preserved; W3.8 C018 typed E mixture M2 70% RS a0.02 c-65 d8 /20% CH a0.02 c-50 d2 /10% E_FS a0.10 c-65 d2 via per-neuron cell_params deterministic seed pseudogenomic (LITERATURE_PRIOR RS/CH/IB Izhikevich2003 Fig.1 / MODEL_ASSUMPTION proportions 70/20/10) → be9b96ab679c9802 (seed0) / cdac08787974eb77 (seed1), e_mixture_version M2 RS70_CH20_EFS10 jitter ±10% on top preserves c/d clusters then motif/lognormal/PV/VIP/SST/tonic/Poisson/delays intact
-FROZEN_CANONICAL_HASH = "be9b96ab679c9802"
+# GEN2 cumulative hash after W3.6 (C016 PV recruitment PV drive 1.77->3.01 scale1.7) → W3.7 C017 VIP b0.05→0.20 intrinsic recruitment → W3.8 C018 typed E mixture pseudogenome M2 70% RS /20% CH /10% E_FS → C019 AGSDR-L1 theta_local [1.2565,1.1872,0.7088,1.2182,1.2887] → C020 typed vertical microcircuit v1 vertical_spatial_sigma0.12 vertical_max40 + vertical_motif_gain L4_E→L2/3_E×2.0 L4_E→SST×0.7 L2/3_E→L5_E×1.8 etc.
+# Gen-1 frozen was 4f9fdeae7428199a; W1.1-1.3 cumulative 57b9f98c3f8bacb8; W2.1 motif 4a8908e7064c32bf; W2.2 Poisson opt-in hash dad7290b21e447dc (with Poisson 1kHz), baseline (no Poisson) 822949392c225622; W2.3 hierarchy dad7290b21e447dc; W2.4 VIP fix → plain 52d59748bc553a1b, poisson 05226a6bbf3e265c; W2.5 lognormal → plain 5d3c769e0e87c6cf, poisson fdc7fe71297d328b; W3.1 tonic 3.5 scale0.7 → plain 4bf1403e628ac06f (baseline 1.0 is 55047c16e7172554), poisson+tonic 14f4201ed5d4f478; W3.2 C012 I_bgλ 3.0+Poisson2k/2.0 → 35a59588ac09c91c (seed0) / 6ca586cd76ef14ae (seed1); W3.3 C013 SST×0.5 bounded → 9a60b672e4db3a39 (seed0) / f490a00dc0ee3506 (seed1); W3.4 C014 pseudogenome DESIRED_MOTIF_GAIN v0 (E→PV1.70 E→SST0.70 PV→E1.30 SST→E0.60 SST→PV0.60 VIP→SST5.00 etc, SST alpha 1.0 supersedes 0.5) → 9f8abf33bffb4df0 (seed0) / 2311280573a72806 (seed1), pseudogenome_version v0; W3.5 C015 SST b 0.25→0.21 operating-point correction (MODEL_ASSUMPTION magnitude 0.21 / LITERATURE_PRIOR SST LTS) → 8d94ecf9c46378f4 (seed0) / eace803b159c4b8c (seed1), sst_b_corrected 0.21 jitter [0.189,0.231]; W3.6 C016 PV recruitment PV drive 1.77->3.01 scale1.7 per-class drive seam _apply_pv_drive_boost (MODEL_ASSUMPTION 1.7 magnitude to reach rheobase / LITERATURE_PRIOR fast PV) → 393c58c2dc6b6519 (seed0) / 54aa6eec5c517621 (seed1), pv_drive_scale 1.7 deterministic per-PV, VIP b0.05 frozen; W3.7 C017 VIP b0.05→0.20 intrinsic recruitment (MODEL_ASSUMPTION 0.20 / LITERATURE_PRIOR b>=0 Izhikevich2003 / DERIVED f-I I_rh>15→4 thr107.79→94.99 V_m-77.79→-64.99) → f3707cd55894787e (seed0) / 0f6d2e04524fa534 (seed1), vip_b_corrected 0.20 jitter [0.18,0.22] I_rh4 r21@I8, PV1.7 SST0.21 lognormal Poisson2kHz pseudogenome delays preserved; W3.8 C018 typed E mixture M2 70% RS a0.02 c-65 d8 /20% CH a0.02 c-50 d2 /10% E_FS a0.10 c-65 d2 via per-neuron cell_params deterministic seed pseudogenomic (LITERATURE_PRIOR RS/CH/IB Izhikevich2003 Fig.1 / MODEL_ASSUMPTION proportions 70/20/10) → be9b96ab679c9802 (seed0); C019 AGSDR-L1 theta_local [1.2565,1.1872,0.7088,1.2182,1.2887] → 65b302e8c7cdceb5 (seed0); C020 typed vertical v1 vertical_spatial_sigma0.12 vertical_max40 Ne16→54 k0.59→2.0 C0.444→0.741 + typed W L4_E→L2/3_E×2.0 etc. → 4574a15519ee8c33 (seed0) / bbe6bc709a4b4c5b (seed1)
+FROZEN_CANONICAL_HASH = "4574a15519ee8c33"
 
 
 def test_rf_config_geometry():
@@ -280,11 +280,21 @@ def test_rf_operator_weights_deterministic():
     op1 = RFOperator(cfg, model)
     op2 = RFOperator(cfg, model)
     assert np.allclose(op1.weights, op2.weights), "weights must be deterministic"
-    # Different seed for RFConfig should still give same geometry but could give different random patterns for R
+    # GEN2_C021 interleaved tiling: weights are now seed-dependent via deterministic shuffle (seed ^0xC02A)
     cfg_different = RFConfig(seed=1)
     op_diff = RFOperator(cfg_different, model)
-    # Weights for A/B should be same (deterministic tiling), only random stimulus differs
-    assert np.allclose(op1.weights, op_diff.weights), "weights tiling is deterministic, not seed dependent"
+    if cfg.interleaved_tiling:
+        # With interleaving, different seeds give different tilings (deterministic per seed)
+        assert not np.allclose(op1.weights, op_diff.weights), "interleaved tiling should be seed-dependent (deterministic shuffle)"
+        # But non-interleaved should remain seed-independent
+        cfg_no_shuffle = RFConfig(seed=0, interleaved_tiling=False)
+        cfg_no_shuffle2 = RFConfig(seed=1, interleaved_tiling=False)
+        op_ns1 = RFOperator(cfg_no_shuffle, model)
+        op_ns2 = RFOperator(cfg_no_shuffle2, model)
+        assert np.allclose(op_ns1.weights, op_ns2.weights), "non-interleaved tiling should be seed independent"
+    else:
+        # Weights for A/B should be same (deterministic tiling), only random stimulus differs
+        assert np.allclose(op1.weights, op_diff.weights), "weights tiling is deterministic, not seed dependent"
     # Random stimulus pattern should differ with seed
     pat0 = op1.stimulus_pattern("random_stimulus")
     pat1 = op_diff.stimulus_pattern("random_stimulus")

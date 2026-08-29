@@ -234,7 +234,7 @@ def test_frozen_hashes_unchanged():
 
     model = build_jomission_model(n_per_area=100, seed=0)
     ch = config_hash(model.cfg)
-    assert ch == "4f9fdeae7428199a", f"config_hash {ch} != frozen 4f9fdeae7428199a"
+    assert ch == "4574a15519ee8c33", f"config_hash {ch} != frozen 4574a15519ee8c33 (GEN2_C020)"
     hp = hdp.v1_pfc_aaab_hdp_params()
     hp_hash = hashlib.sha256(json.dumps(hp, sort_keys=True).encode()).hexdigest()[:16]
     assert hp_hash == "f327f9d2ad64cc88", f"hp_hash {hp_hash} != f327f9d2ad64cc88"

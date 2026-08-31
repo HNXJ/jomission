@@ -4,6 +4,15 @@ Single source of truth for V1/V4/FEF/PFC × layer × E/PV/SST/VIP.
 
 Delegates to JaxFNE primitives: Configuration.column, area_layer_cell_types, connectivity,
 hdp, field, probe, runtime. No parallel neural simulator.
+
+GEN-2 IMPLEMENTATION NOTE (M-06): H_Gen2 = scalar h in R per neuron
+(h_state_dim=1, tau_i = tau_0_ms * size^3 via jaxfne/emitters.py:3703).
+HStateConfig 5-D (H_COORDINATES) in jomission/dynamics/h_state.py:28 is
+conceptual vocabulary / future design (H5_DESIGN = future/not implemented),
+never forwarded here. This builder declares no h_state_dim (grep 0 hits);
+scalar by omission, hash-validated via jaxfne/io config_hash absence.
+See manifests/h_gen2_spec.json spec_id H_Gen2_scalar_v1 and
+jomission/qualification/gen2_gates.py:247 check_h_terminology.
 """
 
 from __future__ import annotations

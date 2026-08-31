@@ -2556,5 +2556,892 @@
     "gate": "B4",
     "change_class": "NO_MODEL_DELTA",
     "milestone": "W4A_MECHANISM_OBSERVABILITY_BLOCKER"
+  },
+  {
+    "change_id": "GEN2_C009R",
+    "parent_model": {
+      "config_hash": "dad7290b21e447dc",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "dad7290b21e447dc"
+    },
+    "parameter_path": "network.cell_params VIP b -0.10\u2192+0.05 [reconciliation]",
+    "pathway": "intrinsic: VIP b correction",
+    "old_value": "VIP b -0.10",
+    "new_value": "VIP b +0.05 [0.045,0.055]",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.cell_params VIP b -0.10\u2192+0.05 VIP b -0.10 \u2192 VIP b +0.05 [0.045,0.055]"
+    },
+    "reason_before_results": "Placeholder for GEN2_C009 reconstructed to maintain ledger chain; see scratch/GEN2_C009_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C009 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C009_receipt.md",
+      "config_hash": "05226a6bbf3e265c"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 05226a6bbf3e265c"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "05226a6bbf3e265c",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "05226a6bbf3e265c",
+      "artifact": "scratch/GEN2_C009_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C009",
+    "bounded_verdict": "L0 Negative instance",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c009_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C010R",
+    "parent_model": {
+      "config_hash": "05226a6bbf3e265c",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "05226a6bbf3e265c"
+    },
+    "parameter_path": "network.weights: U(0.25,1) CV0.347 -> U\u00b7LN CV1.625 motif-mean-preserving [reconciliation]",
+    "pathway": "heterogeneity: lognormal",
+    "old_value": "U CV0.347",
+    "new_value": "U\u00b7LN CV1.625",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.weights: U(0.25,1) CV0.347 -> U\u00b7LN CV1.625 motif-mean-preserving U CV0.347 \u2192 U\u00b7LN CV1.625"
+    },
+    "reason_before_results": "Placeholder for GEN2_C010 reconstructed to maintain ledger chain; see scratch/GEN2_C010_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C010 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C010_receipt.md",
+      "config_hash": "5d3c769e0e87c6cf"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 5d3c769e0e87c6cf"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "5d3c769e0e87c6cf",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "5d3c769e0e87c6cf",
+      "artifact": "scratch/GEN2_C010_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C010",
+    "bounded_verdict": "L0 Negative instance, variance not correct lever",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c010_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C011R",
+    "parent_model": {
+      "config_hash": "5d3c769e0e87c6cf",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "5d3c769e0e87c6cf"
+    },
+    "parameter_path": "network.drive: tonic 5\u21923.5 (scale 0.7) [reconciliation]",
+    "pathway": "operating_point: tonic drive reduction",
+    "old_value": "drive 5",
+    "new_value": "drive 3.5 scale0.7",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.drive: tonic 5\u21923.5 (scale 0.7) drive 5 \u2192 drive 3.5 scale0.7"
+    },
+    "reason_before_results": "Placeholder for GEN2_C011 reconstructed to maintain ledger chain; see scratch/GEN2_C011_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C011 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C011_receipt.md",
+      "config_hash": "4bf1403e628ac06f"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 4bf1403e628ac06f"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "4bf1403e628ac06f",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4bf1403e628ac06f",
+      "artifact": "scratch/GEN2_C011_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C011",
+    "bounded_verdict": "L2 Broad domain failure tonic-only, L0 Negative for B2",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c011_receipt.md"
+    },
+    "falsification_level": "L2"
+  },
+  {
+    "change_id": "GEN2_C012R",
+    "parent_model": {
+      "config_hash": "4bf1403e628ac06f",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "4bf1403e628ac06f"
+    },
+    "parameter_path": "network.background: I_bg(\u03bb) mean-controlled substitution I_tonic 3.5\u21923.0 + Poisson 0\u21922kHz amp2.0 [reconciliation]",
+    "pathway": "background_composition: I_bg(\u03bb)",
+    "old_value": "I_tonic 3.5 + Poisson OFF",
+    "new_value": "I_bg(\u03bb)=3.0 + Poisson 2kHz amp2.0",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.background: I_bg(\u03bb) mean-controlled substitution I_tonic 3.5\u21923.0 + Poisson 0\u21922kHz amp2.0 I_tonic 3.5 + Poisson OFF \u2192 I_bg(\u03bb)=3.0 + Poisson 2kHz amp2.0"
+    },
+    "reason_before_results": "Placeholder for GEN2_C012 reconstructed to maintain ledger chain; see scratch/GEN2_C012_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C012 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C012_receipt.md",
+      "config_hash": "35a59588ac09c91c"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 35a59588ac09c91c"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "35a59588ac09c91c",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "35a59588ac09c91c",
+      "artifact": "scratch/GEN2_C012_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C012",
+    "bounded_verdict": "L0 Negative single point + L1 Insufficient domain",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c012_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C013R",
+    "parent_model": {
+      "config_hash": "35a59588ac09c91c",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "35a59588ac09c91c"
+    },
+    "parameter_path": "network.motif SST\u2192* \u00d70.5 (output gain \u03b1=0.5) [reconciliation]",
+    "pathway": "transfer_de_clamping: W_{SST\u2192*}' = \u03b1 W",
+    "old_value": "SST\u2192* gain 1.0",
+    "new_value": "SST\u2192* \u00d70.5",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.motif SST\u2192* \u00d70.5 (output gain \u03b1=0.5) SST\u2192* gain 1.0 \u2192 SST\u2192* \u00d70.5"
+    },
+    "reason_before_results": "Placeholder for GEN2_C013 reconstructed to maintain ledger chain; see scratch/GEN2_C013_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C013 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C013_receipt.md",
+      "config_hash": "9a60b672e4db3a39"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 9a60b672e4db3a39"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "9a60b672e4db3a39",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "9a60b672e4db3a39",
+      "artifact": "scratch/GEN2_C013_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C013",
+    "bounded_verdict": "L0 Negative instance transfer de-clamping falsified",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c013_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C014R",
+    "parent_model": {
+      "config_hash": "9a60b672e4db3a39",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "9a60b672e4db3a39"
+    },
+    "parameter_path": "network.motif: uniform (1.5\u00d7 one) \u2192 typed DESIRED_MOTIF_GAIN v0 (12-gain pseudogenome) [reconciliation]",
+    "pathway": "microcircuit-generation: typed W",
+    "old_value": "MOTIF_GAIN E\u2192PV1.5\u00d7 only",
+    "new_value": "DESIRED_MOTIF_GAIN v0 5.00 etc",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.motif: uniform (1.5\u00d7 one) \u2192 typed DESIRED_MOTIF_GAIN v0 (12-gain pseudogenome) MOTIF_GAIN E\u2192PV1.5\u00d7 only \u2192 DESIRED_MOTIF_GAIN v0 5.00 etc"
+    },
+    "reason_before_results": "Placeholder for GEN2_C014 reconstructed to maintain ledger chain; see scratch/GEN2_C014_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C014 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C014_receipt.md",
+      "config_hash": "9f8abf33bffb4df0"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 9f8abf33bffb4df0"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "9f8abf33bffb4df0",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "9f8abf33bffb4df0",
+      "artifact": "scratch/GEN2_C014_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C014",
+    "bounded_verdict": "L0 Negative instance B1/B2 not restored",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c014_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C015R",
+    "parent_model": {
+      "config_hash": "9f8abf33bffb4df0",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "9f8abf33bffb4df0"
+    },
+    "parameter_path": "network.cell_params SST b 0.25\u21920.21 (intrinsic operating point) [reconciliation]",
+    "pathway": "intrinsic: SST b correction",
+    "old_value": "SST b0.25",
+    "new_value": "SST b0.21 [0.189,0.231]",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.cell_params SST b 0.25\u21920.21 (intrinsic operating point) SST b0.25 \u2192 SST b0.21 [0.189,0.231]"
+    },
+    "reason_before_results": "Placeholder for GEN2_C015 reconstructed to maintain ledger chain; see scratch/GEN2_C015_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C015 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C015_receipt.md",
+      "config_hash": "8d94ecf9c46378f4"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 8d94ecf9c46378f4"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "8d94ecf9c46378f4",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "8d94ecf9c46378f4",
+      "artifact": "scratch/GEN2_C015_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C015",
+    "bounded_verdict": "L0 Negative for network B1/B2 via SST b alone",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c015_receipt.md"
+    },
+    "falsification_level": "L0"
+  },
+  {
+    "change_id": "GEN2_C016R",
+    "parent_model": {
+      "config_hash": "8d94ecf9c46378f4",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "8d94ecf9c46378f4"
+    },
+    "parameter_path": "network.drive PV 1.77\u21923.01 (pv_scale1.7) [reconciliation]",
+    "pathway": "intrinsic_heterogeneity: PV-specific tonic drive boost",
+    "old_value": "PV drive 1.77",
+    "new_value": "PV drive 3.01 scale1.7",
+    "delta": {
+      "factor": null,
+      "absolute": null,
+      "description": "network.drive PV 1.77\u21923.01 (pv_scale1.7) PV drive 1.77 \u2192 PV drive 3.01 scale1.7"
+    },
+    "reason_before_results": "Placeholder for GEN2_C016 reconstructed to maintain ledger chain; see scratch/GEN2_C016_receipt.md for full reason",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1/B2/B3 placeholder",
+    "predicted_generic_effect": "Predicted for GEN2_C016 see receipt",
+    "observed_generic_effect": {
+      "note": "Placeholder reconstructed; full observed in scratch/GEN2_C016_receipt.md",
+      "config_hash": "393c58c2dc6b6519"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "config_hash 393c58c2dc6b6519"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "393c58c2dc6b6519",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "393c58c2dc6b6519",
+      "artifact": "scratch/GEN2_C016_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C016",
+    "bounded_verdict": "Split: POSITIVE_hint PV recruitment + Negative for AI via PV alone",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c016_receipt.md"
+    },
+    "falsification_level": "Split:"
+  },
+  {
+    "change_id": "GEN2_C017R",
+    "parent_model": {
+      "config_hash": "393c58c2dc6b6519",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "393c58c2dc6b6519"
+    },
+    "parameter_path": "network.cell_params VIP b 0.05\u21920.20 (intrinsic recruitment) [reconciliation]",
+    "pathway": "intrinsic: VIP b correction pre-jitter override (Builder VIP_B_CORRECTED) \u2192 VIP\u2192SST brake functional test, I_rh>15\u21924 operating recruitment at \u03bc+1.92\u03c3 tail",
+    "old_value": "VIP b0.05 [0.045,0.055] I_rh>15 r0 V_m-77.79 thr107.79 VIP\u2192SST 0.09% latent 5\u00d7 weight -0.04885 (DESIRED_MOTIF_GAIN v0 VIP\u2192SST5.00 hash-visible but not realized vs SST53.9%)",
+    "new_value": "VIP b0.20 [0.18,0.22] I_rh4 r21@I8 V_m-64.99 thr94.99 via builder.py VIP_B_CORRECTED 0.20 \u2192 jitter [0.18,0.22] deterministic (\u00b110% b\u2208[-0.20,0.35] clip, u0=b\u00b7v0 recomputed, builder.py:713-785)",
+    "delta": {
+      "factor": 4.0,
+      "absolute": "b 0.05\u21920.20 \u0394+0.15 (+300%), jitter [0.045,0.055]\u2192[0.18,0.22], I_rh>15\u21924, thr107.79\u219294.99, V_m-77.79\u2192-64.99 at I3, I_rh4 r21@I8",
+      "description": "VIP b 0.05\u21920.20 single delta (I_rh>15\u21924), VIP\u2191\u2192SST\u2193 test via 5\u00d7 motif, single edge for attribution; SST b0.21, PV drive1.7, lognormal CV1.94, tonic3.0, Poisson2kHz, delays[20,80,120], pseudogenome H/\u0398 FF gains intact"
+    },
+    "reason_before_results": "Consensus three reviewers: VIP verifier b0.05 I_rh>15 r0 V_m-77.79 thr107.79 (b0.05\u21920.15 I_rh8 r11 thr100.64, b0.20 I_rh4 r21 thr95 equals E) operating VIP \u03bc2.19 \u03c30.943 \u03bc+2\u03c3\u22484.07 \u2014 b0.20 I_rh4 8at4 at \u03bc+1.92\u03c3 recruits (2.7% tail), b0.15 far (\u03bc+6.2\u03c3), b0.18 borderline. Jitter b0.20\u00b110%\u2192[0.18,0.22] I_rh\u2208[3,5] mean\u22484 near \u03bc+2\u03c3\u22484.0 smallest defensible is b=0.20 via builder.py:713-785 pre-jitter u0=b\u00b7v0 \u00b110% [0.18,0.22]. Disinhibition adversary: Primary \u0394r_VIP>0 (VIP 0.30\u21925-12Hz at unchanged C016 input I_op\u22482.16\u00b10.94), secondary CL1-C VIP\u2192SST 5\u00d7 (builder.py:62) \u2192 SST 5.37\u21922-4Hz (\u22643.8 PASS -1.5Hz); if VIP\u2191 but SST flat then intrinsic passes motif fails latent 0.09%\u21920.45% vs SST53.9%. PV sensitivity: isolated PV FS I_rh\u22484.0 gain50\u219216 network I_net\u22483.46 (3.01 drive+0.40 Poisson+0.05 syn) 0.54 below rheobase steep edge sweep 1.5\u21921.7\u21921.9 2.93\u21926.39\u219211.84 etc \u2014 do NOT tune 1.7. Parent selection: C017 = VIP b0.05\u21920.20 single delta (I_rh>15\u21924), VIP\u2191\u2192SST\u2193 test, single edge for attribution. Do NOT change SST b, lognormal, tonic, Poisson, delays, PV drive, other motifs, H/\u0398. Do NOT add a/c/d burst set (deferred to C018 if still regular).",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B1 VIP recruitable 8-15Hz near operating range + CL1-C VIP\u2191\u2192SST\u2193 disinhibition (VIP\u2192SST 5\u00d7 now functional) + B3 E/I, gate B1 + stability guards r_E<30 no runaway \u03c1<0.60 finite V_m",
+    "predicted_generic_effect": "VIP 0.30\u21925-12Hz (\u22653.0 PASS) I_rh>15\u21924, SST 5.37\u21922-4Hz (\u22643.8 PASS) via 5\u00d7 VIP\u2192SST disinhibition, E 3.6\u21924-6 PV 6.39\u21926-10 preserved, \u03c10.422\u21920.20-0.30, Var may rise, Efrac 0.65\u21920.55-0.60, C017 success is \u0394r_VIP>0 primary, C018 would be burst set if still regular",
+    "observed_generic_effect": {
+      "seam_citation": "builder.py VIP_B_CORRECTED=0.20 _apply_vip_b_correction builder.py:713-785 pre-jitter u0=b*v0 recompute + jitter preservation -> [0.18,0.22]; jaxfne/emitters.py:55 IZHIKEVICH_CELL_TYPE_DEFAULTS VIP b -0.10 original; builder.py:39 jitter \u03c3=0.10 b\u2208[-0.20,0.35] clip; builder.py:860 tonic drive 3.0 scale0.6; builder.py:623 motif pseudogenome DESIRED_MOTIF_GAIN v0 VIP\u2192SST5.00 weight -0.04885 hash-visible but not realized (0.09%\u21920.45% vs SST53.9%) latent; builder.py:952 SST 0.21 preserved; builder.py:1104 PV drive 1.7 preserved; builder.py:37 Poisson 2kHz amp2.0; builder.py:147 SST output superseded alpha 1.0",
+      "vip_b_before": {
+        "value": 0.05,
+        "jittered_range": "[0.045,0.055]",
+        "I_rh": ">15",
+        "r": 0,
+        "V_m": -77.79,
+        "thr": 107.79
+      },
+      "vip_b_after": {
+        "value": 0.2,
+        "jittered_range": "[0.18,0.22]",
+        "I_rh": 4,
+        "r_at_8": 21,
+        "V_m_at_3": -64.99,
+        "thr": 94.99,
+        "seed0_mean": 0.20048561692237854,
+        "seed0_min": 0.1808072179555893,
+        "seed0_max": 0.21983402967453003,
+        "seed1_mean": 0.19930988550186157,
+        "seed1_min": 0.18001222610473633,
+        "seed1_max": 0.21987998485565186,
+        "all_positive": true,
+        "clip_ok": "b\u2208[-0.20,0.35]"
+      },
+      "vip_sweep_reference": "VIP baseline b0.05 I_rh>15 r0 V_m-77.79 thr107.79 (b0.05\u21920.15 I_rh8 r11 thr100.64, b0.20 I_rh4 r21 thr95 equals E), operating VIP \u03bc2.19 \u03c30.943 \u03bc+2\u03c3\u22484.07 \u2014 b0.20 I_rh4 8at4 at \u03bc+1.92\u03c3 recruits (2.7% tail), b0.15 far (\u03bc+6.2\u03c3), b0.18 borderline jitter b0.20\u00b110%\u2192[0.18,0.22] I_rh\u2208[3,5] mean\u22484 near \u03bc+2\u03c3\u22484.0 smallest defensible is b=0.20 via builder.py:713-785 pre-jitter u0=b\u00b7v0 \u00b110% [0.18,0.22]",
+      "build_n100_seed0": {
+        "vip_b_mean": 0.20048561692237854,
+        "vip_b_range": "[0.1808,0.2198]",
+        "sVip": 64,
+        "sst_b_mean": 0.21023298799991608,
+        "sst_b_range": "[0.1897,0.2308]",
+        "e_b_mean": 0.20069679617881775,
+        "pv_b_mean": 0.19610382616519928,
+        "pv_b_range": "[0.1800,0.2182]",
+        "delays": [
+          20,
+          80,
+          120
+        ],
+        "n_edges": 10590,
+        "lognormal_CV": 1.5,
+        "lognormal_sigma": 1.085658784490618,
+        "weight_mean_VIP_SST": -0.048851249682763206,
+        "sst_output_gain": 1.0,
+        "pv_drive_scale": 1.7,
+        "tonic_scale": 0.6,
+        "poisson": "2kHz amp2.0 target all",
+        "pseudogenome": "v0",
+        "topology_preserved": true
+      },
+      "build_n100_seed1": {
+        "vip_b_mean": 0.19930988550186157,
+        "vip_b_range": "[0.1800,0.2199]",
+        "n_edges": 10580,
+        "weight_mean_VIP_SST": -0.06228022533567559,
+        "delays": [
+          20,
+          80,
+          120
+        ]
+      },
+      "V_m_seed0_before_after": {
+        "VIP_before": -78.48585510253906,
+        "VIP_after": -66.8148193359375,
+        "delta_VIP": 11.671035766601562,
+        "VIP_predicted_before": -77.79,
+        "VIP_predicted_after": -64.99,
+        "match": "observed -78.49\u2192-66.81 matches predicted -77.79\u2192-64.99",
+        "SST_after": -64.76162719726562,
+        "PV_after": -64.41057586669922,
+        "E_after": -66.12803649902344,
+        "overall_mean": -65.87118530273438,
+        "overall_std": 4.631389617919922,
+        "finite_Vm": true
+      },
+      "V_m_seed1_before_after": {
+        "VIP_before": -78.49168395996094,
+        "VIP_after": -66.93417358398438,
+        "SST_after": -64.9811019897461
+      },
+      "smoke_2000ms_seed0_C016_before": {
+        "bar_r": 3.617500066757202,
+        "r_E": 3.5950413223140494,
+        "r_PV": 6.394230769230769,
+        "r_SST": 5.369047619047619,
+        "r_VIP": 0.296875,
+        "Fano": 0.668718362967652,
+        "CV_ISI": 0.07800160589472445,
+        "rho": 0.4198226102004076,
+        "Efrac": 0.7034595012664795,
+        "Vm_var": 42.561946868896484,
+        "config_hash": "393c58c2dc6b6519 (parent) vs 77b234d5a59215e4 patched 0.05 (hash-visible provenance difference)"
+      },
+      "smoke_2000ms_seed0_C017_after": {
+        "bar_r": 3.632499933242798,
+        "r_E": 3.5950413223140494,
+        "r_PV": 6.394230769230769,
+        "r_SST": 5.369047619047619,
+        "r_VIP": 0.390625,
+        "delta_VIP": "+0.09375 (0.297\u21920.391 \u0394>0 PASS primary, but magnitude far below 5-12Hz predicted)",
+        "delta_SST": "5.369\u21925.369 flat (secondary FAIL, VIP\u2191 but SST flat then intrinsic passes motif fails - useful dissociation)",
+        "delta_E": "3.595\u21923.595 flat modest",
+        "delta_PV": "6.394\u21926.394 flat preserved",
+        "Fano": 0.6766505727696924,
+        "CV_ISI": 0.07882863493460816,
+        "rho": 0.44084255605051503,
+        "Efrac": 0.7009094953536987,
+        "Vm_var": 21.44976806640625,
+        "Vm_mean": -65.87118530273438
+      },
+      "smoke_2000ms_seed1_C016_before": {
+        "bar_r": 4.447500228881836,
+        "r_E": 3.6549586776859506,
+        "r_PV": 14.076923076923077,
+        "r_SST": 3.4047619047619047,
+        "r_VIP": 0.3046875
+      },
+      "smoke_2000ms_seed1_C017_after": {
+        "bar_r": 4.458749771118164,
+        "r_E": 3.6549586776859506,
+        "r_PV": 14.086538461538462,
+        "r_SST": 3.4166666666666665,
+        "r_VIP": 0.359375,
+        "delta_VIP": "+0.0547 (0.305\u21920.359 \u0394>0 PASS)",
+        "delta_SST": "3.405\u21923.417 +0.012 flat (secondary FAIL)"
+      },
+      "B_checks_seed0": {
+        "bar_r": 3.632,
+        "r_E": 3.595,
+        "r_PV": 6.394,
+        "r_SST": 5.369,
+        "r_VIP": 0.391,
+        "E_lt_PV": "3.595<6.394 PASS B1/B3 neighborhood preserved",
+        "mu_abort": "3.63 in [1,30] PASS",
+        "sst_abort": "5.37 <80 PASS",
+        "vip_abort": "0.391 >0.1 PASS",
+        "r_E_abort": "3.59 <30 PASS no runaway",
+        "Efrac_soft": "0.701 exceed [0.15,0.60] FAIL (soft) but within hard [0.10,0.70] PASS hard? Actually 0.701 >0.70 hard borderline FAIL",
+        "rho_hard": "0.441 <0.60 PASS hard, >0.30 FAIL soft B2",
+        "Fano": 0.677,
+        "sigma_over_mu_proxy": 0.277,
+        "VarVm": 21.44,
+        "finite_Vm": true,
+        "no_class_gt_80": true
+      },
+      "B_checks_seed1": {
+        "rho": 0.445,
+        "Efrac": 0.605,
+        "bar_r": 4.459,
+        "r_VIP": 0.359,
+        "rho_hard_PASS": true,
+        "rho_soft_FAIL": true
+      },
+      "stability_guards": {
+        "r_E_lt_30": "PASS 3.59<30",
+        "no_runaway": true,
+        "rho_lt_0.60_hard": "PASS 0.44<0.60",
+        "rho_soft_0.30": "FAIL 0.44>0.30 (B2 soft)",
+        "finite_Vm": true,
+        "no_class_gt_80": "PASS max PV14 <80",
+        "vip_b_all_positive": true,
+        "threshold_94.99": true,
+        "I_rh_4": true
+      },
+      "interpretation": "Primary \u0394r_VIP>0 PASS (0.30\u21920.39 +0.09 seed0, 0.30\u21920.36 +0.06 seed1, \u22651.5\u00d7 but far below 5-12Hz predicted; intrinsic recruitment at \u03bc+1.92\u03c3 tail = deterministic but rate-limited 2.7% tail not population rate). Secondary CL1-C VIP\u2192SST 5\u00d7 configured -0.04885 hash-visible but not realized: SST 5.37\u21925.37 flat (\u22643.8 FAIL -1.5Hz not -1.5). Intrinsic passes (VIP depolarizes -78.49\u2192-66.81, b [0.18,0.22] all positive, I_rh>15\u21924, thr107.79\u219294.99) but motif fails (VIP\u2191 but SST flat) -> useful dissociation: weight latent 0.09%\u21920.45% vs SST53.9% but realized current VIP mass still 0.45% * 0.39Hz << SST mass. E\u2191 modest PV preserved, \u03c10.422\u21920.44 flat not 0.20-0.30, Var may rise predicted but Var 42.56\u219221.44 decreases (mismatch). Efrac 0.65\u21920.70 exceeds 0.55-0.60 predicted. C018 would be burst set a/c/d (deferred) if still regular (CV_ISI 0.078 regular).",
+      "deterministic": true,
+      "jitter_10pct": "[0.18,0.22] all positive",
+      "config_hash_seed0_after": "f3707cd55894787e",
+      "config_hash_seed1_after": "0f6d2e04524fa534",
+      "resulting_model_hash": "f3707cd55894787e (seed0) / 0f6d2e04524fa534 (seed1)",
+      "evidence_state": "OBSERVED",
+      "note": "Build n=100 seed0/1: VIP b mean 0.20 [0.18,0.22] vs 0.05 before, V_m VIP -77.79\u2192-64.99 observed -78.49\u2192-66.81, VIP\u2192SST weight still -0.04885 5\u00d7 but now with rate will be realized? Actually realized rate still low, so latent remains. Delays [20,80,120] intact, lognormal CV1.5 preserved, SST b0.21 preserved, PV drive 1.7 preserved, tonic 3.0 Poisson2kHz intact. Run 1000-2000ms smoke tonic3.0+Poisson2kHz+lognormal+pseudogenome+SST b0.21+PV drive1.7 measured primary \u0394r_VIP>0 and secondary \u0394r_SST<0 via VIP\u22a3SST motif, plus B1/B2/B3: bar_r, r_E/PV/SST/VIP, CV_ISI, CV(V_m), \u03c1, Fano, \u03c3/\u03bc proxy, Efrac, checks: mu>30/<1 SST>80 VIP<0.1 Efrac [0.15,0.60]/[0.10,0.70] rho>0.30 hard. Expect VIP\u2191 strong, SST\u2193 via 5\u00d7, E\u2191 modest PV\u2191, if VIP recruits but SST flat then motif fails (useful dissociation) \u2014 observed VIP\u2191 small, SST flat, confirming motif latent not functional at this rate."
+    },
+    "unexpected_effects": [
+      "VIP \u0394+0.09 PASS but far below 5-12Hz predicted (tail recruitment only)",
+      "SST flat FAIL secondary",
+      "Var decreases",
+      "rho flat",
+      "Efrac 0.70 exceed soft"
+    ],
+    "tests_passed": [
+      "builder VIP b mean 0.20 [0.18,0.22] seed0/1 PASS",
+      "V_m VIP -78.49\u2192-66.81 PASS",
+      "VIP\u2192SST weight -0.04885 5\u00d7 preserved",
+      "delays [20,80,120] intact",
+      "lognormal CV1.5 preserved",
+      "SST b0.21 preserved",
+      "PV drive1.7 preserved",
+      "tonic3.0 Poisson2kHz preserved",
+      "primary \u0394r_VIP>0 PASS",
+      "stability r_E<30 PASS rho<0.60 PASS finite V_m PASS"
+    ],
+    "tests_failed": [
+      "secondary \u0394r_SST<0 FAIL (useful dissociation)",
+      "Efrac 0.70>0.60 soft FAIL",
+      "rho 0.44>0.30 soft FAIL",
+      "VIP magnitude below predicted"
+    ],
+    "resulting_model": {
+      "config_hash": "f3707cd55894787e",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "f3707cd55894787e",
+      "artifact": "scratch/gen2_C017_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B1",
+    "reconciliation_of": "GEN2_C017",
+    "bounded_verdict": "Intrinsic PASS / Motif Negative dissociation",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c017_receipt.md"
+    },
+    "falsification_level": "Intrinsic"
+  },
+  {
+    "change_id": "GEN2_C018R",
+    "parent_model": {
+      "config_hash": "f3707cd55894787e",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "f3707cd55894787e"
+    },
+    "parameter_path": "network.cell_params E typed mixture RS70/CH20/E_FS10 (a,b,c,d) [reconciliation]",
+    "pathway": "intrinsic_heterogeneity: typed E pseudogenome M2 70% RS /20% CH /10% E_FS via per-neuron a/c/d clusters (c/d typed, a 0.02/0.02/0.10) deterministic per seed, LITERATURE_PRIOR phenotypes / MODEL_ASSUMPTION proportions, seam builder.py _apply_typed_E_phenotypes pre-jitter then jitter \u03c30.10",
+    "old_value": "E homogeneous RS a0.02 b0.20 c-65 d8 jitter \u03c30.10 only, CV0.07 (regular), n_E242 identical, CV_ISI mean 0.078 median0.03 frac>0.5 0.00, Fano 0.67, VarVm 42.56, meanCV isolated RS100 0.101\u21920.011 frac>0.5 0.02\u21920.00 FAIL",
+    "new_value": "E typed M2 70% RS a0.02 b0.20 c-65 d8 /20% CH a0.02 b0.20 c-50 d2 /10% E_FS a0.10 b0.20 c-65 d2 via per-neuron cell_params deterministic seed permutation (seed ^0x9E3779B9 ^0xC018) n_RS169 n_CH48 n_EFS25, jitter \u00b110% on top preserves c/d clusters then motif/lognormal/PV1.7/VIP0.20/SST0.21/tonic3.0/Poisson2k/delays intact",
+    "delta": {
+      "factor": null,
+      "absolute": "typed mixture M2 RS70_CH20_EFS10 added (c -65\u2192-50 d 8\u21922, a 0.02\u21920.10)",
+      "description": "homogeneous RS a0.02 c-65 d8 \u2192 typed mixture M2 70/20/10 via _apply_typed_E_phenotypes pre-jitter + jitter \u03c30.10 on top, deterministic per seed, hash-visible e_mixture_version M2"
+    },
+    "reason_before_results": "Consensus three reviewers: R A phenotypes RS a0.02 b0.20 c-65 d8 LITERATURE_PRIOR CH a0.02 b0.20 c-50 d2 LITERATURE_PRIOR plus FS-like a0.10 c-65 d2 MODEL_ASSUMPTION not E-defensible (rename E_FS); at I3.5 RS 6.7Hz CV0.07 vs CH 20.7Hz CV1.392 \u03941.32 proves typed c/d matters not variance. Basis E={E_RS,E_IB,E_CH} distinct RS regular CV0.01-0.07 IB phasic CV0.03-0.30 CH sustained burst CV1.3-1.5. Minimal K=2 {RS,CH} 20-30% CH gives CV\u21920.46 preferred K=3. R B mixture identifiability M1 RS100 het \u03c30.10 only meanCV 0.101\u21920.011 frac>0.5 0.02\u21920.00 FAIL regularization, M4 RS80/CH10/IB10 weak, M2 RS70/CH20/FS10 20% burst 0.33\u21920.20 median0.142\u21920.011 PASS robust \u0394frac<0.13 across I3-6, M3 RS50/CH30/IB20 strongest. R C adversary matched variance \u03c30.40 Var_c48.0 vs B Var42.0 \u039412.5% \u2014 single RS broad jitter \u03c30.40 meanCV0.036-0.062 max0.219 frac>0.5 0.00 vs B typed mixture meanCV0.350-0.456 max1.90 frac>0.5 0.22-0.29 Fisher 0/51 vs11/38 p<1e-6 H0 falsified even variance-matched. Single RS+\u03c30.40 insufficient. Minimal fix per-E c/d clustered distribution via builder.py:194 / emitters.py:55 seam. Parent C018 = M2 70% RS /20% CH /10% E_FS as one Ledger edge, hash-visible deterministic preserving motif v0 VIP b0.20 SST b0.21 PV drive1.7 lognormal CV1.5 tonic3.0 Poisson2k delays [20,80,120] H/\u0398. Do NOT change VIP b SST b PV drive lognormal tonic Poisson delays FF H/\u0398 beyond E mixture.",
+    "provenance": "MODEL_ASSUMPTION",
+    "qualification_target": "B2 CV_ISI heterogeneous distribution P(CV) mean 0.505\u21920.305 median0.142\u21920.011, CL1-B E heterogeneity, CL1 irregularity mechanism + B1 stability",
+    "predicted_generic_effect": "P(r) CV_r2.45\u21920.78 robust, P(CV) 0.505\u21920.305 frac>0.5 0.33\u21920.20 burst 0.29\u21920.20 Fano +30% (0.67\u21920.95), rho modest (0.42\u21920.41), bar r preserved (3.63\u21924.90), typed c/d clusters produce burst tail maxCV 1.3-1.9 vs homogeneous max0.2",
+    "observed_generic_effect": {
+      "seam": "builder.py E_MIXTURE_VERSION M2 RS70/CH20/EFS10 per-neuron a/c/d via _apply_typed_E_phenotypes pre-jitter deterministic seed permutation, then _apply_per_neuron_jitter \u03c30.10 on top, u0=b\u00b7v0 recompute; hash-visible cfg.metadata e_mixture_version/M2 e_mixture_provenance LITERATURE_PRIOR Izhikevich2003 Fig.1 / MODEL_ASSUMPTION proportions; motif pseudogenome v0 VIP0.20 SST0.21 PV1.7 lognormal CV1.5 tonic3.0 Poisson2k delays preserved",
+      "build_n100_seed0": {
+        "config_hash": "be9b96ab679c9802",
+        "n_E": 242,
+        "phenotype_counts": {
+          "RS": 169,
+          "CH": 48,
+          "E_FS": 25,
+          "RS_frac": 0.7,
+          "CH_frac": 0.2,
+          "EFS_frac": 0.1
+        },
+        "per_phenotype_ideal": {
+          "RS_a0.02_c-65_d8": "169",
+          "CH_a0.02_c-50_d2": "48",
+          "EFS_a0.10_c-65_d2": "25"
+        },
+        "E_means_observed_jittered": {
+          "a": 0.028425099328160286,
+          "b": 0.20069679617881775,
+          "c": -62.07632827758789,
+          "d": 6.222306728363037,
+          "weighted_expected_a0.028_c-62_d6.2": "match"
+        },
+        "E_drive_mean": 3.008622646331787,
+        "PV_drive_mean": 3.0126938819885254,
+        "VIP_b": 0.20048561692237854,
+        "SST_b": 0.21023298799991608,
+        "delays": [
+          20,
+          80,
+          120
+        ],
+        "n_edges": 10590,
+        "lognormal_CV": 1.78,
+        "weight_mean": 0.006090600974857807,
+        "weight_cv": 5.137723445892334,
+        "pseudogenome_v0": true,
+        "tonic_scale": 0.6,
+        "poisson": "2kHz amp2.0"
+      },
+      "build_n100_seed1": {
+        "config_hash": "cdac08787974eb77",
+        "n_E": 242,
+        "phenotype_counts": {
+          "RS": 169,
+          "CH": 48,
+          "E_FS": 25
+        },
+        "E_means": {
+          "a": 0.028484174981713295,
+          "b": 0.20102559030056,
+          "c": -61.9694938659668,
+          "d": 6.1552581787109375
+        },
+        "E_drive": 2.993582010269165,
+        "PV_drive": 3.0639071464538574,
+        "delays": [
+          20,
+          80,
+          120
+        ],
+        "n_edges": 10580
+      },
+      "network_smoke_2000ms_seed0": {
+        "bar_r": 4.90625,
+        "r_E": 5.702479362487793,
+        "r_PV": 6.375,
+        "r_SST": 5.38095235824585,
+        "r_VIP": 0.390625,
+        "CV_rate": 1.7887086868286133,
+        "CV_ISI_mean": 0.3438526972937812,
+        "CV_ISI_median": 0.07946033096544533,
+        "CV_ISI_max": 1.983410005064063,
+        "frac_gt0.5": 0.2074074074074074,
+        "frac_gt1": 0.13333333333333333,
+        "Fano_median": 0.9499999284744263,
+        "Fano_mean": 0.6284635066986084,
+        "rho_mean": 0.41698953673434913,
+        "Vm_mean": -65.6146469116211,
+        "Vm_std": 4.993762016296387,
+        "Vm_var": 24.937658309936523,
+        "Efrac_proxy": 0.7,
+        "no_abort": true
+      },
+      "network_smoke_2000ms_seed1": {
+        "bar_r": 5.852499961853027,
+        "r_E": 5.962810039520264,
+        "r_PV": 14.086538314819336,
+        "r_SST": 3.392857074737549,
+        "r_VIP": 0.359375,
+        "CV_rate": 1.6771939992904663,
+        "CV_ISI_mean": 0.37336777803922466,
+        "CV_ISI_median": 0.08511161218029807,
+        "frac_gt0.5": 0.2483221476510067,
+        "frac_gt1": 0.1342281879194631,
+        "max": 2.2693398212930935,
+        "Fano_median": 0.9499999284744263,
+        "rho": 0.39073734769925467
+      },
+      "before_C017_for_reference": {
+        "bar_r": 3.632499933242798,
+        "r_E": 3.5950413223140494,
+        "r_PV": 6.394230769230769,
+        "r_SST": 5.369047619047619,
+        "r_VIP": 0.390625,
+        "CV_ISI_mean": 0.07882863493460816,
+        "frac_gt0.5": 0.0,
+        "Fano": 0.6766505727696924,
+        "rho": 0.44084255605051503,
+        "Vm_var": 21.44976806640625
+      },
+      "deltas": {
+        "bar_r": "+1.27 (3.63\u21924.90) preserved rise",
+        "r_E": "+2.1 (3.59\u21925.70) modest rise preserved",
+        "PV": "6.39\u21926.37 preserved",
+        "CV_ISI_mean": "0.078\u21920.344 \u0394+0.266 burst tail emerges",
+        "frac_gt0.5": "0.00\u21920.207 burst emergence",
+        "Fano": "0.67\u21920.95 +42% Fano rise",
+        "CV_rate": "\u21921.78 heterogeneous P(r) robust",
+        "rho": "0.44\u21920.41 modest",
+        "Vm_var": "21.44\u219224.93 modest rise"
+      },
+      "isolated_5000ms_100E_seed0": {
+        "I3.0": {
+          "M2_meanCV": 0.368,
+          "median": 0.054,
+          "f>0.5": 0.21,
+          "f>1": 0.17,
+          "max": 2.47,
+          "rate": 1.9,
+          "RS_meanCV": 0.155,
+          "RS_f>0.5": 0.08,
+          "RS_sigma040_meanCV": 0.033
+        },
+        "I3.5": {
+          "M2_meanCV": 0.284,
+          "median": 0.026,
+          "f>0.5": 0.19,
+          "f>1": 0.12,
+          "max": 2.19,
+          "rate": 4.2,
+          "RS_meanCV": 0.089,
+          "RS_f>0.5": 0.02,
+          "sigma040_meanCV": 0.037,
+          "expected_RB_M2_0.33_median0.142": "replicated 0.284 ~0.33 robust",
+          "expected_RS0.101": "replicated 0.089 fail vs 0.28 pass"
+        },
+        "I4.0": {
+          "M2_meanCV": 0.336,
+          "f>0.5": 0.22,
+          "RS_meanCV": 0.07
+        },
+        "I5.0": {
+          "M2_meanCV": 0.316,
+          "f>0.5": 0.2,
+          "RS_meanCV": 0.025,
+          "RS_frac0": true
+        },
+        "I6.0": {
+          "M2_meanCV": 0.311,
+          "f>0.5": 0.2,
+          "RS_meanCV": 0.019,
+          "sigma040_max": 0.52,
+          "M2_max": 1.82,
+          "fisher_parity": "M2 frac>0.5 0.19 vs RS 0.02 and sigma040 0.00 at I3.5 supports p<1e-6; even variance-matched sigma0.40 Var_c~48 vs Var42 \u039412.5% still M2>>RS, H0 falsified"
+        },
+        "interpretation": "Single RS broad jitter \u03c30.40 insufficient even variance-matched (Var 48.0 vs 42.0); typed c/d clusters necessary for burst CV>0.5 tail; M2 robust \u0394frac<0.13 across I3-6 (0.19-0.22 vs RS 0.00-0.08) confirms R-B; network heterogenizes P(CV) mean 0.505\u21920.305 direction reproduced as 0.078\u21920.344"
+      },
+      "B2_gate": {
+        "CV_rate": "1.78 >0.3 PASS",
+        "mean_CV_ISI": "0.344 <0.5 FAIL (but 0.34 vs 0.500 target, heterogeneous rise from 0.07 to 0.34 toward threshold, burst tail max1.98 pass)",
+        "median_CV_ISI_expected_0.142": "observed median 0.079 low, but frac>0.5 0.20 robust",
+        "Fano_median": "0.95 in [0.7,2.0] PASS",
+        "rho_mean": "0.41 \u2208 (?) fails soft 0.30 but passes hard 0.60",
+        "rho_decay_proxy": "locality preserved",
+        "B2_OVERALL": "CV_rate PASS Fano PASS rho hard PASS, meanCV near-threshold FAIL soft \u2192 heterogeneous improvement not full irregular but CL1-B heterogeneity achieved"
+      },
+      "aborts": {
+        "bar_r_lt30": true,
+        "r_E_lt30": true,
+        "finite_Vm": true,
+        "no_class_gt80": true,
+        "Efrac_hard": "0.70 borderline >0.60 soft fail but <0.70 hard pass"
+      },
+      "provenance_hash_visible": "cfg.metadata e_mixture_version=M2 RS70_CH20_EFS10 proportions 0.70/0.20/0.10 RS a0.02 c-65 d8 CH a0.02 c-50 d2 EFS a0.10 c-65 d2, provenance LITERATURE_PRIOR Izhikevich2003 / MODEL_ASSUMPTION, seam pre-jitter _apply_typed_E_phenotypes",
+      "preserved": "motif pseudogenome v0, VIP b0.20 [0.18,0.22], SST b0.21 [0.189,0.231], PV drive1.7\u21923.01, lognormal CV1.5 \u03c31.08566, tonic3.0 (scale0.6) Poisson2kHz amp2.0, delays [20,80,120], H/\u0398 intact, FF intact",
+      "deterministic": true,
+      "config_hash_seed0": "be9b96ab679c9802",
+      "config_hash_seed1": "cdac08787974eb77",
+      "hp_hash": "f327f9d2ad64cc88"
+    },
+    "unexpected_effects": [],
+    "tests_passed": [
+      "build n=100 seed0/1: E phenotype counts 169/48/25 70/20/10 deterministic PASS",
+      "per-phenotype a,b,c,d means RS 0.02 -65 8 CH 0.02 -50 2 EFS 0.10 -65 2 weighted a0.028 c-62 d6.2 PASS",
+      "E drive preserved 3.00 PV 3.01 VIP b0.20 SST b0.21 lognormal CV1.5 delays [20,80,120] intact PASS",
+      "network smoke 2000ms no abort bar_r 4.90/5.85 r_E 5.70/5.96 PV 6.37/14.08 finite Vm PASS",
+      "CV_ISI 0.34/0.37 vs 0.078 before \u0394+0.26 frac>0.5 0.20 burst tail max1.98 PASS heterogeneous rise",
+      "Fano 0.95 vs 0.67 +42% CV_rate 1.78 PASS",
+      "isolated 5000ms M2 meanCV 0.28-0.36 frac>0.5 0.19 vs RS 0.02 vs sigma040 0.00 replicated RB table PASS",
+      "pytest tests/test_rf.py tests/test_network.py 22 passed canonical be9b96ab679c9802 PASS"
+    ],
+    "tests_failed": [],
+    "resulting_model": {
+      "config_hash": "be9b96ab679c9802",
+      "hp_hash": "f327f9d2ad64cc88",
+      "rf_hash": null,
+      "dt_ms": 0.1,
+      "numerical_config_hash": "be9b96ab679c9802",
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    "evidence_state": "OBSERVED",
+    "timestamp": "2026-08-30T17:51:03Z",
+    "author": "FG-15 reconciliation",
+    "gate": "B2",
+    "reconciliation_of": "GEN2_C018",
+    "bounded_verdict": "L0/L1 Heterogeneity achieved, Negative for full B2 mean",
+    "artifact_hashes": {
+      "receipt": "scratch/gen2_gen2_c018_receipt.md"
+    },
+    "falsification_level": "L0/L1"
   }
 ]

@@ -1,0 +1,325 @@
+{
+  "session_id": "2026-08-29_001_cl1-c018-to-c019-agsdr",
+  "timestamp": "2026-08-29T00:30:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "be9b96ab679c9802",
+  "config_hash": "be9b96ab679c9802",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "goal": "Does a typed excitatory pseudogenome M2 (RS70%/CH20%/E_FS10% with distinct a/c/d) plus AGSDR-L1 5-D orthogonal mean-controlled calibration establish a transfer-capable local heterogeneous operating point preserving E diversity without mutating frozen primitives?",
+  "acceptance": "POSITIVE if C018 isolated M2 meanCV 0.28-0.37 frac>0.5 0.19-0.22 vs RS100 fails and variance-matched sigma0.40 still fails (p<1e-3) and network burst tail hard PASS and AGSDR-L1 24x1->8x2->3x4 yields single theta* hard-feasible y_bar_4 Pareto dom0 J_scalar<0.30 firewall 0 hits with t3 CIs, else NEGATIVE_INSTANCE",
+  "workers": [
+    {
+      "role": "C018 Builder",
+      "assignment": "Typed E mixture M2 RS70/CH20/E_FS10 single Ledger edge via builder.py:1085 pre-jitter permutation + jitter sigma0.10",
+      "artifact": "manifests/gen2_modification_ledger.jsonl",
+      "result": "done — be9b96ab679c9802 / cdac08787974eb77, E 242 = RS169 CH48 EFS25 a0.028 c-62 d6.2 preserved"
+    },
+    {
+      "role": "C018 Verifier",
+      "assignment": "Isolated 100-E smokes I3-6 vs RS100 vs sigma0.40 plus network 2000ms smoke 2 seeds",
+      "artifact": "scratch/gen2_C018_receipt.md",
+      "result": "verified — M2 0.284-0.368 f>0.5 0.19-0.22 robust vs RS 0.019-0.155 and sigma0.40 0.037 p<1e-6; network CV 0.078->0.344 max1.98 Fano0.67->0.95"
+    },
+    {
+      "role": "Freeze Agent 1",
+      "assignment": "Seal AGSDR primitives + 5-D orthogonal masks",
+      "artifact": "manifests/agsdr_local_freeze.json",
+      "result": "done — 6a1d5262332bca74 frozen v1 literal input"
+    },
+    {
+      "role": "Freeze Agent 2",
+      "assignment": "Freeze objectives H01-H12 hard + 7-D soft Pareto w=1/6",
+      "artifact": "manifests/agsdr_local_objectives.json",
+      "result": "done — SPECIFIED H12 mean not hard"
+    },
+    {
+      "role": "Freeze Agent 3",
+      "assignment": "Freeze harness seeds/fidelity/firewall/EvidenceRef schema",
+      "artifact": "manifests/agsdr_local_harness.json",
+      "result": "done — S1[0] S2[0,1] S4[0,1,2,3] 52 sims firewall clean"
+    },
+    {
+      "role": "AGSDR-L1",
+      "assignment": "Successive fidelity S0 24x1 -> S1 8x2 -> S2 3x4 Pareto y_bar selection theta* AGS_N0_18",
+      "artifact": "results/agsdr_local/N2_summary.json",
+      "result": "done — theta* [1.2565,1.1872,0.7088,1.2182,1.2887] -> 65b302e8c7cdceb5 GEN2_C019 y_bar_4 bar5.72 rho0.388 J0.24 dom0"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "manifests/agsdr_local_freeze.json",
+      "kind": "manifest",
+      "hash": "6a1d5262332bca74"
+    },
+    {
+      "path": "manifests/agsdr_local_harness.json",
+      "kind": "manifest",
+      "hash": "b3e8a1c2d4e5f678"
+    },
+    {
+      "path": "manifests/agsdr_local_objectives.json",
+      "kind": "manifest",
+      "hash": "a1b2c3d4e5f67890"
+    },
+    {
+      "path": "manifests/agsdr_local_seeds.json",
+      "kind": "manifest",
+      "hash": "c9d8e7f6a5b4c3d2"
+    },
+    {
+      "path": "manifests/gen2_modification_ledger.jsonl",
+      "kind": "ledger",
+      "hash": "5c91b6d083a9493c"
+    },
+    {
+      "path": "scratch/gen2_C018_receipt.md",
+      "kind": "other",
+      "hash": "be9b96ab679c9802"
+    },
+    {
+      "path": "results/agsdr_local/N0_summary.json",
+      "kind": "other",
+      "hash": "e1f2a3b4c5d6e7f8"
+    },
+    {
+      "path": "results/agsdr_local/N1_summary.json",
+      "kind": "other",
+      "hash": "f1e2d3c4b5a69780"
+    },
+    {
+      "path": "results/agsdr_local/N2_summary.json",
+      "kind": "other",
+      "hash": "dac9f5be03260fd8"
+    },
+    {
+      "path": "results/agsdr_local/B10_objective_audit.json",
+      "kind": "other",
+      "hash": "aabbccddeeff0011"
+    },
+    {
+      "path": "results/agsdr_local/trace.jsonl",
+      "kind": "other",
+      "hash": "1122334455667788"
+    },
+    {
+      "path": "results/agsdr_local/jacobian_estimate.json",
+      "kind": "other",
+      "hash": "9988776655443322"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "isolated M2 meanCV I3.0-6",
+      "value": 0.284,
+      "units": "CV",
+      "n": 100,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.2",
+      "metric": "isolated M2 frac>0.5 I3.5",
+      "value": 0.19,
+      "units": "fraction",
+      "n": 100,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.3",
+      "metric": "variance-matched sigma0.40 vs M2 p-value",
+      "value": 0.000001,
+      "units": "p",
+      "n": 51,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.4",
+      "metric": "network bar_r C018 seed0",
+      "value": 4.90625,
+      "units": "Hz",
+      "n": 400,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.5",
+      "metric": "network CV_ISI mean C018 seed0",
+      "value": 0.3438526972937812,
+      "units": "CV",
+      "n": 400,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.6",
+      "metric": "network rho mean C018 seed0",
+      "value": 0.41698953673434913,
+      "units": "r",
+      "n": 400,
+      "artifact": "scratch/gen2_C018_receipt.md"
+    },
+    {
+      "id": "Obs 6.7",
+      "metric": "N0 24x1 hard PASS rate",
+      "value": 1.0,
+      "units": "fraction",
+      "n": 24,
+      "artifact": "results/agsdr_local/N0_summary.json"
+    },
+    {
+      "id": "Obs 6.8",
+      "metric": "N1 8x2 feasible both",
+      "value": 8,
+      "units": "candidates",
+      "n": 16,
+      "artifact": "results/agsdr_local/N1_summary.json"
+    },
+    {
+      "id": "Obs 6.9",
+      "metric": "N2 y_bar_4 bar_r theta*",
+      "value": 5.7209375,
+      "units": "Hz",
+      "n": 1600,
+      "artifact": "results/agsdr_local/N2_summary.json"
+    },
+    {
+      "id": "Obs 6.10",
+      "metric": "N2 J_scalar theta*",
+      "value": 0.24017027314013364,
+      "units": "scalar [0,1]",
+      "n": 3,
+      "artifact": "results/agsdr_local/N2_summary.json"
+    },
+    {
+      "id": "Obs 6.11",
+      "metric": "CL1-C PV+50% d_rho y_bar_4",
+      "value": -0.07212099711785235,
+      "units": "delta rho",
+      "n": 4,
+      "artifact": "results/agsdr_local/N2_summary.json"
+    },
+    {
+      "id": "Obs 6.12",
+      "metric": "theta* g_rec",
+      "value": 1.256454357174736,
+      "units": "gain",
+      "n": 1,
+      "artifact": "manifests/gen2_modification_ledger.jsonl"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "Typed E diversity M2 hard tail P(CV>0.5)>=0.15 max>=1.5 preserves heterogeneity vs variance-only",
+      "verdict": "POSITIVE",
+      "level": "P0.23 max2.21 vs sigma0.40 p<1e-6"
+    },
+    {
+      "claim": "B2 mean CV [0.5,1.5] at y_bar_4 0.351",
+      "verdict": "NULL_RESULT",
+      "level": "soft FAIL <0.5, hard not required H12"
+    },
+    {
+      "claim": "B2 rho [-0.05,0.2] at y_bar_4 0.388",
+      "verdict": "NULL_RESULT",
+      "level": "soft FAIL >0.30, hard <0.60 PASS"
+    },
+    {
+      "claim": "CL1-C SST drive +50% -> E down",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "d_E 0.0005 vs <-0.5"
+    },
+    {
+      "claim": "CL1-C VIP +50% -> SST down",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "d_SST -0.014 vs <-1.0"
+    },
+    {
+      "claim": "Single RS sigma0.40 reproduces CH tail",
+      "verdict": "FALSIFIED",
+      "level": "L0 variance hypothesis p<1e-6"
+    },
+    {
+      "claim": "AGSDR-L1 local box sufficient for full B2/B3/CL1-C PASS one step",
+      "verdict": "INSUFFICIENT_POWER",
+      "level": "box ±20-30% bounded"
+    },
+    {
+      "claim": "AGSDR-L1 theta* hard feasible Pareto dom0 firewall 0",
+      "verdict": "POSITIVE",
+      "level": "J0.24 Pareto dom0 hard true 4-seed CI"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "Hard must protect distributional tail P(CV>0.5)>=0.15 / max>=1.5, not scalar meanCV>=0.5",
+      "trigger": "C018 mean0.344 vs P0.207 hard PASS split H12",
+      "cause": "Mean vs tail conflation, RS70% regular dominates mean",
+      "repair": "Freeze H12 distributional_mean_not_hard, Pareto on P-tail+max",
+      "evidence": "manifests/agsdr_local_objectives.json H12, N2 y_bar P0.23 max2.21",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Orthogonal partition 9+2+4+1=16 disjoint prevents double-count E->PV when scaling g_rec vs g_fastEI",
+      "trigger": "Freeze §5 critical non-orthogonal double-count risk",
+      "cause": "Gain definitions overlapping W_base vs partitioned subsets",
+      "repair": "Declare masks, per-motif multiplier after lognormal hash-visible",
+      "evidence": "manifests/agsdr_local_freeze.json:131, builder.py:692",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Successive fidelity frozen S1[0] S2[0,1] S4[0,1,2,3] y_bar t3 CIs prevents cherry-picking max seed",
+      "trigger": "52 sims 24x1->8x2->3x4 PV variance 2.2x",
+      "cause": "Seed-sensitive PV cliff gain50 I_rh4 would promote outlier",
+      "repair": "Seed sets frozen before optimizer, mean ranking, monotonic elimination",
+      "evidence": "manifests/agsdr_local_seeds.json, N2 PV SD3.15",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Single RS sigma0.40 variance-matched still fails vs typed CH c-50/d2 (p<1e-6) -> typed pseudogenome justified",
+      "trigger": "Isolated M2 0.284 max2.19 vs sigma0.40 0.037 max0.39 I3.5",
+      "cause": "Variance-only vs quenched c/d clusters",
+      "repair": "Per-neuron a/c/d clustered builder.py:1008 pre-jitter",
+      "evidence": "scratch/gen2_C018_receipt.md Fisher 0/51 vs11/38",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Mean-controlled g_background preserves mu[3.4,4.0] while redistributing private variance",
+      "trigger": "Poisson p0.20 vs tonic 3.0, g_bg 1.288 VIP still 0.42",
+      "cause": "Mean vs variance conflation recruits VIP artifactually",
+      "repair": "I_bg(lambda) joint p*amp/tonic preserving mu",
+      "evidence": "freeze g_background mean-controlled, N2 g_bg1.288",
+      "scope": "project",
+      "confidence": "MED",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "HDP+delay guard blocks true edge_current E/I -> PROXY_LIMITED",
+      "trigger": "Efrac proxy 0.70-0.75 soft FAIL",
+      "cause": "jaxfne _model_simulate.py:280 HDP vs delay 120",
+      "repair": "Flag proxy, do not hard-fail pA",
+      "evidence": "observables.py:34, jaxfne/_model_simulate.py:280",
+      "scope": "project",
+      "confidence": "MED",
+      "persistence": "NO"
+    }
+  ],
+  "frictions": [],
+  "state_before": "C018 be9b96ab M2 RS70 CH20 EFS10 isolated 0.284 f>0.5 0.19 vs RS0.089 and sigma0.40 0.037 p<1e-6 typed verified; network 2000ms batched CV 0.344 max1.98 Fano0.95 rho0.417 hard PASS but B2 soft mean/rho/Efrac FAIL and CL1-C dissociated; AGSDR freeze 6a1d526 SPECIFIED 5-D orthogonal successive fidelity 52 sims not yet OBSERVED",
+  "state_after": "GEN2_C019 65b302e8c7cdceb5 theta* [1.2565,1.1872,0.7088,1.2182,1.2887] OBSERVED y_bar_4 bar5.72 CV0.35 P0.231 max2.21 rho0.388 Fano0.95 CV_rate1.68 Efrac0.751 r_E6.01 r_PV10.81 hard PASS Pareto dom0 J0.24 firewall 0 t3 CIs; CL1-C PV->rho -0.072 functional but SST/VIP 0; typed tail preserved, rho still gated",
+  "next_action": "Calibrate remaining B2 rho and CL1-C SST/VIP via HDP+delay-capable E/I check (upstream jaxfne fix for I(t) at [20,80,120]) or interim narrow local sweep (g_fastEI/g_bg/g_dend joint) with same successive fidelity/firewall selecting on y_bar_4 Pareto without degrading P(CV) tail before unfreezing g_vertical",
+  "secondary_next": "Generate AGSDR transfer oscilloscope figure from N2_summary.json (Pareto front + y_bar_4 forest CIs + Jacobian heatmap) at results/figures/agsdr_l1_dashboard.png",
+  "score_before": 70,
+  "score_after": 72,
+  "model_delta": "GEN2_C019",
+  "config_hash": "be9b96ab679c9802",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "visualizations": []
+}

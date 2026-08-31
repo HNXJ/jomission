@@ -1,0 +1,257 @@
+{
+  "session_id": "2026-08-29_003_u01-u02-current-instrumentation",
+  "timestamp": "2026-08-29T20:33:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "manifests/w4a_blocker_seal.json",
+  "config_hash": "a51711101576c7c3",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "goal": "Does passive grouped current recording I[t,G]=Σ_{e∈g} w_e·syn_state_e[t] provide production-scale observability for delayed laminar networks without altering dynamics?",
+  "acceptance": "POSITIVE if delayed non-HDP record_grouped_current PASS with G≈16 ~0.6 MiB vs 0.40 GiB raw, passivity ΔVm=0 Δspikes=0, grouped reduction max|gc − segment_sum(ec,gids,G)| < 1e-5, cache/config identity and units/sign/group IDs correct; zero-delay HDP PASS; delayed+HDP correctly BLOCKED at jaxfne/_model_simulate.py:280; else CONDITIONAL/BLOCKED split per path",
+  "workers": [
+    {
+      "role": "U01 Passivity Implementer (J)",
+      "assignment": "Expose passive raw edge_current_trace on delayed non-HDP path (Option A) at emitters.py:714 + _model_simulate.py:386 + _pipeline.py:395",
+      "artifact": "jaxfne/emitters.py:714",
+      "result": "done"
+    },
+    {
+      "role": "U02 Grouped Reduction Implementer (J)",
+      "assignment": "Implement streamed grouped I[t,G] as segment_sum reduction inside kernel at emitters.py:714/_model_simulate.py:421/_pipeline.py:389 + observables.py:30",
+      "artifact": "jaxfne/_model_simulate.py:421",
+      "result": "done"
+    },
+    {
+      "role": "FG-01 Production-Path Verifier (A1, R mode)",
+      "assignment": "Read-only integration verification of U01+U02 + blocked path confirmation with n=20/400 probes",
+      "artifact": "scratch/fg01_U01_U02_verification.md",
+      "result": "done"
+    },
+    {
+      "role": "FG-09b Bridge (mechanistic)",
+      "assignment": "HDP_OFF supplementary grouped assay using U01a on frozen C019/C020/C021 hashes",
+      "artifact": "scratch/fg09b_HDP_OFF_bridge.md",
+      "result": "done"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "manifests/canonical_full_exposure_seal.json",
+      "kind": "manifest",
+      "hash": "e80d53817457dcba"
+    },
+    {
+      "path": "manifests/w4a_blocker_seal.json",
+      "kind": "manifest",
+      "hash": "a51711101576c7c3"
+    },
+    {
+      "path": "manifests/gen2_modification_ledger.jsonl",
+      "kind": "ledger",
+      "hash": "a51711101576c7c3"
+    },
+    {
+      "path": "scratch/fg01_U01_U02_verification.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/jaxfne_U01_passivity.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/jaxfne_U02_grouped.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/jaxfne_issue_delayed_edge_current_v2.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/jaxfne_issue_delayed_edge_current.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/fg09b_HDPOFF_bridge_raw.json",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/fg09b_HDP_OFF_bridge.md",
+      "kind": "other"
+    },
+    {
+      "path": "scratch/fg09b_HDPOFF_bridge_runner.py",
+      "kind": "other"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "grouped_current_trace G≈16 production (759 full →6 minimal at N=400)",
+      "value": 16,
+      "units": "groups",
+      "n": 400,
+      "artifact": "scratch/jaxfne_U02_grouped.md"
+    },
+    {
+      "id": "Obs 6.2",
+      "metric": "passivity delayed non-HDP OFF vs grouped/edge/both ΔV_m Δspikes",
+      "value": 0.0,
+      "units": "native",
+      "n": 20,
+      "artifact": "scratch/fg01_U01_U02_verification.md"
+    },
+    {
+      "id": "Obs 6.3",
+      "metric": "passivity zero-delay HDP OFF vs ON ΔH Δw ΔV_m",
+      "value": 0.0,
+      "units": "native",
+      "n": 20,
+      "artifact": "scratch/jaxfne_U01_passivity.md"
+    },
+    {
+      "id": "Obs 6.4",
+      "metric": "continuation RNG identity delay_state/prng_key step_index",
+      "value": 0.0,
+      "units": "native",
+      "n": 20,
+      "artifact": "scratch/jaxfne_U02_grouped.md"
+    },
+    {
+      "id": "Obs 6.5",
+      "metric": "grouped reduction max|gc − sum_g ec|",
+      "value": 1.91e-06,
+      "units": "native",
+      "n": 20,
+      "artifact": "scratch/jaxfne_U02_grouped.md"
+    },
+    {
+      "id": "Obs 6.6",
+      "metric": "memory raw 0.40 GiB (10k×10666) vs grouped 0.6 MiB (10k×16) 600× saving",
+      "value": 0.6,
+      "units": "MiB",
+      "n": 10000,
+      "artifact": "scratch/jaxfne_U02_grouped.md"
+    },
+    {
+      "id": "Obs 6.7",
+      "metric": "config_hash invariant OFF vs ON c4dca2b95df4ecaf and _gid_hash in cache key",
+      "value": 0.0,
+      "units": "native",
+      "n": 1,
+      "artifact": "scratch/fg01_U01_U02_verification.md"
+    },
+    {
+      "id": "Obs 6.10",
+      "metric": "grouped_current_trace shape (n_steps,G) exists; edge absent when grouped-only",
+      "value": 9,
+      "units": "groups",
+      "n": 50,
+      "artifact": "scratch/fg01_U01_U02_verification.md"
+    },
+    {
+      "id": "Obs 6.12",
+      "metric": "delayed+HDP BLOCKED ValueError at _model_simulate.py:280",
+      "value": 27960,
+      "units": "sum(delay_steps)",
+      "n": 380,
+      "artifact": "scratch/jaxfne_issue_delayed_edge_current_v2.md"
+    },
+    {
+      "id": "Obs 6.14",
+      "metric": "fast-state equivalence HDP_OFF del vs zeroOff Δbar <0.05 Hz ΔVm <0.02 mV dV0",
+      "value": 0.027,
+      "units": "Hz",
+      "n": 400,
+      "artifact": "scratch/fg09b_HDP_OFF_bridge.md"
+    },
+    {
+      "id": "Obs 6.15",
+      "metric": "FG-09b I_L4E→L23E informativeness d>240 p0.001 I_corr 0.674-0.683 in all 6/6",
+      "value": 247.16,
+      "units": "Cohen d",
+      "n": 24,
+      "artifact": "scratch/fg09b_HDP_OFF_bridge.md"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "delayed non-HDP grouped I[t,G] available, passive Δ0, reduction <1e-5, G≈16 0.6 MiB",
+      "verdict": "POSITIVE"
+    },
+    {
+      "claim": "zero-delay HDP edge recording (n_steps,n_edges)",
+      "verdict": "POSITIVE"
+    },
+    {
+      "claim": "delayed+HDP (enable_hdp=True + delay_steps [20,80,120]) current observability",
+      "verdict": "BLOCKED"
+    },
+    {
+      "claim": "delayed+HDP grouped reduction path (HDP lacks record_grouped_current)",
+      "verdict": "BLOCKED"
+    },
+    {
+      "claim": "U01 solved delayed+HDP (negative claim)",
+      "verdict": "BLOCKED"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "Passive already-computed quantity should be exposed via lax.scan tail stacking, not new state — edge_current=w*syn_state already computed",
+      "trigger": "Need to observe I[t,E]=W·syn_state[t] without ΔVm",
+      "cause": "New buffer would duplicate JaxFNE primitive downstream (NEVER-02/03)",
+      "repair": "4-way Python-bool dispatch at emitters.py:840, no drive/syn/decay/spike change",
+      "evidence": "scratch/jaxfne_U01_passivity.md",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Grouped I[t,G]=segment_sum(I[t,E], gids, G) inside kernel gives 600× memory saving and is numerically faithful within 1e-5 for G≪E",
+      "trigger": "O(n_steps·n_edges) 0.40 GiB raw dominated W4",
+      "cause": "Materializing edge×time before grouping",
+      "repair": "Streamed grouped=_segment_sum(edge_current,_group_ids,_G) per step at emitters.py:879 + build_edge_group_ids",
+      "evidence": "scratch/jaxfne_U02_grouped.md",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "config_hash (topology) must stay invariant while RuntimeConfig recording flags disambiguate via _gid_hash in JIT cache key",
+      "trigger": "Identical config_hash c4dca2b95df4ecaf OFF vs ON but stale JIT capture would mis-route groups",
+      "cause": "Single hash for both config and compilation",
+      "repair": "jaxfne/io.py:42 topology hash + _model_simulate.py:466 hash(tuple(ids[:2048]), G, n_edges)",
+      "evidence": "scratch/fg01_U01_U02_verification.md",
+      "scope": "harness",
+      "confidence": "MED",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "MECHANISM_OBSERVABILITY_BLOCKER correctly distinguishes delayed non-HDP (solved) from delayed+HDP (blocked) — do not conflate U01a pass with delayed+HDP claim",
+      "trigger": "Three large interventions left V1 L2/3 Δ0.02 acc0.542 invariant while presumed causes changed ΔM+2652",
+      "cause": "Missing spikes→I→Vm chain inside D_max 120 buf121 ring",
+      "repair": "Keep delayed+HDP PROXY + UNRESOLVED, use HDP_OFF grouped only for fast dynamics (not H/Theta)",
+      "evidence": "scratch/fg01_U01_U02_verification.md",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    }
+  ],
+  "frictions": [
+    {
+      "friction": "enable_hdp does not support nonzero edge delay_steps guard at jaxfne/_model_simulate.py:280 blocks production delayed+HDP current observability",
+      "cause": "JaxFNE HDP kernel has no finite-delay ring (bufsize D_max+1 at emitters.py:714); U01/U02 kept guard for HDP scientifically intentional",
+      "workaround": "Delayed non-HDP now solved via U01/U02 (B path); delayed+HDP remains documented PROXY; FG-09b HDP_OFF bridge with fast-state equivalence Δbar<0.05",
+      "permanent_repair": "JAXFNE_UPSTREAM — HDP finite-delay ring kernel or explicit record_grouped_current on HDP + documentation of PROXY bound and UNRESOLVED temporal mediation"
+    }
+  ],
+  "state_before": "MECHANISM_OBSERVABILITY_BLOCKER sealed (GEN2_C022 a51711101576c7c3): spikes_{L4_E}→I_{L4_E→L2/3}→V_{m,L2/3} at delays [20,80,120] blocked — record_edge_current only for zero-delay HDP (emitters.py:2846), non-HDP delayed kernel had no diagnostic, PROXY W·r·τ flagged.",
+  "state_after": "Delayed non-HDP I[t,G] streamable: record_grouped_current at emitters.py:714 via _model_simulate.py:421 and _pipeline.py:389 + observables.py:30,81 grouping; G≈16 →0.6 MiB (600× vs 0.40 GiB) passive Δ0 and reduction <1e-5; zero-delay HDP unchanged; delayed+HDP correctly BLOCKED at _model_simulate.py:280.",
+  "next_action": "FG-09b→FG-10 bridge: measure I_{L4_E→L2/3}(t) via delayed non-HDP grouped G≈16 on frozen GEN2_C021 a51711101576c7c3 across C019/C020/C021 with I(S;Y) + corr(I_private, I_L4→L23[t+τ]) τ10-20ms + dV/dI and η_rec partition (0 DOF before builder sweep)",
+  "score_before": 73,
+  "score_after": 74,
+  "branch": "main",
+  "secondary_next": "Propose upstream JaxFNE grouped streaming as first-class JAXFNE_UPSTREAM affordance (emitters.py:714 + _pipeline.py:395 diff + build_edge_group_ids spec)",
+  "model_delta": "NO_MODEL_DELTA",
+  "visualizations": []
+}

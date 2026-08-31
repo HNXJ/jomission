@@ -1,10 +1,21 @@
 """H-state — multi-timescale finite-dimensional biophysical/history state.
 
+GEN-2 IMPLEMENTATION NOTE (M-06): H_Gen2 is scalar h in R per neuron
+(h_state_dim=1) with tau_i = tau_0_ms * size^3 (site-packages/jaxfne/emitters.py:3703).
+The five HCoordinate entries below are conceptual vocabulary and future design
+(H5_DESIGN = future/not implemented), not five implemented dimensions.
+Do not claim 5 independent H timescales are implemented — conceptual vs implemented
+scalar h, 1-D H truth, H_Gen2 scalar per neuron. See manifests/h_gen2_spec.json
+spec_id H_Gen2_scalar_v1.
+
 τ_H ∈ {0.1, 1, 10, 100, 1000} s is initial design, not biological constant.
-Each H_k has explicit meaning/driver/domain/update/coupling.
+Each H_k has explicit meaning/driver/domain/update/coupling — conceptual only.
 
 H is NOT homeostasis; it is history state carried in ContinuationState.dynamic + HDP.
-JaxFNE carries H via DynamicState and ContinuationState; this module declares the semantic mapping.
+JaxFNE carries H via DynamicState and ContinuationState; this module declares the
+semantic mapping. Implemented dimensionality is scalar (h_state_dim=1); the 5-D
+HStateConfig below is declarative/future-design, never forwarded to builder/kernel
+(build_jomission_network never reads HStateConfig; config_hash scalar by omission).
 """
 
 from __future__ import annotations
@@ -71,10 +82,16 @@ H_COORDINATES: tuple[HCoordinate, ...] = (
 
 @dataclass(frozen=True)
 class HStateConfig:
-    """Declarative H-state configuration. Passed to JaxFNE via hdp/homeostasis metadata."""
+    """Declarative H-state configuration. Passed to JaxFNE via hdp/homeostasis metadata.
+
+    M-06 scalar qualifier: H_Gen2 implemented as scalar h (h_state_dim=1).
+    This declarative 5-D config is conceptual/future-design (H5_DESIGN = future/not
+    implemented). Do not instantiate as live kernel dims; builder never forwards it.
+    Kept for vocabulary only; h_state_dim=5 here is declarative, not realized.
+    """
 
     coordinates: tuple[HCoordinate, ...] = H_COORDINATES
-    h_state_dim: int = 5  # one per coordinate
+    h_state_dim: int = 5  # declarative 5-D vocabulary (H5_DESIGN future); implemented scalar is 1 — see module docstring
     locality: str = "node"  # node-local vs population; initial = node
 
     def to_jaxfne_hdp_params(self) -> dict[str, Any]:

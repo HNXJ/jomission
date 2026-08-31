@@ -15,7 +15,7 @@ def make_runtime(
     *,
     h_enabled: bool = False,
     hdp_enabled: bool = False,
-    h_state_dim: int = 5,
+    h_state_dim: int = 1,  # M-06 scalar truth: default 1 (was 5 deprecated; 5-D is conceptual H5_DESIGN future, see h_state.py)
     seed: int = 0,
     record_edge_current: bool = False,
     record_dH_components: bool = False,

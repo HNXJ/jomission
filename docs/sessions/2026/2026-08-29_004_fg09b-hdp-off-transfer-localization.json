@@ -1,0 +1,254 @@
+{
+  "session_id": "2026-08-29_004_fg09b-hdp-off-transfer-localization",
+  "timestamp": "2026-08-29T20:00:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "manifests/w4a_blocker_seal.json",
+  "config_hash": "a51711101576c7c3",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "goal": "Does the delayed non-HDP realized-current bridge reproduce the apparent s_syn→I→V_m collapse where I_syn carries while V_m remains invariant, without materially changing fast-state dynamics?",
+  "acceptance": "POSITIVE if I_syn carries in 6/6 (d>0.5 p<0.05 I_corr>0.05) with V_m invariant in >=1/6 (|d|<0.5 p>0.05 I≈0) AND fast-state equivalent (Δbar<0.05 Hz ΔVm<0.02 mV passivity 0); else HETEROGENEOUS_PARTIAL if I carries but V_m small absolute 0.1-0.3 mV; else NEGATIVE_INSTANCE if I loses or non-equivalent",
+  "workers": [
+    {
+      "role": "Backfill",
+      "assignment": "Create FG-09b HDP-OFF bridge session report (15 sections + sidecar)",
+      "artifact": "docs/sessions/2026/2026-08-29_004_fg09b-hdp-off-transfer-localization.md",
+      "result": "done"
+    },
+    {
+      "role": "Backfill",
+      "assignment": "Validate session report",
+      "artifact": "docs/sessions/validate.py",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-09b",
+      "assignment": "Execute HDP-OFF delayed grouped bridge (MECHANISTIC/SUPPLEMENTARY, enable_hdp=False delays [20,80,120] G=748-759)",
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-09b",
+      "assignment": "Verify seams and hashes (builder clean, passivity, BLOCKED guard)",
+      "artifact": "scratch/fg01_U01_U02_verification.md",
+      "result": "done"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "manifests/w4a_blocker_seal.json",
+      "kind": "manifest",
+      "hash": "4b87066d061f684f"
+    },
+    {
+      "path": "manifests/gen2_modification_ledger.jsonl",
+      "kind": "ledger",
+      "hash": "GEN2_C022"
+    },
+    {
+      "path": "manifests/environment.json",
+      "kind": "manifest",
+      "hash": "environment"
+    },
+    {
+      "path": "scratch/fg09b_HDP_OFF_bridge.md",
+      "kind": "other",
+      "hash": "184lines"
+    },
+    {
+      "path": "scratch/fg09b_HDPOFF_bridge_raw.json",
+      "kind": "array",
+      "hash": "5cf6a7b834f14fe6"
+    },
+    {
+      "path": "scratch/fg09b_HDPOFF_bridge_runner.py",
+      "kind": "other",
+      "hash": "runner"
+    },
+    {
+      "path": "scratch/fg01_U01_U02_verification.md",
+      "kind": "other",
+      "hash": "U01U02"
+    },
+    {
+      "path": "scratch/jaxfne_issue_delayed_edge_current.md",
+      "kind": "other",
+      "hash": "287lines"
+    },
+    {
+      "path": "docs/sessions/2026/2026-08-29_004_fg09b-hdp-off-transfer-localization.md",
+      "kind": "other",
+      "hash": "markdown"
+    },
+    {
+      "path": "docs/sessions/2026/2026-08-29_004_fg09b-hdp-off-transfer-localization.json",
+      "kind": "other",
+      "hash": "json"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "I_syn Δ L4E→L23E grouped (W-B_proxy B-A)",
+      "value": 0.32995757584770524,
+      "units": "native",
+      "n": 24,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json:C019_s0"
+    },
+    {
+      "id": "Obs 6.1b",
+      "metric": "I_syn d and I_corr 6/6",
+      "value": 247.159117905532,
+      "units": "d (I_corr 0.675 bits p0.001 acc1.00)",
+      "n": 24,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json"
+    },
+    {
+      "id": "Obs 6.2",
+      "metric": "V_m,L23 Δ C021_s0 invariant",
+      "value": -0.012929280598958037,
+      "units": "mV",
+      "n": 24,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json:C021_s0"
+    },
+    {
+      "id": "Obs 6.2b",
+      "metric": "V_m d and p_perm C021_s0",
+      "value": -0.11011040766043095,
+      "units": "d (p0.827 I0.0 G0.013)",
+      "n": 24,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json:C021_s0"
+    },
+    {
+      "id": "Obs 6.3",
+      "metric": "G I→Vm C021_s0",
+      "value": 0.012917446757298277,
+      "units": "mV/native",
+      "n": 6,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json"
+    },
+    {
+      "id": "Obs 6.6",
+      "metric": "Δbar_r del_off - zero_off C019_s0",
+      "value": -0.02749919891357422,
+      "units": "Hz",
+      "n": 10000,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json:fast_stats"
+    },
+    {
+      "id": "Obs 6.7",
+      "metric": "ΔV_m del_off - zero_off",
+      "value": -0.00551605224609375,
+      "units": "mV",
+      "n": 10000,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json"
+    },
+    {
+      "id": "Obs 6.8",
+      "metric": "Δbar zero_off - zero_on max",
+      "value": 0.04500007629394531,
+      "units": "Hz (<0.4%)",
+      "n": 10000,
+      "artifact": "scratch/fg09b_HDPOFF_bridge_raw.json"
+    },
+    {
+      "id": "Obs 6.9",
+      "metric": "passivity grouped ON vs OFF ΔV_m Δspikes",
+      "value": 0.0,
+      "units": "mV / Hz G0",
+      "n": 6,
+      "artifact": "scratch/fg01_U01_U02_verification.md"
+    },
+    {
+      "id": "Obs 6.11",
+      "metric": "Row1+5 synthesis 2/6 strong +4/6 small absolute",
+      "value": 2.0,
+      "units": "cells Row1 (C021_s0 ideal)",
+      "n": 6,
+      "artifact": "scratch/fg09b_HDP_OFF_bridge.md:2"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "I_syn carries in 6/6 d>240 I0.67 while V_m invariant in important cases (C021_s0 d-0.11 p0.827 I0.0 G0.013) suggesting I→Vm bottleneck",
+      "verdict": "POSITIVE",
+      "level": "I→Vm leading candidate not yet canonical (fast-equiv PASS but U01b BLOCKED)"
+    },
+    {
+      "claim": "Canonical delayed+HDP grouped I[t,G] at [20,80,120]",
+      "verdict": "BLOCKED",
+      "level": "jaxfne/_model_simulate.py:280 MISSING_CAPABILITY"
+    },
+    {
+      "claim": "I_syn loses stimulus information (upstream syn failure)",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "0/6 loss d>240 all"
+    },
+    {
+      "claim": "Fast-state non-equivalence (HDP disabling confounds assay)",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "PASS Δbar<0.05 ΔVm<0.02 G0"
+    },
+    {
+      "claim": "Formal η_rec partitioned and Corr(I_private, I_L4→L23[t+τ])",
+      "verdict": "INCONCLUSIVE",
+      "level": "INSUFFICIENT_POWER requires FG-10 grouped partition"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "HDP_OFF delayed grouped bridge is identifying for fast dynamics (Δbar<0.05 Hz ΔVm<0.02 mV passivity 0) even though H differs — slow plasticity vs fast drive dissociation",
+      "trigger": "Fast-state equivalence PASS 6/6 including delay vs zero ±0.03 Hz",
+      "cause": "H/w slow (μ_total3.405) vs fast spikes/V_m via delayed kernel not H-dependent; passivity already computed",
+      "repair": "Use delayed non-HDP grouped segment_sum for mechanistic I→Vm localization; keep canonical BLOCKED labeled supplementary",
+      "evidence": "scratch/fg09b_HDPOFF_bridge_raw.json:Obs6.6-6.9 fg01_U01_U02_verification.md:33",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Current→V_m is heterogeneous graded shunting (G 0.013-0.85) not binary FAIL; single-seed risks overclaim",
+      "trigger": "C021_s0 G0.013 invariant vs C019_s0 G0.85 carrying but small 0.29 mV",
+      "cause": "Shunting/low-pass via a/b + I_bg λ + E/I duty cycle",
+      "repair": "Require full transfer_matrix.csv all C/seed × G and η_rec before typing",
+      "evidence": "scratch/fg09b_HDPOFF_bridge_raw.json:Obs6.3 scratch/fg09b_HDP_OFF_bridge.md:105",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "B_proxy surrogate must be flagged when window B outside array",
+      "trigger": "Simulation(duration 1000) starts at p1 0, B=[-50,0) not in array",
+      "cause": "Freeze vs simulation absolute clock offset",
+      "repair": "Use B_proxy [0,50) early p1 + raw mean(W) and document; fix freeze or simulation start for canonical",
+      "evidence": "scratch/fg09b_HDP_OFF_bridge.md:0 Note",
+      "scope": "project",
+      "confidence": "MED",
+      "persistence": "NO"
+    }
+  ],
+  "frictions": [
+    {
+      "friction": "Delayed+HDP grouped current MISSING_CAPABILITY at jaxfne/_model_simulate.py:280 + HDP seam lacks record_grouped_current",
+      "cause": "Upstream jaxfne HDP vs delay guard + _pipeline.py:395 HDP-only forwarding",
+      "workaround": "Use HDP_OFF delayed non-HDP grouped bridge (enable_hdp=False, delays [20,80,120]) as MECHANISTIC/SUPPLEMENTARY with fast-state equivalence check",
+      "permanent_repair": "HDP+delay grouped current support in jaxfne (Option A/B/C per jaxfne_issue_delayed_edge_current.md:200)"
+    },
+    {
+      "friction": "Window B surrogate: freeze B=[-50,0) not in Simulation(duration 1000) to_array, so use B_proxy=[0,50) early p1 pre-volley",
+      "cause": "Simulation starts at p1 0; fx -500..0 clipped",
+      "workaround": "Report mean(W)-mean(B_proxy) + raw mean(W); flag as MECHANISTIC supplementary limitation",
+      "permanent_repair": "Cross-ref simulation vs absolute clock in freeze documentation"
+    }
+  ],
+  "state_before": "W4a MECHANISM_OBSERVABILITY_BLOCKER: Visual→V1 L4 PASS Δ169 d803 acc1.00 but V1 L4→L2/3 FAIL Δ0.02 d0.13 acc0.542 invariant across 3 interventions (g_vertical, C020 Ne16→54, C021 PV/E 0.22→0.73); bottleneck localized to L4_E spikes→L2/3 response, missing chain spikes→I→Vm at [20,80,120] BLOCKED at _model_simulate.py:280; I→Vm hypothesis not yet canonical, U01b unresolved",
+  "state_after": "FG-09b HDP-OFF bridge supports I→Vm hypothesis with fast-state equivalence: I_syn 6/6 d>240 I0.67 while V_m invariant in important cases (C021_s0 d-0.11 p0.827 I0.0 G0.013) heterogeneous small 0.13-0.29 mV in 4/6; Δbar<0.03 Hz <0.4% ΔVm<0.02 mV passivity 0 → I→Vm leading candidate not yet canonical; canonical delayed+HDP still BLOCKED",
+  "next_action": "FG-10 DOF map — open FG-10 for delayed non-HDP grouped measurement with 0 new builder DOF: I[t,G≈16] via RuntimeConfig(enable_hdp=False, record_grouped_current) on frozen hashes + V_m + Corr(I_private, I_L4→L23[t+τ]) + dV/dI partitioned η_rec; produce transfer_matrix.csv (ready: FG-09b PASS, builder frozen; C_next FORBIDDEN until J)",
+  "score_before": 74,
+  "score_after": 74,
+  "config_hash": "a51711101576c7c3",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "secondary_next": "File jaxfne upstream issue for delayed+HDP grouped current (Option A: expose record_grouped_current in HDP path + lift guard) with repro scratch/fg09b_HDPOFF_bridge_runner.py",
+  "model_delta": "NO_MODEL_DELTA"
+}

@@ -1,0 +1,413 @@
+{
+  "session_id": "2026-08-29_002_w4a-propagation-and-observability-blocker",
+  "timestamp": "2026-08-29T12:00:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "manifests/w4a_blocker_seal.json",
+  "config_hash": "a51711101576c7c3",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "goal": "Can vertical intra-area gain scaling rescue V1 L4→L2/3→L5 information transmission and, if not, what mechanism observability interval blocks the next justified intervention?",
+  "acceptance": "POSITIVE if any g_vertical in [0.7,1.8] (11 uniform) or C020 or C021 makes V1 L2/3 carry with acc>0.5+2SE (0.703 at n=24) and |d|>0.5 and p<0.05 while Q_local hard feasible preserved; else NEGATIVE_INSTANCE with MECHANISM_OBSERVABILITY_BLOCKER if three hypothesis families each deliver but phenotype invariant",
+  "workers": [
+    {
+      "role": "W4a propagation agent",
+      "assignment": "Test g_vertical [0.7,1.8] 11 uniform + exc-only g5.0 scaling only M_vertical disjoint from M_rec/M_FF287/M_FB303 delays [20,80,120]",
+      "artifact": "scratch/w4a_g_vertical_receipt.md",
+      "result": "done — all 11 hard PASS but V1 L2/3 Δ0.02 d0.13 acc0.542 FAIL; exc-only g5.0 L23 acc0.562 FAIL"
+    },
+    {
+      "role": "C020 typed vertical agent",
+      "assignment": "Fix sparse recruitment + cancellation: vertical topology sigma0.08→0.12 max25→40 Ne16→54 + laminar×motif gains L4_E→L2/3_E×2.0",
+      "artifact": "scratch/gen2_C020_receipt.md",
+      "result": "done — delivered +38 edges C+0.26 cascade 7× but RF transmission FAIL"
+    },
+    {
+      "role": "C021 visual grammar agent",
+      "assignment": "Correct RF E/PV input grammar differential g_vis_PV 0.7 + interleaved tiling 0xC02A",
+      "artifact": "scratch/gen2_C021_receipt.md",
+      "result": "done — per-blob PV/E 0.73/0.64 Jaccard>0.3 PV 3.2× reduced but L2/3 FAIL"
+    },
+    {
+      "role": "W4a3 P1 reviewer",
+      "assignment": "Paired C020↔C021 frozen assay mediation + decoding 12×3 seed0,1 1000 perms LOO",
+      "artifact": "scratch/review_W4a3_P1_C021_transmission.md",
+      "result": "done — ΔM+2652 vs ΔY+0.02 α≈0 not mediated; no rescue"
+    },
+    {
+      "role": "W4a3 D adversary",
+      "assignment": "Alternative decoders pop-vector ISI Vm source q phi with permutation null",
+      "artifact": "scratch/review_W4a3_D_representation.md",
+      "result": "done — truly absent not rate-invisible LOO 0.708 p0.106 FAIL"
+    },
+    {
+      "role": "V0 V1 ontology agent",
+      "assignment": "Stratified ontology N_total128155 + ObservableBasis C→X→q→φ→y + Manifest V0=S∧N∧R∧P∧U∧D∧A",
+      "artifact": "jomission/visualization/model_summary.py",
+      "result": "done — verify_V0() True b2ae1c172a9f0311"
+    },
+    {
+      "role": "V0 V2 network agent",
+      "assignment": "Hierarchy/motif/spatial/RF Plotly figs with stratified sampling disclosure",
+      "artifact": "jomission/visualization/network_viz.py",
+      "result": "done — 1000/10590 disclosure log scaling"
+    },
+    {
+      "role": "V0 V3 run-report agent",
+      "assignment": "12-tab run-report + Transfer oscilloscope V1 L4 E→L2/3 current→Vm→spikes NOT OBSERVABLE",
+      "artifact": "jomission/visualization/transfer.py",
+      "result": "done — Transfer Function tab 6 panels"
+    },
+    {
+      "role": "V0 V4 adversary agent",
+      "assignment": "Label P0 field_proxy not LFP, EI_PROXY watermark, derived labels, ms axes, provenance footer",
+      "artifact": "jomission/visualization/manifest.py",
+      "result": "done — all V0 gates pass"
+    },
+    {
+      "role": "Seal agent",
+      "assignment": "Seal W4a as NEGATIVE/NO g_vertical* + MECHANISM_OBSERVABILITY_BLOCKER NO_MODEL_DELTA",
+      "artifact": "manifests/w4a_blocker_seal.json",
+      "result": "done — GEN2_C022 milestone W4A_MECHANISM_OBSERVABILITY_BLOCKER"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "manifests/w4a_blocker_seal.json",
+      "kind": "manifest",
+      "hash": "4b87066d061f684f"
+    },
+    {
+      "path": "manifests/gen2_modification_ledger.jsonl",
+      "kind": "ledger",
+      "hash": "GEN2_C022"
+    },
+    {
+      "path": "manifests/gen2_modification_ledger.json",
+      "kind": "ledger"
+    },
+    {
+      "path": "manifests/canonical_full_exposure_seal.json",
+      "kind": "manifest",
+      "hash": "e80d53817457dcba"
+    },
+    {
+      "path": "scratch/w4a_g_vertical_receipt.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/gen2_C020_receipt.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/gen2_C021_receipt.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/review_W4a3_P1_C021_transmission.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/review_W4a3_D_representation.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/jaxfne_issue_delayed_edge_current.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/review_W4a2_T1_topology.md",
+      "kind": "log"
+    },
+    {
+      "path": "scratch/w4a_blocker_seal.md",
+      "kind": "log"
+    },
+    {
+      "path": "jomission/visualization/transfer.py",
+      "kind": "other"
+    },
+    {
+      "path": "jomission/visualization/model_summary.py",
+      "kind": "other",
+      "hash": "b2ae1c172a9f0311"
+    },
+    {
+      "path": "jomission/visualization/observable_basis.json",
+      "kind": "other",
+      "hash": "9492ed125b95885e"
+    },
+    {
+      "path": "jomission/visualization/manifest.py",
+      "kind": "other"
+    },
+    {
+      "path": "jomission/visualization/network_viz.py",
+      "kind": "figure"
+    },
+    {
+      "path": "jomission/visualization/run_report.py",
+      "kind": "other"
+    },
+    {
+      "path": "results/agsdr_local_w4a/trace.jsonl",
+      "kind": "array"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "V1 L4 Δ (A-B)",
+      "value": 169.79,
+      "units": "Hz",
+      "n": 24,
+      "artifact": "scratch/w4a_g_vertical_receipt.md"
+    },
+    {
+      "id": "Obs 6.2",
+      "metric": "V1 L4_E source Δ",
+      "value": 368.03,
+      "units": "Hz",
+      "n": 24,
+      "artifact": "scratch/review_W4a3_P1_C021_transmission.md"
+    },
+    {
+      "id": "Obs 6.3",
+      "metric": "V1 L2/3 Δ (primary)",
+      "value": 0.02,
+      "units": "Hz",
+      "n": 24,
+      "artifact": "scratch/w4a_g_vertical_receipt.md"
+    },
+    {
+      "id": "Obs 6.4",
+      "metric": "V1 L2/3 Δ C020",
+      "value": -0.03,
+      "units": "Hz",
+      "n": 24,
+      "artifact": "scratch/gen2_C020_receipt.md"
+    },
+    {
+      "id": "Obs 6.5",
+      "metric": "V1 L2/3 Δ C021 paired |Δ| pooled",
+      "value": 0.04,
+      "units": "Hz",
+      "n": 48,
+      "artifact": "scratch/review_W4a3_P1_C021_transmission.md"
+    },
+    {
+      "id": "Obs 6.6",
+      "metric": "V1 L5 Δ",
+      "value": 0.09,
+      "units": "Hz",
+      "n": 24,
+      "artifact": "scratch/gen2_C020_receipt.md"
+    },
+    {
+      "id": "Obs 6.7",
+      "metric": "Q_local bar",
+      "value": 5.09,
+      "units": "Hz",
+      "n": 400,
+      "artifact": "scratch/w4a_g_vertical_receipt.md"
+    },
+    {
+      "id": "Obs 6.8",
+      "metric": "Vertical Γ_net L4→L2/3",
+      "value": 0.014,
+      "units": "ratio",
+      "n": 10590,
+      "artifact": "scratch/w4a_g_vertical_receipt.md"
+    },
+    {
+      "id": "Obs 6.9",
+      "metric": "V1 L2/3→L5 Ne/k/C",
+      "value": 54.0,
+      "units": "count",
+      "n": 54,
+      "artifact": "scratch/gen2_C020_receipt.md"
+    },
+    {
+      "id": "Obs 6.10",
+      "metric": "PV huge spiking B-PV reduction",
+      "value": 1226.0,
+      "units": "Hz",
+      "n": 3,
+      "artifact": "scratch/gen2_C021_receipt.md"
+    },
+    {
+      "id": "Obs 6.11",
+      "metric": "Paired mediation ΔM vs ΔY",
+      "value": 0.02,
+      "units": "Hz",
+      "n": 48,
+      "artifact": "scratch/review_W4a3_P1_C021_transmission.md"
+    },
+    {
+      "id": "Obs 6.12",
+      "metric": "Pop-vector resub acc",
+      "value": 0.792,
+      "units": "acc",
+      "n": 24,
+      "artifact": "scratch/review_W4a3_D_representation.md"
+    },
+    {
+      "id": "Obs 6.13",
+      "metric": "LOO rate acc",
+      "value": 0.708,
+      "units": "acc",
+      "n": 24,
+      "artifact": "scratch/review_W4a3_D_representation.md"
+    },
+    {
+      "id": "Obs 6.14",
+      "metric": "HDP+delay guard ValueError",
+      "value": 1.0,
+      "units": "bool",
+      "n": 400,
+      "artifact": "scratch/jaxfne_issue_delayed_edge_current.md"
+    },
+    {
+      "id": "Obs 6.15",
+      "metric": "V0 N_total",
+      "value": 128155.0,
+      "units": "counts",
+      "n": 400,
+      "artifact": "jomission/visualization/model_summary.py"
+    },
+    {
+      "id": "Obs 6.16",
+      "metric": "Visualization log scaling weight sigma",
+      "value": 1.08565,
+      "units": "log sigma",
+      "n": 10590,
+      "artifact": "jomission/visualization/network_viz.py"
+    },
+    {
+      "id": "Obs 6.17",
+      "metric": "Transfer oscilloscope L4→L2/3 current availability",
+      "value": 0.0,
+      "units": "categorical NOT OBSERVABLE",
+      "n": 6,
+      "artifact": "jomission/visualization/transfer.py"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "W4a g_vertical in [0.7,1.8] rescues V1 L2/3 projecting layer",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "acc 0.542 <0.703 and |d| 0.13 <0.5"
+    },
+    {
+      "claim": "C020 typed vertical microcircuit rescues V1 L2/3",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "acc 0.542 <0.703 d -0.34"
+    },
+    {
+      "claim": "C021 visual E/PV grammar correction rescues V1 L2/3",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "acc 0.417-0.542 <0.703 |d|<0.5"
+    },
+    {
+      "claim": "V1 L2/3 carries in alternative code (pop-vector ISI Vm)",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "LOO 0.708 p0.106 >0.05"
+    },
+    {
+      "claim": "Realized edge-current I_{L4→L2/3}(t) at delays [20,80,120] can be measured",
+      "verdict": "BLOCKED",
+      "level": "jaxfne/_model_simulate.py:280 + emitters.py:714"
+    },
+    {
+      "claim": "Next scientifically justified intervention can be selected from existing observables",
+      "verdict": "BLOCKED",
+      "level": "MECHANISM_OBSERVABILITY_BLOCKER"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "Vertical weight scaling cannot overcome sparse recruitment Ne16 k0.59 and E/I cancellation W_net 4.4×<W_exc",
+      "trigger": "All 11 g_vertical hard feasible but L2/3 acc flat 0.542 even exc-only g5.0 FAIL",
+      "cause": "k0.59 bottleneck C_vert0.444 Γ_net 0.014 25×<FF0.40",
+      "repair": "C020 supplemental topology sigma0.12 max40 Ne16→54 + typed W E→E×2.0 vs E→SST×0.7",
+      "evidence": "scratch/w4a_g_vertical_receipt.md:95 scratch/gen2_C020_receipt.md:109",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Per-blob co-recruitment PV/E∈0.5-2.0 Jaccard>0.3 is correct visual grammar but PV domination not vertical bottleneck",
+      "trigger": "C021 PV/E 0→0.73/0.64 PV 3.2× reduced but mediation α≈0",
+      "cause": "Lateral PV feedforward inhibition overwhelms carrier but does not mediate vertical transfer",
+      "repair": "Keep interleaved 0xC02A + visual_pv_gain0.7 as V1 input fix; not vertical lever",
+      "evidence": "scratch/gen2_C021_receipt.md:4.2 scratch/review_W4a3_P1_C021_transmission.md:60",
+      "scope": "project",
+      "confidence": "MED",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "NOT OBSERVABLE must be rendered literally when stage blocked by upstream capability",
+      "trigger": "jaxfne/_model_simulate.py:280 guard blocks I_edge at deployed delays",
+      "cause": "MISSING_CAPABILITY/DOCUMENTATION_GAP requires visible provenance not manual typing",
+      "repair": "Transfer oscilloscope 6-panel chain with machine-derived NOT OBSERVABLE banner from delay_steps>0",
+      "evidence": "scratch/jaxfne_issue_delayed_edge_current.md:1 jomission/visualization/transfer.py",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Truly absent vs rate-invisible requires LOO + multiple decoders + Vm + source q diagnostic",
+      "trigger": "Resub pop-vector 0.917 p0.001 but LOO 0.708 p0.069 FAIL",
+      "cause": "High-D vs n=24 overfit; averaging artifact q variance 100× smaller",
+      "repair": "Keep D adversary protocol rate + pop-vector + ISI + Vm with 1000 perms + LOO",
+      "evidence": "scratch/review_W4a3_D_representation.md:2.1",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "V0 ontology N_model≠N_free≠N_AGSDR prevents conflating numbers vs tunable scalars",
+      "trigger": "N_total128155 vs N_static57351 vs N_free24 vs N_AGSDR5 confusion",
+      "cause": "Derived delay_steps/lognormal sigma vs configured gains conflated",
+      "repair": "ModelSummary stratified table + ObservableBasis C→X→q→φ→y + V0=S∧N∧R∧P∧U∧D∧A gate",
+      "evidence": "scratch/vis_V0_ontology.md:1 jomission/visualization/manifest.py",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    }
+  ],
+  "frictions": [
+    {
+      "friction": "Delayed edge-current recording unavailable at finite delays [20,80,120] (record_edge_current HDP-only, guard at jaxfne/_model_simulate.py:280)",
+      "cause": "Upstream JaxFNE HDP+delay incompatibility emitters.py:714 lacks param _pipeline.py:395 HDP-only",
+      "workaround": "Render transfer oscilloscope stage as NOT OBSERVABLE banner machine-derived from delay_steps>0; retain PROXY W·r·τ flag",
+      "permanent_repair": "JAXFNE_UPSTREAM Options A/B/C per jaxfne_issue_delayed_edge_current.md:200"
+    },
+    {
+      "friction": "Repeated failed g_vertical search invites guessing next lever without observable",
+      "cause": "Mechanism observability blocker interval L4_E spikes→L2/3 Vm opaque",
+      "workaround": "Seal W4a as MECHANISM_OBSERVABILITY_BLOCKER NEGATIVE/NO g_vertical* gate W4b/W4c/W5 parallelize J∥M∥D",
+      "permanent_repair": "PROJECT_RULE W4 gating rule"
+    },
+    {
+      "friction": "Heavy-tailed weight CV1.5 and 4-order H tau unreadable on linear",
+      "cause": "Log mapping needed",
+      "workaround": "sign·log1p(|W|/1e-6) and log10 tau with linear CV/rho per sampling_utils",
+      "permanent_repair": "VISUALIZATION sampling_utils already implemented"
+    }
+  ],
+  "state_before": "C019 65b302e8c7cdceb5 theta* hard feasible y_bar_4 5.72±0.72; W4a needs another intervention expecting g_vertical or topology to rescue L2/3",
+  "state_after": "Sealed W4a MECHANISM_OBSERVABILITY_BLOCKER NEGATIVE/NO g_vertical* at C021 a5171110→a5171110 zero-delta NO_MODEL_DELTA milestone W4A_MECHANISM_OBSERVABILITY_BLOCKER; V0 b2ae1c172a9f0311 true with ontology N_total128155 + transfer oscilloscope NOT OBSERVABLE",
+  "next_action": "Parallelize J∥M∥D IN PROGRESS — (J) Upstream JaxFNE fix to expose I_{L4_E→L2/3}(t)=W·syn_state(t-delay) at delays [20,80,120] (M-06 parallel for H/Theta); (M) No builder science mutation until I_edge available keep a5171110 frozen with transfer oscilloscope NOT OBSERVABLE provenance; (D) Retain paired seeds 0,1 ×12×3 RF 32×32 window 100-531ms 1000 perms + LOO frozen assay for future disambiguation",
+  "score_before": 72,
+  "score_after": 73,
+  "config_hash": "a51711101576c7c3",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "secondary_next": "If upstream remains blocked long-term, design synthetic C(k)=1-exp(-k) sweep for L2/3→L5 k targets (Ne16@0.59→135@5.0 C0.993) and laminar×motif gains as candidate pool only, not implementation, still requires I_edge to rank",
+  "model_delta": "NO_MODEL_DELTA",
+  "visualizations": [
+    "jomission/visualization/transfer.py",
+    "jomission/visualization/network_viz.py",
+    "jomission/visualization/run_report.py"
+  ]
+}

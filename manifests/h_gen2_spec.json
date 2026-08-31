@@ -1,0 +1,113 @@
+{
+  "spec_id": "H_Gen2_scalar_v1",
+  "ontology_version": "GEN-2 H_Gen2 v1.0 — scalar truth",
+  "decision": "H_Gen2 = scalar h in R per neuron (shape (n_neurons,) / (n_steps,n_neurons)), NOT vector R^5",
+  "decision_statement": "Gen-2 H is a single history-state scalar h_i(t) in [H_min,H_max]=[0.1,10] per neuron i, integrated as tau_i * dh_i/dt = F(H_i, r_i, W, I_syn, ...) with tau_i = tau_0_ms * size_i^3. The five taus [0.1,1,10,100,1000]s in jomission/dynamics/h_state.py:28 are conceptual vocabulary (future design), not implemented dimensions. No hybrid description is admissible.",
+  "status": "OBSERVED (M-06 sealed via G-phase docstring qualifier) — 2026-08-29 check_h_terminology() RESOLVED; scalar h unambiguous across h_state.py, builder.py, docs, gen2_gates.py",
+  "m06_seal": {
+    "sealed_timestamp": "2026-08-29T04:00:00Z",
+    "sealed_by": "TODO-10 M-06 G-phase",
+    "h_state_py": "jomission/dynamics/h_state.py:1-15 M-06 scalar qualifier — conceptual vs implemented, 1-D H truth, H5_DESIGN future/not implemented",
+    "builder_py": "jomission/network/builder.py:1-14 M-06 scalar note — scalar by omission, grep 0 hits, H5 conceptual not forwarded",
+    "default_json": "jomission/configs/default.json:13-22 conceptual_vocabulary_not_consumed annotation — H_Gen2 scalar, H5 dead vocabulary",
+    "plasticity_py": "jomission/dynamics/plasticity.py:14-18 default h_state_dim 5->1 deprecated; scalar truth",
+    "gen2_gates_py": "jomission/qualification/gen2_gates.py:247-320 check_h_terminology RESOLVED after qualifier; B0 can advance to PASS",
+    "verification": "python -c 'from jomission.qualification.gen2_gates import check_h_terminology; print(check_h_terminology())' -> mismatch False"
+  },
+  "supersedes": "h_state.py:28 5-D conceptual declaration as if implemented; retains 5-coord as documentation only",
+  "rejected_alternative": "H_Gen2 in R^5 (five independent ODEs with diagonal or full 5x5 coupling) — requires new emitter kernel, config, hashes, recording, and B7 estimands; not feasible before W5 and breaks tau_0 Rate proof (docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md:57-66)",
+  "no_hybrid_rule": "Exactly one ontology is canonical. Prohibited: 'scalar truth with 5-D alias', 'h_state_dim=5 but diagonal coupling equals scalar', '5 vocabulary + scalar truth without qualifier'. Any such hybrid fails gen2_gates.py:289 forbidden phrase check.",
+  "chain_table": [
+    {
+      "stage": "1_conceptual",
+      "artifact": "H_COORDINATES + HStateConfig",
+      "file": "jomission/dynamics/h_state.py:28-69",
+      "detail_file": "jomission/dynamics/h_state.py:73-77 h_state_dim=5, jomission/dynamics/h_state.py:80-87 to_jaxfne_hdp_params()",
+      "companion_dead": "jomission/configs/default.json:13-16 h_state:{h_state_dim:5, taus_s:[0.1,1,10,100,1000], locality:node} — unconsumed; jomission/dynamics/plasticity.py:18 default h_state_dim=5 unconsumed; jomission/dynamics/hdp.py:29 h_state_dim:2 note for Theta controller only",
+      "declared": "5-D h in R^5, taus 0.1/1/10/100/1000s, locality node, couplings {threshold,efficacy,gain,inter-area,prior} per h_state.py:32-68",
+      "realized": "declarative type only; validate() checks h_state_dim==5 but never invoked by builder",
+      "verdict": "5-D conceptual ONLY",
+      "hash_visible": false
+    },
+    {
+      "stage": "2_config",
+      "artifact": "Configuration + config_hash",
+      "file": "jomission/network/builder.py:337-688 build_jomission_network; jomission/network/builder.py:778-805 build_jomission_model (no HStateConfig forwarding)",
+      "hash_impl": "site-packages/jaxfne/io.py:42-46 config_hash = sha256(json_safe(cfg))[:16]",
+      "declared": "builder documents H is NOT homeostasis via DynamicState but declares no h_state_dim",
+      "realized": "grep builder.py for h_state_dim => 0 hits; live cfg.metadata keys contain no h_state_dim/h_taus_s; build_jomission_model() chain (spatial/vertical/motif/lognormal/tonic/PV/delays) never reads HStateConfig",
+      "verdict": "scalar by omission",
+      "hash_visible": true,
+      "hash_note": "absence is attested; frozen values 4f9fdeae7428199a RF-off / e5e331a140ebd37e RF-on per manifests/factorial_v0p2_design.json:35; any h_state_dim=5 would change config_hash => requires Ledger + P5_identity_hashes re-freeze"
+    },
+    {
+      "stage": "3_kernel",
+      "artifact": "HDP emitter ODE",
+      "file_live": "site-packages/jaxfne/emitters.py:3703 tau_i = tau_0_ms * size_arr^3 (canonical cite emitters.py:3197 per task)",
+      "supporting": "site-packages/jaxfne/emitters.py:3356 h_state_dim:int=1 default; emitters.py:3273 DEFAULT_HDP_SIZE_SCALE_BY_CELL_TYPE {E:5,PV:1,SST:1.5,VIP:1.5}; emitters.py:3600-3602 h_state_dim docs (n_neurons,h_state_dim); emitters.py:3634-3643 validation; emitters.py:3386 tau_i*dH/dt equation; docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md:57-59 tau_i* dH/dt + H_next=clip(H+(dt/tau_i)*dH)",
+      "declared": "vector capability h_state_dim>1 with h_state_readout/h_state_coupling 5x5 exists but dormant",
+      "realized": "live path: tau_i = tau_0_ms*size_arr^3 (E 125*tau0, PV 1*tau0, SST/VIP 3.375*tau0) then scalar H_next per neuron; zero of the five per-coordinate couplings (threshold/efficacy/gain/inter-area/prior) from h_state.py:32-68 exist as separate ODEs",
+      "verdict": "scalar (1-D kernel; vector capability never invoked with 5)",
+      "hash_visible": false,
+      "hash_note": "kernel h_state_dim supplied via hdp_params, default 1 if absent"
+    },
+    {
+      "stage": "4_runtime",
+      "artifact": "RuntimeConfig + DynamicState + ContinuationState",
+      "file": "jomission/simulation/factorial_v0p2.py:42-46 hp_for() patches only K_HDP/tau_0_ms; factorial_v0p2.py:82 RuntimeConfig(enable_hdp=True,hdp_params=hp); factorial_v0p2_fast.py:130-131 dynamic_state_from_model(h_state_dim=hp.get(...,1))",
+      "runtime_impl": "site-packages/jaxfne/_pipeline.py:48-69 DynamicState(v,u,prev_spikes,syn_state,H,w) with H: (n_neurons,) scalar or (n_neurons,d_H) vector per _pipeline.py:68; _pipeline.py:72-89 ContinuationState.dynamic.H opaque scalar leaf d_H=1 special case; _pipeline.py:266-310 dynamic_state_from_model() default h_state_dim=1; _pipeline.py:582 compile_step_fn default; jaxfne/_model_simulate.py:83 hp.get(h_state_dim,1)",
+      "declared": "hp = v1_pfc_aaab_hdp_params() => {K_HDP 0.0/0.003, tau_0_ms 5.0/1000.0, ...} without h_state_dim",
+      "realized": "hp keys live contain no h_state_dim => pipeline default 1 => DynamicState.H shape (400,) scalar per 100/area; ContinuationState carries scalar H per step; checked live H.shape (400,) vs (400,5) if h_dim=5 (proof not exercised)",
+      "verdict": "scalar per neuron",
+      "hash_visible": true,
+      "hash_note": "hp_hash = sha256(json(hp))[:16] per factorial_v0p2.py:81; frozen bb8277e7a8e0bca2/f72a489841810a4b/f327f9d2ad64cc88/b326f7201c59b803; adding h_state_dim=5 would change all four hp_hash and fork design"
+    },
+    {
+      "stage": "5_recording",
+      "artifact": "H_trace + dense persistence",
+      "file": "site-packages/jaxfne/emitters.py:3608-3611 diagnostics_dict H_trace (n_steps,n_neurons) scalar or (n_steps,n_neurons,h_state_dim) vector; site-packages/jaxfne/_pipeline.py:542-553 stacking; jomission/recording/observables.py:14 H(t) scalar; jomission/visualization/observable_basis.json:54-64 dimensionality (n_neurons,) scalar (conceptual 5 dims); exec_C_RFoff_RateSlow.py:288 and exec_D_RFon_RateSlow.py:347 H_t_dense.npz scalar",
+      "declared": "observable_basis.json:54 labels H as scalar with conceptual 5-dims note, provenance h_state.py:28 + _pipeline.py DynamicState.H — correctly scalar",
+      "realized": "all frozen runs emit H_trace (n_steps,n_neurons) scalar; saves {H_trace,dt_ms,tau_0_ms,tau_eff_s}; B7 expects scalar fit gen2_gates.py:191 tau_H E ~4.1s [2,8]s etc",
+      "verdict": "scalar",
+      "hash_visible": true,
+      "hash_note": "H_trace rank attests dimensionality"
+    }
+  ],
+  "conceptual_biology_rewrite": "The five taus [0.1,1,10,100,1000]s and their domain/coupling labels (H_fast 0.1s threshold / H_medium 1s synaptic resource / H_slow 10s gain / H_very_slow 100s contextual sequence / H_context 1000s prior) per h_state.py:32-68 are retained as interpretive labels for where a single scalar history state manifests, not as five independently integrated coordinates. No separate ODE or coupling term for each coordinate exists in the executed engine. Future H_Gen3 may promote this vocabulary to true R^5 with explicit coupling matrix; Gen-2 does not.",
+  "implications": {
+    "config_hash": "unchanged scalar baseline by omission; injecting any h_state_dim/h_taus_s/h_state_coupling 5x5 would change config_hash from frozen 4f9fdeae7428199a / e5e331a140ebd37e and require Ledger edge + re-freeze per P5_identity_hashes (manifests/factorial_v0p2_design.json:466-478). Verification: jaxfne/io.py:42 hashes entire cfg.metadata; grep confirms no h_state_dim in metadata.",
+    "hp_hash": "unchanged scalar; hp currently {K_HDP,K_ctrl,K_w_ctrl,tau_0_ms,alpha,gamma,...} without h_state_dim; adding vector dims would change all four cell hp_hash (bb8277..., f72a..., f327..., b326...) and invalidate factorial_v0p2_design.json:474-479. Rate factor (tau_0_ms 5->1000, 200x) remains the sole plasticity-rate knob; hp_hash preserves its algebra.",
+    "storage": "scalar H_trace (n_steps,n_neurons) float32 ~74MB per trial at 46240 steps*400 neurons; vector 5-D would be 5x (~370MB/trial) and 5x H_history over 740-trial factorial => OOM and 5x scan cost; w_trace (n_steps,n_edges) already OOM-risk per emitters.py:3608 doc; no storage change under scalar decision.",
+    "coupling": "existing kernel supports optional h_state_coupling (h_state_dim,h_state_dim) matmul added to componentwise dH (emitters.py:3605-3697); with h_state_dim=1 it is zero (scalar). 5-D would require 5x5 coupling specification (currently zeros) and new readout semantics for weight updates; scalar decision leaves coupling at zero and avoids any new 25-parameter matrix.",
+    "tau_0_Rate_proof": "docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md:57-66 proves tau_i divides dH/dt only and drops out of fixed point: dH=0 => H* independent of tau_i; tau_0_ms scales tau_eff = tau_i/(K_ctrl+gamma<r>) linearly. Valid for scalar tau_i = tau_0*size^3 (E 125x, PV 1x per emitters.py:3703). 5-D would need five tau_i(k) and five fixed points; scalar proof holds as frozen; Rate slow tau_0_ms 5->1000 (200x) => tau_eff E 4.1s->833s (76% at 1200s) per factorial_v0p2_design.json:57-68 without altering H* or w* conditioned on H."
+  },
+  "gate_impact": {
+    "B0": "gen2_gates.py:109-115 h_terminology_gate and gen2_gates.py:247-320 check_h_terminology() currently mismatch=True => seal_predicate_B0() gen2_gates.py:326-370 => B0_UNRESOLVED (not FAIL) with limitation 'H_conceptual vs H_implemented mismatch — see M-06'. After M-06 scalar qualifier docstring lands in h_state.py:1-8, has_conceptual_vs_implemented_qualifier becomes True => mismatch=False => B0 can advance to PASS subject to provenance_coverage/dead_key/hash_stability.",
+    "B7": "B7 thresholds unchanged: R2>0.7, tau_E in [2,8]s canonical (tau LONG 833s if tau_0_ms 1000), DeltaH>0.01 d>0.5, corr(H,r)>0.5, tau_rec within 50% tau_H per gen2_gates.py:191. B7 estimand is scalar H(t)=H_inf-(H_inf-H0)exp(-t/tau_H); no 5x fits.",
+    "B8_B9": "Theta acquisition/saturation/retention and H/Theta intervention slopes remain scalar-H conditioned; no Theta redefinition needed (Theta remains adaptive plastic state per jomission/dynamics/hdp.py:14-22, theta_dim=2 population per hdp.py:29 note, not H dimensionality)."
+  },
+  "required_docstring_qualifier_G_phase": "Prepend to jomission/dynamics/h_state.py:1-8: 'GEN-2 IMPLEMENTATION NOTE (M-06): H_Gen2 is scalar h in R per neuron (h_state_dim=1) with tau_i = tau_0_ms * size^3 (emitters.py:3703). The five HCoordinate entries below are conceptual vocabulary and future design, not five implemented dimensions. Do not claim 5 independent H timescales are implemented.' Also annotate or remove jomission/configs/default.json:13-16 h_state block as conceptual_vocabulary_not_consumed, and correct jomission/dynamics/plasticity.py:18 default 5->1 (or deprecate). No builder/kernel mutation.",
+  "w5_obligation": "W5 H/Theta system-ID must characterize the ACTUAL scalar h before considering any multidimensional extension: fit scalar H(t) exponential to dense H_trace to obtain tau_H per cell type (E~4.1s, PV~0.03s, SST/VIP~0.11s at tau_0=5; 200x slow variant at tau_0=1000), measure DeltaH amplitude and significance, verify recovery tau_rec within 50% of tau_H, report correlation(H,r) and H_summary extrema bounds [0.1,10]. Only after scalar identification may a future spec propose R^5 with distinct tau_k and coupling matrix, which would then require new kernel, new config_hash/hp_hash, new recording rank, and re-qualification.",
+  "citations": [
+    "jomission/dynamics/h_state.py:28-69 H_COORDINATES 5-D conceptual",
+    "jomission/dynamics/h_state.py:73-77 HStateConfig h_state_dim=5",
+    "jomission/configs/default.json:13-16 h_state dead block",
+    "jomission/dynamics/plasticity.py:18 default h_state_dim=5 (misleading)",
+    "jomission/dynamics/hdp.py:29 h_state_dim=2 note (Theta, not H)",
+    "jomission/network/builder.py:337-688 no h_state_dim forwarding",
+    "jomission/network/builder.py:778-805 build_jomission_model no HStateConfig",
+    "site-packages/jaxfne/io.py:42 config_hash impl",
+    "site-packages/jaxfne/emitters.py:3356 h_state_dim=1 default, 3197/3703 tau_i=tau_0*size^3, 3600-3611 H_trace rank, 3634 validation",
+    "site-packages/jaxfne/_pipeline.py:48-69 DynamicState, 68 H scalar comment, 266 default h_state_dim=1, 582 compile_step_fn",
+    "site-packages/jaxfne/_pipeline.py:72-89 ContinuationState scalar leaf",
+    "jomission/simulation/factorial_v0p2.py:42-46 hp_for never forwards h_state_dim",
+    "jomission/qualification/gen2_gates.py:109 h_terminology_gate, 247 check_h_terminology, 326 seal_predicate_B0",
+    "docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md:57-59 tau_i dH/dt + H_next, 133-173 Rate proof",
+    "manifests/factorial_v0p2_design.json:57-68 tau proof + 35-36 frozen hashes",
+    "exec_C_RFoff_RateSlow.py:288 and exec_D_RFon_RateSlow.py:347 H_t_dense scalar"
+  ],
+  "author": "M-06 H Ontology Specification Agent (R Prepare, parallel to W4)",
+  "timestamp": "2026-08-29T00:00:00Z",
+  "workspace": "/Users/hamednejat/workspace/computational/jomission",
+  "mode": "R — read-only prepares spec; no builder mutation beyond this manifest and seal md"
+}

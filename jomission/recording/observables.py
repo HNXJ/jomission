@@ -24,7 +24,133 @@ REQUIRED_OBSERVABLES = {
 }
 
 # Optional observables that do not block recorder ownership but are needed for B3/B4 when requested
-OPTIONAL_OBSERVABLES = {"I_edge_current"}
+OPTIONAL_OBSERVABLES = {"I_edge_current", "I_grouped_current"}
+
+# --- U02 grouped current API proposal ---
+# Conceptual API (documented in scratch/jaxfne_U02_grouped.md:):
+#   record_currents = EdgeCurrentRecording(mode="grouped", group_by=("area","layer","class"), reducers=("sum","mean"))
+#   # mode="edges" for raw I[t,E] (opt-in 0.79 GiB at 20k×10.6k), mode="grouped" for I[t,G] (O(n_steps×G) ~0.6 MiB at 10k×16)
+#   # grouped is passive reduction of same raw quantity: grouped[t,g] = segment_sum(edge_current[t], edge_group_ids, G)[g]
+#   # For W4 production, need at minimum I_{V1,L4,E→V1,L2/3,E}(t) alongside PV/SST components, G≈16 vs E=10590
+# Separately, low-level JaxFNE seam is record_grouped_current=True + edge_group_ids + grouped_num_segments at
+#   jaxfne/emitters.py:714 (delayed) and jaxfne/_model_simulate.py:386 (non-HDP dispatch) via RuntimeConfig(hdp_params={...})
+
+from dataclasses import dataclass
+from typing import Literal, Sequence, Tuple
+
+@dataclass(frozen=True)
+class EdgeCurrentRecording:
+    """Conceptual API for edge-current recording (passive, no dynamics change).
+
+    Mirrors the proposal in jaxfne_issue_delayed_edge_current_v2.md §5 Option A-grouped.
+
+    Attributes:
+        mode: "edges" for raw I[t,E] or "grouped" for I[t,G] reduction.
+        group_by: tuple of neuron_table keys to group by (e.g. ("area","layer","class")).
+                  For W4 motif-level, ("area","layer","class") yields ~16 groups
+                  (V1 L4 E/PV/SST/VIP → V1 L2/3 E/PV etc.) vs E=10590.
+        reducers: aggregation per group, "sum" and/or "mean" (mean = sum / count).
+        record_raw: if True with mode="grouped", also emit raw edge_current_trace
+                    alongside grouped (both traces); otherwise grouped only.
+
+    Production (W4 mechanistic replay) should use mode="grouped" to avoid
+    0.79GiB overhead (20k×10590×4B) and keep 0.6MiB (10k×16×4B). Raw remains opt-in
+    mechanistic mode via mode="edges".
+    """
+    mode: Literal["edges", "grouped"] = "grouped"
+    group_by: Tuple[str, ...] = ("area", "layer", "class")
+    reducers: Tuple[str, ...] = ("sum", "mean")
+    record_raw: bool = False
+
+    def to_hdp_params(self, edge_group_ids=None, grouped_num_segments=None, **extra):
+        """Translate to low-level JaxFNE hdp_params dict for RuntimeConfig."""
+        d = dict(extra)
+        if self.mode == "edges":
+            d["record_edge_current"] = True
+        elif self.mode == "grouped":
+            d["record_grouped_current"] = True
+            if edge_group_ids is not None:
+                d["edge_group_ids"] = edge_group_ids
+            if grouped_num_segments is not None:
+                d["grouped_num_segments"] = grouped_num_segments
+        if self.record_raw and self.mode == "grouped":
+            d["record_edge_current"] = True
+        return d
+
+
+def build_edge_group_ids(
+    edge_list,
+    neuron_table,
+    *,
+    group_by: Sequence[str] = ("area", "layer", "class"),
+    target_filter: dict | None = None,
+) -> tuple["np.ndarray", list[str], dict[str, int]]:
+    """Build edge_group_ids int[n_edges] for motif-level grouping.
+
+    For each edge e: pre= edge_list.pre[e], post= edge_list.post[e]
+    Group key is derived from pre/post neuron metadata per group_by fields.
+    Default group_by=("area","layer","class") yields key
+        f"{pre_area}×{pre_layer}×{pre_class}->{post_area}×{post_layer}×{post_class}"
+    which for W4 gives G≈16-64 (vs E=10590). Specific W4 need:
+        I_{V1,L4,E→V1,L2/3,E} alongside PV/SST components (L4_{E/PV/SST/VIP}→L2/3_{E/PV}).
+
+    Args:
+        edge_list: EdgeList with .pre/.post (int[n_edges])
+        neuron_table: list[dict] from model.static["neuron_metadata"]
+        group_by: fields to include in key (area, layer, class/subtype/cell_type)
+        target_filter: optional dict to keep only edges matching filter, e.g.
+            {"target_area": "V1", "target_layer": "L2/3"} — edges not matching
+            get a separate catch-all group or can be masked externally.
+            For minimal W4, caller can filter to L4→L2/3 after building full ids.
+
+    Returns:
+        edge_group_ids: np.ndarray int[n_edges] in [0,G)
+        group_names: list[str] length G, ordered by first appearance
+        group_counts: dict group_name -> count (for mean reducer: mean = sum / count)
+
+    Implementation: single segment_sum width G << E, passive reduction.
+    No second simulator; edge_current quantity is same w*syn_state.
+    """
+    import numpy as np
+    pre = np.asarray(edge_list.pre, dtype=int)
+    post = np.asarray(edge_list.post, dtype=int)
+    n_edges = int(pre.shape[0])
+    # Normalize group_by aliases: class <-> cell_type, subtype extra
+    key_fields = []
+    for f in group_by:
+        if f in ("class", "cell_type", "subtype"):
+            key_fields.append("cell_type")
+        else:
+            key_fields.append(f)
+    group_names: list[str] = []
+    name_to_idx: dict[str, int] = {}
+    edge_group_ids = np.zeros(n_edges, dtype=np.int32)
+    group_counts: dict[str, int] = {}
+    for ei in range(n_edges):
+        pre_id = int(pre[ei])
+        post_id = int(post[ei])
+        pre_meta = neuron_table[pre_id] if 0 <= pre_id < len(neuron_table) else {}
+        post_meta = neuron_table[post_id] if 0 <= post_id < len(neuron_table) else {}
+        def _tok(meta, fields):
+            parts = []
+            for fd in fields:
+                if fd == "cell_type":
+                    v = meta.get("cell_type", meta.get("class", "?"))
+                else:
+                    v = meta.get(fd, "?")
+                parts.append(str(v))
+            return "×".join(parts)
+        pre_tok = _tok(pre_meta, key_fields)
+        post_tok = _tok(post_meta, key_fields)
+        k = f"{pre_tok}->{post_tok}"
+        if k not in name_to_idx:
+            name_to_idx[k] = len(group_names)
+            group_names.append(k)
+            group_counts[k] = 0
+        gid = name_to_idx[k]
+        edge_group_ids[ei] = gid
+        group_counts[k] += 1
+    return edge_group_ids, group_names, group_counts
 
 # Recorder ownership check: must be able to produce all before long runs
 def assert_recorder_owns(available: set[str]) -> list[str]:

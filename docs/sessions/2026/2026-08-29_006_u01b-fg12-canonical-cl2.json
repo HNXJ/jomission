@@ -1,0 +1,71 @@
+{
+  "session_id": "2026-08-29_006_u01b-fg12-canonical-cl2",
+  "timestamp": "2026-08-29T23:00:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "manifests/gen2_modification_ledger.jsonl:GEN2_C021",
+  "goal": "U01b delayed+HDP canonical CL2 transfer matrix",
+  "acceptance": "PASS if delayed+HDP ON\u2261OFF and grouped semantics verified and canonical transfer matrix with S4",
+  "workers": [
+    {
+      "role": "TODO-1 U01b",
+      "assignment": "delayed+HDP grouped",
+      "action": "edit jaxfne",
+      "artifact": "scratch/todo1_U01b.md",
+      "result": "PASS"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "scratch/todo1_U01b.md",
+      "kind": "other",
+      "hash": "3cea156c3cdde87c"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "pilot T1",
+      "value": 147,
+      "units": "Hz",
+      "n": 8,
+      "artifact": "results/todo3_canonical/pilot.json"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "U01b PASS",
+      "verdict": "POSITIVE",
+      "level": "OBSERVED"
+    },
+    {
+      "claim": "FG-12 pilot transfer matrix",
+      "verdict": "POSITIVE",
+      "level": "OBSERVED"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "HDP-OFF identifying for fast",
+      "trigger": "",
+      "cause": "",
+      "repair": "",
+      "evidence": "",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    }
+  ],
+  "frictions": [
+    {
+      "friction": "delayed+HDP guard",
+      "cause": "HDP vs delay",
+      "workaround": "ring buffer",
+      "permanent_repair": "JAXFNE_UPSTREAM"
+    }
+  ],
+  "state_before": "W4a BLOCKED_ON_OBSERVABILITY S_visual\u2192spikes_L4E \u2713 \u2192 D_t\u2192s_syn \u2713 proxy \u2192 I_syn UNRESOLVED \u2192 V_m no info",
+  "state_after": "U01b PASS enables canonical delayed+HDP grouped 0.6MiB passive, pilot S\u2192L4E PASS \u2192 I_syn PASS G0.008 \u2192 V_m ns \u2192 spikes PASS",
+  "next_action": "Complete FG-12 S4 N24",
+  "score_before": 74,
+  "score_after": 74
+}

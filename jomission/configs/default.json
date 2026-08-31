@@ -11,6 +11,7 @@
   "emitter": "izhikevich",
   "n_contacts": 16,
   "h_state": {
+    "_note": "conceptual_vocabulary_not_consumed — H5_DESIGN future/not implemented; H_Gen2 = scalar h (h_state_dim=1) via emitters.py tau_i=tau0*size^3; 5 taus are vocabulary only, not consumed by builder (see h_state.py M-06, h_gen2_spec.json H_Gen2_scalar_v1)",
     "taus_s": [0.1, 1, 10, 100, 1000],
     "locality": "node",
     "h_state_dim": 5

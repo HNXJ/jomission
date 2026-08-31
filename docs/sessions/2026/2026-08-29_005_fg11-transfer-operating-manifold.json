@@ -1,0 +1,343 @@
+{
+  "session_id": "2026-08-29_005_fg11-transfer-operating-manifold",
+  "timestamp": "2026-08-29T22:00:00Z",
+  "code_sha": "f9af396a0235f405eb75d786b01d89166c7f2a9a",
+  "parent_model": "manifests/gen2_modification_ledger.jsonl:GEN2_C019",
+  "config_hash": "be9b96ab679c9802",
+  "hp_hash": "f327f9d2ad64cc88",
+  "branch": "main",
+  "goal": "Does a current-based Gen-2 architecture admit a locally qualified operating manifold that transmits stimulus information from V1 L4 to L2/3 demonstrating that w4a vertical failure is an operating-regime problem rather than structural impossibility at supplementary HDP-OFF level?",
+  "acceptance": "POSITIVE (as SUPPLEMENTARY_TRANSFER_CANDIDATE only) if exists theta with I(S;V_L23)>0 (I_corr>0.05 bits p<0.05 KSG k=3 shuffle500) AND I(S;spk_L23)>0 AND G_I->V elevated vs C021_s0 0.013 with Q_C019 hard preserved (bar in [3,15] rho<0.60 P>=0.15 max>=1.5 Fano in [0.7,2]) and A_rec measured not hard; canonical promotion requires FG-12 condition 6 delayed+HDP reproduction once U01b solved \u2014 not evaluated here",
+  "workers": [
+    {
+      "role": "Backfill",
+      "assignment": "Create FG-11 session report (15 sections + sidecar)",
+      "artifact": "docs/sessions/2026/2026-08-29_005_fg11-transfer-operating-manifold.md",
+      "result": "done"
+    },
+    {
+      "role": "Backfill",
+      "assignment": "Validate session report",
+      "artifact": "docs/sessions/validate.py",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-11 N0",
+      "assignment": "Execute N0 24xS1 LHS HDP-OFF (theta 4D VIP->SST frozen, G759 grouped)",
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-11 N1",
+      "assignment": "Re-rank N1 8xS2 manifold Pareto feasible-first + current-space maps",
+      "artifact": "results/fg11_RUN_update/N1_revised_summary.json",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-11 N2",
+      "assignment": "Execute N2 3xS4 mean4 + 3 controls + ISN pert NON_ISN_LIKE",
+      "artifact": "results/fg11_N2_ISN/N2_summary.json",
+      "result": "done"
+    },
+    {
+      "role": "Prior FG-11",
+      "assignment": "Verify grouped passive and builder clean (theta overlay only)",
+      "artifact": "scratch/fg01_U01_U02_verification.md",
+      "result": "done"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "manifests/gen2_modification_ledger.jsonl",
+      "kind": "ledger",
+      "hash": "5c91b6d083a9493c"
+    },
+    {
+      "path": "manifests/w4a_blocker_seal.json",
+      "kind": "manifest",
+      "hash": "4b87066d061f684f"
+    },
+    {
+      "path": "manifests/agsdr_local_freeze.json",
+      "kind": "manifest",
+      "hash": "6a1d5262332bca74"
+    },
+    {
+      "path": "manifests/environment.json",
+      "kind": "manifest",
+      "hash": "4eba60d328cce3e4"
+    },
+    {
+      "path": "scratch/fg11_supplementary_search.md",
+      "kind": "other",
+      "hash": "9d9cfd3b29c181c4"
+    },
+    {
+      "path": "scratch/fg11_RUN_update.md",
+      "kind": "other",
+      "hash": "6a3fa0956b600cbf"
+    },
+    {
+      "path": "scratch/fg11_N1_revised.md",
+      "kind": "other",
+      "hash": "afbee42e474602cb"
+    },
+    {
+      "path": "scratch/fg11_N2_ISN.md",
+      "kind": "other",
+      "hash": "4704fc3b496fbcff"
+    },
+    {
+      "path": "results/fg11_RUN_update/N0_trace.jsonl",
+      "kind": "array",
+      "hash": "e4ee662aec0ecc0e"
+    },
+    {
+      "path": "results/fg11_RUN_update/N1_revised_summary.json",
+      "kind": "other",
+      "hash": "a5225cbc99908454"
+    },
+    {
+      "path": "results/fg11_N2_ISN/N2_summary.json",
+      "kind": "array",
+      "hash": "3ead6950fb1b05b2"
+    },
+    {
+      "path": "results/fg11_N2_ISN/N2_trace.jsonl",
+      "kind": "array",
+      "hash": "12389cce7f62ab46"
+    },
+    {
+      "path": "results/fg11_RUN_update/current_space_3d_Isp.png",
+      "kind": "figure"
+    },
+    {
+      "path": "results/fg11_RUN_update/current_space_3d_G.png",
+      "kind": "figure"
+    },
+    {
+      "path": "results/fg11_N2_ISN/current_space_3d_Isp_N2.png",
+      "kind": "figure"
+    },
+    {
+      "path": "results/fg11_N2_ISN/current_space_3d_G_N2.png",
+      "kind": "figure"
+    },
+    {
+      "path": "results/fg11_N2_ISN/current_space_2d_eta_B_N2.png",
+      "kind": "figure"
+    },
+    {
+      "path": "docs/sessions/2026/2026-08-29_005_fg11-transfer-operating-manifold.md",
+      "kind": "other"
+    },
+    {
+      "path": "docs/sessions/2026/2026-08-29_005_fg11-transfer-operating-manifold.json",
+      "kind": "other"
+    }
+  ],
+  "observations": [
+    {
+      "id": "Obs 6.1",
+      "metric": "N0 24xS1 hard Q_C019 + abort",
+      "value": 24,
+      "units": "24/24 PASS 0 abort bar4.77-5.08 rho<0.60 P>=0.15 max>=1.5 Fano0.95",
+      "n": 24,
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl"
+    },
+    {
+      "id": "Obs 6.2",
+      "metric": "Primary both I>0 Q preserved",
+      "value": 2,
+      "units": "candidates (01 I_Vm0.138 I_sp0.463 G4.98, 13 I_Vm0.256 I_sp0.321 G2.79)",
+      "n": 24,
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl"
+    },
+    {
+      "id": "Obs 6.3",
+      "metric": "G_I->V mV/native",
+      "value": 4.983064719930573,
+      "units": "mV/native (01 G4.98 vs C021 0.013)",
+      "n": 24,
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl"
+    },
+    {
+      "id": "Obs 6.4",
+      "metric": "eta_proxy |dI|/sigma",
+      "value": 0.023304375139534032,
+      "units": "proxy (01 0.023 to 0.915 median 0.24; S4 01 0.024 13 0.068 06 0.229)",
+      "n": 24,
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl"
+    },
+    {
+      "id": "Obs 6.7",
+      "metric": "A_rec L2 suppressive",
+      "value": 0.441109930821562,
+      "units": "<1 CI excludes 1 01 0.441 [0.412,0.471] range 0.096-0.725",
+      "n": 24,
+      "artifact": "results/fg11_RUN_update/N0_trace.jsonl"
+    },
+    {
+      "id": "Obs 6.8",
+      "metric": "Controls I_Vm intact->off->matched 06 0.46->0.02->0.015 13 0.208->0.067->0.050",
+      "value": 0.46,
+      "units": "bits I_Vm 06 intact p<0.01 loss on both off and matched",
+      "n": 3,
+      "artifact": "results/fg11_N2_ISN/N2_summary.json"
+    },
+    {
+      "id": "Obs 6.9",
+      "metric": "N1 8-slot manifold dom0 7",
+      "value": 8,
+      "units": "survivors 01,13,06,20,22,11,15,08 eta0.023-0.612 B0.757-0.819",
+      "n": 8,
+      "artifact": "results/fg11_RUN_update/N1_revised_summary.json"
+    },
+    {
+      "id": "Obs 6.10",
+      "metric": "N2 S4 3xS4 + ISN NON_ISN_LIKE 3/3",
+      "value": 3,
+      "units": "finalists hard PASS 4/4 seeds G1.41/0.569/1.12 ISN Delta_rI +7.6",
+      "n": 12,
+      "artifact": "results/fg11_N2_ISN/N2_summary.json"
+    },
+    {
+      "id": "Obs 6.12",
+      "metric": "52 sims successive 24x1->8x2->3x4",
+      "value": 52,
+      "units": "sims search HDP_OFF G759 30MiB passive",
+      "n": 52,
+      "artifact": "manifests/agsdr_local_freeze.json"
+    }
+  ],
+  "verdicts": [
+    {
+      "claim": "Supplem entary operating manifold exists: exists theta with I(S;V)>0 and I(S;spikes)>0 Q preserved (capability vs structural impossibility) at HDP_OFF",
+      "verdict": "POSITIVE",
+      "level": "SUPPLEMENTARY_TRANSFER_CANDIDATE only 2/24 primary N0 then manifold N1 8 N2 3 coherent"
+    },
+    {
+      "claim": "Canonical delayed+HDP I[t,G] at [20,80,120]",
+      "verdict": "BLOCKED",
+      "level": "jaxfne/_model_simulate.py:280 MISSING_CAPABILITY U01b"
+    },
+    {
+      "claim": "Recurrent amplification A_rec>1 CI excludes 1",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "0/24 0/3 all A 0.096-0.725 <1 suppressive measured not hard"
+    },
+    {
+      "claim": "ISN paradoxical on +20% PV+SST",
+      "verdict": "NEGATIVE_INSTANCE",
+      "level": "NON_ISN_LIKE 3/3 Delta_rI +7.4 characterization not hard"
+    },
+    {
+      "claim": "Formal eta_rec L2 per-step partitioned",
+      "verdict": "INCONCLUSIVE",
+      "level": "INSUFFICIENT_POWER proxy only until HDP+delay fix FG-12"
+    }
+  ],
+  "lessons": [
+    {
+      "lesson": "Hard Q must protect distributional tail P(CV>0.5)>=0.15/max>=1.5 not scalar meanCV",
+      "trigger": "Single RS sigma0.40 still fails vs typed CH c-50/d2 p<1e-6",
+      "cause": "Scalar mean hides heterogeneity tail CH CV0.07->0.46",
+      "repair": "Enforce hard P>=0.15 max>=1.5 before transfer claim gen2_gates.py:139",
+      "evidence": "Obs 6.1 scratch/gen2_C018_receipt.md",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "LHS D* O(1/N) vs uniform O(1/\u221aN) matters at d=4 N0=24",
+      "trigger": "LHS ensures one sample per marginal quantile",
+      "cause": "Uniform clumping O(1/\u221aN) leaves ~30% holes at d=4",
+      "repair": "Use rng.default_rng(0) cut linspace(0,1,25) perm jitter",
+      "evidence": "results/fg11_RUN_update/N0_trace.jsonl scratch/fg11_supplementary_search.md:2.1",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Pareto feasibility-first on [I_Vm,I_sp,G,A,J_rho,J_EI,J_local] forbids scalar |bar-7.5|; E<PV soft not hard",
+      "trigger": "Scalar collapses eta vs G vs A tradeoff",
+      "cause": "Scalar bars hide heterogeneity vs info tradeoff",
+      "repair": "Pareto dom 7dims + J_EI soft [0.15,0.60] hard (0.05,0.95)",
+      "evidence": "Obs 6.9 results/fg11_RUN_update/N1_revised_summary.json",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "HDP-OFF delayed grouped I[t,G]=segment_sum is identifying for fast dynamics (\u0394bar<0.05Hz \u0394Vm<0.02mV passivity0) even though H differs",
+      "trigger": "Fast-state equivalence PASS 6/6 including del vs zero \u00b10.03Hz",
+      "cause": "H/w slow (mu_total3.405) vs fast spikes/Vm not H-dependent",
+      "repair": "Use delayed non-HDP grouped for mechanistic localization; keep canonical BLOCKED labeled supplementary",
+      "evidence": "Obs 6.12 scratch/fg09b_HDPOFF_bridge_raw.json fg01:33",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "Current->V_m is heterogeneous graded shunting (G 0.013-4.98) not binary FAIL",
+      "trigger": "C021_s0 G0.013 vs C019_s0 G0.851 vs FG11 01 G4.98",
+      "cause": "Shunt/low-pass via g_fastI/g_dendI + I_bg lambda + E/I duty cycle",
+      "repair": "Require full transfer_matrix.csv all C/seed x G and eta_rec L2 before typing",
+      "evidence": "Obs 6.3 Obs 6.11 scratch/fg09b:105",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "A_rec is measured phenotype not hard >1.2 \u2014 suppressive A<1 CI<1 with information gain is valid recurrent mediation",
+      "trigger": "All 24 A_rec0.096-0.725 CI<1 yet I and G require recurrence via off/matched loss",
+      "cause": "Cortex can amplify or suppress depending on I_bg lambda regime",
+      "repair": "Make A_rec measured; allow loss of I + altered gain/timing/rho selectivity under matched while chi preserved",
+      "evidence": "Obs 6.7 Obs 6.8 scratch/fg11_N2_ISN.md:2.3",
+      "scope": "project",
+      "confidence": "HIGH",
+      "persistence": "YES"
+    },
+    {
+      "lesson": "ISN NON_ISN_LIKE under +20% PV cannot be proof of non-ISN in heterogeneous network",
+      "trigger": "Heterogeneous M2 + lognormal CV1.5 masks paradoxical; small PV+SST ~6% insufficient",
+      "cause": "Perturbed fraction 13/400 ~3% PV alone near rheobase",
+      "repair": "Characterize as ISN_LIKE|NON_ISN_LIKE|UNRESOLVED not hard; note large-fraction caveat",
+      "evidence": "Obs 6.10 scratch/fg11_N2_ISN.md:9.2",
+      "scope": "project",
+      "confidence": "MED",
+      "persistence": "YES"
+    }
+  ],
+  "frictions": [
+    {
+      "friction": "Delayed+HDP grouped current MISSING_CAPABILITY at jaxfne/_model_simulate.py:280 + HDP seam lacks record_grouped_current",
+      "cause": "Upstream jaxfne HDP vs delay guard + _pipeline.py:395 HDP-only forwarding",
+      "workaround": "Use HDP-OFF delayed non-HDP grouped I[t,G]=segment_sum as MECHANISTIC/SUPPLEMENTARY with fast-state equivalence check",
+      "permanent_repair": "HDP+delay grouped current support in jaxfne (Option A/B/C per jaxfne_issue_delayed_edge_current.md:200)"
+    },
+    {
+      "friction": "Window B=[-50,0) not in Simulation(duration 1000) to_array so use B_proxy=[0,50) early p1 pre-volley",
+      "cause": "Simulation starts at p1 0; fx -500..0 clipped",
+      "workaround": "Report mean(W)-mean(B_proxy) + raw mean(W); flag as supplementary limitation",
+      "permanent_repair": "Cross-ref simulation vs absolute clock in freeze or duration 4624 ms FULL"
+    },
+    {
+      "friction": "ISN characterization requires substantial inhibitory fraction; +20% PV+SST ~6% gives non-paradoxical even if ISN",
+      "cause": "Heterogeneous typed-E M2 + lognormal CV1.5 masks paradoxical; small subset",
+      "workaround": "Characterize as NON_ISN_LIKE under this protocol not hard, note heterogeneous caveat",
+      "permanent_repair": "Larger-fraction ISN titration + heterogeneity-aware test"
+    }
+  ],
+  "state_before": "W4a MECHANISM_OBSERVABILITY_BLOCKER: Visual->V1 L4 PASS Delta169 d803 acc1.00 but V1 L4->L2/3 FAIL Delta0.02 d0.13 acc0.542 invariant across 3 interventions (g_vertical, C020 Ne16->54, C021 PV/E 0.73/0.64); bottleneck at L4_E spikes->I->Vm at [20,80,120] BLOCKED at _model_simulate.py:280; FG-09b HDP-OFF bridge supports I->Vm hypothesis but no operating manifold demonstrated",
+  "state_after": "FG-11 supplementary HDP-OFF operating manifold discovered: 24xS1 LHS D* O(1/N) 24x1->8x2->3x4=52 sims, N0 24/24 hard PASS 2/24 primary I(S;V)>0 & I(S;spikes)>0 with G 4.98/2.79 and Q preserved, N1 revised 8-slot manifold with 3 controls and current-space map (eta,B_EI,chi) size I_sp vs G, N2 3xS4 mean4 + ISN NON_ISN_LIKE 3/3 suppressive A_rec 0.40-0.61 CI<1 \u2014 capability not structural impossibility but SUPPLEMENTARY/HDP-OFF not canonical until FG-12",
+  "next_action": "FG-12 canonical reproduction \u2014 rerun best theta* (01,13,06) at canonical delayed+HDP (RuntimeConfig enable_hdp=True record_edge_current at [20,80,120] via jaxfne fix Options A/B/C) at dt0.1 T10000 W[100,531) B[-50,0) same RF parity <=5% with off/matched controls S4 mean4 + evidence-audit; only condition 6 allows GEN2_C0xx",
+  "score_before": 74,
+  "score_after": 74,
+  "secondary_next": "Expand I_E/I_I/I_net/V_m traces per N2 finalist via partition_currents_by_motif + larger-fraction ISN titration",
+  "model_delta": "NO_MODEL_DELTA",
+  "visualizations": [
+    "results/fg11_RUN_update/current_space_3d_Isp.png",
+    "results/fg11_N2_ISN/current_space_3d_Isp_N2.png"
+  ]
+}

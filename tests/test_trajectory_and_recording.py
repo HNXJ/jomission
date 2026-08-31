@@ -2,6 +2,7 @@
 
 import jax.numpy as jnp
 import jaxfne as jtfne
+from jomission.simulation.runtime import simulation_for_model
 from jaxfne import Simulation, RuntimeConfig
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, SLOT_ONSET_MS, condition_to_stimulus_schedule
@@ -41,10 +42,10 @@ def test_hdp_config():
 def test_continuation_state_survives():
     model = build_jomission_model(n_per_area=100, seed=0)
     runtime = RuntimeConfig(recurrent_backend="edge_list")
-    sig1, state = jtfne.simulate(model, Simulation(duration_ms=200.0, dt_ms=0.1, seed=0, runtime=runtime), return_state=True)
+    sig1, state = jtfne.simulate(model, simulation_for_model(model, duration_ms=200.0, dt_ms=0.1, seed=0, runtime=runtime), return_state=True)
     assert hasattr(state, "dynamic")
     assert hasattr(state, "prng_key")
-    sig2 = jtfne.simulate(model, Simulation(duration_ms=200.0, dt_ms=0.1, seed=1, runtime=runtime), continuation=state)
+    sig2 = jtfne.simulate(model, simulation_for_model(model, duration_ms=200.0, dt_ms=0.1, seed=1, runtime=runtime), continuation=state)
     # Second segment should produce spikes (not zero) — proves state carried
     assert float(jnp.sum(sig2.spikes)) > 0
 

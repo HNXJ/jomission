@@ -113,7 +113,14 @@ def run_full(
     runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=True, hdp_params=hp)
     # Worker identity — not scientific, only operational
     run_id = run_id or f"jomission-{ch[:8]}-{hp_hash[:4]}-{uuid.uuid4().hex[:8]}"
-    worker_id = worker_id or f"{os.getpid()}@{os.uname().nodename if hasattr(os.uname(), 'nodename') else 'worker'}"
+    import platform
+    _nodename = getattr(os.uname(), "nodename", None) if hasattr(os, "uname") else None
+    if _nodename is None:
+        try:
+            _nodename = platform.node() or "worker"
+        except Exception:
+            _nodename = "worker"
+    worker_id = worker_id or f"{os.getpid()}@{_nodename}"
     heartbeat_log: list[dict] = []
     heartbeat_path = pathlib.Path(checkpoint_dir) / "heartbeat.jsonl" if checkpoint_dir else None
     if checkpoint_dir:

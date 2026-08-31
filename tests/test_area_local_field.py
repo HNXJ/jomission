@@ -25,6 +25,7 @@ import inspect
 import numpy as np
 
 import jaxfne as jtfne
+from jomission.simulation.runtime import simulation_for_model
 from jaxfne.fields.proxy import probe_laminar_modes, project_laminar_sources
 
 import jomission.recording.area_local as al
@@ -51,7 +52,7 @@ def test_jaxfne_api_has_no_area_selector():
 
     # Simulate -> single global field
     model = build_jomission_model(n_per_area=100, seed=0)
-    sim = jtfne.Simulation(duration_ms=50.0, dt_ms=0.1, seed=0)
+    sim = simulation_for_model(model, duration_ms=50.0, dt_ms=0.1, seed=0)
     sig = jtfne.simulate(model, sim)
     assert sig.field is not None
     assert sig.field.lfp_proxy.shape == (500, N_CONTACTS_DEFAULT), (
@@ -67,7 +68,7 @@ def test_jaxfne_api_has_no_area_selector():
 def test_field_by_area_shape_and_provenance():
     """field_by_area has correct shapes and provenance; each area has distinct content."""
     model = build_jomission_model(n_per_area=100, seed=0)
-    sim = jtfne.Simulation(duration_ms=50.0, dt_ms=0.1, seed=1)
+    sim = simulation_for_model(model, duration_ms=50.0, dt_ms=0.1, seed=1)
     sig = jtfne.simulate(model, sim)
 
     per_area = al.field_by_area_from_signal(sig, model)
@@ -102,7 +103,7 @@ def test_field_by_area_shape_and_provenance():
 def test_field_by_area_reconstruction():
     """Linear reconstruction: sum_a field_by_area[a] == global lfp_proxy."""
     model = build_jomission_model(n_per_area=100, seed=2)
-    sim = jtfne.Simulation(duration_ms=50.0, dt_ms=0.1, seed=2)
+    sim = simulation_for_model(model, duration_ms=50.0, dt_ms=0.1, seed=2)
     sig = jtfne.simulate(model, sim)
 
     per_area = al.field_by_area_from_signal(sig, model, include_diagnostics=False)
@@ -126,7 +127,7 @@ def test_field_by_area_reconstruction():
 def test_field_by_area_time_major_layout():
     """time_major=True gives [A, T, C] layout."""
     model = build_jomission_model(n_per_area=100, seed=3)
-    sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=20.0, dt_ms=0.1, seed=3))
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=20.0, dt_ms=0.1, seed=3))
     arr_tm, _, meta_tm = al.field_by_area_array(sig, model, time_major=True)
     arr_cm, _, meta_cm = al.field_by_area_array(sig, model, time_major=False)
     assert arr_tm.shape == (4, 200, 16)
@@ -140,7 +141,7 @@ def test_field_by_area_time_major_layout():
 def test_field_by_area_provenance_via_metadata_only():
     """Area indices resolvable purely from signals.metadata['neuron_metadata'] (no model)."""
     model = build_jomission_model(n_per_area=100, seed=4)
-    sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=20.0, dt_ms=0.1, seed=4))
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=20.0, dt_ms=0.1, seed=4))
     assert sig.metadata.get("neuron_metadata") is not None
     # Call without model — uses metadata alone
     per_area_no_model = al.field_by_area_from_signal(sig, model=None, include_diagnostics=False)
@@ -154,7 +155,7 @@ def test_field_by_area_4d_multi_trial():
     model = build_jomission_model(n_per_area=100, seed=5)
     signals = []
     for trial in range(3):
-        sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=20.0, dt_ms=0.1, seed=10 + trial))
+        sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=20.0, dt_ms=0.1, seed=10 + trial))
         signals.append(sig)
 
     field_4d, areas, meta = al.field_by_area_4d(signals, model, time_major=False)
@@ -183,7 +184,7 @@ def test_field_by_area_not_contact_averaged():
     Genuine must have contact-wise structure distinct per area and vary across contacts.
     """
     model = build_jomission_model(n_per_area=100, seed=6)
-    sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=50.0, dt_ms=0.1, seed=6))
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=50.0, dt_ms=0.1, seed=6))
 
     per_area = al.field_by_area_from_signal(sig, model, include_diagnostics=False)
     # Each area's field must vary across contacts (not uniform across C due to depth weighting)
@@ -206,7 +207,7 @@ def test_field_by_area_not_contact_averaged():
 def test_csd_by_area_and_claims():
     """CSD area-local inherits proxy claim; verify shape and finiteness."""
     model = build_jomission_model(n_per_area=100, seed=7)
-    sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=20.0, dt_ms=0.1, seed=7))
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=20.0, dt_ms=0.1, seed=7))
     csd_by_area = al.csd_by_area_from_signal(sig, model)
     for area in JOMISSION_AREAS:
         assert csd_by_area[area].shape == (200, 16)
@@ -216,7 +217,7 @@ def test_csd_by_area_and_claims():
 def test_verify_reconstruction_helper():
     """verify_reconstruction helper reports ok and carries shapes."""
     model = build_jomission_model(n_per_area=100, seed=8)
-    sig = jtfne.simulate(model, jtfne.Simulation(duration_ms=20.0, dt_ms=0.1, seed=8))
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=20.0, dt_ms=0.1, seed=8))
     report = al.verify_reconstruction(sig, model=model, atol=1e-3)
     assert report["ok"] is True
     assert report["max_abs_error"] < 1e-3

@@ -15,7 +15,7 @@ dependencies = [
     "jaxlib>=0.4.25,<0.11",
     "numpy>=1.24",
     "scipy>=1.10",
-    "jaxfne>=0.4.17",
+    "jaxfne>=0.4.18",
 ]
 keywords = ["neuroscience", "omission", "laminar", "jaxfne", "predictive coding"]
 

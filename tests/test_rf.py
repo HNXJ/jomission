@@ -15,6 +15,7 @@ Validates:
 import numpy as np
 import pytest
 import jaxfne as jtfne
+from jomission.simulation.runtime import simulation_for_model
 from jaxfne import Simulation
 from jaxfne.io import config_hash
 
@@ -266,7 +267,7 @@ def test_rf_operator_simulation_smoke():
     cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == "AAAB"][0]
     sched = op.to_stimulus_schedule(cond, n_neurons=400)
     # Short simulation 100ms (1000 steps) to verify no error
-    sim = Simulation(duration_ms=100.0, dt_ms=0.5, seed=0)
+    sim = simulation_for_model(model, duration_ms=100.0, dt_ms=0.5, seed=0)
     sig = jtfne.simulate(model, sim, paradigm=sched)
     assert sig.V_m.shape[0] == int(100.0 / 0.5)
     assert sig.V_m.shape[1] == 400

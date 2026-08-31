@@ -40,10 +40,10 @@ def validate_recording(model: jtfne.Model) -> dict[str, Any]:
     issues: list[str] = []
     # Check that model was built with probes
     meta = getattr(model, "manifest", {}) or {}
-    # Check signals have field
+    # Check signals have field — use centralized runtime authority (delay→edge_list)
     try:
-        from jaxfne import Simulation
-        sig = jtfne.simulate(model, Simulation(duration_ms=200.0, dt_ms=0.1, seed=0))
+        from jomission.simulation.runtime import simulation_for_model
+        sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=200.0, dt_ms=0.1, seed=0))
         if sig.field is None:
             issues.append("field is None (record_fields=False or not wired)")
         else:

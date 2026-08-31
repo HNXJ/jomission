@@ -31,6 +31,7 @@ import tempfile
 import inspect
 import numpy as np
 import jaxfne as jtfne
+from jomission.simulation.runtime import simulation_for_model
 from jaxfne import Simulation
 
 from jomission.network.builder import build_jomission_model
@@ -72,7 +73,7 @@ def _build_real_rate(n_reps: int = 2, dt_ms: float = DT_MS_TEST):
     for i, cn in enumerate(trial_conds):
         cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == cn][0]
         sched = condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0)
-        sim = Simulation(duration_ms=4624.0, dt_ms=dt_ms, seed=10 + i)
+        sim = simulation_for_model(model, duration_ms=4624.0, dt_ms=dt_ms, seed=10 + i)
         sig = jtfne.simulate(model, sim, paradigm=sched)
         sig.metadata["condition"] = cn
         signals.append(sig)

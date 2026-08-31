@@ -60,8 +60,8 @@ def test_builder_ff_fb_present():
 
 def test_model_construct_and_simulate():
     model = build_jomission_model(n_per_area=100, seed=1)
-    from jaxfne import Simulation
-    sig = jtfne.simulate(model, Simulation(duration_ms=200.0, dt_ms=0.1, seed=0))
+    from jomission.simulation.runtime import simulation_for_model
+    sig = jtfne.simulate(model, simulation_for_model(model, duration_ms=200.0, dt_ms=0.1, seed=0))
     assert sig.V_m.shape == (2000, 400)
     assert sig.field is not None
     assert sig.field.lfp_proxy.shape[0] == 2000

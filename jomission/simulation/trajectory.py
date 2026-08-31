@@ -238,18 +238,17 @@ def run_short_trajectory(
     omit_p2_drive = float(jnp.sum(drive_omit[p2_idx:p2_end]))
     intact_p2_drive = float(jnp.sum(drive_intact[p2_idx:p2_end]))
 
-    # Run signals for both to prove execution — use exact StimulusSchedule (delays zeroed)
-    signals_intact = jtfne.simulate(model, Simulation(duration_ms=sim_duration, dt_ms=dt_ms, seed=seed), paradigm=sched_intact)
-    signals_omit = jtfne.simulate(model, Simulation(duration_ms=sim_duration, dt_ms=dt_ms, seed=seed), paradigm=sched_omit)
+    # Run signals — use centralized runtime authority (delay→edge_list)
+    from jomission.simulation.runtime import simulation_for_model
+
+    signals_intact = jtfne.simulate(model, simulation_for_model(model, duration_ms=sim_duration, dt_ms=dt_ms, seed=seed), paradigm=sched_intact)
+    signals_omit = jtfne.simulate(model, simulation_for_model(model, duration_ms=sim_duration, dt_ms=dt_ms, seed=seed), paradigm=sched_omit)
 
     # ContinuationState test: split trajectory into 2 segments, carry state
-    # Requires edge_list backend
-    from jaxfne import RuntimeConfig
-    edge_runtime = RuntimeConfig(recurrent_backend="edge_list")
     half_ms = sim_duration / 2
-    sim1 = Simulation(duration_ms=half_ms, dt_ms=dt_ms, seed=seed, runtime=edge_runtime)
+    sim1 = simulation_for_model(model, duration_ms=half_ms, dt_ms=dt_ms, seed=seed)
     sig1, state = jtfne.simulate(model, sim1, return_state=True)  # type: ignore
-    sim2 = Simulation(duration_ms=half_ms, dt_ms=dt_ms, seed=seed + 1, runtime=edge_runtime)
+    sim2 = simulation_for_model(model, duration_ms=half_ms, dt_ms=dt_ms, seed=seed + 1)
     sig2 = jtfne.simulate(model, sim2, continuation=state)  # type: ignore
     # H/HDP survive: continuation state has dynamic + prng_key
     continuation_ok = hasattr(state, "dynamic") and hasattr(state, "prng_key")

@@ -1,0 +1,7 @@
+{
+  "candidate": "P1 STOCHASTIC_MASKING",
+  "var_noise": 4.104983349994958e-05,
+  "sig_FF": 9.316002500794053e-07,
+  "acc_FF": 1.0,
+  "acc_total": 0.5
+}

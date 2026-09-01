@@ -1,0 +1,7 @@
+{
+  "pv_intrinsic": "SUPPORTED (mismatch with operating range)",
+  "vip": "OPERATING_CURRENT_LIMITED",
+  "low_cv": "SUPPORTED",
+  "high_rho": "COMMON_DETERMINISTIC_DRIVE/REGULAR, UNRESOLVED",
+  "c023": "NO_JUSTIFIED_DELTA"
+}

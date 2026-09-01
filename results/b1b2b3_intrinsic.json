@@ -1,0 +1,6 @@
+{
+  "pv_intrinsic": "SUPPORTED (PV 0.2Hz at Itot 3.5 vs E 10Hz, f-I shows PV needs >4.0)",
+  "vip_intrinsic": "SUPPORTED (VIP 0.3 at 2.2 vs E 2.2 gives low)",
+  "low_cv": "SUPPORTED (isolated constant 3.5 gives regular)",
+  "high_rho": "UNRESOLVED (shared init vs recurrent vs common drive not yet isolated)"
+}

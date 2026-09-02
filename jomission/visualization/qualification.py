@@ -121,7 +121,7 @@ def build_qualification_figure(results_path: str = "results/b1b2b3_root_cause_cl
             y=[target_mid[c] for c in classes],
             mode="markers",
             marker=dict(size=10, symbol="diamond", color="#facc15"),
-            name="Target Midpoint",
+            name="Target Midpoint (MODEL_ASSUMPTION)",
         ),
         row=2,
         col=1,

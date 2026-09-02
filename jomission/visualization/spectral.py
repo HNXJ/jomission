@@ -145,7 +145,7 @@ def build_spectral_figure(model=None, V_m=None, dt_ms: float = 0.1) -> tuple[go.
         "Interactive spectral decomposition and time-frequency dynamics of the cortical hierarchy. Left: Area-resolved Power Spectral Density "
         "(Welch PSD estimate) for V1 (Blue), V4 (Green), FEF (Orange), and PFC (Purple), highlighting canonical physiological bands (Theta 4-8 Hz, "
         "Alpha 8-12 Hz, Beta 15-30 Hz, Gamma 30-80 Hz). Right: Spectrogram of V1 population potential across the 2000 ms trial displaying "
-        "stimulus-evoked gamma and beta power bursts during sensory drive slots."
+        "spectral power variations across sensory drive slots."
     )
 
     provenance = {
@@ -153,7 +153,7 @@ def build_spectral_figure(model=None, V_m=None, dt_ms: float = 0.1) -> tuple[go.
         "Spectral Estimator": "Welch PSD (500 ms Hanning window, 50% overlap)",
         "STFT Window": "200 ms segment, 90% overlap",
         "Frequency Range": "1.0 - 100.0 Hz",
-        "Target Signals": "Population-averaged somatic membrane potential (V_m)",
+        "Target Signals": "LFP proxy (population-averaged somatic V_m; not extracellular LFP)",
     }
 
     return fig, caption, provenance

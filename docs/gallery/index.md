@@ -36,7 +36,7 @@ Interactive population spiking and time-resolved rate dynamics during structured
 ### 4. Spectral Response & Time-Frequency
 <span class="badge badge-info">DERIVED</span> • [Open Full Screen Explorer (HTML)](../_static/plotly/spectral_response.html)
 
-Interactive spectral decomposition and time-frequency dynamics of the cortical hierarchy. Left: Area-resolved Power Spectral Density (Welch PSD estimate) for V1 (Blue), V4 (Green), FEF (Orange), and PFC (Purple), highlighting canonical physiological bands (Theta 4-8 Hz, Alpha 8-12 Hz, Beta 15-30 Hz, Gamma 30-80 Hz). Right: Spectrogram of V1 population potential across the 2000 ms trial displaying stimulus-evoked gamma and beta power bursts during sensory drive slots.
+Interactive spectral decomposition and time-frequency dynamics of the cortical hierarchy. Left: Area-resolved Power Spectral Density (Welch PSD estimate) for V1 (Blue), V4 (Green), FEF (Orange), and PFC (Purple), highlighting canonical physiological bands (Theta 4-8 Hz, Alpha 8-12 Hz, Beta 15-30 Hz, Gamma 30-80 Hz). Right: Spectrogram of V1 population potential across the 2000 ms trial displaying spectral power variations across sensory drive slots.
 
 <iframe src="../_static/plotly/spectral_response.html" width="100%" height="740" style="border: 1px solid #30363d; border-radius: 6px; background-color: #0d1117;" loading="lazy"></iframe>
 
@@ -45,7 +45,7 @@ Interactive spectral decomposition and time-frequency dynamics of the cortical h
 ### 5. Plasticity Trajectory & Circuit Matrix
 <span class="badge badge-success">OBSERVED</span> • [Open Full Screen Explorer (HTML)](../_static/plotly/plasticity_trajectory.html)
 
-Multi-scale empirical characterization of HDP synaptic plasticity. Top-Left: Weight gain G(t) across 100 s showing fast 2 s overshoot followed by asymptotic relaxation: recurrent circuits stay permanently remodeled (+33.1%), whereas feedforward (+1.4%) and feedback (+3.1%) relax back to baseline. Top-Right: Normalized structural displacement D_2(t) confirming recurrent dominance. Bottom-Left: 4×4 source-target remodeling matrix at t = 100 s, revealing profound potentiation of SST interneuron output (SST→E +92.6%, SST→PV +72.2%) contrasting with invariant VIP disinhibition (VIP→SST +2.0%). Bottom-Right: Empirical temporal memory kernel D_order(ΔT) demonstrating that the learning rule is fundamentally order-insensitive across all intervals (D_order = 0.29% at ΔT = 50 ms).
+Multi-scale empirical characterization of HDP synaptic plasticity. Top-Left: Weight gain G(t) across 100 s showing fast 2 s overshoot followed by asymptotic relaxation: recurrent circuits stay permanently remodeled (+33.1%), whereas feedforward (+1.4%) and feedback (+3.1%) relax back to baseline. Top-Right: Normalized structural displacement D_2(t) confirming recurrent dominance. Bottom-Left: 4×4 source-target remodeling matrix at t = 100 s, revealing profound potentiation of SST-associated recurrent weight remodeling (model specific) (SST→E +92.6%, SST→PV +72.2%) contrasting with invariant VIP disinhibition (VIP→SST +2.0%). Bottom-Right: Empirical temporal memory kernel D_order(ΔT) demonstrating that the learning rule is fundamentally order-insensitive across all intervals (D_order = 0.29% at ΔT = 50 ms).
 
 <iframe src="../_static/plotly/plasticity_trajectory.html" width="100%" height="740" style="border: 1px solid #30363d; border-radius: 6px; background-color: #0d1117;" loading="lazy"></iframe>
 

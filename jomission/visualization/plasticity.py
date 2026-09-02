@@ -145,7 +145,7 @@ def build_plasticity_figure(results_path: str = "results/plasticity_100s_extensi
         "Multi-scale empirical characterization of HDP synaptic plasticity. Top-Left: Weight gain G(t) across 100 s showing fast 2 s overshoot "
         "followed by asymptotic relaxation: recurrent circuits stay permanently remodeled (+33.1%), whereas feedforward (+1.4%) and feedback (+3.1%) "
         "relax back to baseline. Top-Right: Normalized structural displacement D_2(t) confirming recurrent dominance. Bottom-Left: 4×4 source-target "
-        "remodeling matrix at t = 100 s, revealing profound potentiation of SST interneuron output (SST→E +92.6%, SST→PV +72.2%) contrasting with invariant "
+        "remodeling matrix at t = 100 s, revealing profound potentiation of SST-associated recurrent weight remodeling (model specific) (SST→E +92.6%, SST→PV +72.2%) contrasting with invariant "
         "VIP disinhibition (VIP→SST +2.0%). Bottom-Right: Empirical temporal memory kernel D_order(ΔT) demonstrating that the learning rule is "
         "fundamentally order-insensitive across all intervals (D_order = 0.29% at ΔT = 50 ms)."
     )

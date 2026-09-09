@@ -366,5 +366,45 @@ def test_ramp_scaling_and_authority():
     assert set(ar.keys()) == {"r_full", "r_off", "dE", "dI"}
     assert np.isfinite(ar["dE"]) and np.isfinite(ar["dI"])
     pr = ha.probe_response(model)
-    assert set(pr.keys()) == {"G_R", "T_R", "r2", "flips", "r_base", "r_peak"}
+    assert set(pr.keys()) == {"G_R", "T_R", "r2", "flips", "r_base", "r_peak",
+                              "t_ms", "envelope"}
     assert pr["G_R"] >= 0 and np.isfinite(pr["r_base"])
+
+
+def test_scale_tau_selective():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    el = model.params["edge_list"]
+    ri = np.asarray(el.receptor_index)
+    tau0 = np.asarray(el.tau_ms, dtype=float)
+    m4 = ha.scale_tau(model, 1, 4.0)
+    tau4 = np.asarray(m4.params["edge_list"].tau_ms, dtype=float)
+    assert np.allclose(tau4[ri == 1], 4.0 * tau0[ri == 1])
+    assert np.allclose(tau4[ri == 0], tau0[ri == 0])
+    assert np.allclose(np.asarray(m4.params["edge_list"].weight),
+                       np.asarray(el.weight))  # gain untouched
+
+
+def test_tail_selector_synthetic():
+    t = np.arange(0, 800, 10.0)
+    rng = np.random.default_rng(0)
+    y1 = 3.0 * np.exp(-t / 150.0) + 10.0 + rng.normal(0, 0.05, t.shape)
+    m1 = ha.select_tail_model(t, y1)
+    assert m1["model"] in ("M1", "M2")
+    assert abs(m1["T_R"] - 150.0) / 150.0 < 0.3
+    assert m1["bic"] < m1["bic_null"]  # beats intercept-only
+    assert m1["A"] > 0.02 * (y1.max() - y1.min())  # nonzero residue
+    y2 = 2.0 * np.exp(-t / 200.0) * np.cos(2 * np.pi * t / 100.0) + 10.0 \
+        + rng.normal(0, 0.05, t.shape)
+    m2 = ha.select_tail_model(t, y2)
+    assert m2["model"] == "M2"
+    assert abs(m2["T_R"] - 200.0) / 200.0 < 0.4
+    assert m2["omega"] > 0
+    y0 = 10.0 + rng.normal(0, 0.3, t.shape)
+    m0 = ha.select_tail_model(t, y0)
+    assert m0["model"] == "M0"
+    # identifiability: T beyond half the window auto-rejects even if BIC fits
+    yslow = 3.0 * np.exp(-t / 5000.0) + 10.0 + rng.normal(0, 0.02, t.shape)
+    ms = ha.select_tail_model(t, yslow)
+    assert ms["model"] == "M0"  # T=5000 >> window/2=400: extrapolation

@@ -1160,6 +1160,125 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def scale_tau(model, receptor, mult):
+    """Selective synaptic-timescale multiplier (temporal-kernel edge).
+
+    receptor: 0 (exc, tau 2ms) or 1 (inh, tau 5ms). Scales tau_ms on
+    matching edges only; weights, topology, delays untouched. The kernel
+    implements per-edge receptor-filtered exponential states, so the
+    kinetic distinction is genuinely represented (verified by edge
+    tau_ms values, not assumed).
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    el = model.params["edge_list"]
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    t2 = tau.copy()
+    t2[ri == int(receptor)] = tau[ri == int(receptor)] * float(mult)
+    kwargs = dict(pre=el.pre, post=el.post, weight=el.weight,
+                  receptor_index=el.receptor_index,
+                  tau_ms=jnp.asarray(t2, dtype=el.tau_ms.dtype),
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model, params={**model.params,
+                                  "edge_list": EdgeList(**kwargs)})
+
+
+def select_tail_model(t, y, amp_floor=0.02):
+    """M0/M1/M2 tail selection for perturbation envelopes.
+
+    M0: no identifiable tail. M1: A exp(-t/T)+c. M2: A exp(-t/T)cos(wt+p)+c.
+    Selection: BIC + amplitude floor + out-of-sample RMSE gate (fit first
+    2/3, predict last 1/3), plus identifiability: T_R < window/2 required
+    (longer fits are extrapolation -> M0 regardless of BIC).
+    Returns dict(model, T_R, A, omega, r2_oos, bic).
+    Interpretation guard (permanent): A_R>0 and G_R up NEVER imply T_R>0;
+    only M1/M2 selection with residue + OOS superiority counts.
+    """
+    from scipy.optimize import curve_fit
+
+    t = np.asarray(t, dtype=float)
+    y = np.asarray(y, dtype=float)
+    n = len(t)
+    window = float(t[-1] - t[0]) if n > 1 else 0.0
+    k = max(8, 2 * n // 3)
+    tf, yf, tp, yp = t[:k], y[:k], t[k:], y[k:]
+    span = float(yf.max() - yf.min())
+    if span <= 0:
+        return {"model": "M0", "T_R": float("nan"), "A": 0.0,
+                "omega": 0.0, "r2_oos": float("nan"), "bic": float("inf")}
+    c0 = float(yf[-len(yf) // 4:].mean())
+    a0 = float(yf.max() - c0)
+    out = {"model": "M0", "T_R": float("nan"), "A": 0.0, "omega": 0.0,
+           "r2_oos": float("nan"), "bic": float("inf")}
+
+    def passes_null(fit_pred, oos_pred):
+        resid = yf - fit_pred
+        sig = float(np.sqrt((resid ** 2).mean()))
+        oos_rmse = float(np.sqrt(((yp - oos_pred) ** 2).mean()))
+        return oos_rmse < 5.0 * max(sig, 1e-9)
+
+    def oos_r2(ypred):
+        ss = float(((yp - ypred) ** 2).sum())
+        vv = float(((yp - yp.mean()) ** 2).sum())
+        return float(1 - ss / vv) if vv > 0 else float("nan")
+
+    def bic_of(rss, npar):
+        return float(n * np.log(max(rss, 1e-12) / n) + npar * np.log(n))
+
+    out["bic"] = bic_of(float(((yf - c0) ** 2).sum()), 1)  # null (M0) BIC
+    out["bic_null"] = out["bic"]
+    # M1 via log-linear on positive part
+    try:
+        yc = yf - c0
+        pos = yc > 0.05 * abs(a0)
+        if pos.sum() >= 4:
+            co = np.polyfit(tf[pos], np.log(yc[pos]), 1)
+            T1 = float(-1.0 / co[0]) if co[0] < 0 else float("nan")
+            A1 = float(np.exp(co[1]))
+            if np.isfinite(T1) and T1 > 0 and abs(A1) >= amp_floor * span:
+                fit1 = A1 * np.exp(-tf / T1) + c0
+                pred = A1 * np.exp(-tp / T1) + c0
+                rss = float(((yf - fit1) ** 2).sum())
+                bic1 = bic_of(rss, 3)
+                if bic1 < out["bic"] and passes_null(fit1, pred):
+                    out.update({"model": "M1", "T_R": T1, "A": A1, "omega": 0.0,
+                                "r2_oos": oos_r2(pred), "bic": bic1})
+    except Exception:
+        pass
+    # M2: FFT init for omega, then damped-cosine fit
+    try:
+        yc = yf - yf.mean()
+        fr = np.fft.rfftfreq(len(tf), d=float(tf[1] - tf[0]) if len(tf) > 1 else 1.0)
+        pw = np.abs(np.fft.rfft(yc - yc.mean()))
+        w0 = 2 * np.pi * float(fr[1 + int(np.argmax(pw[1:]))]) if len(pw) > 2 else 0.0
+        Tguess = out["T_R"] if out["model"] == "M1" and np.isfinite(out["T_R"]) else float(t[-1] - t[0])
+        def m2(tt, A, T, w, p, c):
+            return A * np.exp(-tt / T) * np.cos(w * tt + p) + c
+        po, _ = curve_fit(m2, tf, yf, p0=[a0, Tguess, w0, 0.0, c0],
+                          maxfev=20000)
+        A2, T2, w2, _, c2 = (float(v) for v in po)
+        if T2 > 0 and abs(A2) >= amp_floor * span and abs(w2) > 0:
+            fit2 = m2(tf, *po)
+            pred = m2(tp, *po)
+            rss = float(((yf - fit2) ** 2).sum())
+            bic2 = bic_of(rss, 5)
+            if bic2 < out["bic"] and passes_null(fit2, pred):
+                out.update({"model": "M2", "T_R": T2, "A": A2, "omega": abs(w2),
+                            "r2_oos": oos_r2(pred), "bic": bic2})
+    except Exception:
+        pass
+    if out["model"] != "M0":
+        out["A"] = float(out["A"])  # residue kept explicit for acceptance
+        if not (np.isfinite(out["T_R"]) and out["T_R"] < window / 2.0):
+            out.update({"model": "M0", "T_R": float("nan"), "A": 0.0, "omega": 0.0})
+    return out
+
+
 def scale_family(model, family, mult):
     """Selective single-family multiplier (loop-structure edge).
 
@@ -1263,4 +1382,6 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
         slope_r2 = float(1 - ss / (np.log(use).var() * len(use))) \
             if np.log(use).var() > 0 else float("nan")
     return {"G_R": G_R, "T_R": T_R, "r2": slope_r2, "flips": flips,
-            "r_base": float(base), "r_peak": float(r[peak])}
+            "r_base": float(base), "r_peak": float(r[peak]),
+            "t_ms": (np.arange(nb) * float(bin_ms)).tolist(),
+            "envelope": r.tolist()}

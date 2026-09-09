@@ -356,6 +356,12 @@ def test_ramp_scaling_and_authority():
     assert (np.asarray(m2.params["edge_list"].pre) == np.asarray(model.params["edge_list"].pre)).all()
     m0 = ha.zero_recurrence(model)
     assert np.allclose(np.asarray(m0.params["edge_list"].weight), 0.0)
+    mEE = ha.scale_family(model, ("E", "E"), 1.5)
+    masks, _ = ha.family_masks(model)
+    wE = np.asarray(model.params["edge_list"].weight)
+    wM = np.asarray(mEE.params["edge_list"].weight)
+    assert np.allclose(wM[np.asarray(masks[("E", "E")])], 1.5 * wE[np.asarray(masks[("E", "E")])])
+    assert np.allclose(wM[~np.asarray(masks[("E", "E")])], wE[~np.asarray(masks[("E", "E")])])
     ar = ha.recurrence_authority(model)
     assert set(ar.keys()) == {"r_full", "r_off", "dE", "dI"}
     assert np.isfinite(ar["dE"]) and np.isfinite(ar["dI"])

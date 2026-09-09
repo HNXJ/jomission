@@ -11,7 +11,13 @@ build/
 .env
 .venv
 venv/
-results/
+# results/ tracked (small JSON manifests only) — binary dumps stay out:
+# see *.npz / *.npy / *.h5 rules below.
 outputs/
 engine.log
 engine-status.md
+# binary/larger scientific artifacts (incl. under results/) are not tracked
+*.npz
+*.npy
+*.h5
+*.zarr

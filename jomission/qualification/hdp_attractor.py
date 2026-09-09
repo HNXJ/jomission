@@ -1160,6 +1160,62 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def current_decomposition(spikes, model, tonic, dt_ms=DT_MS_DEFAULT):
+    """Realized current fractions: Gamma_R global + per-class, EE/EI/IE/II.
+
+    Recurrent currents reconstructed offline (validated vs kernel traces):
+    per-receptor exponential filtering of realized spikes, kernel gain
+    tau/dt. Tonic = emitter drive + external schedule (passed in, per
+    neuron, time-averaged). Returns means over the (settled) window.
+    Gamma_R = <|I_rec|> / (<|I_rec|> + <|I_tonic|>).
+    """
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    tbl = model.neuron_table()
+    n = len(tbl)
+    cls = np.array([r["cell_type"] for r in tbl])
+    sp = np.asarray(spikes, dtype=float)
+    out = {}
+    Irec = np.zeros((sp.shape[0], n))
+    comps = {}
+    for r, t in ((0, 2.0), (1, 5.0)):
+        sel = ri == r
+        tau_r = float(np.unique(tau[sel])[0]) if sel.any() else t
+        f = _exp_filter(sp, tau_r, dt_ms) * (tau_r / dt_ms)
+        for (sname, smask) in (("E", cls[pre] == "E"),
+                               ("I", cls[pre] != "E")):
+            m = sel & smask
+            if not m.any():
+                continue
+            acc = np.zeros_like(f)
+            np.add.at(acc, (slice(None), post[m]),
+                      (f[:, pre[m]] * w[m][None, :]))
+            Irec += acc
+            comps[f"{sname}->{r}"] = acc
+    ton = np.asarray(tonic, dtype=float)
+    if ton.ndim == 1:
+        ton = np.broadcast_to(ton[None, :], sp.shape)
+    aR, aT = np.abs(Irec).mean(), np.abs(ton).mean()
+    out["Gamma_R"] = float(aR / (aR + aT))
+    out["Irec_mean"] = float(aR)
+    out["Itonic_mean"] = float(aT)
+    for c in ("E", "PV", "SST", "VIP"):
+        idx = cls == c
+        aRc, aTc = np.abs(Irec[:, idx]).mean(), np.abs(ton[:, idx]).mean()
+        out[f"Gamma_{c}"] = float(aRc / (aRc + aTc))
+    # family components (magnitudes; signed sums live in Irec)
+    for tgt in ("E", "I"):
+        tm = (cls == "E") if tgt == "E" else (cls != "E")
+        for src, r in (("E", 0), ("I", 1)):
+            acc = comps.get(f"{src}->{r}", np.zeros((sp.shape[0], n)))
+            out[f"I_{src}{tgt}"] = float(np.abs(acc[:, tm]).mean() / max(tm.sum(), 1))
+    return out
+
+
 def assign_modules(model, M):
     """Stratified module ids: round-robin within (layer, cell_type) groups.
 

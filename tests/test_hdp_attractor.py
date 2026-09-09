@@ -428,6 +428,32 @@ def test_tail_selector_synthetic():
     assert ms["model"] == "M0"  # T=5000 >> window/2=400: extrapolation
 
 
+def test_current_decomposition_gamma():
+    import jax.numpy as jnp
+
+    import jaxfne as jtfne
+    from jomission.qualification.cmin import (
+        initial_state,
+        repair_jitter,
+        repair_tonic,
+    )
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    step_fn, _ = jtfne.compile_step_fn(model, dt_ms=0.1, kernel="baseline",
+                                       record_weight_trace=False)
+    st = initial_state(model, 0)
+    drive = jnp.zeros((3000, 160), dtype=model.params["emitter"].v0.dtype)
+    st, out = jtfne.run_continuation(step_fn, st, drive)
+    spikes = np.asarray(out[1])
+    ton = np.asarray(model.params["emitter"].drive, dtype=float)
+    dec = ha.current_decomposition(spikes[1000:], model, ton)
+    assert 0.0 <= dec["Gamma_R"] <= 1.0
+    for k in ("Gamma_E", "Gamma_PV", "Gamma_SST", "Gamma_VIP",
+              "I_EE", "I_EI", "I_IE", "I_II"):
+        assert np.isfinite(dec[k]) and dec[k] >= 0.0
+    assert dec["Gamma_R"] < 0.5  # baseline is tonic-supported (diagnostic)
+
+
 def test_split_charge_preserved():
     from jomission.qualification.cmin import repair_jitter, repair_tonic
 

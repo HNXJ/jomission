@@ -1160,6 +1160,55 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def split_excitatory_kernel(model, f_S, tau_S, seed=0, receptor_exc=0):
+    """Slow-excitatory fraction at constant integrated charge.
+
+    Random subset (fraction f_S, seed-fixed) of excitatory edges becomes
+    the slow channel: tau -> tau_S with weight *= tau_F/tau_S, so each
+    converted edge delivers identical steady-state charge (kernel gain
+    per edge is w*r*tau/dt, validated against edge_current_trace).
+    Total excitatory charge Q = sum(w*tau) is exactly preserved; only
+    the temporal distribution changes. Topology, signs, taus of all
+    other edges untouched.
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    el = model.params["edge_list"]
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    w = np.asarray(el.weight, dtype=float)
+    exc = np.where(ri == int(receptor_exc))[0]
+    assert (exc.size > 0) and np.unique(tau[exc]).tolist() == [float(tau[exc][0])], \
+        "exc channel must have a single fast tau"
+    tau_F = float(tau[exc][0])
+    rng = np.random.default_rng(int(seed))
+    n_slow = int(round(float(f_S) * exc.size))
+    slow = np.sort(rng.choice(exc, size=n_slow, replace=False)) if n_slow else np.array([], dtype=np.int64)
+    tau2 = tau.copy()
+    w2 = w.copy()
+    tau2[slow] = float(tau_S)
+    w2[slow] = w[slow] * (tau_F / float(tau_S))
+    new_el = EdgeList(pre=el.pre, post=el.post,
+                      weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                      receptor_index=el.receptor_index,
+                      tau_ms=jnp.asarray(tau2, dtype=el.tau_ms.dtype),
+                      source_calibration_status=el.source_calibration_status,
+                      **({"delay_steps": el.delay_steps}
+                         if getattr(el, "delay_steps", None) is not None else {}))
+    return replace(model, params={**model.params, "edge_list": new_el})
+
+
+def excitatory_charge(model, receptor_exc=0):
+    """Integrated excitatory action Q = sum(w*tau) over exc edges."""
+    el = model.params["edge_list"]
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    return float((w[ri == int(receptor_exc)] * tau[ri == int(receptor_exc)]).sum())
+
+
 def scale_tau(model, receptor, mult):
     """Selective synaptic-timescale multiplier (temporal-kernel edge).
 
@@ -1275,7 +1324,9 @@ def select_tail_model(t, y, amp_floor=0.02):
     if out["model"] != "M0":
         out["A"] = float(out["A"])  # residue kept explicit for acceptance
         if not (np.isfinite(out["T_R"]) and out["T_R"] < window / 2.0):
-            out.update({"model": "M0", "T_R": float("nan"), "A": 0.0, "omega": 0.0})
+            out.update({"model": "M0", "T_R": float("nan"), "A": 0.0,
+                        "omega": 0.0, "r2_oos": float("nan"),
+                        "bic": out["bic_null"]})
     return out
 
 

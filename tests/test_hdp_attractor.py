@@ -408,3 +408,28 @@ def test_tail_selector_synthetic():
     yslow = 3.0 * np.exp(-t / 5000.0) + 10.0 + rng.normal(0, 0.02, t.shape)
     ms = ha.select_tail_model(t, yslow)
     assert ms["model"] == "M0"  # T=5000 >> window/2=400: extrapolation
+
+
+def test_split_charge_preserved():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    q0 = ha.excitatory_charge(model)
+    m0 = ha.split_excitatory_kernel(model, 0.0, 50.0, seed=0)
+    assert ha.excitatory_charge(m0) == q0
+    assert np.allclose(np.asarray(m0.params["edge_list"].weight),
+                       np.asarray(model.params["edge_list"].weight))
+    for f in (0.05, 0.15, 0.35):
+        mf = ha.split_excitatory_kernel(model, f, 50.0, seed=0)
+        assert abs(ha.excitatory_charge(mf) / q0 - 1) < 1e-9  # exact
+        el, elf = model.params["edge_list"], mf.params["edge_list"]
+        ri = np.asarray(el.receptor_index)
+        slow = (np.asarray(elf.tau_ms, dtype=float) == 50.0) & (ri == 0)
+        assert abs(slow.sum() / (ri == 0).sum() - f) < 0.01  # fraction of exc
+        assert (np.asarray(elf.tau_ms)[ri == 1] == np.asarray(el.tau_ms)[ri == 1]).all()
+        w, wf = np.asarray(el.weight, float), np.asarray(elf.weight, float)
+        assert np.allclose(wf[slow], w[slow] * (2.0 / 50.0))
+        assert np.allclose(wf[~slow], w[~slow])
+        mg = ha.split_excitatory_kernel(model, f, 50.0, seed=1)
+        assert not np.allclose(np.asarray(mg.params["edge_list"].tau_ms, dtype=float),
+                               np.asarray(elf.tau_ms, dtype=float))  # seed matters

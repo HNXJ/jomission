@@ -367,8 +367,9 @@ def test_ramp_scaling_and_authority():
     assert np.isfinite(ar["dE"]) and np.isfinite(ar["dI"])
     pr = ha.probe_response(model)
     assert set(pr.keys()) == {"G_R", "T_R", "r2", "flips", "r_base", "r_peak",
-                              "t_ms", "envelope"}
+                              "t_ms", "envelope", "spikes_ds", "dt_ms"}
     assert pr["G_R"] >= 0 and np.isfinite(pr["r_base"])
+    assert np.asarray(pr["spikes_ds"]).shape[1] == 160
 
 
 def test_loop_delay_helper():
@@ -450,3 +451,35 @@ def test_split_charge_preserved():
         mg = ha.split_excitatory_kernel(model, f, 50.0, seed=1)
         assert not np.allclose(np.asarray(mg.params["edge_list"].tau_ms, dtype=float),
                                np.asarray(elf.tau_ms, dtype=float))  # seed matters
+
+
+def test_modular_rebuild_and_ablation():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=400, seed=0)), seed=0)
+    m2, info = ha.build_modular(model, M=4, chi=0.9, seed=0)
+    assert info["B"] == 40000  # N * 100 degree-ceiling scale
+    assert info["within_frac"] > 0.8
+    assert info["max_indeg"] < 200
+    mod = info["mod"]
+    assert set(np.unique(mod).tolist()) == {0, 1, 2, 3}
+    # stratified grammar: every module mirrors all 16 layer x class cells
+    tbl = model.neuron_table()
+    for mm in range(4):
+        keys = {(tbl[i]["layer"], tbl[i]["cell_type"]) for i in np.flatnonzero(mod == mm)}
+        assert len(keys) == 16
+    # determinism + chi control
+    m2b, _ = ha.build_modular(model, M=4, chi=0.9, seed=0)
+    assert np.allclose(np.asarray(m2b.params["edge_list"].weight),
+                       np.asarray(m2.params["edge_list"].weight))
+    m0, info0 = ha.build_modular(model, M=4, chi=0.0, seed=0)
+    assert abs(info0["within_frac"] - 0.25) < 0.05
+    # ablations: loop cut > 0 edges, cross control matched-count-ish
+    ml, nl = ha.ablate_loop(m2, 0, mod=mod)
+    assert nl > 0
+    mx, nx = ha.ablate_cross_matched(m2, nl, 0, seed=0, mod=mod)
+    assert nx > 0
+    # module tail selector runs on probe output
+    pr = ha.probe_response(m2)
+    sel = ha.module_tail_select(pr, mod, 0)
+    assert sel["model"] in ("M0", "M1", "M2")

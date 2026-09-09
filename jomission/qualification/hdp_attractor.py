@@ -1160,6 +1160,196 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def assign_modules(model, M):
+    """Stratified module ids: round-robin within (layer, cell_type) groups.
+
+    Each module mirrors the full layer x class grammar. Deterministic.
+    """
+    tbl = model.neuron_table()
+    key_of = [(r["layer"], r["cell_type"]) for r in tbl]
+    groups: dict = {}
+    for i, k in enumerate(key_of):
+        groups.setdefault(k, []).append(i)
+    mod = np.full(len(tbl), -1, dtype=np.int64)
+    for members in groups.values():
+        for j, i in enumerate(members):
+            mod[i] = j % int(M)
+    return mod
+
+
+def build_modular(model, M=4, budget=None, chi=0.0, seed=0):
+    """Fixed-budget modular rebuild. Total edges B (default N*100 degree
+    ceiling scale); chi fraction lands within-module, rest distributed.
+    Weights/receptors/taus sampled from the parent edge pool (distribution
+    preserved); posts redrawn (same layer+class as original post) either
+    within the pre's module (chi) or anywhere (1-chi). No self-loops.
+    Returns (model2, info). Sparsity effect isolated via chi=0 control.
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    rng = np.random.default_rng(int(seed))
+    tbl = model.neuron_table()
+    n = len(tbl)
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    mod = assign_modules(model, M)
+    B = int(budget) if budget else n * 100
+    B = min(B, len(pre))
+    take = rng.choice(len(pre), size=B, replace=False)
+    layers = np.array([r["layer"] for r in tbl])
+    clss = np.array([r["cell_type"] for r in tbl])
+    by_lc: dict = {}
+    for i in range(n):
+        by_lc.setdefault((layers[i], clss[i]), []).append(i)
+    for v in by_lc.values():
+        rng.shuffle(v)
+    new_pre, new_post, new_w, new_ri, new_tau = [], [], [], [], []
+    indeg = np.zeros(n, dtype=np.int64)
+    for e in take:
+        p = int(pre[e])
+        key = (layers[int(post[e])], clss[int(post[e])])
+        cand = by_lc[key]
+        if rng.random() < float(chi):
+            pool = [i for i in cand if mod[i] == mod[p] and i != p]
+            if not pool:
+                pool = [i for i in cand if i != p]
+        else:
+            pool = [i for i in cand if i != p]
+        # degree ceiling: prefer low-indegree targets
+        pool = sorted(pool, key=lambda i: indeg[i])[:32]
+        q = pool[int(rng.integers(len(pool)))]
+        indeg[q] += 1
+        new_pre.append(p); new_post.append(q)
+        new_w.append(w[e]); new_ri.append(int(ri[e])); new_tau.append(float(tau[e]))
+    new_el = EdgeList(pre=jnp.asarray(np.array(new_pre, dtype=np.int64)),
+                      post=jnp.asarray(np.array(new_post, dtype=np.int64)),
+                      weight=jnp.asarray(np.array(new_w, dtype=np.float32)),
+                      receptor_index=jnp.asarray(np.array(new_ri, dtype=np.int32)),
+                      tau_ms=jnp.asarray(np.array(new_tau, dtype=np.float32)),
+                      source_calibration_status=el.source_calibration_status)
+    m2 = replace(model, params={**model.params, "edge_list": new_el})
+    within = float(np.mean(mod[np.array(new_pre)] == mod[np.array(new_post)]))
+    info = {"M": int(M), "B": B, "chi": float(chi), "within_frac": within,
+            "max_indeg": int(indeg.max()), "seed": int(seed), "mod": mod}
+    return m2, info
+
+
+def module_impulse_response(model_g, target_mod=0, n_steps_pulse=2000,
+                            pulse_amp=3.0, n_settle=10000, n_tail=5000,
+                            dt_ms=DT_MS_DEFAULT, seed=0, mod=None, M=4):
+    """Stimulate E neurons of one module; A_module = dR_target/dR_others.
+
+    Early-window (first 100ms post-onset) mean-rate contrast vs matched
+    no-pulse baseline (same seed/state). Returns dict with A_module.
+    """
+    masks, members = family_masks(model_g)
+    tbl = model_g.neuron_table()
+    n = len(tbl)
+    if mod is None:
+        mod = assign_modules(model_g, M)
+    cls = np.array([r["cell_type"] for r in tbl])
+    gm = apply_theta6(model_g, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    E_t = np.flatnonzero((mod == int(target_mod)) & (cls == "E"))
+    outs = {}
+    for tag, boost in (("pulse", pulse_amp), ("base", 0.0)):
+        state = initial_state(gm, seed)
+        nN = n
+        extra = np.zeros(nN); extra[E_t] = boost
+        drive = jnp.asarray(np.tile(extra, (n_settle + n_steps_pulse + n_tail, 1)),
+                            dtype=gm.params["emitter"].v0.dtype)
+        state, spikes, _ = run_segment(step_fn, state, drive)
+        outs[tag] = np.asarray(spikes, dtype=float)
+    win = slice(n_settle, n_settle + 1000)  # first 100ms of pulse
+    dR = (outs["pulse"][win].mean(axis=0) - outs["base"][win].mean(axis=0)) * (1000.0 / dt_ms)
+    tgt = float(dR[(mod == int(target_mod))].mean())
+    oth = float(dR[(mod != int(target_mod))].mean())
+    return {"A_module": float(tgt / max(oth, 1e-9)), "dR_target": tgt,
+            "dR_others": oth, "mod": mod}
+
+
+def ablate_loop(model_g, target_mod=0, mod=None, M=4):
+    """Zero E1->I1 and I1->E1 (local loop OFF). Returns (model, n_cut)."""
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    masks, members = family_masks(model_g)
+    if mod is None:
+        mod = assign_modules(model_g, M)
+    el = model_g.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    loop = ((masks[("E", "I")] | masks[("I", "E")])
+            & (mod[pre] == int(target_mod)) & (mod[post] == int(target_mod)))
+    w2 = w.copy()
+    w2[loop] = 0.0
+    kwargs = dict(pre=el.pre, post=el.post,
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(loop.sum())
+
+
+def module_tail_select(pr, mod, target_mod, bin_ms=10.0):
+    """M0/M1/M2 on one module's post-release rate tail (causal memory test).
+
+    Returns selector dict. Memory attribution requires FULL-selects while
+    LOOPoff does not (matched seeds).
+    """
+    import numpy as np
+
+    sp = np.asarray(pr["spikes_ds"], dtype=float)  # stride-10
+    dt = float(pr["dt_ms"]) * 10.0
+    n_set = 10000 // 10
+    n_pulse = 2000 // 10
+    post = sp[n_set + n_pulse:]
+    sel = np.asarray(mod) == int(target_mod)
+    b = int(round(bin_ms / dt))
+    nb = post.shape[0] // b
+    r = post[:nb * b, :][:, sel].reshape(nb, b, -1).mean(axis=(1, 2)) * (1000.0 / dt)
+    t = np.arange(nb) * float(bin_ms)
+    return select_tail_model(t, r)
+
+
+def ablate_cross_matched(model_g, n_cut, target_mod=0, seed=0, mod=None, M=4):
+    """Zero n_cut random cross-module edges (matched-count control)."""
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    rng = np.random.default_rng(int(seed))
+    if mod is None:
+        mod = assign_modules(model_g, 4)
+    el = model_g.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    cross = np.flatnonzero(mod[pre] != mod[post])
+    cut = rng.choice(cross, size=min(int(n_cut), len(cross)), replace=False)
+    w2 = w.copy()
+    w2[cut] = 0.0
+    kwargs = dict(pre=el.pre, post=el.post,
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(len(cut))
+
+
 def set_loop_delay(model, D_ms, dt_ms=DT_MS_DEFAULT, families=(("E", "I"), ("I", "E"))):
     """E-I-E loop delay: D split symmetrically across both directions.
 
@@ -1455,4 +1645,6 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
     return {"G_R": G_R, "T_R": T_R, "r2": slope_r2, "flips": flips,
             "r_base": float(base), "r_peak": float(r[peak]),
             "t_ms": (np.arange(nb) * float(bin_ms)).tolist(),
-            "envelope": r.tolist()}
+            "envelope": r.tolist(),
+            "spikes_ds": sp[::10].tolist(),
+            "dt_ms": float(dt_ms)}

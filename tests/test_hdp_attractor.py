@@ -509,3 +509,24 @@ def test_modular_rebuild_and_ablation():
     pr = ha.probe_response(m2)
     sel = ha.module_tail_select(pr, mod, 0)
     assert sel["model"] in ("M0", "M1", "M2")
+
+
+def test_continuation_and_kickmap_plumbing():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    mq = ha.scale_tonic(model, 0.5)
+    e0 = np.asarray(model.params["emitter"].drive, dtype=float)
+    eq = np.asarray(mq.params["emitter"].drive, dtype=float)
+    assert np.allclose(eq, 0.5 * e0)
+    p = ha.continuation_point(model, 1.0, n_settle=500, n_meas=500,
+                              with_S=False)
+    assert p["rE"] > 1.0 and 0.0 <= p["Gamma_R"] <= 1.0
+    assert set(p.keys()) >= {"rE", "rI", "Gamma_R", "I_EE", "I_IE", "I_EI", "I_II"}
+    m0 = ha.scale_tonic(model, 0.0)
+    rows = ha.kick_release_map(m0, amps=(2.0, 6.0), pre_ms=200.0,
+                               rel_ms=300.0, seed=0)
+    assert len(rows) == 2
+    for r in rows:
+        assert set(r.keys()) >= {"rE_pre", "rI_pre", "rE_post", "rI_post", "R_E", "R_I"}
+        assert np.isfinite(r["R_E"]) and np.isfinite(r["R_I"])

@@ -1160,6 +1160,18 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def scale_tonic(model, q):
+    """Uniform tonic fraction q in [0,1] (continuation parameter).
+
+    Multiplies CURRENT emitter drive. HDP stays OFF (caller uses baseline
+    kernel); no other change. q=1 reproduces the reference operating point.
+    """
+    e = model.params["emitter"]
+    base = np.asarray(e.drive, dtype=float)
+    return model.with_emitter_parameters(
+        drive_per_neuron=jnp.asarray(base * float(q), dtype=e.drive.dtype))
+
+
 def current_decomposition(spikes, model, tonic, dt_ms=DT_MS_DEFAULT):
     """Realized current fractions: Gamma_R global + per-class, EE/EI/IE/II.
 
@@ -1704,3 +1716,110 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
             "envelope": r.tolist(),
             "spikes_ds": sp[::10].tolist(),
             "dt_ms": float(dt_ms)}
+
+
+# --------------------------------------------------------------------------
+# Tonic continuation + kick/release empirical vector field (no bridging).
+# HDP OFF throughout. Tonic fraction q scales CURRENT emitter drive.
+# --------------------------------------------------------------------------
+def continuation_point(model, q, n_settle=15000, n_meas=10000,
+                       dt_ms=DT_MS_DEFAULT, seed=0, with_S=True, dtheta=0.2):
+    """One tonic-continuation point: settled r(q), currents, S(q).
+
+    S(q) via central differences (8 branches + ref, same protocol as S_syn
+    for comparability). Tonic = base drive * q (HDP off, baseline kernel).
+    """
+    mq = scale_tonic(model, q)
+    masks, members = family_masks(mq)
+    wsums = edge_weight_sums(mq)
+    gm = apply_theta6(mq, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    state = initial_state(gm, seed)
+    nN = int(gm.params["emitter"].n_neurons)
+    drive = jnp.zeros((n_settle + n_meas, nN), dtype=gm.params["emitter"].v0.dtype)
+    state, spikes, _ = run_segment(step_fn, state, drive)
+    sp = np.asarray(spikes)
+    tail = sp[n_settle:]
+    rates = class_rates(tail, dt_ms, members)
+    ton = np.asarray(gm.params["emitter"].drive, dtype=float)
+    dec = current_decomposition(tail, gm, ton, dt_ms)
+    out = {"q": float(q), "rE": rates["E"], "rI": rates["I"], "sub": rates,
+           "Gamma_R": dec["Gamma_R"], "Gamma_E": dec["Gamma_E"],
+           "I_EE": dec["I_EE"], "I_IE": dec["I_IE"],
+           "I_EI": dec["I_EI"], "I_II": dec["I_II"]}
+    if with_S:
+        est = estimate_S(mq, np.zeros(4), 0.0, dtheta=dtheta,
+                         n_settle=n_settle, n_meas=n_meas, dt_ms=dt_ms, seed=seed)
+        out["S"] = est["S"]
+    return out
+
+
+def linearity_probe(model, q, dths=(0.1, 0.25, 0.5, -0.25), n_settle=15000,
+                    n_meas=10000, dt_ms=DT_MS_DEFAULT, seed=0):
+    """Forward EE-theta steps at fixed q: Delta rE vs S_EE(q) * dtheta.
+
+    Returns per-step (dtheta, drE, linear_pred, rel_err). Tests where the
+    local derivative ceases to be predictive. No extrapolation beyond.
+    """
+    mq = scale_tonic(model, q)
+    masks, members = family_masks(mq)
+    base = reference_rates(mq, np.zeros(4), 0.0, n_settle, n_meas, dt_ms,
+                           seed, members)[:2]
+    ref = np.array(base, float)
+    S = estimate_S(mq, np.zeros(4), 0.0, dtheta=0.1, n_settle=n_settle,
+                   n_meas=n_meas, dt_ms=dt_ms, seed=seed)["S"]
+    rows = []
+    for h in dths:
+        th = np.zeros(4)
+        th[0] = h
+        r = np.array(reference_rates(mq, th, 0.0, n_settle, n_meas, dt_ms,
+                                     seed, members)[:2], float)
+        pred = S[0, 0] * h
+        rows.append({"dtheta": float(h), "drE": float(r[0] - ref[0]),
+                     "pred": float(pred),
+                     "rel_err": float(abs(r[0] - ref[0] - pred) / max(abs(pred), 1e-9))})
+    return {"q": float(q), "S_EE": float(S[0, 0]), "rows": rows}
+
+
+def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
+                     rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, seed=0):
+    """Zero-tonic kick/release: pre-drive at amp, release, measure flow.
+
+    Model must already carry zero tonic (caller scales q=0). Cold start per
+    amp (matched). Returns list of (r_pre, r_post) + flow R = post - pre
+    in (rE, rI). Short runs; no HDP; no bridging assumptions.
+    """
+    masks, members = family_masks(model)
+    gm = apply_theta6(model, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(200.0 / float(dt_ms)))
+    rows = []
+    for amp in amps:
+        state = initial_state(gm, seed)
+        drive = jnp.concatenate([jnp.full((n_pre, nN), float(amp), dtype=dtype),
+                                 jnp.zeros((n_rel, nN), dtype=dtype)])
+        state, spikes, _ = run_segment(step_fn, state, drive)
+        sp = np.asarray(spikes, dtype=float)
+        r_pre = sp[n_pre - n_win:n_pre].mean(axis=0) * (1000.0 / dt_ms)
+        r_post = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
+        E_idx = np.asarray(members["E"])
+        I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
+        rows.append({"amp": float(amp),
+                     "rE_pre": float(r_pre[E_idx].mean()),
+                     "rI_pre": float(r_pre[I_idx].mean()),
+                     "rE_post": float(r_post[E_idx].mean()),
+                     "rI_post": float(r_post[I_idx].mean())})
+    for r in rows:
+        r["R_E"] = r["rE_post"] - r["rE_pre"]
+        r["R_I"] = r["rI_post"] - r["rI_pre"]
+    return rows

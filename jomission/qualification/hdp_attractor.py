@@ -1997,3 +1997,126 @@ def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
         results[tag] = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
     results["dR_E"] = results["replaced"] - results["orig"]
     return results
+
+
+# --------------------------------------------------------------------------
+# Clamp vs recurrent fork: current-clamp response map + waveform replay.
+# Same release microstate; HDP OFF; no substrate change.
+# --------------------------------------------------------------------------
+def release_prep(model_q0, amp=6.0, pre_ms=500.0, dt_ms=DT_MS_DEFAULT, seed=0):
+    """Shared release microstate + base step_fn. Returns dict."""
+    gm = apply_theta6(model_q0, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    state = initial_state(gm, seed)
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    state, sp_pre, _ = run_segment(step_fn, state,
+                               jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    masks, members = family_masks(gm)
+    E_idx = np.asarray(members["E"])
+    I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
+    r_rel = np.asarray(sp_pre, dtype=float)[-2000:].mean(axis=0) * (1000.0 / dt_ms)
+    return {"state": state, "step_fn": step_fn, "model": gm,
+            "members": members, "masks": masks,
+            "rE": float(r_rel[E_idx].mean()), "rI": float(r_rel[I_idx].mean())}
+
+
+def clamp_curve(prep, currents=(0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 12.0),
+                rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0,
+                target="E"):
+    """Constant additive current to target class post-release.
+
+    Returns list of (I, r_end, R) with R vs the recorded release rate.
+    Sustained = r_end holds above floor without saturation; finds I_sustain.
+    """
+    members = prep["members"]
+    nN = int(prep["model"].params["emitter"].n_neurons)
+    dtype = prep["model"].params["emitter"].v0.dtype
+    tbl = prep["model"].neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    tgt = np.flatnonzero(cls == target) if target != "I" else np.flatnonzero(cls != "E")
+    E_idx = np.asarray(members["E"])
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(float(win_ms) / float(dt_ms)))
+    rows = []
+    for I in currents:
+        extra = np.zeros(nN)
+        extra[tgt] = float(I)
+        drive = jnp.asarray(np.tile(extra, (n_rel, 1)), dtype=dtype)
+        _, sp, _ = run_segment(prep["step_fn"], prep["state"], drive)
+        sp = np.asarray(sp, dtype=float)
+        r_end = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
+        rows.append({"I": float(I), "rE_end": r_end})
+    return rows
+
+
+def per_neuron_Irec(spikes, model, dt_ms=DT_MS_DEFAULT):
+    """Per-neuron realized recurrent current waveforms [T, N].
+
+    Offline reconstruction (validated): per-receptor exponential filtering
+    of realized spikes through signed weights. Includes kernel tau/dt gain.
+    """
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    ri = np.asarray(el.receptor_index, dtype=np.int64)
+    tau = np.asarray(el.tau_ms, dtype=float)
+    n = int(w.shape[0] and max(int(post.max()), int(pre.max())) + 1)
+    sp = np.asarray(spikes, dtype=float)
+    Irec = np.zeros_like(sp)
+    for r in np.unique(ri):
+        sel = ri == r
+        tau_r = float(np.unique(tau[sel])[0])
+        f = _exp_filter(sp, tau_r, dt_ms) * (tau_r / dt_ms)
+        np.add.at(Irec, (slice(None), post[sel]), f[:, pre[sel]] * w[sel][None, :])
+    return Irec
+
+
+def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
+    """A vs C: reference release vs REC_OFF + recorded per-neuron I_rec
+    waveforms injected as drive. Same microstate. Compares trajectories.
+
+    Returns dict with both E-rate tails + max abs divergence + correlation.
+    Agreement => architectural (magnitude) problem; disagreement =>
+    representation/coupling problem.
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    members = prep["members"]
+    E_idx = np.asarray(members["E"])
+    gm = prep["model"]
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(float(win_ms) / float(dt_ms)))
+    # A: reference release, record spikes for waveform extraction
+    _, spA, _ = run_segment(prep["step_fn"], prep["state"],
+                            jnp.zeros((n_rel, nN), dtype=dtype))
+    spA = np.asarray(spA, dtype=float)
+    Irec = per_neuron_Irec(spA, gm, dt_ms)
+    # C: REC_OFF model, inject recorded waveforms as drive
+    el = gm.params["edge_list"]
+    gm_off = replace(gm, params={**gm.params, "edge_list": EdgeList(
+        pre=el.pre, post=el.post, weight=jnp.zeros_like(el.weight),
+        receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status)})
+    step_off, _ = jtfne.compile_step_fn(gm_off, dt_ms=float(dt_ms),
+                                        kernel="baseline",
+                                        record_weight_trace=False)
+    _, spC, _ = run_segment(step_off, prep["state"],
+                            jnp.asarray(Irec[:n_rel], dtype=dtype))
+    spC = np.asarray(spC, dtype=float)
+    b = max(1, n_rel // 20)
+    rA = spA[:, E_idx].mean(axis=1).reshape(-1) * (1000.0 / dt_ms)
+    rC = spC[:, E_idx].mean(axis=1).reshape(-1) * (1000.0 / dt_ms)
+    return {"rA_end": float(rA[-n_win:].mean()), "rC_end": float(rC[-n_win:].mean()),
+            "max_div": float(np.abs(rA - rC).max()),
+            "corr": float(np.corrcoef(rA, rC)[0, 1]) if rA.std() > 0 and rC.std() > 0 else float("nan"),
+            "Irec_mean": float(np.abs(Irec).mean())}

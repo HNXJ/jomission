@@ -545,3 +545,22 @@ def test_release_audit_and_u_replace():
     r = ha.u_replace_fork(m0, "rest", pre_ms=200.0, rel_ms=200.0, seed=0)
     assert set(r.keys()) == {"orig", "replaced", "dR_E"}
     assert np.isfinite(r["dR_E"])
+
+
+def test_clamp_and_replay_plumbing():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    m0 = ha.scale_tonic(model, 0.0)
+    prep = ha.release_prep(m0, amp=6.0, pre_ms=200.0, seed=0)
+    assert set(prep.keys()) >= {"state", "step_fn", "model", "rE", "rI"}
+    rows = ha.clamp_curve(prep, currents=(0.0, 4.0), rel_ms=300.0)
+    assert [r["I"] for r in rows] == [0.0, 4.0]
+    assert rows[1]["rE_end"] >= rows[0]["rE_end"]  # monotone drive response
+    w = ha.waveform_replay(prep, rel_ms=300.0)
+    assert set(w.keys()) >= {"rA_end", "rC_end", "max_div", "corr", "Irec_mean"}
+    assert w["Irec_mean"] >= 0.0
+    Irec = ha.per_neuron_Irec(
+        np.random.default_rng(0).integers(0, 2, size=(500, 160)).astype(float),
+        prep["model"])
+    assert Irec.shape == (500, 160) and np.isfinite(Irec).all()

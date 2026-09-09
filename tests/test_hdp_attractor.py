@@ -371,6 +371,23 @@ def test_ramp_scaling_and_authority():
     assert pr["G_R"] >= 0 and np.isfinite(pr["r_base"])
 
 
+def test_loop_delay_helper():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    m0 = ha.set_loop_delay(model, 0.0)
+    assert int(np.asarray(m0.params["edge_list"].delay_steps).max()) == 0
+    m5 = ha.set_loop_delay(model, 10.0)
+    ds = np.asarray(m5.params["edge_list"].delay_steps)
+    masks, _ = ha.family_masks(model)
+    assert set(np.unique(ds).tolist()) == {0, 50}  # 5ms/0.1 per direction
+    assert (ds[np.asarray(masks[("E", "E")])] == 0).all()
+    assert (ds[np.asarray(masks[("E", "I")])] == 50).all()
+    assert (ds[np.asarray(masks[("I", "E")])] == 50).all()
+    assert np.allclose(np.asarray(m5.params["edge_list"].weight),
+                       np.asarray(model.params["edge_list"].weight))
+
+
 def test_scale_tau_selective():
     from jomission.qualification.cmin import repair_jitter, repair_tonic
 

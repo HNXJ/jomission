@@ -1160,6 +1160,26 @@ def zero_recurrence(model):
     return scale_recurrence(model, 0.0)
 
 
+def set_loop_delay(model, D_ms, dt_ms=DT_MS_DEFAULT, families=(("E", "I"), ("I", "E"))):
+    """E-I-E loop delay: D split symmetrically across both directions.
+
+    Only the listed families get nonzero delay_steps; all else stays 0.
+    Weights, taus, topology untouched. The edge kernel carries delay_state
+    (verified live); no backend switch required.
+    """
+    from jaxfne.emitters import edge_list_with_delay_ms
+
+    masks, _ = family_masks(model)
+    n = int(np.asarray(model.params["edge_list"].pre).shape[0])
+    dms = np.zeros(n)
+    for fam in families:
+        dms[np.asarray(masks[fam])] = float(D_ms) / 2.0
+    from dataclasses import replace
+
+    el2 = edge_list_with_delay_ms(model.params["edge_list"], dms, float(dt_ms))
+    return replace(model, params={**model.params, "edge_list": el2})
+
+
 def split_excitatory_kernel(model, f_S, tau_S, seed=0, receptor_exc=0):
     """Slow-excitatory fraction at constant integrated charge.
 

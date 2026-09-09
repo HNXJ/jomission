@@ -1823,3 +1823,66 @@ def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
         r["R_E"] = r["rE_post"] - r["rE_pre"]
         r["R_I"] = r["rI_post"] - r["rI_pre"]
     return rows
+
+
+# --------------------------------------------------------------------------
+# Fork-flow machinery: same microstate, different params (D_p inverse
+# problem) + Markov/closure test of the (rE, rI) reduction.
+# --------------------------------------------------------------------------
+def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0,
+                    win_ms=200.0):
+    """Run pre-drive history; return (end_state, r_rel, step_fn_base).
+
+    r_rel measured over last win_ms of drive. State carries full microstate
+    (X, syn, H, w, RNG) for forking.
+    """
+    gm = apply_theta6(model, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    state = initial_state(gm, seed)
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    n_win = int(round(float(win_ms) / float(dt_ms)))
+    drive = jnp.full((n_pre, nN), float(amp), dtype=dtype)
+    state, spikes, _ = run_segment(step_fn, state, drive)
+    sp = np.asarray(spikes, dtype=float)
+    masks, members = family_masks(gm)
+    E_idx = np.asarray(members["E"])
+    I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
+    r_rel = (sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms))
+    return {"state": state, "step_fn": step_fn, "model": gm,
+            "rE": float(r_rel[E_idx].mean()), "rI": float(r_rel[I_idx].mean())}
+
+
+def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT,
+              win_ms=200.0):
+    """Continue prep['state'] under variant (or base) params, zero drive.
+
+    Returns (r_end, R) with R = r_end - r_rel over win_ms windows.
+    Variant shares microstate: pure parameter effect on flow.
+    """
+    from jomission.qualification.cmin import initial_state  # noqa (namespace)
+
+    masks, members = family_masks(prep["model"])
+    if model_variant is None:
+        step_fn = prep["step_fn"]
+    else:
+        step_fn, _ = jtfne.compile_step_fn(model_variant, dt_ms=float(dt_ms),
+                                           kernel="baseline",
+                                           record_weight_trace=False)
+    nN = int(prep["model"].params["emitter"].n_neurons)
+    dtype = prep["model"].params["emitter"].v0.dtype
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(float(win_ms) / float(dt_ms)))
+    drive = jnp.zeros((n_rel, nN), dtype=dtype)
+    state, spikes, _ = run_segment(step_fn, prep["state"], drive)
+    sp = np.asarray(spikes, dtype=float)
+    E_idx = np.asarray(members["E"])
+    I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
+    r_end = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
+    return {"rE": float(r_end[E_idx].mean()), "rI": float(r_end[I_idx].mean()),
+            "R_E": float(r_end[E_idx].mean()) - prep["rE"],
+            "R_I": float(r_end[I_idx].mean()) - prep["rI"]}

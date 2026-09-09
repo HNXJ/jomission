@@ -61,11 +61,8 @@ from jaxfne import Simulation, RuntimeConfig
 import jaxfne.hdp_network as hdp
 from jaxfne.io import config_hash
 
-# run_continuation is in jaxfne._pipeline (public pipeline layer)
-try:
-    from jaxfne import run_continuation  # type: ignore
-except ImportError:
-    from jaxfne._pipeline import run_continuation  # type: ignore
+# run_continuation is canonical in jaxfne>=0.4.20 (root export, 0.4.21 smoothed)
+from jaxfne import run_continuation  # type: ignore
 
 from jomission.network.builder import build_jomission_model
 from jomission.network.rf import RFConfig, RFOperator

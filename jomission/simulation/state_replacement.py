@@ -42,8 +42,7 @@ import jax.numpy as jnp
 import numpy as np
 
 import jaxfne as jtfne
-from jaxfne import Simulation, RuntimeConfig
-from jaxfne._pipeline import ContinuationState, DynamicState
+from jaxfne import ContinuationState, DynamicState, Simulation, RuntimeConfig
 
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule

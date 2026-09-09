@@ -1886,3 +1886,114 @@ def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT,
     return {"rE": float(r_end[E_idx].mean()), "rI": float(r_end[I_idx].mean()),
             "R_E": float(r_end[E_idx].mean()) - prep["rE"],
             "R_I": float(r_end[I_idx].mean()) - prep["rI"]}
+
+
+# --------------------------------------------------------------------------
+# Funnel ownership: release-state audit (v/u/currents, matched dv units)
+# + u-replacement fork. No parameter optimization.
+# --------------------------------------------------------------------------
+def release_audit(model_q0, amp, pre_ms=500.0, rel_ms=500.0,
+                  dt_ms=DT_MS_DEFAULT, seed=0, bin_ms=50.0):
+    """Run pre-drive then zero release with u_trace (no edge recording;
+    currents reconstructed offline via validated path).
+
+    Returns release distributions (v_E, u_E), binned collapse series of
+    u_E mean, intrinsic proxy (-u_E), realized I_rec->E (exc/inh), and
+    per-bin E rate. All currents in dv units (directly comparable).
+    """
+    gm = apply_theta6(model_q0, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False,
+                                       record_u_trace=True)
+    from jomission.qualification.cmin import initial_state
+
+    state = initial_state(gm, seed)
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    drive = jnp.concatenate([jnp.full((n_pre, nN), float(amp), dtype=dtype),
+                             jnp.zeros((n_rel, nN), dtype=dtype)])
+    state, out = jtfne.run_continuation(step_fn, state, drive)
+    import jax
+
+    jax.block_until_ready(out[0])
+    v, sp, u = (np.asarray(out[0]), np.asarray(out[1], dtype=float),
+                np.asarray(out[4]))
+    masks, members = family_masks(gm)
+    E_idx = np.asarray(members["E"])
+    wsums = edge_weight_sums(gm)
+    rel = n_pre
+    out_d = {
+        "vE_rel": {"mean": float(v[rel, E_idx].mean()),
+                   "std": float(v[rel, E_idx].std()),
+                   "min": float(v[rel, E_idx].min()),
+                   "max": float(v[rel, E_idx].max())},
+        "uE_rel": {"mean": float(u[rel, E_idx].mean()),
+                   "std": float(u[rel, E_idx].std()),
+                   "min": float(u[rel, E_idx].min()),
+                   "max": float(u[rel, E_idx].max())},
+    }
+    Iexc_full, Iinh_full = realized_currents_E(sp, wsums, dt_ms)
+    b = int(round(float(bin_ms) / float(dt_ms)))
+    post = slice(rel, rel + n_rel)
+    nb = n_rel // b
+    series = []
+    for k in range(nb):
+        sl = slice(rel + k * b, rel + (k + 1) * b)
+        series.append({
+            "t_ms": float((rel + k * b) * dt_ms),
+            "uE": float(u[sl][:, E_idx].mean()),
+            "Iexc_E": float(Iexc_full[sl].mean()),
+            "Iinh_E": float(Iinh_full[sl].mean()),
+            "rE": float(sp[sl][:, E_idx].mean() * (1000.0 / dt_ms)),
+        })
+    out_d["series"] = series
+    out_d["end_state"] = state
+    return out_d
+
+
+def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
+                   dt_ms=DT_MS_DEFAULT, seed=0, amp=6.0, pre_ms=500.0):
+    """Pre-drive, replace u_E at release with reference, continue at zero.
+
+    u_mode 'rest': u = b*v per neuron (resting recovery).
+    u_mode 'tonic': u_E = u_ref scalar (tonic-supported mean, measured live).
+    Same microstate otherwise. Returns orig/replaced E rates + dR_E.
+    Causal u-authority test over the funnel.
+    """
+    gm = apply_theta6(model_q0, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    masks, members = family_masks(gm)
+    E_idx = np.asarray(members["E"])
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(200.0 / float(dt_ms)))
+    state = initial_state(gm, seed)
+    pre_drive = jnp.full((n_pre, nN), float(amp), dtype=dtype)
+    state, _, _ = run_segment(step_fn, state, pre_drive)
+    # release microstate captured; fork two continuations
+    results = {}
+    for tag in ("orig", "replaced"):
+        st = state
+        if tag == "replaced":
+            e = gm.params["emitter"]
+            b = np.asarray(e.b, dtype=float)
+            v = np.asarray(st.dynamic.v, dtype=float)
+            u = np.asarray(st.dynamic.u, dtype=float).copy()
+            if u_mode == "rest":
+                u[E_idx] = b[E_idx] * v[E_idx]
+            else:
+                u[E_idx] = float(u_ref)
+            st = st._replace(dynamic=st.dynamic._replace(
+                u=jnp.asarray(u, dtype=st.dynamic.u.dtype)))
+        st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
+        sp = np.asarray(sp, dtype=float)
+        results[tag] = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
+    results["dR_E"] = results["replaced"] - results["orig"]
+    return results

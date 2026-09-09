@@ -530,3 +530,18 @@ def test_continuation_and_kickmap_plumbing():
     for r in rows:
         assert set(r.keys()) >= {"rE_pre", "rI_pre", "rE_post", "rI_post", "R_E", "R_I"}
         assert np.isfinite(r["R_E"]) and np.isfinite(r["R_I"])
+
+
+def test_release_audit_and_u_replace():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    m0 = ha.scale_tonic(model, 0.0)
+    a = ha.release_audit(m0, 6.0, pre_ms=200.0, rel_ms=200.0, seed=0)
+    assert set(a["vE_rel"].keys()) == {"mean", "std", "min", "max"}
+    assert set(a["uE_rel"].keys()) == {"mean", "std", "min", "max"}
+    assert len(a["series"]) == 4  # 200ms / 50ms bins
+    assert set(a["series"][0].keys()) >= {"uE", "Iexc_E", "Iinh_E", "rE"}
+    r = ha.u_replace_fork(m0, "rest", pre_ms=200.0, rel_ms=200.0, seed=0)
+    assert set(r.keys()) == {"orig", "replaced", "dR_E"}
+    assert np.isfinite(r["dR_E"])

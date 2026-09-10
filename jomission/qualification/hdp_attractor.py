@@ -2247,3 +2247,80 @@ def ablate_src_to_E(model_g, src_class):
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
     return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(cut.sum())
+
+
+# --------------------------------------------------------------------------
+# Intrinsic-compartment decomposition: subthreshold vs spike/reset history.
+# Same release microstate; DynamicState fields replaced one at a time.
+# No parameter changes. HDP OFF.
+# --------------------------------------------------------------------------
+def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"),
+                    amp=12.0, pre_ms=500.0, rel_ms=2000.0, dt_ms=DT_MS_DEFAULT,
+                    seed=0, vdep_mv=-50.0):
+    """Fork release microstate with single-field replacements (plus rebirth
+    conjunction: v+u+syn+prev reset jointly).
+    full: unmodified control. syn0: syn_state -> 0 (kill network history).
+    vdep: v_E -> vdep_mv (subthreshold position). urest: u_E -> b*v
+    (reset-history accumulation removed). prev0: prev_spikes -> 0.
+    Returns {variant: E-tail rate + full per-class tails}.
+    """
+    gm = apply_theta6(model_q0, np.zeros(6))
+    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    from jomission.qualification.cmin import initial_state
+
+    masks, members = family_masks(gm)
+    E_idx = np.asarray(members["E"])
+    nN = int(gm.params["emitter"].n_neurons)
+    dtype = gm.params["emitter"].v0.dtype
+    n_pre = int(round(float(pre_ms) / float(dt_ms)))
+    n_rel = int(round(float(rel_ms) / float(dt_ms)))
+    n_win = int(round(200.0 / float(dt_ms)))
+    state = initial_state(gm, seed)
+    state, _, _ = run_segment(step_fn, state,
+                              jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    e = gm.params["emitter"]
+    out = {}
+    for tag in variants:
+        st = state
+        dyn = st.dynamic
+        v = np.asarray(dyn.v, dtype=float)
+        u = np.asarray(dyn.u, dtype=float)
+        b = np.asarray(e.b, dtype=float)
+        if tag == "syn0":
+            st = st._replace(dynamic=dyn._replace(
+                syn_state=jnp.zeros_like(dyn.syn_state)))
+        elif tag == "vdep":
+            v = v.copy()
+            v[E_idx] = float(vdep_mv)
+            st = st._replace(dynamic=dyn._replace(
+                v=jnp.asarray(v, dtype=dyn.v.dtype)))
+        elif tag == "urest":
+            u = u.copy()
+            u[E_idx] = b[E_idx] * v[E_idx]
+            st = st._replace(dynamic=dyn._replace(
+                u=jnp.asarray(u, dtype=dyn.u.dtype)))
+        elif tag == "prev0":
+            st = st._replace(dynamic=dyn._replace(
+                prev_spikes=jnp.zeros_like(dyn.prev_spikes)))
+        elif tag == "rebirth":
+            v = v.copy()
+            v[E_idx] = float(vdep_mv)
+            u = u.copy()
+            u[E_idx] = b[E_idx] * v[E_idx]
+            st = st._replace(dynamic=dyn._replace(
+                v=jnp.asarray(v, dtype=dyn.v.dtype),
+                u=jnp.asarray(u, dtype=dyn.u.dtype),
+                syn_state=jnp.zeros_like(dyn.syn_state),
+                prev_spikes=jnp.zeros_like(dyn.prev_spikes)))
+        elif tag != "full":
+            raise ValueError(tag)
+        st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
+        sp = np.asarray(sp, dtype=float)
+        tail = sp[-n_win:]
+        out[tag] = {c: float(tail[:, np.asarray(members[c])].mean() * (1000.0 / dt_ms))
+                    for c in ("E", "PV", "SST", "VIP")}
+        # synaptic magnitude at release (first bin) for accounting
+        if tag == "full":
+            out["syn_rel_mean"] = float(np.abs(np.asarray(dyn.syn_state, dtype=float)).mean())
+    return out

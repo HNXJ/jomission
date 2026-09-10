@@ -566,6 +566,22 @@ def test_clamp_and_replay_plumbing():
     assert Irec.shape == (500, 160) and np.isfinite(Irec).all()
 
 
+def test_intrinsic_forks_plumbing():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    m0 = ha.scale_tonic(model, 0.0)
+    out = ha.intrinsic_forks(m0, variants=("full", "syn0", "vdep", "urest", "prev0", "rebirth"),
+                             amp=6.0, pre_ms=200.0, rel_ms=300.0, seed=0)
+    assert set(out.keys()) >= {"full", "syn0", "vdep", "urest", "prev0", "rebirth"}
+    for tag, rates in out.items():
+        if tag == "syn_rel_mean":
+            continue
+        assert set(rates.keys()) == {"E", "PV", "SST", "VIP"}
+        assert all(np.isfinite(v) for v in rates.values())
+    assert np.isfinite(out["syn_rel_mean"])
+
+
 def test_ablate_src_to_E_counts():
     from jomission.qualification.cmin import repair_jitter, repair_tonic
 

@@ -2219,3 +2219,31 @@ def kernel_map(model, w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
                          "q50": float(np.quantile(per_edge, 0.5)),
                          "q90": float(np.quantile(per_edge, 0.9))})
     return rows
+
+
+def ablate_src_to_E(model_g, src_class):
+    """Zero src_class->E edges only (class-resolved veto fork).
+
+    Returns (model, n_cut). Same-microstate forks test whether one
+    inhibitory class's transient recruitment vetoes basin capture.
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    tbl = model_g.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    el = model_g.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    cut = (cls[pre] == str(src_class)) & (cls[post] == "E")
+    w2 = w.copy()
+    w2[cut] = 0.0
+    kwargs = dict(pre=el.pre, post=el.post,
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(cut.sum())

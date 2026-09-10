@@ -566,6 +566,25 @@ def test_clamp_and_replay_plumbing():
     assert Irec.shape == (500, 160) and np.isfinite(Irec).all()
 
 
+def test_ablate_src_to_E_counts():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    tbl = model.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre)
+    post = np.asarray(el.post)
+    for src in ("PV", "SST", "VIP"):
+        n_exp = (cls[pre] == src) & (cls[post] == "E")
+        m2, n = ha.ablate_src_to_E(model, src)
+        assert n == int(n_exp.sum()) and n > 0
+        w0 = np.asarray(el.weight, dtype=float)
+        w2 = np.asarray(m2.params["edge_list"].weight, dtype=float)
+        assert (w2[n_exp] == 0.0).all()
+        assert np.allclose(w2[~n_exp], w0[~n_exp])
+
+
 def test_calibration_star_kmap():
     m, w0 = ha.calibration_star(n_post=10, seed=0)
     assert w0 > 0

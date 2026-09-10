@@ -294,3 +294,105 @@ def candidate_trajectory(model, init_kind="zero", duration_ms=120000.0,
             "seg_rates": [s["mean"] for s in segs],
             "info": {"n_steps": n_steps, "init": init_kind, "end_state": state,
                      "dt_ms": float(dt_ms)}}
+
+
+# --------------------------------------------------------------------------
+# E/I-geometry verification candidates (review-authorized, HDP OFF).
+# (a_EE, c_EI, d16): selective EE gain a, selective E->I gain c, E d=16,
+# tonic exactly 0 after init. Four init classes: silent / weak / strong /
+# near-predicted. No tuning: exactly the paper family.
+# --------------------------------------------------------------------------
+def build_ei_candidate(seed=0, n_total=CMIN_DEFAULT_N, a_ee=80.0, c_ei=10.0,
+                       d_E=16.0):
+    """Paper-family substrate. ONLY delta vs repaired C_min: EE x a_EE,
+    EI x c_EI, E d, tonic zeroed. HDP off by construction (baseline use)."""
+    import numpy as _np
+
+    from jomission.qualification.hdp_attractor import scale_family
+
+    m = repair_jitter(repair_tonic(build_cmin(n_total=n_total, seed=seed)), seed=seed)
+    m = scale_family(m, ("E", "E"), float(a_ee))
+    m = scale_family(m, ("E", "I"), float(c_ei))
+    e = m.params["emitter"]
+    tbl = m.neuron_table()
+    cls = _np.array([str(r["cell_type"]) for r in tbl])
+    d = _np.asarray(e.d, dtype=float)
+    d[cls == "E"] = float(d_E)
+    return m.with_emitter_parameters(
+        d_per_neuron=jnp.asarray(d, dtype=e.d.dtype),
+        drive_per_neuron=jnp.zeros_like(e.drive),
+    )
+
+
+def ei_init_battery(model, inits=("silent", "weak", "strong", "active"),
+                    duration_ms=120000.0, dt_ms=CMIN_DT_MS, seed=0,
+                    seg_ms=10000.0, keep_ms=20000.0):
+    """Run all init classes on one candidate. Kick table (additive, E-only
+    except silent): silent none; weak +5/100ms; strong +12/300ms;
+    active V_E=-55 + E-kick +12/300ms. Drive zero afterwards.
+    Returns {init: candidate_trajectory-like dict} via chunked runner.
+    """
+    import numpy as np
+
+    out = {}
+    for init in inits:
+        if init == "silent":
+            out[init] = candidate_trajectory(
+                model, init_kind="zero", duration_ms=duration_ms,
+                dt_ms=dt_ms, seed=seed, seg_ms=seg_ms, keep_ms=keep_ms)
+        elif init == "weak":
+            out[init] = _kick_run(model, 5.0, 100.0, None, duration_ms,
+                                  dt_ms, seed, seg_ms, keep_ms)
+        elif init == "strong":
+            out[init] = _kick_run(model, 12.0, 300.0, None, duration_ms,
+                                  dt_ms, seed, seg_ms, keep_ms)
+        elif init == "active":
+            out[init] = _kick_run(model, 12.0, 300.0, -55.0, duration_ms,
+                                  dt_ms, seed, seg_ms, keep_ms)
+        else:
+            raise ValueError(init)
+    return out
+
+
+def _kick_run(model, amp, kick_ms, vE_init, duration_ms, dt_ms, seed,
+              seg_ms, keep_ms):
+    """Chunked E-targeted kick run with optional V_E preset."""
+    import numpy as np
+
+    n_neurons = int(model.params["emitter"].n_neurons)
+    dtype = model.params["emitter"].v0.dtype
+    step_fn, _ = jtfne.compile_step_fn(model, dt_ms=float(dt_ms), kernel="baseline",
+                                       record_weight_trace=False)
+    state = initial_state(model, seed)
+    tbl = model.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    if vE_init is not None:
+        v = np.asarray(state.dynamic.v).copy()
+        v[cls == "E"] = float(vE_init)
+        state = state._replace(dynamic=state.dynamic._replace(v=jnp.asarray(v, dtype=dtype)))
+    n_steps = int(round(float(duration_ms) / float(dt_ms)))
+    n_kick = int(round(float(kick_ms) / float(dt_ms)))
+    n_seg = int(round(float(seg_ms) / float(dt_ms)))
+    n_keep = int(round(float(keep_ms) / float(dt_ms)))
+    segs = []
+    done, kicked = 0, 0
+    while done < n_steps:
+        k = min(n_seg, n_steps - done)
+        drive = jnp.zeros((k, n_neurons), dtype=dtype)
+        if kicked < n_kick:
+            kk = min(k, n_kick - kicked)
+            arr = np.zeros((kk, n_neurons), dtype=np.float32)
+            arr[:, cls == "E"] = float(amp)
+            drive = drive.at[:kk].set(jnp.asarray(arr, dtype=dtype))
+            kicked += kk
+        state, out = jtfne.run_continuation(step_fn, state, drive)
+        jax.block_until_ready(out[0])
+        sp = np.asarray(out[1])
+        hz = sp.mean(axis=0) * (1000.0 / float(dt_ms))
+        segs.append({"mean": {c: float(hz[cls == c].mean()) for c in ("E", "PV", "SST", "VIP")},
+                     "spikes": sp})
+        done += k
+    tail = np.concatenate([s["spikes"] for s in segs], axis=0)[-n_keep:]
+    return {"spikes_tail": tail, "seg_rates": [s["mean"] for s in segs],
+            "info": {"n_steps": n_steps, "init": "kick", "end_state": state,
+                     "dt_ms": float(dt_ms)}}

@@ -564,3 +564,22 @@ def test_clamp_and_replay_plumbing():
         np.random.default_rng(0).integers(0, 2, size=(500, 160)).astype(float),
         prep["model"])
     assert Irec.shape == (500, 160) and np.isfinite(Irec).all()
+
+
+def test_calibration_star_kmap():
+    m, w0 = ha.calibration_star(n_post=10, seed=0)
+    assert w0 > 0
+    el = m.params["edge_list"]
+    assert np.asarray(el.pre).shape[0] == 10
+    assert set(np.unique(np.asarray(el.receptor_index)).tolist()) == {0}
+    rows = ha.kernel_map(m, w_mults=(1.0, 8.0), drives=(3.0, 5.0),
+                         dur_ms=500.0, skip_ms=200.0)
+    assert len(rows) == 4
+    for r in rows:
+        assert set(r.keys()) >= {"w_mult", "drive", "r_pre", "Imean", "Irms",
+                                 "q10", "q50", "q90"}
+        assert r["Imean"] >= 0.0 and np.isfinite(r["r_pre"])
+    # linearity in w at matched drive
+    r1 = [r for r in rows if r["w_mult"] == 1.0 and r["drive"] == 3.0][0]
+    r8 = [r for r in rows if r["w_mult"] == 8.0 and r["drive"] == 3.0][0]
+    assert abs(r8["Imean"] / r1["Imean"] - 8.0) < 0.05

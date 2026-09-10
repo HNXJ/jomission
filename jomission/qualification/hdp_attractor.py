@@ -2120,3 +2120,99 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
             "max_div": float(np.abs(rA - rC).max()),
             "corr": float(np.corrcoef(rA, rC)[0, 1]) if rA.std() > 0 and rC.std() > 0 else float("nan"),
             "Irec_mean": float(np.abs(Irec).mean())}
+
+
+# --------------------------------------------------------------------------
+# Kernel calibration: star-graph assay mapping (w_EE, r_pre) -> I_EE(t).
+# Public surface only: build_laminar_column + construct + post-construct
+# EdgeList surgery (established pattern) + compile/run with edge currents.
+# No closed substrate, no HDP. Posts passive (zero drive); edge currents
+# are presynaptic-driven so post spiking is irrelevant to K.
+# --------------------------------------------------------------------------
+def calibration_star(n_post=50, seed=0, w_base=0.014, tau_ms=2.0,
+                     layers=("L2/3",), fractions=None):
+    """Single E driver + passive E targets, star edges driver->targets.
+
+    Returns (model, w_base). All-E column; caller sets drives/weights.
+    """
+    import jaxfne as jtfne
+
+    fr = {"E": 1.0} if fractions is None else dict(fractions)
+    cfg = jtfne.build_laminar_column(
+        "CAL", n=int(n_post) + 1, layers=list(layers),
+        cell_type_fractions=fr, ei_profile="flat", geometry="laminar",
+        edge_seed=int(seed))
+    cfg = (cfg.runtime(seed=int(seed), duration_ms=1000.0, dt_ms=0.1, dtype="float32")
+           .set_emitter("izhikevich", "cortical_eig")
+           .probes(["spikes", "V_m", "source", "LFP", "CSD"], n_contacts=4)
+           .field(domain="laminar_column", conductivity="proxy",
+                  boundary="mean_zero_neumann"))
+    model = jtfne.construct(cfg)
+    el = model.params["edge_list"]
+    n = int(n_post) + 1
+    pre = np.zeros(n_post, dtype=np.int64)
+    post = np.arange(1, n, dtype=np.int64)
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    new_el = EdgeList(pre=jnp.asarray(pre), post=jnp.asarray(post),
+                      weight=jnp.asarray(np.full(n_post, float(w_base),
+                                                 dtype=np.float32)),
+                      receptor_index=jnp.asarray(np.zeros(n_post, dtype=np.int32)),
+                      tau_ms=jnp.asarray(np.full(n_post, float(tau_ms),
+                                                 dtype=np.float32)),
+                      source_calibration_status=el.source_calibration_status)
+    return (replace(model, params={**model.params, "edge_list": new_el}),
+            float(w_base))
+
+
+def kernel_map(model, w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
+               drives=(3.0, 4.5, 6.0, 8.0, 12.0), dur_ms=2000.0,
+               dt_ms=DT_MS_DEFAULT, seed=0, skip_ms=1000.0):
+    """K_EE(w, r_pre): per-edge mean |current| + RMS + quantiles, r measured.
+
+    Drive applied to neuron 0 only; targets passive. Returns rows with
+    (w_mult, drive, r_pre, Imean, Irms, q10, q50, q90) over post-drive window.
+    """
+    from dataclasses import replace
+
+    rows = []
+    el0 = model.params["edge_list"]
+    w0 = np.asarray(el0.weight, dtype=float)
+    nN = int(model.params["emitter"].n_neurons)
+    dtype = model.params["emitter"].v0.dtype
+    from jomission.qualification.cmin import initial_state
+
+    n_steps = int(round(float(dur_ms) / float(dt_ms)))
+    n_skip = int(round(float(skip_ms) / float(dt_ms)))
+    for wm in w_mults:
+        el = el0.__class__(pre=el0.pre, post=el0.post,
+                           weight=jnp.asarray(w0 * float(wm), dtype=el0.weight.dtype),
+                           receptor_index=el0.receptor_index, tau_ms=el0.tau_ms,
+                           source_calibration_status=el0.source_calibration_status)
+        mg = replace(model, params={**model.params, "edge_list": el})
+        step_fn, _ = jtfne.compile_step_fn(mg, dt_ms=float(dt_ms), kernel="baseline",
+                                           record_weight_trace=False,
+                                           record_edge_current=True)
+        for dv in drives:
+            state = initial_state(mg, seed)
+            d = np.zeros(nN)
+            d[0] = float(dv)
+            drive = jnp.asarray(np.tile(d, (n_steps, 1)), dtype=dtype)
+            state, out = jtfne.run_continuation(step_fn, state, drive)
+            import jax
+
+            jax.block_until_ready(out[0])
+            sp = np.asarray(out[1], dtype=float)[n_skip:]
+            ec = np.asarray(out[4], dtype=float)[n_skip:]
+            r_pre = float(sp[:, 0].mean() * (1000.0 / dt_ms))
+            per_edge = np.abs(ec).mean(axis=0)
+            rows.append({"w_mult": float(wm), "drive": float(dv),
+                         "r_pre": round(r_pre, 2),
+                         "Imean": float(per_edge.mean()),
+                         "Irms": float(np.sqrt((per_edge ** 2).mean())),
+                         "q10": float(np.quantile(per_edge, 0.1)),
+                         "q50": float(np.quantile(per_edge, 0.5)),
+                         "q90": float(np.quantile(per_edge, 0.9))})
+    return rows

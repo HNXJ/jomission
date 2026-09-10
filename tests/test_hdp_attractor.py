@@ -618,3 +618,21 @@ def test_calibration_star_kmap():
     r1 = [r for r in rows if r["w_mult"] == 1.0 and r["drive"] == 3.0][0]
     r8 = [r for r in rows if r["w_mult"] == 8.0 and r["drive"] == 3.0][0]
     assert abs(r8["Imean"] / r1["Imean"] - 8.0) < 0.05
+
+
+def test_scale_pair_counts_and_values():
+    from jomission.qualification.cmin import repair_jitter, repair_tonic
+
+    model = repair_jitter(repair_tonic(build_cmin(n_total=160, seed=0)), seed=0)
+    tbl = model.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre)
+    post = np.asarray(el.post)
+    m2, n = ha.scale_pair(model, "E", "PV", 8.0)
+    exp = (cls[pre] == "E") & (cls[post] == "PV")
+    assert n == int(exp.sum()) and n > 0
+    w0 = np.asarray(el.weight, dtype=float)
+    w2 = np.asarray(m2.params["edge_list"].weight, dtype=float)
+    assert np.allclose(w2[exp], 8.0 * w0[exp])
+    assert np.allclose(w2[~exp], w0[~exp])

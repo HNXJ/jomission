@@ -2324,3 +2324,32 @@ def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"
         if tag == "full":
             out["syn_rel_mean"] = float(np.abs(np.asarray(dyn.syn_state, dtype=float)).mean())
     return out
+
+
+def scale_pair(model_g, src_class, tgt_class, mult):
+    """Multiply src->tgt edge weights (class-pair efficacy dial).
+
+    Connectivity fixed (same edges, only weights scale). Workhorse for
+    transfer qualification (e.g. E->PV) and loop-geometry construction.
+    Returns (model, n_affected).
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    tbl = model_g.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    el = model_g.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    sel = (cls[pre] == str(src_class)) & (cls[post] == str(tgt_class))
+    w2 = w.copy()
+    w2[sel] = w[sel] * float(mult)
+    kwargs = dict(pre=el.pre, post=el.post,
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(sel.sum())

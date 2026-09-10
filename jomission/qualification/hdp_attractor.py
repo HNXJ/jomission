@@ -1219,12 +1219,15 @@ def current_decomposition(spikes, model, tonic, dt_ms=DT_MS_DEFAULT):
         idx = cls == c
         aRc, aTc = np.abs(Irec[:, idx]).mean(), np.abs(ton[:, idx]).mean()
         out[f"Gamma_{c}"] = float(aRc / (aRc + aTc))
-    # family components (magnitudes; signed sums live in Irec)
+    # family components (magnitudes; signed sums live in Irec). acc entries
+    # are already per-neuron values, so .mean() over the block IS the
+    # per-neuron mean -- no further division (a /n_targets here once hid
+    # a 300x scale error; fixed on direct kernel-trace comparison).
     for tgt in ("E", "I"):
         tm = (cls == "E") if tgt == "E" else (cls != "E")
         for src, r in (("E", 0), ("I", 1)):
             acc = comps.get(f"{src}->{r}", np.zeros((sp.shape[0], n)))
-            out[f"I_{src}{tgt}"] = float(np.abs(acc[:, tm]).mean() / max(tm.sum(), 1))
+            out[f"I_{src}{tgt}"] = float(np.abs(acc[:, tm]).mean())
     return out
 
 

@@ -1,0 +1,1 @@
+{"a80_strong_20s": {"seg0": {"E": 62.34799575805664, "PV": 31.850000381469727, "SST": 40.97187805175781, "VIP": 20.910715103149414}, "seg1": {"E": 0.017666665837168694, "PV": 0.0, "SST": 9.568750381469727, "VIP": 0.0}, "I_EE": 2094.6, "I_IE": 10.1, "I_EI": 263.1, "I_II": 10.0, "unit_note": "per-neuron means; family-component /n double-division bug fixed (was 300x low)"}}

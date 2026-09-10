@@ -1,0 +1,1 @@
+{"owner": "generated", "eig3": [-0.0144, -0.1015, -0.1], "participation_E_PV_SST": [0.991, 0.008, 0.001], "sens_WII_tauPV_Fpslope": [0.0, -0.0001, -0.0007], "eig4": [0.0614, 0.0047, -0.102, -0.1], "verdict": "no local (W_II,tau_PV,Fp) intervention justified; residual is 4D adaptation-lag mode"}

@@ -110,3 +110,107 @@ def pathway_response(model, src_area, tgt_area, drive_layer="L4", drive_class="E
              for a in areas}
     return {"src": src_area, "tgt": tgt_area, "base": base, "delta": resp,
             "delta_cut": respc, "n_cut": ncut, "n_driven": int(len(tgt_idx))}
+
+
+def scale_pathway(model, src, tgt, mult):
+    """Multiply src->tgt edge weights (bounded inter-area efficacy repair).
+
+    Connectivity, targeting, and all else fixed. Returns (model, n_scaled).
+    """
+    from dataclasses import replace
+
+    from jaxfne.emitters import EdgeList
+
+    tbl = model.neuron_table()
+    areas = np.array([str(r["area"]) for r in tbl])
+    el = model.params["edge_list"]
+    pre = np.asarray(el.pre, dtype=np.int64)
+    post = np.asarray(el.post, dtype=np.int64)
+    w = np.asarray(el.weight, dtype=float)
+    sel = (areas[pre] == str(src)) & (areas[post] == str(tgt))
+    w2 = w.copy()
+    w2[sel] = w[sel] * float(mult)
+    kwargs = dict(pre=el.pre, post=el.post,
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
+                  source_calibration_status=el.source_calibration_status)
+    if getattr(el, "delay_steps", None) is not None:
+        kwargs["delay_steps"] = el.delay_steps
+    return replace(model, params={**model.params, "edge_list": EdgeList(**kwargs)}), int(sel.sum())
+
+
+def pure_pulse_drive(n_steps, n_neurons, target_idx, amp, n_pre, n_post, dtype):
+    """Additive perturbation drive with GUARANTEED zero tonic content.
+
+    Baseline segments are exactly 0; stimulus adds amp on targets only.
+    Emitter tonic stays invariant automatically (schedule adds to it).
+    Any schedule built by tiling emitter drive fails the companion test.
+    """
+    base = np.zeros((n_pre, n_neurons))
+    stim = np.zeros((n_steps, n_neurons))
+    stim[:, np.asarray(target_idx)] = float(amp)
+    post = np.zeros((n_post, n_neurons))
+    return jnp.asarray(np.concatenate([base, stim, post], axis=0), dtype=dtype)
+
+
+def add_convergence(model, src, tgt, factor, seed=0):
+    """Add FF edges onto the SAME target set (convergence dial).
+
+    factor x more presynaptic sources per target, sampled from src area
+    (excluding existing pres), same weight scale (median of src->tgt
+    weights), receptor/tau/delay matched to src->tgt edges. Topology of
+    everything else fixed. Returns (model, n_added).
+    """
+    from dataclasses import replace
+
+    import numpy as _np
+
+    from jaxfne.emitters import EdgeList
+
+    rng = _np.random.default_rng(int(seed))
+    tbl = model.neuron_table()
+    areas = _np.array([str(r["area"]) for r in tbl])
+    el = model.params["edge_list"]
+    pre = _np.asarray(el.pre, dtype=_np.int64)
+    post = _np.asarray(el.post, dtype=_np.int64)
+    w = _np.asarray(el.weight, dtype=float)
+    ri = _np.asarray(el.receptor_index, dtype=_np.int64)
+    tau = _np.asarray(el.tau_ms, dtype=float)
+    sel = (areas[pre] == str(src)) & (areas[post] == str(tgt))
+    tgts = _np.unique(post[sel])
+    src_pool = _np.flatnonzero(areas == str(src))
+    existing = set(zip(pre[sel].tolist(), post[sel].tolist()))
+    wmed = float(_np.median(w[sel]))
+    rmode = int(_np.argmax(_np.bincount(ri[sel]))) if sel.sum() else 0
+    tmode = float(_np.median(tau[sel])) if sel.sum() else 2.0
+    delay = getattr(el, "delay_steps", None)
+    dmode = int(_np.median(_np.asarray(delay)[sel])) if delay is not None else None
+    n_add = int(round((float(factor) - 1.0) * sel.sum()))
+    new_pre, new_post = [], []
+    have = set()
+    tries = 0
+    while len(new_pre) < n_add and tries < 10 * max(n_add, 1):
+        tries += 1
+        p = int(src_pool[int(rng.integers(len(src_pool)))])
+        q = int(tgts[int(rng.integers(len(tgts)))])
+        if p == q or (p, q) in existing or (p, q) in have:
+            continue
+        have.add((p, q))
+        new_pre.append(p)
+        new_post.append(q)
+    pre2 = _np.concatenate([pre, _np.array(new_pre, dtype=_np.int64)])
+    post2 = _np.concatenate([post, _np.array(new_post, dtype=_np.int64)])
+    w2 = _np.concatenate([w, _np.full(len(new_pre), wmed)])
+    ri2 = _np.concatenate([ri, _np.full(len(new_pre), rmode, dtype=_np.int64)])
+    tau2 = _np.concatenate([tau, _np.full(len(new_pre), tmode)])
+    kwargs = dict(pre=jnp.asarray(pre2), post=jnp.asarray(post2),
+                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
+                  receptor_index=jnp.asarray(ri2, dtype=el.receptor_index.dtype),
+                  tau_ms=jnp.asarray(tau2, dtype=el.tau_ms.dtype),
+                  source_calibration_status=el.source_calibration_status)
+    if delay is not None:
+        darr = _np.asarray(delay)
+        kwargs["delay_steps"] = jnp.asarray(
+            _np.concatenate([darr, _np.full(len(new_pre), dmode if dmode is not None else 0,
+                                            dtype=_np.int64)]))
+    return replace(model, params={**model.params, "edge_list": EdgeList(**kwargs)}), len(new_pre)

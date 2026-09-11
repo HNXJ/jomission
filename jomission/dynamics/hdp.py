@@ -1,6 +1,11 @@
-"""HDP — adaptive parameters Θ, slower/bounded, switchable for ablation.
+"""HDP configuration — one instance of Hidden-state Dependent Plasticity.
 
-τ_Θ ≫ τ_X, bounded updates, separately disable-able.
+General abstraction (see results/hdp_definition_correction.json):
+HDP is dTheta = P(H, X, Theta); a named mechanism adds its dependent state
+to H and its equation to HDP. This module configures the QUALIFIED
+homeostatic/history instance: adaptive parameters Theta, slower/bounded
+(tau_Theta >> tau_X), switchable for ablation. It is not the definition
+of HDP.
 JaxFNE's HDP machinery (hdp_network / PlasticParams) is the execution engine.
 """
 

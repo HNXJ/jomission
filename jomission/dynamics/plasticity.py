@@ -31,7 +31,9 @@ def make_runtime(
     speed; canonical path now CAN expose currents when requested).
     """
     if h_enabled and hdp_enabled:
-        # H is carried as RBD state; HDP is adaptive Theta; they are mutually controlled via enable_homeostasis vs enable_hdp
+        # HDP = Hidden-state Dependent Plasticity (general framework; this call
+        # engages the homeostatic HDP configuration, not the abstraction itself).
+        # H is carried as RBD state; the homeostatic config adapts Theta; they are mutually controlled via enable_homeostasis vs enable_hdp
         # For milestone: enable_hdp for HDP, enable_homeostasis for H-like trace (if needed)
         # Keep them exclusive per JaxFNE constraint enable_homeostasis and enable_hdp mutually exclusive
         # So we choose HDP when both requested, else H via homeostasis

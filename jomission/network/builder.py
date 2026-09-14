@@ -1778,6 +1778,33 @@ def _apply_vertical_motif_gains(
     return replace(model, params=new_params)
 
 
+def _materialize_edge_storage(el: Any) -> Any:
+    """Expand compact edge storage to full per-edge arrays (REPRESENTATION migration).
+
+    v0.4.22+ construct() may return compacted EdgeList (placeholder arrays with
+    derivable tau_storage/delay_storage modes). Jomission seams rebuild EdgeList
+    field-by-field and must not silently drop storage modes, so materialize once
+    here via the engine's own resolvers. Resolved values are identical by
+    construction; no scientific delta. Weight untouched (already per-edge).
+    """
+    from jaxfne import emitters as _em
+    from jaxfne.emitters import EdgeList
+
+    jdtype = el.weight.dtype
+    tau_full = _em.resolve_edge_tau_ms(el, jdtype)
+    delay_full = _em.resolve_edge_delay_steps(el)
+    ri_full = _em.resolve_receptor_index(el)
+    return EdgeList(
+        pre=el.pre,
+        post=el.post,
+        weight=el.weight,
+        receptor_index=ri_full.astype(jnp.int32),
+        tau_ms=tau_full.astype(jdtype),
+        delay_steps=delay_full.astype(jnp.int32),
+        source_calibration_status=el.source_calibration_status,
+    )
+
+
 def build_jomission_model(
     *,
     n_per_area: int = 100,
@@ -1787,6 +1814,20 @@ def build_jomission_model(
 ) -> jtfne.Model:
     cfg = build_jomission_network(n_per_area=n_per_area, areas=areas, seed=seed, **kwargs)
     model = jtfne.construct(cfg)
+    # REPRESENTATION migration (v0.4.22+): construct may return compacted edge
+    # storage; materialize once via engine resolvers before field-wise seams
+    # (which copy arrays but not storage modes). Values identical; no science delta.
+    try:
+        _el0 = model.params.get("edge_list", None)
+    except Exception:
+        _el0 = None
+    if _el0 is not None:
+        try:
+            _np0 = dict(model.params)
+            _np0["edge_list"] = _materialize_edge_storage(_el0)
+            model = replace(model, params=_np0)
+        except Exception:
+            pass
     # Apply sparse-local pruning if connectivity declares spatial params (GEN2_C003)
     conn = cfg.metadata.get("connectivity", {}) or {}
     sigma = conn.get("spatial_sigma")

@@ -60,7 +60,25 @@ def build_cmin(n_total: int = CMIN_DEFAULT_N, seed: int = 0, name: str = "C0",
         .probes(["spikes", "V_m", "source", "LFP", "CSD"], n_contacts=16)
         .field(domain="laminar_column", conductivity="proxy", boundary="mean_zero_neumann")
     )
-    return jtfne.construct(cfg)
+    model = jtfne.construct(cfg)
+    # REPRESENTATION migration (v0.4.22+): construct may return compacted edge
+    # storage; downstream surgeries rebuild EdgeList field-by-field and must not
+    # silently drop storage modes. Materialize once via engine resolvers.
+    # Resolved values identical; no science delta.
+    try:
+        from dataclasses import replace
+
+        from jomission.network.builder import _materialize_edge_storage
+
+        _el0 = model.params.get("edge_list", None)
+    except Exception:
+        _el0 = None
+    if _el0 is not None:
+        try:
+            model = replace(model, params={**model.params, "edge_list": _materialize_edge_storage(_el0)})
+        except Exception:
+            pass
+    return model
 
 
 def coverage(model) -> dict[tuple[str, str], int]:

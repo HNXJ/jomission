@@ -1,0 +1,62 @@
+{
+  "bracket": [
+    2.0,
+    4.5,
+    9.0,
+    18.0,
+    36.0
+  ],
+  "bracket_rationale": "below (2.0), near-threshold (4.5), above x2/x4/x8 (9/18/36); top reaches the 10Hz-recruitment regime estimate (~28) upper edge",
+  "engine_bound": {
+    "s_max_admissible": 500.0,
+    "scaled_descriptor_hi": "0.1*s",
+    "w_ceiling": 50.0
+  },
+  "estimates": {
+    "s_min_E_at_10Hz": 28.46,
+    "s_min_E_at_15Hz": 15.03,
+    "s_min_E_at_22Hz": 8.58,
+    "s_min_E_top_35Hz": 4.44,
+    "s_min_PV_top_35Hz": 4.43,
+    "s_min_SST_top_35Hz": 2.215
+  },
+  "inputs": {
+    "K_EE": 299.0,
+    "K_EPV": 300.0,
+    "K_ESST": 300.0,
+    "max_total_EE_drive_s1": 0.901,
+    "per_edge_iEE_at_Hz": {
+      "10.5": 0.00047,
+      "15.5": 0.00089,
+      "22.0": 0.00156,
+      "28.5": 0.00227,
+      "35.0": 0.00301
+    },
+    "rheobase": {
+      "E": 4.0,
+      "PV": 4.0,
+      "SST": 2.0,
+      "VIP": 24.0
+    }
+  },
+  "method": "computed from sealed results/ei_geometry_native.json + results/battery_b1.json before any scaled execution",
+  "parent": "4bbe3e9",
+  "preserved": {
+    "geometry_FAIL": "4bbe3e9",
+    "transformation_PASS": "7e25ddf"
+  },
+  "remeasured_per_scale": [
+    "B1 E-driver motifs",
+    "B2 PV-driver motifs",
+    "B3 SST-driver motifs",
+    "shape probes (rest/transition/active/above)"
+  ],
+  "reused_without_execution": [
+    "F curves (rule-independent single-cell emitter property)",
+    "K convergence (structural)",
+    "GEO_BANDS",
+    "probe amps (landed Phase-2 knobs)",
+    "battery amps/coverage rule"
+  ],
+  "scale_definition": "w_eff(H;s) = s*w_eff(H;1); form, H-dynamics, shape params, cells, inhibition, tonic, homeostatic config frozen"
+}

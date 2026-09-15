@@ -1,0 +1,274 @@
+{
+  "build": {
+    "manifests_subdir": "data/manifests",
+    "out_dir": "site",
+    "plotly_subdir": "assets/plotly",
+    "results_subdir": "data/results",
+    "svg_subdir": "assets/svg"
+  },
+  "evidence_classes": [
+    "OBSERVED",
+    "DERIVED",
+    "INFERRED",
+    "NEGATIVE",
+    "RETRACTED",
+    "VOID",
+    "QUARANTINED",
+    "SUPERSEDED",
+    "LOCKED",
+    "POLICY"
+  ],
+  "gates": [
+    {
+      "id": "migration",
+      "label": "v0.4.24 migration",
+      "source": "results/jaxfne_0424_migration.json",
+      "status": "PASS"
+    },
+    {
+      "id": "transformation",
+      "label": "native HDP transformation",
+      "source": "results/native_transformation.json",
+      "status": "PASS"
+    },
+    {
+      "id": "ei_geometry",
+      "label": "realized E/I geometry",
+      "source": "results/ei_geometry_native.json",
+      "status": "FAIL"
+    },
+    {
+      "id": "stability",
+      "label": "full-state stability",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "basin",
+      "label": "nonlinear active basin",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "rec_effect",
+      "label": "recurrent causal effect",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "propagation",
+      "label": "propagation requalification",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "hdp_reattach",
+      "label": "homeostatic-HDP reattachment",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "response_timescale",
+      "label": "recurrent response timescale",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "hierarchy",
+      "label": "functional hierarchy",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "freeze",
+      "label": "Gen-2 freeze",
+      "source": null,
+      "status": "LOCKED"
+    },
+    {
+      "id": "omission",
+      "label": "blind omission",
+      "source": null,
+      "status": "LOCKED"
+    }
+  ],
+  "gates_historical": [
+    {
+      "id": "engine_blocker",
+      "label": "engine capability blocker (pre-0.4.24)",
+      "note": "True for the sealed earlier engine state; superseded by v0.4.24 capability PASS. Never the current blocker.",
+      "source": "results/true_blocker.json",
+      "status": "SUPERSEDED"
+    }
+  ],
+  "owner": "generated",
+  "pages": [
+    "index",
+    "network",
+    "activity",
+    "dynamics",
+    "hdp",
+    "propagation",
+    "omission",
+    "failure-atlas",
+    "lineage"
+  ],
+  "panels": {},
+  "plotly_allowlist": {
+    "b1_b2_b3_dashboard.html": {
+      "evidence": "QUARANTINED",
+      "status": "Gen-1 B-cell era; retained for provenance, not current evidence"
+    },
+    "network_3d.html": {
+      "evidence": "OBSERVED"
+    },
+    "plasticity_trajectory.html": {
+      "evidence": "OBSERVED"
+    },
+    "raster_population.html": {
+      "evidence": "OBSERVED"
+    },
+    "spectral_response.html": {
+      "evidence": "DERIVED"
+    },
+    "visual_field_mapping.html": {
+      "evidence": "DERIVED"
+    }
+  },
+  "prohibited_strings": [
+    "omission-selective unit",
+    "T1 POSITIVE",
+    "T2 POSITIVE",
+    "Gen-2 omission response",
+    "omission-linked spiking (Gen-2)"
+  ],
+  "results_allowlist": {
+    "attractor_solve.json": {
+      "evidence": "DERIVED"
+    },
+    "battery_b1.json": {
+      "evidence": "OBSERVED"
+    },
+    "battery_b2.json": {
+      "evidence": "OBSERVED"
+    },
+    "battery_b3.json": {
+      "evidence": "OBSERVED"
+    },
+    "beta_transfer.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: tonic-to-recurrent transfer fails"
+    },
+    "clamp_fork.json": {
+      "evidence": "OBSERVED"
+    },
+    "convergence.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: convergence to x16 insufficient"
+    },
+    "delay_ramp.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: delay axis"
+    },
+    "duration_postmortem.json": {
+      "evidence": "VOID",
+      "status": "tonic-contaminated scratch lineage retracted"
+    },
+    "ei_geometry_native.json": {
+      "evidence": "DERIVED"
+    },
+    "ff_coupling.json": {
+      "evidence": "OBSERVED"
+    },
+    "ff_trace.json": {
+      "evidence": "OBSERVED"
+    },
+    "fs_ramp.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: slow-excitation axis"
+    },
+    "gen2_seal.json": {
+      "evidence": "POLICY"
+    },
+    "hdp_definition_correction.json": {
+      "evidence": "POLICY"
+    },
+    "hdp_expressivity_audit.json": {
+      "evidence": "DERIVED"
+    },
+    "jaxfne_0422_migration.json": {
+      "evidence": "SUPERSEDED",
+      "status": "superseded by 0.4.24 migration PASS"
+    },
+    "jaxfne_0424_migration.json": {
+      "evidence": "POLICY"
+    },
+    "kernel_calibration.json": {
+      "evidence": "DERIVED"
+    },
+    "loop_closure.json": {
+      "evidence": "OBSERVED"
+    },
+    "modular.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: modular-topology axis"
+    },
+    "native_transformation.json": {
+      "evidence": "OBSERVED"
+    },
+    "nullcline_design.json": {
+      "evidence": "RETRACTED",
+      "status": "candidate invalid (S->W conversion); retained for provenance"
+    },
+    "propagation.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative (old plant): STRUCTURAL_ONLY"
+    },
+    "ramp_summary.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: scalar-gain axis"
+    },
+    "source.json": {
+      "evidence": "OBSERVED"
+    },
+    "substrate_gate.json": {
+      "evidence": "POLICY"
+    },
+    "susceptibility.json": {
+      "evidence": "OBSERVED"
+    },
+    "tau_ramp.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: slow-inhibition axis"
+    },
+    "timescale_duel.json": {
+      "evidence": "OBSERVED"
+    },
+    "true_blocker.json": {
+      "evidence": "SUPERSEDED",
+      "status": "pre-0.4.24 engine state only"
+    },
+    "volley_authority.json": {
+      "evidence": "OBSERVED"
+    }
+  },
+  "results_manifests_allowlist": {
+    "canonical_full_exposure_seal.json": {
+      "evidence": "OBSERVED"
+    },
+    "project_truth_ledger.json": {
+      "evidence": "POLICY"
+    },
+    "q8_021_quarantine.json": {
+      "evidence": "QUARANTINED"
+    },
+    "t1_t7_final_corrected.json": {
+      "evidence": "OBSERVED",
+      "status": "immutable Gen-1 history"
+    },
+    "vocabulary.json": {
+      "evidence": "POLICY"
+    }
+  },
+  "site_title": "Jomission Scientific Atlas"
+}

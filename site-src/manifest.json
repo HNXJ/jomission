@@ -167,6 +167,12 @@
       "evidence": "results/b_lineage.json",
       "gate": "basin accessibility (visitation + separatrix)",
       "verdict": "COARSE_FIXED_POINT_OFF_NATIVE_MANIFOLD"
+    },
+    {
+      "commit": "b5b1417",
+      "evidence": "results/n_lineage.json",
+      "gate": "native trajectory geometry",
+      "verdict": "NATIVE_GEOMETRY_NO_INTERMEDIATE"
     }
   ],
   "owner": "generated",
@@ -423,6 +429,18 @@
       "page": "index",
       "source": "results/jaxfne_0424_migration.json",
       "title": "v0.4.24 migration record",
+      "type": "table"
+    },
+    "n-geometry": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "detail"
+      ],
+      "page": "hdp",
+      "source": "results/n_lineage.json",
+      "status": "OBSERVED (tested domain)",
+      "title": "Native geometry: no intermediate, coarse non-Markovian",
       "type": "table"
     },
     "network-3d": {
@@ -769,6 +787,10 @@
     "modular.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: modular-topology axis"
+    },
+    "n_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "NATIVE_GEOMETRY_NO_INTERMEDIATE (tested domain)"
     },
     "native_transformation.json": {
       "evidence": "OBSERVED"

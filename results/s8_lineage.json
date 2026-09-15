@@ -1,0 +1,67 @@
+{
+  "parent": "23c56d5",
+  "margin": -0.005,
+  "candidates": [
+    {
+      "scale": 50.0,
+      "maxRe": -0.02,
+      "dominant": "H",
+      "participation": {
+        "neural-U": 0.0,
+        "HDP-aux": 0.0,
+        "HDP-w": 0.0,
+        "H": 1.0
+      },
+      "boundary_distance": 0.015,
+      "pass": true
+    },
+    {
+      "scale": 54.0,
+      "maxRe": -0.019999999552965164,
+      "dominant": "neural-U",
+      "participation": {
+        "neural-U": 1.0,
+        "HDP-aux": 0.0,
+        "HDP-w": 0.0,
+        "H": 0.0
+      },
+      "boundary_distance": 0.014999999552965163,
+      "pass": true
+    },
+    {
+      "scale": 57.0,
+      "maxRe": -0.02,
+      "dominant": "H",
+      "participation": {
+        "neural-U": 0.0,
+        "HDP-aux": 0.0,
+        "HDP-w": 0.0,
+        "H": 1.0
+      },
+      "boundary_distance": 0.015,
+      "pass": true
+    },
+    {
+      "scale": 61.0,
+      "maxRe": -0.02,
+      "dominant": "H",
+      "participation": {
+        "neural-U": 0.0,
+        "HDP-aux": 0.0,
+        "HDP-w": 0.0,
+        "H": 1.0
+      },
+      "boundary_distance": 0.015,
+      "pass": true
+    }
+  ],
+  "passing_subset": [
+    50.0,
+    54.0,
+    57.0,
+    61.0
+  ],
+  "selection": "none performed",
+  "verdict": "FULL_STATE_STABILITY_PASS",
+  "next_authorized_action": "STOP before nonlinear basin execution"
+}

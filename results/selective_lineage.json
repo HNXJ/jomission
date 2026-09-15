@@ -1,0 +1,81 @@
+{
+  "bracket": [
+    50.0,
+    54.0,
+    57.0,
+    61.0,
+    65.0
+  ],
+  "next_authorized_action": "S7 gate OPEN (fresh E/I geometry first); no geometry executed in S6",
+  "parent": "c35a4ac",
+  "per_scale": [
+    {
+      "I_active": 0.07800552052552326,
+      "I_active_predicted": 0.07800552052552326,
+      "common_spread": 1.0,
+      "inhibitory_bitwise": true,
+      "invariants": {
+        "continuation": "PASS",
+        "determinism": "PASS",
+        "off_identity": "PASS"
+      },
+      "scale": 50.0,
+      "shape": "SELECTIVE_SHAPE_PASS"
+    },
+    {
+      "I_active": 0.08424596352404932,
+      "I_active_predicted": 0.08424596352404932,
+      "common_spread": 1.0,
+      "inhibitory_bitwise": true,
+      "invariants": {
+        "continuation": "PASS",
+        "determinism": "PASS",
+        "off_identity": "PASS"
+      },
+      "scale": 54.0,
+      "shape": "SELECTIVE_SHAPE_PASS"
+    },
+    {
+      "I_active": 0.08892628923022677,
+      "I_active_predicted": 0.08892628923022677,
+      "common_spread": 1.0,
+      "inhibitory_bitwise": true,
+      "invariants": {
+        "continuation": "PASS",
+        "determinism": "PASS",
+        "off_identity": "PASS"
+      },
+      "scale": 57.0,
+      "shape": "SELECTIVE_SHAPE_PASS"
+    },
+    {
+      "I_active": 0.09516673146464867,
+      "I_active_predicted": 0.09516673146464867,
+      "common_spread": 1.0,
+      "inhibitory_bitwise": true,
+      "invariants": {
+        "continuation": "PASS",
+        "determinism": "PASS",
+        "off_identity": "PASS"
+      },
+      "scale": 61.0,
+      "shape": "SELECTIVE_SHAPE_PASS"
+    },
+    {
+      "I_active": 0.10140717754023347,
+      "I_active_predicted": 0.10140717754023347,
+      "common_spread": 1.0,
+      "inhibitory_bitwise": true,
+      "invariants": {
+        "continuation": "PASS",
+        "determinism": "PASS",
+        "off_identity": "PASS"
+      },
+      "scale": 65.0,
+      "shape": "SELECTIVE_SHAPE_PASS"
+    }
+  ],
+  "rule": "jomission_sat_eout_v0",
+  "transfer": "reduced-to-native transfer verified across feasible interior + flanks; E-out w/I scale linearly, inhibitory bit-identical to v0, one common E-out modulation (spread 1.0), no clip-riding, full invariants",
+  "verdict": "SELECTIVE_NATIVE_TRANSFORMATION_PASS"
+}

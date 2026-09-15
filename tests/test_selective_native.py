@@ -166,7 +166,11 @@ def check_inhibitory_invariance(s):
     """PV/SST-driver motifs under the selective rule vs sealed B2/B3 rows.
 
     Inhibitory edges must behave as under v0 (same form, same s=1 params,
-    untouched aux/H path). Stringent allclose; bitwise flag recorded.
+    untouched aux/H path). Cross-process correction (measured 2026-09-15):
+    active-motif w/I window-means vary up to ~1e-4 abs across processes
+    (threaded float32 reduction order over 60k steps; spike counts exact,
+    timing phases vary). The no-leakage claim needs 1e-3, not 1e-9:
+    leakage would be ~50x, not 1e-3. Bitwise flag recorded as observed.
     """
     import json
     rule_name = ensure_registered_scale(s)
@@ -207,8 +211,8 @@ def check_inhibitory_invariance(s):
             "I_match": bool(abs(I_y - ref["I"]) <= 1e-9),
         }
         assert abs(rate - row["driver_rate"]) < 1e-9, (driver, rate, row["driver_rate"])
-        assert abs(w_y - ref["w"]) <= 1e-9, (driver, w_y, ref["w"])
-        assert abs(I_y - ref["I"]) <= 1e-9, (driver, I_y, ref["I"])
+        assert abs(w_y - ref["w"]) <= 1e-3, (driver, w_y, ref["w"])
+        assert abs(I_y - ref["I"]) <= 1e-3, (driver, I_y, ref["I"])
     # True bitwise check needs the v0 trajectory: rerun under v0 for comparison.
     from jomission.qualification.hdp_rule_sat_ee import (
         RULE_NAME as V0_NAME, RULE_PARAMS as V0_PARAMS, ensure_registered as ensure_v0)

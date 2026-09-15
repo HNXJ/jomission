@@ -48,7 +48,12 @@ def build_plant(s):
 
 
 def construct_state(model, rule_name, s, init):
-    """Build the initial dynamic state (explicit, predeclared)."""
+    """Rest-consistent construction (P0 neural rest; P7 rest + FP aux/w).
+
+    Active-state V construction is abandoned (unphysical V-u pairing):
+    P1/P3/P4/P5 use driven-preparation snapshots instead.
+    """
+    assert init in ("P0", "P7"), init
     fp = B.fp_tables(s)
     _, hi = scaled_w_bounds(s)
     tbl = model.neuron_table()
@@ -89,60 +94,22 @@ def construct_state(model, rule_name, s, init):
         w_fp[tags == t] = -abs(fp["wpath"][t])
     vx = tags == "VX"
     w_fp[vx] = np.asarray(el.weight)[vx].astype(np.float64)  # untouched motifs
+    rpre = {"E": fp["r"]["E"], "PV": fp["r"]["PV"], "SST": fp["r"]["SST"],
+            "VIP": 0.0}
     aux_fp = np.array([rpre.get(pe, 0.0) * B.TAU_ACT / 1000.0 for pe in pre_cls])
     H_fp = np.ones(n)
-    # u* per class (S8 steady-state relation; VIP at rest).
-    u_fp = np.array([bb[i] * fp["Vstar"][c] if c in fp["Vstar"] else bb[i] * cc[i]
-                     for i, c in enumerate(cls)])
-    for i, c in enumerate(cls):
-        if c in ("E", "PV", "SST"):
-            rkey = {"E": "E", "PV": "PV", "SST": "SST"}[c]
-            u_fp[i] = bb[i] * fp["Vstar"][c] + (np.asarray(e.d)[i] / a[i]) * (fp["r"][rkey] / 1000.0)
-        else:
-            u_fp[i] = bb[i] * cc[i]
     u_rest = bb * cc
     V_rest = cc.copy()
-    # Per-neuron V spread ramp c -> 0.
-    order = np.argsort(np.argsort(np.arange(n)))
-    V_spread = cc + (np.arange(n) % 100) / 99.0 * (0.0 - cc)
 
     w = w_fp.copy()
     aux = aux_fp.copy()
     H = H_fp.copy()
-    u = u_fp.copy()
+    u = u_rest.copy()
     V = V_rest.copy()
     if init == "P0":
         V, u, H = V_rest.copy(), u_rest.copy(), np.ones(n)
         aux = np.zeros_like(aux)
         w = np.asarray(el.weight).astype(np.float64)
-    elif init == "P1":
-        V = cc.copy()
-    elif init == "P2":
-        V = V_spread.copy()
-    elif init == "P3":
-        m = pre_cls == "E"
-        aux[m] *= 0.5
-        w[m] *= 0.7
-        V = cc.copy()
-    elif init == "P4":
-        m = pre_cls == "E"
-        aux[m] *= 1.5
-        w[m] = np.minimum(w[m] * 1.2, 0.9 * hi)
-        V = cc.copy()
-    elif init == "P5":
-        mE = cls == "E"
-        mI = ~mE
-        V = np.where(mE, V_spread, V_rest)
-        u = np.where(mE, u_fp, u_rest)
-        epre = pre_cls == "E"
-        aux[~epre] = 0.0
-        wbase = np.asarray(el.weight).astype(np.float64)
-        w[~epre] = np.where(wbase[~epre] >= 0, 0.002, -0.002)
-    elif init == "P6":
-        m = np.isin(pre_cls, ["PV", "SST"])
-        aux[m] *= 1.5
-        w[m] = np.maximum(w[m] * 1.2, -0.9 * 0.05)
-        V = cc.copy()
     elif init == "P7":
         V, u = V_rest.copy(), u_rest.copy()
     else:
@@ -192,7 +159,7 @@ def run_release(model, step_fn, rule_name, dyn):
                       "w_Ipre": float(np.abs(wv[cls[pre] != "E"]).mean()),
                       "H": float(np.asarray(dd.H, dtype=float).mean()),
                       "aux": float(np.asarray(dd.aux, dtype=float).mean())})
-        last = (sp, dd)
+        last = (sp[:, cls == "E"], dd)
     return segs, snaps, last
 
 
@@ -223,20 +190,95 @@ def adjudicate(segs, snaps, last):
     return {"label": "CAPTURED" if ok else "OTHER", **base}
 
 
+def prep_run(model, step_fn, rule_name, s, e_amp, pv_amp=0.0):
+    """Driven preparation: uniform E schedule (+PV for IBIAS), 8 s settle."""
+    n = int(model.params["emitter"].v0.shape[0])
+    dtype = model.params["emitter"].v0.dtype
+    tbl = model.neuron_table()
+    cls = np.array([str(r["cell_type"]) for r in tbl])
+    n_steps = int(B.PREP_S / (DT / 1000))
+    sched = jnp.zeros((n_steps, n), dtype=dtype)
+    sched = sched.at[:, cls == "E"].set(float(e_amp))
+    if pv_amp:
+        sched = sched.at[:, cls == "PV"].set(float(pv_amp))
+    st = _fresh_state(model, rule_name, SEED)
+    st_end, out = jtfne.run_continuation(step_fn, st, sched)
+    jax.block_until_ready(out[0])
+    sp = np.asarray(out[1], dtype=float)
+    q1 = float(sp[:20000][:, cls == "E"].mean() * 10000.0)
+    q2 = float(sp[20000:40000][:, cls == "E"].mean() * 10000.0)
+    q4 = float(sp[60000:][:, cls == "E"].mean() * 10000.0)
+    drift = abs(q4 - q2) / max(q4, 1e-9)
+    vip = float(sp[60000:][:, cls == "VIP"].mean() * 10000.0)
+    return {"st": st_end, "rate": q4, "drift": drift, "vip": vip,
+            "settled": bool(drift <= B.PREP_SETTLE_TOL)}
+
+
+def select_prep(model, step_fn, rule_name, s, target, pv_amp=0.0):
+    """Grid amps (+bounded extension); nearest settled rate to target."""
+    cands = []
+    for amp in list(B.PREP_AMPS) + [None]:
+        if amp is None:
+            if cands and min(abs(c["rate"] - target) for c in cands) / target <= B.PREP_USABLE_TOL:
+                break
+            grid = list(B.PREP_AMPS_EXT)
+        else:
+            grid = [amp]
+        for a in grid:
+            r = prep_run(model, step_fn, rule_name, s, a, pv_amp)
+            if r["settled"]:
+                cands.append({"amp": a, **{k: v for k, v in r.items() if k != "st"},
+                              "state": r["st"]})
+    if not cands:
+        return None
+    best = min(cands, key=lambda c: abs(c["rate"] - target))
+    if abs(best["rate"] - target) / target > B.PREP_USABLE_TOL:
+        return None
+    return best
+
+
 def run_init(s, init):
     import json
     assert s in S_BRACKET and init in B.INITS
     model, step_fn, rule_name = build_plant(s)
-    model2, dyn = construct_state(model, rule_name, s, init)
-    # Recompile against construction weights (same shapes; values in carry).
-    segs, snaps, last = run_release(model2, step_fn, rule_name, dyn)
+    tag = scale_tag(s)
+    if init in ("P0", "P7"):
+        model2, dyn = construct_state(model, rule_name, s, init)
+        segs, snaps, last = run_release(model2, step_fn, rule_name, dyn)
+        prep = None
+    else:
+        fp = B.fp_tables(s)
+        target = {"P1": fp["r"]["E"], "P3": 0.5 * fp["r"]["E"],
+                  "P4": 1.5 * fp["r"]["E"],
+                  "P5": fp["r"]["E"]}[init]
+        pv_amp = B.PREP_IBIAS_PV_AMP if init == "P5" else 0.0
+        best = select_prep(model, step_fn, rule_name, s, target, pv_amp)
+        if best is None:
+            adj = {"scale": s, "init": init, "label": "UNUSABLE",
+                   "detail": "no settled prep within 30% of target"}
+            json.dump(adj, open(f"results/s9_init_s{tag}_{init}.json", "w"),
+                      indent=2)
+            print(f"s={s} {init}: UNUSABLE")
+            return adj
+        # Sync model weights to the prep-end carry (kernel reads carry;
+        # belt+suspenders against param/carry ambiguity).
+        from dataclasses import replace
+        el = model.params["edge_list"]
+        wv = np.asarray(best["state"].dynamic.w)
+        new_el = replace(el, weight=jnp.asarray(
+            wv.astype(np.float32)))
+        model2 = replace(model, params={**model.params, "edge_list": new_el})
+        segs, snaps, last = run_release(model2, step_fn, rule_name,
+                                        best["state"].dynamic)
+        prep = {k: v for k, v in best.items() if k != "state"}
     adj = adjudicate(segs, snaps, last)
     adj["scale"] = s
     adj["init"] = init
     adj["segments"] = segs
-    json.dump(adj, open(f"results/s9_init_s{scale_tag(s)}_{init}.json", "w"),
+    adj["prep"] = prep
+    json.dump(adj, open(f"results/s9_init_s{tag}_{init}.json", "w"),
               indent=2)
-    print(f"s={s} {init}: {adj['label']} rE={adj['rE_last']:.2f}")
+    print(f"s={s} {init}: {adj['label']} rE={adj.get('rE_last', float('nan')):.2f}")
     return adj
 
 
@@ -273,8 +315,7 @@ def test_s9_verdict():
                    "pass": bool(same)}
     passing = [s for s, c in cand.items() if c["pass"]]
     near_collapse = [s for s, c in cand.items()
-                     if c["inits"].get("P1", ("", 0))[0] == "COLLAPSED"
-                     or c["inits"].get("P2", ("", 0))[0] == "COLLAPSED"]
+                     if c["inits"].get("P1", ("", 0))[0] == "COLLAPSED"]
     lin = {"parent": "23c56d5+ac4422e", "candidates": cand,
            "passing_subset": passing,
            "closure_transfer_failures": near_collapse,

@@ -8,16 +8,22 @@ Plant: canonical C-min column (400 neurons), zero tonic everywhere,
 selective rule jomission_sat_eout_v0 at the candidate s_E. No schedule
 drive during release: finite initialization + free evolution.
 
-Initializations (8, exact construction predeclared; FP = fixed-point
-tables from S7 geometry/batteries + S8 assay/u*):
-  P0 REST     fresh rest (V=c, u=b*c, H=1, aux=0, w=model base, syn=0)
-  P1 FPSYNC   FP w/aux/H/u + V=c everywhere + syn=0
-  P2 FPSPREAD FP + V ramped c->0 per neuron (desync)
-  P3 EWEAK    FP with E-pre aux x0.5, E-pre w x0.7
-  P4 ESTRONG  FP with E-pre aux x1.5, E-pre w x1.2 (capped 0.9*hi)
-  P5 EONLY    E subpopulation at FP-spread, I cells + I-pre aux/w at rest
-  P6 IBIAS    FP with I-pre aux x1.5, I-pre w x1.2 (capped 0.9*hi_I)
-  P7 HDPONLY  neural rest everywhere + aux/w at FP + H=1
+Initializations (predeclared; REVISED 2026-09-15: explicit V construction
+abandoned for active inits -- a constructed (V,u) pair is unphysical
+(demonstrated: V=c+FP-weights guarantees silence, V-spread+FP-weights
+artificially ignites via inconsistent V-u pairing into a sync 2-cycle).
+Active inits are driven-preparation snapshots with self-consistent
+V/u/syn/aux/w/H phases, released to zero drive):
+  P0 REST     fresh rest (control; expected collapse)
+  P1 PREP-AT  E-drive prep, settled E rate nearest rE* (|d|<=30% else unusable)
+  P3 PREP-LOW E-drive prep nearest 0.5*rE*
+  P4 PREP-HIGH E-drive prep nearest 1.5*rE*
+  P5 PREP-IBIAS E-drive + fixed PV-drive prep nearest rE* (I-dominance recovery)
+  P7 HDPCONSTRUCT neural rest (consistent V=c,u=b*c pair) + FP aux/w + H=1
+Prep: uniform schedule drive on all E cells (P1/P3/P4) or E cells + PV
+cells at fixed PV amp (P5); 8 s settle; usability = nearest settled E rate
+within 30% of target (else init UNUSABLE for that candidate, documented).
+Prep amp grid {2,4,...,16}, one bounded extension {18,20,24} if unusable.
 FP E-out w homogenized per pathway (documented finite perturbation of the
 heterogeneous base). E-pre w selected by presynaptic class only, mirroring
 the rule's own selectivity (no target-class gains).
@@ -34,9 +40,12 @@ oscillatory / unresolved-zone). P0 is a control (expected collapse;
 spontaneous capture recorded, not gated). VIP reported; >1 Hz noted as
 scope expansion, not failure.
 
-Basin PASS per candidate: >=2 genuinely distinct finite inits (P1-P7)
-captured to the same regime. Near-FP collapse (P1/P2) = closure-transfer
-failure (reported, no tuning). Silent co-attractor may remain stable.
+Basin PASS per candidate: >=2 genuinely distinct finite inits (P1/P3/P4/P5/P7)
+captured to the same regime. Near-FP prep-release collapse (P1) =
+closure-transfer failure (reported, no tuning). Silent co-attractor may
+remain stable. Superseded 2026-09-15 construction-protocol runs
+(results/s9_init_s50p0_*) are preserved but excluded from the verdict
+(P2/P5 artifactual ignition; P1/P3/P4/P6 unphysical neural silence).
 """
 
 from __future__ import annotations
@@ -51,7 +60,14 @@ CHUNK_S = 5.0
 DT_MS = 0.1
 SEED = 11
 
-INITS = ("P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7")
+INITS = ("P0", "P1", "P3", "P4", "P5", "P7")
+
+PREP_AMPS = (2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0)
+PREP_AMPS_EXT = (18.0, 20.0, 24.0)
+PREP_IBIAS_PV_AMP = 2.0
+PREP_S = 8.0
+PREP_USABLE_TOL = 0.30
+PREP_SETTLE_TOL = 0.15
 
 CAPTURE = {"rE_lo": 3.0, "rE_hi": 40.0, "drift_max": 0.20, "w_drift_max": 0.05,
            "rPV_min": 1.0, "rSST_min": 0.5, "sat_max": 80.0,

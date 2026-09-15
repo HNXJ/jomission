@@ -143,6 +143,12 @@
       "evidence": "results/selective_lineage.json",
       "gate": "selective native transformation",
       "verdict": "SELECTIVE_NATIVE_TRANSFORMATION_PASS"
+    },
+    {
+      "commit": "23c56d5",
+      "evidence": "results/s7_lineage.json",
+      "gate": "fresh E/I geometry (selective plant)",
+      "verdict": "EI_GEOMETRY_PASS"
     }
   ],
   "owner": "generated",
@@ -452,6 +458,20 @@
       "title": "Qualified rule and verdict",
       "type": "table"
     },
+    "s7-geometry": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "passing_subset",
+        "pattern",
+        "selection"
+      ],
+      "page": "hdp",
+      "source": "results/s7_lineage.json",
+      "status": "OBSERVED/PASS (no stable-attractor claim)",
+      "title": "Fresh E/I geometry: passing subset 50/54/57/61",
+      "type": "table"
+    },
     "selective-native": {
       "evidence": "OBSERVED",
       "keys": [
@@ -687,6 +707,10 @@
     "ramp_summary.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: scalar-gain axis"
+    },
+    "s7_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "EI_GEOMETRY_PASS (stability/basin unexecuted)"
     },
     "selective_lineage.json": {
       "evidence": "OBSERVED",

@@ -1,0 +1,197 @@
+{
+  "candidates": [
+    50.0,
+    54.0,
+    57.0,
+    61.0,
+    65.0
+  ],
+  "next_authorized_action": "STOP. Stability/basin/REC/propagation require explicit authorization.",
+  "parent": "14fdf99 + harness correction f20a0e9",
+  "passing_subset": [
+    50.0,
+    54.0,
+    57.0,
+    61.0
+  ],
+  "pattern": "cortical rE descends with s_E (7.87/6.47/5.75/5.00); s65 root rE=4.46 exits band below; s61 rE_lo margin 0.003 is boundary-marginal (not robust to noise floor)",
+  "per_scale": [
+    {
+      "composition_Eout_spread_max": 1.0,
+      "cortical": [
+        {
+          "I_E": 4.290394330012695,
+          "rE": 7.871,
+          "rPV": 47.11356262587884,
+          "rSST": 70.16358580060263
+        }
+      ],
+      "margins": [
+        {
+          "rE": 7.871,
+          "rE_hi_margin": 17.128999999999998,
+          "rE_lo_margin": 2.8710000000000004,
+          "rPV_margin": 45.11356262587884,
+          "rSST_margin": 69.16358580060263,
+          "sat_margin": 9.836414199397367
+        }
+      ],
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        },
+        {
+          "I_E": 4.290394330012695,
+          "rE": 7.871,
+          "rPV": 47.11356262587884,
+          "rSST": 70.16358580060263
+        }
+      ],
+      "scale": 50.0,
+      "verdict": "S7_PASS",
+      "vip_max": 0.0
+    },
+    {
+      "composition_Eout_spread_max": 1.0,
+      "cortical": [
+        {
+          "I_E": 3.8479658650663047,
+          "rE": 6.468,
+          "rPV": 36.74991840771225,
+          "rSST": 63.05708690814554
+        }
+      ],
+      "margins": [
+        {
+          "rE": 6.468,
+          "rE_hi_margin": 18.532,
+          "rE_lo_margin": 1.468,
+          "rPV_margin": 34.74991840771225,
+          "rSST_margin": 62.05708690814554,
+          "sat_margin": 16.942913091854457
+        }
+      ],
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        },
+        {
+          "I_E": 3.8479658650663047,
+          "rE": 6.468,
+          "rPV": 36.74991840771225,
+          "rSST": 63.05708690814554
+        }
+      ],
+      "scale": 54.0,
+      "verdict": "S7_PASS",
+      "vip_max": 0.0
+    },
+    {
+      "composition_Eout_spread_max": 1.0,
+      "cortical": [
+        {
+          "I_E": 3.6421004639999772,
+          "rE": 5.747,
+          "rPV": 31.67249700863283,
+          "rSST": 59.57542652020537
+        }
+      ],
+      "margins": [
+        {
+          "rE": 5.747,
+          "rE_hi_margin": 19.253,
+          "rE_lo_margin": 0.7469999999999999,
+          "rPV_margin": 29.67249700863283,
+          "rSST_margin": 58.57542652020537,
+          "sat_margin": 20.42457347979463
+        }
+      ],
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        },
+        {
+          "I_E": 3.6421004639999772,
+          "rE": 5.747,
+          "rPV": 31.67249700863283,
+          "rSST": 59.57542652020537
+        }
+      ],
+      "scale": 57.0,
+      "verdict": "S7_PASS",
+      "vip_max": 0.0
+    },
+    {
+      "composition_Eout_spread_max": 1.0,
+      "cortical": [
+        {
+          "I_E": 3.429563782276546,
+          "rE": 5.003,
+          "rPV": 26.430536532116463,
+          "rSST": 55.98093933630843
+        }
+      ],
+      "margins": [
+        {
+          "rE": 5.003,
+          "rE_hi_margin": 19.997,
+          "rE_lo_margin": 0.0030000000000001137,
+          "rPV_margin": 24.430536532116463,
+          "rSST_margin": 54.98093933630843,
+          "sat_margin": 24.01906066369157
+        }
+      ],
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        },
+        {
+          "I_E": 3.429563782276546,
+          "rE": 5.003,
+          "rPV": 26.430536532116463,
+          "rSST": 55.98093933630843
+        }
+      ],
+      "scale": 61.0,
+      "verdict": "S7_PASS",
+      "vip_max": 0.0
+    },
+    {
+      "composition_Eout_spread_max": 1.0,
+      "cortical": [],
+      "margins": null,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        },
+        {
+          "I_E": 3.2754264376880853,
+          "rE": 4.464,
+          "rPV": 23.51019898872663,
+          "rSST": 53.74856715053036
+        }
+      ],
+      "scale": 65.0,
+      "verdict": "S7_FAIL",
+      "vip_max": 0.0
+    }
+  ],
+  "rule": "jomission_sat_eout_v0",
+  "selection": "none performed; candidate selection belongs to stability/basin design",
+  "verdict": "EI_GEOMETRY_PASS"
+}

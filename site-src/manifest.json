@@ -137,6 +137,12 @@
       "evidence": "results/selectivity_lineage.json",
       "gate": "inverse pathway selectivity",
       "verdict": "SELECTIVITY_FEASIBLE-minimal"
+    },
+    {
+      "commit": "14fdf99",
+      "evidence": "results/selective_lineage.json",
+      "gate": "selective native transformation",
+      "verdict": "SELECTIVE_NATIVE_TRANSFORMATION_PASS"
     }
   ],
   "owner": "generated",
@@ -446,6 +452,18 @@
       "title": "Qualified rule and verdict",
       "type": "table"
     },
+    "selective-native": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "transfer"
+      ],
+      "page": "hdp",
+      "source": "results/selective_lineage.json",
+      "status": "OBSERVED/PASS (geometry+stability+basin unexecuted)",
+      "title": "Selective native transformation: transfer PASS",
+      "type": "table"
+    },
     "selectivity-design": {
       "evidence": "DERIVED",
       "keys": [
@@ -669,6 +687,10 @@
     "ramp_summary.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: scalar-gain axis"
+    },
+    "selective_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "SELECTIVE_NATIVE_TRANSFORMATION_PASS (not substrate qualification)"
     },
     "selectivity_lineage.json": {
       "evidence": "DERIVED",

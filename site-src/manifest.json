@@ -131,6 +131,12 @@
       "evidence": "results/ei_geometry_native.json",
       "gate": "realized E/I geometry",
       "verdict": "EI_GEOMETRY_FAIL"
+    },
+    {
+      "commit": "c35a4ac",
+      "evidence": "results/selectivity_lineage.json",
+      "gate": "inverse pathway selectivity",
+      "verdict": "SELECTIVITY_FEASIBLE-minimal"
     }
   ],
   "owner": "generated",
@@ -440,6 +446,18 @@
       "title": "Qualified rule and verdict",
       "type": "table"
     },
+    "selectivity-design": {
+      "evidence": "DERIVED",
+      "keys": [
+        "verdict",
+        "detail"
+      ],
+      "page": "hdp",
+      "source": "results/selectivity_lineage.json",
+      "status": "DESIGN_FEASIBLE (not a substrate PASS)",
+      "title": "Inverse selectivity: E-out design feasible",
+      "type": "table"
+    },
     "source-table": {
       "evidence": "OBSERVED",
       "keys": [
@@ -651,6 +669,10 @@
     "ramp_summary.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: scalar-gain axis"
+    },
+    "selectivity_lineage.json": {
+      "evidence": "DERIVED",
+      "status": "DESIGN_FEASIBLE: inverse selectivity, no implementation yet"
     },
     "source.json": {
       "evidence": "OBSERVED"

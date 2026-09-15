@@ -113,7 +113,139 @@
     "failure-atlas",
     "lineage"
   ],
-  "panels": {},
+  "panels": {
+    "attractor-diagram": {
+      "evidence": "DERIVED",
+      "note": "Positions from sealed numbers; a diagram, not measured data.",
+      "page": "dynamics",
+      "renderer": "attractor_diagram",
+      "source": "results/attractor_solve.json",
+      "title": "Reduced attractor (derived diagram, paper level)",
+      "type": "figure"
+    },
+    "convergence-table": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "method",
+        "verdict"
+      ],
+      "page": "propagation",
+      "source": "results/convergence.json",
+      "title": "Convergence bracket (cut-controlled)",
+      "type": "table"
+    },
+    "f-curves": {
+      "evidence": "OBSERVED",
+      "page": "hdp",
+      "renderer": "f_curves",
+      "source": "results/battery_b1.json",
+      "title": "Single-cell F-I per class (fresh)",
+      "type": "figure"
+    },
+    "ff-table": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "method",
+        "classification"
+      ],
+      "page": "propagation",
+      "source": "results/ff_trace.json",
+      "title": "V1->V4 FF trace (cut-controlled)",
+      "type": "table"
+    },
+    "g-curve": {
+      "evidence": "OBSERVED",
+      "page": "hdp",
+      "renderer": "g_curve",
+      "source": "results/native_transformation.json",
+      "title": "Native EE efficacy vs rate",
+      "type": "figure"
+    },
+    "gate-graph": {
+      "evidence": "POLICY",
+      "note": "Statuses come from this manifest, not from file existence.",
+      "page": "index",
+      "renderer": "gate_graph",
+      "source": null,
+      "title": "Gate graph (explicit state specification)",
+      "type": "figure"
+    },
+    "gen2-seal": {
+      "evidence": "POLICY",
+      "keys": [],
+      "page": "index",
+      "source": "results/gen2_seal.json",
+      "title": "Gen-2 seal record",
+      "type": "table"
+    },
+    "hdp-trajectory": {
+      "evidence": "OBSERVED",
+      "note": "Gen-1 exposure context; not Gen-2 substrate evidence.",
+      "page": "hdp",
+      "plotly": "plasticity_trajectory.html",
+      "source": "docs/_static/plotly/plasticity_trajectory.html",
+      "title": "Plasticity trajectory (Gen-1 era)",
+      "type": "embed"
+    },
+    "i-curve": {
+      "evidence": "OBSERVED",
+      "page": "hdp",
+      "renderer": "i_curve",
+      "source": "results/native_transformation.json",
+      "title": "Realized EE current vs rate",
+      "type": "figure"
+    },
+    "network-3d": {
+      "evidence": "OBSERVED",
+      "page": "network",
+      "plotly": "network_3d.html",
+      "source": "docs/_static/plotly/network_3d.html",
+      "title": "3D network explorer",
+      "type": "embed"
+    },
+    "raster": {
+      "evidence": "OBSERVED",
+      "page": "activity",
+      "plotly": "raster_population.html",
+      "source": "docs/_static/plotly/raster_population.html",
+      "title": "Population raster and rates",
+      "type": "embed"
+    },
+    "spectral": {
+      "evidence": "DERIVED",
+      "page": "activity",
+      "plotly": "spectral_response.html",
+      "source": "docs/_static/plotly/spectral_response.html",
+      "title": "Spectral response",
+      "type": "embed"
+    },
+    "susceptibility": {
+      "evidence": "OBSERVED",
+      "page": "propagation",
+      "renderer": "susceptibility",
+      "source": "results/susceptibility.json",
+      "title": "V4 dose-response (direct current)",
+      "type": "figure"
+    },
+    "t1t7-table": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "table"
+      ],
+      "page": "omission",
+      "source": "manifests/t1_t7_final_corrected.json",
+      "title": "Gen-1 T1-T7 (immutable history)",
+      "type": "table"
+    },
+    "visual-field": {
+      "evidence": "DERIVED",
+      "page": "network",
+      "plotly": "visual_field_mapping.html",
+      "source": "docs/_static/plotly/visual_field_mapping.html",
+      "title": "Visual field and RF architecture",
+      "type": "embed"
+    }
+  },
   "plotly_allowlist": {
     "b1_b2_b3_dashboard.html": {
       "evidence": "QUARANTINED",
@@ -136,11 +268,11 @@
     }
   },
   "prohibited_strings": [
-    "omission-selective unit",
     "T1 POSITIVE",
     "T2 POSITIVE",
     "Gen-2 omission response",
-    "omission-linked spiking (Gen-2)"
+    "omission-linked spiking (Gen-2)",
+    "Gen-2 T1-T7"
   ],
   "results_allowlist": {
     "attractor_solve.json": {

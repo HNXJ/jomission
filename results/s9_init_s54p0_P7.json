@@ -1,0 +1,46 @@
+{
+  "label": "COLLAPSED",
+  "rE_last": 0.0,
+  "rE_prev": 0.0,
+  "drift": 0.0,
+  "w_drift": 0.0,
+  "rates": {
+    "E": 0.0,
+    "PV": 0.0,
+    "SST": 0.0,
+    "VIP": 0.0
+  },
+  "max_rate": 0.0,
+  "sync": 0.0,
+  "H": 1.0,
+  "scale": 54.0,
+  "init": "P7",
+  "segments": [
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 0.0
+    },
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 0.0
+    },
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 0.0
+    },
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 0.0
+    }
+  ],
+  "prep": null,
+  "prep_scan": null
+}

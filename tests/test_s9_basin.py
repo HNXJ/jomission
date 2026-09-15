@@ -360,17 +360,29 @@ def test_s9_verdict():
         regs = sorted(c["rE_last"] for c in caps)
         same = (len(regs) >= 2 and (max(regs) - min(regs)) / max(min(regs), 1e-9)
                 <= CAPTURE["regime_tol"])
-        cand[s] = {"inits": {a["init"]: (a["label"], round(a["rE_last"], 2))
+        cand[s] = {"inits": {a["init"]: (a["label"], round(a["rE_last"], 2)
+                              if "rE_last" in a else None)
                              for a in adjs},
                    "captured": regs, "same_regime": bool(same),
                    "pass": bool(same)}
     passing = [s for s, c in cand.items() if c["pass"]]
     near_collapse = [s for s, c in cand.items()
                      if c["inits"].get("P1", ("", 0))[0] == "COLLAPSED"]
+    mechanism = (
+        "uniform across s_E 50/54/57/61: rest and HDP-primed rest collapse "
+        "to silence (strongly attracting); uniform E-drive steering jumps "
+        "from silence (amp<=2) to a settled global sync 2-cycle "
+        "(all classes 5000 Hz, all amps>=4) with no settled intermediate, "
+        "so no finite init reaches the S7/S8 FP neighborhood; the FP's "
+        "native basin is unobserved from all tested directions. S8 local "
+        "stability stands unrefuted (compatible: tiny basin); the finding "
+        "is basin-scale dominance by silent + sync attractors under "
+        "~50x recurrent gain, not a closure-transfer falsification.")
     lin = {"parent": "23c56d5+ac4422e", "candidates": cand,
            "passing_subset": passing,
            "closure_transfer_failures": near_collapse,
            "selection": "none performed",
+           "mechanism": mechanism,
            "verdict": ("ACTIVE_BASIN_PASS" if passing
                        else "ACTIVE_BASIN_FAIL"),
            "next_authorized_action": ("STOP before REC intervention"

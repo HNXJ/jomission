@@ -1,0 +1,135 @@
+{
+  "parent": "23c56d5+ac4422e",
+  "candidates": {
+    "50.0": {
+      "inits": {
+        "P0": [
+          "COLLAPSED",
+          0.0
+        ],
+        "P1": [
+          "UNUSABLE",
+          null
+        ],
+        "P3": [
+          "UNUSABLE",
+          null
+        ],
+        "P4": [
+          "UNUSABLE",
+          null
+        ],
+        "P5": [
+          "UNUSABLE",
+          null
+        ],
+        "P7": [
+          "COLLAPSED",
+          0.0
+        ]
+      },
+      "captured": [],
+      "same_regime": false,
+      "pass": false
+    },
+    "54.0": {
+      "inits": {
+        "P0": [
+          "COLLAPSED",
+          0.0
+        ],
+        "P1": [
+          "UNUSABLE",
+          null
+        ],
+        "P3": [
+          "UNUSABLE",
+          null
+        ],
+        "P4": [
+          "UNUSABLE",
+          null
+        ],
+        "P5": [
+          "UNUSABLE",
+          null
+        ],
+        "P7": [
+          "COLLAPSED",
+          0.0
+        ]
+      },
+      "captured": [],
+      "same_regime": false,
+      "pass": false
+    },
+    "57.0": {
+      "inits": {
+        "P0": [
+          "COLLAPSED",
+          0.0
+        ],
+        "P1": [
+          "UNUSABLE",
+          null
+        ],
+        "P3": [
+          "UNUSABLE",
+          null
+        ],
+        "P4": [
+          "UNUSABLE",
+          null
+        ],
+        "P5": [
+          "UNUSABLE",
+          null
+        ],
+        "P7": [
+          "COLLAPSED",
+          0.0
+        ]
+      },
+      "captured": [],
+      "same_regime": false,
+      "pass": false
+    },
+    "61.0": {
+      "inits": {
+        "P0": [
+          "COLLAPSED",
+          0.0
+        ],
+        "P1": [
+          "UNUSABLE",
+          null
+        ],
+        "P3": [
+          "UNUSABLE",
+          null
+        ],
+        "P4": [
+          "UNUSABLE",
+          null
+        ],
+        "P5": [
+          "UNUSABLE",
+          null
+        ],
+        "P7": [
+          "COLLAPSED",
+          0.0
+        ]
+      },
+      "captured": [],
+      "same_regime": false,
+      "pass": false
+    }
+  },
+  "passing_subset": [],
+  "closure_transfer_failures": [],
+  "selection": "none performed",
+  "mechanism": "uniform across s_E 50/54/57/61: rest and HDP-primed rest collapse to silence (strongly attracting); uniform E-drive steering jumps from silence (amp<=2) to a settled global sync 2-cycle (all classes 5000 Hz, all amps>=4) with no settled intermediate, so no finite init reaches the S7/S8 FP neighborhood; the FP's native basin is unobserved from all tested directions. S8 local stability stands unrefuted (compatible: tiny basin); the finding is basin-scale dominance by silent + sync attractors under ~50x recurrent gain, not a closure-transfer falsification.",
+  "verdict": "ACTIVE_BASIN_FAIL",
+  "next_authorized_action": "STOP; localize S8-closure vs native discrepancy"
+}

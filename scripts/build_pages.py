@@ -245,6 +245,24 @@ def render_prep_transition(ctx):
     return "assets/svg/prep_transition.svg", svg
 
 
+def render_ladder_outcome(ctx):
+    series = []
+    for tag, s in (("s50p0", 50), ("s54p0", 54), ("s57p0", 57), ("s61p0", 61)):
+        xs, ys = [], []
+        for T in (0.5, 1.0, 2.0, 4.0, 8.0):
+            try:
+                d = load_json(os.path.join(
+                    REPO, "results", f"b_ladder_{tag}_{T}.json"))
+            except FileNotFoundError:
+                continue
+            xs.append(T)
+            ys.append(d.get("rE_release", 0.0))
+        series.append((f"s_E={s}", xs, ys))
+    svg = svg_line_chart(series, title="duration ladder: release E rate vs drive duration",
+                         xlabel="prep duration T (s)", ylabel="release E rate (Hz)")
+    return "assets/svg/ladder_outcome.svg", svg
+
+
 RENDERERS = {
     "gate_graph": render_gate_graph,
     "g_curve": render_g_curve,
@@ -253,6 +271,7 @@ RENDERERS = {
     "susceptibility": render_susceptibility,
     "attractor_diagram": render_attractor_diagram,
     "prep_transition": render_prep_transition,
+    "ladder_outcome": render_ladder_outcome,
 }
 
 

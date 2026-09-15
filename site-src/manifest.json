@@ -161,6 +161,12 @@
       "evidence": "results/s9_lineage.json",
       "gate": "native nonlinear basin",
       "verdict": "ACTIVE_BASIN_FAIL"
+    },
+    {
+      "commit": "34996af",
+      "evidence": "results/b_lineage.json",
+      "gate": "basin accessibility (visitation + separatrix)",
+      "verdict": "COARSE_FIXED_POINT_OFF_NATIVE_MANIFOLD"
     }
   ],
   "owner": "generated",
@@ -286,6 +292,18 @@
       "title": "Retired: tonic-to-recurrent transfer",
       "type": "table"
     },
+    "b-access": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "detail"
+      ],
+      "page": "hdp",
+      "source": "results/b_lineage.json",
+      "status": "OBSERVED (coarse FP superseded as design authority, not retracted)",
+      "title": "Basin accessibility: bypass verdict",
+      "type": "table"
+    },
     "clamp-table": {
       "evidence": "OBSERVED",
       "keys": [
@@ -378,6 +396,15 @@
       "renderer": "i_curve",
       "source": "results/native_transformation.json",
       "title": "Realized EE current vs rate",
+      "type": "figure"
+    },
+    "ladder_outcome": {
+      "evidence": "OBSERVED",
+      "note": "Release E rate vs prep duration at first-sync amp: T=0.5 s collapses, T>=1 s goes globally synchronous. No capture at any duration.",
+      "page": "hdp",
+      "renderer": "ladder_outcome",
+      "source": "results/b_ladder_s*_T.json release outcomes",
+      "title": "Duration ladder: collapse below 1 s drive, sync above",
       "type": "figure"
     },
     "lineage-table": {
@@ -663,6 +690,10 @@
   "results_allowlist": {
     "attractor_solve.json": {
       "evidence": "DERIVED"
+    },
+    "b_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "COARSE_FIXED_POINT_OFF_NATIVE_MANIFOLD"
     },
     "battery_b1.json": {
       "evidence": "OBSERVED"

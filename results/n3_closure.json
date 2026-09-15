@@ -1,0 +1,14 @@
+{
+  "eps": 0.05,
+  "gap_times": [
+    50,
+    100,
+    150,
+    200,
+    250
+  ],
+  "cross_fate_pairs": 235,
+  "divergent_fraction": 1.0,
+  "pairs_detail": "same coarse gap state, different reignition futures",
+  "missing_coordinate": true
+}

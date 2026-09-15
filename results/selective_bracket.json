@@ -1,0 +1,25 @@
+{
+  "bracket": [
+    50.0,
+    54.0,
+    57.0,
+    61.0,
+    65.0
+  ],
+  "bracket_rationale": "inverse feasible interior (54/57/61) + one flank each side (50/65) to verify reduced-to-native transfer across, not just inside, the feasible region",
+  "delta": "pathway-conditioned actuation only (presynaptic-E select via engine exc_mask); form, H/aux dynamics, shape params, cells, tonic, homeostatic config frozen; no target-class gains",
+  "engine_bound": {
+    "kernel_ceiling": 50.0,
+    "max_descriptor_hi": 6.5,
+    "s_max_admissible": 500.0
+  },
+  "inverse_source": {
+    "evidence": "results/selectivity_lineage.json",
+    "feasible": "uniform E-out gain s in [54.1,60.8], inhibitory fixed at measured, robust 27/27"
+  },
+  "method": "sealed before any selective-rule execution",
+  "parent": "c35a4ac",
+  "predicted": "realized E-out w/I = s_E x s=1 sealed reference (linear); inhibitory w/I = sealed B2/B3 rows (invariant)",
+  "rule": "jomission_sat_eout_v0",
+  "scope_exclusion": "no E/I geometry in S6"
+}

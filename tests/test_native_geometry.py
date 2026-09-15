@@ -136,6 +136,22 @@ def reduce_run(s, amp, name):
         tc = int(hit[0]) * n2
     else:
         tc = None
+    # Sustained sync: E stays >1000 Hz for >=100 consecutive 2 ms bins.
+    tsus = None
+    hot = er > 1000.0
+    for k in range(len(hot) - 100):
+        if hot[k:k + 100].all():
+            tsus = k * n2
+            break
+    # Outcome by ENDPOINT (settled last 2 s), not first crossing: an onset
+    # burst that collapses is SILENT, not sync.
+    end = er[-1000:].mean()
+    if end >= 4000.0:
+        outcome = "SYNC2CYCLE"
+    elif end < 1.0:
+        outcome = "SILENT"
+    else:
+        outcome = "OTHER"
     if tc is None:
         lo, hi = int(5.0 / (DT / 1000)), int(7.0 / (DT / 1000))
     else:
@@ -147,8 +163,8 @@ def reduce_run(s, amp, name):
         ex[c] = [round(float(x), 2) for x in vv[lo:hi, i]]
     out = {"scale": s, "amp": amp, "name": name,
            "t_commit_s": (tc * DT / 1000.0) if tc is not None else None,
-           "outcome": ("SYNC" if (tc is not None) else
-                       ("SILENT" if er[-500:].mean() < 1.0 else "OTHER")),
+           "t_sustain_s": (tsus * DT / 1000.0) if tsus is not None else None,
+           "outcome": outcome,
            "rates_2ms": rates, "sync_2ms": sync, "means_10ms": means,
            "Ixy_10ms": Ich, "V_win": ex,
            "win_s": [lo * DT / 1000.0, hi * DT / 1000.0],
@@ -164,4 +180,15 @@ def test_n1_dataset():
         lo, hi, mid = NG.flip_amps(s)
         for name, amp in (("lo", lo), ("mid", mid), ("hi", hi)):
             reduce_run(s, amp, name)
+    assert True
+
+
+def test_n1b_contrast():
+    """Supplementary contrast battery (predeclared): silent-side onset
+    transients (amp 2.0, settled-silent per B2), sustained-sync transients
+    (amps 4.0/6.0), and s61 sub-2.0 silence search (0.5/1.0)."""
+    for s in NG.CANDIDATES:
+        amps = [2.0, 4.0, 6.0] if s < 61.0 else [0.5, 1.0, 4.0, 6.0]
+        for a in amps:
+            reduce_run(s, a, f"amp{str(a).replace('.', 'p')}")
     assert True

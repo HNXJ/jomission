@@ -214,48 +214,87 @@ def prep_run(model, step_fn, rule_name, s, e_amp, pv_amp=0.0):
             "settled": bool(drift <= B.PREP_SETTLE_TOL)}
 
 
-def select_prep(model, step_fn, rule_name, s, target, pv_amp=0.0):
-    """Grid amps (+bounded extension); nearest settled rate to target."""
+def prep_grid(model, step_fn, rule_name, s, pv_amp=0.0):
+    """Shared E-drive grid (one execution; P1/P3/P4 select from it).
+
+    Optimization with identical selection semantics: the prep simulations
+    depend only on (model, amps, pv_amp) -- not on the init target -- so
+    one grid execution serves all E-grid inits. Deterministic in-process;
+    selection (nearest settled Hz-scale rate) is immune to the ~1e-4
+    cross-process floor (observed rates are 0 or 5000).
+    """
+    grid = []
+    for a in list(B.PREP_AMPS):
+        r = prep_run(model, step_fn, rule_name, s, a, pv_amp)
+        grid.append({"amp": a, "rate": r["rate"], "drift": r["drift"],
+                     "vip": r["vip"], "settled": r["settled"],
+                     "state": r["st"]})
+    return grid
+
+
+def select_prep(model, step_fn, rule_name, s, target, pv_amp=0.0,
+                grid=None):
+    """Nearest settled rate to target from the grid (+bounded extension).
+
+    Returns (best_or_None, scan_table). The full scan table is sealed in
+    every init artifact (usable or not): prep steering evidence.
+    """
+    scan = []
     cands = []
-    for amp in list(B.PREP_AMPS) + [None]:
+    base = list(B.PREP_AMPS) if grid is None else []
+    if grid is not None:
+        for g in grid:
+            scan.append({k: g[k] for k in ("amp", "rate", "drift", "vip", "settled")})
+            if g["settled"]:
+                cands.append(g)
+    for amp in base + [None]:
         if amp is None:
             if cands and min(abs(c["rate"] - target) for c in cands) / target <= B.PREP_USABLE_TOL:
                 break
-            grid = list(B.PREP_AMPS_EXT)
+            ext = list(B.PREP_AMPS_EXT)
         else:
-            grid = [amp]
-        for a in grid:
+            ext = [amp]
+        for a in ext:
             r = prep_run(model, step_fn, rule_name, s, a, pv_amp)
+            scan.append({"amp": a, "rate": r["rate"], "drift": r["drift"],
+                         "vip": r["vip"], "settled": r["settled"]})
             if r["settled"]:
                 cands.append({"amp": a, **{k: v for k, v in r.items() if k != "st"},
                               "state": r["st"]})
     if not cands:
-        return None
+        return None, scan
     best = min(cands, key=lambda c: abs(c["rate"] - target))
     if abs(best["rate"] - target) / target > B.PREP_USABLE_TOL:
-        return None
-    return best
+        return None, scan
+    return best, scan
 
 
-def run_init(s, init):
+def run_init(s, init, plant=None, egrid=None, p5grid=None):
     import json
     assert s in S_BRACKET and init in B.INITS
-    model, step_fn, rule_name = build_plant(s)
+    if plant is None:
+        model, step_fn, rule_name = build_plant(s)
+    else:
+        model, step_fn, rule_name = plant
     tag = scale_tag(s)
     if init in ("P0", "P7"):
         model2, dyn = construct_state(model, rule_name, s, init)
         segs, snaps, last = run_release(model2, step_fn, rule_name, dyn)
         prep = None
+        scan = None
     else:
         fp = B.fp_tables(s)
         target = {"P1": fp["r"]["E"], "P3": 0.5 * fp["r"]["E"],
                   "P4": 1.5 * fp["r"]["E"],
                   "P5": fp["r"]["E"]}[init]
         pv_amp = B.PREP_IBIAS_PV_AMP if init == "P5" else 0.0
-        best = select_prep(model, step_fn, rule_name, s, target, pv_amp)
+        grid = p5grid if init == "P5" else egrid
+        best, scan = select_prep(model, step_fn, rule_name, s, target,
+                                 pv_amp, grid=grid)
         if best is None:
             adj = {"scale": s, "init": init, "label": "UNUSABLE",
-                   "detail": "no settled prep within 30% of target"}
+                   "detail": "no settled prep within 30% of target",
+                   "prep_scan": scan}
             json.dump(adj, open(f"results/s9_init_s{tag}_{init}.json", "w"),
                       indent=2)
             print(f"s={s} {init}: UNUSABLE")
@@ -276,26 +315,38 @@ def run_init(s, init):
     adj["init"] = init
     adj["segments"] = segs
     adj["prep"] = prep
+    adj["prep_scan"] = scan
     json.dump(adj, open(f"results/s9_init_s{tag}_{init}.json", "w"),
               indent=2)
     print(f"s={s} {init}: {adj['label']} rE={adj.get('rE_last', float('nan')):.2f}")
     return adj
 
 
+def run_candidate(s):
+    """One plant build, one shared E-grid + one P5-grid per candidate."""
+    model, step_fn, rule_name = build_plant(s)
+    plant = (model, step_fn, rule_name)
+    egrid = prep_grid(model, step_fn, rule_name, s, pv_amp=0.0)
+    p5grid = prep_grid(model, step_fn, rule_name, s,
+                       pv_amp=B.PREP_IBIAS_PV_AMP)
+    return [run_init(s, i, plant=plant, egrid=egrid, p5grid=p5grid)
+            for i in B.INITS]
+
+
 def test_s9_s50():
-    [run_init(50.0, i) for i in B.INITS]
+    run_candidate(50.0)
 
 
 def test_s9_s54():
-    [run_init(54.0, i) for i in B.INITS]
+    run_candidate(54.0)
 
 
 def test_s9_s57():
-    [run_init(57.0, i) for i in B.INITS]
+    run_candidate(57.0)
 
 
 def test_s9_s61():
-    [run_init(61.0, i) for i in B.INITS]
+    run_candidate(61.0)
 
 
 def test_s9_verdict():

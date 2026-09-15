@@ -205,6 +205,27 @@
       "title": "Retired: scalar recurrence gain",
       "type": "table"
     },
+    "axis-scale": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict",
+        "mechanism"
+      ],
+      "page": "failure-atlas",
+      "source": "results/hdp_scale_lineage.json",
+      "title": "Retired: global HDP efficacy scaling",
+      "type": "table"
+    },
+    "axis-scale-bracket": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "per_scale"
+      ],
+      "page": "failure-atlas",
+      "source": "results/hdp_scale_lineage.json",
+      "title": "Scale bracket outcomes (fresh motifs per scale)",
+      "type": "table"
+    },
     "axis-slow-exc": {
       "evidence": "NEGATIVE",
       "keys": [
@@ -594,6 +615,10 @@
     },
     "hdp_expressivity_audit.json": {
       "evidence": "DERIVED"
+    },
+    "hdp_scale_lineage.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative lineage: global efficacy scale (SCALE_INSUFFICIENT)"
     },
     "jaxfne_0422_migration.json": {
       "evidence": "SUPERSEDED",

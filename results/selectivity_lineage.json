@@ -1,0 +1,55 @@
+{
+  "detail": "minimal structure: uniform E-out gain s in [54.1,60.8], inhibitory fixed at measured; viable in 27/27 perturbations; no within-E-out differential required",
+  "ladder_summary": {
+    "H0": {
+      "hits": 2
+    },
+    "H1": {
+      "polished": null,
+      "scan_hits": 8
+    },
+    "H2": {
+      "best": null,
+      "solutions": 0
+    }
+  },
+  "next_authorized_action": "S6 gate OPEN (pathway-conditioned HDP design); S6 requires explicit authorization; stop here",
+  "parent": "fe79fd2",
+  "robustness": {
+    "H0": {
+      "frozen_ok": 27,
+      "perturbations": 27,
+      "resolved": 27,
+      "s_viable_max": [
+        60.77371250381435,
+        60.77371250381435,
+        60.77371250381435
+      ],
+      "s_viable_min": [
+        54.05903755383038,
+        54.05903755383038,
+        54.05903755383038
+      ]
+    },
+    "H1": {
+      "frozen_ok": 9,
+      "perturbations": 27,
+      "resolved": 27,
+      "s_viable_max": [
+        29.165811151764597,
+        12.123797986995147,
+        12.123797986995147
+      ],
+      "s_viable_min": [
+        18.373309703683436,
+        3.0309494967487867,
+        3.0309494967487867
+      ]
+    },
+    "H2": {
+      "status": "no-nominal-solution"
+    }
+  },
+  "verdict": "SELECTIVITY_FEASIBLE",
+  "verdict_mapping_note": "H0-robust maps to FEASIBLE-minimal, not NOT_REQUIRED: the H0 solution holds inhibitory returns at measured while scaling E-out, which requires E-vs-I pathway conditioning relative to the current co-scaling rule. NOT_REQUIRED would require common scaling including inhibitory -- the direction the scale lineage falsified (silent root only, s=2..36)."
+}

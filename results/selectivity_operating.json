@@ -1,0 +1,23 @@
+{
+  "K": {
+    "E->E": 299.0,
+    "E->PV": 300.0,
+    "E->SST": 300.0,
+    "PV->E": 40.0,
+    "PV->PV": 39.0,
+    "PV->SST": 40.0,
+    "SST->E": 32.0,
+    "SST->PV": 32.0,
+    "SST->SST": 31.0
+  },
+  "s1_check": "reproduces EI_GEOMETRY_FAIL",
+  "s1_roots": [
+    {
+      "I_E": 0.0,
+      "rE": 0.0,
+      "rPV": 0.0,
+      "rSST": 0.0
+    }
+  ],
+  "scope": "measured domain only; VIP excluded; PV<->SST omitted"
+}

@@ -155,6 +155,12 @@
       "evidence": "results/s8_lineage.json",
       "gate": "full-state slow-manifold stability",
       "verdict": "FULL_STATE_STABILITY_PASS"
+    },
+    {
+      "commit": "ef32fcc",
+      "evidence": "results/s9_lineage.json",
+      "gate": "native nonlinear basin",
+      "verdict": "ACTIVE_BASIN_FAIL"
     }
   ],
   "owner": "generated",
@@ -400,6 +406,15 @@
       "title": "3D network explorer",
       "type": "embed"
     },
+    "prep-transition": {
+      "evidence": "OBSERVED",
+      "note": "Settled E rate vs uniform E-drive amp: 0 Hz at amp<=2, 5000 Hz synchronous at amp>=4, no intermediate. The desired active state is never reached by steering.",
+      "page": "hdp",
+      "renderer": "prep_transition",
+      "source": "results/s9_init_s*_P1.json prep_scan tables",
+      "title": "Prep steering phase transition: silence to global sync",
+      "type": "figure"
+    },
     "prop-table": {
       "evidence": "NEGATIVE",
       "keys": [
@@ -489,6 +504,18 @@
       "source": "results/s8_lineage.json",
       "status": "DERIVED/PASS (not nonlinear basin evidence)",
       "title": "Full-state stability: 14-state closure PASS x4",
+      "type": "table"
+    },
+    "s9-basin": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "mechanism"
+      ],
+      "page": "hdp",
+      "source": "results/s9_lineage.json",
+      "status": "OBSERVED/FAIL (local stability unrefuted)",
+      "title": "Nonlinear basin: no finite active capture",
       "type": "table"
     },
     "selective-native": {
@@ -734,6 +761,10 @@
     "s8_lineage.json": {
       "evidence": "DERIVED",
       "status": "FULL_STATE_STABILITY_PASS (basin unexecuted)"
+    },
+    "s9_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "ACTIVE_BASIN_FAIL (S8 local stability stands)"
     },
     "selective_lineage.json": {
       "evidence": "OBSERVED",

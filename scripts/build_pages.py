@@ -229,6 +229,22 @@ def render_attractor_diagram(ctx):
     return "assets/svg/attractor.svg", "".join(s) + "</svg>"
 
 
+def render_prep_transition(ctx):
+    series = []
+    for tag, s in (("s50p0", 50), ("s54p0", 54), ("s57p0", 57), ("s61p0", 61)):
+        try:
+            d = load_json(os.path.join(REPO, "results", f"s9_init_{tag}_P1.json"))
+        except FileNotFoundError:
+            continue
+        scan = d.get("prep_scan", [])
+        xs = [r["amp"] for r in scan]
+        ys = [r["rate"] for r in scan]
+        series.append((f"s_E={s}", xs, ys))
+    svg = svg_line_chart(series, title="prep steering: settled E rate vs drive amp",
+                         xlabel="prep drive amp (E cells)", ylabel="settled E rate (Hz)")
+    return "assets/svg/prep_transition.svg", svg
+
+
 RENDERERS = {
     "gate_graph": render_gate_graph,
     "g_curve": render_g_curve,
@@ -236,6 +252,7 @@ RENDERERS = {
     "f_curves": render_f_curves,
     "susceptibility": render_susceptibility,
     "attractor_diagram": render_attractor_diagram,
+    "prep_transition": render_prep_transition,
 }
 
 

@@ -266,7 +266,7 @@ def render_table(panel, ctx):
             cols = sorted({c for r in v for c in r})
             th = "".join(f"<th>{esc(c)}</th>" for c in cols)
             trs = "".join("<tr>" + "".join(
-                f"<td>{esc(str(r.get(c, ''))[:200])}</td>" for c in cols) + "</tr>" for r in v)
+                f"<td>{esc(str(r.get(c, '')))}</td>" for c in cols) + "</tr>" for r in v)
             return (f'<table class="data"><thead><tr>{th}</tr></thead>'
                     f"<tbody>{trs}</tbody></table>")
     rows = []
@@ -274,11 +274,36 @@ def render_table(panel, ctx):
         v = data
         for part in k.split("."):
             v = v.get(part) if isinstance(v, dict) else None
+        if v is None:
+            raise ValueError(f"panel {panel.get('id')}: key {k!r} missing in {src}")
         rows.append((k, v))
     trs = "".join(
-        f"<tr><td><code>{esc(k)}</code></td><td>{fmt(v) if not isinstance(v, (dict, list)) else esc(json.dumps(v, sort_keys=True)[:300])}</td></tr>"
+        f"<tr><td><code>{esc(k)}</code></td><td>{fmt(v) if not isinstance(v, (dict, list)) else esc(json.dumps(v, sort_keys=True))}</td></tr>"
         for k, v in rows)
     return f'<table class="data"><thead><tr><th>quantity</th><th>value</th></tr></thead><tbody>{trs}</tbody></table>'
+
+
+def render_lineage(ctx):
+    edges = ctx["manifest"].get("lineage_edges", [])
+    rows = []
+    for e in edges:
+        c = e["commit"]
+        r = subprocess.run(["git", "cat-file", "-e", c], cwd=REPO,
+                           capture_output=True)
+        if r.returncode != 0:
+            raise ValueError(f"lineage edge references unknown commit {c!r}")
+        subject = subprocess.run(
+            ["git", "log", "-1", "--format=%s", c], cwd=REPO,
+            capture_output=True, text=True, check=True).stdout.strip()
+        rows.append((c, subject, e.get("gate", ""), e.get("verdict", ""),
+                     e.get("evidence", "")))
+    trs = "".join(
+        f"<tr><td><code>{esc(c)}</code></td><td>{esc(s)}</td>"
+        f"<td>{esc(g)}</td><td>{esc(v)}</td><td><code>{esc(e)}</code></td></tr>"
+        for c, s, g, v, e in rows)
+    return (f'<table class="data"><thead><tr><th>commit</th><th>subject</th>'
+            f"<th>gate</th><th>verdict</th><th>evidence</th></tr></thead>"
+            f"<tbody>{trs}</tbody></table>")
 
 
 def build(out_dir, commit=None):
@@ -369,6 +394,8 @@ def render_panel(panel, ctx):
         return panel_html(panel, inner, ctx["commit"])
     if ptype == "table":
         return panel_html(panel, render_table(panel, ctx), ctx["commit"])
+    if ptype == "lineage":
+        return panel_html(panel, render_lineage(ctx), ctx["commit"])
     if ptype == "embed":
         fn = panel["plotly"]
         if fn not in ctx["manifest"]["plotly_allowlist"]:

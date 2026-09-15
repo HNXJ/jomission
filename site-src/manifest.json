@@ -101,6 +101,38 @@
       "status": "SUPERSEDED"
     }
   ],
+  "lineage_edges": [
+    {
+      "commit": "066e31d",
+      "evidence": "results/gen2_seal.json",
+      "gate": "Gen-2 substrate seal",
+      "verdict": "TRUE_BLOCKER / sealed branches"
+    },
+    {
+      "commit": "7050439",
+      "evidence": "results/hdp_expressivity_audit.json",
+      "gate": "HDP correction + P1 audit",
+      "verdict": "HDP_EXTENSION_REQUIRED"
+    },
+    {
+      "commit": "77ec318",
+      "evidence": "results/jaxfne_0424_migration.json",
+      "gate": "v0.4.24 migration",
+      "verdict": "MIGRATION_PASS"
+    },
+    {
+      "commit": "7e25ddf",
+      "evidence": "results/native_transformation.json",
+      "gate": "native HDP transformation",
+      "verdict": "NATIVE_TRANSFORMATION_PASS"
+    },
+    {
+      "commit": "4bbe3e9",
+      "evidence": "results/ei_geometry_native.json",
+      "gate": "realized E/I geometry",
+      "verdict": "EI_GEOMETRY_FAIL"
+    }
+  ],
   "owner": "generated",
   "pages": [
     "index",
@@ -123,6 +155,97 @@
       "title": "Reduced attractor (derived diagram, paper level)",
       "type": "figure"
     },
+    "audit-table": {
+      "evidence": "DERIVED",
+      "keys": [
+        "verdict"
+      ],
+      "page": "hdp",
+      "source": "results/hdp_expressivity_audit.json",
+      "title": "HDP expressivity audit (P1)",
+      "type": "table"
+    },
+    "axis-delay": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict"
+      ],
+      "page": "failure-atlas",
+      "source": "results/delay_ramp.json",
+      "title": "Retired: loop delay",
+      "type": "table"
+    },
+    "axis-modular": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict"
+      ],
+      "page": "failure-atlas",
+      "source": "results/modular.json",
+      "title": "Retired: modular topology",
+      "type": "table"
+    },
+    "axis-motif": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "classification"
+      ],
+      "page": "failure-atlas",
+      "source": "results/feasibility.json",
+      "title": "Retired: selective motif gain (corrected)",
+      "type": "table"
+    },
+    "axis-scalar": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "assessment"
+      ],
+      "page": "failure-atlas",
+      "source": "results/ramp_summary.json",
+      "title": "Retired: scalar recurrence gain",
+      "type": "table"
+    },
+    "axis-slow-exc": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict"
+      ],
+      "page": "failure-atlas",
+      "source": "results/fs_ramp.json",
+      "title": "Retired: slow excitation",
+      "type": "table"
+    },
+    "axis-slow-inh": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict"
+      ],
+      "page": "failure-atlas",
+      "source": "results/tau_ramp.json",
+      "title": "Retired: slow inhibition",
+      "type": "table"
+    },
+    "axis-tonic-transfer": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict"
+      ],
+      "page": "failure-atlas",
+      "source": "results/beta_transfer.json",
+      "title": "Retired: tonic-to-recurrent transfer",
+      "type": "table"
+    },
+    "clamp-table": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "i_sustain",
+        "verdict"
+      ],
+      "page": "dynamics",
+      "source": "results/clamp_fork.json",
+      "title": "Direct-clamp sustain scale (corrected)",
+      "type": "table"
+    },
     "convergence-table": {
       "evidence": "NEGATIVE",
       "keys": [
@@ -132,6 +255,17 @@
       "page": "propagation",
       "source": "results/convergence.json",
       "title": "Convergence bracket (cut-controlled)",
+      "type": "table"
+    },
+    "ei-boundary": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "verdict",
+        "boundary"
+      ],
+      "page": "failure-atlas",
+      "source": "results/ei_geometry_native.json",
+      "title": "Current boundary: absolute recurrent authority",
       "type": "table"
     },
     "f-curves": {
@@ -195,6 +329,24 @@
       "title": "Realized EE current vs rate",
       "type": "figure"
     },
+    "lineage-table": {
+      "evidence": "POLICY",
+      "page": "lineage",
+      "source": "git history (this tree)",
+      "title": "Gate commits",
+      "type": "lineage"
+    },
+    "migration-table": {
+      "evidence": "POLICY",
+      "keys": [
+        "verdict",
+        "delta_science"
+      ],
+      "page": "index",
+      "source": "results/jaxfne_0424_migration.json",
+      "title": "v0.4.24 migration record",
+      "type": "table"
+    },
     "network-3d": {
       "evidence": "OBSERVED",
       "page": "network",
@@ -202,6 +354,18 @@
       "source": "docs/_static/plotly/network_3d.html",
       "title": "3D network explorer",
       "type": "embed"
+    },
+    "prop-table": {
+      "evidence": "NEGATIVE",
+      "keys": [
+        "endpoint",
+        "first_failed_transformation"
+      ],
+      "note": "Valid for the old plant; requalification mandatory after substrate change.",
+      "page": "propagation",
+      "source": "results/propagation.json",
+      "title": "Propagation battery (old plant)",
+      "type": "table"
     },
     "raster": {
       "evidence": "OBSERVED",
@@ -211,6 +375,61 @@
       "title": "Population raster and rates",
       "type": "embed"
     },
+    "retract-kmap": {
+      "evidence": "RETRACTED",
+      "keys": [
+        "retraction_note",
+        "unit_correction"
+      ],
+      "page": "failure-atlas",
+      "source": "results/kernel_calibration.json",
+      "title": "Corrected: kernel calibration arithmetic",
+      "type": "table"
+    },
+    "retract-loop": {
+      "evidence": "RETRACTED",
+      "keys": [
+        "CORRECTION_binary"
+      ],
+      "note": "Stop verdict stands with corrected reasoning.",
+      "page": "failure-atlas",
+      "source": "results/loop_closure.json",
+      "title": "Corrected: loop-closure binning",
+      "type": "table"
+    },
+    "retract-nullcline": {
+      "evidence": "RETRACTED",
+      "keys": [
+        "RETRACTION"
+      ],
+      "note": "Retained so the error is not repeated. Do not use the candidate.",
+      "page": "failure-atlas",
+      "source": "results/nullcline_design.json",
+      "title": "Retracted: nullcline candidate (S->W conversion)",
+      "type": "table"
+    },
+    "rule-table": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "rule",
+        "verdict"
+      ],
+      "page": "hdp",
+      "source": "results/native_transformation.json",
+      "title": "Qualified rule and verdict",
+      "type": "table"
+    },
+    "source-table": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "source_verdict",
+        "branch_verdict"
+      ],
+      "page": "propagation",
+      "source": "results/source.json",
+      "title": "Qualified source, zero transmission",
+      "type": "table"
+    },
     "spectral": {
       "evidence": "DERIVED",
       "page": "activity",
@@ -218,6 +437,27 @@
       "source": "docs/_static/plotly/spectral_response.html",
       "title": "Spectral response",
       "type": "embed"
+    },
+    "substrate-gate": {
+      "evidence": "POLICY",
+      "keys": [
+        "program_verdict"
+      ],
+      "page": "dynamics",
+      "source": "results/substrate_gate.json",
+      "title": "Recurrent-substrate gate program",
+      "type": "table"
+    },
+    "superseded-blocker": {
+      "evidence": "SUPERSEDED",
+      "keys": [
+        "classified_as"
+      ],
+      "note": "True for the sealed earlier engine state only. Never the current blocker.",
+      "page": "failure-atlas",
+      "source": "results/true_blocker.json",
+      "title": "Superseded: pre-0.4.24 engine blocker",
+      "type": "table"
     },
     "susceptibility": {
       "evidence": "OBSERVED",
@@ -237,6 +477,17 @@
       "title": "Gen-1 T1-T7 (immutable history)",
       "type": "table"
     },
+    "timescale-duel": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "classification",
+        "design_consequence"
+      ],
+      "page": "dynamics",
+      "source": "results/timescale_duel.json",
+      "title": "Basin dominance, not timescale mismatch",
+      "type": "table"
+    },
     "visual-field": {
       "evidence": "DERIVED",
       "page": "network",
@@ -244,6 +495,18 @@
       "source": "docs/_static/plotly/visual_field_mapping.html",
       "title": "Visual field and RF architecture",
       "type": "embed"
+    },
+    "void-duration": {
+      "evidence": "VOID",
+      "keys": [
+        "verdict",
+        "correction"
+      ],
+      "note": "Void lineage. Never reused as evidence.",
+      "page": "failure-atlas",
+      "source": "results/duration_postmortem.json",
+      "title": "Void: tonic-contaminated sustained-drive scratch",
+      "type": "table"
     }
   },
   "plotly_allowlist": {
@@ -308,6 +571,10 @@
     },
     "ei_geometry_native.json": {
       "evidence": "DERIVED"
+    },
+    "feasibility.json": {
+      "evidence": "NEGATIVE",
+      "status": "sealed negative: selective-motif axis (corrected analysis)"
     },
     "ff_coupling.json": {
       "evidence": "OBSERVED"

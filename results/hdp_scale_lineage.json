@@ -1,0 +1,105 @@
+{
+  "bracket": [
+    2.0,
+    4.5,
+    9.0,
+    18.0,
+    36.0
+  ],
+  "engine_bound": {
+    "s_max_admissible": 500.0,
+    "scaled_descriptor_hi": "0.1*s",
+    "w_ceiling": 50.0
+  },
+  "mechanism": "E/I co-scaling: the qualified rule drives excitatory and inhibitory efficacies identically, so PV/SST recruitment crosses threshold in lockstep with EE drive; remeasured inhibitory feedback vetoes net current at every grid point through s=36 (max EE total 32.4, 8x rheobase). First-order s_min~4.44 (excitation-only) refuted as a solution criterion.",
+  "next_authorized_action": "STOP. No scale frozen. Stability/basin/propagation/hierarchy/freeze/omission remain LOCKED. Scientific program remains stopped; no further scale extension authorized in this lineage.",
+  "parent": "4bbe3e9",
+  "per_scale": [
+    {
+      "clip_ride": false,
+      "geometry": "SCALE_FAIL",
+      "max_total_EE_drive": 1.802,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        }
+      ],
+      "scale": 2.0,
+      "shape": "SCALE_SHAPE_PASS",
+      "vip_recruited": false
+    },
+    {
+      "clip_ride": false,
+      "geometry": "SCALE_FAIL",
+      "max_total_EE_drive": 4.054,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        }
+      ],
+      "scale": 4.5,
+      "shape": "SCALE_SHAPE_PASS",
+      "vip_recruited": false
+    },
+    {
+      "clip_ride": false,
+      "geometry": "SCALE_FAIL",
+      "max_total_EE_drive": 8.108,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        }
+      ],
+      "scale": 9.0,
+      "shape": "SCALE_SHAPE_PASS",
+      "vip_recruited": false
+    },
+    {
+      "clip_ride": false,
+      "geometry": "SCALE_FAIL",
+      "max_total_EE_drive": 16.215,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        }
+      ],
+      "scale": 18.0,
+      "shape": "SCALE_SHAPE_PASS",
+      "vip_recruited": false
+    },
+    {
+      "clip_ride": false,
+      "geometry": "SCALE_FAIL",
+      "max_total_EE_drive": 32.43,
+      "roots": [
+        {
+          "I_E": 0.0,
+          "rE": 0.0,
+          "rPV": 0.0,
+          "rSST": 0.0
+        }
+      ],
+      "scale": 36.0,
+      "shape": "SCALE_SHAPE_PASS",
+      "vip_recruited": false
+    }
+  ],
+  "preserved": {
+    "geometry_FAIL": "4bbe3e9",
+    "transformation_PASS": "7e25ddf"
+  },
+  "scale_definition": "w_eff(H;s) = s*w_eff(H;1); form, H-dynamics, shape params, cells, inhibition, tonic, homeostatic config frozen",
+  "verdict": "SCALE_INSUFFICIENT"
+}

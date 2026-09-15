@@ -1,0 +1,157 @@
+{
+  "dwells": {
+    "50.0_amp2p0": {
+      "silent": 0.9958,
+      "sync": 0.0032,
+      "intermediate": 0.001,
+      "outcome": "SILENT"
+    },
+    "50.0_amp4p0": {
+      "silent": 0.041,
+      "sync": 0.9577,
+      "intermediate": 0.0013,
+      "outcome": "SYNC2CYCLE"
+    },
+    "50.0_amp6p0": {
+      "silent": 0.0335,
+      "sync": 0.9655,
+      "intermediate": 0.001,
+      "outcome": "SYNC2CYCLE"
+    },
+    "50.0_hi": {
+      "silent": 0.041,
+      "sync": 0.9577,
+      "intermediate": 0.0013,
+      "outcome": "SYNC2CYCLE"
+    },
+    "50.0_lo": {
+      "silent": 0.9978,
+      "sync": 0.0018,
+      "intermediate": 0.0005,
+      "outcome": "SILENT"
+    },
+    "50.0_mid": {
+      "silent": 0.044,
+      "sync": 0.9545,
+      "intermediate": 0.0015,
+      "outcome": "SYNC2CYCLE"
+    },
+    "54.0_amp2p0": {
+      "silent": 0.998,
+      "sync": 0.0015,
+      "intermediate": 0.0005,
+      "outcome": "SILENT"
+    },
+    "54.0_amp4p0": {
+      "silent": 0.0413,
+      "sync": 0.957,
+      "intermediate": 0.0018,
+      "outcome": "SYNC2CYCLE"
+    },
+    "54.0_amp6p0": {
+      "silent": 0.038,
+      "sync": 0.9605,
+      "intermediate": 0.0015,
+      "outcome": "SYNC2CYCLE"
+    },
+    "54.0_hi": {
+      "silent": 0.0413,
+      "sync": 0.957,
+      "intermediate": 0.0018,
+      "outcome": "SYNC2CYCLE"
+    },
+    "54.0_lo": {
+      "silent": 0.9972,
+      "sync": 0.002,
+      "intermediate": 0.0008,
+      "outcome": "SILENT"
+    },
+    "54.0_mid": {
+      "silent": 0.0442,
+      "sync": 0.954,
+      "intermediate": 0.0018,
+      "outcome": "SYNC2CYCLE"
+    },
+    "57.0_amp2p0": {
+      "silent": 0.9965,
+      "sync": 0.0025,
+      "intermediate": 0.001,
+      "outcome": "SILENT"
+    },
+    "57.0_amp4p0": {
+      "silent": 0.0,
+      "sync": 0.9998,
+      "intermediate": 0.0003,
+      "outcome": "SYNC2CYCLE"
+    },
+    "57.0_amp6p0": {
+      "silent": 0.036,
+      "sync": 0.9625,
+      "intermediate": 0.0015,
+      "outcome": "SYNC2CYCLE"
+    },
+    "57.0_hi": {
+      "silent": 0.0,
+      "sync": 0.9998,
+      "intermediate": 0.0003,
+      "outcome": "SYNC2CYCLE"
+    },
+    "57.0_lo": {
+      "silent": 0.998,
+      "sync": 0.0015,
+      "intermediate": 0.0005,
+      "outcome": "SILENT"
+    },
+    "57.0_mid": {
+      "silent": 0.998,
+      "sync": 0.0015,
+      "intermediate": 0.0005,
+      "outcome": "SILENT"
+    },
+    "61.0_amp0p5": {
+      "silent": 0.9972,
+      "sync": 0.0018,
+      "intermediate": 0.001,
+      "outcome": "SILENT"
+    },
+    "61.0_amp1p0": {
+      "silent": 0.9972,
+      "sync": 0.0018,
+      "intermediate": 0.001,
+      "outcome": "SILENT"
+    },
+    "61.0_amp4p0": {
+      "silent": 0.0413,
+      "sync": 0.9573,
+      "intermediate": 0.0015,
+      "outcome": "SYNC2CYCLE"
+    },
+    "61.0_amp6p0": {
+      "silent": 0.0335,
+      "sync": 0.9653,
+      "intermediate": 0.0013,
+      "outcome": "SYNC2CYCLE"
+    },
+    "61.0_hi": {
+      "silent": 0.0413,
+      "sync": 0.9573,
+      "intermediate": 0.0015,
+      "outcome": "SYNC2CYCLE"
+    },
+    "61.0_lo": {
+      "silent": 0.9978,
+      "sync": 0.0018,
+      "intermediate": 0.0005,
+      "outcome": "SILENT"
+    },
+    "61.0_mid": {
+      "silent": 0.0445,
+      "sync": 0.9543,
+      "intermediate": 0.0013,
+      "outcome": "SYNC2CYCLE"
+    }
+  },
+  "intermediate_mean_share": 0.0011,
+  "slow_regions": [],
+  "flow_median": 0.25037
+}

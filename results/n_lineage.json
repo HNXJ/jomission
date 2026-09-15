@@ -1,0 +1,7 @@
+{
+  "parent": "S9 ACTIVE_BASIN_FAIL + B OFF_MANIFOLD",
+  "n_trajectories": 25,
+  "verdict": "NATIVE_GEOMETRY_NO_INTERMEDIATE",
+  "detail": "dwell lives only in silence/sync corners (max intermediate share 0.002); no third slow region; closure failed (N3 missing coordinate): plant organizes only silence<->sync over the justified domain",
+  "next_authorized_action": "STOP; N5 intervention proposal requires approval"
+}

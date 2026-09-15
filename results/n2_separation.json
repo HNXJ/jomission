@@ -1,0 +1,57 @@
+{
+  "n_sync": 15,
+  "n_silent": 10,
+  "features": {
+    "peak_rate": {
+      "delta": 0.0,
+      "sync_med": 10000.0,
+      "sil_med": 10000.0
+    },
+    "width_bins": {
+      "delta": 0.233,
+      "sync_med": 8.0,
+      "sil_med": 8.0
+    },
+    "burst_spikes": {
+      "delta": 0.053,
+      "sync_med": 125.65,
+      "sil_med": 127.072
+    },
+    "sync_peak": {
+      "delta": 0.0,
+      "sync_med": 1.0,
+      "sil_med": 1.0
+    },
+    "E_first_ms": {
+      "delta": -0.36,
+      "sync_med": 1.5,
+      "sil_med": 2.2
+    },
+    "E_win_spikes": {
+      "delta": 0.5,
+      "sync_med": 4.0,
+      "sil_med": 2.0
+    },
+    "PV_first_ms": {
+      "delta": 0.187,
+      "sync_med": 1.9,
+      "sil_med": 1.9
+    },
+    "PV_win_spikes": {
+      "delta": 0.56,
+      "sync_med": 2.0,
+      "sil_med": 1.0
+    },
+    "SST_first_ms": {
+      "delta": 0.0,
+      "sync_med": 0.2,
+      "sil_med": 0.2
+    },
+    "SST_win_spikes": {
+      "delta": 0.653,
+      "sync_med": 3.0,
+      "sil_med": 2.0
+    }
+  },
+  "note": "pre-commitment onset morphology only (t<40 ms + V_win)"
+}

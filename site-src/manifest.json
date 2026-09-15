@@ -149,6 +149,12 @@
       "evidence": "results/s7_lineage.json",
       "gate": "fresh E/I geometry (selective plant)",
       "verdict": "EI_GEOMETRY_PASS"
+    },
+    {
+      "commit": "ac4422e",
+      "evidence": "results/s8_lineage.json",
+      "gate": "full-state slow-manifold stability",
+      "verdict": "FULL_STATE_STABILITY_PASS"
     }
   ],
   "owner": "generated",
@@ -472,6 +478,19 @@
       "title": "Fresh E/I geometry: passing subset 50/54/57/61",
       "type": "table"
     },
+    "s8-stability": {
+      "evidence": "DERIVED",
+      "keys": [
+        "verdict",
+        "passing_subset",
+        "selection"
+      ],
+      "page": "hdp",
+      "source": "results/s8_lineage.json",
+      "status": "DERIVED/PASS (not nonlinear basin evidence)",
+      "title": "Full-state stability: 14-state closure PASS x4",
+      "type": "table"
+    },
     "selective-native": {
       "evidence": "OBSERVED",
       "keys": [
@@ -711,6 +730,10 @@
     "s7_lineage.json": {
       "evidence": "OBSERVED",
       "status": "EI_GEOMETRY_PASS (stability/basin unexecuted)"
+    },
+    "s8_lineage.json": {
+      "evidence": "DERIVED",
+      "status": "FULL_STATE_STABILITY_PASS (basin unexecuted)"
     },
     "selective_lineage.json": {
       "evidence": "OBSERVED",

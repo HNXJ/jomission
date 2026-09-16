@@ -179,6 +179,12 @@
       "evidence": "results/n5_verdict.json",
       "gate": "causal microstate decomposition",
       "verdict": "NONE_IDENTIFIED"
+    },
+    {
+      "commit": "934a718",
+      "evidence": "results/v21_lineage.json",
+      "gate": "V2.1 local cortical operation",
+      "verdict": "V2_LOCAL_OPERATION_FAIL"
     }
   ],
   "owner": "generated",
@@ -687,6 +693,19 @@
       "title": "Basin dominance, not timescale mismatch",
       "type": "table"
     },
+    "v21-operation": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "passing_subset",
+        "first_failure"
+      ],
+      "page": "activity",
+      "source": "results/v21_lineage.json",
+      "status": "OBSERVED/FAIL (INSUFFICIENT_SYMMETRY_BREAKING, not noise deficit)",
+      "title": "V2.1 local operation: no passing regime",
+      "type": "table"
+    },
     "visual-field": {
       "evidence": "DERIVED",
       "page": "network",
@@ -885,6 +904,10 @@
     "true_blocker.json": {
       "evidence": "SUPERSEDED",
       "status": "pre-0.4.24 engine state only"
+    },
+    "v21_lineage.json": {
+      "evidence": "OBSERVED",
+      "status": "V2_LOCAL_OPERATION_FAIL (symmetry defect)"
     },
     "volley_authority.json": {
       "evidence": "OBSERVED"

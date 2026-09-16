@@ -1,4 +1,5 @@
 {
+  "superseded": "HISTORICAL Gen-1/T1-T7 ledger, kept for provenance. Current state: manifests/current_state.json; lineage edges: manifests/lineage_registry.json",
   "HEAD": "1cfe231",
   "sealed_milestones": [
     {

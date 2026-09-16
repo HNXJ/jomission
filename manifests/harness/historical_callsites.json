@@ -1,0 +1,147 @@
+{
+ "schema": "jomission.historical_callsites.v1",
+ "rule": "files calling run_continuation at checkpoint 1, frozen by blob. A new file, or an edited listed file, that calls run_continuation must import jomission.harness.drive (tests/test_harness_guards.py)",
+ "base": "a488348",
+ "run_continuation": [
+  {
+   "path": "jomission/qualification/cmin.py",
+   "blob": "83aef5c33e3cffd6e6fda28b2135254f7c506b09"
+  },
+  {
+   "path": "jomission/qualification/ei_geometry.py",
+   "blob": "d63a43dcbbadbc177ac4b1b709f2a2ad22acb457"
+  },
+  {
+   "path": "jomission/qualification/hdp_attractor.py",
+   "blob": "1337d6de6c6bba3d274ef401456fcae5e6e8bf76"
+  },
+  {
+   "path": "jomission/qualification/propagation.py",
+   "blob": "de0f3df98e7ea90cd350b3fbcc10fa8c3c9c8297"
+  },
+  {
+   "path": "jomission/simulation/factorial_v0p2_fast.py",
+   "blob": "de912650187941455c12766f87c7b4d361868467"
+  },
+  {
+   "path": "scripts/audit_synaptic_scaling_chain.py",
+   "blob": "a268f9f306fbca53660fe5cf29eb0a732d7db6ac"
+  },
+  {
+   "path": "scripts/b1_b2_b3_authoritative.py",
+   "blob": "9238722a6160aa8e91149362f0cdc0346d566b62"
+  },
+  {
+   "path": "scripts/b1b2b3_executed.py",
+   "blob": "978e2612a7ad18ef1d40b378854b4d6f08a67781"
+  },
+  {
+   "path": "scripts/b1b2b3_rootcause.py",
+   "blob": "905905c884caa2227169bd78b40affc65f8ca24a"
+  },
+  {
+   "path": "scripts/run_b1b2b3_root_cause_closure.py",
+   "blob": "67ece897bb88d2a51187b0999c28960392af2eee"
+  },
+  {
+   "path": "scripts/run_connectivity_normalization_assay.py",
+   "blob": "d796e4ccf713e2e47351aeef7559f75ea3fb8013"
+  },
+  {
+   "path": "scripts/run_phase_c_recurrent_sweep.py",
+   "blob": "f0581fda60c0dd6b6f2aaa51614a29281846fa32"
+  },
+  {
+   "path": "scripts/w4a_I_to_Vm_geometry.py",
+   "blob": "f000367f0e225f2fcfdb2c6fea2718f98285f0ff"
+  },
+  {
+   "path": "scripts/w4a_P_attribution.py",
+   "blob": "a019f008cfa31985db565a3ef7f245294fc9a1ad"
+  },
+  {
+   "path": "scripts/w4a_Q_tradeoff.py",
+   "blob": "2a26b331dd8166ab62433343da9f5526f36fa062"
+  },
+  {
+   "path": "scripts/w4a_ff_gain_assay.py",
+   "blob": "0772ba7243f296cce203019a1c620b24ec023a94"
+  },
+  {
+   "path": "scripts/w4a_stagewise_diagnostic.py",
+   "blob": "3bb346a0aa651f1b785004e845a9401430ca9cbf"
+  },
+  {
+   "path": "scripts/w4a_v1_to_v4.py",
+   "blob": "c696f65c7941ca532203bdbd23842a5e85a0cc71"
+  },
+  {
+   "path": "scripts/w4a_v4_N_decomposition.py",
+   "blob": "63e5ca5896e94248bde843303dc6e72ac7c7b4f9"
+  },
+  {
+   "path": "scripts/w4a_v4_current_decomposition.py",
+   "blob": "1895ac6caef4ca33ce188cdd7e3b9f37d2007f20"
+  },
+  {
+   "path": "scripts/w4a_v4_susceptibility.py",
+   "blob": "8be6b98ea0d2dedf52f8dc42b6b28a368c195285"
+  },
+  {
+   "path": "scripts/w4a_vertical_representation.py",
+   "blob": "72d9e816c1b3e476a0f88bad3598832a19091a89"
+  },
+  {
+   "path": "tests/test_basin_access.py",
+   "blob": "02eb6789fcbf6e341c36e54cee4ce35b67ecf483"
+  },
+  {
+   "path": "tests/test_ei_geometry.py",
+   "blob": "47de043be9ec526e5d0316b53e90a4235bacb31d"
+  },
+  {
+   "path": "tests/test_hdp_attractor.py",
+   "blob": "df382bdd5387d4901b76df4871146e4e2ad3592c"
+  },
+  {
+   "path": "tests/test_hdp_scale.py",
+   "blob": "83ddc69c981d31f5d9863218648e9f6fe7282b73"
+  },
+  {
+   "path": "tests/test_n5_microstate.py",
+   "blob": "3d1053333958c802b4a393084cd221ae26f76506"
+  },
+  {
+   "path": "tests/test_native_geometry.py",
+   "blob": "c8e0d8218e77b1a7cd768cf9727c0e7f000b06fd"
+  },
+  {
+   "path": "tests/test_native_transformation.py",
+   "blob": "e18f6c63dd7a09f052d406cc3cf0d85dc58706cc"
+  },
+  {
+   "path": "tests/test_s7_geometry.py",
+   "blob": "0dfe906d10921cdec587b87a314c01386f655ddc"
+  },
+  {
+   "path": "tests/test_s9_basin.py",
+   "blob": "3322c9097fa4b108ab9335304823af1a39ca1b54"
+  },
+  {
+   "path": "tests/test_selective_native.py",
+   "blob": "e9d836b83df0c9c648cab0fd19ce72d198c0c989"
+  },
+  {
+   "path": "tests/test_v21_operation.py",
+   "blob": "7749863506ea2fdca611191edbcd89b434b67edf"
+  },
+  {
+   "path": "tests/test_v21_provenance.py",
+   "blob": "c1ca5b3664044583fde918f32cd7640db06f3db1"
+  },
+  {
+   "path": "tests/test_v21b_operation.py",
+   "blob": "17f1a59c9163056c1de68f2cff908d3a050154a4"
+  }
+ ]
+}

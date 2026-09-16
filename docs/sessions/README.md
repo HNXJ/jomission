@@ -1,5 +1,8 @@
 # Session Reports — Human/Agent Narrative Layer
 
+> Historical record. INDEX.md "Current Frontier" reflects the last indexed session, not
+> current project state; current state is `manifests/current_state.json`.
+
 ## Purpose
 
 Session reports are the **human/agent narrative layer** that links authoritative

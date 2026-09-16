@@ -74,7 +74,7 @@ Failures are evidence about the model.
 ## First milestone (this pass)
 
 - [x] stale mlxEngine removed (provenance: `a526f58`, tree `dcaf37b`)
-- [ ] latest JaxFNE installed (0.4.17, see `manifests/`)
+- [x] JaxFNE installed (0.4.17 at this milestone; current execution authority in `manifests/current_state.json`)
 - [ ] exact paradigm validation passes
 - [ ] 4 areas × layer × E/PV/SST/VIP instantiated
 - [ ] FF+FB graph instantiated (`W_{(a,l,c)→(a',l',c')}`)

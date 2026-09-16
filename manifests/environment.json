@@ -1,4 +1,5 @@
 {
+  "superseded": "HISTORICAL 2026-08-23 macOS record. Current execution identity: manifests/current_state.json (execution_authority, jaxfne_version), checked by scripts/project_check.py",
   "timestamp": "2026-08-23T21:31:12.388953+00:00",
   "python": "3.14.4",
   "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",

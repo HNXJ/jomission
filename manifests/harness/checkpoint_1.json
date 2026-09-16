@@ -1,0 +1,91 @@
+{
+ "schema": "jomission.harness_checkpoint.v1",
+ "id": "HARNESS-CHECKPOINT-1",
+ "date": "2026-09-16",
+ "parent": "main a488348",
+ "branch": "harness-checkpoint-1",
+ "scope": "harness only; no simulation; no change to results, parameters, gate thresholds, or verdicts",
+ "acceptance_evidence": {
+  "todo_validator": "tests/test_harness_state.py::test_current_state_and_todo_valid",
+  "current_state_validator": "tests/test_harness_state.py::test_current_state_and_todo_valid, ::test_verdict_status_follows_evidence_not_tests",
+  "project_check": "python scripts/project_check.py -> PROJECT_CHECK_PASS",
+  "gate_single_source": "tests/test_gates_single_source.py (3)",
+  "workspace_import_provenance": "tests/test_environment_provenance.py (2)",
+  "drive_additivity": "tests/test_harness_guards.py::test_drive_additivity_mean_controlled_shot_passes_and_tonic_copy_fails, ::test_new_run_continuation_call_sites_use_drive_guard",
+  "estimator_guard": "tests/test_harness_guards.py::test_estimator_metadata_required, ::test_lineage_validator_rejects_defects",
+  "lineage_schema": "tests/test_harness_guards.py::test_lineage_registry_valid_and_preexecution_sealed, ::test_lineage_validator_rejects_defects",
+  "pages_firewall": "tests/test_pages_build.py (8)",
+  "scientific_tests_unchanged": "git diff a488348 -- tests/test_v2* jomission/qualification results -> empty"
+ },
+ "mechanical_gates": {
+  "workspace_identity": "tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout; project_check",
+  "runtime_dependency_identity": "tests/test_environment_provenance.py::test_jaxfne_matches_execution_authority; project_check",
+  "drive_additivity": "jomission/harness/drive.py + call-site freeze manifests/harness/historical_callsites.json",
+  "frozen_artifact_mutation": "manifests/sealed_artifacts.json (284) via validate_sealed_registry",
+  "preexecution_sealing": "validate_lineage: spec commit strictly precedes result commit and holds the spec",
+  "gate_source_authority": "manifests/gates/v2_local_operation.json + scan of jomission/, tests/, scripts/",
+  "estimator_semantics": "validate_estimator on transient observations",
+  "configured_realized_executed_effective": "validate_lineage requires all four stages when introduces_mechanism",
+  "result_vs_test_semantics": "test_scientific_verdicts_do_not_fail_pytest + status read from evidence verdict",
+  "pages_firewall": "tests/test_pages_build.py::test_firewall_and_quarantine",
+  "environment_failures": "manifests/harness/environment_failures.json + tests/conftest.py label via jomission/harness/envfail.py",
+  "handoff_drift": "tests/test_harness_state.py::test_handoff_state_block_current",
+  "tier_placement": "tests/test_harness_state.py::test_test_tiers_consistent"
+ },
+ "negative_probes": [
+  "planted jomission/zz_tmp_probe.py calling run_continuation -> call-site guard failed as intended, file removed",
+  "planted WinError 32 test -> report section 'ENVIRONMENT [ENV-WIN-FILELOCK]', file removed",
+  "project_check on dirty tree without --allow-dirty -> PROJECT_CHECK_FAIL: tree clean: 8 modified tracked files",
+  "validator unit tests mutate copies of each manifest and assert the specific error"
+ ],
+ "skills": {
+  "created": [
+   ".claude/skills/jomission-gate-runner",
+   ".claude/skills/jomission-lineage-review"
+  ],
+  "not_created": {
+   "jomission-provenance-check": "deterministic script instead: scripts/project_check.py",
+   "jomission-drive-audit": "code guard instead: jomission/harness/drive.py + call-site test",
+   "jomission-estimator-audit": "validator instead: validate_estimator in lineage validation",
+   "jomission-publication": "scripts/build_pages.py + tests/test_pages_build.py already encode it; revisit at PUB-V21B-PAGES"
+  },
+  "global_reviewed": [
+   "biophysical-modeling",
+   "numerical-computing",
+   "slop-removal"
+  ],
+  "defect_found": "biophysical-modeling was not loaded when jomission/qualification/intrinsic.py was written; the gate-runner skill now fronts execution work"
+ },
+ "review": {
+  "method": "self-review against sections 0-17 of the order after re-reading it verbatim; the first pass scored below 90 and was repaired (tiers, handoff sections, AGENTS topics, skill purposes, result-vs-test gate, sealed coverage 27->284, call-site guard)",
+  "scores": {
+   "correctness": 91,
+   "context_efficiency": 90,
+   "drift_resistance": 92,
+   "provenance_safety": 94,
+   "gate_discipline": 91,
+   "test_efficiency": 88,
+   "handoff_quality": 92,
+   "skill_quality": 87
+  },
+  "mean": 90.62,
+  "threshold": 90,
+  "decision": "PASS narrowly; seal and STOP for reviewer"
+ },
+ "unresolved_defects": [
+  "Lineage registry claims are schema- and receipt-existence-checked, not content-checked against receipt values",
+  "An execution never entered in the lineage registry is not detected; pre-execution sealing is enforced only for registered lineages",
+  "Gate single-source scan covers Python only; site-src HTML is not scanned (no threshold literals found there today)",
+  "Tier 1 classifies one subsystem; other subsystem tests are unclassified for cost and writes",
+  "Tier 2 command not executed during this checkpoint",
+  "AGENTS.md keeps a generic block overlapping the global CLAUDE.md because tests/test_agents_policy.py requires it",
+  "site-src/manifest.json mixes evidence classes and statuses (PUB-EVIDENCE-LABELS)",
+  "WinError 32 file-lock failures classified, not repaired (HD-WIN-FILELOCK)",
+  "Skills not yet exercised on a real lineage"
+ ],
+ "science_restored": {
+  "next": "SCI-V21C-BOUNDARY (OPEN_AFTER_HARNESS, not started)",
+  "question": "order of w_CV=0.3 and w_spontaneous for E b-dispersion, single-cell open-loop",
+  "review_note": "manifests/todo.json SCI-V21C-BOUNDARY.review_note: first-cell definition already ordered SPONTANEOUS_BEFORE_CV by sealed grid; fraction definition decided by f_sp outside (0.0633, 0.1367]"
+ }
+}

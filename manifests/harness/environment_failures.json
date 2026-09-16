@@ -1,0 +1,66 @@
+{
+ "schema": "jomission.environment_failures.v1",
+ "rule": "An environment failure is classified before any scientific interpretation; a matching signature is ENVIRONMENT, never evidence about the model. Failures whose text matches a `match` regex are labelled by tests/conftest.py (jomission.harness.envfail).",
+ "failures": [
+  {
+   "id": "ENV-STALE-EDITABLE",
+   "signature": "ModuleNotFoundError for a module present in this checkout, or behaviour of older code outside pytest",
+   "cause": "_editable_impl_jomission.pth pointed at the stale clone E:/jomission; pytest pythonpath=['.'] masks it",
+   "detect": "tests/test_environment_provenance.py; scripts/project_check.py 'editable install'",
+   "repair": "python -m pip install --no-deps -e E:/repos/jomission (default isolated build)",
+   "status": "REPAIRED, guarded",
+   "match": "jomission imports from .* not "
+  },
+  {
+   "id": "ENV-HATCHLING-NO-ISOLATION",
+   "signature": "AttributeError inside hatchling during pip install --no-build-isolation",
+   "cause": "local hatchling incompatible with the build backend requirement",
+   "repair": "omit --no-build-isolation",
+   "status": "KNOWN",
+   "match": "hatchling.*AttributeError|AttributeError.*hatchling"
+  },
+  {
+   "id": "ENV-WIN-FILELOCK",
+   "signature": "PermissionError / WinError 32 on TemporaryDirectory cleanup of memmapped .npz",
+   "cause": "open np.load memmap handles at directory removal (Windows forbids deleting open files)",
+   "tests": [
+    "tests/test_t4_t5_analysis.py::test_t4_t5_run_generates_artifact_arrays",
+    "tests/test_t7_lag.py::test_t7_generated_arrays_artifact_backed"
+   ],
+   "evidence": "results/harness_debt_classification.json",
+   "repair": "close memmaps before cleanup (TODO HD-WIN-FILELOCK)",
+   "status": "OPEN",
+   "match": "WinError 32|PermissionError: \\[WinError 32\\]|being used by another process"
+  },
+  {
+   "id": "ENV-BATTERY-MEMORY",
+   "signature": "process killed / MemoryError during V2.1-family batteries",
+   "cause": "~32 GB RSS per battery process (4 x 5 s chunks, 400 neurons, dt 0.1 ms recordings)",
+   "repair": "run batteries serially, one process at a time",
+   "status": "KNOWN"
+  },
+  {
+   "id": "ENV-HTTPS-KEYRING",
+   "signature": "gh / git https authentication failure inside the agent sandbox",
+   "cause": "sandbox cannot read the Windows keyring",
+   "repair": "git push git@github.com:HNXJ/jomission.git <ref>:refs/heads/<branch>; gh operations run in the user's terminal",
+   "status": "KNOWN",
+   "match": "could not read Username for 'https://github.com'|gh auth login"
+  },
+  {
+   "id": "ENV-BATTERY-REWRITES-RESULTS",
+   "signature": "git status shows modified results/v21*_*.json after a test run",
+   "cause": "tier-3 battery and verdict tests write their result files",
+   "detect": "tests/test_harness_guards.py::test_sealed_artifacts_unchanged",
+   "repair": "git checkout -- <path> for sealed paths; never commit a rewrite of a sealed artifact",
+   "status": "GUARDED"
+  },
+  {
+   "id": "ENV-SHELL-UNSET-VAR-STDIN",
+   "signature": "command hangs indefinitely with no output",
+   "cause": "redirect to a path built from an unset shell variable left `cat >` waiting on stdin",
+   "repair": "write files with the editor tool, not heredoc redirects to variables",
+   "status": "KNOWN"
+  }
+ ]
+}

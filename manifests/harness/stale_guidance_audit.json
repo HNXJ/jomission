@@ -1,0 +1,112 @@
+{
+ "schema": "jomission.stale_guidance_audit.v1",
+ "date": "2026-09-16",
+ "method": "git grep over tracked files excluding results/*.json and docs/sessions/2026 (results counts separate); each hit classified; only current guidance repaired",
+ "terms": [
+  {
+   "term": "0.4.21",
+   "hits": [
+    "jomission/simulation/factorial_v0p2_fast.py:64 comment",
+    "manifests/q8_021_quarantine.json",
+    "3 results/*.json"
+   ],
+   "class": "HISTORICAL_VALID",
+   "action": "none"
+  },
+  {
+   "term": "0.4.22",
+   "hits": [
+    "jomission/network/builder.py:1784,1817",
+    "jomission/qualification/cmin.py:64",
+    "4 results/*.json"
+   ],
+   "class": "CURRENT_VALID (0.4.22+ representation note)",
+   "action": "none"
+  },
+  {
+   "term": "0.4.17 as current install",
+   "hits": [
+    "README.md:77",
+    "manifests/environment.json"
+   ],
+   "class": "STALE current guidance",
+   "action": "README line repaired; environment.json marked superseded"
+  },
+  {
+   "term": "0.4.17 as engine of record",
+   "hits": [
+    "docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md",
+    "docs/RF_RATE_FACTORIAL_DESIGN.md",
+    "manifests/canonical_smoke_seal.json, milestone_01_short_trajectory.json, t2_readiness.json, t3_authorization.json, t3_execution_seal.json, rf_rate_factorial_design.json, factorial_v0p2_design.json, w4a_blocker_seal.json"
+   ],
+   "class": "HISTORICAL_VALID",
+   "action": "none"
+  },
+  {
+   "term": "missing STP",
+   "hits": [],
+   "class": "NO_HITS",
+   "action": "none"
+  },
+  {
+   "term": "deterministic V2.1 / no irregularity source",
+   "hits": [
+    "results/h_defect.json",
+    "results/h_history.json",
+    "tests/test_v21_operation.py docstring",
+    "commit message 934a718",
+    "old handoff s13 quotations"
+   ],
+   "class": "HISTORICAL (sealed, frozen); superseded by results/v21_provenance_correction.json",
+   "action": "not rewritten; no current guidance repeats the claim"
+  },
+  {
+   "term": "~3-4 drive units required",
+   "hits": [
+    "manifests/vocabulary.json substrate_truth_compressed",
+    "1 results/*.json"
+   ],
+   "class": "STALE (C-min era)",
+   "action": "vocabulary entry marked SUPERSEDED"
+  },
+  {
+   "term": "TRUE_BLOCKER",
+   "hits": [
+    "manifests/closure_contract.json:84 definition",
+    "site-src/manifest.json:109",
+    "2 results/*.json"
+   ],
+   "class": "CURRENT_VALID definition; PUBLICATION_ONLY label",
+   "action": "none"
+  },
+  {
+   "term": "old propagation authority (STRUCTURAL_ONLY)",
+   "hits": [
+    "jomission/qualification/propagation.py:6 endpoint enum",
+    "site-src/manifest.json:862",
+    "site-src/pages/propagation.html:2",
+    "2 results/*.json"
+   ],
+   "class": "HISTORICAL_VALID, labelled old plant",
+   "action": "none; retired axis PROPAGATION_OLD_PLANT"
+  },
+  {
+   "term": "coarse fixed-point authority",
+   "hits": [
+    "site-src/pages/hdp.html:26,30 (chain ending in native-manifold FAIL)"
+   ],
+   "class": "PUBLICATION_ONLY, correctly scoped",
+   "action": "none"
+  }
+ ],
+ "also_found": [
+  {
+   "what": "old handoff s7 listed the intrinsic design as next after it had executed on v21c-intrinsic-design",
+   "action": "replaced by manifests/todo.json"
+  },
+  {
+   "what": "docs/sessions/INDEX.md Current Frontier (generated)",
+   "action": "README note; not hand-edited"
+  }
+ ]
+}

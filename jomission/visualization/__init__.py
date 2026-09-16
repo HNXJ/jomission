@@ -16,6 +16,12 @@ from jomission.visualization.model_summary import (
 )
 
 try:
+    from jomission.visualization.atlas_suite import build_atlas, PANELS
+except Exception:  # pragma: no cover
+    build_atlas = None  # type: ignore
+    PANELS = ()  # type: ignore
+
+try:
     from jomission.visualization.manifest import build_manifest, verify_V0, VISUALIZATION_VERSION
 except Exception:  # pragma: no cover
     build_manifest = None  # type: ignore
@@ -56,6 +62,8 @@ __all__ = [
     "observable_basis",
     "ontology_table",
     "get_observable_basis_hash",
+    "build_atlas",
+    "PANELS",
     "build_manifest",
     "verify_V0",
     "VISUALIZATION_VERSION",

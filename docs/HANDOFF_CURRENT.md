@@ -1,22 +1,22 @@
-# Jomission handoff — current state (2026-09-16)
+# Jomission handoff — current state (2026-09-16, revised after V2.1b)
 
 ## 1. Authority (verify before mutating)
 
 ```text
-main HEAD:                fd56085 (Pages: V2.1 OBSERVED/FAIL entry)
-scientific authority:     934a718 content via merge 5e8911b (V2.1 V2_LOCAL_OPERATION_FAIL)
-open branch:              v21b-symmetry @ b4dc4f1 (H0-H5 sealed, pushed, UNMERGED)
-H artifacts live ONLY on v21b-symmetry (not on main): results/h_defect.json,
-  results/h_history.json, results/h_sensitivity.json, results/h_lineage.json,
-  jomission/qualification/symmetry.py, tests/test_v21b_symmetry.py.
-  Access via `git show v21b-symmetry:<path>` (§10). Do not duplicate them onto
-  main outside a merge.
-V2 spec branch:           generic_substrate_v2 (rev2 spec, pushed)
+main HEAD:                commit carrying this revision; parent 18697db
+                          (merge v21b-shot-drive). Verify with §10.
+scientific authority:     V2.1  934a718 via merge 5e8911b (V2_LOCAL_OPERATION_FAIL)
+                          V2.1b c01bc01 (seal) -> c01913a (V2_LOCAL_OPERATION_FAIL) via merge 18697db
+design lineage (merged):  v21b-symmetry @ b4dc4f1 via merge bb409c7 (H5 PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED)
+provenance correction:    results/v21_provenance_correction.json (V2.1 plant carries native noise; §13)
+V2 spec branch:           generic_substrate_v2 (rev2 spec). origin = ae49af2; a local ref
+                          may point at fd56085 (drift, unused)
 working tree:             clean (verify: git status --short -> empty)
 JaxFNE:                   0.4.24 (C:\Python314\Lib\site-packages, wheel install)
-environment:              win32, Python 3.14.3, deterministic CPU plant
-CI:                       green — pages workflow success on fd56085, 5e8911b, 55549df
-Pages:                    enabled (build_type=workflow); live https://hnxj.github.io/jomission/ (verified serving)
+jomission install:        editable -> E:\repos\jomission (guarded by tests/test_environment_provenance.py)
+environment:              win32, Python 3.14.3, CPU plant with JaxFNE native noise (seeded, reproducible)
+CI:                       verify with gh (§10)
+Pages:                    enabled (build_type=workflow); live https://hnxj.github.io/jomission/ ; no V2.1b entry yet
 ```
 
 Receiving Actor: re-run the verification commands (§10) and confirm every
@@ -35,22 +35,35 @@ question asked after the substrate passes, never a tuning target before.
 
 ## 3. Current gate
 
-`V2_LOCAL_OPERATION_FAIL` (static deterministic column, 3 tonic regimes).
-H5 design verdict: `PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED` (unmerged branch).
+`V2_LOCAL_OPERATION_FAIL` for V2.1 (static column, 3 tonic regimes, native
+noise 0.5*N(0,1)/step) and for V2.1b (V2.1 + mean-controlled private shot
+noise, 9 predeclared cells).
 
-OBSERVED V2.1 phenotype (results/v21_{low,mid,high}.json):
+OBSERVED V2.1 (results/v21_{low,mid,high}.json):
 
 ```text
 LOW:  E/PV/SST exactly 0.0 Hz; VIP 2.5 Hz
 MID:  E/SST/VIP ~10.7 Hz; PV exactly 0.0 Hz
 HIGH: all classes ~20-22 Hz, drift <3%, sync guard clean
-ISI-CV gate fraction = 0 (all regimes)
-E rate-CV ~= 0.003 (HIGH)
+ISI-CV gate fraction = 0 (all regimes); E rate-CV <= 0.004
 ```
 
-Interpretation (separate from observation): INSUFFICIENT_SYMMETRY_BREAKING —
-uniform tonic drowns heterogeneous weights and identical cells fire
-identically. Not established as a noise deficit (see §6).
+OBSERVED V2.1b (results/v21b_*.json, v21b_lineage.json):
+
+```text
+realization: 9/9 cells, class mean ratio within 1%, sigma/mu within 0.7%
+E rate-CV:   <= 0.053 in all 9 cells (gate 0.3)
+ISI-CV (pooled over classes) >= 80% only where E > 30 Hz:
+             mid_sm2p0 E 34.7; high_sm2p0 E 61.1; high_sm1p0 E 36.3
+every cell with E in 2-30 Hz fails ISI-CV (best: low_sm2p0, 0.675-0.734)
+sync guard clean in all cells
+```
+
+Interpretation (INFERRED): private independent noise raises temporal
+irregularity but leaves mean firing propensity identical across E cells;
+temporal irregularity != rate heterogeneity. Established scope: mean-controlled
+shot noise alone is insufficient over the sealed family; other shot parameters
+are untested.
 
 ## 4. Falsified / retired (do not rediscover)
 
@@ -67,7 +80,8 @@ identically. Not established as a noise deficit (see §6).
 | microstate N5 | causal fate owner? | NONE_IDENTIFIED | no flip; KW0/UCLAMP modulatory only | n5-microstate b239f4e | NO |
 | C-min family | repair further? | STOOD_DOWN (scope-bounded) | above arc; redesign cheaper | results/cmin_family_seal.json (main) | NO |
 | propagation (old plant) | FF/FB transmission? | STRUCTURAL_ONLY | closed==cut everywhere | results/propagation.json | stale after plant change |
-| V2.1 operation | ordinary cortical regime? | FAIL (above) | symmetry defect | v2-1-operation 934a718 | superseded by H5 next step |
+| V2.1 operation | ordinary cortical regime? | FAIL (above) | regular, homogeneous despite native noise | v2-1-operation 934a718 | superseded by V2.1b |
+| V2.1b shot drive | does private shot noise fix V2.1? | FAIL (above) | E rate-CV <=0.053; ISI-CV only above E band | v21b-shot-drive c01913a | NO further noise brackets |
 | duration scratch | sustained drive | VOID (tonic-contaminated) | never evidence | results/duration_postmortem.json | NEVER |
 
 ## 5. Remains valid
@@ -78,58 +92,42 @@ machinery; configured->realized->executed->effective harness;
 drive-additivity invariant; estimator invariant (bin width, aggregation,
 baseline, sign); continuation/checkpoint semantics; Gen-1 immutable
 baseline; omission firewall; Pages machinery (fetch-depth:0 full clone
-required for lineage checks); all negatives above.
+required for lineage checks); all negatives above; H1 single-cell E
+limit-cycle bound (noise-free numpy assays).
 
 ## 6. H5 decision evidence (results/h_sensitivity.json, results/h_history.json)
 
-64 single-cell assays (E/PV/SST/VIP x a/b/c/d x 0.8/0.9/1.1/1.2 at HIGH
-tonic) + sealed history. Claim classes marked.
+Unchanged from the H5 seal except where §13 supersedes wording. The private
+stochastic column is now tested (V2.1b): temporal irregularity partially
+yes (pooled, class-unresolved), rate heterogeneity no. Intrinsic
+heterogeneity is the next H5 mechanism class: H1 shows E detuning is
+available (E-a gain 0.845, zero rheobase shift) but no E ISI mechanism
+(max 0.001). Secondary hypothesis retained: SST-c/VIP-c single-cell bursting.
 
-| | intrinsic heterogeneity | private stochastic drive | structural heterogeneity |
-|---|---|---|---|
-| break population synchrony | DERIVED yes (E-a gain 0.845, zero rheobase shift: phases dispersible) | INFERRED yes (independent per-neuron fluctuations) | INFERRED yes (sparse asymmetric coupling desynchronizes) |
-| per-cell temporal irregularity | OBSERVED no (E ISI-CV max 0.001 all params; limit-cycle bound) | INFERRED yes (fluctuating drive -> ISI variance; untested here) | UNKNOWN (balanced-chaos possible; no evidence sought) |
-| mean-rate preservation | OBSERVED single-cell shifts bounded except E-b/SST-b (rheo shift 0.75/3.0 — excluded) | INFERRED preservable via mean-controlled design (H3 prescription) | UNKNOWN (rebalancing cost unestimated) |
-| confound risk for memory assays | low (static dispersion) | MEDIUM: continuous stochastic support must not become the memory explanation; isolate by design | low-medium |
-| prior evidence | none (untested at network) | AGAINST the failed regime only: 2kHz/amp2.0 -> CV 0.344 (<0.5 bar); high-rate limit inferred clock-like; prescribed mean-vs-variance sys-id never executed | none |
-| new degrees of freedom | 1 (one param dispersion width) | 2 (rate x amplitude at fixed mean) | many (topology) |
-| uncertainty | can it reach E ISI? OBSERVED no | calibration untested; H3 bounds the viable region (lower-rate/larger-amp shot regime, sigma/mu~1+) | highest |
-
-Second hypothesis retained (not selected): SST-c/VIP-c single-cell
-bursting (ISI 0.89/1.35, bounded means) as a later intrinsic lineage;
-it cannot reach E's gate without network proof. H4 rule was repaired
-mid-course to require E-reachability (history shows both versions).
-
-## 7. Next authorized action (ONE task only; V2.2 locked)
-
-Goal: re-execute the V2.1 battery with calibrated private stochastic
-drive; everything else frozen (column, cells, static s=1 efficacies,
-tonic vectors LOW/MID/HIGH, HDP detached, deterministic baseline otherwise).
+## 7. Next authorized actions (in order; V2.2 locked)
 
 ```text
-parent commit:        main HEAD at execution time (verify; expected fd56085+)
-single delta:         ADD private per-neuron stochastic drive (shot-noise,
-                      independent across neurons); no other change
-bracket:              NOT YET PREDECLARED — next Actor derives a mean-
-                      controlled rate x amplitude grid (H3 sys-id: hold
-                      mu = lambda*A*tau fixed per class operating point;
-                      avoid 2kHz/amp2.0 and the high-rate continuous limit;
-                      private Bernoulli/Poisson per neuron, fixed seeds),
-                      seals it in results/v21b_vectors.json pre-execution
-frozen:               V2.1 plant + tonic vectors + HDP detached + no V2.2
-measurements:         V2.1 gates verbatim (rates, ISI-CV>=80%, E rate-CV,
-                      sync guard, drift, currents recorded-not-tuned)
-acceptance:           V2_LOCAL_OPERATION_{PASS,FAIL,UNRESOLVED}; subset
-                      reported, no regime selected
-stop states:          PASS -> stop, V2.2 still locked until review
-                      FAIL/UNRESOLVED -> stop, no retuning (G3/G4)
-forbidden:            HDP rescue, cell retuning, topology changes, tonic
-                      re-derivation after results, V2.2 recurrence work
+1. class-resolved ISI check (instrumentation only, no new mechanism)
+   condition:  one frozen V2.1b cell chosen by predeclared rule — among cells
+               with E in [2,30] Hz in all windows, the maximum of the minimum
+               pooled ISI-CV fraction over windows (-> low_sm2p0)
+   method:     deterministic rerun of that cell (same seeds, sealed bracket);
+               must reproduce the sealed cell JSON gates/rates exactly;
+               report per-class ISI-CV fractions per window
+   question:   is E itself temporally irregular (E fraction >= 0.8), or is
+               the pooled fraction carried by inhibitory classes?
+2. intrinsic-heterogeneity design checkpoint (design only, no simulation run
+   of the V2.1 battery):
+   - per-parameter rate sensitivity near the chosen shot condition
+   - select exactly one parameter: strong rate sensitivity, minimal class
+     mean / rheobase shift
+   - zero-mean neuron-level distribution (class means unchanged)
+   - predeclared width bracket
+   - shot background frozen at the step-1 condition (no joint retuning)
+3. STOP for review. Another V2.1 execution requires explicit authorization.
+forbidden: further noise brackets, HDP rescue, topology changes, tonic
+           re-derivation, V2.2 recurrence work
 ```
-
-Starting point (INFERENCE, not authority — derive independently):
-lambda in {50, 200, 800} Hz x amplitude at matched per-class mean;
-verify mean preservation vs deterministic V2.1 rates before gating.
 
 ## 8. Invariants and traps
 
@@ -140,25 +138,40 @@ static fixed point does not imply native basin; current magnitude does
 not imply causal authority; structural connectivity does not imply
 functional propagation; configured, realized, executed, effective are
 distinct; population irregularity does not imply per-cell ISI
-irregularity; sealed negatives are not retuned away; one principal
-delta per lineage edge (274c9a9 recorded exception, results/
-lineage_notes.json); unknown is not PASS; F-table interp overestimates
-near threshold jumps — use exact assays for tonic derivation;
-cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact).
+irregularity; pooled ISI-CV fraction does not imply E irregularity;
+temporal irregularity does not imply rate heterogeneity; sealed negatives
+are not retuned away; one principal delta per lineage edge (274c9a9
+recorded exception, results/lineage_notes.json); unknown is not PASS;
+F-table interp overestimates near threshold jumps — use exact assays for
+tonic derivation; cross-process float32 floor ~1e-4 on active-motif w/I
+means (rates exact).
+
+JaxFNE `compile_step_fn(kernel="baseline")` without `noise_scale` adds
+0.5*N(0,1) per neuron per step; "deterministic" needs `noise_scale=0`.
+The V2.1 battery (tests/test_v21_operation.py) is frozen and blob-pinned by
+tests/test_v21b_operation.py; its docstring is stale (§13) and stays
+unedited. The V2.1 battery holds ~32 GB peak RSS per regime process.
+Scripts must import jomission from this checkout
+(tests/test_environment_provenance.py).
 
 ## 9. Repository map (smallest authoritative set)
 
 ```text
-results/v21_{low,mid,high,lineage}.json   V2.1 evidence + verdict (on main)
-results/v21_vectors.json                  sealed tonic vectors (on main)
-results/h_defect.json                     H0 defect seal (v21b-symmetry ONLY)
-results/h_history.json                    H3 Poisson history + viable region (v21b-symmetry ONLY)
-results/h_sensitivity.json                H1 64-assay table (v21b-symmetry ONLY)
-results/h_lineage.json                    H5 verdict (v21b-symmetry ONLY)
+results/v21_{low,mid,high,lineage}.json   V2.1 evidence + verdict
+results/v21_vectors.json                  sealed tonic vectors
+results/v21_provenance_correction.json    native-noise correction (§13)
+results/v21b_vectors.json                 sealed V2.1b shot bracket
+results/v21b_{low,mid,high}_sm{2p0,1p0,0p5}.json, v21b_lineage.json   V2.1b evidence + verdict
+results/h_defect.json                     H0 defect seal (wording superseded in part, §13)
+results/h_history.json                    H3 history + viable region (wording superseded in part, §13)
+results/h_sensitivity.json                H1 64-assay table
+results/h_lineage.json                    H5 verdict
 results/generic_substrate_v2_spec.json    V2 rev2 spec (branch generic_substrate_v2)
-jomission/qualification/symmetry.py       H1 assay code (v21b-symmetry ONLY)
-tests/test_v21_operation.py               V2.1 battery (frozen, on main)
-tests/test_v21b_symmetry.py               H0-H5 drivers (v21b-symmetry ONLY)
+jomission/qualification/symmetry.py       H1 assay code
+tests/test_v21_operation.py               V2.1 battery (frozen)
+tests/test_v21b_operation.py              V2.1b battery (shot proxy over frozen run_regime)
+tests/test_v21_provenance.py              reproduces native-noise finding (~20 s)
+tests/test_v21b_symmetry.py               H0-H5 drivers (rewrites h_sensitivity/h_lineage when run)
 docs/PROJECT_HANDOFF.md                   historical (superseded; Poisson context §63-64)
 site-src/manifest.json                    publication allowlist + lineage edges
 ```
@@ -167,29 +180,50 @@ site-src/manifest.json                    publication allowlist + lineage edges
 
 ```text
 git log --oneline -1 && git status --short && git branch --show-current
-git show v21b-symmetry:results/h_lineage.json | python -c "import json,sys; print(json.load(sys.stdin)['verdict'])"
+git merge-base --is-ancestor c01913a HEAD && git merge-base --is-ancestor b4dc4f1 HEAD && echo lineages-merged
+python -c "import json; print(json.load(open('results/v21b_lineage.json'))['verdict'])"
 pip show jaxfne | Select-String Version
-python -c "import json; [json.load(open(f)) for f in ['results/v21_lineage.json','results/v21_vectors.json']]; print('JSON valid')"
-python -m pytest tests/test_pages_build.py -q -p no:cacheprovider
+python -m pytest tests/test_environment_provenance.py tests/test_pages_build.py -q -p no:cacheprovider
+python -m pytest tests/test_v21b_operation.py -q -p no:cacheprovider -k "moments or seal_consistent or wiring"
 gh run list --repo HNXJ/jomission --limit 1 --json conclusion,status,headSha
 ```
 
-Full suite NOT required (slow plant batteries); run targeted tests only
-unless the next task changes a shared surface.
+Full suite NOT required (slow plant batteries write results/*.json); run
+targeted tests only unless the next task changes a shared surface.
 
 ## 11. Open uncertainties (material, unresolved)
 
+* E-specific ISI irregularity under shot drive unknown (pooled gate only) — §7 step 1.
 * PV single-cell silence at I=2.8 vs F-interp 10 Hz: threshold lies
   between grid points; tonic derivation must use exact assays.
-* s61 boundary-marginal statuses (historical C-min line; retired with it).
 * HDP re-entry point is unspecified (only: after basin gate).
-* VIP viability under stochastic drive untested.
+* Whether intrinsic dispersion that spreads E rates preserves shot-driven
+  temporal irregularity (untested; §7 step 2 designs it).
+* Shot parameters outside the sealed 9-cell family untested.
 * Cross-process 1e-4 floor on active-motif w/I (rates exact).
-* v21b-symmetry unmerged (intentional: merge only after review).
-* Stochastic bracket un-derived (next Actor's first deliverable).
-* Whether SST-c/VIP-c bursting entrains E irregularity (secondary,
-  needs its own lineage if stochastic fails).
+* Whether SST-c/VIP-c bursting entrains E irregularity (secondary lineage).
+* Pages has no V2.1b entry.
 
 ## 12. Fresh-Actor instruction
 
-> Reconstruct the state from repository evidence before acting. Treat this handoff as a routing map, not authority over executed artifacts. Independently challenge the H5 conclusion before implementing it. If repository evidence contradicts this handoff, STOP and surface the conflict. Make the smallest authorized scientific delta, verify it, seal it, and stop at the first failed gate.
+> Reconstruct the state from repository evidence before acting. Treat this handoff as a routing map, not authority over executed artifacts. Independently challenge the current conclusion before implementing the next step. If repository evidence contradicts this handoff, STOP and surface the conflict. Make the smallest authorized scientific delta, verify it, seal it, and stop at the first failed gate.
+
+## 13. Superseded statements (kept for provenance)
+
+The V2.1 plant as executed carries JaxFNE native noise
+(results/v21_provenance_correction.json, reproduced by
+tests/test_v21_provenance.py). These statements are false as stated:
+
+```text
+40fb739 handoff §3:   "V2_LOCAL_OPERATION_FAIL (static deterministic column, 3 tonic regimes)"
+40fb739 handoff §3:   "uniform tonic drowns heterogeneous weights and identical cells fire identically"
+40fb739 handoff §7:   "HDP detached, deterministic baseline otherwise"
+40fb739 handoff §6:   private stochastic drive "untested here"
+934a718 message:      "no irregularity source"
+test_v21_operation.py docstring: "deterministic (no manufactured noise)"
+h_defect.json:        "Static deterministic column ... No irregularity/heterogeneity source exists in the frozen candidate."
+h_history.json:       "the C-min V2.1 plant itself was never tested with noise"; "V2.1 frozen candidate measured deterministic"
+```
+
+Current reading: V2.1 contained weak private stochastic input and remained
+highly regular and homogeneous.

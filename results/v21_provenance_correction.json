@@ -1,0 +1,31 @@
+{
+ "kind": "additive provenance correction (executed results unchanged)",
+ "date": "2026-09-16",
+ "corrected_statement": "V2.1 contained weak private stochastic input and remained highly regular and homogeneous.",
+ "mechanism": "tests/test_v21_operation.py build_plant calls jaxfne.compile_step_fn(kernel='baseline') without noise_scale; JaxFNE 0.4.24 simulate_edge_recurrent_izhikevich then adds 0.5*N(0,1) native current per neuron per step, drawn from the per-step key of PRNGKey(11).",
+ "observed": {
+  "probe": "V_HIGH, 5000 steps (500 ms), frozen build_plant",
+  "same_seed": "bitwise identical",
+  "seed_11_vs_12_default": {"max_abs_dV_mV": 101.73, "differing_spike_events": 7720},
+  "seed_11_vs_12_noise_scale_0": {"max_abs_dV_mV": 0.0},
+  "min_seed_divergence_mV": 10.0,
+  "min_differing_spike_events": 100,
+  "reproduced_by": "tests/test_v21_provenance.py"
+ },
+ "superseded_claims": [
+  {"where": "tests/test_v21_operation.py:6 docstring (frozen, blob-pinned; left unedited)", "claim": "deterministic (no manufactured noise)"},
+  {"where": "commit 934a718 message", "claim": "no irregularity source"},
+  {"where": "results/h_defect.json statement", "claim": "Static deterministic column ... No irregularity/heterogeneity source exists in the frozen candidate."},
+  {"where": "results/h_history.json scope and entry 3", "claim": "the C-min V2.1 plant itself was never tested with noise; V2.1 frozen candidate measured deterministic"},
+  {"where": "docs/HANDOFF_CURRENT.md (40fb739) §3, §7", "claim": "static deterministic column; deterministic baseline otherwise"}
+ ],
+ "unaffected": [
+  "results/v21_{low,mid,high,lineage}.json: executed results and V2_LOCAL_OPERATION_FAIL verdict",
+  "H1 single-cell assays (jomission/qualification/symmetry.py run_cell: numpy Euler, no noise term): E limit-cycle bound (ISI-CV max 0.001) stands"
+ ],
+ "stochastic_regimes_tested": [
+  {"regime": "V2.1: native Gaussian 0.5*N(0,1)/step", "outcome": "regular; ISI-CV pass fraction 0.0; E rate-CV <=0.004"},
+  {"regime": "V2.1b: native Gaussian + mean-controlled private shot noise, 9 predeclared cells", "outcome": "pooled ISI-CV fraction up to 0.93 but only with E >30 Hz; E rate-CV <=0.053 in all cells; V2_LOCAL_OPERATION_FAIL"}
+ ],
+ "scope": "V2.1b shows shot noise alone insufficient over the sealed 9-cell family (results/v21b_vectors.json); other shot parameters remain untested."
+}

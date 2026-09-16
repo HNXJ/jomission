@@ -6,6 +6,19 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 
 ---
 
+## Project Rules (read first)
+- Start: `python scripts/project_check.py` must end `PROJECT_CHECK_PASS`; read `manifests/current_state.json`, the next item in `manifests/todo.json`, and only the artifacts it names; then follow `.claude/skills/jomission-gate-runner`. Reconstruct history only when a contradiction appears.
+- Authority over actions, highest first: current explicit reviewer order > sealed results and pre-execution specs > `manifests/` (state, TODO, gates, registries) > `docs/project-sources/` > handoff > sessions and prose. Conflict at any level → STOP and surface both.
+- Scope: execute only `next_authorized_task` in `manifests/todo.json` or a task the reviewer names. One principal delta per lineage edge; everything else frozen and listed.
+- Seal before running: brackets, rules, criteria, and stop states are committed and pushed before the execution that uses them.
+- Do not retune after results: sealed negatives stay negative; a changed criterion or parameter is a new lineage.
+- STOP at the first failed gate, at a declared stop state, or when proceeding needs an unrecorded decision. A STOP reports and waits.
+- Evidence class (`OBSERVED`/`DERIVED`/`INFERRED`/`ASSUMED`/`UNKNOWN`) and status (`PASS`/`FAIL`/...) are separate fields; a status comes from the result's `verdict`, never from a green test run.
+- Provenance: work only in `E:\repos\jomission`; `jomission` must import from this checkout and JaxFNE must equal the execution authority.
+- Omission firewall: no omission outcome informs substrate construction or appears in Pages before blind omission.
+- Artifacts: files in `manifests/sealed_artifacts.json` never change; corrections are additive records. Gate thresholds come only from `jomission.harness.gates`. Stage exact paths; push over SSH.
+- Tests: lowest covering tier in `manifests/test_tiers.json`; tier 3 runs only inside an authorizing TODO.
+
 ## Optimization & Epistemic Discipline
 - Priority: correctness > evidence > clarity > speed.
 - Smallest sufficient action, context, and harness.

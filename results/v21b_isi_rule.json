@@ -1,0 +1,46 @@
+{
+ "purpose": "choose the frozen V2.1b shot condition for class-resolved ISI instrumentation and as the future temporal-irregularity background",
+ "rule": "among V2.1b cells with E rate in [2, 30] Hz in all three analysis windows, choose the maximum over cells of the minimum pooled ISI-CV fraction (frac_in) across windows",
+ "declared": "2026-09-16, after V2.1b pooled outcomes were known and before any class-resolved ISI outcome; the rule uses only sealed pooled fields",
+ "authority": "reviewer disposition after V2.1b (in-band condition with the strongest ISI improvement)",
+ "chosen": "low_sm2p0",
+ "candidates": {
+  "low_sm2p0": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.675
+  },
+  "low_sm1p0": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.185
+  },
+  "low_sm0p5": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.182
+  },
+  "mid_sm2p0": {
+   "E_in_band_all_windows": false,
+   "min_pooled_frac_in": 0.853
+  },
+  "mid_sm1p0": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.247
+  },
+  "mid_sm0p5": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.22
+  },
+  "high_sm2p0": {
+   "E_in_band_all_windows": false,
+   "min_pooled_frac_in": 0.93
+  },
+  "high_sm1p0": {
+   "E_in_band_all_windows": false,
+   "min_pooled_frac_in": 0.92
+  },
+  "high_sm0p5": {
+   "E_in_band_all_windows": true,
+   "min_pooled_frac_in": 0.102
+  }
+ },
+ "reading_rule": "E_IRREGULAR iff E frac_in >= 0.8 in every window; UNRESOLVED if the rerun does not reproduce the sealed cell exactly"
+}

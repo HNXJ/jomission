@@ -1,0 +1,79 @@
+{
+ "schema": "jomission.test_tiers.v1",
+ "rule": "Run the lowest tier that covers the change class. Tier 3 executes scientific simulations that write results/*.json and runs only inside a TODO that authorizes that execution. After any tier-2 or tier-3 run, `git status --porcelain results/` must be empty or the changes must belong to the authorized lineage.",
+ "tiers": {
+  "0": {
+   "name": "harness (seconds)",
+   "budget": "about 30 s; no simulation; writes nothing",
+   "covers": "workspace, JaxFNE identity, manifest schemas, gate definition, drive invariant, estimator/lineage validators, sealed-artifact immutability, verdict semantics, Pages firewall, AGENTS policy",
+   "tests": [
+    "tests/test_harness_state.py",
+    "tests/test_gates_single_source.py",
+    "tests/test_harness_guards.py",
+    "tests/test_environment_provenance.py",
+    "tests/test_agents_policy.py",
+    "tests/test_pages_build.py"
+   ]
+  },
+  "1": {
+   "name": "targeted (cheap)",
+   "budget": "under 2 min; numpy or short JAX; reads sealed results; writes nothing",
+   "rule": "run the tests of the changed subsystem",
+   "by_subsystem": {
+    "V2.1b shot drive / ISI rule": [
+     "tests/test_v21b_operation.py::test_shot_generator_moments",
+     "tests/test_v21b_operation.py::test_v21b_wiring_without_plant",
+     "tests/test_v21b_operation.py::test_v21b_seal_consistent",
+     "tests/test_v21b_isi_classes.py::test_isi_rule_sealed"
+    ],
+    "unclassified subsystems": "classify cost and writes on first use; add here"
+   }
+  },
+  "2": {
+   "name": "compatibility",
+   "budget": "tens of minutes",
+   "when": "a shared scientific surface changes (jomission/ network, simulation, qualification; JaxFNE version)",
+   "command": "python -m pytest tests -p no:cacheprovider --ignore=tests/test_v21_operation.py --ignore=tests/test_v21b_operation.py --ignore=tests/test_v21b_isi_classes.py --ignore=tests/test_v21b_symmetry.py --ignore=tests/test_s7_geometry.py --ignore=tests/test_s8_stability.py --ignore=tests/test_s9_basin.py --ignore=tests/test_hdp_scale.py --ignore=tests/test_selectivity.py --ignore=tests/test_ei_geometry.py --ignore=tests/test_basin_access.py --ignore=tests/test_n2_closure.py --ignore=tests/test_n4_geometry.py --ignore=tests/test_n5_microstate.py --ignore=tests/test_selective_native.py --ignore=tests/test_native_transformation.py --ignore=tests/test_native_geometry.py --ignore=tests/test_q8_state_replacement.py",
+   "known_nonscience_failures": [
+    "results/harness_debt_classification.json",
+    "manifests/q8_021_quarantine.json",
+    "manifests/harness/environment_failures.json"
+   ]
+  },
+  "3": {
+   "name": "scientific execution",
+   "budget": "minutes to hours; V2.1 batteries ~32 GB RSS per process, run serially",
+   "when": "only inside a TODO item whose procedure names the test",
+   "writes": "results/*.json (verdict tests rewrite lineage files even when content is unchanged)",
+   "tests": [
+    "tests/test_v21_operation.py",
+    "tests/test_v21b_operation.py",
+    "tests/test_v21b_isi_classes.py",
+    "tests/test_v21b_symmetry.py",
+    "tests/test_s7_geometry.py",
+    "tests/test_s8_stability.py",
+    "tests/test_s9_basin.py",
+    "tests/test_hdp_scale.py",
+    "tests/test_selectivity.py",
+    "tests/test_ei_geometry.py",
+    "tests/test_basin_access.py",
+    "tests/test_n2_closure.py",
+    "tests/test_n4_geometry.py",
+    "tests/test_n5_microstate.py",
+    "tests/test_selective_native.py",
+    "tests/test_native_transformation.py",
+    "tests/test_native_geometry.py",
+    "tests/test_q8_state_replacement.py"
+   ]
+  }
+ },
+ "change_class_to_tier": {
+  "docs, handoff, AGENTS, skills, manifests": "0",
+  "jomission/harness/*, gate manifests, registries": "0",
+  "Pages, site-src, scripts/build_pages.py": "0",
+  "analysis over sealed results (no simulation)": "0 + 1 (subsystem)",
+  "jomission/ plant, builder, qualification code": "0 + 1 + 2",
+  "JaxFNE upgrade or environment change": "0 + 1 + 2, then a migration lineage authorizing tier 3 replay of the current gate battery",
+  "new scientific execution": "0 + 1 before; the TODO's own tier-3 test; 0 after"
+ }
+}

@@ -26,3 +26,12 @@ def test_jomission_import_resolves_to_this_checkout():
     assert resolved.is_relative_to(ROOT), (
         f"jomission imports from {resolved}, not {ROOT}; "
         f"reinstall: {sys.executable} -m pip install --no-deps -e {ROOT}")
+
+
+def test_jaxfne_matches_execution_authority():
+    import json
+    from importlib.metadata import version
+    want = json.load(open(ROOT / "manifests" / "current_state.json"))["jaxfne_version"]
+    assert version("jaxfne") == want, f"jaxfne {version('jaxfne')} != execution authority {want}"
+    pin = f'"jaxfne=={want}"'
+    assert pin in (ROOT / "pyproject.toml").read_text(), "pyproject pin differs from execution authority"

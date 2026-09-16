@@ -1,0 +1,162 @@
+{
+ "schema": "jomission.current_state.v1",
+ "updated": "2026-09-16",
+ "handoff_path": "docs/HANDOFF_CURRENT.md",
+ "todo_path": "manifests/todo.json",
+ "scientific_head": {
+  "main": "a488348",
+  "note": "last scientific/state commit on main; harness commits may follow",
+  "unmerged_scientific_branches": {
+   "v21c-intrinsic-design": "07d3966"
+  }
+ },
+ "execution_authority": {
+  "engine": "jaxfne",
+  "evidence": "results/jaxfne_0424_migration.json"
+ },
+ "jaxfne_version": "0.4.24",
+ "current_program": "Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1)",
+ "current_gate": {
+  "id": "V2_LOCAL_OPERATION",
+  "definition": "manifests/gates/v2_local_operation.json",
+  "status": "FAIL"
+ },
+ "latest_verdict": {
+  "V2.1": {
+   "status": "FAIL",
+   "evidence": "results/v21_lineage.json",
+   "scope": "gate"
+  },
+  "V2.1b": {
+   "status": "FAIL",
+   "evidence": "results/v21b_lineage.json",
+   "scope": "gate"
+  },
+  "E_TEMPORAL_IRREGULARITY": {
+   "status": "PARTIAL",
+   "evidence": "results/v21b_isi_classes.json",
+   "scope": "component",
+   "component_of": "V2.1b"
+  },
+  "E_RATE_HETEROGENEITY": {
+   "status": "FAIL",
+   "evidence": "results/v21b_lineage.json",
+   "scope": "component",
+   "component_of": "V2.1b"
+  },
+  "H5_PRIVATE_STOCHASTIC_DRIVE": {
+   "status": "INSUFFICIENT_ALONE",
+   "evidence": "results/v21b_lineage.json",
+   "scope": "component",
+   "component_of": "V2.1b"
+  },
+  "V2.1c_INTRINSIC_DESIGN": {
+   "status": "UNRESOLVED",
+   "evidence": "v21c-intrinsic-design:results/v21c_design.json",
+   "scope": "gate",
+   "review_override": {
+    "evidence_reads": "INTRINSIC_HETEROGENEITY_INFEASIBLE",
+    "held_status": "UNRESOLVED",
+    "reason": "the width grid did not resolve whether w_CV=0.3 precedes or follows the spontaneous-firing boundary of b-dispersion",
+    "authority": "human review, harness checkpoint order 2026-09-16: do not promote to INFEASIBLE until SCI-V21C-BOUNDARY resolves",
+    "lift": "SCI-V21C-BOUNDARY"
+   }
+  }
+ },
+ "open_scientific_question": "Order of w_CV=0.3 and w_spontaneous for the E b-dispersion single-cell open-loop family (SCI-V21C-BOUNDARY)",
+ "stopped_because": "harness checkpoint 1 sealed; STOP for reviewer acceptance. SCI-V21C-BOUNDARY is next and is not started; its spec needs the reviewer's w_spontaneous definition and f_sp (see its review_note)",
+ "next_authorized_task": "SCI-V21C-BOUNDARY",
+ "locked_gates": [
+  "V2.2_RECURRENCE",
+  "V2_ACTIVE_BASIN",
+  "V2_PROPAGATION",
+  "V2_RESPONSE_TIMESCALE",
+  "V2_HIERARCHY",
+  "GEN2_FREEZE",
+  "BLIND_OMISSION"
+ ],
+ "retired_axes": [
+  "RECURRENT_FAMILIES_7",
+  "GLOBAL_HDP_SCALE",
+  "NATIVE_BASIN_S9",
+  "BASIN_ACCESS_B",
+  "NATIVE_GEOMETRY_N1_N4",
+  "MICROSTATE_N5",
+  "CMIN_FAMILY",
+  "PROPAGATION_OLD_PLANT",
+  "DURATION_SCRATCH",
+  "SHOT_NOISE_BRACKETS"
+ ],
+ "active_invariants": [
+  "ONE_DELTA",
+  "PRE_EXECUTION_SEAL",
+  "NO_RETUNE_AFTER_RESULTS",
+  "DRIVE_ADDITIVITY",
+  "ESTIMATOR_METADATA",
+  "CONFIGURED_REALIZED_EXECUTED_EFFECTIVE",
+  "OMISSION_FIREWALL",
+  "SEALED_ARTIFACT_IMMUTABILITY",
+  "WORKSPACE_PROVENANCE",
+  "NATIVE_NOISE_DEFAULT"
+ ],
+ "required_artifacts": [
+  "results/generic_substrate_v2_spec.json",
+  "results/v21_vectors.json",
+  "results/v21_lineage.json",
+  "results/v21_provenance_correction.json",
+  "results/v21b_vectors.json",
+  "results/v21b_lineage.json",
+  "results/v21b_isi_classes.json",
+  "results/h_lineage.json",
+  "v21c-intrinsic-design:results/v21c_design_protocol.json",
+  "v21c-intrinsic-design:results/v21c_design.json",
+  "v21c-intrinsic-design:results/v21c_design_notes.json",
+  "manifests/gates/v2_local_operation.json",
+  "manifests/sealed_artifacts.json",
+  "manifests/lineage_registry.json",
+  "docs/project-sources/SUBSTRATE_PROGRAM.md"
+ ],
+ "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
+ "open_uncertainties": [
+  {
+   "item": "whether w_CV=0.3 precedes the spontaneous-firing boundary of E b-dispersion (b >= 0.265 fires at I=0)",
+   "route": "SCI-V21C-BOUNDARY"
+  },
+  {
+   "item": "low_sm2p0 VIP ~130 Hz exceeds the prospective VIP [1,80] band; the shot background is not class-generic",
+   "route": "SCI-V21-BACKGROUND"
+  },
+  {
+   "item": "silent E cells escape the ISI gate but raise E rate-CV",
+   "route": "SCI-V21-GATE-REPAIR"
+  },
+  {
+   "item": "VIP->E pathway (8400 edges) omitted from the V2.1 battery's recorded currents",
+   "route": "record only"
+  },
+  {
+   "item": "PV single-cell threshold lies between F-table grid points at I=2.8; tonic derivation uses exact assays",
+   "route": "record only"
+  },
+  {
+   "item": "HDP re-entry point unspecified beyond 'after the basin gate'",
+   "route": "V2-ACTIVE-BASIN"
+  },
+  {
+   "item": "shot parameters outside the sealed 9-cell family untested (no new brackets authorized)",
+   "route": "SHOT_NOISE_BRACKETS retired"
+  },
+  {
+   "item": "whether SST-c/VIP-c single-cell bursting entrains E irregularity (secondary hypothesis)",
+   "route": "record only"
+  },
+  {
+   "item": "cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact)",
+   "route": "record only"
+  },
+  {
+   "item": "Pages has no V2.1b/V2.1c entry",
+   "route": "PUB-V21B-PAGES"
+  }
+ ]
+}

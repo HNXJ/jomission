@@ -1,0 +1,167 @@
+{
+  "cell": "low_sm2p0",
+  "rule": "results/v21b_isi_rule.json",
+  "reproduction_exact": {
+    "rates": true,
+    "cv": true,
+    "sync": true,
+    "drift": true,
+    "checks": true,
+    "realized": true,
+    "pass": true,
+    "cell_pass": true
+  },
+  "currents_max_rel_diff": 0.0,
+  "pooled_frac_in_sealed": [
+    0.675,
+    0.723,
+    0.734
+  ],
+  "per_window_class": [
+    {
+      "E": {
+        "n_cells": 300,
+        "cv_evaluable": 300,
+        "mean_spikes": 96.07,
+        "frac_in": 0.6833333333333333,
+        "cv_quantiles_10_50_90": [
+          0.4668242927626731,
+          0.5220214327012844,
+          0.5763140411851032
+        ]
+      },
+      "PV": {
+        "n_cells": 40,
+        "cv_evaluable": 40,
+        "mean_spikes": 218.6,
+        "frac_in": 1.0,
+        "cv_quantiles_10_50_90": [
+          0.68224673996952,
+          0.7305778093895778,
+          0.7973568677415978
+        ]
+      },
+      "SST": {
+        "n_cells": 32,
+        "cv_evaluable": 32,
+        "mean_spikes": 8.875,
+        "frac_in": 0.78125,
+        "cv_quantiles_10_50_90": [
+          0.44228521768462736,
+          0.7865616110134854,
+          1.0403474464540763
+        ]
+      },
+      "VIP": {
+        "n_cells": 28,
+        "cv_evaluable": 28,
+        "mean_spikes": 639.6785714285714,
+        "frac_in": 0.0,
+        "cv_quantiles_10_50_90": [
+          1.590101344699451,
+          1.6981009444847683,
+          1.805517467691342
+        ]
+      }
+    },
+    {
+      "E": {
+        "n_cells": 300,
+        "cv_evaluable": 300,
+        "mean_spikes": 96.18,
+        "frac_in": 0.7333333333333333,
+        "cv_quantiles_10_50_90": [
+          0.47040436414400966,
+          0.5261951580688572,
+          0.5827744842213198
+        ]
+      },
+      "PV": {
+        "n_cells": 40,
+        "cv_evaluable": 40,
+        "mean_spikes": 215.775,
+        "frac_in": 1.0,
+        "cv_quantiles_10_50_90": [
+          0.674686898021698,
+          0.7340134573545478,
+          0.7916281147823307
+        ]
+      },
+      "SST": {
+        "n_cells": 32,
+        "cv_evaluable": 32,
+        "mean_spikes": 8.875,
+        "frac_in": 0.90625,
+        "cv_quantiles_10_50_90": [
+          0.5349901937899334,
+          0.8098044698922586,
+          1.0684075133317237
+        ]
+      },
+      "VIP": {
+        "n_cells": 28,
+        "cv_evaluable": 28,
+        "mean_spikes": 648.25,
+        "frac_in": 0.0,
+        "cv_quantiles_10_50_90": [
+          1.6312200005544888,
+          1.6926393973861653,
+          1.823145244591648
+        ]
+      }
+    },
+    {
+      "E": {
+        "n_cells": 300,
+        "cv_evaluable": 300,
+        "mean_spikes": 95.84333333333333,
+        "frac_in": 0.75,
+        "cv_quantiles_10_50_90": [
+          0.469714035289536,
+          0.5277065686768909,
+          0.5862148850176823
+        ]
+      },
+      "PV": {
+        "n_cells": 40,
+        "cv_evaluable": 40,
+        "mean_spikes": 217.85,
+        "frac_in": 1.0,
+        "cv_quantiles_10_50_90": [
+          0.6431026816574523,
+          0.7264334439233866,
+          0.7935467823955867
+        ]
+      },
+      "SST": {
+        "n_cells": 32,
+        "cv_evaluable": 31,
+        "mean_spikes": 8.84375,
+        "frac_in": 0.9032258064516129,
+        "cv_quantiles_10_50_90": [
+          0.5105288858582147,
+          0.8169370116609762,
+          1.0872499510769
+        ]
+      },
+      "VIP": {
+        "n_cells": 28,
+        "cv_evaluable": 28,
+        "mean_spikes": 651.0,
+        "frac_in": 0.0,
+        "cv_quantiles_10_50_90": [
+          1.6043971650389723,
+          1.7143370989195819,
+          1.8008145339067698
+        ]
+      }
+    }
+  ],
+  "E_frac_in": [
+    0.6833333333333333,
+    0.7333333333333333,
+    0.75
+  ],
+  "reading": "E_NOT_IRREGULAR",
+  "scope": "one frozen V2.1b cell; class-resolved instrumentation only"
+}

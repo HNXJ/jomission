@@ -1,12 +1,15 @@
-# Jomission handoff — current state (2026-09-16, revised after V2.1b)
+# Jomission handoff — current state (2026-09-16, revised after V2.1b class-resolved ISI)
 
 ## 1. Authority (verify before mutating)
 
 ```text
-main HEAD:                commit carrying this revision; parent 18697db
-                          (merge v21b-shot-drive). Verify with §10.
+main HEAD:                commit carrying this revision; parent 972ffcb
+                          (merge v21b-isi-classes). Verify with §10.
 scientific authority:     V2.1  934a718 via merge 5e8911b (V2_LOCAL_OPERATION_FAIL)
                           V2.1b c01bc01 (seal) -> c01913a (V2_LOCAL_OPERATION_FAIL) via merge 18697db
+                          V2.1b ISI 8e61fe2 (rule) -> 3f7aa5f (E_NOT_IRREGULAR) via merge 972ffcb
+spec:                     results/generic_substrate_v2_spec.json rev2 + amendment 1 (class-resolved
+                          ISI gate, full rate bands; prospective only)
 design lineage (merged):  v21b-symmetry @ b4dc4f1 via merge bb409c7 (H5 PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED)
 provenance correction:    results/v21_provenance_correction.json (V2.1 plant carries native noise; §13)
 V2 spec branch:           generic_substrate_v2 (rev2 spec). origin = ae49af2; a local ref
@@ -59,11 +62,27 @@ every cell with E in 2-30 Hz fails ISI-CV (best: low_sm2p0, 0.675-0.734)
 sync guard clean in all cells
 ```
 
+OBSERVED V2.1b class-resolved ISI, low_sm2p0 (results/v21b_isi_classes.json):
+
+```text
+E   frac_in 0.683 / 0.733 / 0.750 (gate 0.8); CV median 0.52 (q10 0.47, q90 0.58)
+PV  1.0 (CV ~0.73)    SST 0.78 / 0.91 / 0.90    VIP 0.0 (CV ~1.7, ~130 Hz)
+```
+
+Status (reviewer disposition 2026-09-16):
+
+```text
+H5 private stochastic drive:  PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED -> EXECUTED -> INSUFFICIENT_ALONE
+E_TEMPORAL_IRREGULARITY:      PARTIAL
+E_RATE_HETEROGENEITY:         FAIL
+```
+
 Interpretation (INFERRED): private independent noise raises temporal
-irregularity but leaves mean firing propensity identical across E cells;
-temporal irregularity != rate heterogeneity. Established scope: mean-controlled
-shot noise alone is insufficient over the sealed family; other shot parameters
-are untested.
+irregularity partially and leaves mean firing propensity identical across E
+cells; temporal irregularity != rate heterogeneity. Established scope:
+mean-controlled shot noise alone is insufficient over the sealed family; other
+shot parameters are untested. VIP at ~130 Hz with CV ~1.7 in low_sm2p0 exceeds
+the spec VIP band (amendment 1): the shot background is not class-generic.
 
 ## 4. Falsified / retired (do not rediscover)
 
@@ -107,27 +126,31 @@ available (E-a gain 0.845, zero rheobase shift) but no E ISI mechanism
 ## 7. Next authorized actions (in order; V2.2 locked)
 
 ```text
-1. class-resolved ISI check (instrumentation only, no new mechanism)
-   condition:  one frozen V2.1b cell chosen by predeclared rule — among cells
-               with E in [2,30] Hz in all windows, the maximum of the minimum
-               pooled ISI-CV fraction over windows (-> low_sm2p0)
-   method:     deterministic rerun of that cell (same seeds, sealed bracket);
-               must reproduce the sealed cell JSON gates/rates exactly;
-               report per-class ISI-CV fractions per window
-   question:   is E itself temporally irregular (E fraction >= 0.8), or is
-               the pooled fraction carried by inhibitory classes?
-2. intrinsic-heterogeneity design checkpoint (design only, no simulation run
-   of the V2.1 battery):
-   - per-parameter rate sensitivity near the chosen shot condition
-   - select exactly one parameter: strong rate sensitivity, minimal class
-     mean / rheobase shift
-   - zero-mean neuron-level distribution (class means unchanged)
-   - predeclared width bracket
-   - shot background frozen at the step-1 condition (no joint retuning)
-3. STOP for review. Another V2.1 execution requires explicit authorization.
-forbidden: further noise brackets, HDP rescue, topology changes, tonic
-           re-derivation, V2.2 recurrence work
+1. DONE: class-resolved ISI check -> E_NOT_IRREGULAR (merge 972ffcb)
+2. intrinsic-heterogeneity design checkpoint (single-cell numerics only; no
+   V2.1 battery / plant execution):
+   hypothesis: fixed low_sm2p0 shot background + one zero-mean intrinsic
+               dispersion -> V2.1 gates (class-resolved ISI per amendment 1)
+   H1 per parameter p: S_r = dr/dp, S_rh = dI_rheobase/dp, S_CV = dCV_ISI/dp;
+      strong rate authority, limited class-mean rate/rheobase shift, no
+      bursting/silence pathology, native biological meaning
+   H2 derive the width needed to raise E rate-CV 0.053 -> >=0.3 without
+      lowering E ISI frac_in below 0.68-0.75, from single-cell sensitivity
+      under the measured shot background
+   H3 one parameter, one deterministic zero-mean distribution; width bracket
+      {below, at, modestly above} the predicted requirement
+   H4 next execution gates E ISI directly (>=80% of active E in [0.5,1.5]);
+      class viability enforced for all classes
+   stop: INTRINSIC_HETEROGENEITY_{FEASIBLE, INFEASIBLE, UNRESOLVED}
+3. STOP for review. Only FEASIBLE authorizes another V2.1 execution.
+forbidden: retuned or additional noise, joint multi-parameter dispersion,
+           HDP rescue, topology changes, tonic re-derivation, V2.2 recurrence
 ```
+
+Known conflict for step 3: low_sm2p0 VIP ~130 Hz exceeds the VIP [1,80] band
+(amendment 1). E-only dispersion is unlikely to move VIP (E->VIP mean input
+~0.16 vs VIP tonic 22.67; INFERRED). Reviewer must decide which rate gate
+applies before any execution.
 
 ## 8. Invariants and traps
 
@@ -162,6 +185,7 @@ results/v21_vectors.json                  sealed tonic vectors
 results/v21_provenance_correction.json    native-noise correction (§13)
 results/v21b_vectors.json                 sealed V2.1b shot bracket
 results/v21b_{low,mid,high}_sm{2p0,1p0,0p5}.json, v21b_lineage.json   V2.1b evidence + verdict
+results/v21b_isi_rule.json, v21b_isi_classes.json   class-resolved ISI (low_sm2p0)
 results/h_defect.json                     H0 defect seal (wording superseded in part, §13)
 results/h_history.json                    H3 history + viable region (wording superseded in part, §13)
 results/h_sensitivity.json                H1 64-assay table
@@ -180,7 +204,7 @@ site-src/manifest.json                    publication allowlist + lineage edges
 
 ```text
 git log --oneline -1 && git status --short && git branch --show-current
-git merge-base --is-ancestor c01913a HEAD && git merge-base --is-ancestor b4dc4f1 HEAD && echo lineages-merged
+git merge-base --is-ancestor c01913a HEAD && git merge-base --is-ancestor b4dc4f1 HEAD && git merge-base --is-ancestor 3f7aa5f HEAD && echo lineages-merged
 python -c "import json; print(json.load(open('results/v21b_lineage.json'))['verdict'])"
 pip show jaxfne | Select-String Version
 python -m pytest tests/test_environment_provenance.py tests/test_pages_build.py -q -p no:cacheprovider
@@ -193,7 +217,10 @@ targeted tests only unless the next task changes a shared surface.
 
 ## 11. Open uncertainties (material, unresolved)
 
-* E-specific ISI irregularity under shot drive unknown (pooled gate only) — §7 step 1.
+* Class-rate gate for the next execution: battery lower bound only vs spec
+  bands (low_sm2p0 VIP ~130 Hz) — §7.
+* Silent E cells escape the ISI gate but raise E rate-CV (amendment 1 open item).
+* VIP->E pathway is omitted from the V2.1 battery's recorded currents (8400 edges).
 * PV single-cell silence at I=2.8 vs F-interp 10 Hz: threshold lies
   between grid points; tonic derivation must use exact assays.
 * HDP re-entry point is unspecified (only: after basin gate).

@@ -41,6 +41,20 @@
       "gate": "functional local recurrence"
     }
   },
+  "amendments": [
+    {
+      "date": "2026-09-16",
+      "id": 1,
+      "kind": "prospective clarification; V2.1 and V2.1b verdicts stand as executed under tests/test_v21_operation.py gates",
+      "open_for_review": "E cells with <4 spikes in a window are excluded from the ISI gate but included in E rate-CV, so silencing part of E raises rate-CV without facing the ISI gate. Not gated here; V2.1c design limits silent E fraction",
+      "operation": {
+        "drive": "tonic plus mean-controlled private shot noise is admissible (H5 PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED, executed in V2.1b); supersedes 'tonic-only' for operation executions after V2.1b",
+        "irregularity": "for each class X in {E, PV, SST, VIP} separately: >=80% of active X cells have per-neuron ISI CV in [0.5, 1.5], in every analysis window; active = >=4 spikes in the 5 s window (the V2.1 CV-evaluable definition). The pooled all-class fraction is recorded, not gated",
+        "rates_Hz": "class bands apply in full, lower and upper (E [2,30]; PV/SST/VIP [1,80]). The V2.1 battery gated only the PV/SST/VIP lower bound; V2.1b cells above 80 Hz: VIP in low_sm2p0 130.2, mid_sm2p0 139.5, high_sm2p0 159.0, high_sm1p0 86.1"
+      },
+      "trigger": "V2.1b class-resolved ISI check (results/v21b_isi_classes.json): pooled fraction 0.675-0.734 hid E-specific failure (E 0.683-0.750) and VIP CV ~1.7"
+    }
+  ],
   "branch": "generic_substrate_v2",
   "candidate_family": {
     "architecture": "single C-min-architecture column (cells, laminar motifs, convergence unchanged: never the falsified variable)",

@@ -1,0 +1,293 @@
+{
+ "lineage": "V2.1b (V2.1 re-execution with private stochastic drive)",
+ "parent": "main@40fb7397649d38f89f4027a16b593ee99ee43425",
+ "authority": "docs/HANDOFF_CURRENT.md §7; H5 verdict PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED (v21b-symmetry@b4dc4f1, unmerged)",
+ "sealed": "pre-execution; no plant run under shot drive precedes this commit",
+ "single_delta": "additive per-neuron drive schedule x_i(t) = s_i(t) - mu_c (private filtered Poisson shot noise, mean-controlled); nothing else changes",
+ "frozen": {
+  "plant": "tests/test_v21_operation.py build_plant (C-min, static s=1 efficacies, cells, topology) as executed for results/v21_{low,mid,high}.json",
+  "kernel": "baseline (HDP + homeostatic detached)",
+  "tonic": "emitter drive_per_neuron = results/v21_vectors.json, unchanged",
+  "engine_prng_seed": 11,
+  "engine_internal_noise": "JaxFNE 0.4.24 simulate_edge_recurrent_izhikevich noise_scale=None -> 0.5*N(0,1) native current per neuron per step, keyed per step from PRNGKey(11); kept as executed in V2.1",
+  "dt_ms": 0.1,
+  "run_s": 20.0,
+  "n_chunk": 4,
+  "analysis_windows": [
+   1,
+   2,
+   3
+  ],
+  "gates": "V2.1 run_regime verbatim (E 2-30 Hz; PV/SST/VIP >=1 Hz; ISI-CV in [0.5,1.5] for >=80% CV-evaluable; E rate-CV >=0.3; sync <0.01; drift <=20%; currents recorded-not-tuned)",
+  "jaxfne": "0.4.24"
+ },
+ "tonic_vectors_copy": {
+  "V_HIGH": {
+   "E": 9.2,
+   "PV": 3.6,
+   "SST": 1.18,
+   "VIP": 27.67
+  },
+  "V_LOW": {
+   "E": 2.86,
+   "PV": 2.24,
+   "SST": 0.18,
+   "VIP": 22.67
+  },
+  "V_MID": {
+   "E": 5.0,
+   "PV": 2.8,
+   "SST": 0.59,
+   "VIP": 24.33
+  }
+ },
+ "shot": {
+  "process": "per neuron, per step: k ~ Poisson(p = lambda*dt), i.i.d. across neurons and steps (numpy PCG64(shot_seed), float64)",
+  "kernel": "exponential, s[t] = d*s[t-1] + A*k[t], d = exp(-dt/tau)",
+  "tau_ms": 2.0,
+  "tau_justification": "plant's own excitatory receptor tau (receptor_index 0 = 2.0 ms); no new time constant introduced",
+  "mean_control": "A = mu_c*(1-d)/p so the discrete stationary mean equals mu_c = class tonic of the regime; s starts at mu_c; schedule carries s - mu_c, so total mean input equals the frozen V2.1 tonic",
+  "sigma_over_mu": "continuous 1/sqrt(2*lambda*tau); discrete sqrt((1-d)^2/(p*(1-d^2)))",
+  "precision": "float64 generation and filtering; cast to float32 at the schedule boundary (max cast error recorded per cell)"
+ },
+ "bracket": {
+  "axis": "sigma/mu (H3 declared control variable). At fixed mu and tau, rate x amplitude has one free coordinate: lambda = 1/(2*tau*(sigma/mu)^2), A follows from mean control",
+  "sigma_over_mu_targets": [
+   2.0,
+   1.0,
+   0.5
+  ],
+  "rationale": "2.0 and 1.0 inside the H3 viable region (sigma/mu ~ 1+); 0.5 is the bracket edge toward the continuous limit, still 2x below the falsified 2 kHz rate",
+  "regimes": [
+   "low",
+   "mid",
+   "high"
+  ],
+  "excluded": {
+   "lambda_hz_upper_exclusive": 2000.0,
+   "reason": "2 kHz/amp 2.0 weak regime falsified (CV 0.344) and high-rate continuous limit inferred clock-like (h_history.json)"
+  },
+  "cells": {
+   "low_sm2p0": {
+    "tonic_vector": "V_LOW",
+    "sigma_over_mu_target": 2.0,
+    "lambda_hz": 62.5,
+    "p_event_per_step": 0.00625,
+    "sigma_over_mu_discrete": 1.999791707890427,
+    "amplitude": {
+     "E": 22.31741534847326,
+     "PV": 17.479374258944098,
+     "SST": 1.4045925743794363,
+     "VIP": 176.90063145101013
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 45.76,
+     "PV": 35.84,
+     "SST": 2.88,
+     "VIP": 362.72
+    },
+    "shot_seed": 21100
+   },
+   "low_sm1p0": {
+    "tonic_vector": "V_LOW",
+    "sigma_over_mu_target": 1.0,
+    "lambda_hz": 250.0,
+    "p_event_per_step": 0.025,
+    "sigma_over_mu_discrete": 0.9998958539452135,
+    "amplitude": {
+     "E": 5.579353837118315,
+     "PV": 4.3698435647360245,
+     "SST": 0.3511481435948591,
+     "VIP": 44.22515786275253
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 11.44,
+     "PV": 8.96,
+     "SST": 0.72,
+     "VIP": 90.68
+    },
+    "shot_seed": 21101
+   },
+   "low_sm0p5": {
+    "tonic_vector": "V_LOW",
+    "sigma_over_mu_target": 0.5,
+    "lambda_hz": 1000.0,
+    "p_event_per_step": 0.1,
+    "sigma_over_mu_discrete": 0.49994792697260676,
+    "amplitude": {
+     "E": 1.3948384592795788,
+     "PV": 1.0924608911840061,
+     "SST": 0.08778703589871477,
+     "VIP": 11.056289465688133
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 2.86,
+     "PV": 2.24,
+     "SST": 0.18,
+     "VIP": 22.67
+    },
+    "shot_seed": 21102
+   },
+   "mid_sm2p0": {
+    "tonic_vector": "V_MID",
+    "sigma_over_mu_target": 2.0,
+    "lambda_hz": 62.5,
+    "p_event_per_step": 0.00625,
+    "sigma_over_mu_discrete": 1.999791707890427,
+    "amplitude": {
+     "E": 39.01646039942879,
+     "PV": 21.849217823680117,
+     "SST": 4.6039423271325965,
+     "VIP": 189.85409630362045
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 80.0,
+     "PV": 44.8,
+     "SST": 9.44,
+     "VIP": 389.28
+    },
+    "shot_seed": 21110
+   },
+   "mid_sm1p0": {
+    "tonic_vector": "V_MID",
+    "sigma_over_mu_target": 1.0,
+    "lambda_hz": 250.0,
+    "p_event_per_step": 0.025,
+    "sigma_over_mu_discrete": 0.9998958539452135,
+    "amplitude": {
+     "E": 9.754115099857197,
+     "PV": 5.462304455920029,
+     "SST": 1.1509855817831491,
+     "VIP": 47.46352407590511
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 20.0,
+     "PV": 11.2,
+     "SST": 2.36,
+     "VIP": 97.32
+    },
+    "shot_seed": 21111
+   },
+   "mid_sm0p5": {
+    "tonic_vector": "V_MID",
+    "sigma_over_mu_target": 0.5,
+    "lambda_hz": 1000.0,
+    "p_event_per_step": 0.1,
+    "sigma_over_mu_discrete": 0.49994792697260676,
+    "amplitude": {
+     "E": 2.438528774964299,
+     "PV": 1.3655761139800073,
+     "SST": 0.2877463954457873,
+     "VIP": 11.865881018976278
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 5.0,
+     "PV": 2.8,
+     "SST": 0.59,
+     "VIP": 24.33
+    },
+    "shot_seed": 21112
+   },
+   "high_sm2p0": {
+    "tonic_vector": "V_HIGH",
+    "sigma_over_mu_target": 2.0,
+    "lambda_hz": 62.5,
+    "p_event_per_step": 0.00625,
+    "sigma_over_mu_discrete": 1.999791707890427,
+    "amplitude": {
+     "E": 71.79028713494897,
+     "PV": 28.091851487588723,
+     "SST": 9.207884654265193,
+     "VIP": 215.9170918504389
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 147.2,
+     "PV": 57.6,
+     "SST": 18.88,
+     "VIP": 442.72
+    },
+    "shot_seed": 21120
+   },
+   "high_sm1p0": {
+    "tonic_vector": "V_HIGH",
+    "sigma_over_mu_target": 1.0,
+    "lambda_hz": 250.0,
+    "p_event_per_step": 0.025,
+    "sigma_over_mu_discrete": 0.9998958539452135,
+    "amplitude": {
+     "E": 17.947571783737242,
+     "PV": 7.022962871897181,
+     "SST": 2.3019711635662983,
+     "VIP": 53.97927296260973
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 36.8,
+     "PV": 14.4,
+     "SST": 4.72,
+     "VIP": 110.68
+    },
+    "shot_seed": 21121
+   },
+   "high_sm0p5": {
+    "tonic_vector": "V_HIGH",
+    "sigma_over_mu_target": 0.5,
+    "lambda_hz": 1000.0,
+    "p_event_per_step": 0.1,
+    "sigma_over_mu_discrete": 0.49994792697260676,
+    "amplitude": {
+     "E": 4.4868929459343105,
+     "PV": 1.7557407179742952,
+     "SST": 0.5754927908915746,
+     "VIP": 13.494818240652432
+    },
+    "charge_per_event_mu_over_lambda": {
+     "E": 9.2,
+     "PV": 3.6,
+     "SST": 1.18,
+     "VIP": 27.67
+    },
+    "shot_seed": 21122
+   }
+  }
+ },
+ "realization_gate": {
+  "mean_tol": 0.02,
+  "sigma_over_mu_tol": 0.05,
+  "statistic": "per class over analysis windows: |mean(s)/mu_c - 1| <= mean_tol and |mean_i sd_i(s)/mu_c / sigma_over_mu_discrete - 1| <= sigma_over_mu_tol",
+  "failure": "cell cannot PASS; verdict UNRESOLVED if no cell passes"
+ },
+ "verdict_rule": "PASS if any cell passes all V2.1 gates and its realization gate; FAIL if all 9 cells complete, realized, and none pass; UNRESOLVED otherwise. Passing subset reported; no cell or regime selected",
+ "recorded_not_gated": [
+  "per-class rate ratio vs results/v21_<regime>.json (output-rate shift; gating or correcting it would be tonic re-derivation, forbidden)",
+  "pathway currents (V2.1 verbatim)"
+ ],
+ "stop_states": {
+  "PASS": "stop; V2.2 locked until review",
+  "FAIL": "stop; no retuning",
+  "UNRESOLVED": "stop; no retuning"
+ },
+ "forbidden": [
+  "HDP rescue",
+  "cell retuning",
+  "topology changes",
+  "tonic re-derivation after results",
+  "bracket edits after execution",
+  "V2.2 recurrence work"
+ ],
+ "pre_execution_findings": {
+  "internal_noise_discrepancy": {
+   "observed": "V2.1 plant is not deterministic: seed 11 vs 12 at HIGH -> max |dV| 101.7 mV, 7720 differing spike events in 500 ms; noise_scale=0 -> |dV| 0.0; same seed bitwise identical",
+   "contradicts": [
+    "tests/test_v21_operation.py docstring 'deterministic (no manufactured noise)'",
+    "docs/HANDOFF_CURRENT.md §3 'static deterministic column', §7 'deterministic baseline otherwise'",
+    "v21b-symmetry results/h_defect.json 'No irregularity/heterogeneity source exists in the frozen candidate'",
+    "v21b-symmetry results/h_history.json 'the C-min V2.1 plant itself was never tested with noise'"
+   ],
+   "corrected_reading": "V2.1 carried weak private white current noise and was still clock-regular (ISI-CV pass 0.0, E rate-CV <=0.004). The defect is insufficient fluctuation, not absent fluctuation; this is consistent with H3 (high-rate/weak limit clock-like) and does not by itself falsify H5",
+   "decision": "freeze as executed (human decision, 2026-09-16); shot drive is the single delta on top"
+  },
+  "magnitude_vs_internal_noise": "shot low-frequency PSD (mu^2/lambda) exceeds internal white PSD (0.25*dt) by >=200x for E/PV/VIP in all cells; SST ratio by cell (sm2p0/sm1p0/sm0p5): LOW 21/5/1, MID 223/56/14, HIGH 891/223/56 (internal noise not negligible for SST in LOW cells)",
+  "risk_noted": "charge per event mu/lambda is large at sigma/mu=2 (E HIGH 147, VIP up to 443 native current*ms): single events may be suprathreshold (event-copy regime, output rate near lambda). Adjudicated by gates, not adjusted",
+  "import_trap": "editable jomission install resolves to stale E:\\jomission when cwd is not on sys.path; battery asserts jomission imports from this repo"
+ }
+}

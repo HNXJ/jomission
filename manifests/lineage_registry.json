@@ -6,47 +6,107 @@
    "lineage_id": "V2.1",
    "parent": "generic_substrate_v2@ae49af2",
    "principal_delta": "class tonic regime vectors LOW/MID/HIGH on the static column",
-   "preexecution_spec": {"path": "results/v21_vectors.json", "commit": "f7e168a"},
+   "preexecution_spec": {
+    "path": "results/v21_vectors.json",
+    "commit": "f7e168a"
+   },
    "authority": "results/generic_substrate_v2_spec.json rev2",
-   "inputs": ["results/v21_vectors.json"],
-   "frozen": ["C-min column", "static s=1 efficacies", "cells", "topology", "HDP detached", "engine native noise 0.5*N(0,1) (see results/v21_provenance_correction.json)"],
+   "inputs": [
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "C-min column",
+    "static s=1 efficacies",
+    "cells",
+    "topology",
+    "HDP detached",
+    "engine native noise 0.5*N(0,1) (see results/v21_provenance_correction.json)"
+   ],
    "executed": true,
    "observations": [
-    {"claim": "HIGH: all classes ~20-22 Hz, pooled ISI-CV fraction 0.0", "evidence_class": "OBSERVED", "receipt": "results/v21_high.json"},
-    {"claim": "verdict V2_LOCAL_OPERATION_FAIL, no passing regime", "evidence_class": "OBSERVED", "receipt": "results/v21_lineage.json"}
+    {
+     "claim": "HIGH: all classes ~20-22 Hz, pooled ISI-CV fraction 0.0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_high.json"
+    },
+    {
+     "claim": "verdict V2_LOCAL_OPERATION_FAIL, no passing regime",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_lineage.json"
+    }
    ],
    "derived": [],
-   "inferred": [{"claim": "uniform tonic yields regular homogeneous firing despite weak native noise", "evidence_class": "INFERRED"}],
-   "verdict": {"label": "V2_LOCAL_OPERATION_FAIL", "status": "FAIL"},
+   "inferred": [
+    {
+     "claim": "uniform tonic yields regular homogeneous firing despite weak native noise",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "V2_LOCAL_OPERATION_FAIL",
+    "status": "FAIL"
+   },
    "acceptance": "manifests/gates/v2_local_operation.json profile historical_v21_battery",
    "fail_boundary": "silence (LOW) to clock-regular homogeneous firing (HIGH)",
    "supersedes": [],
    "retired": [],
-   "artifacts": ["results/v21_low.json", "results/v21_mid.json", "results/v21_high.json", "results/v21_lineage.json"],
-   "tests": ["tests/test_v21_operation.py"],
+   "artifacts": [
+    "results/v21_low.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
+    "results/v21_lineage.json"
+   ],
+   "tests": [
+    "tests/test_v21_operation.py"
+   ],
    "commit": "934a718"
   },
   {
    "lineage_id": "H0-H5",
    "parent": "V2.1",
    "principal_delta": "design-only symmetry-breaking mechanism selection (single-cell assays)",
-   "preexecution_spec": {"path": "results/h_defect.json", "commit": "4eb472a"},
+   "preexecution_spec": {
+    "path": "results/h_defect.json",
+    "commit": "4eb472a"
+   },
    "authority": "docs/HANDOFF_CURRENT.md at 40fb739",
-   "inputs": ["results/v21_high.json", "results/v21_vectors.json"],
-   "frozen": ["V2.1 plant"],
+   "inputs": [
+    "results/v21_high.json",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "V2.1 plant"
+   ],
    "executed": true,
    "observations": [
-    {"claim": "E single-cell ISI-CV max 0.001 across a/b/c/d x0.8-1.2", "evidence_class": "OBSERVED", "receipt": "results/h_sensitivity.json"}
+    {
+     "claim": "E single-cell ISI-CV max 0.001 across a/b/c/d x0.8-1.2",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/h_sensitivity.json"
+    }
    ],
    "derived": [],
-   "inferred": [{"claim": "temporal irregularity needs fluctuating drive", "evidence_class": "INFERRED"}],
-   "verdict": {"label": "PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED", "status": "INSUFFICIENT_ALONE"},
+   "inferred": [
+    {
+     "claim": "temporal irregularity needs fluctuating drive",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED",
+    "status": "INSUFFICIENT_ALONE"
+   },
    "acceptance": "H4 selection rule in jomission/qualification/symmetry.py",
    "fail_boundary": "n/a (design)",
    "supersedes": [],
    "retired": [],
-   "artifacts": ["results/h_lineage.json", "results/h_sensitivity.json"],
-   "tests": ["tests/test_v21b_symmetry.py"],
+   "artifacts": [
+    "results/h_lineage.json",
+    "results/h_sensitivity.json"
+   ],
+   "tests": [
+    "tests/test_v21b_symmetry.py"
+   ],
    "commit": "b4dc4f1"
   },
   {
@@ -54,10 +114,20 @@
    "parent": "V2.1",
    "principal_delta": "additive mean-controlled private shot-noise schedule",
    "introduces_mechanism": true,
-   "preexecution_spec": {"path": "results/v21b_vectors.json", "commit": "c01bc01"},
+   "preexecution_spec": {
+    "path": "results/v21b_vectors.json",
+    "commit": "c01bc01"
+   },
    "authority": "results/h_lineage.json",
-   "inputs": ["results/v21_vectors.json", "results/v21b_vectors.json"],
-   "frozen": ["V2.1 plant as executed", "engine PRNGKey(11) and native noise", "gates verbatim"],
+   "inputs": [
+    "results/v21_vectors.json",
+    "results/v21b_vectors.json"
+   ],
+   "frozen": [
+    "V2.1 plant as executed",
+    "engine PRNGKey(11) and native noise",
+    "gates verbatim"
+   ],
    "executed": true,
    "qualification": {
     "configured": "results/v21b_vectors.json bracket",
@@ -66,67 +136,234 @@
     "effective": "gate checks per cell; E rate-CV <= 0.053"
    },
    "observations": [
-    {"claim": "9/9 cells realized, none pass; E rate-CV max 0.053", "evidence_class": "OBSERVED", "receipt": "results/v21b_lineage.json"},
-    {"claim": "pooled ISI-CV >= 0.8 only in cells with E > 30 Hz", "evidence_class": "OBSERVED", "receipt": "results/v21b_high_sm2p0.json"}
+    {
+     "claim": "9/9 cells realized, none pass; E rate-CV max 0.053",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21b_lineage.json"
+    },
+    {
+     "claim": "pooled ISI-CV >= 0.8 only in cells with E > 30 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21b_high_sm2p0.json"
+    }
    ],
    "derived": [],
-   "inferred": [{"claim": "private noise leaves mean firing propensity identical across E cells", "evidence_class": "INFERRED"}],
-   "verdict": {"label": "V2_LOCAL_OPERATION_FAIL", "status": "FAIL"},
+   "inferred": [
+    {
+     "claim": "private noise leaves mean firing propensity identical across E cells",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "V2_LOCAL_OPERATION_FAIL",
+    "status": "FAIL"
+   },
    "acceptance": "manifests/gates/v2_local_operation.json profile historical_v21_battery + realization gate",
    "fail_boundary": "ISI irregularity only above the E band; rate heterogeneity absent everywhere",
    "supersedes": [],
-   "retired": ["SHOT_NOISE_BRACKETS"],
-   "artifacts": ["results/v21b_lineage.json", "results/v21b_low_sm2p0.json"],
-   "tests": ["tests/test_v21b_operation.py"],
+   "retired": [
+    "SHOT_NOISE_BRACKETS"
+   ],
+   "artifacts": [
+    "results/v21b_lineage.json",
+    "results/v21b_low_sm2p0.json"
+   ],
+   "tests": [
+    "tests/test_v21b_operation.py"
+   ],
    "commit": "c01913a"
   },
   {
    "lineage_id": "V2.1b-ISI",
    "parent": "V2.1b",
    "principal_delta": "instrumentation only: class-resolved ISI-CV on one rule-selected cell",
-   "preexecution_spec": {"path": "results/v21b_isi_rule.json", "commit": "8e61fe2"},
+   "preexecution_spec": {
+    "path": "results/v21b_isi_rule.json",
+    "commit": "8e61fe2"
+   },
    "authority": "reviewer disposition after V2.1b",
-   "inputs": ["results/v21b_low_sm2p0.json"],
-   "frozen": ["sealed V2.1b cell (exact reproduction required)"],
+   "inputs": [
+    "results/v21b_low_sm2p0.json"
+   ],
+   "frozen": [
+    "sealed V2.1b cell (exact reproduction required)"
+   ],
    "executed": true,
    "observations": [
-    {"claim": "E frac_in 0.683/0.733/0.750; VIP 0.0 at CV ~1.7; exact reproduction", "evidence_class": "OBSERVED", "receipt": "results/v21b_isi_classes.json"}
+    {
+     "claim": "E frac_in 0.683/0.733/0.750; VIP 0.0 at CV ~1.7; exact reproduction",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21b_isi_classes.json"
+    }
    ],
    "derived": [],
    "inferred": [],
-   "verdict": {"label": "E_NOT_IRREGULAR", "status": "PARTIAL"},
+   "verdict": {
+    "label": "E_NOT_IRREGULAR",
+    "status": "PARTIAL"
+   },
    "acceptance": "E frac_in >= 0.8 in every window",
    "fail_boundary": "E CV median 0.52 at the 0.5 band edge",
    "supersedes": [],
    "retired": [],
-   "artifacts": ["results/v21b_isi_classes.json"],
-   "tests": ["tests/test_v21b_isi_classes.py"],
+   "artifacts": [
+    "results/v21b_isi_classes.json"
+   ],
+   "tests": [
+    "tests/test_v21b_isi_classes.py"
+   ],
    "commit": "3f7aa5f"
   },
   {
    "lineage_id": "V2.1c-design",
    "parent": "V2.1b-ISI",
    "principal_delta": "design numerics: one zero-mean E intrinsic dispersion in a reduced single-cell population",
-   "preexecution_spec": {"path": "results/v21c_design_protocol.json", "commit": "eedc896"},
+   "preexecution_spec": {
+    "path": "results/v21c_design_protocol.json",
+    "commit": "eedc896"
+   },
    "authority": "reviewer design checkpoint order",
-   "inputs": ["results/v21b_low_sm2p0.json", "results/v21b_isi_classes.json"],
-   "frozen": ["low_sm2p0 shot columns", "criteria F1-F8"],
+   "inputs": [
+    "results/v21b_low_sm2p0.json",
+    "results/v21b_isi_classes.json"
+   ],
+   "frozen": [
+    "low_sm2p0 shot columns",
+    "criteria F1-F8"
+   ],
    "executed": true,
    "observations": [
-    {"claim": "reduced model validation passed", "evidence_class": "OBSERVED", "receipt": "results/v21c_validation.json"},
-    {"claim": "b reaches E rate-CV 0.377 at w=0.3 with class-mean rheobase shift 0.421", "evidence_class": "OBSERVED", "receipt": "results/v21c_width_b.json"},
-    {"claim": "E cells with b >= 0.265 fire at I=0; 13.7% of cells at w=0.3", "evidence_class": "OBSERVED", "receipt": "results/v21c_design_notes.json"}
+    {
+     "claim": "reduced model validation passed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_validation.json"
+    },
+    {
+     "claim": "b reaches E rate-CV 0.377 at w=0.3 with class-mean rheobase shift 0.421",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_width_b.json"
+    },
+    {
+     "claim": "E cells with b >= 0.265 fire at I=0; 13.7% of cells at w=0.3",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_design_notes.json"
+    }
    ],
    "derived": [],
-   "inferred": [{"claim": "b dispersion wide enough for rate-CV 0.3 creates intrinsic pacemakers", "evidence_class": "INFERRED"}],
-   "verdict": {"label": "sealed output INFEASIBLE; reviewer holds pending SCI-V21C-BOUNDARY", "status": "UNRESOLVED"},
+   "inferred": [
+    {
+     "claim": "b dispersion wide enough for rate-CV 0.3 creates intrinsic pacemakers",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "sealed output INFEASIBLE; reviewer holds pending SCI-V21C-BOUNDARY",
+    "status": "UNRESOLVED"
+   },
    "acceptance": "v21c_design_protocol.json F1-F8",
    "fail_boundary": "b: w_CV=0.3 in (0.2, 0.3]; spontaneous cells present from w=0.1",
    "supersedes": [],
    "retired": [],
-   "artifacts": ["results/v21c_design.json", "results/v21c_design_notes.json", "results/v21c_validation.json"],
-   "tests": ["tests/test_v21c_intrinsic_design.py"],
+   "artifacts": [
+    "results/v21c_design.json",
+    "results/v21c_design_notes.json",
+    "results/v21c_validation.json"
+   ],
+   "tests": [
+    "tests/test_v21c_intrinsic_design.py"
+   ],
    "commit": "07d3966"
+  },
+  {
+   "lineage_id": "V2.1c-boundary",
+   "parent": "V2.1c-design",
+   "principal_delta": "direct resolution of w_spontaneous (first intrinsically active E cell) and w_CV=0.3 on the sealed E b-dispersion family",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21c_boundary_spec.json",
+    "commit": "620634d"
+   },
+   "authority": "manifests/todo.json SCI-V21C-BOUNDARY.reviewer_decision (reviewer 2026-09-16)",
+   "inputs": [
+    "jomission/qualification/intrinsic.py",
+    "tests/test_v21c_intrinsic_design.py",
+    "results/v21c_width_b.json",
+    "results/v21b_low_sm2p0.json",
+    "results/v21b_vectors.json",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "V2.1c reduced model, background, seeds 31000/31001/21100, M=300",
+    "lognormal mean-renormalized dispersion",
+    "dt 0.1 ms engine-order Euler",
+    "blobs pinned in the spec"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "all 8 predeclared gates pass; ordering SPONTANEOUS_BEFORE_CV",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_boundary.json"
+    },
+    {
+     "claim": "b_crit at I=0 in (0.2604980, 0.2604987]",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_boundary.json"
+    },
+    {
+     "claim": "w_spontaneous in (0.091406, 0.091504]; first pacemaker b 0.26055 at 5.8 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_boundary.json"
+    },
+    {
+     "claim": "w_CV=0.3 in (0.234375, 0.2375]: min-window E rate-CV 0.2972 / 0.3005; 31-32 of 300 E cells spontaneous",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_boundary.json"
+    },
+    {
+     "claim": "E rate-CV at w_spontaneous 0.1197; sealed CV at w=0.20 and 0.30 reproduced exactly",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21c_boundary.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "continuous-time Hopf b 0.26100 and forward-Euler (dt 0.1) map instability b 0.26098 exceed b_crit 0.26050; saddle-node b 0.26714",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21c_boundary.json"
+    },
+    {
+     "claim": "sealed notes' pacemaker fractions (0.0633 at w=0.2, 0.1367 at w=0.3) count b >= 0.265; the resolved threshold gives 23 and 45 cells, matching the dynamic counts",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21c_boundary.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "firing below the linear rest-state instability indicates bistability near a subcritical Hopf; b_crit moves ~1e-5 with initial state, duration, and dt (reported, not gating)",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "INTRINSIC_HETEROGENEITY_INFEASIBLE",
+    "status": "INFEASIBLE"
+   },
+   "acceptance": "results/v21c_boundary_spec.json classification + verdict",
+   "fail_boundary": "E b-dispersion reaches rate-CV 0.3 only at w ~0.235, 2.6x the width (~0.0915) at which the first E cell fires at zero input",
+   "supersedes": [
+    "V2.1c-design reviewer hold (UNRESOLVED)"
+   ],
+   "retired": [
+    "INTRINSIC_SINGLE_PARAM_E"
+   ],
+   "artifacts": [
+    "results/v21c_boundary.json",
+    "results/v21c_boundary_spec.json"
+   ],
+   "tests": [
+    "tests/test_v21c_boundary.py"
+   ],
+   "commit": "d3a0c3c"
   }
  ]
 }

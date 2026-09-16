@@ -39,17 +39,23 @@ def test_preserved_science_todo():
 
 
 def test_verdict_status_follows_evidence_not_tests():
+    # Built on copies of a sealed gate entry (V2.1b); never on the current hold state.
     state, todo = v.load("manifests/current_state.json"), v.load("manifests/todo.json")
     bad = copy.deepcopy(state)
     bad["latest_verdict"]["V2.1b"]["status"] = "PASS"  # e.g. copied from a green pytest run
     assert any("contradicts evidence verdict V2_LOCAL_OPERATION_FAIL" in e for e in v.validate_current_state(bad, todo))
-    bad = copy.deepcopy(state)
-    bad["latest_verdict"]["V2.1c_INTRINSIC_DESIGN"].pop("review_override")
-    assert any("contradicts evidence verdict INTRINSIC_HETEROGENEITY_INFEASIBLE" in e
-               for e in v.validate_current_state(bad, todo))
-    bad = copy.deepcopy(state)
-    bad["latest_verdict"]["V2.1c_INTRINSIC_DESIGN"]["review_override"]["authority"] = ""
-    assert any("review_override missing" in e for e in v.validate_current_state(bad, todo))
+    held = copy.deepcopy(state)
+    held["latest_verdict"]["V2.1b"]["status"] = "UNRESOLVED"
+    held["latest_verdict"]["V2.1b"]["review_override"] = {
+        "evidence_reads": "V2_LOCAL_OPERATION_FAIL", "held_status": "UNRESOLVED", "reason": "probe",
+        "authority": "probe", "lift": "probe"}
+    assert not [e for e in v.validate_current_state(held, todo) if "V2.1b" in e]
+    wrong = copy.deepcopy(held)
+    wrong["latest_verdict"]["V2.1b"]["review_override"]["authority"] = ""
+    assert any("review_override missing" in e for e in v.validate_current_state(wrong, todo))
+    wrong = copy.deepcopy(held)
+    wrong["latest_verdict"]["V2.1b"]["review_override"]["evidence_reads"] = "V2_LOCAL_OPERATION_PASS"
+    assert any("!= evidence verdict" in e for e in v.validate_current_state(wrong, todo))
 
 
 def test_test_tiers_consistent():

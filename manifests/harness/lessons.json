@@ -17,12 +17,56 @@
    "cause": "tests/test_harness_state.py::test_preserved_science_todo asserted checkpoint-time statuses and verdicts",
    "repair": "test now asserts durable invariants only (items exist in a live status; LOCKED gates stay LOCKED); statuses validated against evidence by validate_current_state",
    "evidence": "pytest output 2026-09-16: assert 'OPEN' == 'OPEN_AFTER_HARNESS'",
-   "scope": "project tests: never encode current state in a test"
+   "scope": "project tests: never encode current state in a test",
+   "recurrence": "2026-09-16 V2.1c-boundary seal: test_verdict_status_follows_evidence_not_tests read the live V2.1c review_override; repaired to build overrides on copies of the sealed V2.1b entry. Remaining tier-0 tests read only sealed evidence or copies."
   }
  ],
  "dogfood": {
   "lineage": "SCI-V21C-BOUNDARY",
   "skill": "jomission-gate-runner",
-  "friction": []
+  "friction": [
+   {
+    "step": "1 inspect authority",
+    "observed": "domain-skill line (from L1) led to loading biophysical-modeling before writing boundary numerics",
+    "effect": "positive: initial-state and dt sensitivity were predeclared as reported-not-gating",
+    "proposal": "keep"
+   },
+   {
+    "step": "2 verify parent",
+    "observed": "parent lineage lived on an unmerged branch; its sealed files were not in manifests/sealed_artifacts.json",
+    "effect": "pinned parent blobs inside the spec instead; merged main into the branch for the harness",
+    "proposal": "skill: when the parent is unmerged, branch from the parent result commit, merge main, pin parent blobs in the spec"
+   },
+   {
+    "step": "3-4 frozen / seal",
+    "observed": "after merging main, tier 0 failed: tests/test_v21c_intrinsic_design.py writes results but was not tier 3",
+    "effect": "tier guard caught a real gap; fixed in the spec commit",
+    "proposal": "none (guard works)"
+   },
+   {
+    "step": "4 seal",
+    "observed": "skill names manifests/gates and the prospective_v2 profile; design numerics have no gate file and carry criteria in the spec",
+    "effect": "no gates.evaluate or gate_blob applicable",
+    "proposal": "skill: 'gate file, or the lineage spec's criteria when no gate file applies'"
+   },
+   {
+    "step": "4 seal",
+    "observed": "sealed V2.1c notes (b_bifurcation, pacemaker fractions) were computed by code never committed",
+    "effect": "endpoint reproduction had to reuse the inferred protocol; the fraction threshold (b >= 0.265 grid) was reconstructed after the run",
+    "proposal": "HARNESS-LINEAGE-RECEIPT: descriptive notes must name the committed code that produced them"
+   },
+   {
+    "step": "8 seal",
+    "observed": "a lineage record cannot carry its own result commit in that commit; registration is a follow-up state commit",
+    "effect": "three commits per lineage (spec, result, state)",
+    "proposal": "skill: state the three-commit pattern"
+   },
+   {
+    "step": "startup",
+    "observed": "no history reconstruction needed; context came from current_state, the TODO item, the spec pins, and intrinsic.py",
+    "effect": "positive",
+    "proposal": "keep"
+   }
+  ]
  }
 }

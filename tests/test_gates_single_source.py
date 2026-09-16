@@ -57,3 +57,31 @@ def test_no_duplicate_gate_implementations():
             if pat.search(text) and "jomission.harness" not in text:
                 offenders.append(rel)
     assert offenders == [], offenders
+
+
+def _tracked_py():
+    import subprocess
+    out = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard", "*.py"],
+                         cwd=ROOT, capture_output=True, text=True).stdout.split()
+    return [p for p in out if (ROOT / p).is_file()]
+
+
+def test_operation_batteries_use_canonical_estimators():
+    """A non-frozen V2 operation battery computes windows only through jomission.harness.operation."""
+    frozen = set(gates.load_gate()["frozen_literal_implementations"])
+    uses = re.compile(r"from jomission\.harness import [^\n]*\boperation\b"
+                      r"|from jomission\.harness\.operation import|import jomission\.harness\.operation")
+    batteries = [p for p in _tracked_py() if re.fullmatch(r"tests/test_v2\w*operation\w*\.py", p) and p not in frozen]
+    offenders = [p for p in batteries if not uses.search((ROOT / p).read_text(encoding="utf-8"))]
+    assert offenders == [], offenders
+    assert uses.search("from jomission.harness import gates, operation") and not uses.search("from jomission.harness import gates")
+
+
+HISTORICAL_PROFILE_USERS = {"tests/test_gates_single_source.py", "tests/test_v2_operation_prospective.py"}
+
+
+def test_historical_profile_is_reproduction_only():
+    """Only the reproduction tests may evaluate the frozen V2.1 semantics; new work uses prospective_v2."""
+    offenders = [p for p in _tracked_py() if p not in HISTORICAL_PROFILE_USERS
+                 and "historical_v21_battery" in (ROOT / p).read_text(encoding="utf-8", errors="ignore")]
+    assert offenders == [], offenders

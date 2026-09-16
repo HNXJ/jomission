@@ -42,5 +42,7 @@
   "tests/test_v21b_operation.py",
   "tests/test_v21b_isi_classes.py"
  ],
- "consumer_rule": "any other module that computes or names these checks imports jomission.harness.gates (enforced by tests/test_gates_single_source.py)"
+ "consumer_rule": "any other module that computes or names these checks imports jomission.harness.gates (enforced by tests/test_gates_single_source.py)",
+ "estimator_implementation": "jomission/harness/operation.py (window_summary, drift, evaluate, run_battery); checked against frozen_literal_implementations by tests/test_v2_operation_prospective.py",
+ "battery_rule": "a non-frozen tests/test_v2*operation*.py imports jomission.harness.operation; profile historical_v21_battery is used only by the reproduction tests (both enforced by tests/test_gates_single_source.py)"
 }

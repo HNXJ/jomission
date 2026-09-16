@@ -55,7 +55,7 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "V2.1c boundary merged (INFEASIBLE); SCI-V21-GATE-REPAIR started by reviewer order 2026-09-16",
+ "stopped_because": "SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); awaiting review, including the silent-E reviewer decision",
  "next_authorized_task": "SCI-V21-GATE-REPAIR",
  "locked_gates": [
   "V2.2_RECURRENCE",

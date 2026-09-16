@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: V2.1c boundary merged (INFEASIBLE); SCI-V21-GATE-REPAIR started by reviewer order 2026-09-16
+- stopped because: SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); awaiting review, including the silent-E reviewer decision
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

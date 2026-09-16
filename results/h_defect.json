@@ -1,0 +1,11 @@
+{
+  "defect": "INSUFFICIENT_SYMMETRY_BREAKING",
+  "evidence": [
+    "results/v21_low.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
+    "results/v21_lineage.json"
+  ],
+  "parent": "V2.1 FAIL (934a718)",
+  "statement": "Static deterministic column under uniform tonic spans silence to clock-regular homogeneous firing (HIGH: all classes 20-22 Hz, ISI-CV pass 0.0, E rate-CV 0.003). No irregularity/heterogeneity source exists in the frozen candidate. Not a noise deficit: intrinsic or structural determinism may suffice if it generates temporal irregularity, not just phases."
+}

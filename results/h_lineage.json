@@ -1,0 +1,26 @@
+{
+  "parent": "V2.1 FAIL",
+  "h2": {
+    "E_isi_max": 0.001,
+    "E_detuning_max": 1.561,
+    "inhibitory_burst_secondary": [
+      [
+        "SST",
+        "c"
+      ],
+      [
+        "VIP",
+        "c"
+      ]
+    ],
+    "best_detuning": {
+      "class": "SST",
+      "param": "b",
+      "gain": 5.909
+    },
+    "memo": "E single cells stay limit cycles (CV->0) across all tested intrinsic perturbations: deterministic dispersion gives E phases/rates, never E temporal irregularity. SST/VIP can burst single-cell (secondary network hypothesis, untested)."
+  },
+  "verdict": "PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED",
+  "detail": "E detuning available (a: gain 0.845) but no E deterministic ISI mechanism (max 0.001); temporal irregularity needs fluctuating drive: calibrated private shot noise per H3 (not the failed 2kHz weak regime). Inhibitory bursting (SST-c/VIP-c) retained as a secondary hypothesis for a later intrinsic lineage.",
+  "next_authorized_action": "re-execute V2.1 with the justified mechanism + predeclared bracket"
+}

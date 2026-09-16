@@ -70,33 +70,33 @@ def test_h4_h5_verdict():
     assert "conclusion" in hist
     # H2: deterministic ISI mechanism = single-cell ISI-CV>=0.5 with
     # bounded mean movement (rheo shift<=0.25, rate within [0.5x,2x]).
-    cands = []
-    for c in CLASSES:
-        base_rate = sens[c]["base"]["rate"]
-        for par in PARAMS:
-            p = sens[c]["params"][par]
-            if (p["isi_cv_max"] >= 0.5 and p["rheo_shift_max"] <= 0.25
-                    and base_rate > 0
-                    and p["rate_min"] >= 0.5 * base_rate
-                    and p["rate_max"] <= 2.0 * base_rate):
-                cands.append((c, par, p["rate_gain"], p["isi_cv_max"]))
-    cands.sort(key=lambda x: (-x[3], -x[2]))
+    # H2 memo + H4 selection (rule v2, calibrated: the V2.1 ISI gate is
+    # E-dominated (300/400 cells, 80% of active), so a deterministic ISI
+    # mechanism counts only if it can plausibly reach E: either in E
+    # itself, or inhibitory bursting noted as a SECONDARY network
+    # hypothesis (untested without execution). SST-c/VIP-c burst
+    # single-cell but leave E clock-regular; they do not satisfy the gate.
+    e_isi = max(sens["E"]["params"][par]["isi_cv_max"] for par in PARAMS)
+    e_det = max(sens["E"]["params"][par]["rate_gain"] for par in PARAMS)
+    inhib_burst = [(c, par) for c in ("SST", "VIP") for par in PARAMS
+                   if sens[c]["params"][par]["isi_cv_max"] >= 0.5
+                   and sens[c]["params"][par]["rheo_shift_max"] <= 0.25]
     gains = [(c, par, sens[c]["params"][par]["rate_gain"])
              for c in CLASSES for par in PARAMS]
     best_gain = max(gains, key=lambda x: x[2])
-    h2 = {"isi_capable": [(c, p) for c, p, _, _ in cands],
+    h2 = {"E_isi_max": round(e_isi, 3), "E_detuning_max": round(e_det,
+                                                               3),
+          "inhibitory_burst_secondary": inhib_burst,
           "best_detuning": {"class": best_gain[0], "param": best_gain[1],
                             "gain": best_gain[2]},
-          "memo": ("constant-drive cells are limit cycles (CV->0); H1 shows "
-                   + ("a class-spanning ISI mechanism EXISTS" if cands else
-                      "no single-param perturbation reaches ISI-CV 0.5: "
-                      "deterministic dispersion gives phases/rates, not "
-                      "temporal irregularity"))}
-    if cands:
+          "memo": ("E single cells stay limit cycles (CV->0) across all "
+                   "tested intrinsic perturbations: deterministic dispersion "
+                   "gives E phases/rates, never E temporal irregularity. "
+                   "SST/VIP can burst single-cell (secondary network "
+                   "hypothesis, untested).")}
+    if e_isi >= 0.5:
         verdict = "INTRINSIC_HETEROGENEITY_JUSTIFIED"
-        detail = (f"disperse {cands[0][1]} in {cands[0][0]} "
-                  f"(isi {cands[0][3]}, gain {cands[0][2]}); "
-                  f"bracket eps {list(BRACKET)}")
+        detail = f"E-intrinsic ISI mechanism at {e_isi}; bracket {list(BRACKET)}"
     elif best_gain[2] < 0.1:
         verdict = "STRUCTURAL_HETEROGENEITY_JUSTIFIED"
         detail = (f"plant insensitive to intrinsics (best gain "
@@ -104,10 +104,13 @@ def test_h4_h5_verdict():
                   f"input/connectivity structure can break symmetry")
     else:
         verdict = "PRIVATE_STOCHASTIC_DRIVE_JUSTIFIED"
-        detail = (f"detuning available (best gain {best_gain[2]} on "
-                  f"{best_gain[1]}/{best_gain[0]}) but no deterministic ISI "
-                  f"mechanism; calibrated private shot noise per H3 "
-                  f"(not the failed 2kHz weak regime)")
+        detail = (f"E detuning available (a: gain "
+                  f"{sens['E']['params']['a']['rate_gain']}) but no E "
+                  f"deterministic ISI mechanism (max {e_isi}); temporal "
+                  f"irregularity needs fluctuating drive: calibrated "
+                  f"private shot noise per H3 (not the failed 2kHz weak "
+                  f"regime). Inhibitory bursting (SST-c/VIP-c) retained as "
+                  f"a secondary hypothesis for a later intrinsic lineage.")
     out = {"parent": "V2.1 FAIL", "h2": h2, "verdict": verdict,
            "detail": detail,
            "next_authorized_action": ("re-execute V2.1 with the justified "

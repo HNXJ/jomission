@@ -26,14 +26,19 @@
      "tests/test_v21b_operation.py::test_v21b_seal_consistent",
      "tests/test_v21b_isi_classes.py::test_isi_rule_sealed"
     ],
-    "unclassified subsystems": "classify cost and writes on first use; add here"
+    "unclassified subsystems": "classify cost and writes on first use; add here",
+    "V2.1c intrinsic design numerics": [
+     "tests/test_v21c_intrinsic_design.py::test_deterministic_numerics_match_h1_assay",
+     "tests/test_v21c_intrinsic_design.py::test_dispersion_zero_mean_exact_width",
+     "tests/test_v21c_intrinsic_design.py::test_protocol_matches_code"
+    ]
    }
   },
   "2": {
    "name": "compatibility",
    "budget": "tens of minutes",
    "when": "a shared scientific surface changes (jomission/ network, simulation, qualification; JaxFNE version)",
-   "command": "python -m pytest tests -p no:cacheprovider --ignore=tests/test_v21_operation.py --ignore=tests/test_v21b_operation.py --ignore=tests/test_v21b_isi_classes.py --ignore=tests/test_v21b_symmetry.py --ignore=tests/test_s7_geometry.py --ignore=tests/test_s8_stability.py --ignore=tests/test_s9_basin.py --ignore=tests/test_hdp_scale.py --ignore=tests/test_selectivity.py --ignore=tests/test_ei_geometry.py --ignore=tests/test_basin_access.py --ignore=tests/test_n2_closure.py --ignore=tests/test_n4_geometry.py --ignore=tests/test_n5_microstate.py --ignore=tests/test_selective_native.py --ignore=tests/test_native_transformation.py --ignore=tests/test_native_geometry.py --ignore=tests/test_q8_state_replacement.py",
+   "command": "python -m pytest tests -p no:cacheprovider --ignore=tests/test_v21_operation.py --ignore=tests/test_v21b_operation.py --ignore=tests/test_v21b_isi_classes.py --ignore=tests/test_v21b_symmetry.py --ignore=tests/test_s7_geometry.py --ignore=tests/test_s8_stability.py --ignore=tests/test_s9_basin.py --ignore=tests/test_hdp_scale.py --ignore=tests/test_selectivity.py --ignore=tests/test_ei_geometry.py --ignore=tests/test_basin_access.py --ignore=tests/test_n2_closure.py --ignore=tests/test_n4_geometry.py --ignore=tests/test_n5_microstate.py --ignore=tests/test_selective_native.py --ignore=tests/test_native_transformation.py --ignore=tests/test_native_geometry.py --ignore=tests/test_q8_state_replacement.py --ignore=tests/test_v21c_intrinsic_design.py --ignore=tests/test_v21c_boundary.py",
    "known_nonscience_failures": [
     "results/harness_debt_classification.json",
     "manifests/q8_021_quarantine.json",
@@ -63,7 +68,9 @@
     "tests/test_selective_native.py",
     "tests/test_native_transformation.py",
     "tests/test_native_geometry.py",
-    "tests/test_q8_state_replacement.py"
+    "tests/test_q8_state_replacement.py",
+    "tests/test_v21c_intrinsic_design.py",
+    "tests/test_v21c_boundary.py"
    ]
   }
  },

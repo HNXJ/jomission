@@ -1,0 +1,69 @@
+{
+ "lineage": "V2.1c-boundary (SCI-V21C-BOUNDARY)",
+ "parent": "V2.1c-design, result commit 07d3966 (branch v21c-intrinsic-design)",
+ "authority": "manifests/todo.json SCI-V21C-BOUNDARY.reviewer_decision (reviewer 2026-09-16)",
+ "declared": "2026-09-16, committed and pushed before any boundary computation",
+ "kind": "single-cell open-loop numerics; no plant, no network, no V2.1 battery",
+ "principal_delta": "direct resolution of two boundaries on the sealed E b-dispersion family; no new mechanism, parameter, or criterion for the family",
+ "frozen": {
+  "code": {"jomission/qualification/intrinsic.py": "b6dc640b44bba9518cc09d4d6f9264355382a8c2",
+           "tests/test_v21c_intrinsic_design.py": "37796059f1a870b8573894867cbe4310278cbd56 (_inputs, _run, P0, M, N_CHUNK, STEPS, seeds)",
+           "tests/test_v21b_operation.py": "17f1a59c9163056c1de68f2cff908d3a050154a4 (shot_chunks)"},
+  "data": {"results/v21c_width_b.json": "6a538fe27cd2e3947615fcc13284f9feb174a1ac",
+           "results/v21c_design_protocol.json": "14c279813d391c68fe89afd79dcb39fe6f006cd3",
+           "results/v21b_vectors.json": "5c7c386c8268cca5069b59df44abea0a82c9eac9",
+           "results/v21b_low_sm2p0.json": "48f110e72cddc56ed958f6818152052718488f13",
+           "results/v21_vectors.json": "57cae9e70c58c07e409a8084f9f69ab9cc439e8b"},
+  "cell": {"a": 0.02, "b0": 0.2, "c": -65.0, "d": 8.0, "dt_ms": 0.1, "integrator": "engine-order forward Euler as in intrinsic.py"},
+  "population": "b_i(w) = intrinsic.lognormal_dispersion(0.2, w, 300, 31001); a, c, d at P0 for every cell",
+  "background_for_rate_cv": "V2.1c protocol unchanged: low_sm2p0 shot E columns (seed 21100), open-loop recurrent surrogate and native noise (seed 31000), I0 = V_LOW E tonic, 4 x 5 s chunks, windows 1-3"
+ },
+ "definitions": {
+  "spontaneous_cell": "intrinsic.deterministic_rate_cv(a, b, c, d, I=0.0, dur_s=10.0) rate > 0: at least one spike in the last 5 s of 10 s, noise-free, dt 0.1 ms, initial state v = c, u = b*c",
+  "S(w)": "exists i in the M=300 population with spontaneous_cell(b_i(w))",
+  "w_spontaneous": "inf{w : S(w)} (reviewer definition: first intrinsically active cell; no fraction threshold)",
+  "CV(w)": "min over analysis windows 1-3 of intrinsic.window_metrics(raster)['rate_cv'] from test_v21c_intrinsic_design._run with only b dispersed at width w (the sealed width-scan quantity)",
+  "w_CV": "inf{w : CV(w) >= 0.3}"
+ },
+ "procedure": {
+  "A_b_crit": {
+   "endpoint_reproduction": "spontaneous_cell(b=0.260) is False and spontaneous_cell(b=0.265) is True (sealed notes); otherwise UNRESOLVED",
+   "method": "bisection on b in [0.260, 0.265] until width <= 1e-6; b_crit reported as the (silent, firing) bracket",
+   "V1_predicate_monotone_in_b": "one vectorized run over b = 0.200, 0.2005, ..., 0.460 (521 cells): every b above b_crit_hi fires and every b below b_crit_lo is silent; otherwise UNRESOLVED"
+  },
+  "B_w_spontaneous": {
+   "endpoint_reproduction": "S(0.05) is False and S(0.10) is True; otherwise UNRESOLVED",
+   "method": "bisection on w in [0.05, 0.10] with direct population evaluation of S(w) until width <= 1e-4",
+   "V2_max_b_monotone_in_w": "max_i b_i(w) nondecreasing on w = 0.0500, 0.0501, ..., 0.1000 (dispersion only, no dynamics); otherwise UNRESOLVED",
+   "C1_consistency": "max_i b_i(w_sp_lo) < b_crit_hi and max_i b_i(w_sp_hi) >= b_crit_lo; otherwise UNRESOLVED",
+   "report": "index, quantile rank, and b of the first spontaneous cell at w_sp_hi; its I=0 rate"
+  },
+  "C_w_CV": {
+   "R_reproduction": "CV(0.20) and CV(0.30) recomputed equal the sealed min-window rate_cv in results/v21c_width_b.json within 1e-12; otherwise UNRESOLVED (code or environment drift)",
+   "method": "bisection on w in [0.20, 0.30] with predicate CV(w) >= 0.3 until width <= 0.005",
+   "V3_below": "CV(w_sp_hi) < 0.3 (one run) and the sealed CV at w = 0, 0.05, 0.10, 0.15 < 0.3; otherwise UNRESOLVED",
+   "report": "every evaluated (w, CV) pair; flag if CV is not nondecreasing over evaluated w"
+  }
+ },
+ "classification": {
+  "SPONTANEOUS_BEFORE_CV": "all gates pass and w_sp_hi < w_CV_lo",
+  "CV_BEFORE_SPONTANEOUS": "all gates pass and w_CV_hi < w_sp_lo",
+  "COINCIDENT": "all gates pass and the brackets overlap",
+  "residual_assumption": "no CV >= 0.3 excursion between evaluated widths below w_CV_lo (ASSUMED; bounded by V3 and the sealed grid)"
+ },
+ "verdict": {
+  "SPONTANEOUS_BEFORE_CV": "INTRINSIC_HETEROGENEITY_INFEASIBLE (tested single-parameter intrinsic family: the rate dispersion needed for V2.1 introduces zero-input E activity first)",
+  "CV_BEFORE_SPONTANEOUS": "INTRINSIC_HETEROGENEITY_FEASIBLE (b reopened; no in-network execution while low_sm2p0 fails the prospective VIP band)",
+  "COINCIDENT": "INTRINSIC_HETEROGENEITY_UNRESOLVED",
+  "any_gate_failure": "INTRINSIC_HETEROGENEITY_UNRESOLVED",
+  "field": "results/v21c_boundary.json key `verdict`"
+ },
+ "reported_not_gating": [
+  "b_crit sensitivity: dur_s 40; initial v0 in {-70, -60} with u0 = b*v0; dt 0.05 ms",
+  "continuous-time rest point: saddle-node b = 5 - sqrt(22.4); Hopf b where trace = 0 (a = 0.02)",
+  "forward-Euler map (dt 0.1) rest-point stability boundary: spectral radius of the linearized map = 1",
+  "pacemaker count at w_sp_hi, w_CV_lo, w_CV_hi and at the sealed widths 0.2, 0.3"
+ ],
+ "stop": "write results/v21c_boundary.json, seal, STOP for review; do not open SCI-V21-GATE-REPAIR or any mechanism search",
+ "forbidden": ["network or plant execution", "changing the family, background, seeds, or tolerances after outputs", "fraction thresholds for w_spontaneous"]
+}

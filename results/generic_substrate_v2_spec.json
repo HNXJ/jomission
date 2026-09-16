@@ -1,0 +1,153 @@
+{
+  "acceptance_sketches": {
+    "basin": {
+      "criterion": "S9 capture criterion reused verbatim (>=2 distinct finite inits converge to same nonsaturated active regime)",
+      "gate": "zero-tonic active basin"
+    },
+    "communication": {
+      "criterion": "cut-controlled downstream transmission nonzero across efficacy/duration/convergence axes (S7 propagation battery reused)",
+      "gate": "functional local recurrence"
+    },
+    "operation": {
+      "current_balance": "pathway/class realized currents recorded (no target; evidence for V2.2)",
+      "drive": "tonic-only, per-class uniform, values predeclared at execution",
+      "gate": "finite nonsaturated irregular E/PV/SST/VIP cortical operation",
+      "heterogeneity": "across-neuron rate CV >= 0.3 within E (excludes locked-step)",
+      "irregularity": "per-neuron ISI CV in [0.5, 1.5] for >=80% of active cells (excludes clock-sync and Poisson-burst)",
+      "rates_Hz": {
+        "E": [
+          2,
+          30
+        ],
+        "PV": [
+          1,
+          80
+        ],
+        "SST": [
+          1,
+          80
+        ],
+        "VIP": [
+          1,
+          80
+        ]
+      },
+      "stationarity": "3 consecutive 5 s windows, class-rate drift <= 20%",
+      "synchrony": "S9 guard reused: steps with >50% E co-spiking < 0.01"
+    },
+    "recurrence": {
+      "criterion": "REC ON vs matched REC OFF (same drive): E response gain >= 1.2 AND recurrent current fraction >= 0.2 (thresholds frozen at V2.2 execution authorization)",
+      "forbidden": "no slow-mode requirement yet",
+      "gate": "functional local recurrence"
+    }
+  },
+  "branch": "generic_substrate_v2",
+  "candidate_family": {
+    "architecture": "single C-min-architecture column (cells, laminar motifs, convergence unchanged: never the falsified variable)",
+    "cells": "standard cortical Izhikevich classes as built (RS E, FS PV, LTS SST, VIP); intrinsic params frozen pending D3/D4 excitability review",
+    "drive": "tonic-only (no schedule), per-class uniform; values predeclared at V2.1 execution authorization",
+    "efficacy": "STATIC efficacies at measured s=1 magnitudes (HDP dynamics detached for V2.1/V2.2 to isolate operation; HDP re-enters only after the basin gate)",
+    "note": "minimum departure from the qualified line: same engine, same column, same cells; only the operating regime (gain scale + tonic support + static-first) changes"
+  },
+  "defect_mapping": [
+    {
+      "defect": "Uniform E-drive jumps silence->5000 Hz global sync 2-cycle with no settled intermediate (S9 prep scans; B bisection/flip intervals; N1 sustained-sync transients)",
+      "evidence": [
+        "results/s9_init_s*_P1.json prep_scan tables",
+        "results/b_bisect_s*.json",
+        "results/n_traj_*.json"
+      ],
+      "min_dof": "E-out efficacy operating range (order-unity, near the qualified s=1 shape regime) + tonic drive level as explicit regime variable",
+      "requirement": "First operate at E-efficacy scale where onset volleys do not avalanche; tonic-supported asynchronous regime before any zero-tonic target"
+    },
+    {
+      "defect": "Silence strongly absorbing at zero tonic: rest and HDP-primed rest collapse exactly (S9 P0/P7 all candidates)",
+      "evidence": [
+        "results/s9_init_*_P0.json",
+        "results/s9_init_*_P7.json"
+      ],
+      "min_dof": "tonic amplitude as regime variable (predeclared per gate, shared across candidates)",
+      "requirement": "No zero-tonic persistence target before driven irregular operation passes; drive regime is support, not tuning"
+    },
+    {
+      "defect": "Single-cell F-I jump 0->7 Hz with no graded 1-4 Hz regime (Phase-2 below-band substitution, driver rule-independent)",
+      "evidence": [
+        "results/native_transformation.json (below substitution record)"
+      ],
+      "min_dof": "baseline excitability within standard cortical families (offsets/gains; class-specific only where measured, e.g. VIP)",
+      "requirement": "Graded low-rate class responses under generic drive"
+    },
+    {
+      "defect": "VIP silent: rheobase 24 vs E/PV 4, SST 2; never recruited in any battery or release",
+      "evidence": [
+        "results/battery_b1.json F curves",
+        "results/s7_FK_s*.json rheobases"
+      ],
+      "min_dof": "VIP excitability offset within the D3 excitability review",
+      "requirement": "VIP viable (active) under the generic drive regime at V2.1"
+    },
+    {
+      "defect": "S7/S8 coarse fixed point off the native manifold (B verdict); 235/235 near-identical coarse states with divergent futures (N3)",
+      "evidence": [
+        "results/b_lineage.json",
+        "results/n3_closure.json"
+      ],
+      "min_dof": "none (methodological constraint, not a parameter)",
+      "requirement": "No fixed-point-first design; gates ordered operation->recurrence->basin with native execution evidence at each step"
+    },
+    {
+      "defect": "Strong fast-loop gain rho~2.5-4.2 with thin slaving margin at 50x (S8 caveats)",
+      "evidence": [
+        "results/s8_candidate_s*.json (fast_rate_maxeig, slaving_sigma_min)"
+      ],
+      "min_dof": "same as D1 (efficacy operating range)",
+      "requirement": "Operate where recurrent gain is moderate; re-check slaving margins under V2 plants"
+    }
+  ],
+  "drift_guards": [
+    "G1 gate ordering: no persistence/basin execution before V2.1+V2.2 PASS are sealed",
+    "G2 one principal delta per lineage edge (repository convention)",
+    "G3 brackets predeclared from requirement ranges before execution; misses terminate FAIL, never silent retuning (retune = new lineage + new pre-registration)",
+    "G4 FAIL at any gate stops the line; new hypothesis = new branch + spec delta, never in-place parameter drift",
+    "G5 tonic is a regime variable, not a tuning knob: values predeclared per gate and shared across candidates within a gate"
+  ],
+  "forbidden_first_targets": [
+    "memory",
+    "attractors",
+    "omission physiology"
+  ],
+  "next_authorized_action": "specification review; V2.1 execution requires explicit authorization",
+  "parent": "7505173 (main at N5 merge)",
+  "reopened_variables": [
+    "neuron operating regime (Izhikevich class parameters within cortical families)",
+    "baseline class excitability (rheobases, F-I gains)",
+    "circuit balance (E/I convergence and efficacy operating ranges)",
+    "architecture sufficient for ordinary cortical dynamics (laminar motifs, delays)"
+  ],
+  "sequence": [
+    "finite nonsaturated irregular operation",
+    "functional local recurrence",
+    "zero-tonic active basin",
+    "propagation requalification",
+    "T_R",
+    "functional hierarchy",
+    "Gen-2 freeze",
+    "blind omission"
+  ],
+  "spec_revision": 2,
+  "status": "SPECIFICATION (design-only; no simulation executed or authorized)",
+  "what_must_remain_fixed": [
+    "JaxFNE 0.4.24 as engine authority",
+    "canonical E/PV/SST/VIP and laminar architecture",
+    "JDNA/model grammar",
+    "canonical drive semantics (tonic/schedule distinction, pure-pulse assay)",
+    "HDP as Hidden-state Dependent Plasticity",
+    "qualified plastic/history machinery",
+    "native HDP rule infrastructure (registrable rules, edge-local state)",
+    "configured->realized->executed->effective harness",
+    "continuation/checkpoint invariants",
+    "omission firewall (no omission tuning before freeze)",
+    "all Gen-1 evidence",
+    "all recurrent and propagation falsifications (they become requirements, not history)"
+  ]
+}

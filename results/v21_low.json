@@ -1,0 +1,164 @@
+{
+  "regime": "low",
+  "tonic": {
+    "E": 2.86,
+    "PV": 2.24,
+    "SST": 0.18,
+    "VIP": 22.67
+  },
+  "rates": [
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 2.5785714285714283
+    },
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 2.5214285714285714
+    },
+    {
+      "E": 0.0,
+      "PV": 0.0,
+      "SST": 0.0,
+      "VIP": 2.5285714285714285
+    }
+  ],
+  "cv": [
+    {
+      "cv_evaluable": 28,
+      "frac_in": 0.0,
+      "E_rate_CV": 0.0
+    },
+    {
+      "cv_evaluable": 28,
+      "frac_in": 0.0,
+      "E_rate_CV": 0.0
+    },
+    {
+      "cv_evaluable": 28,
+      "frac_in": 0.0,
+      "E_rate_CV": 0.0
+    }
+  ],
+  "sync": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "drift": {
+    "E": 0.0,
+    "PV": 0.0,
+    "SST": 0.0,
+    "VIP": 0.022471910112359474
+  },
+  "currents": [
+    {
+      "E": {
+        "syn_mean": 0.0
+      },
+      "PV": {
+        "syn_mean": 0.0
+      },
+      "SST": {
+        "syn_mean": 0.0
+      },
+      "VIP": {
+        "syn_mean": 0.013020595086194431
+      },
+      "EE": {
+        "I_mean": 0.0
+      },
+      "EPV": {
+        "I_mean": 0.0
+      },
+      "ESST": {
+        "I_mean": 0.0
+      },
+      "EVIP": {
+        "I_mean": 0.0
+      },
+      "PVE": {
+        "I_mean": 0.0
+      },
+      "SSTE": {
+        "I_mean": 0.0
+      }
+    },
+    {
+      "E": {
+        "syn_mean": 0.0
+      },
+      "PV": {
+        "syn_mean": 0.0
+      },
+      "SST": {
+        "syn_mean": 0.0
+      },
+      "VIP": {
+        "syn_mean": 0.0127248278936244
+      },
+      "EE": {
+        "I_mean": 0.0
+      },
+      "EPV": {
+        "I_mean": 0.0
+      },
+      "ESST": {
+        "I_mean": 0.0
+      },
+      "EVIP": {
+        "I_mean": 0.0
+      },
+      "PVE": {
+        "I_mean": 0.0
+      },
+      "SSTE": {
+        "I_mean": 0.0
+      }
+    },
+    {
+      "E": {
+        "syn_mean": 0.0
+      },
+      "PV": {
+        "syn_mean": 0.0
+      },
+      "SST": {
+        "syn_mean": 0.0
+      },
+      "VIP": {
+        "syn_mean": 0.012768071296915316
+      },
+      "EE": {
+        "I_mean": 0.0
+      },
+      "EPV": {
+        "I_mean": 0.0
+      },
+      "ESST": {
+        "I_mean": 0.0
+      },
+      "EVIP": {
+        "I_mean": 0.0
+      },
+      "PVE": {
+        "I_mean": 0.0
+      },
+      "SSTE": {
+        "I_mean": 0.0
+      }
+    }
+  ],
+  "checks": {
+    "E_band": false,
+    "classes_active": false,
+    "isi_cv": false,
+    "E_het": false,
+    "sync": true,
+    "drift": true
+  },
+  "pass": false
+}

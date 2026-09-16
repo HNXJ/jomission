@@ -1,0 +1,25 @@
+{
+  "derivation": "per-class current at F-predicted 3/10/20 Hz via linear interp of sealed battery_b1 F tables (rule-independent emitter property); weak-recurrence assumption documented, NOT tuned",
+  "parent": "generic_substrate_v2@ae49af2",
+  "risk_noted": "PV/SST ultra-excitable (PV 556 Hz max): network rates may exceed F-predictions via E-drive; adjudicated by gates, not adjusted",
+  "vectors": {
+    "V_HIGH": {
+      "E": 9.2,
+      "PV": 3.6,
+      "SST": 1.18,
+      "VIP": 27.67
+    },
+    "V_LOW": {
+      "E": 2.86,
+      "PV": 2.24,
+      "SST": 0.18,
+      "VIP": 22.67
+    },
+    "V_MID": {
+      "E": 5.0,
+      "PV": 2.8,
+      "SST": 0.59,
+      "VIP": 24.33
+    }
+  }
+}

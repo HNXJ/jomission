@@ -83,3 +83,26 @@ spectral. Missing field skips only the optional file.
   `- Atlas suite: guides/atlas_suite.md`.
 
 No new dependencies (plotly + numpy only, both already `viz` extras).
+
+## 7. Regime atlases (sealed results, no simulation)
+
+`jomission/visualization/regime_atlas.py` builds one atlas per sealed regime
+from `results/<family>_<regime>.json` plus `results/<family>_lineage.json`.
+It never simulates; `tests/test_regime_atlas.py` patches the jaxfne run entry
+points to raise and still builds.
+
+```text
+python -m jomission.visualization.regime_atlas --out outputs/atlases
+```
+
+Per regime: gates, rates, irregularity, stability, currents (each with a
+table of every plotted value). The overview page shows the gate matrix and
+class rate by regime. Gates are recomputed from sealed values and compared
+with the sealed `checks`; the test fails if any regime disagrees.
+
+Raster, traces, spectral, 3D and connectivity panels are listed as not
+rendered: the sealed V2.1 records hold per-window summaries only.
+
+A new regime family (e.g. the V2.1b stochastic-drive battery) plugs in with
+`--family <prefix> --regimes a,b,c` if its records keep the V2.1 schema
+(see the module docstring).

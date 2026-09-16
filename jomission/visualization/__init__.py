@@ -22,6 +22,11 @@ except Exception:  # pragma: no cover
     PANELS = ()  # type: ignore
 
 try:
+    from jomission.visualization.regime_atlas import build_regime_atlases
+except Exception:  # pragma: no cover
+    build_regime_atlases = None  # type: ignore
+
+try:
     from jomission.visualization.manifest import build_manifest, verify_V0, VISUALIZATION_VERSION
 except Exception:  # pragma: no cover
     build_manifest = None  # type: ignore
@@ -64,6 +69,7 @@ __all__ = [
     "get_observable_basis_hash",
     "build_atlas",
     "PANELS",
+    "build_regime_atlases",
     "build_manifest",
     "verify_V0",
     "VISUALIZATION_VERSION",

@@ -173,6 +173,12 @@
       "evidence": "results/n_lineage.json",
       "gate": "native trajectory geometry",
       "verdict": "NATIVE_GEOMETRY_NO_INTERMEDIATE"
+    },
+    {
+      "commit": "b239f4e",
+      "evidence": "results/n5_verdict.json",
+      "gate": "causal microstate decomposition",
+      "verdict": "NONE_IDENTIFIED"
     }
   ],
   "owner": "generated",
@@ -351,6 +357,19 @@
       "title": "Single-cell F-I per class (fresh)",
       "type": "figure"
     },
+    "family-seal": {
+      "evidence": "POLICY",
+      "keys": [
+        "verdict",
+        "seal",
+        "scope_bound"
+      ],
+      "page": "hdp",
+      "source": "results/cmin_family_seal.json",
+      "status": "SEALED",
+      "title": "Program seal: C-min family stood down (scope-bounded)",
+      "type": "table"
+    },
     "ff-table": {
       "evidence": "OBSERVED",
       "keys": [
@@ -441,6 +460,18 @@
       "source": "results/n_lineage.json",
       "status": "OBSERVED (tested domain)",
       "title": "Native geometry: no intermediate, coarse non-Markovian",
+      "type": "table"
+    },
+    "n5-decomp": {
+      "evidence": "OBSERVED",
+      "keys": [
+        "verdict",
+        "detail"
+      ],
+      "page": "hdp",
+      "source": "results/n5_verdict.json",
+      "status": "OBSERVED (KW0 MODULATORY, UCLAMP LATENCY_MODULATORY, SYNHALF VOID)",
+      "title": "Microstate decomposition: no owner, two modulatory findings",
       "type": "table"
     },
     "network-3d": {
@@ -729,6 +760,10 @@
     "clamp_fork.json": {
       "evidence": "OBSERVED"
     },
+    "cmin_family_seal.json": {
+      "evidence": "POLICY",
+      "status": "program seal, scope-bounded"
+    },
     "convergence.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: convergence to x16 insufficient"
@@ -787,6 +822,10 @@
     "modular.json": {
       "evidence": "NEGATIVE",
       "status": "sealed negative: modular-topology axis"
+    },
+    "n5_verdict.json": {
+      "evidence": "OBSERVED",
+      "status": "NONE_IDENTIFIED (modulatory findings preserved)"
     },
     "n_lineage.json": {
       "evidence": "OBSERVED",

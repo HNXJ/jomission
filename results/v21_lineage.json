@@ -1,0 +1,36 @@
+{
+  "parent": "generic_substrate_v2@ae49af2",
+  "passing_subset": [],
+  "first_failure": {
+    "regime": "low",
+    "failed_gates": [
+      "E_band",
+      "classes_active",
+      "isi_cv",
+      "E_het"
+    ],
+    "rates": [
+      {
+        "E": 0.0,
+        "PV": 0.0,
+        "SST": 0.0,
+        "VIP": 2.5785714285714283
+      },
+      {
+        "E": 0.0,
+        "PV": 0.0,
+        "SST": 0.0,
+        "VIP": 2.5214285714285714
+      },
+      {
+        "E": 0.0,
+        "PV": 0.0,
+        "SST": 0.0,
+        "VIP": 2.5285714285714285
+      }
+    ]
+  },
+  "selection": "none performed",
+  "verdict": "V2_LOCAL_OPERATION_FAIL",
+  "next_authorized_action": "STOP"
+}

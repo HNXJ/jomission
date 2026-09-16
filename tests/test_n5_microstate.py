@@ -90,14 +90,17 @@ def apply_perm(dyn, cls, pre, post):
         np.testing.assert_array_equal(np.sort(v2[idx]), np.sort(v[idx]))
         np.testing.assert_array_equal(np.sort(u2[idx]), np.sort(u[idx]))
         assert int(pv2[idx].sum()) == int(pv[idx].sum())
-    assert float((v2 ** 2).sum()) == float((v ** 2).sum())
+    # Energy/multiset preservation must be order-independent: float32
+    # summation order differs after permutation (1-ulp on large sums), so
+    # compare sorted values exactly (same multiset) instead of sums.
+    np.testing.assert_array_equal(np.sort(v2), np.sort(v))
     syn = np.asarray(dyn.syn_state)
     syn2 = syn.copy()
     tags = np.array([("E" if c == "E" else "I") for c in cls[pre]])
     for t in ("E", "I"):
         m = np.flatnonzero(tags == t)
         syn2[m] = rng.permutation(syn[m])
-    assert float(syn2.sum()) == float(syn.sum())
+        np.testing.assert_array_equal(np.sort(syn2[m]), np.sort(syn[m]))
     out = dyn._replace(v=jnp.asarray(v2, dtype=dyn.v.dtype),
                        u=jnp.asarray(u2, dtype=dyn.u.dtype),
                        prev_spikes=jnp.asarray(pv2, dtype=dyn.prev_spikes.dtype),

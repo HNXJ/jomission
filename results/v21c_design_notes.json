@@ -1,0 +1,142 @@
+{
+  "kind": "descriptive, computed after results/v21c_design.json; not a criterion and does not alter the sealed verdict",
+  "verdict_dependence": {
+    "b": "fails only F7 at w*=0.3 (class-mean rheobase shift 0.421 > 0.25); F1-F6, F8 met; predicted E frac_in min 0.833, E rate 19.05 Hz",
+    "a": "fails only F1 (w*=0.7 > ASSUMED cap 0.5); a range at w*: [0.0025, 0.1068] spans RS (0.02) to FS (0.1) recovery rates",
+    "d": "fails only F1 (w*=0.7 > ASSUMED cap 0.5); d range at w*: [0.997, 42.7]",
+    "c": "fails F2, F5, F6 at w*=0.4 (deterministic burster fraction 0.307, E frac_in min 0.610, rate 24.1 Hz)"
+  },
+  "b_bifurcation": {
+    "observed": "E cell (a=0.02, c=-65, d=8) fires at I=0 for b >= 0.265 (rheobase at the 0.005 floor, 8.2 Hz at b=0.265); b=0.260 rheobase 0.034, silent at I=0",
+    "table": [
+      {
+        "b": 0.2,
+        "rheobase": 3.7744140625,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.205,
+        "rheobase": 3.466796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.21,
+        "rheobase": 3.154296875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.215,
+        "rheobase": 2.841796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.22,
+        "rheobase": 2.529296875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.225,
+        "rheobase": 2.216796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.23,
+        "rheobase": 1.904296875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.235,
+        "rheobase": 1.591796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.24,
+        "rheobase": 1.279296875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.245,
+        "rheobase": 0.966796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.25,
+        "rheobase": 0.6591796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.255,
+        "rheobase": 0.3466796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.26,
+        "rheobase": 0.0341796875,
+        "rate_I0_Hz": 0.0
+      },
+      {
+        "b": 0.265,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 8.2
+      },
+      {
+        "b": 0.27,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 9.4
+      },
+      {
+        "b": 0.275,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 10.6
+      },
+      {
+        "b": 0.28,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 11.4
+      },
+      {
+        "b": 0.285,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 12.4
+      },
+      {
+        "b": 0.29,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 13.2
+      },
+      {
+        "b": 0.295,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 14.0
+      },
+      {
+        "b": 0.3,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 14.8
+      },
+      {
+        "b": 0.305,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 15.6
+      },
+      {
+        "b": 0.31,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 16.4
+      },
+      {
+        "b": 0.315,
+        "rheobase": 0.0048828125,
+        "rate_I0_Hz": 17.2
+      }
+    ],
+    "fraction_E_cells_spontaneous_by_width": {
+      "0.1": 0.0033333333333333335,
+      "0.15": 0.02666666666666667,
+      "0.2": 0.06333333333333334,
+      "0.3": 0.13666666666666666
+    },
+    "consequence": "b dispersion wide enough to reach E rate-CV 0.3 converts ~14% of E cells into intrinsic pacemakers; conflicts with the downstream zero-tonic active-basin question"
+  },
+  "grid_resolution": "b crosses rate-CV 0.3 between w=0.2 (0.255, rheobase shift 0.121, 6.3% pacemakers) and w=0.3 (0.377, 0.421, 13.7%); no off-grid width evaluated"
+}

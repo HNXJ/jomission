@@ -61,7 +61,7 @@
   },
   {
    "id": "SCI-V21C-BOUNDARY",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "reviewer disposition on v21c-intrinsic-design: verdict held UNRESOLVED until the b boundary is ordered",
    "goal": "Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model",
    "parent_authority": "v21c-intrinsic-design:results/v21c_design_protocol.json",
@@ -84,7 +84,8 @@
    "stop_condition": "report and STOP; V2.1c verdict decided by reviewer; no network simulation",
    "artifacts_expected": [
     "results/v21c_boundary_spec.json",
-    "results/v21c_boundary.json"
+    "results/v21c_boundary.json",
+    "tests/test_v21c_boundary.py"
    ],
    "downstream_unlock": [
     "SCI-V21-GATE-REPAIR"
@@ -113,7 +114,12 @@
      "COINCIDENT": "UNRESOLVED at the declared tolerance"
     },
     "after": "do not search for another mechanism; next is SCI-V21-GATE-REPAIR, then reassess the admissible background (SCI-V21-BACKGROUND)"
-   }
+   },
+   "receipts": [
+    "results/v21c_boundary.json",
+    "manifests/lineage_registry.json V2.1c-boundary",
+    "spec 620634d -> result d3a0c3c"
+   ]
   },
   {
    "id": "SCI-V21-GATE-REPAIR",
@@ -163,7 +169,7 @@
   },
   {
    "id": "SCI-V21C-COMPOSITION",
-   "status": "BLOCKED",
+   "status": "RETIRED",
    "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",
    "goal": "Network execution of the composition",
    "parent_authority": "SCI-V21C-BOUNDARY + SCI-V21-BACKGROUND + SCI-V21-GATE-REPAIR",
@@ -186,7 +192,8 @@
    "artifacts_expected": [],
    "downstream_unlock": [
     "V2.2-RECURRENCE"
-   ]
+   ],
+   "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
   },
   {
    "id": "PUB-V21B-PAGES",

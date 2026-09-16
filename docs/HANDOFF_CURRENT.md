@@ -38,28 +38,31 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: harness checkpoint 1 merged (reviewer 94/100); SCI-V21C-BOUNDARY authorized with the first-cell w_spontaneous definition
+- stopped because: SCI-V21C-BOUNDARY sealed INFEASIBLE on branch v21c-boundary; STOP for reviewer review and merge. Reviewer-ordered next item after INFEASIBLE: SCI-V21-GATE-REPAIR (no new mechanism search)
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
 - E_TEMPORAL_IRREGULARITY: **PARTIAL** (component of V2.1b) — `results/v21b_isi_classes.json`
 - E_RATE_HETEROGENEITY: **FAIL** (component of V2.1b) — `results/v21b_lineage.json`
 - H5_PRIVATE_STOCHASTIC_DRIVE: **INSUFFICIENT_ALONE** (component of V2.1b) — `results/v21b_lineage.json`
-- V2.1c_INTRINSIC_DESIGN: **UNRESOLVED** (evidence reads INTRINSIC_HETEROGENEITY_INFEASIBLE; held until SCI-V21C-BOUNDARY) — `v21c-intrinsic-design:results/v21c_design.json`
+- V2.1c_INTRINSIC_DESIGN: **INFEASIBLE** — `results/v21c_boundary.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1b: 9/9 cells realized, none pass; E rate-CV max 0.053 — `c01913a:results/v21b_lineage.json`
-- V2.1b: pooled ISI-CV >= 0.8 only in cells with E > 30 Hz — `c01913a:results/v21b_high_sm2p0.json`
 - V2.1b-ISI: E frac_in 0.683/0.733/0.750; VIP 0.0 at CV ~1.7; exact reproduction — `3f7aa5f:results/v21b_isi_classes.json`
 - V2.1c-design: reduced model validation passed — `07d3966:results/v21c_validation.json`
 - V2.1c-design: b reaches E rate-CV 0.377 at w=0.3 with class-mean rheobase shift 0.421 — `07d3966:results/v21c_width_b.json`
 - V2.1c-design: E cells with b >= 0.265 fire at I=0; 13.7% of cells at w=0.3 — `07d3966:results/v21c_design_notes.json`
+- V2.1c-boundary: all 8 predeclared gates pass; ordering SPONTANEOUS_BEFORE_CV — `d3a0c3c:results/v21c_boundary.json`
+- V2.1c-boundary: b_crit at I=0 in (0.2604980, 0.2604987] — `d3a0c3c:results/v21c_boundary.json`
+- V2.1c-boundary: w_spontaneous in (0.091406, 0.091504]; first pacemaker b 0.26055 at 5.8 Hz — `d3a0c3c:results/v21c_boundary.json`
+- V2.1c-boundary: w_CV=0.3 in (0.234375, 0.2375]: min-window E rate-CV 0.2972 / 0.3005; 31-32 of 300 E cells spontaneous — `d3a0c3c:results/v21c_boundary.json`
+- V2.1c-boundary: E rate-CV at w_spontaneous 0.1197; sealed CV at w=0.20 and 0.30 reproduced exactly — `d3a0c3c:results/v21c_boundary.json`
 
 ### Next authorized task
 
-- `SCI-V21C-BOUNDARY` (OPEN): Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model
-- stop: report and STOP; V2.1c verdict decided by reviewer; no network simulation
+- `SCI-V21-GATE-REPAIR` (OPEN): Prospectively enforce PV/SST/VIP in [1, 80] Hz and per-class ISI-CV without rewriting executed V2.1/V2.1b verdicts
+- stop: any battery re-implementing thresholds fails tier 0
 
 ### Locked gates
 
@@ -71,7 +74,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Open uncertainties
 
-- ordering of w_CV=0.3 and w_spontaneous (first intrinsically active E cell) for E b-dispersion; sealed grid suggests spontaneous first, not yet resolved directly → SCI-V21C-BOUNDARY
+- E b_crit at I=0 lies below the linear rest-state instability (bistability); boundary shifts ~1e-5 with initial state, duration, dt → record only
+- only single-parameter lognormal E dispersions were tested; joint or other-distribution intrinsic dispersion is untested and not authorized → record only
 - low_sm2p0 VIP ~130 Hz exceeds the prospective VIP [1,80] band; the shot background is not class-generic → SCI-V21-BACKGROUND
 - silent E cells escape the ISI gate but raise E rate-CV → SCI-V21-GATE-REPAIR
 - VIP->E pathway (8400 edges) omitted from the V2.1 battery's recorded currents → record only

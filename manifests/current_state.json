@@ -51,21 +51,14 @@
    "component_of": "V2.1b"
   },
   "V2.1c_INTRINSIC_DESIGN": {
-   "status": "UNRESOLVED",
-   "evidence": "v21c-intrinsic-design:results/v21c_design.json",
-   "scope": "gate",
-   "review_override": {
-    "evidence_reads": "INTRINSIC_HETEROGENEITY_INFEASIBLE",
-    "held_status": "UNRESOLVED",
-    "reason": "the width grid did not resolve whether w_CV=0.3 precedes or follows the spontaneous-firing boundary of b-dispersion",
-    "authority": "human review, harness checkpoint order 2026-09-16: do not promote to INFEASIBLE until SCI-V21C-BOUNDARY resolves",
-    "lift": "SCI-V21C-BOUNDARY"
-   }
+   "status": "INFEASIBLE",
+   "evidence": "results/v21c_boundary.json",
+   "scope": "gate"
   }
  },
- "open_scientific_question": "Order of w_CV=0.3 and w_spontaneous for the E b-dispersion single-cell open-loop family (SCI-V21C-BOUNDARY)",
- "stopped_because": "harness checkpoint 1 merged (reviewer 94/100); SCI-V21C-BOUNDARY authorized with the first-cell w_spontaneous definition",
- "next_authorized_task": "SCI-V21C-BOUNDARY",
+ "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
+ "stopped_because": "SCI-V21C-BOUNDARY sealed INFEASIBLE on branch v21c-boundary; STOP for reviewer review and merge. Reviewer-ordered next item after INFEASIBLE: SCI-V21-GATE-REPAIR (no new mechanism search)",
+ "next_authorized_task": "SCI-V21-GATE-REPAIR",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",
@@ -85,7 +78,8 @@
   "CMIN_FAMILY",
   "PROPAGATION_OLD_PLANT",
   "DURATION_SCRATCH",
-  "SHOT_NOISE_BRACKETS"
+  "SHOT_NOISE_BRACKETS",
+  "INTRINSIC_SINGLE_PARAM_E"
  ],
  "active_invariants": [
   "ONE_DELTA",
@@ -108,19 +102,25 @@
   "results/v21b_lineage.json",
   "results/v21b_isi_classes.json",
   "results/h_lineage.json",
-  "v21c-intrinsic-design:results/v21c_design_protocol.json",
-  "v21c-intrinsic-design:results/v21c_design.json",
-  "v21c-intrinsic-design:results/v21c_design_notes.json",
   "manifests/gates/v2_local_operation.json",
   "manifests/sealed_artifacts.json",
   "manifests/lineage_registry.json",
-  "docs/project-sources/SUBSTRATE_PROGRAM.md"
+  "docs/project-sources/SUBSTRATE_PROGRAM.md",
+  "results/v21c_design_protocol.json",
+  "results/v21c_design.json",
+  "results/v21c_design_notes.json",
+  "results/v21c_boundary_spec.json",
+  "results/v21c_boundary.json"
  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [
   {
-   "item": "ordering of w_CV=0.3 and w_spontaneous (first intrinsically active E cell) for E b-dispersion; sealed grid suggests spontaneous first, not yet resolved directly",
-   "route": "SCI-V21C-BOUNDARY"
+   "item": "E b_crit at I=0 lies below the linear rest-state instability (bistability); boundary shifts ~1e-5 with initial state, duration, dt",
+   "route": "record only"
+  },
+  {
+   "item": "only single-parameter lognormal E dispersions were tested; joint or other-distribution intrinsic dispersion is untested and not authorized",
+   "route": "record only"
   },
   {
    "item": "low_sm2p0 VIP ~130 Hz exceeds the prospective VIP [1,80] band; the shot background is not class-generic",

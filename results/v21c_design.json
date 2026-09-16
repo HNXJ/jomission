@@ -1,0 +1,139 @@
+{
+  "protocol": "results/v21c_design_protocol.json",
+  "validation_pass": true,
+  "per_parameter": {
+    "a": {
+      "w_star": 0.7,
+      "r0": 19.212888888888887,
+      "frac_in_min_w0": 0.6866666666666666,
+      "criteria": {
+        "F1_plausibility": false,
+        "F2_temporal": true,
+        "F3_silence": true,
+        "F4_runaway": true,
+        "F5_mean_rate": true,
+        "F6_bursting": true,
+        "F7_rheobase": true,
+        "F8_not_silence_driven": true
+      },
+      "meets_all": false,
+      "at_w_star": {
+        "rate_mean": 17.836444444444442,
+        "frac_in_min": 0.8,
+        "rate_cv_min": 0.38041855141003417,
+        "rate_cv_active_min": 0.38041855141003417,
+        "silent_max": 0.0,
+        "cv_median_mean": 0.5439433919714489,
+        "rheobase_mean_shift": 0.0016764322916666963,
+        "burster_frac": 0.0,
+        "predicted_E_ISI_gate_0p8": true
+      },
+      "sensitivity": {
+        "S_r": 0.6158838550315244,
+        "S_CV": -0.019224514983310466,
+        "S_rh": 0.024332464133613143
+      }
+    },
+    "b": {
+      "w_star": 0.3,
+      "r0": 19.212888888888887,
+      "frac_in_min_w0": 0.6866666666666666,
+      "criteria": {
+        "F1_plausibility": true,
+        "F2_temporal": true,
+        "F3_silence": true,
+        "F4_runaway": true,
+        "F5_mean_rate": true,
+        "F6_bursting": true,
+        "F7_rheobase": false,
+        "F8_not_silence_driven": true
+      },
+      "meets_all": false,
+      "at_w_star": {
+        "rate_mean": 19.045555555555556,
+        "frac_in_min": 0.8333333333333334,
+        "rate_cv_min": 0.37666119782034674,
+        "rate_cv_active_min": 0.37666119782034674,
+        "silent_max": 0.0,
+        "cv_median_mean": 0.5664544054648132,
+        "rheobase_mean_shift": 0.4212076822916666,
+        "burster_frac": 0.0,
+        "predicted_E_ISI_gate_0p8": true
+      },
+      "sensitivity": {
+        "S_r": 1.2626540145059428,
+        "S_CV": -0.0431800885775534,
+        "S_rh": -12.433889172276317
+      }
+    },
+    "c": {
+      "w_star": 0.4,
+      "r0": 19.212888888888887,
+      "frac_in_min_w0": 0.6866666666666666,
+      "criteria": {
+        "F1_plausibility": true,
+        "F2_temporal": false,
+        "F3_silence": true,
+        "F4_runaway": true,
+        "F5_mean_rate": false,
+        "F6_bursting": false,
+        "F7_rheobase": true,
+        "F8_not_silence_driven": true
+      },
+      "meets_all": false,
+      "at_w_star": {
+        "rate_mean": 24.107111111111113,
+        "frac_in_min": 0.61,
+        "rate_cv_min": 0.37838972887941225,
+        "rate_cv_active_min": 0.37838972887941225,
+        "silent_max": 0.0,
+        "cv_median_mean": 0.5685320450614686,
+        "rheobase_mean_shift": 0.0004720052083331261,
+        "burster_frac": 0.30666666666666664,
+        "predicted_E_ISI_gate_0p8": false
+      },
+      "sensitivity": {
+        "S_r": -0.16407441219290295,
+        "S_CV": -0.34826544743505566,
+        "S_rh": 0.0
+      }
+    },
+    "d": {
+      "w_star": 0.7,
+      "r0": 19.212888888888887,
+      "frac_in_min_w0": 0.6866666666666666,
+      "criteria": {
+        "F1_plausibility": false,
+        "F2_temporal": true,
+        "F3_silence": true,
+        "F4_runaway": true,
+        "F5_mean_rate": true,
+        "F6_bursting": true,
+        "F7_rheobase": true,
+        "F8_not_silence_driven": true
+      },
+      "meets_all": false,
+      "at_w_star": {
+        "rate_mean": 22.340444444444444,
+        "frac_in_min": 0.6666666666666666,
+        "rate_cv_min": 0.3233794543057993,
+        "rate_cv_active_min": 0.3233794543057993,
+        "silent_max": 0.0,
+        "cv_median_mean": 0.557997414486086,
+        "rheobase_mean_shift": 0.0,
+        "burster_frac": 0.0,
+        "predicted_E_ISI_gate_0p8": false
+      },
+      "sensitivity": {
+        "S_r": -0.4842274170065534,
+        "S_CV": -0.18612467021995002,
+        "S_rh": 0.0
+      }
+    }
+  },
+  "selected": null,
+  "bracket_prediction": null,
+  "verdict": "INTRINSIC_HETEROGENEITY_INFEASIBLE",
+  "class_viability_blocker": "low_sm2p0 VIP ~130 Hz exceeds spec band [1, 80]; unaffected by E-only dispersion except via E->VIP recurrence",
+  "next": "STOP for review; only FEASIBLE can authorize another V2.1 execution"
+}

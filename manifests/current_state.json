@@ -64,7 +64,7 @@
   }
  },
  "open_scientific_question": "Order of w_CV=0.3 and w_spontaneous for the E b-dispersion single-cell open-loop family (SCI-V21C-BOUNDARY)",
- "stopped_because": "harness checkpoint 1 sealed; STOP for reviewer acceptance. SCI-V21C-BOUNDARY is next and is not started; its spec needs the reviewer's w_spontaneous definition and f_sp (see its review_note)",
+ "stopped_because": "harness checkpoint 1 merged (reviewer 94/100); SCI-V21C-BOUNDARY authorized with the first-cell w_spontaneous definition",
  "next_authorized_task": "SCI-V21C-BOUNDARY",
  "locked_gates": [
   "V2.2_RECURRENCE",
@@ -119,7 +119,7 @@
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [
   {
-   "item": "whether w_CV=0.3 precedes the spontaneous-firing boundary of E b-dispersion (b >= 0.265 fires at I=0)",
+   "item": "ordering of w_CV=0.3 and w_spontaneous (first intrinsically active E cell) for E b-dispersion; sealed grid suggests spontaneous first, not yet resolved directly",
    "route": "SCI-V21C-BOUNDARY"
   },
   {
@@ -158,5 +158,14 @@
    "item": "Pages has no V2.1b/V2.1c entry",
    "route": "PUB-V21B-PAGES"
   }
+ ],
+ "startup": [
+  "read AGENTS.md",
+  "python scripts/project_check.py",
+  "read manifests/current_state.json",
+  "read manifests/todo.json (next item)",
+  "read only that item's referenced artifacts",
+  "use .claude/skills/jomission-gate-runner",
+  "reconstruct history only on contradiction"
  ]
 }

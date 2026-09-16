@@ -10,7 +10,8 @@ Order is fixed. A failed step is a STOP, not a workaround.
 1. **Inspect authority.** `python scripts/project_check.py` passes. The task is
    `next_authorized_task` in `manifests/todo.json` or named by the reviewer.
    Read its `parent_authority`, `frozen`, `procedure`, `acceptance`,
-   `stop_condition`.
+   `stop_condition`. Load domain skills the work touches (neuron models and
+   units: `biophysical-modeling`; numerics, precision, seeds: `numerical-computing`).
 2. **Verify parent.** The parent lineage's result commit is an ancestor of HEAD
    (`git merge-base --is-ancestor`), and its sealed files are unchanged
    (tier 0 `test_sealed_artifacts_unchanged`).

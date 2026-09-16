@@ -30,13 +30,12 @@ def test_validators_reject_defects():
 
 
 def test_preserved_science_todo():
+    # Durable invariants only; current statuses live in the manifests, not in this test.
     items = {i["id"]: i for i in v.load("manifests/todo.json")["items"]}
-    assert items["SCI-V21C-BOUNDARY"]["status"] == "OPEN_AFTER_HARNESS"
-    assert items["SCI-V21-BACKGROUND"]["status"] == "BLOCKED"
-    assert items["SCI-V21-GATE-REPAIR"]["status"] == "OPEN"
+    live = {"OPEN", "OPEN_AFTER_HARNESS", "BLOCKED", "DONE"}
+    for k in ("SCI-V21C-BOUNDARY", "SCI-V21-GATE-REPAIR", "SCI-V21-BACKGROUND"):
+        assert items[k]["status"] in live, k
     assert all(items[k]["status"] == "LOCKED" for k in ("V2.2-RECURRENCE", "BLIND-OMISSION"))
-    state = v.load("manifests/current_state.json")
-    assert state["latest_verdict"]["V2.1c_INTRINSIC_DESIGN"]["status"] == "UNRESOLVED"
 
 
 def test_verdict_status_follows_evidence_not_tests():

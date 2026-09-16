@@ -61,7 +61,7 @@
   },
   {
    "id": "SCI-V21C-BOUNDARY",
-   "status": "OPEN_AFTER_HARNESS",
+   "status": "OPEN",
    "trigger": "reviewer disposition on v21c-intrinsic-design: verdict held UNRESOLVED until the b boundary is ordered",
    "goal": "Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model",
    "parent_authority": "v21c-intrinsic-design:results/v21c_design_protocol.json",
@@ -79,15 +79,15 @@
     "low_sm2p0 shot columns",
     "criteria F1-F8"
    ],
-   "procedure": "1) commit a pre-execution spec defining w_spontaneous (first-cell and fraction >= f_sp, f_sp stated) and b_crit resolution (bisection at I=0, tol 1e-4); 2) bisection for w_CV=0.3 on [0.2, 0.3], tol 0.005, min-window E rate-CV; 3) compute w_spontaneous under each definition; 4) classify ordering",
-   "acceptance": "both widths with receipts; ordering in {SPONTANEOUS_BEFORE_CV, CV_BEFORE_SPONTANEOUS, COINCIDENT}",
+   "procedure": "1) commit and push results/v21c_boundary_spec.json on branch v21c-boundary (parent v21c-intrinsic-design) before any computation; 2) resolve b_crit and w_spontaneous (bisection, noise-free I=0 predicate); 3) reproduce sealed E rate-CV at w=0.20 and 0.30, then bisect w_CV=0.3; 4) classify ordering; 5) seal per jomission-gate-runner and STOP",
+   "acceptance": "both boundaries resolved with receipts; ordering in {SPONTANEOUS_BEFORE_CV, CV_BEFORE_SPONTANEOUS, COINCIDENT}; verdict per reviewer_decision.verdict_mapping",
    "stop_condition": "report and STOP; V2.1c verdict decided by reviewer; no network simulation",
    "artifacts_expected": [
     "results/v21c_boundary_spec.json",
     "results/v21c_boundary.json"
    ],
    "downstream_unlock": [
-    "SCI-V21C-COMPOSITION"
+    "SCI-V21-GATE-REPAIR"
    ],
    "review_note": {
     "source": "harness checkpoint 1 review of sealed V2.1c tables; no new computation",
@@ -100,12 +100,25 @@
     "fraction_definition": "pacemaker fraction is 0.0633 at w=0.2 and 0.1367 at w=0.3: f_sp <= 0.0633 gives SPONTANEOUS_BEFORE_CV and f_sp > 0.1367 gives CV_BEFORE_SPONTANEOUS from sealed values; only f_sp in (0.0633, 0.1367] needs the bisection",
     "assumed": "E rate-CV and pacemaker fraction are monotone in w between grid points (monotone on all sealed grid points)",
     "consequence": "the answer is set mainly by the choice of definition and f_sp, a reviewer decision the pre-execution spec must fix first; the question stands and is not superseded"
+   },
+   "reviewer_decision": {
+    "authority": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
+    "definition": "w_spontaneous = inf{w : exists i in the designed M=300 E population with r_i(I=0) > 0}; no population-fraction threshold",
+    "invariant": "P_i[r_i(I=0) > 0] = 0 for every E cell of a designed population (zero-tonic persistence must not have an intrinsic pacemaker source)",
+    "method": "resolve w_spontaneous in (0.05, 0.10] and w_CV=0.3 in (0.20, 0.30] directly by deterministic bisection; single-cell open loop; no network simulation",
+    "do_not_seal_from": "the sealed-grid inequality plus a monotonicity assumption alone",
+    "verdict_mapping": {
+     "SPONTANEOUS_BEFORE_CV": "INTRINSIC_HETEROGENEITY_INFEASIBLE for the tested single-parameter family",
+     "CV_BEFORE_SPONTANEOUS": "b reopened as a feasible intrinsic mechanism; no in-network execution (low_sm2p0 fails the prospective VIP band)",
+     "COINCIDENT": "UNRESOLVED at the declared tolerance"
+    },
+    "after": "do not search for another mechanism; next is SCI-V21-GATE-REPAIR, then reassess the admissible background (SCI-V21-BACKGROUND)"
    }
   },
   {
    "id": "SCI-V21-GATE-REPAIR",
    "status": "OPEN",
-   "trigger": "spec amendment 1: battery gated only PV/SST/VIP >= 1 Hz; spec band is [1, 80] Hz",
+   "trigger": "spec amendment 1: battery gated only PV/SST/VIP >= 1 Hz; spec band is [1, 80] Hz; reviewer 2026-09-16: next after SCI-V21C-BOUNDARY, before any new mechanism search",
    "goal": "Prospectively enforce PV/SST/VIP in [1, 80] Hz and per-class ISI-CV without rewriting executed V2.1/V2.1b verdicts",
    "parent_authority": "results/generic_substrate_v2_spec.json amendment 1",
    "principal_delta": "next operation battery evaluates gates through jomission.harness.gates profile prospective_v2",
@@ -123,13 +136,13 @@
     "tests/test_v2*_operation*.py importing jomission.harness.gates"
    ],
    "downstream_unlock": [
-    "SCI-V21C-COMPOSITION"
+    "SCI-V21-BACKGROUND"
    ]
   },
   {
    "id": "SCI-V21-BACKGROUND",
    "status": "BLOCKED",
-   "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz)",
+   "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz); reviewer 2026-09-16: the old background itself is invalid (VIP ~130 > 80 Hz) and is upstream of any further heterogeneity experiment",
    "goal": "Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition",
    "parent_authority": "manifests/gates/v2_local_operation.json profile prospective_v2",
    "principal_delta": "UNDECIDED: requires reviewer design (new noise brackets are forbidden by the V2.1b retirement)",
@@ -220,6 +233,73 @@
     "site-src/manifest.json",
     "scripts/build_pages.py",
     "tests/test_pages_build.py"
+   ],
+   "downstream_unlock": []
+  },
+  {
+   "id": "HARNESS-LINEAGE-RECEIPT",
+   "status": "OPEN",
+   "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
+   "goal": "Check declared lineage claims against selected receipt values, not only receipt existence",
+   "parent_authority": "manifests/harness/checkpoint_1.json unresolved_defects",
+   "principal_delta": "validate_lineage: optional per-observation `check` {path, json_pointer, expected, tol}",
+   "required_inputs": [
+    "jomission/harness/validate.py",
+    "manifests/lineage_registry.json"
+   ],
+   "frozen": [
+    "results/*.json"
+   ],
+   "procedure": "add check support; attach checks to existing numeric observations; negative test",
+   "acceptance": "tier 0 passes; a planted wrong value fails",
+   "stop_condition": "no rewriting of sealed results",
+   "artifacts_expected": [
+    "jomission/harness/validate.py",
+    "manifests/lineage_registry.json",
+    "tests/test_harness_guards.py"
+   ],
+   "downstream_unlock": []
+  },
+  {
+   "id": "HARNESS-REGISTRY-COVERAGE",
+   "status": "OPEN",
+   "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
+   "goal": "Detect new scientific result artifacts that lack lineage and seal registration",
+   "parent_authority": "manifests/harness/checkpoint_1.json unresolved_defects",
+   "principal_delta": "tier-0 check: every tracked results/*.json is in manifests/sealed_artifacts.json or named by a lineage record",
+   "required_inputs": [
+    "manifests/sealed_artifacts.json",
+    "manifests/lineage_registry.json"
+   ],
+   "frozen": [
+    "results/*.json"
+   ],
+   "procedure": "add coverage test with negative probe",
+   "acceptance": "tier 0 passes; a planted unregistered result fails",
+   "stop_condition": "no retroactive edits to results",
+   "artifacts_expected": [
+    "tests/test_harness_guards.py"
+   ],
+   "downstream_unlock": []
+  },
+  {
+   "id": "HARNESS-SKILL-DOGFOOD",
+   "status": "OPEN",
+   "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
+   "goal": "Next scientific lineage uses jomission-gate-runner; improve the skill only from observed friction",
+   "parent_authority": "reviewer: do not add more skills now",
+   "principal_delta": "friction log per gate-runner step during SCI-V21C-BOUNDARY",
+   "required_inputs": [
+    ".claude/skills/jomission-gate-runner/SKILL.md"
+   ],
+   "frozen": [
+    "no new skills"
+   ],
+   "procedure": "log friction per step in manifests/harness/lessons.json; propose edits after the lineage STOP",
+   "acceptance": "friction log with receipts exists for SCI-V21C-BOUNDARY",
+   "stop_condition": "skill edits only from logged friction",
+   "artifacts_expected": [
+    "manifests/harness/lessons.json"
    ],
    "downstream_unlock": []
   },

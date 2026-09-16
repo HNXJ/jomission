@@ -1,0 +1,28 @@
+{
+ "schema": "jomission.harness_lessons.v1",
+ "rule": "lesson = {trigger, cause, repair, evidence, scope}; persisted only when verified and reusable; reviewer decides",
+ "lessons": [
+  {
+   "id": "L1-DOMAIN-SKILL-NOT-LOADED",
+   "trigger": "jomission/qualification/intrinsic.py (V2.1c design numerics) written without loading the biophysical-modeling skill",
+   "cause": "no startup step routes modelling work to domain skills; skill loading depended on the agent noticing",
+   "repair": "jomission-gate-runner fronts every execution; its step 1 now names domain skills to load (added from this lesson)",
+   "evidence": "manifests/harness/checkpoint_1.json skills.defect_found",
+   "scope": "project procedure",
+   "scientific_consequence": "none implied by this fact alone (reviewer 2026-09-16); V2.1c numerics stand on their own tests"
+  },
+  {
+   "id": "L2-STATE-PINNED-IN-TEST",
+   "trigger": "tier-0 failed after a legitimate TODO status change (SCI-V21C-BOUNDARY OPEN_AFTER_HARNESS -> OPEN)",
+   "cause": "tests/test_harness_state.py::test_preserved_science_todo asserted checkpoint-time statuses and verdicts",
+   "repair": "test now asserts durable invariants only (items exist in a live status; LOCKED gates stay LOCKED); statuses validated against evidence by validate_current_state",
+   "evidence": "pytest output 2026-09-16: assert 'OPEN' == 'OPEN_AFTER_HARNESS'",
+   "scope": "project tests: never encode current state in a test"
+  }
+ ],
+ "dogfood": {
+  "lineage": "SCI-V21C-BOUNDARY",
+  "skill": "jomission-gate-runner",
+  "friction": []
+ }
+}

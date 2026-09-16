@@ -4,9 +4,10 @@ Routing document. Values in the generated block come from the manifests and a
 tier-0 test fails if they drift. When a manifest and a sealed result disagree,
 STOP and surface both.
 
-Read in order: `AGENTS.md` → this page (the State block renders
-`manifests/current_state.json`; open the JSON only for unrendered fields) → the
-next item in `manifests/todo.json` → only the artifacts it names.
+Startup (AGENTS.md): run `python scripts/project_check.py`, read
+`manifests/current_state.json` and the next item in `manifests/todo.json`, open
+only the artifacts it names, follow `jomission-gate-runner`. This page is for
+routing and contradictions.
 
 ## Verify first
 
@@ -37,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: harness checkpoint 1 sealed; STOP for reviewer acceptance. SCI-V21C-BOUNDARY is next and is not started; its spec needs the reviewer's w_spontaneous definition and f_sp (see its review_note)
+- stopped because: harness checkpoint 1 merged (reviewer 94/100); SCI-V21C-BOUNDARY authorized with the first-cell w_spontaneous definition
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -57,7 +58,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21C-BOUNDARY` (OPEN_AFTER_HARNESS): Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model
+- `SCI-V21C-BOUNDARY` (OPEN): Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model
 - stop: report and STOP; V2.1c verdict decided by reviewer; no network simulation
 
 ### Locked gates
@@ -70,7 +71,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Open uncertainties
 
-- whether w_CV=0.3 precedes the spontaneous-firing boundary of E b-dispersion (b >= 0.265 fires at I=0) → SCI-V21C-BOUNDARY
+- ordering of w_CV=0.3 and w_spontaneous (first intrinsically active E cell) for E b-dispersion; sealed grid suggests spontaneous first, not yet resolved directly → SCI-V21C-BOUNDARY
 - low_sm2p0 VIP ~130 Hz exceeds the prospective VIP [1,80] band; the shot background is not class-generic → SCI-V21-BACKGROUND
 - silent E cells escape the ISI gate but raise E rate-CV → SCI-V21-GATE-REPAIR
 - VIP->E pathway (8400 edges) omitted from the V2.1 battery's recorded currents → record only

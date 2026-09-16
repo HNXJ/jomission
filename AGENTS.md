@@ -7,7 +7,7 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 ---
 
 ## Project Rules (read first)
-- Start: `python scripts/project_check.py` must end `PROJECT_CHECK_PASS`. Then `docs/HANDOFF_CURRENT.md` (its State block is rendered from `manifests/current_state.json`) and only the artifacts the next TODO item names.
+- Start: `python scripts/project_check.py` must end `PROJECT_CHECK_PASS`; read `manifests/current_state.json`, the next item in `manifests/todo.json`, and only the artifacts it names; then follow `.claude/skills/jomission-gate-runner`. Reconstruct history only when a contradiction appears.
 - Authority over actions, highest first: current explicit reviewer order > sealed results and pre-execution specs > `manifests/` (state, TODO, gates, registries) > `docs/project-sources/` > handoff > sessions and prose. Conflict at any level → STOP and surface both.
 - Scope: execute only `next_authorized_task` in `manifests/todo.json` or a task the reviewer names. One principal delta per lineage edge; everything else frozen and listed.
 - Seal before running: brackets, rules, criteria, and stop states are committed and pushed before the execution that uses them.

@@ -31,14 +31,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Authority
 
-- scientific head: main `a488348`; unmerged `v21c-intrinsic-design` @ `07d3966`
+- scientific head: main `4859d3c`
 - execution: jaxfne 0.4.24 (`results/jaxfne_0424_migration.json`)
 - program: Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1)
 
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21C-BOUNDARY sealed INFEASIBLE on branch v21c-boundary; STOP for reviewer review and merge. Reviewer-ordered next item after INFEASIBLE: SCI-V21-GATE-REPAIR (no new mechanism search)
+- stopped because: V2.1c boundary merged (INFEASIBLE); SCI-V21-GATE-REPAIR started by reviewer order 2026-09-16
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

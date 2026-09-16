@@ -143,7 +143,8 @@
    ],
    "downstream_unlock": [
     "SCI-V21-BACKGROUND"
-   ]
+   ],
+   "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR"
   },
   {
    "id": "SCI-V21-BACKGROUND",

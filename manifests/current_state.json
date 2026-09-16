@@ -4,11 +4,9 @@
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
-  "main": "a488348",
-  "note": "last scientific/state commit on main; harness commits may follow",
-  "unmerged_scientific_branches": {
-   "v21c-intrinsic-design": "07d3966"
-  }
+  "main": "4859d3c",
+  "note": "last scientific merge on main (V2.1c design + boundary); harness/state commits may follow",
+  "unmerged_scientific_branches": {}
  },
  "execution_authority": {
   "engine": "jaxfne",
@@ -57,7 +55,7 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "SCI-V21C-BOUNDARY sealed INFEASIBLE on branch v21c-boundary; STOP for reviewer review and merge. Reviewer-ordered next item after INFEASIBLE: SCI-V21-GATE-REPAIR (no new mechanism search)",
+ "stopped_because": "V2.1c boundary merged (INFEASIBLE); SCI-V21-GATE-REPAIR started by reviewer order 2026-09-16",
  "next_authorized_task": "SCI-V21-GATE-REPAIR",
  "locked_gates": [
   "V2.2_RECURRENCE",

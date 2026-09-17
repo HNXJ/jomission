@@ -37,6 +37,39 @@ $$
 - Load-bearing for observability, intervention targeting, checkpoint interpretation, and comparing two realizations without losing biological identity in flattening.
 - Not a user-facing primitive: nothing in an expression names `I`; it is produced by realization.
 
+## Normalization decisions (second pass, 2026-09-17)
+
+Answering the seven findings of `06_V2_ADVERSARIAL_CORPUS.md`. No new architectural
+primitive: every item is specification of normalization, not of nervous systems.
+
+| # | Finding | Decision |
+|---|---|---|
+| R1 | replica composition (F1) | Replication stays connectivity-free: `A^n = {A_1, …, A_n}`. Composition over a replicated family is the derived application form `O[k](A^n)`, meaning `A_1 O[k] A_2 O[k] … O[k] A_n`. It is an application of an existing rule, not a new relation. `A^n` alone stays disconnected. |
+| R2 | instance addressing (F2) | Numeric path components: `SEG.3`, and `SEG.3.C.E` is ordinary addressing. `[]` is not overloaded; `.` stays address-only. |
+| R3 | composite frontiers (F3) | Frontiers are never inferred from grouping. Every composite has derived interfaces `in(A)`, `out(A)`, optionally overridden in its definition. For `{V2 X[lateral] V3}`, `in({·}) = in(V2) ∪ in(V3)`. A rule applies from `out(lhs)` to the operand's declared or derived `in`. Not uniquely derivable → `E_FRONTIER_UNRESOLVED`; no guessing. |
+| R4 | rule operands (F4) | Inside a rule body, the metavariables `$L` and `$R` bind the left and right operands of that invocation: `O[ff] := [ $L.out >[AMPA] $R.in ]`. For `X[k]` the same metavariables carry syntactic identity only, with no implied order. Rules therefore generate explicit `>`, `<`, `<>` without naming objects. |
+| R5 | associativity (F5) | `A O[k] B O[k] C ≡ (A O[k] B) O[k] C` for an unbraced homogeneous `O[k]` chain; its normal form is the ordered sequence `[A, B, C]` with `k` applied between adjacent elements. Braces create an object, so `{A O B} O C` is not generally equivalent. `X` is not globally associative: `A X[k] B X[k] C` must be grouped unless rule `k` declares an associative composition policy. |
+| R6 | index traversal (F6) | Canonical traversal, not declaration order (source reordering must not change realization identity): structural path, replicated numeric index, canonical child key, population/cell identity, local realization index. Addresses sort lexicographically under the declared canonical key order. Where biological order matters it belongs in the object definition and therefore enters `NF`. |
+| R7 | exclusions (F7) | Canonical expansion yields `G_0`; every exclusion resolves to projection identities `E_-` with `E_- ⊆ G_0`, and `G = G_0 \ E_-`. An exclusion matching nothing is `E_EXCLUSION_UNKNOWN`, so a stale exclusion cannot survive silently. Explicit additions form `E_+` with `E_+ ∩ G_0 = ∅`. |
+
+**Allocation correction.** Non-integer products are not themselves invalid: `N = 101` with
+`P = (0.8, 0.2)` is realized by the declared policy `R`, for example `(80.8, 20.2) → (81, 20)`
+with `Σ_c N_c = 101`. The failure is *no realization/allocation policy available*. `ρ` is the
+realization RNG identity, not the allocation rule; a deterministic `R` needs no RNG.
+
+**Pipeline.**
+
+```text
+source → parse → type/address resolution → replication expansion → structural normalization
+       → frontier resolution → O/X-rule expansion → projection generation G_0
+       → exception resolution → NF(A) --R, ρ--> (s, h_0, I)
+```
+
+Each stage fails locally.
+
+**Stopping test.** Can the adversarial corpus break deterministic normalization without
+requiring new biology-specific grammar? If not, TFNE v2 is ready for one permanent spec.
+
 ## Sealing criterion
 
 > New biology requires new definitions, not new grammar.

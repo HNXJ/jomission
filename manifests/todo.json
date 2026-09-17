@@ -897,7 +897,32 @@
      "python -m pytest tests/test_deviation_estimator.py  (7 passed)"
     ]
    }
+  },
+  {
+   "id": "SCI-V21-PV-MICROSTATE",
+   "status": "OPEN",
+   "trigger": "SCI-V21-PV-PREDECESSOR UNRESOLVED: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz",
+   "goal": "decide whether the fate-carrying information already exists in the recorded microscopic state, before any further execution",
+   "parent_authority": "reviewer 2026-09-17: read-only reanalysis first; minimal predeclared hierarchy; only RECORDED_MICROSTATE_INSUFFICIENT would justify another instrumented execution",
+   "principal_delta": "none: read-only reanalysis of the retained per-cell traces. No simulation",
+   "required_inputs": [
+    "results/v21_pv_microstate_spec.json",
+    "results/v21_pv_predecessor.json",
+    "the three retained npz traces pinned by sha256 in the spec"
+   ],
+   "frozen": [
+    "the five declared representations and their statistics",
+    "separation factor 5, three consecutive 1 s epochs, 1 s lead over the 15 s macroscopic divergence",
+    "B against C as the fate-irrelevant null scale"
+   ],
+   "procedure": "evaluate levels 1-4 (per-cell v, per-cell u, joint (v, u), per-cell ISI structure) in order and level 5 (per-cell input) only if none qualifies; for each, compare d(A,B) and d(A,C) against 5x the largest d(B,C) in the lead window and run the same test on the population mean of the same variable",
+   "acceptance": "PV_MICROSTATE_PREDECESSOR | RECORDED_MICROSTATE_INSUFFICIENT | UNRESOLVED | TRACE_IDENTITY_FAILED",
+   "stop_condition": "classification recorded in results/v21_pv_microstate.json; no new execution and no intervention follows automatically; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_microstate.json"
+   ],
+   "downstream_unlock": []
   }
  ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "SCI-V21-PV-MICROSTATE"
 }

@@ -17,7 +17,8 @@
     "tests/test_v21_background_design.py",
     "tests/test_v21_background_design_r2.py",
     "tests/test_v21_pv_state_predecessor.py",
-    "tests/test_deviation_estimator.py"
+    "tests/test_deviation_estimator.py",
+    "tests/test_v21_pv_microstate.py"
    ]
   },
   "1": {

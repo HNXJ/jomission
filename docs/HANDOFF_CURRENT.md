@@ -72,8 +72,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `SCI-V21-PV-MICROSTATE` (OPEN): decide whether the fate-carrying information already exists in the recorded microscopic state, before any further execution
+- stop: classification recorded in results/v21_pv_microstate.json; no new execution and no intervention follows automatically; STOP for review
 
 ### Locked gates
 

@@ -32,10 +32,10 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
   "O": {
     "synthetic/O": {
       "status": "defined",
-      "ff": [{"from_lower": "L23.E", "to_higher": "L4.E", "mech": "AMPA"}],
-      "fb": [{"from_higher": "L56.E", "to_lower": "L1.E", "mech": "AMPA"},
-             {"from_higher": "L56.E", "to_lower": "L1.E", "mech": "NMDA"}],
-      "extra_mechanisms": "allowed",
+      "ff": [{"from_lower": "L23.E", "to_higher": "L4.E", "mechanisms": ["AMPA"],
+              "allowed_mechanisms": ["AMPA", "NMDA"]}],
+      "fb": [{"from_higher": "L56.E", "to_lower": "L1.E", "mechanisms": ["AMPA", "NMDA"],
+              "allowed_mechanisms": ["AMPA", "NMDA", "GABA_B"]}],
       "params": {"w": {"type": "float", "default": 1.0}, "p": {"type": "float", "min": 0, "max": 1, "default": 1.0}}
     }
   },
@@ -69,6 +69,7 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
 - An alias expands to the Cartesian product of its layers.
 - `X[<->]` applies `directed` in both directions.
 - `symmetric: true` applies `lateral` in both directions.
+- An O route generates one projection per entry of `mechanisms`; `allowed_mechanisms` bounds explicit additions on that route.
 
 **Base expansions**, used by the tests. Every projection is written `src -> dst [mech]`.
 
@@ -157,13 +158,14 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
 | E3 | `V1 O V4; V4.L5.E -/-> V1.L1.E` | 4 remain (AMPA and NMDA removed) |
 | E4 | `V1 O V4; V1.L5.E -/-> V4.L1.E` | `E_EXCL_NOT_IN_G0` (FB runs higher → lower) |
 | E5 | `V1 O V4; V4.L5.E -/->[mech=GABA_A] V1.L1.E` | `E_EXCL_NOT_IN_G0` (mechanism absent) |
-| E6 | `V1 O V4; V1.L23.E ->[mech=AMPA] V4.L4.E` | `E_ADD_IN_G0` |
-| E7 | `V1 O V4; V1.L23.E ->[mech=NMDA] V4.L4.E` | valid; 8 (distinct identities; `synthetic/O` has `extra_mechanisms: allowed`) |
-| E7b | E7 with `synthetic/O` set to `extra_mechanisms: forbidden` | `E_MECHANISM_NOT_PERMITTED` (proposed field) |
-| E8 | `V1 O V4; V4.L5.E -/->[mech=AMPA] V1.L1.E; V4.L5.E ->[mech=AMPA] V1.L1.E` | `E_EXC_CONFLICT` and `E_ADD_IN_G0` |
+| E6 | `V1 O V4; V1.L23.E ->[mech=AMPA] V4.L4.E` | `E_PROJECTION_REDUNDANT` |
+| E7 | `V1 O V4; V1.L23.E ->[mech=NMDA] V4.L4.E` | valid; 8 (distinct identities; NMDA ∈ `allowed_mechanisms` of the ff route) |
+| E7b | `V1 O V4; V1.L23.E ->[mech=GABA_B] V4.L4.E` | `E_MECHANISM_NOT_PERMITTED` (GABA_B ∉ ff `allowed_mechanisms`) |
+| E7c | `V1 O V4; V4.L5.E ->[mech=GABA_B] V1.L1.E` | valid; 7 (GABA_B ∈ fb `allowed_mechanisms`) |
+| E8 | `V1 O V4; V4.L5.E -/->[mech=AMPA] V1.L1.E; V4.L5.E ->[mech=AMPA] V1.L1.E` | `E_EXC_CONFLICT` and `E_PROJECTION_REDUNDANT` |
 | E9 | `V1 O V4; V4 -/-> V1` vs `V1 O V4; V4.L56.E -/-> V1.L1.E` | equal `h_T`, `h_P`; different `h_S` |
 | E10 | `V1 O V4; V4 -/-> V1; V1.L5.E ->[mech=AMPA] V4.L4.E` in all 6 statement orders | identical `h_S`, `h_T`, `h_P` |
-| E11 | `V1 O V4; V1.L23.E ->[mech=AMPA] V4.L4` | `E_ADD_IN_G0` |
+| E11 | `V1 O V4; V1.L23.E ->[mech=AMPA] V4.L4` | `E_PROJECTION_REDUNDANT` |
 
 | E12 | `V1 O V4; V1.L56.E ->[mech=NMDA] V4.L4` | valid; 10 (all 4 resolved identities are new) |
 

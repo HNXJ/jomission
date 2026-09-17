@@ -138,11 +138,10 @@ Explicit projections `→` do not count toward R. They are still validated again
 |---|---|
 | no mechanism from the arrow or a generating motif | `E_MECHANISM_UNRESOLVED` |
 | arrow mechanism differs from the generating motif's | `E_MECHANISM_CONFLICT` |
-
 | arrow mechanism equals the generating motif's | `E_PROJECTION_REDUNDANT` |
 
-- **One spelling per normal form.** Restating a mechanism the generating motif already supplies adds a second spelling of the same graph and is invalid. This follows the same principle as `E+ ∩ G0 = ∅` (3.12). An explicit fully addressed projection that repeats an identity already in G0 raises `E_ADD_IN_G0`.
-- **Same endpoints, different mechanism.** A fully addressed projection whose endpoints match a G0 projection but whose mechanism differs has a distinct identity (3.9). It is valid unless the generating motif restricts that route to its own mechanisms (`E_MECHANISM_NOT_PERMITTED`; registry field `extra_mechanisms`, PROPOSED).
+- **One spelling per normal form.** `E_PROJECTION_REDUNDANT` is the single semantic error for an explicit projection that contributes no topology because the identical `(src, dst, mechanism)` projection is already generated: `E+ ∩ G0 ≠ ∅` (3.12). It covers both an arrow restating its own motif's mechanism and a fully addressed projection repeating a G0 identity.
+- **Additional mechanisms on a generated route.** Each motif route declares a positive set `allowed_mechanisms(route)`, with `M_canonical ⊆ M_allowed` (a registry violating this fails to load). An explicit projection on a route that G0 generates, with mechanism m, is valid iff `m ∈ M_allowed` and `(src, dst, m) ∉ G0`. If `m ∉ M_allowed`: `E_MECHANISM_NOT_PERMITTED`. If `(src, dst, m) ∈ G0`: `E_PROJECTION_REDUNDANT`.
 
 ### 3.9 Projection identity [SETTLED]
 
@@ -198,7 +197,7 @@ E− and E+ are unordered sets.
 |---|---|
 | `E− ∩ E+ = ∅` | `E_EXC_CONFLICT` |
 | `E− ⊆ G0`, and each exclusion selects at least one projection | `E_EXCL_NOT_IN_G0` |
-| `E+ ∩ G0 = ∅` | `E_ADD_IN_G0` |
+| `E+ ∩ G0 = ∅` | `E_PROJECTION_REDUNDANT` |
 
 - The first constraint follows from the other two. It is kept for its clearer message, and both errors are reported when a projection is in both sets.
 - Because identity includes mechanism, adding NMDA between populations that already share an AMPA projection is a valid addition, and removing one receptor leaves the others.
@@ -206,7 +205,7 @@ E− and E+ are unordered sets.
 
 ### 3.13 Transactional statements [SETTLED]
 
-A statement is validated over all of its resolved projection identities. If any one violates a constraint, the statement contributes nothing to G: no partial expansion. Example: `V1.L23.E ->[mech=AMPA] V4.L4` under `V1 O V4` resolves to E targets already in G0 and PV targets that are new; the whole statement raises `E_ADD_IN_G0` and the PV projections are not added.
+A statement is validated over all of its resolved projection identities. If any one violates a constraint, the statement contributes nothing to G: no partial expansion. Example: `V1.L23.E ->[mech=AMPA] V4.L4` under `V1 O V4` resolves to E targets already in G0 and PV targets that are new; the whole statement raises `E_PROJECTION_REDUNDANT` and the PV projections are not added.
 
 ## 4. Normal forms and hashes
 
@@ -276,7 +275,7 @@ Realization receipts (normalization factors, lost fields, realized edges) never 
 
 ## 5. Validity [PROPOSED codes]
 
-Errors carry a code, a message, and the smallest offending subexpression with its span. Validation stops at the first failing pipeline stage and reports every violation found there. Codes carry the `E_` prefix; `E_MECHANISM_UNRESOLVED` and `E_MECHANISM_CONFLICT` are the settled `MECHANISM_UNRESOLVED` and `MECHANISM_CONFLICT`.
+Errors carry a code, a message, and the smallest offending subexpression with its span. Validation stops at the first failing pipeline stage and reports every violation found there. Retired: `E_ADD_IN_G0`, superseded by `E_PROJECTION_REDUNDANT` (a compiler may accept it only as an alias). Codes carry the `E_` prefix; `E_MECHANISM_UNRESOLVED` and `E_MECHANISM_CONFLICT` are the settled `MECHANISM_UNRESOLVED` and `MECHANISM_CONFLICT`.
 
 | Code | Stage | Condition |
 |---|---|---|
@@ -296,12 +295,11 @@ Errors carry a code, a message, and the smallest offending subexpression with it
 | `E_PARAM_UNKNOWN` | 6 | θ key not declared for its target |
 | `E_MECHANISM_UNRESOLVED` | 7 | resolved projection with no mechanism from the arrow or a generating motif |
 | `E_MECHANISM_CONFLICT` | 7 | arrow mechanism differs from the generating motif's |
-| `E_PROJECTION_REDUNDANT` | 7 | arrow mechanism equals the generating motif's |
-| `E_MECHANISM_NOT_PERMITTED` | 9 | explicit projection adds a mechanism on a G0 route whose motif forbids extra mechanisms |
 | `E_X_UNDIRECTED` | 7 | projection expansion of bare X |
 | `E_MOTIF_UNDEFINED` | 7 | a motif or default projection motif used is not `defined` in the registry |
 | `E_EXCL_NOT_IN_G0` | 9 | exclusion selects nothing in G0 |
-| `E_ADD_IN_G0` | 9 | explicit projection identity already in G0 |
+| `E_PROJECTION_REDUNDANT` | 7 / 9 | explicit projection identity already generated: arrow restates its motif's mechanism (7), or identity already in G0 (9) |
+| `E_MECHANISM_NOT_PERMITTED` | 9 | mechanism outside `allowed_mechanisms` of a G0 route |
 | `E_EXC_CONFLICT` | 9 | the same identity in E− and E+ |
 
 ## 6. Open items
@@ -349,13 +347,14 @@ phenotype:  argmax_z gamma power      → L2/3
 
 | Gate | Question | Tests |
 |---|---|---|
-| SL0 network generator | Do H's native neural/current dynamics contain superficial high-frequency and deep alpha-beta activity with the required laminar ordering? | the circuit |
+| SL0 network generator | Does H's native dynamics contain a superficial fast generator, a deep alpha-beta generator, and appropriate interlaminar current structure? Targets are native observables (class/layer spiking, currents, synchrony, spectral generators) defined before execution; SL0 has no LFP and needs no LFP gradient. | the circuit |
 | SL1 physical forward model | Given transmembrane/synaptic currents and cell geometry, does `I_m(r, t) → φ(z, t)` produce a laminar depth-frequency map, qualified against a known-answer case? | the biophysics |
 | SL2 empirical phenotype | Does the composition `H →(SL0) currents →(SL1) LFP` give γ max ∼ L2/3, αβ max ∼ L5/6, crossover ∼ L4? | the phenotype |
 
 - Only SL2 is compared against the empirical phenotype. A spike-derived proxy cannot establish SL1; its outputs are `lfp_proxy` / `csd_proxy`.
 - A readout operator must not create the laminar motif. A depth-dependent filter, injected oscillatory source, or band/normalization choice belongs to the forward model and needs its own null control (`02_JAXFNE_COMPATIBILITY.md` §5).
-- **H parameters are never tuned against a phenomenological proxy readout.** Doing so fits the readout operator rather than explaining the physiology.
+- **Order:** `H →(native) SL0`; independently, `physical forward model → SL1`; then `SL0 + SL1 → SL2`.
+- **H is never tuned to make a phenomenological proxy reproduce SL2.** Doing so fits the readout operator rather than explaining the physiology. If SL0 is tuned, its targets are native circuit observables justified independently of any readout filter. A phenomenological proxy may serve for visualization, instrumentation development and positive controls, never as the objective defining H.
 - `H_SL` needs D4a–D4f; it settles none of them. SL1 depends on D4f.
 - **Lineage.** The V2 scientific lineage may later yield a qualified H. TFNE does not assume that outcome, and TFNE work grants no V2 authority.
 
@@ -372,7 +371,7 @@ phenotype:  argmax_z gamma power      → L2/3
 - Q operand sort key: units by id, composites by sorted member ids; integer labels numerically, otherwise as strings
 - `E_HIERARCHY_CYCLE`, `E_DUPLICATE`
 - parameter keys and types in the registry; defaults resolved before hashing
-- registry field `extra_mechanisms: allowed | forbidden` per motif route, and `E_MECHANISM_NOT_PERMITTED`
+- registry spelling of `allowed_mechanisms(route)` (the rule itself is settled, 3.8)
 - error codes and the encoding in 4.4
 
 ## 7. Reference spelling [PROVISIONAL SPELLING]

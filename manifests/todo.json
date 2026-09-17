@@ -123,7 +123,7 @@
   },
   {
    "id": "SCI-V21-GATE-REPAIR",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "spec amendment 1: battery gated only PV/SST/VIP >= 1 Hz; spec band is [1, 80] Hz; reviewer 2026-09-16: next after SCI-V21C-BOUNDARY, before any new mechanism search",
    "goal": "Prospectively enforce PV/SST/VIP in [1, 80] Hz and per-class ISI-CV without rewriting executed V2.1/V2.1b verdicts",
    "parent_authority": "results/generic_substrate_v2_spec.json amendment 1",
@@ -146,7 +146,7 @@
    ],
    "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR",
    "delivered": {
-    "state": "implemented on branch v21-gate-repair; awaiting review (status stays OPEN until accepted)",
+    "state": "accepted by reviewer 2026-09-16; merged to main d9242c4",
     "artifacts": [
      "jomission/harness/operation.py",
      "tests/test_v2_operation_prospective.py",
@@ -187,25 +187,47 @@
   },
   {
    "id": "SCI-V21-BACKGROUND",
-   "status": "BLOCKED",
+   "status": "OPEN",
    "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz); reviewer 2026-09-16: the old background itself is invalid (VIP ~130 > 80 Hz) and is upstream of any further heterogeneity experiment",
    "goal": "Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition",
    "parent_authority": "manifests/gates/v2_local_operation.json profile prospective_v2",
-   "principal_delta": "UNDECIDED: requires reviewer design (new noise brackets are forbidden by the V2.1b retirement)",
+   "principal_delta": "design only: one all-class tonic support vector I0 and a mean-preserving private stochastic input with one common scale sigma; no network simulation until BKG_DESIGN_PASS",
    "required_inputs": [
+    "results/battery_b1.json",
+    "results/v21_vectors.json",
+    "results/v21_low.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
     "results/v21b_low_sm2p0.json",
+    "results/v21b_low_sm1p0.json",
+    "results/v21b_low_sm0p5.json",
+    "results/v21b_mid_sm2p0.json",
+    "results/v21b_mid_sm1p0.json",
+    "results/v21b_mid_sm0p5.json",
+    "results/v21b_high_sm2p0.json",
+    "results/v21b_high_sm1p0.json",
+    "results/v21b_high_sm0p5.json",
+    "results/v21b_vectors.json",
     "results/v21b_isi_classes.json"
    ],
    "frozen": [
-    "V2.1b sealed bracket and results"
+    "V2.1b sealed bracket and results",
+    "static V2 substrate: tests/test_v21_operation.py build_plant (C-min cells, static s=1 efficacies, topology)",
+    "HDP and homeostatic detached (kernel baseline)",
+    "no intrinsic heterogeneity",
+    "prospective_v2 gate definitions (manifests/gates/v2_local_operation.json)",
+    "JaxFNE native noise 0.5*N(0,1) per neuron per step, PRNGKey(11)"
    ],
-   "procedure": "reviewer specifies the admissible route; none authorized",
-   "acceptance": "a sealed background with all class rates inside prospective_v2 bands",
-   "stop_condition": "no execution without reviewer design",
-   "artifacts_expected": [],
+   "procedure": "BKG0 freeze substrate (no simulation). BKG1 derive I0=(I_E,I_PV,I_SST,I_VIP) targeting ~10 Hz per class from existing F-I and executed evidence; account for recurrent mean current or state the approximation. BKG2 private input I_i(t)=I0_c+xi_i(t), E[xi]=0. BKG3 xi_i,c=sigma*s_c*eta_i with s_c fixed by class calibration; predeclare three sigma levels derived from the executed V2.1b response. Then STOP.",
+   "acceptance": "BKG_DESIGN_PASS only if existing evidence supports: (1) an interior all-class tonic target; (2) a mean-preserving stochastic formulation; (3) one common stochastic degree of freedom; (4) a finite predeclared three-point bracket; (5) no class predicted to violate its prospective rate band before execution. Otherwise BKG_DESIGN_UNRESOLVED. Only PASS authorizes a network run.",
+   "stop_condition": "design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides",
+   "artifacts_expected": [
+    "results/v21_background_design.json"
+   ],
    "downstream_unlock": [
     "SCI-V21C-COMPOSITION"
-   ]
+   ],
+   "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE"
   },
   {
    "id": "SCI-V21C-COMPOSITION",

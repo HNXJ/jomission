@@ -55,8 +55,8 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "SCI-V21-GATE-REPAIR accepted by reviewer and merged to main (d9242c4); no verdict changed. Status left OPEN only because the next item named in review, SCI-V21C-BOUNDARY, is already DONE (results/v21c_boundary.json: SPONTANEOUS_BEFORE_CV, INTRINSIC_HETEROGENEITY_INFEASIBLE, on main since 4859d3c) and SCI-V21-BACKGROUND requires reviewer design; next task awaits reviewer choice",
- "next_authorized_task": "SCI-V21-GATE-REPAIR",
+ "stopped_because": "SCI-V21-GATE-REPAIR DONE (merged d9242c4). SCI-V21C-BOUNDARY DONE, verdict INTRINSIC_HETEROGENEITY_INFEASIBLE stands. SCI-V21-BACKGROUND opened design-only (BKG0-BKG3); no network simulation until BKG_DESIGN_PASS",
+ "next_authorized_task": "SCI-V21-BACKGROUND",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

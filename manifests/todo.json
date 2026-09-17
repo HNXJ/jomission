@@ -870,6 +870,33 @@
      "disposition of the warm-up NaN defect in the input-channel detector (no effect on this verdict; recomputation without it changes nothing)"
     ]
    }
+  },
+  {
+   "id": "HD-DEVIATION-BASELINE",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-PREDECESSOR post-execution disclosure: the deviation detector took its baseline over a window whose leading samples were NaN",
+   "goal": "one canonical deviation-time estimator whose baseline holds only finite eligible samples, with a regression that a leading-NaN trace still reports a later deviation",
+   "parent_authority": "reviewer 2026-09-17: repair it in the harness now; do not merely special-case 50 ms",
+   "principal_delta": "jomission.harness.operation.deviation_time added; no existing estimator changed",
+   "required_inputs": [
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "tests/test_v21_pv_predecessor.py is retained verbatim as the record of what executed; its defective local detector is not edited"
+   ],
+   "procedure": "add deviation_time to the canonical estimator module: baseline mean and sd over finite samples inside the baseline window only, fewer than min_baseline_samples finite samples raises, non-finite samples outside the baseline are ineligible and break a sustained run. Add tier-0 regressions including a leading-NaN trace with a later synthetic step",
+   "acceptance": "tests/test_deviation_estimator.py passes, including the receipt test showing the old arithmetic produced a NaN band",
+   "stop_condition": "harness repair only; no scientific result is rerun or withdrawn",
+   "artifacts_expected": [],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "PASS",
+    "result": "jomission/harness/operation.py deviation_time",
+    "summary": "the defective detector is recorded in results/v21_pv_predecessor.json post_execution_disclosure.defect_found; the corrected calculation is verdict-preserving (the four input channels still show no sustained 5 sigma deviation), so SCI-V21-PV-PREDECESSOR stands at UNRESOLVED and is not rerun. New analyses use the harness estimator",
+    "receipts": [
+     "python -m pytest tests/test_deviation_estimator.py  (7 passed)"
+    ]
+   }
   }
  ],
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"

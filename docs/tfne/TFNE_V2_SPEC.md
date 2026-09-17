@@ -10,6 +10,17 @@ Source:           TFNE_ALGEBRA_PROJECT_SOURCE.md (verbatim owner text; incorpora
 Supersedes:       00_TFNE_ALGEBRA_SPEC.md, 01_SYNTHETIC_CONFORMANCE.md, 04_SOURCE_MIGRATION.md,
                   05_V2_MIGRATION_DECISIONS.md, 06_V2_ADVERSARIAL_CORPUS.md (kept, not deleted)
 Scientific authority: NONE. This is a specification language, not evidence.
+Disposition:      TFNE/2 LANGUAGE = SEALED (owner, 2026-09-17). No primitive may be added
+                  unless an actual nervous-system definition proves the set insufficient.
+                  Unmerged only because TFNE is an independent lineage; mergeable at the next
+                  repository integration checkpoint without moving any V2 scientific gate.
+Next layer:       definitions, not algebra. First: CTX, the canonical cortical-unit family
+                  (D4a-D4f), constrained by V2 results, anatomy and the spectrolaminar
+                  requirements. CTX[IZH] and CTX[HH] are alternative realizations of one
+                  biological definition, never different cortical architectures.
+Layer separation: TFNE algebra -> TFNE biological definitions -> realization/compiler, then
+                  scientific qualification, independently. A compiler limitation never
+                  redefines TFNE biology; a V2 experimental failure never reopens TFNE grammar.
 ```
 
 ## 0. Invariants

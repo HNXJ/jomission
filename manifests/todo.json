@@ -338,7 +338,17 @@
    ],
    "downstream_unlock": [
     "SCI-V21C-COMPOSITION"
-   ]
+   ],
+   "delivered": {
+    "verdict": "COUPLED_BACKGROUND_UNRESOLVED",
+    "result": "results/v21_coupled_background.json",
+    "spec_commit": "f916d80",
+    "result_commit": "54ff926",
+    "summary": "bands pass on evaluated [0.3125, 1], fail at 0 and 0.25; candidate lambda 0.65625 fails the state-dependence check: PV decays within the run (window 3: 10.2 Hz fresh, 2.01 Hz from the lambda-0 end state, 14.66 Hz from the lambda-1 end state)",
+    "reviewer_decisions_required": [
+     "whether PV nonstationarity at lambda 0.65625 blocks the coupled-background program or calls for a predeclared longer-run or multi-initial-state qualification of an interior lambda"
+    ]
+   }
   },
   {
    "id": "SCI-V21C-COMPOSITION",

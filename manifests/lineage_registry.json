@@ -445,6 +445,80 @@
     "tests/test_v21_bkg_pv_calibration.py"
    ],
    "commit": "d70b575"
+  },
+  {
+   "lineage_id": "V2.1-coupled-background",
+   "parent": "V2.1-background-design",
+   "principal_delta": "one tonic coordinate lambda on I(lambda) = (1 - lambda) V_MID + lambda V_HIGH, all classes together; frozen V2.1 static column, native noise, no shot input",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_coupled_background_spec.json",
+    "commit": "f916d80"
+   },
+   "authority": "manifests/todo.json SCI-V21-BACKGROUND.delivered.regeneration_decisions D1-D3 (reviewer 2026-09-17)",
+   "inputs": [
+    "tests/test_v21_operation.py",
+    "results/v21_vectors.json",
+    "results/v21_mid.json",
+    "results/v21_high.json"
+   ],
+   "frozen": [
+    "build_plant of tests/test_v21_operation.py (C-min cells, static efficacies, topology, kernel baseline)",
+    "native noise, PRNGKey(11) for fresh runs",
+    "prospective_v2 gate file",
+    "blobs pinned in the spec"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "endpoint runs reproduce the sealed V2.1 rates to 3.6e-15 Hz (lambda 0 and 1)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_coupled_background.json"
+    },
+    {
+     "claim": "class_rate_bands fail at lambda 0 (PV 0.0 Hz) and 0.25 (PV window rates 1.40, 1.22, 0.89 Hz) and pass at 0.3125, 0.375, 0.5, 0.65625 and 1; passing run [0.3125, 1], boundary in (0.25, 0.3125]",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_coupled_background.json"
+    },
+    {
+     "claim": "mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_coupled_background.json"
+    },
+    {
+     "claim": "candidate lambda 0.65625 (margin 0.40625) passes the bands fresh, but its PV window rates are 16.88, 16.58, 10.2 Hz (PV drift 0.46)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_coupled_background.json"
+    },
+    {
+     "claim": "at lambda 0.65625 continued from the lambda-0 end state, PV window rates are 17.05, 15.36, 2.01 Hz (mean 11.47, -3.08 Hz vs fresh; tolerance 1.455 Hz); continued from the lambda-1 end state, 14.65, 14.69, 14.66 Hz (+0.11 Hz). All three runs pass the bands; E, SST, VIP agree within tolerance",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_coupled_background.json"
+    }
+   ],
+   "derived": [],
+   "inferred": [
+    {
+     "claim": "at lambda 0.65625 PV is not stationary: in two of three runs it declines within 20 s (to 10.2 and 2.01 Hz in window 3) while E, SST and VIP stay constant, consistent with PV switching between an active and a near-silent branch on a slower timescale than the analysis window",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "COUPLED_BACKGROUND_UNRESOLVED",
+    "status": "UNRESOLVED"
+   },
+   "acceptance": "results/v21_coupled_background_spec.json classification (reviewer acceptance 2026-09-17)",
+   "fail_boundary": "state dependence at the candidate (spec step 7): PV mean from the lambda-0 end state differs from the fresh run by more than max(1 Hz, 10%)",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_coupled_background_spec.json",
+    "results/v21_coupled_background.json"
+   ],
+   "tests": [
+    "tests/test_v21_coupled_background.py"
+   ],
+   "commit": "54ff926"
   }
  ]
 }

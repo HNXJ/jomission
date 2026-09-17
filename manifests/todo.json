@@ -900,7 +900,7 @@
   },
   {
    "id": "SCI-V21-PV-MICROSTATE",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-V21-PV-PREDECESSOR UNRESOLVED: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz",
    "goal": "decide whether the fate-carrying information already exists in the recorded microscopic state, before any further execution",
    "parent_authority": "reviewer 2026-09-17: read-only reanalysis first; minimal predeclared hierarchy; only RECORDED_MICROSTATE_INSUFFICIENT would justify another instrumented execution",
@@ -921,8 +921,22 @@
    "artifacts_expected": [
     "results/v21_pv_microstate.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "UNRESOLVED",
+    "result": "results/v21_pv_microstate.json",
+    "summary": "per-cell v separates the fates from epoch 0 but so does the population mean of v, so the separation is not specific to the microscopic representation; per-cell u separates nowhere in the lead window; joint (v, u) behaves like v; ISI structure exceeds the same-fate scale but not by the predeclared factor for three consecutive epochs; level 5 was not evaluated. Every representation that separates does so from epoch 0, which is constitutive of the different initial states",
+    "receipts": [
+     "python scripts/v21_pv_microstate.py",
+     "python -m pytest tests/test_v21_pv_microstate.py  (7 passed)"
+    ],
+    "reviewer_decisions_required": [
+     "RECORDED_MICROSTATE_INSUFFICIENT was not reached, so the spec's trigger for another instrumented execution did not fire",
+     "whether to authorize a design that shares an initial state across fates (a matched intervention), since no A-against-B contrast can order cause and consequence",
+     "whether the negative result on u is worth recording as a constraint on intrinsic-adaptation explanations"
+    ]
+   }
   }
  ],
- "next_authorized_task": "SCI-V21-PV-MICROSTATE"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

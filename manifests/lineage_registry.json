@@ -685,6 +685,103 @@
     "tests/test_v21_pv_predecessor.py"
    ],
    "commit": "b4130f3"
+  },
+  {
+   "lineage_id": "V2.1-pv-microstate",
+   "parent": "V2.1-pv-predecessor-instrumented",
+   "principal_delta": "none: read-only per-cell reanalysis of the retained traces at 1 s epochs. No simulation",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_microstate_spec.json",
+    "commit": "d5061a4"
+   },
+   "authority": "reviewer 2026-09-17: read-only reanalysis before any new execution; minimal predeclared hierarchy; A against B and C",
+   "inputs": [
+    "results/v21_pv_predecessor.json",
+    "the three retained npz traces pinned by sha256 in the spec"
+   ],
+   "frozen": [
+    "the five declared representations and statistics",
+    "separation factor 5, three consecutive 1 s epochs, 1 s lead over the 15 s divergence",
+    "B against C as the fate-irrelevant null scale"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "trace identity confirmed: the three npz files match the sha256 pinned in the spec and reproduce the sealed population-mean numbers to the printed precision",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 1 per-cell v: d_AB 0.511 and d_AC 0.513 at epoch 0 against a same-fate scale max d_BC 0.048, qualifying from epoch 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 1 population mean of v qualifies at the same epoch 0 (scale 0.0476, threshold 0.238)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 2 per-cell u: d_AB 0.014-0.046 and d_AC 0.016-0.054 against d_BC 0.008-0.016, no qualifying epoch in the lead window",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 3 joint (v, u) qualifies from epoch 0 and its population-mean test also qualifies at epoch 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 4 per-cell ISI structure: d_AB 9.3-16.8 and d_AC 5.9-18.9 against threshold 8.72, no three consecutive qualifying epochs",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 5 per-cell input was not evaluated: the spec makes it conditional on levels 1-4 producing no qualifying separation",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the per-cell v distribution distinguishes the fates but adds nothing over the population mean of v, which distinguishes them at the same epoch",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "the recovery variable u carries no fate-distinguishing information in the first 15 s at either resolution: the A-to-B and A-to-C distances are the size of the same-fate B-to-C distance",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "the earlier finding that population means are insufficient was about within-run temporal deviation; across runs at matched times the mean of v does differ, small against run A's own temporal spread but large against the same-fate noise scale",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the fate difference is visible from epoch 0 in every representation that shows it at all, which is constitutive of the different initial states and cannot order cause and consequence. Separating the two requires runs that share an initial state and reach different fates, which no existing artifact provides",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "UNRESOLVED",
+    "status": "UNRESOLVED"
+   },
+   "acceptance": "results/v21_pv_microstate_spec.json classification table",
+   "fail_boundary": "the comparison design, not the resolution: A and B differ in initial state by construction, so no A-against-B contrast can place a predecessor in time",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_microstate_spec.json",
+    "results/v21_pv_microstate.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_microstate.py"
+   ],
+   "commit": "9c3b7ad"
   }
  ]
 }

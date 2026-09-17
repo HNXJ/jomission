@@ -50,14 +50,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_PV_STATIONARITY: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_stationarity.json`
 - V2.1_BACKGROUND: **FAIL** (evidence reads BKG_DESIGN_UNRESOLVED; held until a lineage that changes or explains the mechanism producing PV state dependence) — `results/v21_background_design_r2.json`
 - V2.1_PV_PREDECESSOR: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_predecessor.json`
+- V2.1_PV_MICROSTATE: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_microstate.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-coupled-background: endpoint runs reproduce the sealed V2.1 rates to 3.6e-15 Hz (lambda 0 and 1) — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: class_rate_bands fail at lambda 0 (PV 0.0 Hz) and 0.25 (PV window rates 1.40, 1.22, 0.89 Hz) and pass at 0.3125, 0.375, 0.5, 0.65625 and 1; passing run [0.3125, 1], boundary in (0.25, 0.3125] — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: candidate lambda 0.65625 (margin 0.40625) passes the bands fresh, but its PV window rates are 16.88, 16.58, 10.2 Hz (PV drift 0.46) — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: at lambda 0.65625 continued from the lambda-0 end state, PV window rates are 17.05, 15.36, 2.01 Hz (mean 11.47, -3.08 Hz vs fresh; tolerance 1.455 Hz); continued from the lambda-1 end state, 14.65, 14.69, 14.66 Hz (+0.11 Hz). All three runs pass the bands; E, SST, VIP agree within tolerance — `54ff926:results/v21_coupled_background.json`
 - V2.1-pv-stationarity: windows 1-3 of all three trajectories reproduce the sealed 20 s runs exactly (max difference 0.0 Hz) — `907c7f2:results/v21_pv_stationarity.json`
 - V2.1-pv-stationarity: lambda-1 history: PV 14.36-14.74 Hz in windows 1-11; late drift 0.012; bands pass — `907c7f2:results/v21_pv_stationarity.json`
 - V2.1-pv-stationarity: fresh: PV 16.88, 16.58, 10.2, 16.77, 13.79, 1.68, 1.22, 1.03, 0.85, 0.87, 0.4 Hz; late PV mean 0.71 Hz, late PV drift 0.672; bands fail (PV < 1 Hz) — `907c7f2:results/v21_pv_stationarity.json`
@@ -69,11 +65,18 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-predecessor-instrumented: late PV rate: A 0.71 Hz, B 14.43 Hz, C 15.11 Hz; C and B share the same starting state hash 8704423170e6ae32 and differ only in key stream — `b4130f3:results/v21_pv_predecessor.json`
 - V2.1-pv-predecessor-instrumented: no recorded channel (v_PV, u_PV, sources, the four class inputs, the two residuals) leaves its own 0-5 s baseline by 5 sigma sustained 1 s in any run; the PV population rate does so at 15 s in run A — `b4130f3:results/v21_pv_predecessor.json`
 - V2.1-pv-predecessor-instrumented: the run A collapse is uniform across the PV population: early per-cell 16.40-17.20 Hz, late 0.00-2.60 Hz, one cell below 0.1 Hz — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-microstate: trace identity confirmed: the three npz files match the sha256 pinned in the spec and reproduce the sealed population-mean numbers to the printed precision — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 1 per-cell v: d_AB 0.511 and d_AC 0.513 at epoch 0 against a same-fate scale max d_BC 0.048, qualifying from epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 1 population mean of v qualifies at the same epoch 0 (scale 0.0476, threshold 0.238) — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 2 per-cell u: d_AB 0.014-0.046 and d_AC 0.016-0.054 against d_BC 0.008-0.016, no qualifying epoch in the lead window — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 3 joint (v, u) qualifies from epoch 0 and its population-mean test also qualifies at epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 4 per-cell ISI structure: d_AB 9.3-16.8 and d_AC 5.9-18.9 against threshold 8.72, no three consecutive qualifying epochs — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-microstate: level 5 per-cell input was not evaluated: the spec makes it conditional on levels 1-4 producing no qualifying separation — `9c3b7ad:results/v21_pv_microstate.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-MICROSTATE` (OPEN): decide whether the fate-carrying information already exists in the recorded microscopic state, before any further execution
-- stop: classification recorded in results/v21_pv_microstate.json; no new execution and no intervention follows automatically; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

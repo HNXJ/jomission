@@ -1,0 +1,75 @@
+{
+ "lineage": "V2.1-coupled-background (SCI-V21-COUPLED-BACKGROUND)",
+ "parent": "V2.1-background-design r2, commit 269dc1d (branch v21-background-design), verdict BKG_DESIGN_UNRESOLVED",
+ "authority": "reviewer 2026-09-17: D1 no isolated PV retuning; D2 no isolated SST retuning; D3 the coupled network operating point is authoritative (r_c* = F_c(I0_c + I_rec,c(r*))). Tonic establishes support; the coupled network establishes the operating point. The BKG1 requirement 'derive every class tonic from isolated 10 Hz F-I inversion' is retired prospectively",
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "kind": "network execution of the frozen V2.1 static column along one predeclared tonic direction; no shot noise, no susceptibility measurement",
+ "question": "does an interior lambda in (0, 1) exist whose network rates satisfy every prospective_v2 class-rate band in every analysis window?",
+ "prior_evidence_disclosed": "sealed V2.1 runs: lambda 0 (V_MID) fails the bands (PV 0.0 Hz); lambda 1 (V_HIGH) already satisfies them (E 20.0-20.2, PV 20.0-20.2, SST 21.8-22.5, VIP 20.1-20.2 Hz; results/v21_high.json). The question is therefore about the interior of the path, and lambda 1 is never a candidate",
+ "frozen": {
+  "code": {
+   "tests/test_v21_operation.py": "7749863506ea2fdca611191edbcd89b434b67edf (build_plant: C-min cells, static efficacies, topology, kernel baseline, HDP detached; STEPS_CHUNK)",
+   "jomission/qualification/cmin.py": "83aef5c33e3cffd6e6fda28b2135254f7c506b09",
+   "jomission/harness/operation.py": "67364637c9d527a76e316086239d21fe649fe8df (window_summary, evaluate)",
+   "jomission/harness/gates.py": "330b91ecf89dd0696662e967c197ef0cfaf52a1a",
+   "jomission/harness/drive.py": "01df45558a5f4ce0d5dc73810dc5c5be6c22900f (check_additive_schedule)",
+   "manifests/gates/v2_local_operation.json": "25b47a74b7975388c3dd68dfca1ebbac14da1a34 (profile prospective_v2)"
+  },
+  "data": {
+   "results/v21_vectors.json": "57cae9e70c58c07e409a8084f9f69ab9cc439e8b (V_MID, V_HIGH)",
+   "results/v21_mid.json": "81a6fe3f449b4425b862424454d0996e4bdc4189 (endpoint reproduction reference)",
+   "results/v21_high.json": "c8e8fb1a577764bd830cd91b95f5f3d0bdb4fb37 (endpoint reproduction reference)"
+  },
+  "engine": "jaxfne 0.4.24 (jax 0.10.1), dt 0.1 ms, native noise default (0.5*N(0,1) per neuron per step), PRNGKey(11) for fresh runs, float32",
+  "schedule": "all-zero additive schedule; tonic carried by the emitter drive only (check_additive_schedule recorded per run)",
+  "time": "4 x 5 s chunks; analysis chunks 1-3 (gate file windows)"
+ },
+ "coordinate": {
+  "path": "I(lambda) = (1 - lambda) * I_MID + lambda * I_HIGH, all four classes together, 0 <= lambda <= 1",
+  "I_MID": {"E": 5.0, "PV": 2.8, "SST": 0.59, "VIP": 24.33},
+  "I_HIGH": {"E": 9.2, "PV": 3.6, "SST": 1.18, "VIP": 27.67},
+  "no_other_coordinate": "no class is tuned independently; no shot noise; no change to cells, topology, efficacies or kernel"
+ },
+ "criterion": {
+  "pass_predicate": "P(lambda) = prospective_v2 check class_rate_bands true (E [2, 30], PV/SST/VIP [1, 80] Hz, every analysis window) for the fresh run at lambda",
+  "estimator": "operation.window_summary rates: spikes per neuron per window / 5 s, class mean",
+  "reported_not_gating": "all other prospective_v2 checks (isi_cv_by_class, active_fraction_by_class, E_het, sync, drift), active fraction, ISI fraction, rate CV, sync per window; per-transition class rate jumps"
+ },
+ "procedure_constants": {
+  "bracket": [0.0, 0.5, 1.0],
+  "resolution": 0.0625,
+  "max_bisections": 12,
+  "margin_min": 0.125,
+  "reproduction_tol_hz": 0.5,
+  "hysteresis_abs_hz": 1.0,
+  "hysteresis_rel": 0.1,
+  "engine_seed": 11
+ },
+ "procedure": {
+  "1_bracket": "fresh runs at lambda 0, 0.5, 1; keep the final engine state of the lambda 0 and lambda 1 runs",
+  "2_endpoint_reproduction": "per class per window, |rate(lambda 0) - results/v21_mid.json| and |rate(lambda 1) - results/v21_high.json| <= 0.5 Hz; otherwise UNRESOLVED and stop",
+  "3_bisection": "while some adjacent pair of evaluated lambdas has differing P and width > 0.0625, evaluate its midpoint (lowest such pair first); at most 12 bisection runs, otherwise UNRESOLVED",
+  "4_single_interval": "the evaluated lambdas with P true must be consecutive in sorted order; otherwise UNRESOLVED (non-monotone)",
+  "5_interior": "if no evaluated lambda in (0, 1) has P true: FAIL",
+  "6_candidate": "passing run [lo, hi] = lowest and highest evaluated passing lambdas; candidate lambda_c = (lo + hi) / 2, evaluated fresh if not already evaluated; margin = distance from lambda_c to the nearest evaluated failing lambda. UNRESOLVED if P(lambda_c) is false or the passing run stops being consecutive (non-monotone), or margin < 0.125 (interval too narrow to hold an interior point away from the boundary)",
+  "7_state_dependence": "run lambda_c for 20 s continuing from the final state of the lambda 0 run and, separately, of the lambda 1 run (engine key and step index continue from that state). Each must give the same P and, per class, a 3-window mean rate within max(1 Hz, 10% of the fresh lambda_c rate); otherwise UNRESOLVED (hysteresis or state dependence)",
+  "8_pass": "otherwise PASS"
+ },
+ "classification": {
+  "COUPLED_BACKGROUND_PASS": "a finite interior passing interval exists: steps 2-7 hold",
+  "COUPLED_BACKGROUND_FAIL": "no evaluated interior lambda satisfies all class-rate bands (step 5)",
+  "COUPLED_BACKGROUND_UNRESOLVED": "endpoint non-reproduction, bisection budget exhausted, non-monotone pass set, narrow interval, or state dependence at the candidate"
+ },
+ "candidate_status": "lambda_c and its tonic vector are reported, not frozen; the reviewer freezes the operating point",
+ "discontinuity_note": "a rate jump at the passing boundary (e.g. PV recruitment) is recorded per transition and does not by itself block classification; it blocks only through steps 4, 6 or 7",
+ "forbidden": [
+  "any tonic change off the path I(lambda)",
+  "shot noise or any other schedule",
+  "susceptibility or private-perturbation runs (next lineage)",
+  "ISI-CV, synchrony, heterogeneity, active fraction or drift as success criteria",
+  "evaluations beyond those the procedure names"
+ ],
+ "pre_seal_disclosure": "no network or single-cell run was executed for this lineage before this spec. build_plant was called once with a dummy vector (E 1, PV 2, SST 3, VIP 4) to confirm the emitter drive field name; no simulation step ran",
+ "stop": "classify, write results/v21_coupled_background.json, STOP for review; no susceptibility measurement",
+ "driver": "tests/test_v21_coupled_background.py (tier 3)"
+}

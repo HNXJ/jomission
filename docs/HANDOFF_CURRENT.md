@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: PV_CALIBRATION_FAIL (isolated PV silent on [2.8, 3.6]; onset 3.936-4.0). BKG1-BKG3 regenerated analytically: BKG_DESIGN_UNRESOLVED (results/v21_background_design_r2.json); tonic-only support established for E and VIP only; reviewer decisions D1-D3 pending; no execution authorized
+- stopped because: reviewer D1-D3 (2026-09-17): isolated PV/SST retuning rejected; coupled network operating point authoritative. SCI-V21-COUPLED-BACKGROUND opened with a sealed spec (results/v21_coupled_background_spec.json)
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -64,8 +64,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21-BACKGROUND` (OPEN): Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition
-- stop: design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides
+- `SCI-V21-COUPLED-BACKGROUND` (OPEN): find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands
+- stop: verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review
 
 ### Locked gates
 

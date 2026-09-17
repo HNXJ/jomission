@@ -1,6 +1,6 @@
 {
  "schema": "jomission.current_state.v1",
- "updated": "2026-09-16",
+ "updated": "2026-09-17",
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
@@ -54,9 +54,9 @@
    "scope": "gate"
   }
  },
- "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "PV_CALIBRATION_FAIL (isolated PV silent on [2.8, 3.6]; onset 3.936-4.0). BKG1-BKG3 regenerated analytically: BKG_DESIGN_UNRESOLVED (results/v21_background_design_r2.json); tonic-only support established for E and VIP only; reviewer decisions D1-D3 pending; no execution authorized",
- "next_authorized_task": "SCI-V21-BACKGROUND",
+ "open_scientific_question": "does a finite interior coupled tonic background on the V_MID to V_HIGH path satisfy all prospective_v2 class-rate bands (network operating point authoritative, reviewer D3 2026-09-17)",
+ "stopped_because": "reviewer D1-D3 (2026-09-17): isolated PV/SST retuning rejected; coupled network operating point authoritative. SCI-V21-COUPLED-BACKGROUND opened with a sealed spec (results/v21_coupled_background_spec.json)",
+ "next_authorized_task": "SCI-V21-COUPLED-BACKGROUND",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

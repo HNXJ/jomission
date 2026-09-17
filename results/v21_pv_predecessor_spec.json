@@ -1,0 +1,107 @@
+{
+ "lineage": "V2.1-pv-predecessor-instrumented (SCI-V21-PV-PREDECESSOR)",
+ "parent": "V2.1-pv-stationarity, result commit 907c7f2 (merged at f32a5d7), verdict PV_NONSTATIONARY; and V2.1-pv-state-predecessor (read-only), MISSING_OBSERVABLE",
+ "authority": "reviewer 2026-09-17: one instrumented matched rerun, not another substrate experiment; two histories at the frozen lambda 0.65625; record PV state at minimal sufficient resolution; find the earliest reproducible divergence preceding the macroscopic PV-rate separation; observation -> predecessor -> intervention -> mechanism",
+ "reviewer_answers_2026_09_17": {
+  "noise_control": "authorized a third, key-matched control run (run C): the lambda-1 end state carrying the fresh key stream. Not a new initial state; it separates state from noise realization",
+  "resolution": "continuous channels as 1 ms means (10 steps); spike times kept exactly"
+ },
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "kind": "instrumented re-execution of already-sealed trajectories plus one key-matched control; no parameter, tonic, topology or gate change",
+ "instrumentation_principle": "by retention, not by reconfiguration: the engine already returns per-step v, spikes and per-neuron sources; this lineage keeps them instead of discarding them. No jaxfne recording flag is enabled, no schedule, seed, model or kernel argument differs from the sealed runs, so the executed trajectory cannot change",
+ "frozen": {
+  "code": {
+   "tests/test_v21_operation.py": "7749863506ea2fdca611191edbcd89b434b67edf (build_plant, STEPS_CHUNK)",
+   "tests/test_v21_coupled_background.py": "6a2cede291f80694bc1af98ae9f8793c95eb1c4e (tonic path)",
+   "tests/test_v21_pv_stationarity.py": "43baa8c7afe24de07eb0d6305fa1f9ed4b389af4 (the runs being reproduced)",
+   "jomission/qualification/cmin.py": "83aef5c33e3cffd6e6fda28b2135254f7c506b09",
+   "jomission/harness/operation.py": "67364637c9d527a76e316086239d21fe649fe8df",
+   "jomission/harness/gates.py": "330b91ecf89dd0696662e967c197ef0cfaf52a1a",
+   "manifests/gates/v2_local_operation.json": "25b47a74b7975388c3dd68dfca1ebbac14da1a34"
+  },
+  "data": {
+   "results/v21_vectors.json": "57cae9e70c58c07e409a8084f9f69ab9cc439e8b",
+   "results/v21_pv_stationarity.json": "bf85ecda5db35213ee99e8a7eaee244bdbf62bff (reproduction reference)",
+   "results/v21_coupled_background.json": "8e8634c69a3f14c2482cf3e7398d372bc1f2cd87"
+  },
+  "lambda": 0.65625,
+  "tonic": {
+   "E": 7.75625,
+   "PV": 3.325,
+   "SST": 0.9771875,
+   "VIP": 26.521875
+  },
+  "model": "V2.1 static column, kernel baseline, HDP detached, native noise, jaxfne 0.4.24, dt 0.1 ms, 12 x 5 s chunks (60 s)"
+ },
+ "runs": {
+  "A_collapse": "fresh state, PRNGKey(11), step 0. Reproduces results/v21_pv_stationarity.json trajectories.fresh",
+  "B_active": "lambda-1 end state (20 s fresh run at lambda 1), engine key and step index continued. Reproduces trajectories.lambda_1_end_state",
+  "C_control": "lambda-1 end state dynamic with the fresh key stream (PRNGKey(11), step 0): same state as B, same noise realization as A. No sealed counterpart; new evidence",
+  "excluded": "the lambda-0 history is redundant for this diagnostic: it reaches the same low-PV fate as A"
+ },
+ "recorded": {
+  "spikes": "exact step indices of every spike of all 400 neurons (PV kept per cell; other classes used for input reconstruction and window rates)",
+  "v_PV": "per-PV-cell membrane potential, 1 ms means",
+  "u_PV": "per-PV-cell recovery variable, reconstructed in engine order from the recorded v and spikes (u_{t+1} = u_t + dt*a*(b*v_t - u_t), u += d at spike), 1 ms means",
+  "input_by_source_class": "per-PV-cell synaptic input separated as E->PV, PV->PV, SST->PV, VIP->PV, reconstructed from the recorded presynaptic spikes, the edge list and the receptor time constant of each class (exc 2 ms, inh 5 ms), 1 ms means",
+  "sources_engine": "the engine's per-step per-neuron source term for PV cells, 1 ms means (semantics not assumed; see validation)",
+  "tonic": "constant per class, recorded once",
+  "residual": "sources_engine minus the reconstructed synaptic sum and, separately, minus tonic; its statistics identify the external/noise contribution",
+  "population_rates": "E, PV, SST, VIP rates per 5 s analysis window, for alignment with the sealed phenotype",
+  "initial_state": "hash of the starting dynamic state arrays of each run"
+ },
+ "validation": {
+  "reproduction": "runs A and B must match results/v21_pv_stationarity.json window rates for every class and window 1-11 within 0.5 Hz; otherwise INSTRUMENTATION_PERTURBED_EXECUTION and stop",
+  "u_reconstruction": "reconstructed u at each chunk boundary must equal the engine carry u within 1e-3 per cell; if not, the u channel is reported MISSING_OBSERVABLE and the analysis proceeds without it",
+  "input_reconstruction": "the residual sources_engine - sum(reconstructed class inputs) is tested against two hypotheses: sources is synaptic only, or sources includes tonic. The hypothesis whose residual has the smaller magnitude is reported with its residual statistics; if neither residual is stationary and small relative to the reconstructed input, the split is reported MISSING_OBSERVABLE",
+  "reconstruction_initialization": "the reconstructed synaptic traces start from zero at t = 0 of each run (the engine's own syn_state layout is not assumed), so the first 50 ms of every reconstructed input channel is warm-up and is excluded from the channel and from its baseline. u reconstruction is the same linear recursion the engine integrates, solved with a first-order filter, and is validated at every chunk boundary"
+ },
+ "analysis": {
+  "P1_fate_attribution": "compare the late-window PV rate of run C with A and B (sealed tolerance max(1 Hz, 10%)): C like B means the initial state sets the fate; C like A means the noise realization sets it; neither means UNRESOLVED",
+  "P2_predecessor_within_a_collapsing_run": "for each recorded channel, the deviation time is the first 1 ms bin where the channel departs from its own 0-5 s baseline by more than 5 baseline standard deviations and stays outside that band for at least 1 s. The PV rate deviation time is computed the same way from the PV population rate in 1 s bins. A channel precedes the PV-rate separation only if its deviation time is at least 1 s earlier",
+  "consequence_rule": "a channel that deviates only after the PV rate has deviated is consequence evidence, never causal-predecessor evidence",
+  "alignment": "all runs are aligned at the switch to lambda 0.65625 (t = 0 is the first instrumented step)",
+  "note_on_A_vs_B": "A and B differ in every state channel at t = 0 by construction, so cross-run timing alone cannot identify a predecessor; the ordering question is answered within a collapsing run, and state-versus-noise by run C"
+ },
+ "classification": {
+  "PV_INPUT_STATE": "the earliest preceding channel is the external or tonic/noise input to PV",
+  "PV_INTRINSIC_STATE": "the earliest preceding channel is v_PV or u_PV, with no earlier input-channel deviation",
+  "PV_RECURRENT_STATE": "the earliest preceding channel is a recurrent synaptic input (E->PV, PV->PV, SST->PV, VIP->PV)",
+  "PV_SPIKE_MICROSTATE": "no continuous channel precedes, but PV spike structure (per-cell dropout order, ISI distribution) deviates before the population rate does",
+  "MISSING_OBSERVABLE": "a channel required to decide is absent or fails its validation",
+  "UNRESOLVED": "no recorded candidate precedes the PV-rate separation, or the earliest deviations tie within 1 s",
+  "INSTRUMENTATION_PERTURBED_EXECUTION": "run A or B fails the reproduction check"
+ },
+ "acceptance": "the lineage ends when one recorded state class demonstrably deviates before the PV fate separation, or when every recorded candidate fails to precede it. No intervention follows automatically: causal authority needs a separately predeclared matched intervention",
+ "forbidden": [
+  "any other lambda, tonic vector, parameter, topology or kernel change",
+  "additional initial states beyond runs A, B and the key-matched control C",
+  "intervention, silencing, clamping or perturbation of any variable",
+  "enabling engine recording flags that alter the outputs contract of the sealed runs",
+  "ISI-CV, synchrony or heterogeneity as success criteria",
+  "inferring mechanism directly from observation"
+ ],
+ "artifacts": {
+  "committed": "results/v21_pv_predecessor.json (validations, deviation times, fate attribution, classification)",
+  "not_committed": "per-run 1 ms traces and spike indices written to the session scratch directory; regenerable by rerunning the sealed driver"
+ },
+ "pre_seal_disclosure": "no simulation was run for this lineage before this spec. jaxfne source was read statically to confirm that run_continuation already returns per-step v, spikes and sources, and that DynamicState carries u; no engine call was made",
+ "stop": "classify, write results/v21_pv_predecessor.json, STOP for review",
+ "driver": "tests/test_v21_pv_predecessor.py (tier 3)",
+ "procedure_constants": {
+  "lambda": 0.65625,
+  "n_chunk": 12,
+  "pre_run_chunks": 4,
+  "bin_steps": 10,
+  "engine_seed": 11,
+  "reproduction_tol_hz": 0.5,
+  "u_tol": 0.001,
+  "warmup_ms": 50,
+  "baseline_s": 5.0,
+  "k_sigma": 5.0,
+  "sustain_ms": 1000,
+  "precede_ms": 1000,
+  "tolerance_abs_hz": 1.0,
+  "tolerance_rel": 0.1
+ }
+}

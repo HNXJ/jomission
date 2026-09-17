@@ -69,8 +69,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21-PV-STATE-PREDECESSOR` (OPEN): identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only
-- stop: classification recorded; no simulation; STOP for review
+- `SCI-V21-PV-PREDECESSOR` (OPEN): re-execute the two sealed histories at the frozen lambda with retention of PV state, plus one key-matched control, and find the earliest recorded channel that deviates before the PV rate separates
+- stop: classification recorded in results/v21_pv_predecessor.json; no intervention follows automatically; STOP for review
 
 ### Locked gates
 

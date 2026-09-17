@@ -411,7 +411,7 @@
   },
   {
    "id": "SCI-V21-PV-STATE-PREDECESSOR",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "PV_NONSTATIONARY / PV_STATE_MULTIPLICITY_SUSPECTED: identical x gives history-dependent PV state; the defect is inside H, not x",
    "goal": "identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only",
    "parent_authority": "SCI-V21-PV-STATIONARITY delivered.reviewer_decision (reviewer 2026-09-17)",
@@ -442,7 +442,8 @@
     ],
     "reviewer_decisions_required": [
      "whether to authorize a tightly instrumented matched rerun (instrumentation list in the record); none is run"
-    ]
+    ],
+    "reviewer_decision": "reviewer 2026-09-17: MISSING_OBSERVABLE accepted as a valid stopping boundary; absence of discriminating evidence is not absence of a discriminating state. Authorized one instrumented matched rerun (SCI-V21-PV-PREDECESSOR), not another substrate experiment"
    }
   },
   {
@@ -828,6 +829,35 @@
    "downstream_unlock": [
     "SCI-V21C-BOUNDARY"
    ]
+  },
+  {
+   "id": "SCI-V21-PV-PREDECESSOR",
+   "status": "OPEN",
+   "trigger": "MISSING_OBSERVABLE: the sealed 60 s artifacts hold only 5 s class statistics, so no predecessor of the PV fate separation can be read from them",
+   "goal": "re-execute the two sealed histories at the frozen lambda with retention of PV state, plus one key-matched control, and find the earliest recorded channel that deviates before the PV rate separates",
+   "parent_authority": "reviewer 2026-09-17 (SCI-V21-PV-STATE-PREDECESSOR delivered.reviewer_decision): one instrumented matched rerun; two histories plus an authorized key-matched control; 1 ms means for continuous channels, exact spike times",
+   "principal_delta": "none: no parameter, tonic, topology, kernel or gate change. Instrumentation by retention of outputs the engine already returns; run C reuses an existing state with an existing key stream",
+   "required_inputs": [
+    "results/v21_pv_predecessor_spec.json",
+    "results/v21_pv_stationarity.json",
+    "tests/test_v21_pv_stationarity.py",
+    "tests/test_v21_operation.py",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "lambda 0.65625",
+    "V2.1 model, kernel baseline, dt 0.1 ms, PRNGKey(11), zero additive schedule",
+    "12 x 5 s chunks",
+    "the sealed PV stationarity trajectories as the reproduction reference"
+   ],
+   "procedure": "run A (fresh), B (lambda-1 end state) and C (B state, A key stream) for 60 s at lambda 0.65625 retaining per-cell PV spikes, v_PV, reconstructed u_PV, PV input split by source class, the engine source term and the tonic; validate reproduction (A, B within 0.5 Hz of the sealed windows), u reconstruction (1e-3 at chunk boundaries) and the input split; then P1 fate attribution from run C and P2 deviation ordering within a collapsing run, per results/v21_pv_predecessor_spec.json",
+   "acceptance": "PV_INPUT_STATE | PV_INTRINSIC_STATE | PV_RECURRENT_STATE | PV_SPIKE_MICROSTATE | MISSING_OBSERVABLE | UNRESOLVED; INSTRUMENTATION_PERTURBED_EXECUTION if the reproduction check fails",
+   "stop_condition": "classification recorded in results/v21_pv_predecessor.json; no intervention follows automatically; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_predecessor.json"
+   ],
+   "downstream_unlock": []
   }
- ]
+ ],
+ "next_authorized_task": "SCI-V21-PV-PREDECESSOR"
 }

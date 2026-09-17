@@ -155,6 +155,7 @@ def test_known_answers():
     assert w["rates"]["E"] == pytest.approx(10.0)
     assert w["isi_fraction"]["E"] == 0.0 and w["isi_fraction"]["VIP"] is None
     assert w["silent_fraction"]["VIP"] == 1.0 and w["rate_cv"]["E"] == pytest.approx(0.0, abs=1e-12)
+    assert w["active_fraction"]["VIP"] == 0.0 and w["active_fraction"]["E"] == 1.0
     rng = np.random.default_rng(3)
     p = _poisson(rng, 40.0, 60)
     _, cv = operation.isi_cvs(p, DT_MS, 4)
@@ -179,6 +180,7 @@ def test_estimator_edges():
     assert cv[0] == 0.5 and cv[1] == 1.5 and cv[2] > 1.5 and cv[3] == 0.0 and np.isnan(cv[4])
     w = operation.window_summary(r, cls)
     assert w["cv_evaluable"]["E"] == 4 and w["isi_fraction"]["E"] == 0.5
+    assert w["active_fraction"]["E"] == 4 / int((cls == "E").sum())
     v21 = _load("_v21_frozen_edges", "tests/test_v21_operation.py")
     _, f_cvs = v21.window_isis(r.astype(np.float32))
     assert sorted(f_cvs) == sorted(cv[~np.isnan(cv)])
@@ -195,7 +197,8 @@ def test_prospective_bands_and_class_isi():
     assert spec["class_rate_bands"]["rate_hz"] == {"E": [2.0, 30.0], "PV": [1.0, 80.0], "SST": [1.0, 80.0], "VIP": [1.0, 80.0]}
     assert spec["isi_cv_by_class"]["classes"] == ["E", "PV", "SST", "VIP"]
     base = {"rates": {"E": 10.0, "PV": 20.0, "SST": 8.0, "VIP": 12.0}, "rate_cv": {"E": 0.4}, "sync": 0.0,
-            "isi_fraction": {"E": 0.9, "PV": 0.9, "SST": 0.9, "VIP": 0.9}, "isi_fraction_pooled": 0.9}
+            "isi_fraction": {"E": 0.9, "PV": 0.9, "SST": 0.9, "VIP": 0.9}, "isi_fraction_pooled": 0.9,
+            "active_fraction": {"E": 1.0, "PV": 1.0, "SST": 1.0, "VIP": 1.0}}
     ok = operation.evaluate([base] * 3)
     assert ok["verdict"] == "V2_LOCAL_OPERATION_PASS"
     vip_high = copy.deepcopy(base)
@@ -210,6 +213,27 @@ def test_prospective_bands_and_class_isi():
     assert operation.evaluate([base] * 3)["gate_blob"] == subprocess.run(
         ["git", "hash-object", str(ROOT / "manifests/gates/v2_local_operation.json")],
         capture_output=True, text=True).stdout.strip()
+
+
+def test_amendment_2_active_fraction_gate():
+    """Silencing cells cannot buy the ISI check: f_active >= 0.95 per class, every window, inclusive."""
+    spec = gates.load_gate()["profiles"]["prospective_v2"]["checks"]
+    assert spec["active_fraction_by_class"] == {"kind": "active_fraction_min_by_class",
+                                                "classes": ["E", "PV", "SST", "VIP"], "min_fraction": 0.95}
+    cls = np.array(["E"] * 20 + ["PV"] * 20 + ["SST"] * 20 + ["VIP"] * 20)
+    rng = np.random.default_rng(5)
+    r = _poisson(rng, 10.0, 80).astype(bool)
+    r[:, 0] = False                                  # 1 of 20 E silent: 0.95, passes (inclusive)
+    w = operation.window_summary(r, cls)
+    assert w["active_fraction"]["E"] == 0.95 and w["isi_fraction"]["E"] is not None
+    r2 = r.copy()
+    r2[:, 1] = False                                 # 2 of 20 silent: 0.90
+    w2 = operation.window_summary(r2, cls)
+    assert w2["active_fraction"]["E"] == 0.9 and w2["isi_fraction"]["E"] == w["isi_fraction"]["E"]
+    assert gates.evaluate("prospective_v2", [w] * 3, operation.drift([w] * 3))["active_fraction_by_class"] is True
+    assert gates.evaluate("prospective_v2", [w, w2, w], operation.drift([w] * 3))["active_fraction_by_class"] is False
+    hist = gates.load_gate()["profiles"]["historical_v21_battery"]["checks"]
+    assert not any(c["kind"] == "active_fraction_min_by_class" for c in hist.values())
 
 
 def test_amendment_vip_values_match_sealed_cells():

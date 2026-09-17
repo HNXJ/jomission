@@ -33,12 +33,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 - scientific head: main `4859d3c`
 - execution: jaxfne 0.4.24 (`results/jaxfne_0424_migration.json`)
-- program: Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1)
+- program: Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1; amendment 2 in results/generic_substrate_v2_amendment_2.json)
 
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); awaiting review, including the silent-E reviewer decision
+- stopped because: SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); silent-E reviewer decision implemented as spec amendment 2 (active fraction >= 0.95 per class); awaiting review
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

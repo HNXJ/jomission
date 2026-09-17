@@ -13,7 +13,7 @@
   "evidence": "results/jaxfne_0424_migration.json"
  },
  "jaxfne_version": "0.4.24",
- "current_program": "Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1)",
+ "current_program": "Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1; amendment 2 in results/generic_substrate_v2_amendment_2.json)",
  "current_gate": {
   "id": "V2_LOCAL_OPERATION",
   "definition": "manifests/gates/v2_local_operation.json",
@@ -55,7 +55,7 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); awaiting review, including the silent-E reviewer decision",
+ "stopped_because": "SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); silent-E reviewer decision implemented as spec amendment 2 (active fraction >= 0.95 per class); awaiting review",
  "next_authorized_task": "SCI-V21-GATE-REPAIR",
  "locked_gates": [
   "V2.2_RECURRENCE",

@@ -53,7 +53,7 @@ def window_summary(raster, cls, profile: str = "prospective_v2", gate_id: str = 
     rates_n = nsp / window_s
     ok = ~np.isnan(cv)
     inband = ok & (cv >= band[0]) & (cv <= band[1])
-    out = {"rates": {}, "rate_cv": {}, "isi_fraction": {}, "cv_evaluable": {}, "silent_fraction": {}}
+    out = {"rates": {}, "rate_cv": {}, "isi_fraction": {}, "cv_evaluable": {}, "active_fraction": {}, "silent_fraction": {}}
     for c in CLASSES:
         sel = cls == c
         rc = rates_n[sel]
@@ -62,6 +62,7 @@ def window_summary(raster, cls, profile: str = "prospective_v2", gate_id: str = 
         ne = int(ok[sel].sum())
         out["cv_evaluable"][c] = ne
         out["isi_fraction"][c] = float(inband[sel].sum() / ne) if ne else None
+        out["active_fraction"][c] = float(ok[sel].mean())
         out["silent_fraction"][c] = float((~ok[sel]).mean())
     out["isi_fraction_pooled"] = float(inband.sum() / ok.sum()) if ok.any() else 0.0
     out["sync"] = float((r[:, cls == "E"].mean(axis=1) > 0.5).mean())

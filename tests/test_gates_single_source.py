@@ -2,7 +2,8 @@
 
 1. The historical profile reproduces every sealed V2.1/V2.1b `checks` dict exactly.
 2. The prospective profile encodes amendment 1 (evaluated on the sealed low_sm2p0
-   cell it fails VIP band and E ISI, the recorded SCI-V21-BACKGROUND blocker).
+   cell it fails VIP band and E ISI, the recorded SCI-V21-BACKGROUND blocker) and
+   amendment 2 (active fraction per class, which that cell passes).
 3. Outside the frozen executed batteries, any Python file naming these checks
    imports jomission.harness.gates instead of carrying its own thresholds.
 """
@@ -31,10 +32,13 @@ def test_prospective_profile_on_low_sm2p0():
     windows = []
     for r, cv, s, cls in zip(res["rates"], res["cv"], res["sync"], isi["per_window_class"]):
         windows.append({"rates": r, "rate_cv": {"E": cv["E_rate_CV"]}, "sync": s,
-                        "isi_fraction": {c: cls[c]["frac_in"] for c in ("E", "PV", "SST", "VIP")}})
+                        "isi_fraction": {c: cls[c]["frac_in"] for c in ("E", "PV", "SST", "VIP")},
+                        "active_fraction": {c: cls[c]["cv_evaluable"] / cls[c]["n_cells"]
+                                            for c in ("E", "PV", "SST", "VIP")}})
     got = gates.evaluate("prospective_v2", windows, res["drift"])
     assert got["class_rate_bands"] is False  # VIP ~130 Hz > 80
     assert got["isi_cv_by_class"] is False   # E 0.683-0.750, VIP 0.0
+    assert got["active_fraction_by_class"] is True  # amendment 2: min 31/32 SST (window 3)
     spec = gates.load_gate()["profiles"]["prospective_v2"]["checks"]["class_rate_bands"]["rate_hz"]
     assert spec == {"E": [2.0, 30.0], "PV": [1.0, 80.0], "SST": [1.0, 80.0], "VIP": [1.0, 80.0]}
 

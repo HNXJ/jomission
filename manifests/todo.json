@@ -382,7 +382,18 @@
    ],
    "downstream_unlock": [
     "SCI-V21C-COMPOSITION"
-   ]
+   ],
+   "delivered": {
+    "verdict": "PV_NONSTATIONARY",
+    "result": "results/v21_pv_stationarity.json",
+    "spec_commit": "699b110",
+    "result_commit": "907c7f2",
+    "summary": "lambda-1 history holds PV at 14.4-14.7 Hz for 55 s; fresh and lambda-0 histories collapse to PV < 1 Hz (late means 0.71 and 0.09 Hz) after 10-30 s, fresh with a drop-and-recovery first; E, SST, VIP identical across histories",
+    "reviewer_consequence_declared": "MULTISTABILITY or NONSTATIONARY: stop the background program",
+    "reviewer_decisions_required": [
+     "confirm stopping the coupled-background program; state what, if anything, reopens it"
+    ]
+   }
   },
   {
    "id": "SCI-V21C-COMPOSITION",

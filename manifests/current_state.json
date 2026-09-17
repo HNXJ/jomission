@@ -57,10 +57,16 @@
    "status": "UNRESOLVED",
    "evidence": "results/v21_coupled_background.json",
    "scope": "gate"
+  },
+  "V2.1_PV_STATIONARITY": {
+   "status": "FAIL",
+   "evidence": "results/v21_pv_stationarity.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND"
   }
  },
  "open_scientific_question": "at lambda 0.65625, is the PV state slow-converging, multistable, or nonstationary (rate-viable interval lambda in [0.3125, 1] established)",
- "stopped_because": "reviewer 2026-09-17 kept COUPLED_BACKGROUND_UNRESOLVED and opened SCI-V21-PV-STATIONARITY with a sealed spec (results/v21_pv_stationarity_spec.json)",
+ "stopped_because": "PV_NONSTATIONARY at lambda 0.65625 (results/v21_pv_stationarity.json): PV holds ~14.5 Hz after lambda-1 history but collapses below 1 Hz from fresh and lambda-0 histories within 60 s; per reviewer rule the background program stops pending review",
  "next_authorized_task": "SCI-V21-PV-STATIONARITY",
  "locked_gates": [
   "V2.2_RECURRENCE",
@@ -117,7 +123,9 @@
   "results/v21_bkg_pv_calibration_spec.json",
   "results/v21_bkg_pv_calibration.json",
   "results/v21_coupled_background_spec.json",
-  "results/v21_coupled_background.json"
+  "results/v21_coupled_background.json",
+  "results/v21_pv_stationarity_spec.json",
+  "results/v21_pv_stationarity.json"
  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [

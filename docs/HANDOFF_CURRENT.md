@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: reviewer 2026-09-17 kept COUPLED_BACKGROUND_UNRESOLVED and opened SCI-V21-PV-STATIONARITY with a sealed spec (results/v21_pv_stationarity_spec.json)
+- stopped because: PV_NONSTATIONARY at lambda 0.65625 (results/v21_pv_stationarity.json): PV holds ~14.5 Hz after lambda-1 history but collapses below 1 Hz from fresh and lambda-0 histories within 60 s; per reviewer rule the background program stops pending review
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -47,14 +47,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - H5_PRIVATE_STOCHASTIC_DRIVE: **INSUFFICIENT_ALONE** (component of V2.1b) — `results/v21b_lineage.json`
 - V2.1c_INTRINSIC_DESIGN: **INFEASIBLE** — `results/v21c_boundary.json`
 - V2.1_COUPLED_BACKGROUND: **UNRESOLVED** — `results/v21_coupled_background.json`
+- V2.1_PV_STATIONARITY: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_stationarity.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1c-boundary: all 8 predeclared gates pass; ordering SPONTANEOUS_BEFORE_CV — `d3a0c3c:results/v21c_boundary.json`
-- V2.1c-boundary: b_crit at I=0 in (0.2604980, 0.2604987] — `d3a0c3c:results/v21c_boundary.json`
-- V2.1c-boundary: w_spontaneous in (0.091406, 0.091504]; first pacemaker b 0.26055 at 5.8 Hz — `d3a0c3c:results/v21c_boundary.json`
-- V2.1c-boundary: w_CV=0.3 in (0.234375, 0.2375]: min-window E rate-CV 0.2972 / 0.3005; 31-32 of 300 E cells spontaneous — `d3a0c3c:results/v21c_boundary.json`
-- V2.1c-boundary: E rate-CV at w_spontaneous 0.1197; sealed CV at w=0.20 and 0.30 reproduced exactly — `d3a0c3c:results/v21c_boundary.json`
 - V2.1-bkg-pv-calibration: isolated PV class-mean rate 0.0 Hz at I = 2.8 and at I = 3.6 in every analysis window; 10 Hz not bracketed, no bisection run — `d70b575:results/v21_bkg_pv_calibration.json`
 - V2.1-bkg-pv-calibration: network PV at I0 2.8 (V_MID): 0.0 Hz in every window — `d70b575:results/v21_mid.json`
 - V2.1-bkg-pv-calibration: network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz — `d70b575:results/v21_high.json`
@@ -64,6 +60,11 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-coupled-background: mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz — `54ff926:results/v21_coupled_background.json`
 - V2.1-coupled-background: candidate lambda 0.65625 (margin 0.40625) passes the bands fresh, but its PV window rates are 16.88, 16.58, 10.2 Hz (PV drift 0.46) — `54ff926:results/v21_coupled_background.json`
 - V2.1-coupled-background: at lambda 0.65625 continued from the lambda-0 end state, PV window rates are 17.05, 15.36, 2.01 Hz (mean 11.47, -3.08 Hz vs fresh; tolerance 1.455 Hz); continued from the lambda-1 end state, 14.65, 14.69, 14.66 Hz (+0.11 Hz). All three runs pass the bands; E, SST, VIP agree within tolerance — `54ff926:results/v21_coupled_background.json`
+- V2.1-pv-stationarity: windows 1-3 of all three trajectories reproduce the sealed 20 s runs exactly (max difference 0.0 Hz) — `907c7f2:results/v21_pv_stationarity.json`
+- V2.1-pv-stationarity: lambda-1 history: PV 14.36-14.74 Hz in windows 1-11; late drift 0.012; bands pass — `907c7f2:results/v21_pv_stationarity.json`
+- V2.1-pv-stationarity: fresh: PV 16.88, 16.58, 10.2, 16.77, 13.79, 1.68, 1.22, 1.03, 0.85, 0.87, 0.4 Hz; late PV mean 0.71 Hz, late PV drift 0.672; bands fail (PV < 1 Hz) — `907c7f2:results/v21_pv_stationarity.json`
+- V2.1-pv-stationarity: lambda-0 history: PV 17.05, 15.36, 2.01, then 0.07-0.24 Hz in windows 4-11; late PV mean 0.09 Hz, late PV drift 0.589; bands fail — `907c7f2:results/v21_pv_stationarity.json`
+- V2.1-pv-stationarity: E (16.8-17.2 Hz), VIP (16.9-17.2 Hz) and SST (19.9-22.8 Hz) are nearly identical across the three trajectories; late pairwise differences <= 0.37 Hz, while late PV differs by 13.7-14.3 Hz — `907c7f2:results/v21_pv_stationarity.json`
 
 ### Next authorized task
 

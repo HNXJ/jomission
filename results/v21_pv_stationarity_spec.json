@@ -1,0 +1,70 @@
+{
+ "lineage": "V2.1-pv-stationarity (SCI-V21-PV-STATIONARITY)",
+ "parent": "V2.1-coupled-background, result commit 54ff926 (branch v21-coupled-background), verdict COUPLED_BACKGROUND_UNRESOLVED (state dependence at lambda 0.65625)",
+ "authority": "reviewer 2026-09-17: keep COUPLED_BACKGROUND_UNRESOLVED, no bands-only PASS; one PV stationarity diagnostic at the frozen candidate lambda 0.65625 only; longer run, same lambda, same three initializations, explicit late-window stationarity; no search, no new initial states, no susceptibility",
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "question": "at lambda 0.65625, do the fresh, lambda-0-history and lambda-1-history trajectories converge to one stationary band-valid late regime (slow convergence), settle into different stationary regimes (multistability), or keep drifting or switching (nonstationary)?",
+ "frozen": {
+  "code": {
+   "tests/test_v21_coupled_background.py": "6a2cede291f80694bc1af98ae9f8793c95eb1c4e (tonic path, _v21, _vectors)",
+   "tests/test_v21_operation.py": "7749863506ea2fdca611191edbcd89b434b67edf (build_plant, STEPS_CHUNK)",
+   "jomission/qualification/cmin.py": "83aef5c33e3cffd6e6fda28b2135254f7c506b09",
+   "jomission/harness/operation.py": "67364637c9d527a76e316086239d21fe649fe8df (window_summary, evaluate, drift)",
+   "jomission/harness/gates.py": "330b91ecf89dd0696662e967c197ef0cfaf52a1a",
+   "manifests/gates/v2_local_operation.json": "25b47a74b7975388c3dd68dfca1ebbac14da1a34 (prospective_v2: class_rate_bands, drift max 0.2)"
+  },
+  "data": {
+   "results/v21_vectors.json": "57cae9e70c58c07e409a8084f9f69ab9cc439e8b",
+   "results/v21_coupled_background.json": "8e8634c69a3f14c2482cf3e7398d372bc1f2cd87 (20 s reference trajectories)",
+   "results/v21_coupled_background_spec.json": "026c260b5612ed5757bbac4ee84cce9e6dd05927"
+  },
+  "lambda": 0.65625,
+  "tonic": {"E": 7.75625, "PV": 3.325, "SST": 0.9771875, "VIP": 26.521875},
+  "model": "V2.1 static column, kernel baseline, HDP detached, no intrinsic heterogeneity, all-zero schedule, no shot noise, native noise default, jaxfne 0.4.24, dt 0.1 ms",
+  "initial_states": {
+   "fresh": "dynamic_state_from_model, PRNGKey(11), step 0",
+   "lambda_0_end_state": "final ContinuationState of a 4 x 5 s fresh run at lambda 0 (engine key and step index continue)",
+   "lambda_1_end_state": "final ContinuationState of a 4 x 5 s fresh run at lambda 1",
+   "note": "identical to the sealed coupled-background runs; the 20 s pre-runs are recomputed, not loaded"
+  }
+ },
+ "procedure_constants": {
+  "lambda": 0.65625,
+  "n_chunk": 12,
+  "pre_run_chunks": 4,
+  "late_windows": [9, 10, 11],
+  "reproduction_tol_hz": 0.5,
+  "tolerance_abs_hz": 1.0,
+  "tolerance_rel": 0.1,
+  "engine_seed": 11
+ },
+ "procedure": {
+  "S0_freeze": "no parameter, tonic, noise, kernel or schedule change",
+  "S1_runs": "for each initial state, 12 x 5 s (60 s) at lambda 0.65625. Chunk 0 is settling (existing convention); windows 1-11 are the recorded trajectory",
+  "S1_reproduction": "windows 1-3 of each trajectory must match the sealed 20 s runs (results/v21_coupled_background.json: candidate fresh run and the two hysteresis runs) within 0.5 Hz per class per window",
+  "S2_record": "per window 1-11 and per initial state: class rates E, PV, SST, VIP (operation.window_summary); active fraction and sync recorded, not gating",
+  "S2_late_stationary": "prospective_v2 check drift (the existing V2 criterion, (max - min) / mean <= 0.2 for every class) evaluated on windows 9-11",
+  "S2_late_band_valid": "prospective_v2 check class_rate_bands on windows 9-11",
+  "S2_same_regime": "for every pair of initial states and every class, |late mean difference| <= max(1 Hz, 0.1 * fresh late mean) (the sealed state-dependence tolerance, applied to windows 9-11)",
+  "S2_reversal": "PV trajectory over windows 1-11 reverses direction: some window lies above (or below) at least one earlier and one later window by more than max(1 Hz, 0.1 * mean PV rate of that trajectory)"
+ },
+ "classification": {
+  "order": "first matching rule",
+  "1": "PV_STATIONARITY_UNRESOLVED if S1_reproduction fails",
+  "2": "if every trajectory is late-stationary: PV_MULTISTABILITY if S2_same_regime fails; PV_STATIONARITY_PASS if the regime is shared and band-valid for every trajectory; otherwise PV_STATIONARITY_UNRESOLVED (a shared stationary regime that fails the bands, a case outside the reviewer's four labels, flagged in the reason)",
+  "3": "PV_NONSTATIONARY if some trajectory is not late-stationary and at least one such trajectory shows a PV reversal",
+  "4": "PV_STATIONARITY_UNRESOLVED otherwise (late drift with a monotone PV trajectory: slow convergence not excluded within 60 s)"
+ },
+ "consequence_declared_by_reviewer": "PASS: the coupled-background result may be upgraded to COUPLED_BACKGROUND_PASS at lambda 0.65625 by the reviewer, and closed-network susceptibility becomes the next task. MULTISTABILITY or NONSTATIONARY: stop the background program. This lineage does not rewrite results/v21_coupled_background.json",
+ "limits": "one noise realization per initial state; 'reproducibly different' in PV_MULTISTABILITY means stationary over windows 9-11 of that realization, not across seeds",
+ "forbidden": [
+  "any other lambda",
+  "additional initial states",
+  "parameter, tonic, noise or schedule changes",
+  "susceptibility or perturbation runs",
+  "ISI-CV, synchrony or heterogeneity as criteria"
+ ],
+ "pre_seal_disclosure": "no simulation for this lineage before this spec; the classifier was exercised on synthetic trajectories only (test_classify_known_cases)",
+ "stop": "classify, write results/v21_pv_stationarity.json, STOP for review",
+ "driver": "tests/test_v21_pv_stationarity.py (tier 3)"
+}

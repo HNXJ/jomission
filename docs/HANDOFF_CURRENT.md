@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: COUPLED_BACKGROUND_UNRESOLVED (results/v21_coupled_background.json): class-rate bands pass on evaluated lambda [0.3125, 1]; candidate lambda 0.65625 is state dependent (PV mean 11.47 Hz from the lambda-0 end state vs 14.55 fresh; PV window 3 falls to 10.2 and 2.01 Hz). Candidate not frozen; STOP for review
+- stopped because: reviewer 2026-09-17 kept COUPLED_BACKGROUND_UNRESOLVED and opened SCI-V21-PV-STATIONARITY with a sealed spec (results/v21_pv_stationarity_spec.json)
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -67,8 +67,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21-COUPLED-BACKGROUND` (OPEN): find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands
-- stop: verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review
+- `SCI-V21-PV-STATIONARITY` (OPEN): distinguish slow convergence, multistability and nonstationary PV dynamics at the frozen candidate lambda 0.65625
+- stop: verdict recorded; no other lambda, no new initial states, no susceptibility; STOP for review
 
 ### Locked gates
 

@@ -59,9 +59,9 @@
    "scope": "gate"
   }
  },
- "open_scientific_question": "does a finite interior coupled tonic background on the V_MID to V_HIGH path satisfy all prospective_v2 class-rate bands (network operating point authoritative, reviewer D3 2026-09-17)",
- "stopped_because": "COUPLED_BACKGROUND_UNRESOLVED (results/v21_coupled_background.json): class-rate bands pass on evaluated lambda [0.3125, 1]; candidate lambda 0.65625 is state dependent (PV mean 11.47 Hz from the lambda-0 end state vs 14.55 fresh; PV window 3 falls to 10.2 and 2.01 Hz). Candidate not frozen; STOP for review",
- "next_authorized_task": "SCI-V21-COUPLED-BACKGROUND",
+ "open_scientific_question": "at lambda 0.65625, is the PV state slow-converging, multistable, or nonstationary (rate-viable interval lambda in [0.3125, 1] established)",
+ "stopped_because": "reviewer 2026-09-17 kept COUPLED_BACKGROUND_UNRESOLVED and opened SCI-V21-PV-STATIONARITY with a sealed spec (results/v21_pv_stationarity_spec.json)",
+ "next_authorized_task": "SCI-V21-PV-STATIONARITY",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

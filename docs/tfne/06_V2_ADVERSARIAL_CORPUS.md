@@ -1,5 +1,7 @@
 # TFNE v2 adversarial normalization corpus
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** Kept as the derivation record; the corpus is appendix A/B of the permanent spec.
+
 **Date:** 2026-09-17 (second pass: decisions R1–R7 applied, all cases re-derived)
 **Algebra:** `TFNE_ALGEBRA_PROJECT_SOURCE.md`; decisions in `05_V2_MIGRATION_DECISIONS.md`.
 **Contains:** valid corpus, invalid probes, expected structural and type properties, manual

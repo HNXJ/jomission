@@ -1,5 +1,7 @@
 # TFNE Algebra v1: semantics
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** Kept as the v1 record.
+
 > **SUPERSEDED (2026-09-17).** The authoritative algebra is
 > `TFNE_ALGEBRA_PROJECT_SOURCE.md`. This document stays as the v1 record
 > (`tfne-algebra/1`, commit `cfd1e16`); where the two differ, the source wins.

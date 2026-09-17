@@ -1,5 +1,7 @@
 # TFNE v1 to project source: conflicts and unspecified items
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** Kept as the migration record.
+
 **Date:** 2026-09-17
 **Authoritative:** `TFNE_ALGEBRA_PROJECT_SOURCE.md` (supplied by Hamm, final).
 **Superseded where they differ:** `00_TFNE_ALGEBRA_SPEC.md` (algebra version `tfne-algebra/1`, commit `cfd1e16`), and the fixtures and probes built on its spelling.

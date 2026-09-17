@@ -1,5 +1,7 @@
 # TFNE v2 migration decisions
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** Kept as the decision record.
+
 **Date:** 2026-09-17
 **Authority:** owner (Hamm), answering the five questions in `04_SOURCE_MIGRATION.md`.
 **Authoritative algebra:** `TFNE_ALGEBRA_PROJECT_SOURCE.md`.

@@ -1,5 +1,7 @@
 # TFNE Algebra v1: synthetic conformance suite
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** `V1_FIXTURE`, kept as the v1 record.
+
 > **`V1_FIXTURE` (2026-09-17).** Superseded for v2 semantics: written against the v1
 > spelling (`Q`, `→`, `↛`, `()`) and the v1 error codes. Preserved as the historical
 > record; not mechanically translated. The v2 corpus is `06_V2_ADVERSARIAL_CORPUS.md`.

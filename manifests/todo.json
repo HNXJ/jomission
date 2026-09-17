@@ -431,7 +431,19 @@
    "artifacts_expected": [
     "results/v21_pv_state_predecessor.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "MISSING_OBSERVABLE",
+    "result": "results/v21_pv_state_predecessor.json",
+    "summary": "sealed 60 s artifacts hold only 5 s class-level statistics (rate, active fraction, E sync); no V_PV, u_PV, class-split PV input or rasters; PV rate already diverges in window 1, so no recorded predecessor is possible",
+    "receipts": [
+     "python scripts/v21_pv_state_predecessor.py",
+     "python -m pytest tests/test_v21_pv_state_predecessor.py"
+    ],
+    "reviewer_decisions_required": [
+     "whether to authorize a tightly instrumented matched rerun (instrumentation list in the record); none is run"
+    ]
+   }
   },
   {
    "id": "SCI-V21C-COMPOSITION",

@@ -1,0 +1,267 @@
+{
+ "lineage": "V2.1-pv-state-predecessor (SCI-V21-PV-STATE-PREDECESSOR), read-only",
+ "todo": "SCI-V21-PV-STATE-PREDECESSOR",
+ "date": "2026-09-17",
+ "authority": "reviewer 2026-09-17: read-only causal-predecessor analysis on the existing 60 s PV trajectories; no simulation; MISSING_OBSERVABLE if the required state is absent",
+ "inputs": [
+  "results/v21_pv_stationarity.json",
+  "results/v21_coupled_background.json"
+ ],
+ "execution": "none: artifact inventory and window-level comparison (scripts/v21_pv_state_predecessor.py)",
+ "verdict": "MISSING_OBSERVABLE",
+ "findings": [
+  {
+   "id": "P1",
+   "evidence_class": "OBSERVED",
+   "claim": "The sealed trajectories record only 5 s class-level statistics: class rate and active fraction per window, E sync per window, and for windows 1-3 ISI fraction and rate CV. No V_PV, u_PV, synaptic current (E->PV, PV->PV, SST->PV), synaptic trace or spike raster is stored; chunk 0 (0-5 s after the switch) is not recorded.",
+   "receipt": "derived.required_observables_present, derived.recorded_state_like_paths (empty)"
+  },
+  {
+   "id": "P2",
+   "evidence_class": "OBSERVED",
+   "claim": "PV rate already differs from the active trajectory beyond max(1 Hz, 10%) in window 1 for both collapsing trajectories (fresh 16.88, lambda-0 history 17.05, active 14.65 Hz). No recorded variable can precede the PV-rate divergence at the recorded resolution.",
+   "receipt": "derived.first_divergence_window_vs_active"
+  },
+  {
+   "id": "P3",
+   "evidence_class": "OBSERVED",
+   "claim": "E and VIP rates never diverge beyond tolerance; SST diverges only in fresh window 3 (19.92 vs 22.34 Hz), coincident with the fresh PV dip to 10.2 Hz. E sync is 0.0 in every window of every trajectory.",
+   "receipt": "derived.first_divergence_window_vs_active, derived.raw_pairs_active_vs_collapsing"
+  },
+  {
+   "id": "P4",
+   "evidence_class": "OBSERVED",
+   "claim": "PV active fraction stays 1.0 in the active trajectory. It falls gradually in fresh (1.0 through window 5, then 0.85, 0.65, 0.575, 0.525, 0.475, 0.2) and abruptly after lambda-0 history (1.0, 1.0, 0.975, 0.075, 0.0): PV cells drop out progressively, not all at once, in the fresh collapse.",
+   "receipt": "derived.raw_pairs_active_vs_collapsing"
+  }
+ ],
+ "not_inferred": "No mechanism is assigned. Class-mean E rate equality does not establish equal E->PV input (it omits which E cells fire and spike timing relative to PV).",
+ "classification_options": [
+  "PV_INTRINSIC_STATE",
+  "PV_INPUT_STATE",
+  "PV_RECURRENT_STATE",
+  "MISSING_OBSERVABLE",
+  "UNRESOLVED"
+ ],
+ "instrumentation_needed_for_a_later_matched_rerun": "not authorized here: per-PV-cell V and u, per-PV-cell synaptic input split by presynaptic class (E, PV, SST, VIP), and spike rasters for all classes, from the switch to lambda 0.65625 (chunk 0 included) for the three sealed initial states; the lambda-0 and lambda-1 end states themselves (V, u, synaptic traces) to compare initial conditions directly",
+ "derived": {
+  "recorded_state_like_paths": [],
+  "recorded_observables": "per 5 s window and class: rate, active fraction; per window: E sync; windows 1-3 only: ISI fraction, rate CV (results/v21_coupled_background.json)",
+  "required_observables_present": {
+   "V_PV": false,
+   "u_PV": false,
+   "I_E->PV": false,
+   "I_PV->PV": false,
+   "I_SST->PV": false,
+   "synaptic_state": false,
+   "spike_raster": false
+  },
+  "first_divergence_window_vs_active": {
+   "fresh": {
+    "E": null,
+    "PV": 1,
+    "SST": 3,
+    "VIP": null
+   },
+   "lambda_0_end_state": {
+    "E": null,
+    "PV": 1,
+    "SST": null,
+    "VIP": null
+   }
+  },
+  "pv_rate_first_divergence_window": 1,
+  "earliest_recorded_window": 1,
+  "raw_pairs_active_vs_collapsing": {
+   "fresh": {
+    "active_fraction_PV": [
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      0.85
+     ],
+     [
+      1.0,
+      0.65
+     ],
+     [
+      1.0,
+      0.575
+     ],
+     [
+      1.0,
+      0.525
+     ],
+     [
+      1.0,
+      0.475
+     ],
+     [
+      1.0,
+      0.2
+     ]
+    ],
+    "sync": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   "lambda_0_end_state": {
+    "active_fraction_PV": [
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      1.0
+     ],
+     [
+      1.0,
+      0.975
+     ],
+     [
+      1.0,
+      0.075
+     ],
+     [
+      1.0,
+      0.0
+     ],
+     [
+      1.0,
+      0.025
+     ],
+     [
+      1.0,
+      0.025
+     ],
+     [
+      1.0,
+      0.0
+     ],
+     [
+      1.0,
+      0.0
+     ],
+     [
+      1.0,
+      0.0
+     ],
+     [
+      1.0,
+      0.0
+     ]
+    ],
+    "sync": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   }
+  },
+  "label": "MISSING_OBSERVABLE"
+ }
+}

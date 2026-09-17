@@ -80,7 +80,7 @@
   }
  },
  "open_scientific_question": "what state variable or pathway distinguishes active-PV and silent-PV histories at identical external parameters (x:H(s1) != x:H(s2))",
- "stopped_because": "background family STOPPED (reviewer 2026-09-17) after PV_NONSTATIONARY; SCI-V21-PV-STATE-PREDECESSOR opened read-only on existing artifacts",
+ "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
  "next_authorized_task": "SCI-V21-PV-STATE-PREDECESSOR",
  "locked_gates": [
   "V2.2_RECURRENCE",

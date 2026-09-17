@@ -1299,6 +1299,16 @@
    "sealed_in": "f916d80"
   },
   {
+   "path": "results/v21_pv_stationarity.json",
+   "blob": "bf85ecda5db35213ee99e8a7eaee244bdbf62bff",
+   "sealed_in": "907c7f2"
+  },
+  {
+   "path": "results/v21_pv_stationarity_spec.json",
+   "blob": "1a48bb4322b6efdbb6f3616107e003439ab04a85",
+   "sealed_in": "699b110"
+  },
+  {
    "path": "results/v21b_high_sm0p5.json",
    "blob": "6de5ef704c109f09602f2189534041250c0f06b6",
    "sealed_in": "c01913a"

@@ -311,7 +311,7 @@
   },
   {
    "id": "SCI-V21-COUPLED-BACKGROUND",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
    "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
    "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
@@ -347,6 +347,51 @@
     "summary": "bands pass on evaluated [0.3125, 1], fail at 0 and 0.25; candidate lambda 0.65625 fails the state-dependence check: PV decays within the run (window 3: 10.2 Hz fresh, 2.01 Hz from the lambda-0 end state, 14.66 Hz from the lambda-1 end state)",
     "reviewer_decisions_required": [
      "whether PV nonstationarity at lambda 0.65625 blocks the coupled-background program or calls for a predeclared longer-run or multi-initial-state qualification of an interior lambda"
+    ],
+    "reviewer_decision": {
+     "date": "2026-09-17",
+     "decision": "keep COUPLED_BACKGROUND_UNRESOLVED; no bands-only PASS. A rate-viable interval lambda in [0.3125, 1] exists, so mean recruitment is no longer the blocker; the open variable is PV stationarity/state dependence. Slow convergence, multistability/metastability and nonstationary PV dynamics are not distinguished by 20 s. No further lambda values",
+     "successor": "SCI-V21-PV-STATIONARITY"
+    }
+   }
+  },
+  {
+   "id": "SCI-V21-PV-STATIONARITY",
+   "status": "OPEN",
+   "trigger": "COUPLED_BACKGROUND_UNRESOLVED: PV at lambda 0.65625 depends on initial state (late windows 10.2 / 2.01 / 14.66 Hz)",
+   "goal": "distinguish slow convergence, multistability and nonstationary PV dynamics at the frozen candidate lambda 0.65625",
+   "parent_authority": "SCI-V21-COUPLED-BACKGROUND delivered.reviewer_decision (reviewer 2026-09-17)",
+   "principal_delta": "duration only: 60 s (12 x 5 s) per initial state; same lambda, same three initial states",
+   "required_inputs": [
+    "results/v21_pv_stationarity_spec.json",
+    "results/v21_coupled_background.json",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "lambda 0.65625 and its tonic vector",
+    "V2.1 static column build_plant, kernel baseline, HDP detached",
+    "native noise, PRNGKey(11) semantics",
+    "initial states fresh, lambda-0 end state, lambda-1 end state",
+    "prospective_v2 drift and class_rate_bands checks"
+   ],
+   "procedure": "run tests/test_v21_pv_stationarity.py (tier 3) exactly as sealed in results/v21_pv_stationarity_spec.json; classify; STOP",
+   "acceptance": "PV_STATIONARITY_PASS: all three trajectories converge to one stationary band-valid late regime (windows 9-11); PV_MULTISTABILITY: stationary but different late regimes; PV_NONSTATIONARY: continued drift or switching; PV_STATIONARITY_UNRESOLVED: 60 s cannot distinguish",
+   "stop_condition": "verdict recorded; no other lambda, no new initial states, no susceptibility; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_stationarity.json"
+   ],
+   "downstream_unlock": [
+    "SCI-V21C-COMPOSITION"
+   ],
+   "delivered": {
+    "verdict": "PV_NONSTATIONARY",
+    "result": "results/v21_pv_stationarity.json",
+    "spec_commit": "699b110",
+    "result_commit": "907c7f2",
+    "summary": "lambda-1 history holds PV at 14.4-14.7 Hz for 55 s; fresh and lambda-0 histories collapse to PV < 1 Hz (late means 0.71 and 0.09 Hz) after 10-30 s, fresh with a drop-and-recovery first; E, SST, VIP identical across histories",
+    "reviewer_consequence_declared": "MULTISTABILITY or NONSTATIONARY: stop the background program",
+    "reviewer_decisions_required": [
+     "confirm stopping the coupled-background program; state what, if anything, reopens it"
     ]
    }
   },

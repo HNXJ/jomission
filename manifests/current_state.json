@@ -57,11 +57,17 @@
    "status": "UNRESOLVED",
    "evidence": "results/v21_coupled_background.json",
    "scope": "gate"
+  },
+  "V2.1_PV_STATIONARITY": {
+   "status": "FAIL",
+   "evidence": "results/v21_pv_stationarity.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND"
   }
  },
- "open_scientific_question": "does a finite interior coupled tonic background on the V_MID to V_HIGH path satisfy all prospective_v2 class-rate bands (network operating point authoritative, reviewer D3 2026-09-17)",
- "stopped_because": "COUPLED_BACKGROUND_UNRESOLVED (results/v21_coupled_background.json): class-rate bands pass on evaluated lambda [0.3125, 1]; candidate lambda 0.65625 is state dependent (PV mean 11.47 Hz from the lambda-0 end state vs 14.55 fresh; PV window 3 falls to 10.2 and 2.01 Hz). Candidate not frozen; STOP for review",
- "next_authorized_task": "SCI-V21-COUPLED-BACKGROUND",
+ "open_scientific_question": "at lambda 0.65625, is the PV state slow-converging, multistable, or nonstationary (rate-viable interval lambda in [0.3125, 1] established)",
+ "stopped_because": "PV_NONSTATIONARY at lambda 0.65625 (results/v21_pv_stationarity.json): PV holds ~14.5 Hz after lambda-1 history but collapses below 1 Hz from fresh and lambda-0 histories within 60 s; per reviewer rule the background program stops pending review",
+ "next_authorized_task": "SCI-V21-PV-STATIONARITY",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",
@@ -117,7 +123,9 @@
   "results/v21_bkg_pv_calibration_spec.json",
   "results/v21_bkg_pv_calibration.json",
   "results/v21_coupled_background_spec.json",
-  "results/v21_coupled_background.json"
+  "results/v21_coupled_background.json",
+  "results/v21_pv_stationarity_spec.json",
+  "results/v21_pv_stationarity.json"
  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [

@@ -71,7 +71,7 @@
     "tests/test_native_geometry.py",
     "tests/test_q8_state_replacement.py",
     "tests/test_v21c_intrinsic_design.py",
-    "tests/test_v21c_boundary.py", "tests/test_v21_bkg_pv_calibration.py", "tests/test_v21_coupled_background.py"
+    "tests/test_v21c_boundary.py", "tests/test_v21_bkg_pv_calibration.py", "tests/test_v21_coupled_background.py", "tests/test_v21_pv_stationarity.py"
    ]
   }
  },

@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-GATE-REPAIR implemented on branch v21-gate-repair (canonical estimators and battery driver, no simulation); silent-E reviewer decision implemented as spec amendment 2 (active fraction >= 0.95 per class); awaiting review
+- stopped because: SCI-V21-GATE-REPAIR accepted by reviewer and merged to main (d9242c4); no verdict changed. Status left OPEN only because the next item named in review, SCI-V21C-BOUNDARY, is already DONE (results/v21c_boundary.json: SPONTANEOUS_BEFORE_CV, INTRINSIC_HETEROGENEITY_INFEASIBLE, on main since 4859d3c) and SCI-V21-BACKGROUND requires reviewer design; next task awaits reviewer choice
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

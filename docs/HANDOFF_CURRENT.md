@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-BACKGROUND design returned BKG_DESIGN_UNRESOLVED on branch v21-background-design (results/v21_background_design.json): PV 10 Hz support unidentified; reviewer decisions R1-R3 pending; no network run authorized
+- stopped because: SCI-V21-BKG-PV-CALIBRATION sealed (results/v21_bkg_pv_calibration_spec.json); isolated PV F-I diagnostic authorized; no network execution
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -61,8 +61,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21-BACKGROUND` (OPEN): Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition
-- stop: design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides
+- `SCI-V21-BKG-PV-CALIBRATION` (OPEN): resolve I_PV(10 Hz) and g_PV = dr_PV/dI under the frozen native-noise single-cell condition
+- stop: no network or V2.1 execution; ISI-CV, synchrony and heterogeneity are not criteria; STOP for review after analytic BKG regeneration
 
 ### Locked gates
 

@@ -55,8 +55,8 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "SCI-V21-BACKGROUND design returned BKG_DESIGN_UNRESOLVED on branch v21-background-design (results/v21_background_design.json): PV 10 Hz support unidentified; reviewer decisions R1-R3 pending; no network run authorized",
- "next_authorized_task": "SCI-V21-BACKGROUND",
+ "stopped_because": "SCI-V21-BKG-PV-CALIBRATION sealed (results/v21_bkg_pv_calibration_spec.json); isolated PV F-I diagnostic authorized; no network execution",
+ "next_authorized_task": "SCI-V21-BKG-PV-CALIBRATION",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

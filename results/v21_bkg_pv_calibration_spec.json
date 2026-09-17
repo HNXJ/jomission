@@ -1,0 +1,50 @@
+{
+ "lineage": "V2.1-bkg-pv-calibration (SCI-V21-BKG-PV-CALIBRATION)",
+ "parent": "V2.1-background-design, commit d9c8f5f (branch v21-background-design), verdict BKG_DESIGN_UNRESOLVED",
+ "authority": "reviewer 2026-09-17: R1 = B (gain-normalized zero-mean shot, s_c = I0_E g_E / g_c), R2 = P1 (isolated PV F-I diagnostic), R3 = keep I0_VIP = 24.33",
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "kind": "isolated single-cell numerics; no network, no V2.1 battery, no plant execution",
+ "goal": "resolve I_PV(10 Hz) and g_PV = dr_PV/dI under the frozen native-noise single-cell condition",
+ "frozen": {
+  "code": {
+   "jomission/qualification/intrinsic.py": "b6dc640b44bba9518cc09d4d6f9264355382a8c2 (simulate_population, engine-order forward Euler)",
+   "jomission/qualification/cmin.py": "83aef5c33e3cffd6e6fda28b2135254f7c506b09 (build_cmin: source of the PV cell parameters)"
+  },
+  "cell": "all PV cells of build_cmin(): a, b, c, d read from model.params['emitter'] (observed homogeneous: a 0.1, b 0.2, c -65, d 2; 40 cells)",
+  "isolation": "simulate_population with rec = {} (no recurrent input) and a zero schedule; tonic I0 = I is the only coordinate",
+  "native_noise": "0.5*N(0,1) per cell per step, numpy PCG64 seed 32100 (common to every I; the engine JAX stream is not reproducible outside the model)",
+  "initial_state": "v = -65, u = b*v (simulate_population default)",
+  "time": "dt 0.1 ms; 4 x 5 s chunks (50000 steps); analysis windows 1-3"
+ },
+ "estimator": "r(I) = mean over analysis windows 1-3 of the class-mean rate (spikes / (40 cells * 5 s)), the gate rate_hz estimator",
+ "procedure": {
+  "1_endpoints": "evaluate r(2.8) and r(3.6)",
+  "2_bracket": "bisection only if r(2.8) < 10 <= r(3.6); otherwise classify PV_CALIBRATION_FAIL and evaluate nothing further",
+  "3_bisection": "on r(I) - 10 inside [2.8, 3.6] until bracket width <= 0.0125; I_PV10 = linear interpolation of 10 Hz between the final bracket rates",
+  "4_slope": "evaluate r at I_PV10 +- 0.05 and +- 0.1, each clipped to [2.8, 3.6]; g_05 and g_10 are the corresponding difference quotients; g_PV = g_05",
+  "5_usable_slope": "g_05 > 0 and g_10 > 0 and 0.5 <= g_05 / g_10 <= 2"
+ },
+ "classification": {
+  "PV_CALIBRATION_PASS": "finite I_PV10 in [2.8, 3.6] and usable slope",
+  "PV_CALIBRATION_FAIL": "10 Hz not bracketed in [2.8, 3.6] (step 2)",
+  "PV_CALIBRATION_UNRESOLVED": "bracketed, but the estimator or onset prevents reliable inversion: a bisection evaluation contradicts monotonicity with an earlier evaluation by more than 1 Hz, or the final bracket rates differ by more than 5 Hz (onset discontinuity), or the slope is unusable"
+ },
+ "reported_not_gating": {
+  "diagnostic_reading": "isolated r(2.8) vs network V_MID PV 0.0 Hz: r(2.8) >= 5 Hz reads as network-mediated PV suppression at V_MID; r(2.8) < 1 Hz reads as the battery_b1 F-I inversion failing near threshold",
+  "network_comparison": "isolated r(3.6) vs network V_HIGH PV 20.0-20.2 Hz (results/v21_high.json)",
+  "analytic_reference": "deterministic saddle-node of the Izhikevich rest point for the frozen PV parameters: 0.04 v^2 + (5 - b) v + 140 + I = 0 loses its real roots at I = (5 - b)^2 / 0.16 - 140 = 4.0 (DERIVED, not gating)"
+ },
+ "pre_seal_disclosure": {
+  "observation": "a timing probe ran before this spec was written: simulate_population, the 40 frozen PV cells, I = 3.6, rec = {}, zero schedule, seed 1, 4 x 50000 steps. Window rates 0.0, 0.0, 0.0 Hz; 3.2 s wall time",
+  "effect_on_protocol": "the range [2.8, 3.6], the classification labels and their conditions are the reviewer's and were fixed before the probe. Chosen after the probe: seed 32100, the 1 Hz and 5 Hz UNRESOLVED tolerances, the slope offsets. None of these enters the FAIL branch",
+  "evidence_class": "OBSERVED"
+ },
+ "forbidden": [
+  "evaluations outside [2.8, 3.6]",
+  "any network or V2.1 battery run",
+  "ISI-CV, synchrony or heterogeneity as success criteria",
+  "changing I0 of any other class"
+ ],
+ "stop": "classify, write results/v21_bkg_pv_calibration.json, then regenerate BKG1-BKG3 analytically (no execution) and STOP for review",
+ "driver": "tests/test_v21_bkg_pv_calibration.py (tier 3)"
+}

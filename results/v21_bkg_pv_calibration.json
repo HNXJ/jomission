@@ -1,0 +1,62 @@
+{
+ "spec": "results/v21_bkg_pv_calibration_spec.json",
+ "n_cells": 40,
+ "cell_params_min_max": {
+  "a": [
+   0.10000000149011612,
+   0.10000000149011612
+  ],
+  "b": [
+   0.20000000298023224,
+   0.20000000298023224
+  ],
+  "c": [
+   -65.0,
+   -65.0
+  ],
+  "d": [
+   2.0,
+   2.0
+  ]
+ },
+ "evaluations": [
+  {
+   "I": 2.8,
+   "rate_hz": 0.0,
+   "per_window_hz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "role": "endpoint"
+  },
+  {
+   "I": 3.6,
+   "rate_hz": 0.0,
+   "per_window_hz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "role": "endpoint"
+  }
+ ],
+ "label": "PV_CALIBRATION_FAIL",
+ "reason": "10 Hz not bracketed in [2.8, 3.6]: r(2.8) = 0.0, r(3.6) = 0.0",
+ "reported_not_gating": {
+  "network_V_MID_PV_hz": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "isolated_r_2p8_hz": 0.0,
+  "diagnostic_reading": "battery_b1 F-I inversion fails near threshold",
+  "network_V_HIGH_PV_hz": [
+   20.2,
+   20.2,
+   20.0
+  ],
+  "isolated_r_3p6_hz": 0.0,
+  "analytic_saddle_node_I": 3.9999998211860657
+ }
+}

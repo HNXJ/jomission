@@ -12,7 +12,8 @@
     "tests/test_harness_guards.py",
     "tests/test_environment_provenance.py",
     "tests/test_agents_policy.py",
-    "tests/test_pages_build.py"
+    "tests/test_pages_build.py",
+    "tests/test_v2_operation_prospective.py"
    ]
   },
   "1": {

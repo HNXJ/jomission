@@ -144,7 +144,46 @@
    "downstream_unlock": [
     "SCI-V21-BACKGROUND"
    ],
-   "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR"
+   "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR",
+   "delivered": {
+    "state": "implemented on branch v21-gate-repair; awaiting review (status stays OPEN until accepted)",
+    "artifacts": [
+     "jomission/harness/operation.py",
+     "tests/test_v2_operation_prospective.py",
+     "tests/test_gates_single_source.py (canonical-estimator and historical-profile guards)",
+     "tests/test_harness_guards.py (PASS_ASSERT_ALLOWLIST entry: synthetic known-answer verdict label)",
+     "manifests/gates/v2_local_operation.json (estimator_implementation, battery_rule; thresholds unchanged)",
+     "manifests/test_tiers.json (tier 0)",
+     "results/generic_substrate_v2_amendment_2.json",
+     "manifests/gates/v2_local_operation.json (prospective_v2 check active_fraction_by_class; estimator active_fraction)",
+     "jomission/harness/gates.py (kind active_fraction_min_by_class), jomission/harness/operation.py (window active_fraction)"
+    ],
+    "acceptance_reading": "the battery is jomission.harness.operation.run_battery (gates.evaluate, profile prospective_v2) plus its tier-0 test tests/test_v2_operation_prospective.py, which matches tests/test_v2*_operation*.py and imports jomission.harness.gates; tests/test_gates_single_source.py passes with it present",
+    "validation": "synthetic rasters only, no plant or network simulation: per-neuron spike counts and ISI CVs equal the frozen window_isis; frozen run_regime executed through a fake engine gives equal checks and rates (rel 1e-9); class ISI statistic equals tests/test_v21b_isi_classes.py _class_stats; edge cases (CV exactly 0.5 and 1.5 in band, 4 vs 3 spikes, 15 vs 16 of 30 E co-spiking) match frozen code; mutation probes (ddof 1, sync >=, exclusive band edges, > min_spikes) each fail the tests",
+    "findings": [
+     {
+      "item": "frozen V2.1 battery gated E_het on E_rate_CV rounded to 3 decimals (tests/test_v21_operation.py:136,148); the canonical estimator does not round, so a window with E rate-CV in [0.2995, 0.3) passed historically and fails canonically",
+      "evidence": "no sealed results/v21*.json window has E_rate_CV in [0.29, 0.31]; no executed verdict changes",
+      "evidence_class": "OBSERVED"
+     },
+     {
+      "item": "amendment 1 VIP values are max-over-windows rates and equal the sealed cells (low_sm2p0 130.2, mid_sm2p0 139.5, high_sm2p0 159.0, high_sm1p0 86.1 Hz)",
+      "evidence": "tests/test_v2_operation_prospective.py::test_amendment_vip_values_match_sealed_cells",
+      "evidence_class": "OBSERVED"
+     }
+    ],
+    "receipts": [
+     "python -m pytest tests/test_gates_single_source.py tests/test_v2_operation_prospective.py tests/test_harness_guards.py -> 23 passed",
+     "python scripts/project_check.py -> PROJECT_CHECK_PASS"
+    ],
+    "reviewer_decision": {
+     "item": "silent E cells (fewer than min_spikes=4 in a window) are excluded from the ISI fraction but included in E rate-CV",
+     "decision": "ISI criteria apply only to active cells, but the active-cell fraction is itself gated (reviewer, 2026-09-16)",
+     "implemented_as": "spec amendment 2 (results/generic_substrate_v2_amendment_2.json): per class E/PV/SST/VIP, f_active = N(spikes >= 4 in the 5 s window)/N_class >= 0.95 in every analysis window; ISI fraction over active cells and E rate-CV over all cells unchanged",
+     "threshold_source": "reviewer choice; F3_silence precedent in results/v21c_design_protocol.json extended to all classes",
+     "executed_verdicts": "unchanged; historical_v21_battery has no activity check. On sealed low_sm2p0 the new check passes (min SST 31/32); that cell still fails class_rate_bands and isi_cv_by_class"
+    }
+   }
   },
   {
    "id": "SCI-V21-BACKGROUND",

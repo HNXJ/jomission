@@ -3,13 +3,15 @@
  "gate_id": "V2_LOCAL_OPERATION",
  "authority": [
   "results/generic_substrate_v2_spec.json acceptance_sketches.operation",
-  "results/generic_substrate_v2_spec.json amendments[id=1]"
+  "results/generic_substrate_v2_spec.json amendments[id=1]",
+  "results/generic_substrate_v2_amendment_2.json"
  ],
  "windows": {"dt_ms": 0.1, "run_s": 20.0, "chunk_s": 5.0, "analysis_chunks": [1, 2, 3], "aggregation": "every analysis window must pass"},
  "estimators": {
   "rate_hz": "spikes per neuron per window / window seconds, class mean",
   "isi_cv": "per neuron: std/mean (ddof 0) of ISIs inside one window; evaluable if spikes >= min_spikes",
   "isi_fraction": "fraction of evaluable neurons with isi_cv inside cv_band",
+  "active_fraction": "per class: fraction of neurons with spikes >= min_spikes of the ISI check in one window (active = CV-evaluable)",
   "rate_cv": "std/mean across all neurons of the class of per-window rates, silent neurons included",
   "sync": "fraction of steps in which more than half of E neurons spike; maximum over windows",
   "drift": "(max - min) / mean of class rate across analysis windows"
@@ -27,10 +29,11 @@
    }
   },
   "prospective_v2": {
-   "status": "ACTIVE for every V2 local-operation execution after 2026-09-16 (spec amendment 1)",
+   "status": "ACTIVE for every V2 local-operation execution after 2026-09-16 (spec amendments 1 and 2)",
    "checks": {
     "class_rate_bands": {"kind": "class_rate_band_by_class", "rate_hz": {"E": [2.0, 30.0], "PV": [1.0, 80.0], "SST": [1.0, 80.0], "VIP": [1.0, 80.0]}},
     "isi_cv_by_class": {"kind": "isi_fraction_by_class", "classes": ["E", "PV", "SST", "VIP"], "cv_band": [0.5, 1.5], "min_fraction": 0.8, "min_spikes": 4},
+    "active_fraction_by_class": {"kind": "active_fraction_min_by_class", "classes": ["E", "PV", "SST", "VIP"], "min_fraction": 0.95},
     "E_het": {"kind": "rate_cv_min", "classes": ["E"], "rate_cv_min": 0.3},
     "sync": {"kind": "sync_max_exclusive", "max": 0.01},
     "drift": {"kind": "drift_max", "classes": ["E", "PV", "SST", "VIP"], "max": 0.2}
@@ -42,5 +45,7 @@
   "tests/test_v21b_operation.py",
   "tests/test_v21b_isi_classes.py"
  ],
- "consumer_rule": "any other module that computes or names these checks imports jomission.harness.gates (enforced by tests/test_gates_single_source.py)"
+ "consumer_rule": "any other module that computes or names these checks imports jomission.harness.gates (enforced by tests/test_gates_single_source.py)",
+ "estimator_implementation": "jomission/harness/operation.py (window_summary, drift, evaluate, run_battery); checked against frozen_literal_implementations by tests/test_v2_operation_prospective.py",
+ "battery_rule": "a non-frozen tests/test_v2*operation*.py imports jomission.harness.operation; profile historical_v21_battery is used only by the reproduction tests (both enforced by tests/test_gates_single_source.py)"
 }

@@ -36,6 +36,8 @@ def _check(spec: dict, windows: list[dict], drift: dict) -> bool:
     if k == "isi_fraction_by_class":
         return all(w["isi_fraction"][c] is not None and w["isi_fraction"][c] >= spec["min_fraction"]
                    for w in windows for c in spec["classes"])
+    if k == "active_fraction_min_by_class":
+        return all(w["active_fraction"][c] >= spec["min_fraction"] for w in windows for c in spec["classes"])
     if k == "rate_cv_min":
         return all(w["rate_cv"][c] >= spec["rate_cv_min"] for w in windows for c in spec["classes"])
     if k == "sync_max_exclusive":

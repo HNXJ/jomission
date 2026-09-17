@@ -1,0 +1,17 @@
+{
+ "kind": "prospective gate amendment (additive; executed verdicts unchanged; results/generic_substrate_v2_spec.json is sealed and left unedited)",
+ "id": 2,
+ "date": "2026-09-16",
+ "amends": "results/generic_substrate_v2_spec.json amendments[id=1] open_for_review (silent E cells)",
+ "reviewer_decision": "ISI criteria apply only to active cells, but the active-cell fraction must itself be gated. Silent cells are not counted as ISI failures and are not excluded without an activity-fraction gate.",
+ "rationale": "without an activity gate a model can raise its class ISI fraction or E rate-CV by silencing difficult neurons",
+ "operation": {
+  "active_cell": "a neuron with >= min_spikes spikes in one analysis window, min_spikes from the isi_cv_by_class check (4 in a 5 s window: r_min,cell = 0.8 Hz). Identical to the amendment 1 CV-evaluable definition",
+  "active_fraction": "for each class X in {E, PV, SST, VIP} separately: f_active = N_X(active) / N_X, in every analysis window",
+  "gate": "f_active >= 0.95 for every class in every analysis window",
+  "isi": "unchanged: P(0.5 <= CV_ISI <= 1.5 | active) >= 0.8 per class (amendment 1)",
+  "rate_cv": "unchanged: E rate-CV over all E neurons, silent included"
+ },
+ "threshold_source": "reviewer choice 2026-09-16; carries results/v21c_design_protocol.json F3_silence (E fraction with <4 spikes <= 0.05, a design criterion) to all four classes as a gate",
+ "profile": "prospective_v2 in manifests/gates/v2_local_operation.json (check active_fraction_by_class); historical_v21_battery unchanged"
+}

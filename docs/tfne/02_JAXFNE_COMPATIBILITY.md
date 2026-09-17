@@ -165,7 +165,9 @@ Source: `jdna/genome.py:705-717` copies only endpoints and `mechanism`; `:138` h
 
 ## 5. Spectrolaminar tooling (source-read; not executed)
 
-Relevant to the `H_SL` candidate (spec §6.2). Read from `jaxfne/fields/proxy.py` in 0.4.24. No readout was run.
+Relevant to the `H_SL` candidate and its gates SL0–SL2 (spec §6.2). Read from `jaxfne/fields/proxy.py` in 0.4.24. No readout was run.
+
+**Classification:** JaxFNE spectrolaminar tooling = phenomenological visualization/proxy. It is not a qualified LFP forward model and cannot establish SL1. The cable filter (F3) and the teaching source (F4) remain usable as visualization and readout-positive controls; a landmark they produce is not evidence that the circuit generated it.
 
 | # | Observation | Source | Consequence for `H_SL` |
 |---|---|---|---|
@@ -174,6 +176,8 @@ Relevant to the `H_SL` candidate (spec §6.2). Read from `jaxfne/fields/proxy.py
 | F3 | `cable_filter_tau` / `cable_filter_sources` apply a depth-graded low-pass filter: E tau 1 ms superficial → 5 ms deep, PV 0.5, SST 2, VIP 2 ms, order 2. The docstring reports gamma deep:superficial 0.66 after filtering, and says the unfiltered baseline "shows the same flat ~1.7x deep gain in every band". | `proxy.py:1060-1145` | In that documented case, the superficial-gamma landmark is produced by the readout operator. A filter of this kind is a forward-model assumption and cannot count as generator evidence. |
 | F4 | `teaching_control_spectrolaminar_resonance_source` injects fixed 15 Hz and 90 Hz layer-weighted sinusoids (`spectrolaminar_profile_injected: True`, `default_evidence_path: False`). | `proxy.py:738-820` | Excluded from `H_SL` evidence. It may serve only as a positive control for a readout. |
 | F5 | `spectrolaminar_readout` uses bands alpha_beta 8–25 Hz and gamma 40–150 Hz, normalizes each channel's PSD by its total power over 1–150 Hz, takes neurons (not contacts) as channels, and sets `contact_depths_m = pos_from_l4 × 0.5`. Without scipy, `spectrolaminar_psd` falls back to a raw FFT silently. | `proxy.py:131-146, 824-948` | Per-channel relative power couples bands: lower alpha-beta at a depth raises relative gamma there with no change in gamma power. Bands differ from the proposal's. Band edges, normalization and PSD estimator must be declared before any run. |
+
+**Pending question to the JaxFNE team (observability).** Does JaxFNE expose enough neuron-resolved synaptic/transmembrane current and spatial/morphological information to build an external laminar LFP forward model without changing simulation dynamics? If yes, what is the canonical observable surface? If no, is `fields/proxy.py` intentionally phenomenological? The answer decides whether SL1 needs only an observation layer or new simulation state (spec D4f).
 
 Required before `H_SL` evidence through these tools: a flat-spectrum input control, a null source with no laminar structure passed through the same readout (F3, F5), a positive control (F4) the readout must recover, and ablations of the proposed generators. A readout-created motif is a FAIL of the forward model.
 

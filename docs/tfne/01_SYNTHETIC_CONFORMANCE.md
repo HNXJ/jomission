@@ -35,6 +35,7 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
       "ff": [{"from_lower": "L23.E", "to_higher": "L4.E", "mech": "AMPA"}],
       "fb": [{"from_higher": "L56.E", "to_lower": "L1.E", "mech": "AMPA"},
              {"from_higher": "L56.E", "to_lower": "L1.E", "mech": "NMDA"}],
+      "extra_mechanisms": "allowed",
       "params": {"w": {"type": "float", "default": 1.0}, "p": {"type": "float", "min": 0, "max": 1, "default": 1.0}}
     }
   },
@@ -144,7 +145,8 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
 | P11 | `V1 O V4; V1 -> V4` | 8 (6 from O plus `V1.L5.E -> V4.L4.E [AMPA]`, `V1.L6.E -> V4.L4.E [AMPA]`) |
 | P12 | `V1 O V4; V1.L7.E ->[mech=AMPA] V4.L4.E` | `E_ADDRESS_UNKNOWN` (layer `L7` is absent from `synthetic/H`) |
 | P13 | `V1; PFC; V1 ->[mech=NMDA] PFC` | `E_MECHANISM_CONFLICT` (`synthetic/P` generates AMPA) |
-| P14 | `V1; PFC; V1 ->[mech=AMPA] PFC` | no expected result: agreeing mechanism is OPEN-LANGUAGE L3 |
+| P14 | `V1; PFC; V1 ->[mech=AMPA] PFC` | `E_PROJECTION_REDUNDANT` (`synthetic/P` already supplies AMPA) |
+| P15 | `V1 O V4; V1.L1.PV ->[mech=GABA_A] V4.L1.E` | `E_ADDRESS_UNKNOWN` (`synthetic/H` has no PV population in L1: `p_{L1,PV} = 0`) |
 
 ### 3.2 Exceptions (mechanism-inclusive identity)
 
@@ -156,7 +158,8 @@ This suite tests the algebra and its compiler before any biology is frozen. Stru
 | E4 | `V1 O V4; V1.L5.E -/-> V4.L1.E` | `E_EXCL_NOT_IN_G0` (FB runs higher → lower) |
 | E5 | `V1 O V4; V4.L5.E -/->[mech=GABA_A] V1.L1.E` | `E_EXCL_NOT_IN_G0` (mechanism absent) |
 | E6 | `V1 O V4; V1.L23.E ->[mech=AMPA] V4.L4.E` | `E_ADD_IN_G0` |
-| E7 | `V1 O V4; V1.L23.E ->[mech=NMDA] V4.L4.E` | valid; 8 (distinct identities) |
+| E7 | `V1 O V4; V1.L23.E ->[mech=NMDA] V4.L4.E` | valid; 8 (distinct identities; `synthetic/O` has `extra_mechanisms: allowed`) |
+| E7b | E7 with `synthetic/O` set to `extra_mechanisms: forbidden` | `E_MECHANISM_NOT_PERMITTED` (proposed field) |
 | E8 | `V1 O V4; V4.L5.E -/->[mech=AMPA] V1.L1.E; V4.L5.E ->[mech=AMPA] V1.L1.E` | `E_EXC_CONFLICT` and `E_ADD_IN_G0` |
 | E9 | `V1 O V4; V4 -/-> V1` vs `V1 O V4; V4.L56.E -/-> V1.L1.E` | equal `h_T`, `h_P`; different `h_S` |
 | E10 | `V1 O V4; V4 -/-> V1; V1.L5.E ->[mech=AMPA] V4.L4.E` in all 6 statement orders | identical `h_S`, `h_T`, `h_P` |

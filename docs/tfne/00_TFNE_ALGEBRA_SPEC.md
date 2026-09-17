@@ -139,7 +139,10 @@ Explicit projections `→` do not count toward R. They are still validated again
 | no mechanism from the arrow or a generating motif | `E_MECHANISM_UNRESOLVED` |
 | arrow mechanism differs from the generating motif's | `E_MECHANISM_CONFLICT` |
 
-- Whether an arrow mechanism that agrees with the generating motif is valid or redundant is OPEN-LANGUAGE (L3).
+| arrow mechanism equals the generating motif's | `E_PROJECTION_REDUNDANT` |
+
+- **One spelling per normal form.** Restating a mechanism the generating motif already supplies adds a second spelling of the same graph and is invalid. This follows the same principle as `E+ ∩ G0 = ∅` (3.12). An explicit fully addressed projection that repeats an identity already in G0 raises `E_ADD_IN_G0`.
+- **Same endpoints, different mechanism.** A fully addressed projection whose endpoints match a G0 projection but whose mechanism differs has a distinct identity (3.9). It is valid unless the generating motif restricts that route to its own mechanisms (`E_MECHANISM_NOT_PERMITTED`; registry field `extra_mechanisms`, PROPOSED).
 
 ### 3.9 Projection identity [SETTLED]
 
@@ -293,6 +296,8 @@ Errors carry a code, a message, and the smallest offending subexpression with it
 | `E_PARAM_UNKNOWN` | 6 | θ key not declared for its target |
 | `E_MECHANISM_UNRESOLVED` | 7 | resolved projection with no mechanism from the arrow or a generating motif |
 | `E_MECHANISM_CONFLICT` | 7 | arrow mechanism differs from the generating motif's |
+| `E_PROJECTION_REDUNDANT` | 7 | arrow mechanism equals the generating motif's |
+| `E_MECHANISM_NOT_PERMITTED` | 9 | explicit projection adds a mechanism on a G0 route whose motif forbids extra mechanisms |
 | `E_X_UNDIRECTED` | 7 | projection expansion of bare X |
 | `E_MOTIF_UNDEFINED` | 7 | a motif or default projection motif used is not `defined` in the registry |
 | `E_EXCL_NOT_IN_G0` | 9 | exclusion selects nothing in G0 |
@@ -308,9 +313,20 @@ Errors carry a code, a message, and the smallest offending subexpression with it
 | D1 | O projection motif: classes per laminar route, mechanisms, parameters, `L56 → L56` pairing | OPEN |
 | D2 | Q lateral motif | OPEN |
 | D3 | X bypass motif catalogue, including the default projection motif for unit-level `→` | OPEN |
-| D4a | H population, layer and class structure, including layer aliases | OPEN |
-| D4b | H scaling with N | OPEN |
-| D4c | H canonical input and output frontiers | OPEN |
+| D4a | layer-class proportions `p_{ℓ,c} ≥ 0`, including absent populations, and layer aliases | OPEN |
+| D4b | scaling `H(N)` | OPEN |
+| D4c | canonical input and output frontiers | OPEN |
+| D4d | local canonical connectivity `C_local` | OPEN |
+| D4e | cell and intrinsic parameter distributions `Θ_cell`, synaptic parameters `Θ_syn` | OPEN |
+| D4f | spatial/morphological representation `G` required for observables | OPEN |
+
+**Unit content.** H is not defined as the product `∏_{ℓ=1..6} {E, PV, SST, VIP}`. It is
+
+```
+H = { P_{ℓ,c}, C_local, Θ_cell, Θ_syn, G },   p_{ℓ,c} ≥ 0
+```
+
+TFNE fixes the class vocabulary `{E, PV, SST, VIP}`. D4a decides which layer-class populations exist and in what proportions. A class may be absent from a layer; L1 needs no E population because E is in the vocabulary. An address to an absent population raises `E_ADDRESS_UNKNOWN`.
 
 Settled so far for D1: laminar routing only. FF runs lower `L23` → higher `L4`; FB runs higher `L56` → lower `L1` and `L56`.
 
@@ -327,18 +343,27 @@ phenotype:  argmax_z gamma power      → L2/3
             crossover                 → L4
 ```
 
-- **Condition.** The motif must appear in the unit alone, without sensory stimulation, during finite irregular E/PV/SST/VIP operation. Construct the smallest H that produces it before testing `H O H`.
-- **Qualification is split in two**, and neither implies the other:
-  1. *Network generator:* the populations produce the band-limited activity at the stated depths.
-  2. *Forward model:* synaptic/transmembrane currents map to a laminar field `φ(z)` and to `P(z, f)`. Model outputs are named `lfp_proxy` / `csd_proxy` until a forward model is qualified against a known-answer case.
-- A spectral readout operator must not create the laminar motif. Any depth-dependent filter, injected oscillatory source, or band/normalization choice is a declared part of the forward model and needs its own null control (see `02_JAXFNE_COMPATIBILITY.md` §5).
-- `H_SL` does not settle D4a–D4c. Its population set, including whether L1 contains E cells, is part of D4a.
+- **Condition.** The motif must appear in the unit alone, without sensory stimulation, during finite irregular operation of the populations D4a declares. Construct the smallest H that produces it before testing `H O H`.
+- The empirical target is the laminar landmark set. Its neuronal generators are unknown; superficial gamma, deep alpha-beta and superficial-deep interaction are candidate mechanisms, not settled ones.
+- **Three gates**, each necessary and none implying another:
+
+| Gate | Question | Tests |
+|---|---|---|
+| SL0 network generator | Do H's native neural/current dynamics contain superficial high-frequency and deep alpha-beta activity with the required laminar ordering? | the circuit |
+| SL1 physical forward model | Given transmembrane/synaptic currents and cell geometry, does `I_m(r, t) → φ(z, t)` produce a laminar depth-frequency map, qualified against a known-answer case? | the biophysics |
+| SL2 empirical phenotype | Does the composition `H →(SL0) currents →(SL1) LFP` give γ max ∼ L2/3, αβ max ∼ L5/6, crossover ∼ L4? | the phenotype |
+
+- Only SL2 is compared against the empirical phenotype. A spike-derived proxy cannot establish SL1; its outputs are `lfp_proxy` / `csd_proxy`.
+- A readout operator must not create the laminar motif. A depth-dependent filter, injected oscillatory source, or band/normalization choice belongs to the forward model and needs its own null control (`02_JAXFNE_COMPATIBILITY.md` §5).
+- **H parameters are never tuned against a phenomenological proxy readout.** Doing so fits the readout operator rather than explaining the physiology.
+- `H_SL` needs D4a–D4f; it settles none of them. SL1 depends on D4f.
+- **Lineage.** The V2 scientific lineage may later yield a qualified H. TFNE does not assume that outcome, and TFNE work grants no V2 authority.
 
 ### 6.3 Language [OPEN-LANGUAGE]
 
 - L1: exponent on composites
 - L2: X between composites
-- L3: an arrow mechanism that agrees with the generating motif (valid or redundant)
+- L3: settled (3.8): an arrow mechanism equal to the generating motif's raises `E_PROJECTION_REDUNDANT`
 
 ### 6.4 Awaiting confirmation [PROPOSED]
 
@@ -347,6 +372,7 @@ phenotype:  argmax_z gamma power      → L2/3
 - Q operand sort key: units by id, composites by sorted member ids; integer labels numerically, otherwise as strings
 - `E_HIERARCHY_CYCLE`, `E_DUPLICATE`
 - parameter keys and types in the registry; defaults resolved before hashing
+- registry field `extra_mechanisms: allowed | forbidden` per motif route, and `E_MECHANISM_NOT_PERMITTED`
 - error codes and the encoding in 4.4
 
 ## 7. Reference spelling [PROVISIONAL SPELLING]

@@ -77,11 +77,19 @@
     "authority": "reviewer 2026-09-17",
     "lift": "a lineage that changes or explains the mechanism producing PV state dependence"
    }
+  },
+  "V2.1_PV_PREDECESSOR": {
+   "status": "UNRESOLVED",
+   "evidence": "results/v21_pv_predecessor.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "the PV fate is set by the initial state, not the noise realization (key-matched control)",
+   "fail_boundary": "the recorded observable set: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz"
   }
  },
- "open_scientific_question": "what state variable or pathway distinguishes active-PV and silent-PV histories at identical external parameters (x:H(s1) != x:H(s2))",
+ "open_scientific_question": "what state variable distinguishes active-PV and silent-PV histories at identical external parameters. Established: the distinguishing quantity is carried in the initial state, not the noise realization, and is not visible in population-mean 1 ms v_PV, u_PV, the engine source term, the four class inputs or their residuals",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "SCI-V21-PV-PREDECESSOR",
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

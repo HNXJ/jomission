@@ -594,6 +594,97 @@
     "tests/test_v21_pv_stationarity.py"
    ],
    "commit": "907c7f2"
+  },
+  {
+   "lineage_id": "V2.1-pv-predecessor-instrumented",
+   "parent": "V2.1-pv-stationarity",
+   "principal_delta": "retention of per-cell PV state during a matched re-execution; plus one key-matched control run (state of B, noise of A). No parameter, tonic, topology, kernel or gate change",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_predecessor_spec.json",
+    "commit": "1e9d0a8"
+   },
+   "authority": "manifests/todo.json SCI-V21-PV-STATE-PREDECESSOR.delivered.reviewer_decision (reviewer 2026-09-17): one instrumented matched rerun, not another substrate experiment",
+   "inputs": [
+    "results/v21_pv_stationarity.json",
+    "tests/test_v21_pv_stationarity.py",
+    "tests/test_v21_operation.py",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "lambda 0.65625 tonic (E 7.75625, PV 3.325, SST 0.9771875, VIP 26.521875)",
+    "V2.1 static column, kernel baseline, HDP detached",
+    "native noise, PRNGKey(11) semantics",
+    "12 x 5 s chunks",
+    "blobs pinned in the spec"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "runs A and B reproduce the sealed 60 s window rates for every class and window with max difference 0.0 Hz; Delta_instrumentation = 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "u reconstruction matches the engine carry at every chunk boundary to 8.5e-06 or better in all three runs",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "the engine source term includes the tonic: residual after removing tonic and the reconstructed class inputs has mean 0.016-0.030 against a reconstructed input scale of 0.202-0.231",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "late PV rate: A 0.71 Hz, B 14.43 Hz, C 15.11 Hz; C and B share the same starting state hash 8704423170e6ae32 and differ only in key stream",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "no recorded channel (v_PV, u_PV, sources, the four class inputs, the two residuals) leaves its own 0-5 s baseline by 5 sigma sustained 1 s in any run; the PV population rate does so at 15 s in run A",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "the run A collapse is uniform across the PV population: early per-cell 16.40-17.20 Hz, late 0.00-2.60 Hz, one cell below 0.1 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the PV fate at lambda 0.65625 is set by the initial state, not by the noise realization: C tracks B within the sealed tolerance max(1 Hz, 10%) and differs from A by 14.4 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_predecessor.json P1_fate"
+    },
+    {
+     "claim": "population-mean 1 ms channels are close to blind to the firing collapse: v_PV moves 0.05 baseline sd, sources 0.02 sd, u_PV 0.35 sd while per-cell firing falls from 17.12 to 0.63 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_predecessor.json post_execution_disclosure.observability_limit"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the state that selects the PV fate is not visible at the population-mean 1 ms resolution of this lineage; a per-cell or subthreshold-resolved observable would be needed to locate it",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "UNRESOLVED",
+    "status": "UNRESOLVED"
+   },
+   "acceptance": "results/v21_pv_predecessor_spec.json classification table (reproduction -> P1 -> P2 -> classification)",
+   "fail_boundary": "the recorded observable set, not the execution: reproduction and both reconstruction validations passed, and no candidate channel precedes the PV-rate separation",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_predecessor_spec.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "commit": "b4130f3"
   }
  ]
 }

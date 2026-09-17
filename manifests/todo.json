@@ -832,7 +832,7 @@
   },
   {
    "id": "SCI-V21-PV-PREDECESSOR",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "MISSING_OBSERVABLE: the sealed 60 s artifacts hold only 5 s class statistics, so no predecessor of the PV fate separation can be read from them",
    "goal": "re-execute the two sealed histories at the frozen lambda with retention of PV state, plus one key-matched control, and find the earliest recorded channel that deviates before the PV rate separates",
    "parent_authority": "reviewer 2026-09-17 (SCI-V21-PV-STATE-PREDECESSOR delivered.reviewer_decision): one instrumented matched rerun; two histories plus an authorized key-matched control; 1 ms means for continuous channels, exact spike times",
@@ -856,8 +856,21 @@
    "artifacts_expected": [
     "results/v21_pv_predecessor.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "UNRESOLVED",
+    "result": "results/v21_pv_predecessor.json",
+    "summary": "reproduction exact (A and B match the sealed windows to 0.0 Hz, so Delta_instrumentation = 0); u reconstruction valid to 8.5e-06; the engine source term includes the tonic. P1: the key-matched control C ends at 15.11 Hz, like B (14.43) and unlike A (0.71), so the PV fate is set by the initial state, not the noise realization. P2: no recorded channel deviates before the PV rate separates, so the lineage stops at UNRESOLVED. Disclosed post hoc: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz, and the collapse is uniform across all 40 PV cells",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_predecessor.py  (2 passed in 1601.24s)",
+     "python scripts/project_check.py"
+    ],
+    "reviewer_decisions_required": [
+     "whether the observability limit justifies a further lineage at per-cell or subthreshold resolution, or whether the background program stays STOPPED",
+     "disposition of the warm-up NaN defect in the input-channel detector (no effect on this verdict; recomputation without it changes nothing)"
+    ]
+   }
   }
  ],
- "next_authorized_task": "SCI-V21-PV-PREDECESSOR"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

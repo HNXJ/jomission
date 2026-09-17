@@ -49,13 +49,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_COUPLED_BACKGROUND: **UNRESOLVED** — `results/v21_coupled_background.json`
 - V2.1_PV_STATIONARITY: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_stationarity.json`
 - V2.1_BACKGROUND: **FAIL** (evidence reads BKG_DESIGN_UNRESOLVED; held until a lineage that changes or explains the mechanism producing PV state dependence) — `results/v21_background_design_r2.json`
+- V2.1_PV_PREDECESSOR: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_predecessor.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-bkg-pv-calibration: isolated PV class-mean rate 0.0 Hz at I = 2.8 and at I = 3.6 in every analysis window; 10 Hz not bracketed, no bisection run — `d70b575:results/v21_bkg_pv_calibration.json`
-- V2.1-bkg-pv-calibration: network PV at I0 2.8 (V_MID): 0.0 Hz in every window — `d70b575:results/v21_mid.json`
-- V2.1-bkg-pv-calibration: network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz — `d70b575:results/v21_high.json`
-- V2.1-bkg-pv-calibration: pre-seal timing probe (I = 3.6, seed 1) gave 0.0 Hz; disclosed in the spec field pre_seal_disclosure — `d70b575:results/v21_bkg_pv_calibration_spec.json`
 - V2.1-coupled-background: endpoint runs reproduce the sealed V2.1 rates to 3.6e-15 Hz (lambda 0 and 1) — `54ff926:results/v21_coupled_background.json`
 - V2.1-coupled-background: class_rate_bands fail at lambda 0 (PV 0.0 Hz) and 0.25 (PV window rates 1.40, 1.22, 0.89 Hz) and pass at 0.3125, 0.375, 0.5, 0.65625 and 1; passing run [0.3125, 1], boundary in (0.25, 0.3125] — `54ff926:results/v21_coupled_background.json`
 - V2.1-coupled-background: mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz — `54ff926:results/v21_coupled_background.json`
@@ -66,11 +63,17 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-stationarity: fresh: PV 16.88, 16.58, 10.2, 16.77, 13.79, 1.68, 1.22, 1.03, 0.85, 0.87, 0.4 Hz; late PV mean 0.71 Hz, late PV drift 0.672; bands fail (PV < 1 Hz) — `907c7f2:results/v21_pv_stationarity.json`
 - V2.1-pv-stationarity: lambda-0 history: PV 17.05, 15.36, 2.01, then 0.07-0.24 Hz in windows 4-11; late PV mean 0.09 Hz, late PV drift 0.589; bands fail — `907c7f2:results/v21_pv_stationarity.json`
 - V2.1-pv-stationarity: E (16.8-17.2 Hz), VIP (16.9-17.2 Hz) and SST (19.9-22.8 Hz) are nearly identical across the three trajectories; late pairwise differences <= 0.37 Hz, while late PV differs by 13.7-14.3 Hz — `907c7f2:results/v21_pv_stationarity.json`
+- V2.1-pv-predecessor-instrumented: runs A and B reproduce the sealed 60 s window rates for every class and window with max difference 0.0 Hz; Delta_instrumentation = 0 — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-predecessor-instrumented: u reconstruction matches the engine carry at every chunk boundary to 8.5e-06 or better in all three runs — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-predecessor-instrumented: the engine source term includes the tonic: residual after removing tonic and the reconstructed class inputs has mean 0.016-0.030 against a reconstructed input scale of 0.202-0.231 — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-predecessor-instrumented: late PV rate: A 0.71 Hz, B 14.43 Hz, C 15.11 Hz; C and B share the same starting state hash 8704423170e6ae32 and differ only in key stream — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-predecessor-instrumented: no recorded channel (v_PV, u_PV, sources, the four class inputs, the two residuals) leaves its own 0-5 s baseline by 5 sigma sustained 1 s in any run; the PV population rate does so at 15 s in run A — `b4130f3:results/v21_pv_predecessor.json`
+- V2.1-pv-predecessor-instrumented: the run A collapse is uniform across the PV population: early per-cell 16.40-17.20 Hz, late 0.00-2.60 Hz, one cell below 0.1 Hz — `b4130f3:results/v21_pv_predecessor.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-PREDECESSOR` (OPEN): re-execute the two sealed histories at the frozen lambda with retention of PV state, plus one key-matched control, and find the earliest recorded channel that deviates before the PV rate separates
-- stop: classification recorded in results/v21_pv_predecessor.json; no intervention follows automatically; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

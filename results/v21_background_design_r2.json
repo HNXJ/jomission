@@ -1,0 +1,191 @@
+{
+ "lineage": "V2.1-background-design r2 (analytic regeneration of BKG1-BKG3)",
+ "todo": "SCI-V21-BACKGROUND",
+ "date": "2026-09-17",
+ "supersedes_in_part": "results/v21_background_design.json finding F6 (rate-level weak-recurrence approximation) and criterion 1 reasoning; that record stays as sealed evidence of the first design pass",
+ "inputs": [
+  "results/v21_bkg_pv_calibration.json (PV_CALIBRATION_FAIL)",
+  "results/v21_mid.json",
+  "results/v21_high.json",
+  "results/v21_background_design.json",
+  "cell parameters of build_cmin() (homogeneous per class)"
+ ],
+ "execution": "none: rest-point bifurcation analysis and sealed results only (scripts/v21_background_design_r2.py)",
+ "verdict": "BKG_DESIGN_UNRESOLVED",
+ "findings": [
+  {
+   "id": "G1",
+   "evidence_class": "OBSERVED",
+   "claim": "Isolated PV cells are silent at I = 2.8 and I = 3.6 in every window (40 cells, native noise). 10 Hz is not bracketed in [2.8, 3.6]: PV_CALIBRATION_FAIL.",
+   "receipt": "results/v21_bkg_pv_calibration.json"
+  },
+  {
+   "id": "G2",
+   "evidence_class": "DERIVED",
+   "claim": "Rest-point instability (Euler map, dt 0.1): E 3.79669 (Hopf), PV 3.93623 (Hopf), SST 0.76311 (Hopf), VIP 22.5625 (saddle-node). Saddle-nodes: E 4.0, PV 4.0, SST 1.01562, VIP 22.5625.",
+   "receipt": "derived.cell_onsets"
+  },
+  {
+   "id": "G3",
+   "evidence_class": "DERIVED",
+   "claim": "At V_MID only E (5.0 > 3.797) and VIP (24.33 > 22.5625) have tonic above their rest-point instability. SST (0.59 < 0.763) fires 10.7-10.9 Hz in the network below its instability; PV (2.8) is below and silent. At V_HIGH, PV (3.6 < 3.936) fires 20.0-20.2 Hz in the network below its instability.",
+   "receipt": "derived.tonic_support"
+  },
+  {
+   "id": "G4",
+   "evidence_class": "INFERRED",
+   "claim": "PV firing at V_HIGH and SST firing at V_MID are supplied by recurrent input (or by entry onto a limit cycle coexisting with the stable rest, as for E b near b_crit in V2.1c), not by tonic alone. Rate agreement with the battery_b1 F-I inversion at V_HIGH and V_MID was therefore coincidental for these classes; design F6 used it as support for weak recurrence and is withdrawn for PV and SST.",
+   "receipt": "G1, G3"
+  },
+  {
+   "id": "G5",
+   "evidence_class": "DERIVED",
+   "claim": "PV's rest point loses stability through a Hopf bifurcation at 3.936 with a saddle-node at 4.0, and battery_b1 records 0 Hz at I 2 and 25 Hz at I 4. An isolated tonic-only PV rate of 10 Hz is not established anywhere; whether a low-rate branch exists near onset is UNKNOWN from sealed evidence.",
+   "receipt": "derived.cell_onsets.PV, results/battery_b1.json F.PV"
+  }
+ ],
+ "BKG1_regenerated": {
+  "E": "tonic-only operating point supported: I0 5.0 above onset; 10.6-10.8 Hz",
+  "VIP": "tonic-only operating point supported: I0 24.33 above saddle-node 22.5625 (continuous onset); 10.6-10.8 Hz; R3 stands",
+  "SST": "NOT established as tonic-only: I0 0.59 below Hopf 0.763; network rate 10.7-10.9 Hz depends on recurrent support or bistability",
+  "PV": "NOT resolved: isolated silent on [2.8, 3.6]; onset at 3.936-4.0; 10 Hz tonic support unidentified",
+  "criterion_1": "UNRESOLVED: two of four classes lack a tonic-only operating point at the ~10 Hz target"
+ },
+ "BKG2_regenerated": "unchanged: I_i = I0_c + (s_i - E[s_i]), zero-mean shot, tau 2.0 ms",
+ "BKG3_regenerated": {
+  "rule": "s_c = I0_E * g_E / g_c, so g_c * s_c = const and s_c is proportional to 1/g_c (reviewer R1; never proportional to g_c)",
+  "gains": "g_E 2.246 and g_VIP 2.844 are network gains at tonic-supported points; g_SST 18.856 was measured between a below-onset (V_MID) and an above-onset (V_HIGH) point, so it mixes recurrent or bistable support with tonic gain; g_PV has no single-cell value on [2.8, 3.6] (zero isolated rate)",
+  "bracket": "sigma in {0.5, 1.0, 1.5} remains provisional; E and VIP predictions unchanged (results/v21_background_design.json); SST and PV amplitudes are not calibrated"
+ },
+ "criteria": {
+  "1_interior_all_class_tonic_target": "UNRESOLVED (G3, G5)",
+  "2_mean_preserving_stochastic_formulation": "SUPPORTED",
+  "3_one_common_stochastic_degree_of_freedom": "SUPPORTED",
+  "4_finite_predeclared_three_point_bracket": "SUPPORTED (provisional)",
+  "5_no_predicted_band_violation": "UNRESOLVED for PV; SST prediction rests on the network chain at V_MID"
+ },
+ "reviewer_decisions_required": [
+  "D1 PV mean support: (a) authorize an isolated PV evaluation above the sealed range, around the onset 3.936-4.0, to find the lowest sustained isolated rate and set the PV target there even if it is above 10 Hz; or (b) accept PV mean support as network-supported and calibrate it in closed loop (needs a network run, currently not authorized)",
+  "D2 SST: the same question applies analytically (tonic 0.59 below Hopf 0.763), with no execution yet; choose isolated SST verification, a tonic above onset, or accepted network support",
+  "D3 whether 'tonic sets the mean operating point' is required per class, or only for the all-class network mean; G3-G4 show the V_MID vector meets it at network level but not per isolated class"
+ ],
+ "derived": {
+  "cell_onsets": {
+   "E": {
+    "saddle_node_I": 4.0,
+    "continuous_instability_I": 3.7975,
+    "euler_map_instability_I": 3.79669,
+    "instability_kind": "Hopf",
+    "v_at_saddle_node": -60.0
+   },
+   "PV": {
+    "saddle_node_I": 4.0,
+    "continuous_instability_I": 3.9375,
+    "euler_map_instability_I": 3.93623,
+    "instability_kind": "Hopf",
+    "v_at_saddle_node": -60.0
+   },
+   "SST": {
+    "saddle_node_I": 1.01562,
+    "continuous_instability_I": 0.76563,
+    "euler_map_instability_I": 0.76311,
+    "instability_kind": "Hopf",
+    "v_at_saddle_node": -59.375
+   },
+   "VIP": {
+    "saddle_node_I": 22.5625,
+    "continuous_instability_I": 22.5625,
+    "euler_map_instability_I": 22.5625,
+    "instability_kind": "saddle-node",
+    "v_at_saddle_node": -63.75
+   }
+  },
+  "tonic_support": {
+   "E": {
+    "I0_V_MID": 5.0,
+    "I0_V_HIGH": 9.2,
+    "rest_instability_I_min": 3.79669,
+    "V_MID_above_onset": true,
+    "V_HIGH_above_onset": true,
+    "network_rate_V_MID_hz": [
+     10.6,
+     10.606000000000002,
+     10.794
+    ],
+    "network_rate_V_HIGH_hz": [
+     20.148666666666664,
+     20.182,
+     20.034
+    ]
+   },
+   "PV": {
+    "I0_V_MID": 2.8,
+    "I0_V_HIGH": 3.6,
+    "rest_instability_I_min": 3.93623,
+    "V_MID_above_onset": false,
+    "V_HIGH_above_onset": false,
+    "network_rate_V_MID_hz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "network_rate_V_HIGH_hz": [
+     20.2,
+     20.2,
+     20.0
+    ]
+   },
+   "SST": {
+    "I0_V_MID": 0.59,
+    "I0_V_HIGH": 1.18,
+    "rest_instability_I_min": 0.76311,
+    "V_MID_above_onset": false,
+    "V_HIGH_above_onset": true,
+    "network_rate_V_MID_hz": [
+     10.712499999999999,
+     10.725000000000001,
+     10.9125
+    ],
+    "network_rate_V_HIGH_hz": [
+     21.8375,
+     22.25,
+     22.481250000000003
+    ]
+   },
+   "VIP": {
+    "I0_V_MID": 24.33,
+    "I0_V_HIGH": 27.67,
+    "rest_instability_I_min": 22.5625,
+    "V_MID_above_onset": true,
+    "V_HIGH_above_onset": true,
+    "network_rate_V_MID_hz": [
+     10.6,
+     10.6,
+     10.8
+    ],
+    "network_rate_V_HIGH_hz": [
+     20.17142857142857,
+     20.15,
+     20.1
+    ]
+   }
+  },
+  "pv_calibration": {
+   "label": "PV_CALIBRATION_FAIL",
+   "isolated_rates_hz": {
+    "2.8": 0.0,
+    "3.6": 0.0
+   }
+  },
+  "tonic_only_supported_at_V_MID": [
+   "E",
+   "VIP"
+  ],
+  "below_onset_at_V_MID_but_firing_in_network": [
+   "SST"
+  ],
+  "below_onset_at_V_HIGH_but_firing_in_network": [
+   "PV"
+  ]
+ }
+}

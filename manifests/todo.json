@@ -229,12 +229,15 @@
    ],
    "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE",
    "delivered": {
-    "state": "design record on branch v21-background-design; reviewer accepted UNRESOLVED 2026-09-17; waiting on SCI-V21-BKG-PV-CALIBRATION",
+    "state": "BKG1-BKG3 regenerated analytically after PV_CALIBRATION_FAIL (results/v21_background_design_r2.json): BKG_DESIGN_UNRESOLVED; reviewer decisions D1-D3 pending; no execution authorized",
     "verdict": "BKG_DESIGN_UNRESOLVED",
     "artifacts": [
      "results/v21_background_design.json",
      "scripts/v21_background_design.py",
-     "tests/test_v21_background_design.py (tier 0)"
+     "tests/test_v21_background_design.py (tier 0)",
+     "results/v21_background_design_r2.json",
+     "scripts/v21_background_design_r2.py",
+     "tests/test_v21_background_design_r2.py (tier 0)"
     ],
     "summary": "Under gain-normalized fluctuation (s_c = I0_E g_E / g_c) with tonic V_MID and sigma in {0.5, 1.0, 1.5}, criteria 2-4 are met and no E, SST or VIP band violation is predicted; PV 10 Hz support is not identified (0 Hz at 2.8, 20 Hz at 3.6), leaving criteria 1 and 5 unresolved for PV. VIP support is on target (10.6-10.8 Hz without shot input); its V2.1b overdrive is fluctuation-driven by the tonic-relative scaling.",
     "reviewer_decisions_required": [
@@ -251,12 +254,17 @@
      "R1": "B: gain-normalized zero-mean shot, s_c = I0_E * g_E / g_c with one common sigma. Derivation kept explicit: equal rate-fluctuation amplitude needs g_c * s_c = const, so s_c is proportional to 1/g_c (never g_c). Bracket sigma in {0.5, 1.0, 1.5} provisional until PV is resolved",
      "R2": "P1: isolated PV F-I diagnostic (SCI-V21-BKG-PV-CALIBRATION); P2 (I0_PV = 3.6) rejected as converting a previously observed successful rate into a parameter choice",
      "R3": "keep I0_VIP = 24.33; VIP overdrive repaired by decoupling fluctuation amplitude from tonic"
-    }
+    },
+    "regeneration_decisions_required": [
+     "D1 PV mean support: isolated evaluation around onset 3.936-4.0 (target the lowest sustained isolated rate) or closed-loop network-supported calibration",
+     "D2 SST: tonic 0.59 below Hopf 0.763; isolated verification, tonic above onset, or accepted network support",
+     "D3 whether tonic must set the operating point per isolated class or only for the all-class network mean"
+    ]
    }
   },
   {
    "id": "SCI-V21-BKG-PV-CALIBRATION",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "BKG_DESIGN_UNRESOLVED: PV 10 Hz support unidentified (network 0 Hz at 2.8, 20 Hz at 3.6); reviewer 2026-09-17 R2 = P1",
    "goal": "resolve I_PV(10 Hz) and g_PV = dr_PV/dI under the frozen native-noise single-cell condition",
    "parent_authority": "SCI-V21-BACKGROUND reviewer_decisions R2 (2026-09-17)",
@@ -281,7 +289,15 @@
    ],
    "downstream_unlock": [
     "SCI-V21-BACKGROUND"
-   ]
+   ],
+   "delivered": {
+    "verdict": "PV_CALIBRATION_FAIL",
+    "result": "results/v21_bkg_pv_calibration.json",
+    "result_commit": "d70b575",
+    "spec_commit": "19d8c3b",
+    "summary": "isolated PV silent at 2.8 and 3.6 (0.0 Hz every window); onset analytically at 3.936 (Hopf) to 4.0 (saddle-node)",
+    "analytic_regeneration": "results/v21_background_design_r2.json (BKG_DESIGN_UNRESOLVED)"
+   }
   },
   {
    "id": "SCI-V21C-COMPOSITION",

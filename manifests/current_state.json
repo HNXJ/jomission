@@ -55,8 +55,8 @@
   }
  },
  "open_scientific_question": "which stochastic background is admissible under prospective_v2 class bands (low_sm2p0 VIP ~130 Hz > 80 Hz), after gate repair",
- "stopped_because": "SCI-V21-BKG-PV-CALIBRATION sealed (results/v21_bkg_pv_calibration_spec.json); isolated PV F-I diagnostic authorized; no network execution",
- "next_authorized_task": "SCI-V21-BKG-PV-CALIBRATION",
+ "stopped_because": "PV_CALIBRATION_FAIL (isolated PV silent on [2.8, 3.6]; onset 3.936-4.0). BKG1-BKG3 regenerated analytically: BKG_DESIGN_UNRESOLVED (results/v21_background_design_r2.json); tonic-only support established for E and VIP only; reviewer decisions D1-D3 pending; no execution authorized",
+ "next_authorized_task": "SCI-V21-BACKGROUND",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",
@@ -108,7 +108,9 @@
   "results/v21c_design.json",
   "results/v21c_design_notes.json",
   "results/v21c_boundary_spec.json",
-  "results/v21c_boundary.json"
+  "results/v21c_boundary.json",
+  "results/v21_bkg_pv_calibration_spec.json",
+  "results/v21_bkg_pv_calibration.json"
  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [

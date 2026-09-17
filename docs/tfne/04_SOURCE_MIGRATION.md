@@ -56,6 +56,10 @@ decision before any parser or compiler is built.
 
 ## 4. Questions for the owner
 
+> **Answered 2026-09-17:** `05_V2_MIGRATION_DECISIONS.md`. Q retired into `X[lateral]`;
+> the cortical unit becomes the definition `CTX`; the validity layer is rebuilt after the
+> corpus; SL0-SL2 move onto a candidate `CTX`; fixtures kept as `V1_FIXTURE`.
+
 1. **`Q`.** Retired into `X`, or kept as a separate operator that the source omits? If retired, the v1 laterality rules (frontier union, level-wise expansion on chains, the `O`/`Q` interchange law) either move onto `X[k]` rules or are dropped.
 2. **Unit content.** Does the canonical cortical unit survive as a named object (for example `CTX := [...]` with `P`, `C`, `G`, `model`), leaving D4a–D4f open against that object? The letter `H` is no longer available for it.
 3. **Validity layer.** Do the v1 pipeline, normal forms, hashes and error codes carry over as the implementation of "deterministic normalization", or are they withdrawn pending a parser?

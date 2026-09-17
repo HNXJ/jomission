@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-GATE-REPAIR DONE (merged d9242c4). SCI-V21C-BOUNDARY DONE, verdict INTRINSIC_HETEROGENEITY_INFEASIBLE stands. SCI-V21-BACKGROUND opened design-only (BKG0-BKG3); no network simulation until BKG_DESIGN_PASS
+- stopped because: PV_CALIBRATION_FAIL (isolated PV silent on [2.8, 3.6]; onset 3.936-4.0). BKG1-BKG3 regenerated analytically: BKG_DESIGN_UNRESOLVED (results/v21_background_design_r2.json); tonic-only support established for E and VIP only; reviewer decisions D1-D3 pending; no execution authorized
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -49,7 +49,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1b-ISI: E frac_in 0.683/0.733/0.750; VIP 0.0 at CV ~1.7; exact reproduction — `3f7aa5f:results/v21b_isi_classes.json`
 - V2.1c-design: reduced model validation passed — `07d3966:results/v21c_validation.json`
 - V2.1c-design: b reaches E rate-CV 0.377 at w=0.3 with class-mean rheobase shift 0.421 — `07d3966:results/v21c_width_b.json`
 - V2.1c-design: E cells with b >= 0.265 fire at I=0; 13.7% of cells at w=0.3 — `07d3966:results/v21c_design_notes.json`
@@ -58,6 +57,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1c-boundary: w_spontaneous in (0.091406, 0.091504]; first pacemaker b 0.26055 at 5.8 Hz — `d3a0c3c:results/v21c_boundary.json`
 - V2.1c-boundary: w_CV=0.3 in (0.234375, 0.2375]: min-window E rate-CV 0.2972 / 0.3005; 31-32 of 300 E cells spontaneous — `d3a0c3c:results/v21c_boundary.json`
 - V2.1c-boundary: E rate-CV at w_spontaneous 0.1197; sealed CV at w=0.20 and 0.30 reproduced exactly — `d3a0c3c:results/v21c_boundary.json`
+- V2.1-bkg-pv-calibration: isolated PV class-mean rate 0.0 Hz at I = 2.8 and at I = 3.6 in every analysis window; 10 Hz not bracketed, no bisection run — `d70b575:results/v21_bkg_pv_calibration.json`
+- V2.1-bkg-pv-calibration: network PV at I0 2.8 (V_MID): 0.0 Hz in every window — `d70b575:results/v21_mid.json`
+- V2.1-bkg-pv-calibration: network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz — `d70b575:results/v21_high.json`
+- V2.1-bkg-pv-calibration: pre-seal timing probe (I = 3.6, seed 1) gave 0.0 Hz; disclosed in the spec field pre_seal_disclosure — `d70b575:results/v21_bkg_pv_calibration_spec.json`
 
 ### Next authorized task
 

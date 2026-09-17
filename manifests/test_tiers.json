@@ -13,7 +13,7 @@
     "tests/test_environment_provenance.py",
     "tests/test_agents_policy.py",
     "tests/test_pages_build.py",
-    "tests/test_v2_operation_prospective.py"
+    "tests/test_v2_operation_prospective.py", "tests/test_v21_background_design.py", "tests/test_v21_background_design_r2.py"
    ]
   },
   "1": {
@@ -71,7 +71,7 @@
     "tests/test_native_geometry.py",
     "tests/test_q8_state_replacement.py",
     "tests/test_v21c_intrinsic_design.py",
-    "tests/test_v21c_boundary.py"
+    "tests/test_v21c_boundary.py", "tests/test_v21_bkg_pv_calibration.py"
    ]
   }
  },

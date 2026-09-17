@@ -364,6 +364,87 @@
     "tests/test_v21c_boundary.py"
    ],
    "commit": "d3a0c3c"
+  },
+  {
+   "lineage_id": "V2.1-bkg-pv-calibration",
+   "parent": "V2.1-background-design",
+   "principal_delta": "isolated PV tonic current I in [2.8, 3.6] under native noise; everything else frozen",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_bkg_pv_calibration_spec.json",
+    "commit": "19d8c3b"
+   },
+   "authority": "manifests/todo.json SCI-V21-BACKGROUND.delivered.reviewer_decisions R2 = P1 (reviewer 2026-09-17)",
+   "inputs": [
+    "jomission/qualification/intrinsic.py",
+    "jomission/qualification/cmin.py",
+    "results/v21_mid.json",
+    "results/v21_high.json"
+   ],
+   "frozen": [
+    "40 PV cells of build_cmin (a 0.1, b 0.2, c -65, d 2)",
+    "intrinsic.simulate_population, rec = {}, zero schedule",
+    "native noise 0.5*N(0,1), seed 32100",
+    "dt 0.1 ms, 4 x 5 s, windows 1-3",
+    "blobs pinned in the spec"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "isolated PV class-mean rate 0.0 Hz at I = 2.8 and at I = 3.6 in every analysis window; 10 Hz not bracketed, no bisection run",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_bkg_pv_calibration.json"
+    },
+    {
+     "claim": "network PV at I0 2.8 (V_MID): 0.0 Hz in every window",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_mid.json"
+    },
+    {
+     "claim": "network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_high.json"
+    },
+    {
+     "claim": "pre-seal timing probe (I = 3.6, seed 1) gave 0.0 Hz; disclosed in the spec field pre_seal_disclosure",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_bkg_pv_calibration_spec.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "PV rest point: Hopf at I 3.9375 (Euler map dt 0.1: 3.93623), saddle-node at 4.0; both tested currents lie below",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_background_design_r2.json derived.cell_onsets"
+    },
+    {
+     "claim": "SST V_MID tonic 0.59 lies below the SST Hopf 0.76311 while the network SST rate is 10.7-10.9 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_background_design_r2.json derived.tonic_support"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "PV firing at V_HIGH is supplied by recurrent input or limit-cycle bistability, not tonic alone; the rate-level weak-recurrence approximation (design F6) fails for PV and SST",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "PV_CALIBRATION_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/v21_bkg_pv_calibration_spec.json classification (reviewer acceptance 2026-09-17)",
+   "fail_boundary": "10 Hz not bracketed in [2.8, 3.6]: isolated PV silent at both endpoints; onset lies at 3.936-4.0, outside the authorized range",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_bkg_pv_calibration_spec.json",
+    "results/v21_bkg_pv_calibration.json"
+   ],
+   "tests": [
+    "tests/test_v21_bkg_pv_calibration.py"
+   ],
+   "commit": "d70b575"
   }
  ]
 }

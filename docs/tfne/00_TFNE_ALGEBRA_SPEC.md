@@ -1,5 +1,10 @@
 # TFNE Algebra v1: semantics
 
+> **SUPERSEDED (2026-09-17).** The authoritative algebra is
+> `TFNE_ALGEBRA_PROJECT_SOURCE.md`. This document stays as the v1 record
+> (`tfne-algebra/1`, commit `cfd1e16`); where the two differ, the source wins.
+> Conflicts and items the source leaves unspecified: `04_SOURCE_MIGRATION.md`.
+
 ```
 TFNE status: DESIGN LANGUAGE
 Parser: NOT IMPLEMENTED

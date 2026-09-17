@@ -1,0 +1,1000 @@
+{
+ "lineage": "V2.1-background-design",
+ "todo": "SCI-V21-BACKGROUND (design only, BKG0-BKG3)",
+ "date": "2026-09-16",
+ "verdict": "BKG_DESIGN_UNRESOLVED",
+ "execution": "none: every number is derived from sealed results by scripts/v21_background_design.py (derive); no simulation of any kind",
+ "BKG0_frozen": [
+  "static V2 substrate: tests/test_v21_operation.py build_plant (C-min cells, static s=1 efficacies, topology)",
+  "kernel baseline (HDP and homeostatic detached)",
+  "no intrinsic heterogeneity",
+  "prospective_v2 gate definitions (manifests/gates/v2_local_operation.json)",
+  "JaxFNE 0.4.24 native noise 0.5*N(0,1) per neuron per step, PRNGKey(11)",
+  "dt 0.1 ms, 20 s, analysis windows 1-3"
+ ],
+ "findings": [
+  {
+   "id": "F1",
+   "evidence_class": "OBSERVED",
+   "claim": "The all-class ~10 Hz tonic vector already exists and was executed: V_MID = (E 5.0, PV 2.8, SST 0.59, VIP 24.33), derived in results/v21_vectors.json from the same battery_b1 F-I. With native noise only: E 10.6-10.8, SST 10.7-10.9, VIP 10.6-10.8, PV 0.0 Hz.",
+   "receipt": "derived.native_noise_v21.mid"
+  },
+  {
+   "id": "F2",
+   "evidence_class": "OBSERVED",
+   "claim": "VIP tonic support is on target: 24.33 gives VIP 10.6-10.8 Hz without shot input; 22.67 (V_LOW) gives 2.5-2.6 Hz. Reducing VIP support moves VIP toward silence at zero fluctuation.",
+   "receipt": "derived.native_noise_v21.low, derived.native_noise_v21.mid"
+  },
+  {
+   "id": "F3",
+   "evidence_class": "DERIVED",
+   "claim": "VIP overdrive in V2.1b is fluctuation-driven. The shot family set per-class std = (sigma/mu) * I0_c, so VIP, with the largest support, received the largest absolute fluctuation (std 24.33 vs E 5.0 at sigma/mu 1), while network gains near 10-20 Hz are similar (E 2.246, VIP 2.844 Hz per unit). VIP window-max at V_MID: 10.8 Hz without shot; 39.3, 71.8, 139.5 Hz at sigma/mu 0.5, 1, 2.",
+   "receipt": "derived.shot_v21b.mid_sm*, derived.gain_mid_to_high"
+  },
+  {
+   "id": "F4",
+   "evidence_class": "DERIVED",
+   "claim": "In a mean-controlled shot process with one event rate for all classes, std_c is proportional to I0_c, so s_c = I0_c is forced. Decoupling needs the zero-mean form I_i = I0_c + (s_i - E[s_i]) with class amplitude A_c = s_c (1-d)/p; this equals the V2.1b process whenever s_c = I0_c.",
+   "receipt": "results/v21b_vectors.json shot.mean_control"
+  },
+  {
+   "id": "F5",
+   "evidence_class": "OBSERVED",
+   "claim": "PV 10 Hz support is not identified. battery_b1 places 10 Hz for PV (and SST) in an onset bin (PV 0 -> 25 Hz over I 2 -> 4). In the network PV is 0.0 Hz at 2.8 and 20.0-20.2 Hz at 3.6. Sealed evidence cannot separate onset nonlinearity from recurrent suppression at V_MID. SST's onset bin is resolved by execution (10.7 Hz at 0.59).",
+   "receipt": "derived.fi_battery_b1.PV, derived.native_noise_v21"
+  },
+  {
+   "id": "F6",
+   "evidence_class": "OBSERVED",
+   "claim": "Recurrent mean current cannot be expressed in native current units from sealed records: currents.syn_mean is a dimensionless presynaptic trace and pathway I_mean a per-edge mean (tests/test_v21_operation.py:77-103), not total input per neuron. Approximation used, at rate level: V_HIGH native-noise rates match the 20 Hz F-I targets for every class (E 20.0, PV 20.0, SST 21.8, VIP 20.1), and V_MID matches 10 Hz for E, SST, VIP.",
+   "receipt": "derived.native_noise_v21"
+  },
+  {
+   "id": "F7",
+   "evidence_class": "OBSERVED",
+   "claim": "All-class rate viability at V_MID is already executed: mid_sm0p5 and mid_sm1p0 keep every class window rate inside prospective bands, and both are regular (pooled ISI fraction 0.22, 0.247). Every V2.1b cell with pooled ISI fraction >= 0.8 (mid_sm2p0, high_sm1p0, high_sm2p0) violates the E or VIP band.",
+   "receipt": "derived.shot_v21b"
+  }
+ ],
+ "normalizations_compared": {
+  "A_tonic_relative": {
+   "definition": "s_c = I0_c: the literal 'relative to each class's calibrated operating support', identical to the V2.1b family",
+   "VIP_band_sigma_cap": 1.1212,
+   "bracket_if_chosen": [
+    0.5,
+    0.75,
+    1.0
+   ],
+   "assessment": "criteria 2-5 met, but sigma 0.5 and 1.0 are the executed cells mid_sm0p5 and mid_sm1p0: a network run re-measures known regular backgrounds. VIP fluctuation stays the largest. PV tonic still unresolved (criterion 1)."
+  },
+  "B_gain_normalized": {
+   "definition": "s_c = I0_E * g_E / g_c, g_c = network rate gain V_MID -> V_HIGH with native noise: equal rate-equivalent fluctuation per class; sigma is sigma/mu of E",
+   "s_c": {
+    "E": 5.0,
+    "SST": 0.5956,
+    "VIP": 3.9487,
+    "PV": "UNDEFINED with PV tonic 2.8 (silent at V_MID); see pv_options"
+   },
+   "process": "zero-mean shot, tau 2.0 ms, common lambda = 1/(2 tau sigma^2), A_c = s_c (1-d)/p. E input equals the executed V2.1b input; SST differs by s_SST/I0_SST = 1.0095",
+   "E_band_sigma_cap": 1.6841,
+   "bracket": [
+    0.5,
+    1.0,
+    1.5
+   ],
+   "bracket_derivation": "0.5 and 1.0 are executed E levels (regular, pooled ISI 0.22, 0.247); 2.0 is the executed level where pooled ISI reaches 0.853 and E exceeds its band; 1.5 is the midpoint of that transition interval, below the E-band cap",
+   "lambda_hz": [
+    1000.0,
+    250.0,
+    111.1
+   ],
+   "predicted_window_max_hz": {
+    "E": {
+     "0.5": {
+      "rate_max": 14.043,
+      "evidence": "MEASURED"
+     },
+     "1.0": {
+      "rate_max": 19.696,
+      "evidence": "MEASURED"
+     },
+     "1.5": {
+      "rate_max": 27.227,
+      "evidence": "INTERPOLATED"
+     }
+    },
+    "SST": {
+     "0.5": {
+      "rate_max": 10.598,
+      "evidence": "INTERPOLATED"
+     },
+     "1.0": {
+      "rate_max": 14.421,
+      "evidence": "INTERPOLATED"
+     },
+     "1.5": {
+      "rate_max": 17.184,
+      "evidence": "INTERPOLATED"
+     }
+    },
+    "VIP": {
+     "0.5": {
+      "rate_max": 39.336,
+      "evidence": "BOUNDED"
+     },
+     "1.0": {
+      "rate_max": 39.336,
+      "evidence": "BOUNDED"
+     },
+     "1.5": {
+      "rate_max": 39.336,
+      "evidence": "BOUNDED"
+     }
+    },
+    "PV": {
+     "0.5": {
+      "rate_max": null,
+      "evidence": "UNSUPPORTED"
+     },
+     "1.0": {
+      "rate_max": null,
+      "evidence": "UNSUPPORTED"
+     },
+     "1.5": {
+      "rate_max": null,
+      "evidence": "UNSUPPORTED"
+     }
+    }
+   },
+   "assumptions": "VIP BOUNDED values assume rate monotone in fluctuation amplitude and ignore the lambda difference between the design and the bounding cells; INTERPOLATED values are linear along the executed V2.1b chain",
+   "assessment": "criteria 2-4 met; criterion 5 met for E, SST, VIP; criteria 1 and 5 unresolved for PV only"
+  }
+ },
+ "pv_options": {
+  "P1_single_cell_refinement": "authorize an isolated single-cell PV F-I on I in [2.8, 3.6] with native noise (no network) to locate 10 Hz support and its gain; it also separates onset nonlinearity from network suppression. Needs reviewer authorization: execution beyond sealed evidence.",
+  "P2_high_support": {
+   "rule": "I0_PV = 3.6 (executed 20.0-20.2 Hz, interior of [1, 80]); s_PV from the battery_b1 suprathreshold slope",
+   "result": {
+    "I0_PV": 3.6,
+    "s_gain_hz_per_unit": 17.5,
+    "rows": {
+     "0.5": {
+      "rate_max": 28.755,
+      "rate_lower_bound": 20.2,
+      "evidence": "BOUNDED",
+      "sigma_abs": 0.3209,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "1.0": {
+      "rate_max": 28.755,
+      "rate_lower_bound": 20.2,
+      "evidence": "BOUNDED",
+      "sigma_abs": 0.6417,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "1.25": {
+      "rate_max": 28.755,
+      "rate_lower_bound": 20.2,
+      "evidence": "BOUNDED",
+      "sigma_abs": 0.8021,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "1.5": {
+      "rate_max": 28.755,
+      "rate_lower_bound": 20.2,
+      "evidence": "BOUNDED",
+      "sigma_abs": 0.9626,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "2.0": {
+      "rate_max": 28.755,
+      "rate_lower_bound": 20.2,
+      "evidence": "BOUNDED",
+      "sigma_abs": 1.2834,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    }
+   },
+   "caveats": "deviates from the ~10 Hz target although evidence does not show 10 Hz unattainable; assumes rate-level weak recurrence because the PV chain comes from V_HIGH cells where other classes ran near 20 Hz"
+  }
+ },
+ "criteria": {
+  "1_interior_all_class_tonic_target": "UNRESOLVED: E, SST, VIP supported by execution at 10.6-10.9 Hz; PV not identified (F5)",
+  "2_mean_preserving_stochastic_formulation": "SUPPORTED: zero-mean shot (F4); V2.1b realized mean ratio 0.9995-1.0002",
+  "3_one_common_stochastic_degree_of_freedom": "SUPPORTED: sigma, with s_c fixed by class calibration",
+  "4_finite_predeclared_three_point_bracket": "SUPPORTED under B: sigma in {0.5, 1.0, 1.5}",
+  "5_no_predicted_band_violation": "UNRESOLVED for PV only under B; E and SST MEASURED or INTERPOLATED, VIP BOUNDED"
+ },
+ "reviewer_decisions_required": [
+  "R1 normalization: B (gain-normalized; departs from the literal wording, whose V2.1b scaling overdrove VIP, F3-F4) or A (literal; re-measures executed regular cells)",
+  "R2 PV support: P1 (single-cell refinement, then re-derive) or P2 (I0_PV = 3.6, ~20 Hz). Under B with P2 every criterion is met by this derivation and the verdict would become BKG_DESIGN_PASS",
+  "R3 premise: BKG1 asked to reduce VIP support; F1-F3 show VIP support is on target and its overdrive is fluctuation-driven, so this design keeps I0_VIP = 24.33 and reduces VIP fluctuation instead"
+ ],
+ "not_predicted": "active fraction, class ISI, E rate-CV, sync and drift are not acceptance criteria of this design and are not predicted",
+ "derived": {
+  "bands_hz": {
+   "E": [
+    2.0,
+    30.0
+   ],
+   "PV": [
+    1.0,
+    80.0
+   ],
+   "SST": [
+    1.0,
+    80.0
+   ],
+   "VIP": [
+    1.0,
+    80.0
+   ]
+  },
+  "fi_battery_b1": {
+   "E": {
+    "bin_I": [
+     4.0,
+     6.0
+    ],
+    "bin_r": [
+     7.0,
+     13.0
+    ],
+    "I_interp": 5.0,
+    "onset_bin": false,
+    "suprathreshold_slope_hz_per_unit": 2.0
+   },
+   "PV": {
+    "bin_I": [
+     2.0,
+     4.0
+    ],
+    "bin_r": [
+     0.0,
+     25.0
+    ],
+    "I_interp": 2.8,
+    "onset_bin": true,
+    "suprathreshold_slope_hz_per_unit": 17.5
+   },
+   "SST": {
+    "bin_I": [
+     0.0,
+     2.0
+    ],
+    "bin_r": [
+     0.0,
+     34.0
+    ],
+    "I_interp": 0.5882,
+    "onset_bin": true,
+    "suprathreshold_slope_hz_per_unit": 10.5
+   },
+   "VIP": {
+    "bin_I": [
+     24.0,
+     26.0
+    ],
+    "bin_r": [
+     9.0,
+     15.0
+    ],
+    "I_interp": 24.3333,
+    "onset_bin": false,
+    "suprathreshold_slope_hz_per_unit": 3.0
+   }
+  },
+  "native_noise_v21": {
+   "low": {
+    "tonic": {
+     "E": 2.86,
+     "PV": 2.24,
+     "SST": 0.18,
+     "VIP": 22.67
+    },
+    "rate_min": {
+     "E": 0.0,
+     "PV": 0.0,
+     "SST": 0.0,
+     "VIP": 2.521
+    },
+    "rate_max": {
+     "E": 0.0,
+     "PV": 0.0,
+     "SST": 0.0,
+     "VIP": 2.579
+    }
+   },
+   "mid": {
+    "tonic": {
+     "E": 5.0,
+     "PV": 2.8,
+     "SST": 0.59,
+     "VIP": 24.33
+    },
+    "rate_min": {
+     "E": 10.6,
+     "PV": 0.0,
+     "SST": 10.712,
+     "VIP": 10.6
+    },
+    "rate_max": {
+     "E": 10.794,
+     "PV": 0.0,
+     "SST": 10.912,
+     "VIP": 10.8
+    }
+   },
+   "high": {
+    "tonic": {
+     "E": 9.2,
+     "PV": 3.6,
+     "SST": 1.18,
+     "VIP": 27.67
+    },
+    "rate_min": {
+     "E": 20.034,
+     "PV": 20.0,
+     "SST": 21.837,
+     "VIP": 20.1
+    },
+    "rate_max": {
+     "E": 20.182,
+     "PV": 20.2,
+     "SST": 22.481,
+     "VIP": 20.171
+    }
+   }
+  },
+  "shot_v21b": {
+   "low_sm0p5": {
+    "sigma_over_mu": 0.5,
+    "lambda_hz": 1000.0,
+    "sigma_abs": {
+     "E": 1.43,
+     "PV": 1.12,
+     "SST": 0.09,
+     "VIP": 11.335
+    },
+    "rate_min": {
+     "E": 6.701,
+     "PV": 3.045,
+     "SST": 0.0,
+     "VIP": 32.55
+    },
+    "rate_max": {
+     "E": 6.718,
+     "PV": 3.215,
+     "SST": 0.0,
+     "VIP": 32.986
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": false,
+     "VIP": true
+    },
+    "pooled_isi_frac_in_min": 0.182
+   },
+   "low_sm1p0": {
+    "sigma_over_mu": 1.0,
+    "lambda_hz": 250.0,
+    "sigma_abs": {
+     "E": 2.86,
+     "PV": 2.24,
+     "SST": 0.18,
+     "VIP": 22.67
+    },
+    "rate_min": {
+     "E": 10.767,
+     "PV": 16.62,
+     "SST": 0.031,
+     "VIP": 63.821
+    },
+    "rate_max": {
+     "E": 10.782,
+     "PV": 16.99,
+     "SST": 0.05,
+     "VIP": 64.879
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": false,
+     "VIP": true
+    },
+    "pooled_isi_frac_in_min": 0.185
+   },
+   "low_sm2p0": {
+    "sigma_over_mu": 2.0,
+    "lambda_hz": 62.5,
+    "sigma_abs": {
+     "E": 5.72,
+     "PV": 4.48,
+     "SST": 0.36,
+     "VIP": 45.34
+    },
+    "rate_min": {
+     "E": 19.169,
+     "PV": 43.155,
+     "SST": 1.769,
+     "VIP": 127.936
+    },
+    "rate_max": {
+     "E": 19.236,
+     "PV": 43.72,
+     "SST": 1.775,
+     "VIP": 130.2
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": true,
+     "VIP": false
+    },
+    "pooled_isi_frac_in_min": 0.675
+   },
+   "mid_sm0p5": {
+    "sigma_over_mu": 0.5,
+    "lambda_hz": 1000.0,
+    "sigma_abs": {
+     "E": 2.5,
+     "PV": 1.4,
+     "SST": 0.295,
+     "VIP": 12.165
+    },
+    "rate_min": {
+     "E": 14.011,
+     "PV": 12.6,
+     "SST": 10.325,
+     "VIP": 38.607
+    },
+    "rate_max": {
+     "E": 14.043,
+     "PV": 12.81,
+     "SST": 10.562,
+     "VIP": 39.336
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": true,
+     "VIP": true
+    },
+    "pooled_isi_frac_in_min": 0.22
+   },
+   "mid_sm1p0": {
+    "sigma_over_mu": 1.0,
+    "lambda_hz": 250.0,
+    "sigma_abs": {
+     "E": 5.0,
+     "PV": 2.8,
+     "SST": 0.59,
+     "VIP": 24.33
+    },
+    "rate_min": {
+     "E": 19.659,
+     "PV": 27.695,
+     "SST": 14.044,
+     "VIP": 70.657
+    },
+    "rate_max": {
+     "E": 19.696,
+     "PV": 28.095,
+     "SST": 14.369,
+     "VIP": 71.786
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": true,
+     "VIP": true
+    },
+    "pooled_isi_frac_in_min": 0.247
+   },
+   "mid_sm2p0": {
+    "sigma_over_mu": 2.0,
+    "lambda_hz": 62.5,
+    "sigma_abs": {
+     "E": 10.0,
+     "PV": 5.6,
+     "SST": 1.18,
+     "VIP": 48.66
+    },
+    "rate_min": {
+     "E": 34.603,
+     "PV": 58.035,
+     "SST": 19.594,
+     "VIP": 139.4
+    },
+    "rate_max": {
+     "E": 34.759,
+     "PV": 58.605,
+     "SST": 19.844,
+     "VIP": 139.543
+    },
+    "in_band": {
+     "E": false,
+     "PV": true,
+     "SST": true,
+     "VIP": false
+    },
+    "pooled_isi_frac_in_min": 0.853
+   },
+   "high_sm0p5": {
+    "sigma_over_mu": 0.5,
+    "lambda_hz": 1000.0,
+    "sigma_abs": {
+     "E": 4.6,
+     "PV": 1.8,
+     "SST": 0.59,
+     "VIP": 13.835
+    },
+    "rate_min": {
+     "E": 26.055,
+     "PV": 28.445,
+     "SST": 24.519,
+     "VIP": 50.486
+    },
+    "rate_max": {
+     "E": 26.113,
+     "PV": 28.755,
+     "SST": 24.519,
+     "VIP": 50.843
+    },
+    "in_band": {
+     "E": true,
+     "PV": true,
+     "SST": true,
+     "VIP": true
+    },
+    "pooled_isi_frac_in_min": 0.102
+   },
+   "high_sm1p0": {
+    "sigma_over_mu": 1.0,
+    "lambda_hz": 250.0,
+    "sigma_abs": {
+     "E": 9.2,
+     "PV": 3.6,
+     "SST": 1.18,
+     "VIP": 27.67
+    },
+    "rate_min": {
+     "E": 36.29,
+     "PV": 43.68,
+     "SST": 26.812,
+     "VIP": 85.757
+    },
+    "rate_max": {
+     "E": 36.366,
+     "PV": 43.845,
+     "SST": 26.919,
+     "VIP": 86.1
+    },
+    "in_band": {
+     "E": false,
+     "PV": true,
+     "SST": true,
+     "VIP": false
+    },
+    "pooled_isi_frac_in_min": 0.92
+   },
+   "high_sm2p0": {
+    "sigma_over_mu": 2.0,
+    "lambda_hz": 62.5,
+    "sigma_abs": {
+     "E": 18.4,
+     "PV": 7.2,
+     "SST": 2.36,
+     "VIP": 55.34
+    },
+    "rate_min": {
+     "E": 61.037,
+     "PV": 62.325,
+     "SST": 34.956,
+     "VIP": 156.3
+    },
+    "rate_max": {
+     "E": 61.293,
+     "PV": 62.965,
+     "SST": 35.456,
+     "VIP": 159.021
+    },
+    "in_band": {
+     "E": false,
+     "PV": true,
+     "SST": true,
+     "VIP": false
+    },
+    "pooled_isi_frac_in_min": 0.93
+   }
+  },
+  "gain_mid_to_high": {
+   "E": {
+    "dI": 4.2,
+    "r_mid": 10.6,
+    "r_high": 20.034,
+    "gain": 2.246,
+    "mid_silent": false
+   },
+   "PV": {
+    "dI": 0.8,
+    "r_mid": 0.0,
+    "r_high": 20.0,
+    "gain": 25.0,
+    "mid_silent": true
+   },
+   "SST": {
+    "dI": 0.59,
+    "r_mid": 10.712,
+    "r_high": 21.837,
+    "gain": 18.856,
+    "mid_silent": false
+   },
+   "VIP": {
+    "dI": 3.34,
+    "r_mid": 10.6,
+    "r_high": 20.1,
+    "gain": 2.844,
+    "mid_silent": false
+   }
+  },
+  "normalization": {
+   "A_tonic_relative": {
+    "0.5": {
+     "E": {
+      "rate_max": 14.043,
+      "evidence": "MEASURED",
+      "sigma_abs": 2.5,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "rate_max": 12.81,
+      "evidence": "MEASURED",
+      "sigma_abs": 1.4,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "SST": {
+      "rate_max": 10.562,
+      "evidence": "MEASURED",
+      "sigma_abs": 0.295,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "evidence": "MEASURED",
+      "sigma_abs": 12.165,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "1.0": {
+     "E": {
+      "rate_max": 19.696,
+      "evidence": "MEASURED",
+      "sigma_abs": 5.0,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "rate_max": 28.095,
+      "evidence": "MEASURED",
+      "sigma_abs": 2.8,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "SST": {
+      "rate_max": 14.369,
+      "evidence": "MEASURED",
+      "sigma_abs": 0.59,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 71.786,
+      "evidence": "MEASURED",
+      "sigma_abs": 24.33,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "1.25": {
+     "E": {
+      "rate_max": 23.462,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 6.25,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "rate_max": 35.722,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 3.5,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "SST": {
+      "rate_max": 15.738,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.7375,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 88.725,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 30.4125,
+      "in_band_upper": false,
+      "in_band_lower": true
+     }
+    },
+    "1.5": {
+     "E": {
+      "rate_max": 27.227,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 7.5,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "rate_max": 43.35,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 4.2,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "SST": {
+      "rate_max": 17.107,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.885,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 105.665,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 36.495,
+      "in_band_upper": false,
+      "in_band_lower": true
+     }
+    },
+    "2.0": {
+     "E": {
+      "rate_max": 34.759,
+      "evidence": "MEASURED",
+      "sigma_abs": 10.0,
+      "in_band_upper": false,
+      "in_band_lower": true
+     },
+     "PV": {
+      "rate_max": 58.605,
+      "evidence": "MEASURED",
+      "sigma_abs": 5.6,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "SST": {
+      "rate_max": 19.844,
+      "evidence": "MEASURED",
+      "sigma_abs": 1.18,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 139.543,
+      "evidence": "MEASURED",
+      "sigma_abs": 48.66,
+      "in_band_upper": false,
+      "in_band_lower": true
+     }
+    }
+   },
+   "B_gain_normalized": {
+    "0.5": {
+     "E": {
+      "rate_max": 14.043,
+      "evidence": "MEASURED",
+      "sigma_abs": 2.5,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "sigma_abs": null,
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "why": "PV gain undefined: PV silent at V_MID tonic"
+     },
+     "SST": {
+      "rate_max": 10.598,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.2978,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "rate_lower_bound": 10.8,
+      "evidence": "BOUNDED",
+      "sigma_abs": 1.9743,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "1.0": {
+     "E": {
+      "rate_max": 19.696,
+      "evidence": "MEASURED",
+      "sigma_abs": 5.0,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "sigma_abs": null,
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "why": "PV gain undefined: PV silent at V_MID tonic"
+     },
+     "SST": {
+      "rate_max": 14.421,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.5956,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "rate_lower_bound": 10.8,
+      "evidence": "BOUNDED",
+      "sigma_abs": 3.9487,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "1.25": {
+     "E": {
+      "rate_max": 23.462,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 6.25,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "sigma_abs": null,
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "why": "PV gain undefined: PV silent at V_MID tonic"
+     },
+     "SST": {
+      "rate_max": 15.803,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.7445,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "rate_lower_bound": 10.8,
+      "evidence": "BOUNDED",
+      "sigma_abs": 4.9358,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "1.5": {
+     "E": {
+      "rate_max": 27.227,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 7.5,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "PV": {
+      "sigma_abs": null,
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "why": "PV gain undefined: PV silent at V_MID tonic"
+     },
+     "SST": {
+      "rate_max": 17.184,
+      "evidence": "INTERPOLATED",
+      "sigma_abs": 0.8933,
+      "in_band_upper": true,
+      "in_band_lower": true
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "rate_lower_bound": 10.8,
+      "evidence": "BOUNDED",
+      "sigma_abs": 5.923,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    },
+    "2.0": {
+     "E": {
+      "rate_max": 34.759,
+      "evidence": "MEASURED",
+      "sigma_abs": 10.0,
+      "in_band_upper": false,
+      "in_band_lower": true
+     },
+     "PV": {
+      "sigma_abs": null,
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "why": "PV gain undefined: PV silent at V_MID tonic"
+     },
+     "SST": {
+      "rate_max": null,
+      "evidence": "UNSUPPORTED",
+      "sigma_abs": 1.1911
+     },
+     "VIP": {
+      "rate_max": 39.336,
+      "rate_lower_bound": 10.8,
+      "evidence": "BOUNDED",
+      "sigma_abs": 7.8973,
+      "in_band_upper": true,
+      "in_band_lower": true
+     }
+    }
+   }
+  },
+  "pv_option_high_support": {
+   "I0_PV": 3.6,
+   "s_gain_hz_per_unit": 17.5,
+   "rows": {
+    "0.5": {
+     "rate_max": 28.755,
+     "rate_lower_bound": 20.2,
+     "evidence": "BOUNDED",
+     "sigma_abs": 0.3209,
+     "in_band_upper": true,
+     "in_band_lower": true
+    },
+    "1.0": {
+     "rate_max": 28.755,
+     "rate_lower_bound": 20.2,
+     "evidence": "BOUNDED",
+     "sigma_abs": 0.6417,
+     "in_band_upper": true,
+     "in_band_lower": true
+    },
+    "1.25": {
+     "rate_max": 28.755,
+     "rate_lower_bound": 20.2,
+     "evidence": "BOUNDED",
+     "sigma_abs": 0.8021,
+     "in_band_upper": true,
+     "in_band_lower": true
+    },
+    "1.5": {
+     "rate_max": 28.755,
+     "rate_lower_bound": 20.2,
+     "evidence": "BOUNDED",
+     "sigma_abs": 0.9626,
+     "in_band_upper": true,
+     "in_band_lower": true
+    },
+    "2.0": {
+     "rate_max": 28.755,
+     "rate_lower_bound": 20.2,
+     "evidence": "BOUNDED",
+     "sigma_abs": 1.2834,
+     "in_band_upper": true,
+     "in_band_lower": true
+    }
+   }
+  },
+  "sigma_cap_E_band": 1.6841,
+  "sigma_cap_VIP_band_tonic_relative": 1.1212
+ }
+}

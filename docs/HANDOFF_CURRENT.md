@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-GATE-REPAIR DONE (merged d9242c4). SCI-V21C-BOUNDARY DONE, verdict INTRINSIC_HETEROGENEITY_INFEASIBLE stands. SCI-V21-BACKGROUND opened design-only (BKG0-BKG3); no network simulation until BKG_DESIGN_PASS
+- stopped because: SCI-V21-BACKGROUND design returned BKG_DESIGN_UNRESOLVED on branch v21-background-design (results/v21_background_design.json): PV 10 Hz support unidentified; reviewer decisions R1-R3 pending; no network run authorized
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

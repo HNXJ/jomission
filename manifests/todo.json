@@ -227,7 +227,26 @@
    "downstream_unlock": [
     "SCI-V21C-COMPOSITION"
    ],
-   "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE"
+   "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE",
+   "delivered": {
+    "state": "design record on branch v21-background-design; awaiting review (no network run authorized)",
+    "verdict": "BKG_DESIGN_UNRESOLVED",
+    "artifacts": [
+     "results/v21_background_design.json",
+     "scripts/v21_background_design.py",
+     "tests/test_v21_background_design.py (tier 0)"
+    ],
+    "summary": "Under gain-normalized fluctuation (s_c = I0_E g_E / g_c) with tonic V_MID and sigma in {0.5, 1.0, 1.5}, criteria 2-4 are met and no E, SST or VIP band violation is predicted; PV 10 Hz support is not identified (0 Hz at 2.8, 20 Hz at 3.6), leaving criteria 1 and 5 unresolved for PV. VIP support is on target (10.6-10.8 Hz without shot input); its V2.1b overdrive is fluctuation-driven by the tonic-relative scaling.",
+    "reviewer_decisions_required": [
+     "R1 normalization A (literal) or B (gain-normalized)",
+     "R2 PV: P1 single-cell refinement on [2.8, 3.6] or P2 I0_PV = 3.6",
+     "R3 keep I0_VIP = 24.33 (premise to reduce VIP support contradicted by F1-F3)"
+    ],
+    "receipts": [
+     "python scripts/v21_background_design.py",
+     "python -m pytest tests/test_v21_background_design.py"
+    ]
+   }
   },
   {
    "id": "SCI-V21C-COMPOSITION",

@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: PV_CALIBRATION_FAIL (isolated PV silent on [2.8, 3.6]; onset 3.936-4.0). BKG1-BKG3 regenerated analytically: BKG_DESIGN_UNRESOLVED (results/v21_background_design_r2.json); tonic-only support established for E and VIP only; reviewer decisions D1-D3 pending; no execution authorized
+- stopped because: COUPLED_BACKGROUND_UNRESOLVED (results/v21_coupled_background.json): class-rate bands pass on evaluated lambda [0.3125, 1]; candidate lambda 0.65625 is state dependent (PV mean 11.47 Hz from the lambda-0 end state vs 14.55 fresh; PV window 3 falls to 10.2 and 2.01 Hz). Candidate not frozen; STOP for review
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -46,12 +46,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - E_RATE_HETEROGENEITY: **FAIL** (component of V2.1b) — `results/v21b_lineage.json`
 - H5_PRIVATE_STOCHASTIC_DRIVE: **INSUFFICIENT_ALONE** (component of V2.1b) — `results/v21b_lineage.json`
 - V2.1c_INTRINSIC_DESIGN: **INFEASIBLE** — `results/v21c_boundary.json`
+- V2.1_COUPLED_BACKGROUND: **UNRESOLVED** — `results/v21_coupled_background.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1c-design: reduced model validation passed — `07d3966:results/v21c_validation.json`
-- V2.1c-design: b reaches E rate-CV 0.377 at w=0.3 with class-mean rheobase shift 0.421 — `07d3966:results/v21c_width_b.json`
-- V2.1c-design: E cells with b >= 0.265 fire at I=0; 13.7% of cells at w=0.3 — `07d3966:results/v21c_design_notes.json`
 - V2.1c-boundary: all 8 predeclared gates pass; ordering SPONTANEOUS_BEFORE_CV — `d3a0c3c:results/v21c_boundary.json`
 - V2.1c-boundary: b_crit at I=0 in (0.2604980, 0.2604987] — `d3a0c3c:results/v21c_boundary.json`
 - V2.1c-boundary: w_spontaneous in (0.091406, 0.091504]; first pacemaker b 0.26055 at 5.8 Hz — `d3a0c3c:results/v21c_boundary.json`
@@ -61,11 +59,16 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-bkg-pv-calibration: network PV at I0 2.8 (V_MID): 0.0 Hz in every window — `d70b575:results/v21_mid.json`
 - V2.1-bkg-pv-calibration: network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz — `d70b575:results/v21_high.json`
 - V2.1-bkg-pv-calibration: pre-seal timing probe (I = 3.6, seed 1) gave 0.0 Hz; disclosed in the spec field pre_seal_disclosure — `d70b575:results/v21_bkg_pv_calibration_spec.json`
+- V2.1-coupled-background: endpoint runs reproduce the sealed V2.1 rates to 3.6e-15 Hz (lambda 0 and 1) — `54ff926:results/v21_coupled_background.json`
+- V2.1-coupled-background: class_rate_bands fail at lambda 0 (PV 0.0 Hz) and 0.25 (PV window rates 1.40, 1.22, 0.89 Hz) and pass at 0.3125, 0.375, 0.5, 0.65625 and 1; passing run [0.3125, 1], boundary in (0.25, 0.3125] — `54ff926:results/v21_coupled_background.json`
+- V2.1-coupled-background: mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz — `54ff926:results/v21_coupled_background.json`
+- V2.1-coupled-background: candidate lambda 0.65625 (margin 0.40625) passes the bands fresh, but its PV window rates are 16.88, 16.58, 10.2 Hz (PV drift 0.46) — `54ff926:results/v21_coupled_background.json`
+- V2.1-coupled-background: at lambda 0.65625 continued from the lambda-0 end state, PV window rates are 17.05, 15.36, 2.01 Hz (mean 11.47, -3.08 Hz vs fresh; tolerance 1.455 Hz); continued from the lambda-1 end state, 14.65, 14.69, 14.66 Hz (+0.11 Hz). All three runs pass the bands; E, SST, VIP agree within tolerance — `54ff926:results/v21_coupled_background.json`
 
 ### Next authorized task
 
-- `SCI-V21-BACKGROUND` (OPEN): Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition
-- stop: design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides
+- `SCI-V21-COUPLED-BACKGROUND` (OPEN): find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands
+- stop: verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review
 
 ### Locked gates
 

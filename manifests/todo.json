@@ -187,7 +187,7 @@
   },
   {
    "id": "SCI-V21-BACKGROUND",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz); reviewer 2026-09-16: the old background itself is invalid (VIP ~130 > 80 Hz) and is upstream of any further heterogeneity experiment",
    "goal": "Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition",
    "parent_authority": "manifests/gates/v2_local_operation.json profile prospective_v2",
@@ -229,7 +229,7 @@
    ],
    "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE",
    "delivered": {
-    "state": "BKG1-BKG3 regenerated analytically after PV_CALIBRATION_FAIL (results/v21_background_design_r2.json): BKG_DESIGN_UNRESOLVED; reviewer decisions D1-D3 pending; no execution authorized",
+    "state": "closed: BKG_DESIGN_UNRESOLVED; BKG1 requirement retired by reviewer D3 (2026-09-17); succeeded by SCI-V21-COUPLED-BACKGROUND",
     "verdict": "BKG_DESIGN_UNRESOLVED",
     "artifacts": [
      "results/v21_background_design.json",
@@ -259,7 +259,17 @@
      "D1 PV mean support: isolated evaluation around onset 3.936-4.0 (target the lowest sustained isolated rate) or closed-loop network-supported calibration",
      "D2 SST: tonic 0.59 below Hopf 0.763; isolated verification, tonic above onset, or accepted network support",
      "D3 whether tonic must set the operating point per isolated class or only for the all-class network mean"
-    ]
+    ],
+    "regeneration_decisions": {
+     "date": "2026-09-17",
+     "D1": "no isolated PV retuning: keep I_PV = 2.8 as candidate support; no search around onset 3.936-4.0 and no independent closed-loop PV calibration. The defect at V_MID is r_PV(network) = 0, not r_PV(isolated) = 0",
+     "D2": "no isolated SST retuning: SST 10.7 Hz in the network at tonic 0.59 < Hopf 0.763 is functional recruitment; no isolated SST diagnostic",
+     "D3": "the coupled network operating point is authoritative: r_c* = F_c(I0_c + I_rec,c(r*)), not r_c* = F_c(I0_c). Tonic establishes support; the coupled network establishes the operating point",
+     "retired_requirement": "BKG1 'derive every class tonic from isolated 10 Hz F-I inversion' (prospective)",
+     "noise_normalization_consequence": "s_c = I0_E g_E / g_c cannot use isolated g_PV or g_SST. The relevant gain is the closed-network susceptibility g_c^net = d r_c / d I_c^private at r*, measured after a coupled operating point is frozen; then s_c proportional to 1 / g_c^net (never g_c^net)",
+     "program": "coupled mean operating point -> network susceptibility -> mean-zero fluctuation design -> full V2.1 gates",
+     "successor": "SCI-V21-COUPLED-BACKGROUND"
+    }
    }
   },
   {
@@ -297,6 +307,47 @@
     "spec_commit": "19d8c3b",
     "summary": "isolated PV silent at 2.8 and 3.6 (0.0 Hz every window); onset analytically at 3.936 (Hopf) to 4.0 (saddle-node)",
     "analytic_regeneration": "results/v21_background_design_r2.json (BKG_DESIGN_UNRESOLVED)"
+   }
+  },
+  {
+   "id": "SCI-V21-COUPLED-BACKGROUND",
+   "status": "OPEN",
+   "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
+   "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
+   "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
+   "principal_delta": "one coordinate lambda in I(lambda) = (1 - lambda) I_MID + lambda I_HIGH; no shot noise; no per-class tuning",
+   "required_inputs": [
+    "results/v21_coupled_background_spec.json",
+    "results/v21_vectors.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
+    "results/v21_background_design_r2.json"
+   ],
+   "frozen": [
+    "V2.1 static column tests/test_v21_operation.py build_plant",
+    "kernel baseline, HDP detached, no intrinsic heterogeneity",
+    "native noise 0.5*N(0,1), PRNGKey(11)",
+    "prospective_v2 gate file",
+    "endpoints V_MID and V_HIGH from results/v21_vectors.json"
+   ],
+   "procedure": "run tests/test_v21_coupled_background.py (tier 3) exactly as sealed in results/v21_coupled_background_spec.json: bracket {0, 0.5, 1}, endpoint reproduction, bisection to 0.0625 only across pass/fail transitions, candidate midpoint of the passing run, state-dependence check from both endpoint end states; classify; STOP",
+   "acceptance": "COUPLED_BACKGROUND_PASS: finite interior interval satisfies all class-rate bands (margin >= 0.125, state-independent); COUPLED_BACKGROUND_FAIL: no interior passing point; COUPLED_BACKGROUND_UNRESOLVED: discontinuity, hysteresis or state dependence prevents qualification",
+   "stop_condition": "verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review",
+   "artifacts_expected": [
+    "results/v21_coupled_background.json"
+   ],
+   "downstream_unlock": [
+    "SCI-V21C-COMPOSITION"
+   ],
+   "delivered": {
+    "verdict": "COUPLED_BACKGROUND_UNRESOLVED",
+    "result": "results/v21_coupled_background.json",
+    "spec_commit": "f916d80",
+    "result_commit": "54ff926",
+    "summary": "bands pass on evaluated [0.3125, 1], fail at 0 and 0.25; candidate lambda 0.65625 fails the state-dependence check: PV decays within the run (window 3: 10.2 Hz fresh, 2.01 Hz from the lambda-0 end state, 14.66 Hz from the lambda-1 end state)",
+    "reviewer_decisions_required": [
+     "whether PV nonstationarity at lambda 0.65625 blocks the coupled-background program or calls for a predeclared longer-run or multi-initial-state qualification of an interior lambda"
+    ]
    }
   },
   {

@@ -4,8 +4,8 @@
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
-  "main": "4859d3c",
-  "note": "last scientific merge on main (V2.1c design + boundary); harness/state commits may follow",
+  "main": "be0db96",
+  "note": "last scientific merge on main (V2.1 background chain: design, coupled background, PV stationarity); harness/state commits may follow",
   "unmerged_scientific_branches": {}
  },
  "execution_authority": {
@@ -56,18 +56,32 @@
   "V2.1_COUPLED_BACKGROUND": {
    "status": "UNRESOLVED",
    "evidence": "results/v21_coupled_background.json",
-   "scope": "gate"
+   "scope": "gate",
+   "blocked_by": "PV history dependence (V2.1_PV_STATIONARITY)"
   },
   "V2.1_PV_STATIONARITY": {
    "status": "FAIL",
    "evidence": "results/v21_pv_stationarity.json",
    "scope": "component",
-   "component_of": "V2.1_COUPLED_BACKGROUND"
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "bounded_inference": "PV_STATE_MULTIPLICITY_SUSPECTED"
+  },
+  "V2.1_BACKGROUND": {
+   "status": "FAIL",
+   "evidence": "results/v21_background_design_r2.json",
+   "scope": "gate",
+   "review_override": {
+    "evidence_reads": "BKG_DESIGN_UNRESOLVED",
+    "held_status": "FAIL",
+    "reason": "background family stopped after PV_NONSTATIONARY (results/v21_pv_stationarity.json): identical tonic gives history-dependent PV state",
+    "authority": "reviewer 2026-09-17",
+    "lift": "a lineage that changes or explains the mechanism producing PV state dependence"
+   }
   }
  },
- "open_scientific_question": "at lambda 0.65625, is the PV state slow-converging, multistable, or nonstationary (rate-viable interval lambda in [0.3125, 1] established)",
- "stopped_because": "PV_NONSTATIONARY at lambda 0.65625 (results/v21_pv_stationarity.json): PV holds ~14.5 Hz after lambda-1 history but collapses below 1 Hz from fresh and lambda-0 histories within 60 s; per reviewer rule the background program stops pending review",
- "next_authorized_task": "SCI-V21-PV-STATIONARITY",
+ "open_scientific_question": "what state variable or pathway distinguishes active-PV and silent-PV histories at identical external parameters (x:H(s1) != x:H(s2))",
+ "stopped_because": "background family STOPPED (reviewer 2026-09-17) after PV_NONSTATIONARY; SCI-V21-PV-STATE-PREDECESSOR opened read-only on existing artifacts",
+ "next_authorized_task": "SCI-V21-PV-STATE-PREDECESSOR",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",
@@ -88,7 +102,8 @@
   "PROPAGATION_OLD_PLANT",
   "DURATION_SCRATCH",
   "SHOT_NOISE_BRACKETS",
-  "INTRINSIC_SINGLE_PARAM_E"
+  "INTRINSIC_SINGLE_PARAM_E",
+  "V21_BACKGROUND_INPUT_SEARCH"
  ],
  "active_invariants": [
   "ONE_DELTA",

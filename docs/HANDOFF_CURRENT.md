@@ -31,14 +31,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Authority
 
-- scientific head: main `4859d3c`
+- scientific head: main `be0db96`
 - execution: jaxfne 0.4.24 (`results/jaxfne_0424_migration.json`)
 - program: Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1; amendment 2 in results/generic_substrate_v2_amendment_2.json)
 
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: PV_NONSTATIONARY at lambda 0.65625 (results/v21_pv_stationarity.json): PV holds ~14.5 Hz after lambda-1 history but collapses below 1 Hz from fresh and lambda-0 histories within 60 s; per reviewer rule the background program stops pending review
+- stopped because: background family STOPPED (reviewer 2026-09-17) after PV_NONSTATIONARY; SCI-V21-PV-STATE-PREDECESSOR opened read-only on existing artifacts
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -48,6 +48,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1c_INTRINSIC_DESIGN: **INFEASIBLE** — `results/v21c_boundary.json`
 - V2.1_COUPLED_BACKGROUND: **UNRESOLVED** — `results/v21_coupled_background.json`
 - V2.1_PV_STATIONARITY: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_stationarity.json`
+- V2.1_BACKGROUND: **FAIL** (evidence reads BKG_DESIGN_UNRESOLVED; held until a lineage that changes or explains the mechanism producing PV state dependence) — `results/v21_background_design_r2.json`
 
 ### Latest evidence (observed, with receipts)
 
@@ -68,8 +69,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-V21-PV-STATIONARITY` (OPEN): distinguish slow convergence, multistability and nonstationary PV dynamics at the frozen candidate lambda 0.65625
-- stop: verdict recorded; no other lambda, no new initial states, no susceptibility; STOP for review
+- `SCI-V21-PV-STATE-PREDECESSOR` (OPEN): identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only
+- stop: classification recorded; no simulation; STOP for review
 
 ### Locked gates
 

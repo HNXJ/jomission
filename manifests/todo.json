@@ -269,6 +269,11 @@
      "noise_normalization_consequence": "s_c = I0_E g_E / g_c cannot use isolated g_PV or g_SST. The relevant gain is the closed-network susceptibility g_c^net = d r_c / d I_c^private at r*, measured after a coupled operating point is frozen; then s_c proportional to 1 / g_c^net (never g_c^net)",
      "program": "coupled mean operating point -> network susceptibility -> mean-zero fluctuation design -> full V2.1 gates",
      "successor": "SCI-V21-COUPLED-BACKGROUND"
+    },
+    "final_disposition": {
+     "date": "2026-09-17",
+     "status": "FAIL",
+     "note": "reviewer disposition after PV_NONSTATIONARY: background family STOPPED"
     }
    }
   },
@@ -311,7 +316,7 @@
   },
   {
    "id": "SCI-V21-COUPLED-BACKGROUND",
-   "status": "DONE",
+   "status": "BLOCKED",
    "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
    "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
    "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
@@ -352,12 +357,17 @@
      "date": "2026-09-17",
      "decision": "keep COUPLED_BACKGROUND_UNRESOLVED; no bands-only PASS. A rate-viable interval lambda in [0.3125, 1] exists, so mean recruitment is no longer the blocker; the open variable is PV stationarity/state dependence. Slow convergence, multistability/metastability and nonstationary PV dynamics are not distinguished by 20 s. No further lambda values",
      "successor": "SCI-V21-PV-STATIONARITY"
+    },
+    "final_disposition": {
+     "date": "2026-09-17",
+     "status": "UNRESOLVED",
+     "blocked_by": "PV history dependence at lambda 0.65625 (SCI-V21-PV-STATIONARITY: PV_NONSTATIONARY)"
     }
    }
   },
   {
    "id": "SCI-V21-PV-STATIONARITY",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "COUPLED_BACKGROUND_UNRESOLVED: PV at lambda 0.65625 depends on initial state (late windows 10.2 / 2.01 / 14.66 Hz)",
    "goal": "distinguish slow convergence, multistability and nonstationary PV dynamics at the frozen candidate lambda 0.65625",
    "parent_authority": "SCI-V21-COUPLED-BACKGROUND delivered.reviewer_decision (reviewer 2026-09-17)",
@@ -390,10 +400,38 @@
     "result_commit": "907c7f2",
     "summary": "lambda-1 history holds PV at 14.4-14.7 Hz for 55 s; fresh and lambda-0 histories collapse to PV < 1 Hz (late means 0.71 and 0.09 Hz) after 10-30 s, fresh with a drop-and-recovery first; E, SST, VIP identical across histories",
     "reviewer_consequence_declared": "MULTISTABILITY or NONSTATIONARY: stop the background program",
-    "reviewer_decisions_required": [
-     "confirm stopping the coupled-background program; state what, if anything, reopens it"
-    ]
+    "reviewer_decision": {
+     "date": "2026-09-17",
+     "label": "keep sealed PV_NONSTATIONARY; not reinterpreted as PV_MULTISTABILITY",
+     "bounded_inference": "PV_STATE_MULTIPLICITY_SUSPECTED: same x_0.65625 : H_V2 with different histories gives different long-lived PV regimes (late PV 14.43 / 0.71 / 0.09 Hz) while E, SST, VIP converge; the experiment was not designed to establish distinct attractors or basins",
+     "disposition": "background family STOPPED; no susceptibility measurement, no stochastic bracket execution",
+     "reopen_condition": "only a lineage that changes or explains the mechanism producing PV state dependence. Longer runs, more lambda points, another tonic vector, more initial states or another noise amplitude do not reopen it"
+    }
    }
+  },
+  {
+   "id": "SCI-V21-PV-STATE-PREDECESSOR",
+   "status": "OPEN",
+   "trigger": "PV_NONSTATIONARY / PV_STATE_MULTIPLICITY_SUSPECTED: identical x gives history-dependent PV state; the defect is inside H, not x",
+   "goal": "identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only",
+   "parent_authority": "SCI-V21-PV-STATIONARITY delivered.reviewer_decision (reviewer 2026-09-17)",
+   "principal_delta": "none: read-only analysis of the sealed 60 s trajectories; no simulation",
+   "required_inputs": [
+    "results/v21_pv_stationarity.json",
+    "results/v21_pv_stationarity_spec.json",
+    "tests/test_v21_pv_stationarity.py"
+   ],
+   "frozen": [
+    "sealed PV stationarity artifacts",
+    "no new simulation"
+   ],
+   "procedure": "at matched times after switching to lambda 0.65625, compare active-PV (lambda-1 history) and collapsing-PV (fresh, lambda-0 history) trajectories on recorded state: V_PV, u_PV, I_E->PV, I_PV->PV, I_SST->PV and any recorded synaptic state; find the earliest variable with a reproducible divergence preceding the PV-rate divergence. Do not infer mechanism from endpoint rates",
+   "acceptance": "PV_INTRINSIC_STATE | PV_INPUT_STATE | PV_RECURRENT_STATE | MISSING_OBSERVABLE (required state not in the 60 s artifacts; may justify a tightly instrumented matched rerun later) | UNRESOLVED",
+   "stop_condition": "classification recorded; no simulation; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_state_predecessor.json"
+   ],
+   "downstream_unlock": []
   },
   {
    "id": "SCI-V21C-COMPOSITION",

@@ -31,6 +31,7 @@ before.
 | `DURATION_SCRATCH` | sustained drive scratch runs | VOID: tonic duplicated in schedule | results/duration_postmortem.json |
 | `SHOT_NOISE_BRACKETS` | further private shot-noise brackets on V2.1 | V2.1b FAIL; no new noise brackets | results/v21b_lineage.json |
 | `INTRINSIC_SINGLE_PARAM_E` | one zero-mean E intrinsic dispersion (a, b, c, or d) for rate heterogeneity | INFEASIBLE: a/d need w 0.7, c bursts, b makes E pacemakers at w ~0.09 before rate-CV 0.3 at w ~0.235 | results/v21c_design.json, results/v21c_boundary.json |
+| `V21_BACKGROUND_INPUT_SEARCH` | further tonic, lambda, duration, initial-state or noise-amplitude searches for a V2.1 operating background | STOPPED: identical tonic at lambda 0.65625 gives history-dependent PV (late 14.43 / 0.71 / 0.09 Hz), PV_NONSTATIONARY; reopen only with a lineage that changes or explains the PV state-dependence mechanism | results/v21_coupled_background.json, results/v21_pv_stationarity.json |
 
 Kept as qualified reductions (not retired): selectivity inverse, selective native
 HDP (S6), coarse geometry S7 and linear stability S8 as reductions only.

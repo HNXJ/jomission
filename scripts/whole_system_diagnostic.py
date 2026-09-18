@@ -167,8 +167,10 @@ def window(series, t0_ms, t1_ms):
 
 
 def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
-    out = out or OUT
-    out_y = out_y or OUT_Y
+    # Resolve against the repo root so a relative --out lands beside the sealed artifacts rather
+    # than wherever the process happens to be running.
+    out = (ROOT / out) if out else OUT
+    out_y = (ROOT / out_y) if out_y else OUT_Y
     model, normal, rf_decl, tonic_e = build()
     index, (area, layer, cls) = realize.index_map(model)
     model, enforcement = enforce(model, index)

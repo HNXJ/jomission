@@ -128,7 +128,7 @@
   }
  },
  "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
- "stopped_because": "WS-DIAG-1 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the first load-bearing gate. Observe, localize, STOP: no stabilization in this lineage. The composed network synchronizes under uniform tonic drive and was still evolving at 5 s, so the propagation measurement is not interpretable. Awaiting reviewer direction.",
+ "stopped_because": "WS-DIAG-2 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the same gate as WS-DIAG-1 with a 5x longer settle. The synchrony is not a settling artifact and the retinal interface drives no attributable response. Observe, localize, STOP: no stabilization in this lineage. Awaiting reviewer direction.",
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",

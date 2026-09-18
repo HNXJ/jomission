@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-DIAG-1 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the first load-bearing gate. Observe, localize, STOP: no stabilization in this lineage. The composed network synchronizes under uniform tonic drive and was still evolving at 5 s, so the propagation measurement is not interpretable. Awaiting reviewer direction.
+- stopped because: WS-DIAG-2 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the same gate as WS-DIAG-1 with a 5x longer settle. The synchrony is not a settling artifact and the retinal interface drives no attributable response. Observe, localize, STOP: no stabilization in this lineage. Awaiting reviewer direction.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -58,13 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- WS-REALIZE-R1R4: all 24 declared cross-area projection identities realize, with no missing and no extra identity: E_missing = E_extra = empty — `acdaf19:results/whole_system_realization.json`
-- WS-REALIZE-R1R4: the population scaffold alone realizes zero cross-area edges, so every cross-area edge comes from a declared projection — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
-- WS-REALIZE-R1R4: no projection relates non-adjacent composites: V1 reaches neither FEF nor PFC — `acdaf19:results/whole_system_realization.json`
-- WS-REALIZE-R1R4: every declared projection realizes receptor index 0, the sole declared mechanism AMPA; tau_ms is empty on the concatenated edge list and so is not readable per edge — `acdaf19:results/whole_system_realization.json`
-- WS-REALIZE-R1R4: I[FEF.L6.E] resolves to 28 neurons at indices 170-197, exactly the rows whose metadata are area FEF, layer L6, cell type E — `acdaf19:results/whole_system_realization.json`
-- WS-REALIZE-R1R4: the realized L6 split is E 28 / SST 2 while the declared allocation policy R requires E 29 / SST 1, in all six instances — `acdaf19:results/whole_system_realization.json`
-- WS-REALIZE-R1R4: without a declared mechanism the compiler takes a selector that expands any superficial layer name to {L2, L3, L2/3, L23}, which realized 18 undeclared cross-area identities; declaring AMPA selects the strict-equality selector and removes them — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
 - WS-REALIZE-R4C: the engine's sequential allocation policy preserves sum_c N[l.c] = N[l] in all 12006 audited cases, six layers by layer totals 0 to 2000 — `0659293:results/ctx_allocation_audit.json`
 - WS-REALIZE-R4C: the independent per-class formula int(round(N_l*P)) violates that invariant in 5031 of the same 12006 cases — `0659293:results/ctx_allocation_audit.json`
 - WS-REALIZE-R4C: at N = 200 the layer split is L1 20, L2 30, L3 40, L4 20, L5 60, L6 30, summing to 200, and the class counts sum to 200 — `0659293:results/ctx_allocation_audit.json`
@@ -79,6 +72,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-DIAG-1: area E rate slopes over the final 1500 ms are 1.25 to 1.90 Hz/s, above the 0.5 Hz/s tolerance, but none satisfied the predeclared sustained rule — `50bd3c5:results/whole_system_diagnostic.json`
 - WS-DIAG-1: the directly targeted V1_1.L4.E fell 1.43 Hz from baseline to stimulus while untargeted V1_2.L4.E rose 3.57 Hz and V4_1.L4.E rose 2.14 Hz — `50bd3c5:results/whole_system_diagnostic.json`
 - WS-DIAG-1: w and theta_S were bitwise unchanged across all ten chunk boundaries, confirming no plastic stabilization under the baseline kernel — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-2: execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594 — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: the lit retinal units again fired at 11.0 Hz and no unlit unit fired — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: w and theta_S were bitwise unchanged across all 26 chunk boundaries — `0e76900:results/whole_system_diagnostic_2.json`
 
 ### Next authorized task
 

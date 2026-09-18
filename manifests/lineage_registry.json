@@ -1400,6 +1400,98 @@
     "effective": "not established. The declared efficacy drove no attributable response: the directly targeted V1_1.L4.E fell 1.43 Hz while untargeted populations rose, against a recurrent background of 39800 intra-area edges per area. The interface is configured, realized and executed; it is not shown to be causally effective on the cortical dynamics"
    },
    "drive_invariant": "I_executed = I_emitter + I_schedule, checked by jomission.harness.drive before execution"
+  },
+  {
+   "lineage_id": "WS-DIAG-2",
+   "parent": "WS-DIAG-1",
+   "principal_delta": "settle_ms 2000 -> 10000. No other quantity changed.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_2_spec.json",
+    "commit": "1a7e7a5"
+   },
+   "authority": "reviewer 2026-09-18: extend settle to 10 s and rerun the same diagnostic",
+   "inputs": [
+    "results/whole_system_diagnostic.json",
+    "results/whole_system_diagnostic_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-DIAG-1 except settle_ms",
+    "stimulus 1000 ms and post-stimulus 2000 ms unchanged",
+    "synchrony CV tolerance 3.0 and the drift rule unchanged"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the lit retinal units again fired at 11.0 Hz and no unlit unit fired",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "w and theta_S were bitwise unchanged across all 26 chunk boundaries",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the synchrony failure is not a settling artifact: a 5x longer settle did not reduce it, and the count of areas over tolerance rose from one to four",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the drift slope reversed sign between the two runs while neither met the sustained rule, so the end-of-horizon slope is fluctuation rather than a secular approach to a fixed point, and WS-DIAG-1's reading of an unsettled network is superseded",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the uniformity of the per-area response across all six areas, independent of whether an area was targeted, shows the measured change is global fluctuation and not stimulus transfer",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the composed network's synchrony and the retinal interface's ineffectiveness are properties of the realized architecture under uniform tonic drive, not of the observation horizon. Neither the mechanism of the synchrony nor the cause of the ineffectiveness was tested by this lineage",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_2_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at V4.1, V4.2, PFC and V1.2. Execution, collapse and runaway passed; drift did not count; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_2_spec.json",
+    "results/whole_system_diagnostic_2.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "0e76900"
   }
  ]
 }

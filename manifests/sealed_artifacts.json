@@ -1678,9 +1678,9 @@
   },
   {
    "path": "scripts/whole_system_diagnostic.py",
-   "blob": "db03ede500274a421b5d294350a82e13109262d6",
-   "sealed_in": "d156282",
-   "resealed": "import-form repair only; the result was produced by the functionally identical blob at 6ed94ea"
+   "blob": "208cae2e4da736ea08fdf799dfd748eb870188c4",
+   "sealed_in": "0e76900",
+   "resealed": "WS-DIAG-2: --spec plumbing and two write-path defect repairs; no scientific parameter changed"
   },
   {
    "path": "jomission/tfne/retina.py",
@@ -1691,6 +1691,16 @@
    "path": "tests/test_whole_system_diagnostic.py",
    "blob": "082c3dad73211346295cf9d9cfd7bc08b548c6e8",
    "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "results/whole_system_diagnostic_2_spec.json",
+   "blob": "1765b99edd76d4053a6afc0d1d3440d6b0c1317b",
+   "sealed_in": "0e76900"
+  },
+  {
+   "path": "results/whole_system_diagnostic_2.json",
+   "blob": "56fb0608814e8af65b1d37a49754c83293aca0f8",
+   "sealed_in": "0e76900"
   }
  ]
 }

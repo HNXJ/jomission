@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-DIAG-2 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the same gate as WS-DIAG-1 with a 5x longer settle. The synchrony is not a settling artifact and the retinal interface drives no attributable response. Observe, localize, STOP: no stabilization in this lineage. Awaiting reviewer direction.
+- stopped because: WS-DIAG-3 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL with the intended HDP mechanism ON (jomission_authority_v3), matched to the WS-DIAG-2 baseline in every other respect. Every predeclared equilibrium was met and neither H bound was touched, so the verdict is readable as evidence about the architecture. Synchrony improved but did not clear: areas over the 3.0 tolerance fell from four to one, PFC 3.0372. Efficacy redistribution acted almost only on inhibition, because E sits at H = 1 where m(H) = 1 is neutral while silent PV and VIP reach m(7.43) = 1.76. Propagation still unattributable, now with the opposite sign: every area falls about 1 Hz during the stimulus, four of them exactly 11.0 -> 10.0, the signature of a globally periodic burst regime. Observe, localize, STOP: no stabilization or retuning in this lineage. Awaiting reviewer direction.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -58,12 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- WS-REALIZE-R4C: the engine's sequential allocation policy preserves sum_c N[l.c] = N[l] in all 12006 audited cases, six layers by layer totals 0 to 2000 — `0659293:results/ctx_allocation_audit.json`
-- WS-REALIZE-R4C: the independent per-class formula int(round(N_l*P)) violates that invariant in 5031 of the same 12006 cases — `0659293:results/ctx_allocation_audit.json`
-- WS-REALIZE-R4C: at N = 200 the layer split is L1 20, L2 30, L3 40, L4 20, L5 60, L6 30, summing to 200, and the class counts sum to 200 — `0659293:results/ctx_allocation_audit.json`
-- WS-REALIZE-R4C: with R adopted, delta_objects = delta_populations = delta_projections = delta_index = 0 and every declared interface resolves — `0659293:results/whole_system_realization_r2.json`
-- WS-REALIZE-R4C: the corrected run reproduces the parent's topology exactly: the same 24 identities, 7020 cross-area edges of 245820, no skip projections — `0659293:results/whole_system_realization_r2.json`
-- WS-REALIZE-R4C: per-edge tau_ms is not readable from the constructed model; the configured value is 2 ms — `0659293:results/whole_system_realization_r2.json`
 - WS-DIAG-1: execution was finite throughout: no non-finite v, u or synaptic current at any of the 50000 steps — `50bd3c5:results/whole_system_diagnostic.json`
 - WS-DIAG-1: the input interface was enforced and verified: 1047552 intra-retinal edges removed, retinal tonic 5.0 zeroed, exactly 1024 retinal edges realized, and the 24 cortical projection identities unchanged — `50bd3c5:results/whole_system_diagnostic.json`
 - WS-DIAG-1: the retina was silent at baseline and its 64 lit units fired at 11.0 Hz during stimulation — `50bd3c5:results/whole_system_diagnostic.json`
@@ -78,6 +72,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-DIAG-2: every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594 — `0e76900:results/whole_system_diagnostic_2.json`
 - WS-DIAG-2: the lit retinal units again fired at 11.0 Hz and no unlit unit fired — `0e76900:results/whole_system_diagnostic_2.json`
 - WS-DIAG-2: w and theta_S were bitwise unchanged across all 26 chunk boundaries — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-3: execution was finite throughout all 130000 steps and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, 246844 edges after, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities with no missing and no extra — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: synchrony CV over the final 1000 ms fell in five of six areas: FEF 2.9425 -> 2.9705, PFC 3.0409 -> 3.0372, V1_1 2.9782 -> 2.8731, V1_2 3.0168 -> 2.7107, V4_1 3.1642 -> 2.7376, V4_2 3.1636 -> 2.8356. Areas over the 3.0 tolerance fell from four to one — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: H reached neither bound: final min 0.3626 and max 7.4324 against clamps 0.1 and 10.0, with H_frac_above_5 0.1214 and 270 of 2224 neurons being PV or VIP — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: A reached 0.0 exactly and A_frac_zero was 0.0 at every chunk boundary, so no neuron was held at a floor while some reached zero instantaneously — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: weights stayed inside their construction bound: w_max 0.500805 -> 0.513842 and w_min -0.008179 -> -0.013081 across the run, with w_changed true — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: every area's E rate FELL during the stimulus, by -1.0000 Hz at V1_1, V1_2, V4_1 and V4_2 (11.0 -> 10.0 exactly), -1.1159 at FEF and -1.1014 at PFC, where the HDP-off arm had risen by +0.41 to +0.64 Hz — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: the lit retinal units again fired at 11.0 Hz and no unlit unit fired: population rate 0.0 -> 0.6875 Hz over the 1024-unit population — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: execution, collapse, runaway and drift all passed; synchrony and propagation failed — `d4c9d17:results/whole_system_diagnostic_3.json`
 
 ### Next authorized task
 

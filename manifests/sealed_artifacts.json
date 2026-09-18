@@ -1701,6 +1701,26 @@
    "path": "results/whole_system_diagnostic_2.json",
    "blob": "56fb0608814e8af65b1d37a49754c83293aca0f8",
    "sealed_in": "0e76900"
+  },
+  {
+   "path": "results/whole_system_diagnostic_3_spec.json",
+   "blob": "a908fb01a21e9de88954044f0d7afaf496bc8b3b",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "scripts/whole_system_diagnostic_3.py",
+   "blob": "7505c30fe22aedadd6c642491aa48ff393fd297b",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "jomission/tfne/hdp_authority.py",
+   "blob": "21dd748ad47d4916d49771427e901b0fabba08c8",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "results/whole_system_diagnostic_3.json",
+   "blob": "9c5912b05253050f94fc8a6fda79a92e12b20238",
+   "sealed_in": "d4c9d17"
   }
  ]
 }

@@ -1492,6 +1492,126 @@
     "tests/test_whole_system_diagnostic.py"
    ],
    "commit": "0e76900"
+  },
+  {
+   "lineage_id": "WS-DIAG-3",
+   "parent": "WS-DIAG-2",
+   "principal_delta": "kernel baseline -> hdp with the registered rule jomission_authority_v3. Architecture, retina, stimulus, drive, seed, durations, gates and tolerances are bit-identical to WS-DIAG-2; the spec's gates, retina, frozen and drive blocks compare equal to the parent's.",
+   "introduces_mechanism": true,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_3_spec.json",
+    "commit": "66ba377"
+   },
+   "authority": "reviewer 2026-09-18: same TFNE architecture with HDP ON, everything else frozen. Authorized after S1b and S2 each passed their own acceptance as separate one-delta repairs, with the instruction not to calibrate them simultaneously.",
+   "inputs": [
+    "results/whole_system_diagnostic_2.json",
+    "results/whole_system_diagnostic_2_spec.json",
+    "results/whole_system_diagnostic_3_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-DIAG-2 except the kernel",
+    "settle 10000 ms, stimulus 1000 ms, post-stimulus 2000 ms unchanged",
+    "synchrony CV tolerance 3.0 and the drift rule unchanged",
+    "the 24 cortical projection identities and RETINA[jomission_v0] unchanged"
+   ],
+   "executed": true,
+   "qualification": {
+    "mechanism": "jomission_authority_v3, a registered HDP rule: outgoing efficacy relaxed toward a target set by the source's own capacity H, with H driven by the engine's signed native current and spent against a filtered activity coordinate A",
+    "configured": "jomission/tfne/hdp_authority.py: h_coords (H, A), h_shape (2,), aux per-edge w_base, theta target edge_weight, h_bounds (0.0, 10.0) with H's own floor of 0.1 enforced on its derivative. alpha 0.05, beta 0.0, gamma 0.27320, delta 0.0, rho_passive 0.02, barrier_c 0.01, barrier_d 1.0, tau_0_ms 5.0, tau_act_ms 500.0, rate_ref_per_ms 0.0109089, k_relax 0.01, m_sat 2.0",
+    "realized": "results/whole_system_diagnostic_3.json: hdp_rule_registration records module jomission.tfne.hdp_authority, registered_name jomission_authority_v3, tonic_injected true, rule_param_keys ['tonic_drive']. The name the module returned was checked against the name the spec declared before compiling, so a silent mismatch would have raised",
+    "executed": "results/whole_system_diagnostic_3.json: H and A evolved over all 26 chunk boundaries with w_changed true and A_changed true. Final H mean 1.9986, p05 0.9890, p95 7.4306, min 0.3626, max 7.4324, frac_above_5 0.1214; A mean 0.6085, min 0.0 exactly, max 4.7114",
+    "effective": "partially, and the part that worked is separable from the part that did not. Efficacy redistribution was effective on inhibition and inert on excitation, exactly as m(H) predicts: E sits at H = 1.0 where m = 1.0 is neutral, so w_max moved only 0.5008 -> 0.5138, while inhibitory magnitude grew 0.008179 -> 0.013081, a factor 1.6 toward m(7.43) = 1.76. Synchrony fell in five of six areas and the count over tolerance fell from four to one, so the mechanism is causally effective on the failure it was aimed at; it did not clear the tolerance at PFC"
+   },
+   "observations": [
+    {
+     "claim": "execution was finite throughout all 130000 steps and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, 246844 edges after, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities with no missing and no extra",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "synchrony CV over the final 1000 ms fell in five of six areas: FEF 2.9425 -> 2.9705, PFC 3.0409 -> 3.0372, V1_1 2.9782 -> 2.8731, V1_2 3.0168 -> 2.7107, V4_1 3.1642 -> 2.7376, V4_2 3.1636 -> 2.8356. Areas over the 3.0 tolerance fell from four to one",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "H reached neither bound: final min 0.3626 and max 7.4324 against clamps 0.1 and 10.0, with H_frac_above_5 0.1214 and 270 of 2224 neurons being PV or VIP",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "A reached 0.0 exactly and A_frac_zero was 0.0 at every chunk boundary, so no neuron was held at a floor while some reached zero instantaneously",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "weights stayed inside their construction bound: w_max 0.500805 -> 0.513842 and w_min -0.008179 -> -0.013081 across the run, with w_changed true",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "every area's E rate FELL during the stimulus, by -1.0000 Hz at V1_1, V1_2, V4_1 and V4_2 (11.0 -> 10.0 exactly), -1.1159 at FEF and -1.1014 at PFC, where the HDP-off arm had risen by +0.41 to +0.64 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "the lit retinal units again fired at 11.0 Hz and no unlit unit fired: population rate 0.0 -> 0.6875 Hz over the 1024-unit population",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "execution, collapse, runaway and drift all passed; synchrony and propagation failed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the efficacy mechanism acted almost entirely on inhibition. m(H) = 2H/(1+H) is 1.0 at H = 1 where E sits, and 1.76 at H = 7.43 where the silent PV and VIP sit, so the measured 1.6x growth of inhibitory magnitude against a 1.026x change in w_max is the predicted asymmetry and not an anomaly",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "the exactly integer rates, 11.0 -> 10.0 in four areas, indicate a globally periodic burst regime in which each E cell fires once per burst; the stimulus slows the global burst rate by one per second everywhere at once",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "propagation remains unattributable for the same reason as the HDP-off arm but with the opposite sign: the targeted V1_1 delta of -1.0000 Hz is not distinguishable from the untargeted V1_2 delta of -1.0000 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "every predeclared quantity was met: H_max 7.4324 against 7.43, H_frac_above_5 0.1214 against 0.121, E near 1.0 and SST near 0.36, weights inside [0, 2] x w_base. The verdict is therefore readable as evidence about the architecture rather than about a misconfigured mechanism",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the synchrony is not caused by the absence of homeostatic capacity control. Enabling the intended mechanism, with its equilibria landing where predicted, moved CV by at most 0.43 and left PFC above tolerance. Whether a differently parameterised HDP could clear it was not tested by this lineage, and no parameter was adjusted after the result",
+     "evidence_class": "INFERRED"
+    },
+    {
+     "claim": "amplified inhibition from non-firing PV and VIP is the most likely proximate cause of the sign reversal in the stimulus response, since it is the only large weight change the run produced. This was predeclared as a consequence of the stated semantics and was not tested causally here",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_3_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at PFC (3.0372 against tolerance 3.0). Execution, collapse, runaway and drift passed; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_3_spec.json",
+    "results/whole_system_diagnostic_3.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "d4c9d17"
   }
  ]
 }

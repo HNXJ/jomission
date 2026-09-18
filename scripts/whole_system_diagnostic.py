@@ -171,6 +171,9 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
     # than wherever the process happens to be running.
     out = (ROOT / out) if out else OUT
     out_y = (ROOT / out_y) if out_y else OUT_Y
+    for path in (out, out_y):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("") if path.suffix == ".json" else path.touch()
     model, normal, rf_decl, tonic_e = build()
     index, (area, layer, cls) = realize.index_map(model)
     model, enforcement = enforce(model, index)
@@ -229,12 +232,12 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
     for c in range(n_chunks):
         t0 = c * CHUNK_MS
         sched = jnp.asarray(schedule_chunk(t0, chunk_steps, n_neurons, lit_idx, np.float32))
-        state, out = jtfne.run_continuation(step_fn, state, sched)
+        state, outputs = jtfne.run_continuation(step_fn, state, sched)
         # record_weight_trace=False drops the per-edge weight slot, so the optional current and
         # u traces sit at 4 and 5, not 5 and 6. Verified against the state below.
-        assert len(out) == 6, f"unexpected output arity {len(out)}"
-        v, spikes, H, current, u = (np.asarray(out[0]), np.asarray(out[1]),
-                                    np.asarray(out[3]), np.asarray(out[4]), np.asarray(out[5]))
+        assert len(outputs) == 6, f"unexpected output arity {len(outputs)}"
+        v, spikes, H, current, u = (np.asarray(outputs[0]), np.asarray(outputs[1]),
+                                    np.asarray(outputs[3]), np.asarray(outputs[4]), np.asarray(outputs[5]))
         assert np.allclose(v[-1], np.asarray(state.dynamic.v), atol=1e-4), "v trace is not v"
         assert np.allclose(u[-1], np.asarray(state.dynamic.u), atol=1e-4), "u trace is not u"
         for label, arr in (("v", v), ("u", u), ("current", current)):

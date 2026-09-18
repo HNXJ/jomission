@@ -21,7 +21,8 @@
     "tests/test_v21_pv_microstate.py",
     "tests/test_seal_write_guard.py",
     "tests/test_tfne_v2_spec.py",
-    "tests/test_whole_system_realization.py"
+    "tests/test_whole_system_realization.py",
+    "tests/test_whole_system_diagnostic.py"
    ]
   },
   "1": {

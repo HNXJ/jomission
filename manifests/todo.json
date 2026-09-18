@@ -1043,7 +1043,7 @@
   },
   {
    "id": "SCI-V21-PV-M1",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-V21-PV-M0-R2 closed the candidate set to v, u and syn_state; observational ordering is impossible because A and B differ from epoch 0",
    "goal": "determine which single typed state block, transplanted from the active-fate donor into the low-fate base, switches the PV fate",
    "parent_authority": "reviewer 2026-09-18: M1 authorized with three single-block arms plus A and B controls; PV-incoming synaptic edges only; keep u; no conjunction search",
@@ -1064,8 +1064,21 @@
    "artifacts_expected": [
     "results/v21_pv_m1.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "NO_SINGLE_BLOCK_SUFFICIENT_FAIL",
+    "result": "results/v21_pv_m1.json",
+    "summary": "controls exact (A_CTRL reproduces sealed run A to 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz against its sealed 15.11 Hz reference) and every transplant verified bitwise with one differing leaf per arm. No arm flips: A_v 0.303, A_u 0.107, A_syn 0.085 Hz against an active fate of 14.425 Hz. Each arm ends lower than the unmodified base, so none is a partial flip",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m1.py  (2 passed in 2262.73s)"
+    ],
+    "reviewer_decisions_required": [
+     "no conjunction search follows automatically: whether to authorize one, and with what justification",
+     "the alternative to a conjunction is finer structure inside a single block (for example the PV-incoming synaptic arm split by presynaptic class), which the M1 spec forbids without a flip on the whole arm",
+     "whether the arms ending below the base is worth its own question"
+    ]
+   }
   }
  ],
- "next_authorized_task": "SCI-V21-PV-M1"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

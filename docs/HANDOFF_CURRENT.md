@@ -52,16 +52,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_PV_PREDECESSOR: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_predecessor.json`
 - V2.1_PV_MICROSTATE: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_microstate.json`
 - V2.1_PV_M0_DECOMPOSITION: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m0_r2.json`
+- V2.1_PV_M1_TRANSPLANT: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m1.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-microstate: trace identity confirmed: the three npz files match the sha256 pinned in the spec and reproduce the sealed population-mean numbers to the printed precision — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 1 per-cell v: d_AB 0.511 and d_AC 0.513 at epoch 0 against a same-fate scale max d_BC 0.048, qualifying from epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 1 population mean of v qualifies at the same epoch 0 (scale 0.0476, threshold 0.238) — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 2 per-cell u: d_AB 0.014-0.046 and d_AC 0.016-0.054 against d_BC 0.008-0.016, no qualifying epoch in the lead window — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 3 joint (v, u) qualifies from epoch 0 and its population-mean test also qualifies at epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 4 per-cell ISI structure: d_AB 9.3-16.8 and d_AC 5.9-18.9 against threshold 8.72, no three consecutive qualifying epochs — `9c3b7ad:results/v21_pv_microstate.json`
-- V2.1-pv-microstate: level 5 per-cell input was not evaluated: the spec makes it conditional on levels 1-4 producing no qualifying separation — `9c3b7ad:results/v21_pv_microstate.json`
 - V2.1-pv-m0-state-decomposition: both states regenerate with exactly the sealed sha256 of dynamic.v (A 83ce0d0c3fc44a71, B 8704423170e6ae32) — `b381896:results/v21_pv_m0.json`
 - V2.1-pv-m0-state-decomposition: the trajectory match failed on PV alone by -0.695 Hz against a 0.5 Hz tolerance — `b381896:results/v21_pv_m0.json`
 - V2.1-pv-m0-state-decomposition-r2: the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1 — `8ece148:results/v21_pv_m0_r2.json`
@@ -69,11 +63,17 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-m0-state-decomposition-r2: five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux — `8ece148:results/v21_pv_m0_r2.json`
 - V2.1-pv-m0-state-decomposition-r2: u differs least in PV (max 0.370, mean 0.296) against E (10.56), SST (2.78) and VIP (7.40); v differs comparably in every class (mean 27.6-28.9) — `8ece148:results/v21_pv_m0_r2.json`
 - V2.1-pv-m0-state-decomposition-r2: both states are saved and pinned for a later authorized transplant: h_A0 sha256 19be5c09, h_B0 sha256 cbd15369 — `8ece148:results/v21_pv_m0_r2.json`
+- V2.1-pv-m1-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends low at 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m1-transplant: B_CTRL ends at 15.110 Hz, matching its sealed reference (run C of the parent, 15.11 Hz) — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m1-transplant: each transplant moved exactly its named block: the block took the donor value bitwise and every other DynamicState leaf equalled the base, with one differing leaf per arm — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m1-transplant: the PV-incoming synaptic arm covered 15960 of 159600 edges (10 percent), with presynaptic classes E, PV, SST and VIP — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m1-transplant: late PV rates: A_v 0.303 Hz, A_u 0.107 Hz, A_syn 0.085 Hz, against an active fate of 14.425 Hz and a base of 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m1-transplant: E, SST and VIP late rates are within 0.4 Hz across all five arms (E 16.93-17.07, SST 22.36-22.74, VIP 16.93-17.07) — `ed1be04:results/v21_pv_m1.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-M1` (OPEN): determine which single typed state block, transplanted from the active-fate donor into the low-fate base, switches the PV fate
-- stop: classification recorded in results/v21_pv_m1.json; no conjunction search and no mechanism claim; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

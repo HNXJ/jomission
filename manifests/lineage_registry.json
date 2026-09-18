@@ -928,6 +928,94 @@
     "tests/test_v21_pv_m0_r2.py"
    ],
    "commit": "8ece148"
+  },
+  {
+   "lineage_id": "V2.1-pv-m1-transplant",
+   "parent": "V2.1-pv-m0-state-decomposition-r2",
+   "principal_delta": "one typed state block replaced per arm, from a common base state and a single future stochastic stream",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m1_spec.json",
+    "commit": "4f4ded7"
+   },
+   "authority": "reviewer 2026-09-18: M1 authorized with three single-block arms plus A and B controls; PV-incoming edges only; keep u; no conjunction search",
+   "inputs": [
+    "results/v21_pv_m0_r2.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends low at 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "B_CTRL ends at 15.110 Hz, matching its sealed reference (run C of the parent, 15.11 Hz)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "each transplant moved exactly its named block: the block took the donor value bitwise and every other DynamicState leaf equalled the base, with one differing leaf per arm",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "the PV-incoming synaptic arm covered 15960 of 159600 edges (10 percent), with presynaptic classes E, PV, SST and VIP",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "late PV rates: A_v 0.303 Hz, A_u 0.107 Hz, A_syn 0.085 Hz, against an active fate of 14.425 Hz and a base of 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "E, SST and VIP late rates are within 0.4 Hz across all five arms (E 16.93-17.07, SST 22.36-22.74, VIP 16.93-17.07)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "no single typed state block among v, u and the PV-incoming synaptic state is sufficient to switch the PV fate under a matched base and a matched future stream",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "every transplant arm ends lower than the unmodified base rather than between the two fates, so none of them is a partial flip",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the fate is not owned by any one of the three differing blocks alone; it is carried either by a combination of them or by a finer structure inside one of them. Deciding between those requires separately justified work, and no conjunction search follows automatically",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "NO_SINGLE_BLOCK_SUFFICIENT_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/v21_pv_m1_spec.json classification table",
+   "fail_boundary": "the single-block hypothesis, not the experiment: controls reproduced exactly and every transplant was verified bitwise",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m1_spec.json",
+    "results/v21_pv_m1.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m1.py"
+   ],
+   "commit": "ed1be04"
   }
  ]
 }

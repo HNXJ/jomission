@@ -1678,8 +1678,9 @@
   },
   {
    "path": "scripts/whole_system_diagnostic.py",
-   "blob": "314da1304d788136308df3a4f58f6b859f2b3a2d",
-   "sealed_in": "50bd3c5"
+   "blob": "db03ede500274a421b5d294350a82e13109262d6",
+   "sealed_in": "d156282",
+   "resealed": "import-form repair only; the result was produced by the functionally identical blob at 6ed94ea"
   },
   {
    "path": "jomission/tfne/retina.py",

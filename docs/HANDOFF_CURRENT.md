@@ -75,8 +75,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `SCI-V21-PV-M0` (OPEN): identify the smallest typed state block that differs between the two initial states carrying opposite PV fates, and therefore which transplant arms are justified
+- stop: decomposition and the justified transplant arms recorded in results/v21_pv_m0.json; no transplant is executed; STOP for review
 
 ### Locked gates
 

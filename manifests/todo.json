@@ -936,7 +936,32 @@
      "whether the negative result on u is worth recording as a constraint on intrinsic-adaptation explanations"
     ]
    }
+  },
+  {
+   "id": "SCI-V21-PV-M0",
+   "status": "OPEN",
+   "trigger": "SCI-V21-PV-MICROSTATE UNRESOLVED: every observational contrast differs from epoch 0, so ordering cause and consequence needs a matched-state design",
+   "goal": "identify the smallest typed state block that differs between the two initial states carrying opposite PV fates, and therefore which transplant arms are justified",
+   "parent_authority": "reviewer 2026-09-17: authorize M0 only; typed blocks, not coordinates; exclude the RNG from the causal candidate set. Owner 2026-09-17 authorized deterministic regeneration of h_B(0) with v-hash plus trajectory match",
+   "principal_delta": "none new: regeneration of two already-sealed initial states plus a read-only typed decomposition of their difference",
+   "required_inputs": [
+    "results/v21_pv_m0_spec.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "the sealed build path and both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), four 5 s pre-run chunks at lambda 1",
+    "reproduction tolerance 0.5 Hz on run B window 1"
+   ],
+   "procedure": "regenerate h_A(0) and h_B(0) through the sealed build path, accept them only on matching v-hashes and a 5 s continuation reproducing run B window 1 within 0.5 Hz, then compare every DynamicState field by leaf path: presence, shape, bitwise identity, difference size, and the same statistics split by cell class",
+   "acceptance": "STATE_DECOMPOSITION_PASS | STATE_REGENERATION_FAIL",
+   "stop_condition": "decomposition and the justified transplant arms recorded in results/v21_pv_m0.json; no transplant is executed; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m0.json"
+   ],
+   "downstream_unlock": []
   }
  ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "SCI-V21-PV-M0"
 }

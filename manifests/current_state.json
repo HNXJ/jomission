@@ -97,7 +97,7 @@
  },
  "open_scientific_question": "what state coordinate carries the PV fate. Established: the fate is owned by the initial state, not the noise realization; it is not carried by u; and per-cell resolution adds nothing over the population mean for v. Every available contrast differs from epoch 0, so ordering cause and consequence needs runs that share an initial state and reach different fates",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "SCI-V21-PV-M0",
+ "next_authorized_task": "SCI-V21-PV-M0-R2",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

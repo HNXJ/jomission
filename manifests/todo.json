@@ -939,7 +939,7 @@
   },
   {
    "id": "SCI-V21-PV-M0",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-V21-PV-MICROSTATE UNRESOLVED: every observational contrast differs from epoch 0, so ordering cause and consequence needs a matched-state design",
    "goal": "identify the smallest typed state block that differs between the two initial states carrying opposite PV fates, and therefore which transplant arms are justified",
    "parent_authority": "reviewer 2026-09-17: authorize M0 only; typed blocks, not coordinates; exclude the RNG from the causal candidate set. Owner 2026-09-17 authorized deterministic regeneration of h_B(0) with v-hash plus trajectory match",
@@ -960,8 +960,45 @@
    "artifacts_expected": [
     "results/v21_pv_m0.json"
    ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "STATE_REGENERATION_FAIL",
+    "result": "results/v21_pv_m0.json",
+    "summary": "both states regenerated with exactly the sealed v-hashes; the trajectory match failed on PV alone by -0.695 Hz because the checking driver compared a single continued chunk (0-5 s) against a sealed window that is the sealed driver's second chunk (5-10 s), the sealed driver summarizing only k >= 1. The state was correct; the check was off by one chunk",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m0.py  (1 failed, 1 passed in 207.23s)"
+    ],
+    "reviewer_decisions_required": [
+     "the correction is additive in SCI-V21-PV-M0-R2; this label is kept as executed and not reinterpreted"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-M0-R2",
+   "status": "OPEN",
+   "trigger": "SCI-V21-PV-M0 STATE_REGENERATION_FAIL caused by the checking driver's window index, with both v-hashes matching exactly",
+   "goal": "the same typed decomposition with the trajectory match taken on the chunk the sealed window actually refers to",
+   "parent_authority": "reviewer 2026-09-17 (M0 authorization) plus owner 2026-09-17 (deterministic regeneration, v-hash plus trajectory match)",
+   "principal_delta": "checking driver only: continue two 5 s chunks and compare chunk index 1. Tolerance, states, build path and decomposition unchanged",
+   "required_inputs": [
+    "results/v21_pv_m0_r2_spec.json",
+    "results/v21_pv_m0.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "0.5 Hz tolerance",
+    "the sealed build path",
+    "the M0 driver, retained verbatim as the record of what ran"
+   ],
+   "procedure": "as SCI-V21-PV-M0, with a 10 s continuation from h_B(0) whose second chunk is compared against run B window 1",
+   "acceptance": "STATE_DECOMPOSITION_PASS | STATE_REGENERATION_FAIL",
+   "stop_condition": "decomposition and justified transplant arms recorded in results/v21_pv_m0_r2.json; no transplant; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m0_r2.json"
+   ],
    "downstream_unlock": []
   }
  ],
- "next_authorized_task": "SCI-V21-PV-M0"
+ "next_authorized_task": "SCI-V21-PV-M0-R2"
 }

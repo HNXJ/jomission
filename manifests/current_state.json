@@ -115,9 +115,19 @@
    "scope": "component",
    "component_of": "V2.1_COUPLED_BACKGROUND",
    "established": "the intrinsic pair (v, u) is jointly sufficient to switch the PV fate while neither member is sufficient alone; the PV-incoming synaptic state is not required"
+  },
+  "PV_INTRINSIC_VU_PAIR_SUFFICIENT": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "evidence_class": "OBSERVED",
+   "claim": "transplanting the donor v and u pair into the low-PV base state is sufficient to recover the active-PV fate under the matched future stochastic stream (A_vu 15.055 Hz against a donor control of 15.110 Hz); neither v nor u alone is sufficient (A_v 0.303 Hz, A_u 0.107 Hz, base 0.707 Hz)",
+   "not_established": "necessity and mechanism. The converse transplant was not run, and sufficiency of a joint configuration is not a mechanism",
+   "authority": "reviewer 2026-09-18 disposition of SCI-V21-PV-M2"
   }
  },
- "open_scientific_question": "the PV fate is owned by the initial state and not the noise realization, only v, u and syn_state differ between the two fate-carrying states, no single block is sufficient, and the intrinsic pair (v, u) is jointly sufficient while carrying the base synaptic state. What remains open is necessity rather than sufficiency, and the mechanism by which the joint intrinsic configuration selects the fate",
+ "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [

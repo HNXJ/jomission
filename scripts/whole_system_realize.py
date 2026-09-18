@@ -1,6 +1,6 @@
 """R3/R4: emit the architecture receipt, realize it in JaxFNE, and reconcile the two.
 
-    python scripts/whole_system_realize.py
+    python scripts/whole_system_realize.py [--out results/<file>.json]
 
 No simulation. The model is constructed and inspected; no step function is compiled and no
 trajectory is run. Writes results/whole_system_realization.json.
@@ -12,6 +12,7 @@ identity set is not a realization.
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -51,7 +52,7 @@ def population_reconciliation(index, objects):
     return per_area, problems
 
 
-def main():
+def main(out=OUT):
     chain, rules, external, decl = architecture.build()
     normal = nf.normalize(chain, rules, external)
 
@@ -176,7 +177,7 @@ def main():
                      f"missing {len(missing)}, extra {len(extra)}, population problems {len(pop_problems)}, "
                      f"skips {len(skips)}, mechanism problems {len(mech_problems)}, "
                      f"output resolves {rec['output_interface']['resolves_nonempty']}")
-    OUT.write_text(json.dumps(rec, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
+    out.write_text(json.dumps(rec, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
     print(rec["verdict"], rec["reason"])
     print("  objects:", [o["name"] for o in normal["objects"]])
     print("  projections expected/realized:", len(expected), len(realized),
@@ -193,4 +194,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # A correction lineage writes a new file: the earlier result is immutable evidence.
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=str(OUT))
+    main(Path(ap.parse_args().out))

@@ -16,6 +16,12 @@ from jomission.tfne import architecture, ctx, nf, realize
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULT = ROOT / "results" / "whole_system_realization.json"
+RESULT_R2 = ROOT / "results" / "whole_system_realization_r2.json"
+AUDIT = ROOT / "results" / "ctx_allocation_audit.json"
+
+
+def results():
+    return [p for p in (RESULT, RESULT_R2) if p.exists()]
 
 
 @pytest.fixture(scope="module")
@@ -69,8 +75,9 @@ def test_every_declared_mechanism_has_a_tau(normal):
 
 
 @pytest.mark.skipif(not RESULT.exists(), reason="realization has not been run")
-def test_recorded_verdict_follows_from_recorded_numbers():
-    rec = json.loads(RESULT.read_text(encoding="utf-8"))
+@pytest.mark.parametrize("path", results(), ids=lambda p: p.stem)
+def test_recorded_verdict_follows_from_recorded_numbers(path):
+    rec = json.loads(path.read_text(encoding="utf-8"))
     pr = rec["projection_reconciliation"]
     consistent = (not pr["missing"] and not pr["extra"]
                   and not rec["population_reconciliation"]["problems"]
@@ -83,15 +90,46 @@ def test_recorded_verdict_follows_from_recorded_numbers():
 
 
 @pytest.mark.skipif(not RESULT.exists(), reason="realization has not been run")
-def test_recorded_expected_set_matches_the_current_normalization(normal):
+@pytest.mark.parametrize("path", results(), ids=lambda p: p.stem)
+def test_recorded_expected_set_matches_the_current_normalization(normal, path):
     _, _, n = normal
-    rec = json.loads(RESULT.read_text(encoding="utf-8"))
+    rec = json.loads(path.read_text(encoding="utf-8"))
     assert rec["projection_reconciliation"]["expected"] == len(realize.expected_projections(n))
     assert len(rec["normalized"]["projections"]) == len(n["projections"])
 
 
 @pytest.mark.skipif(not RESULT.exists(), reason="realization has not been run")
-def test_no_simulation_artifacts_in_the_realization_record():
-    text = RESULT.read_text(encoding="utf-8").lower()
+@pytest.mark.parametrize("path", results(), ids=lambda p: p.stem)
+def test_no_simulation_artifacts_in_the_realization_record(path):
+    text = path.read_text(encoding="utf-8").lower()
     for token in ("rate_hz", "spikes_per", "window_rates", "trajectory", "run_continuation"):
         assert token not in text, f"{token} implies the realizer simulated"
+
+
+def test_allocation_policy_preserves_exact_cardinality():
+    """R is admissible only if every layer allocates exactly its budget."""
+    P = ctx.layer_cell_type_fractions()
+    for lay in ctx.LAYERS:
+        for total in range(0, 301):
+            assert sum(ctx.allocate(total, P[lay]).values()) == total, f"{lay} at N_l={total}"
+    layer = ctx.allocate(ctx.N_PER_INSTANCE, ctx.layer_population_fractions())
+    assert sum(layer.values()) == ctx.N_PER_INSTANCE
+    assert sum(sum(ctx.allocate(n, P[lay]).values()) for lay, n in layer.items()) == ctx.N_PER_INSTANCE
+
+
+def test_allocation_policy_is_the_engines_own_function():
+    """CTX[jomission_v0].R is OBSERVED_CURRENT, so it must not drift from what is realized."""
+    from jaxfne._config import _counts_from_fractions as engine
+    P = ctx.layer_cell_type_fractions()
+    for lay in ctx.LAYERS:
+        for total in (0, 1, 7, 20, 30, 40, 60, 200):
+            assert ctx.allocate(total, P[lay]) == engine(total, P[lay])
+
+
+@pytest.mark.skipif(not AUDIT.exists(), reason="audit has not been run")
+def test_audit_verdict_follows_from_its_own_numbers():
+    rec = json.loads(AUDIT.read_text(encoding="utf-8"))
+    seq = rec["policies"]["engine_sequential"]
+    assert seq["preserves_exact_cardinality"] == (seq["violations"] == 0)
+    ok = seq["preserves_exact_cardinality"] and rec["at_architecture_size"]["sum_layers"] == rec["at_architecture_size"]["N"]
+    assert rec["verdict"] == "ALLOCATION_POLICY_" + ("PASS" if ok else "FAIL")

@@ -1,0 +1,1411 @@
+{
+ "spec": "results/whole_system_realization_spec.json",
+ "lineage": "whole-system realization (R1-R4). No simulation.",
+ "tfne": {
+  "algebra": "tfne/2",
+  "authority": "docs/tfne/TFNE_V2_SPEC.md (SEALED)",
+  "expression": "x : {V1^2 X[lat]} O[fffb] {V4^2 X[lat]} O[fffb] {FEF X[lat] PFC} : y",
+  "x": {
+   "name": "Retina",
+   "N": 1024,
+   "G": [
+    32,
+    32
+   ],
+   "provenance": "DEFINITION_CHOICE: the checkpoint declares a 32 x 32 retinal field"
+  },
+  "y": "y := FEF.L6.E.v(t)",
+  "rules": {
+   "lat": {
+    "kind": "X",
+    "declaration": "X[lat] := [ $L.L3.E <>[AMPA] $R.L3.E ]",
+    "associative": false,
+    "clauses": [
+     {
+      "source": "L3.E",
+      "target": "L3.E",
+      "mechanism": "AMPA",
+      "bidirectional": true
+     }
+    ]
+   },
+   "fffb": {
+    "kind": "O",
+    "declaration": "O[fffb] := [ $L.out >[AMPA] $R.in , $R.fb_out >[AMPA] $L.fb_in ]",
+    "mapping": "derived_frontier_union",
+    "clauses": [
+     {
+      "name": "ff.L2",
+      "direction": "forward",
+      "source": "L2.E",
+      "target": "L4.E",
+      "mechanism": "AMPA"
+     },
+     {
+      "name": "ff.L3",
+      "direction": "forward",
+      "source": "L3.E",
+      "target": "L4.E",
+      "mechanism": "AMPA"
+     },
+     {
+      "name": "fb.L6",
+      "direction": "backward",
+      "source": "L6.E",
+      "target": "L1.E",
+      "mechanism": "AMPA"
+     }
+    ]
+   },
+   "fffb_matched": {
+    "kind": "O",
+    "declaration": "O[fffb] := [ $L.out >[AMPA] $R.in , $R.fb_out >[AMPA] $L.fb_in ]  with matched-instance frontier override",
+    "mapping": "matched_instance",
+    "clauses": [
+     {
+      "name": "ff.L2",
+      "direction": "forward",
+      "source": "L2.E",
+      "target": "L4.E",
+      "mechanism": "AMPA"
+     },
+     {
+      "name": "ff.L3",
+      "direction": "forward",
+      "source": "L3.E",
+      "target": "L4.E",
+      "mechanism": "AMPA"
+     },
+     {
+      "name": "fb.L6",
+      "direction": "backward",
+      "source": "L6.E",
+      "target": "L1.E",
+      "mechanism": "AMPA"
+     }
+    ]
+   }
+  },
+  "mapping_authority": {
+   "V1_to_V4": "owner 2026-09-18: matched instance V1.1 <-> V4.1, V1.2 <-> V4.2. DEFINITION_CHOICE: a frontier override, since the derived union would relate all four pairings",
+   "V4_to_frontal": "owner 2026-09-18: every V4 instance to both FEF and PFC. DERIVED: this is the frontier union in({FEF X[lat] PFC}) = in(FEF) u in(PFC) with no override"
+  }
+ },
+ "definition": {
+  "definition": "CTX[jomission_v0]",
+  "provisional": "CTX[jomission_v0] is a checkpoint definition, never canonical cortical truth",
+  "layers": [
+   "L1",
+   "L2",
+   "L3",
+   "L4",
+   "L5",
+   "L6"
+  ],
+  "classes": [
+   "E",
+   "PV",
+   "SST",
+   "VIP"
+  ],
+  "N": 200,
+  "P": {
+   "L1": {
+    "E": 0.5,
+    "PV": 0.05,
+    "SST": 0.1,
+    "VIP": 0.35
+   },
+   "L2": {
+    "E": 0.5,
+    "PV": 0.25,
+    "SST": 0.1,
+    "VIP": 0.15
+   },
+   "L3": {
+    "E": 0.5,
+    "PV": 0.25,
+    "SST": 0.15,
+    "VIP": 0.1
+   },
+   "L4": {
+    "E": 0.7,
+    "PV": 0.2,
+    "SST": 0.05,
+    "VIP": 0.05
+   },
+   "L5": {
+    "E": 0.85,
+    "PV": 0.05,
+    "SST": 0.05,
+    "VIP": 0.05
+   },
+   "L6": {
+    "E": 0.95,
+    "PV": 0.0,
+    "SST": 0.05,
+    "VIP": 0.0
+   }
+  },
+  "R": "largest remainder over layers then over classes within a layer; ties to the natural-key-first member",
+  "rho": "none: the allocation is deterministic and needs no realization RNG",
+  "absent_populations": [
+   "L6.PV",
+   "L6.VIP"
+  ],
+  "layer_profile": "inherited from the current JaxFNE column construction and not owned by TFNE here: the builder exposes no layer-depth parameter, so the split across L1-L6 is read from the realized model rather than declared",
+  "in": [
+   "L4.E"
+  ],
+  "out": [
+   "L2.E",
+   "L3.E"
+  ],
+  "fb_in": [
+   "L1.E"
+  ],
+  "fb_out": [
+   "L6.E"
+  ],
+  "model": "izhikevich / cortical_eig, as built by jomission.qualification.cmin",
+  "provenance": {
+   "D4a_layers": "OBSERVED_CURRENT: jaxfne.CANONICAL_LAYERS_6L",
+   "D4a_classes": "OBSERVED_CURRENT: jaxfne.CANONICAL_LAYER_CELL_TYPE_FRACTIONS keys",
+   "D4a_absent": "DERIVED: L6 declares PV 0.0 and VIP 0.0, so those populations are absent by declaration",
+   "D4b_P": "OBSERVED_CURRENT: the engine's canonical laminar composition",
+   "D4b_layer_split": "OBSERVED_CURRENT: the layer depth profile is the engine builder's, which exposes no parameter for it. TFNE declares the within-layer class composition and the instance total, never the depth profile",
+   "D4b_R": "DERIVED: the allocation policy of the sealed TFNE/2 conformance checker",
+   "D4b_N": "DEFINITION_CHOICE: 200 per instance, sized for a first diagnostic rather than for anatomy",
+   "D4c_in": "DEFINITION_CHOICE: L4.E as the feedforward target",
+   "D4c_out": "DEFINITION_CHOICE: supragranular L2.E and L3.E as the feedforward source",
+   "D4c_fb": "DEFINITION_CHOICE: L6.E to L1.E as the feedback frontier. L1.E is anatomically unusual and exists here because the engine's canonical L1 composition declares E 0.5; it is recorded, not endorsed",
+   "D4d_local": "OBSERVED_CURRENT: within-column connectivity from the qualified column construction, unchanged",
+   "D4e_model": "OBSERVED_CURRENT: izhikevich cortical_eig emitter, as in the qualified column",
+   "D4f_geometry": "OBSERVED_CURRENT: laminar geometry, which preserves per-neuron layer labels"
+  }
+ },
+ "normalized": {
+  "objects": [
+   {
+    "path": [
+     "FEF"
+    ],
+    "name": "FEF",
+    "definition": "CTX[jomission_v0]"
+   },
+   {
+    "path": [
+     "PFC"
+    ],
+    "name": "PFC",
+    "definition": "CTX[jomission_v0]"
+   },
+   {
+    "path": [
+     "V1",
+     "1"
+    ],
+    "name": "V1.1",
+    "definition": "CTX[jomission_v0]"
+   },
+   {
+    "path": [
+     "V1",
+     "2"
+    ],
+    "name": "V1.2",
+    "definition": "CTX[jomission_v0]"
+   },
+   {
+    "path": [
+     "V4",
+     "1"
+    ],
+    "name": "V4.1",
+    "definition": "CTX[jomission_v0]"
+   },
+   {
+    "path": [
+     "V4",
+     "2"
+    ],
+    "name": "V4.2",
+    "definition": "CTX[jomission_v0]"
+   }
+  ],
+  "composites": [
+   {
+    "label": "{V1^2 X[lat]}",
+    "members": [
+     "V1.1",
+     "V1.2"
+    ],
+    "relation": "lat",
+    "serialization": "{\"members\":[{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"V1\",\"1\"]},{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"V1\",\"2\"]}],\"relation\":\"lat\"}",
+    "receipt_hash": "f5d12c6bc5e0fb06",
+    "in": [
+     "V1.1.L4.E",
+     "V1.2.L4.E"
+    ],
+    "out": [
+     "V1.1.L2.E",
+     "V1.1.L3.E",
+     "V1.2.L2.E",
+     "V1.2.L3.E"
+    ]
+   },
+   {
+    "label": "{V4^2 X[lat]}",
+    "members": [
+     "V4.1",
+     "V4.2"
+    ],
+    "relation": "lat",
+    "serialization": "{\"members\":[{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"V4\",\"1\"]},{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"V4\",\"2\"]}],\"relation\":\"lat\"}",
+    "receipt_hash": "05a19b79da57d102",
+    "in": [
+     "V4.1.L4.E",
+     "V4.2.L4.E"
+    ],
+    "out": [
+     "V4.1.L2.E",
+     "V4.1.L3.E",
+     "V4.2.L2.E",
+     "V4.2.L3.E"
+    ]
+   },
+   {
+    "label": "{FEF X[lat] PFC}",
+    "members": [
+     "FEF",
+     "PFC"
+    ],
+    "relation": "lat",
+    "serialization": "{\"members\":[{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"FEF\"]},{\"definition\":\"CTX[jomission_v0]\",\"path\":[\"PFC\"]}],\"relation\":\"lat\"}",
+    "receipt_hash": "ec81d95d95c51fda",
+    "in": [
+     "FEF.L4.E",
+     "PFC.L4.E"
+    ],
+    "out": [
+     "FEF.L2.E",
+     "FEF.L3.E",
+     "PFC.L2.E",
+     "PFC.L3.E"
+    ]
+   }
+  ],
+  "o_adjacencies": [
+   {
+    "index": 0,
+    "left": "{V1^2 X[lat]}",
+    "rule": "fffb_matched",
+    "right": "{V4^2 X[lat]}",
+    "mapping": "matched_instance"
+   },
+   {
+    "index": 1,
+    "left": "{V4^2 X[lat]}",
+    "rule": "fffb",
+    "right": "{FEF X[lat] PFC}",
+    "mapping": "derived_frontier_union"
+   }
+  ],
+  "x_relations": [
+   {
+    "composite": "{V1^2 X[lat]}",
+    "rule": "lat",
+    "members": [
+     "V1.1",
+     "V1.2"
+    ]
+   },
+   {
+    "composite": "{V4^2 X[lat]}",
+    "rule": "lat",
+    "members": [
+     "V4.1",
+     "V4.2"
+    ]
+   },
+   {
+    "composite": "{FEF X[lat] PFC}",
+    "rule": "lat",
+    "members": [
+     "FEF",
+     "PFC"
+    ]
+   }
+  ],
+  "projections": [
+   {
+    "source": "FEF.L3.E",
+    "target": "PFC.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{FEF X[lat] PFC}"
+   },
+   {
+    "source": "FEF.L6.E",
+    "target": "V4.1.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.fb.L6"
+   },
+   {
+    "source": "FEF.L6.E",
+    "target": "V4.2.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.fb.L6"
+   },
+   {
+    "source": "PFC.L3.E",
+    "target": "FEF.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{FEF X[lat] PFC}"
+   },
+   {
+    "source": "PFC.L6.E",
+    "target": "V4.1.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.fb.L6"
+   },
+   {
+    "source": "PFC.L6.E",
+    "target": "V4.2.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.fb.L6"
+   },
+   {
+    "source": "Retina.field.unit",
+    "target": "V1.1.L4.E",
+    "mechanism": "AMPA",
+    "relation": "x->A.in"
+   },
+   {
+    "source": "Retina.field.unit",
+    "target": "V1.2.L4.E",
+    "mechanism": "AMPA",
+    "relation": "x->A.in"
+   },
+   {
+    "source": "V1.1.L2.E",
+    "target": "V4.1.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.ff.L2"
+   },
+   {
+    "source": "V1.1.L3.E",
+    "target": "V1.2.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{V1^2 X[lat]}"
+   },
+   {
+    "source": "V1.1.L3.E",
+    "target": "V4.1.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.ff.L3"
+   },
+   {
+    "source": "V1.2.L2.E",
+    "target": "V4.2.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.ff.L2"
+   },
+   {
+    "source": "V1.2.L3.E",
+    "target": "V1.1.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{V1^2 X[lat]}"
+   },
+   {
+    "source": "V1.2.L3.E",
+    "target": "V4.2.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.ff.L3"
+   },
+   {
+    "source": "V4.1.L2.E",
+    "target": "FEF.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L2"
+   },
+   {
+    "source": "V4.1.L2.E",
+    "target": "PFC.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L2"
+   },
+   {
+    "source": "V4.1.L3.E",
+    "target": "FEF.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L3"
+   },
+   {
+    "source": "V4.1.L3.E",
+    "target": "PFC.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L3"
+   },
+   {
+    "source": "V4.1.L3.E",
+    "target": "V4.2.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{V4^2 X[lat]}"
+   },
+   {
+    "source": "V4.1.L6.E",
+    "target": "V1.1.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.fb.L6"
+   },
+   {
+    "source": "V4.2.L2.E",
+    "target": "FEF.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L2"
+   },
+   {
+    "source": "V4.2.L2.E",
+    "target": "PFC.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L2"
+   },
+   {
+    "source": "V4.2.L3.E",
+    "target": "FEF.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L3"
+   },
+   {
+    "source": "V4.2.L3.E",
+    "target": "PFC.L4.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb]#1.ff.L3"
+   },
+   {
+    "source": "V4.2.L3.E",
+    "target": "V4.1.L3.E",
+    "mechanism": "AMPA",
+    "relation": "X[lat]@{V4^2 X[lat]}"
+   },
+   {
+    "source": "V4.2.L6.E",
+    "target": "V1.2.L1.E",
+    "mechanism": "AMPA",
+    "relation": "O[fffb_matched]#0.fb.L6"
+   }
+  ]
+ },
+ "adjacency_invariant": {
+  "non_adjacent_pairs": [
+   [
+    "{V1^2 X[lat]}",
+    "{FEF X[lat] PFC}"
+   ],
+   [
+    "{FEF X[lat] PFC}",
+    "{V1^2 X[lat]}"
+   ]
+  ],
+  "skip_projections": [],
+  "holds": true
+ },
+ "projection_reconciliation": {
+  "expected": 24,
+  "realized_identities": 24,
+  "missing": [],
+  "extra": [],
+  "edge_counts": {
+   "FEF.L3.E -> PFC.L3.E": 400,
+   "FEF.L6.E -> V4_1.L1.E": 280,
+   "FEF.L6.E -> V4_2.L1.E": 280,
+   "PFC.L3.E -> FEF.L3.E": 400,
+   "PFC.L6.E -> V4_1.L1.E": 280,
+   "PFC.L6.E -> V4_2.L1.E": 280,
+   "V1_1.L2.E -> V4_1.L4.E": 210,
+   "V1_1.L3.E -> V1_2.L3.E": 400,
+   "V1_1.L3.E -> V4_1.L4.E": 280,
+   "V1_2.L2.E -> V4_2.L4.E": 210,
+   "V1_2.L3.E -> V1_1.L3.E": 400,
+   "V1_2.L3.E -> V4_2.L4.E": 280,
+   "V4_1.L2.E -> FEF.L4.E": 210,
+   "V4_1.L2.E -> PFC.L4.E": 210,
+   "V4_1.L3.E -> FEF.L4.E": 280,
+   "V4_1.L3.E -> PFC.L4.E": 280,
+   "V4_1.L3.E -> V4_2.L3.E": 400,
+   "V4_1.L6.E -> V1_1.L1.E": 280,
+   "V4_2.L2.E -> FEF.L4.E": 210,
+   "V4_2.L2.E -> PFC.L4.E": 210,
+   "V4_2.L3.E -> FEF.L4.E": 280,
+   "V4_2.L3.E -> PFC.L4.E": 280,
+   "V4_2.L3.E -> V4_1.L3.E": 400,
+   "V4_2.L6.E -> V1_2.L1.E": 280
+  },
+  "total_edges": 245820,
+  "cross_area_edges": 7020,
+  "extra_classification": {
+   "superficial_selector_expansion": [],
+   "unexplained": [],
+   "engine_receipt": "jaxfne/_construct_connectivity.py:28 _interarea_layer_set maps any of {L2, L3, L2/3, L23} to the whole superficial set, and _connection_selector_mask:128 applies it to every connections() selector, so a declared L3.E source or target also selects L2.E"
+  }
+ },
+ "mechanism_reconciliation": {
+  "declared": [
+   "AMPA"
+  ],
+  "per_projection": {
+   "FEF.L3.E -> PFC.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "FEF.L6.E -> V4_1.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "FEF.L6.E -> V4_2.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "PFC.L3.E -> FEF.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "PFC.L6.E -> V4_1.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "PFC.L6.E -> V4_2.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_1.L2.E -> V4_1.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_1.L3.E -> V1_2.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_1.L3.E -> V4_1.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_2.L2.E -> V4_2.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_2.L3.E -> V1_1.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V1_2.L3.E -> V4_2.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L2.E -> FEF.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L2.E -> PFC.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L3.E -> FEF.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L3.E -> PFC.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L3.E -> V4_2.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_1.L6.E -> V1_1.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L2.E -> FEF.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L2.E -> PFC.L4.E": {
+    "n_edges": 210,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L3.E -> FEF.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L3.E -> PFC.L4.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L3.E -> V4_1.L3.E": {
+    "n_edges": 400,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   },
+   "V4_2.L6.E -> V1_2.L1.E": {
+    "n_edges": 280,
+    "receptor_index": [
+     0
+    ],
+    "tau_ms": null
+   }
+  },
+  "edge_list": {
+   "tau_carried_per_edge": false,
+   "tau_ms_field_size": 0,
+   "n_edges_total": 245820,
+   "declared": {
+    "AMPA": 2.0
+   }
+  },
+  "receptor_index_0": "the sole declared mechanism, AMPA, occupies index 0 of the mechanism table",
+  "problems": [],
+  "observability_limit": "tau_ms is empty on the concatenated edge list, so the declared 2.0 ms is configured and the receptor identity is realized, but the per-edge time constant is not readable from the constructed model"
+ },
+ "population_reconciliation": {
+  "by_area": {
+   "FEF": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   },
+   "PFC": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   },
+   "V1_1": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   },
+   "V1_2": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   },
+   "V4_1": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   },
+   "V4_2": {
+    "total": 200,
+    "expected_total": 200,
+    "by_layer": {
+     "L1": {
+      "realized": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "expected_from_P": {
+       "E": 10,
+       "PV": 1,
+       "SST": 2,
+       "VIP": 7
+      },
+      "layer_total": 20
+     },
+     "L2": {
+      "realized": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 15,
+       "PV": 8,
+       "SST": 3,
+       "VIP": 4
+      },
+      "layer_total": 30
+     },
+     "L3": {
+      "realized": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "expected_from_P": {
+       "E": 20,
+       "PV": 10,
+       "SST": 6,
+       "VIP": 4
+      },
+      "layer_total": 40
+     },
+     "L4": {
+      "realized": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "expected_from_P": {
+       "E": 14,
+       "PV": 4,
+       "SST": 1,
+       "VIP": 1
+      },
+      "layer_total": 20
+     },
+     "L5": {
+      "realized": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "expected_from_P": {
+       "E": 51,
+       "PV": 3,
+       "SST": 3,
+       "VIP": 3
+      },
+      "layer_total": 60
+     },
+     "L6": {
+      "realized": {
+       "E": 28,
+       "PV": 0,
+       "SST": 2,
+       "VIP": 0
+      },
+      "expected_from_P": {
+       "E": 29,
+       "PV": 0,
+       "SST": 1,
+       "VIP": 0
+      },
+      "layer_total": 30
+     }
+    }
+   }
+  },
+  "problems": [
+   "FEF.L6.E: realized 28, P requires 29",
+   "FEF.L6.SST: realized 2, P requires 1",
+   "PFC.L6.E: realized 28, P requires 29",
+   "PFC.L6.SST: realized 2, P requires 1",
+   "V1_1.L6.E: realized 28, P requires 29",
+   "V1_1.L6.SST: realized 2, P requires 1",
+   "V1_2.L6.E: realized 28, P requires 29",
+   "V1_2.L6.SST: realized 2, P requires 1",
+   "V4_1.L6.E: realized 28, P requires 29",
+   "V4_1.L6.SST: realized 2, P requires 1",
+   "V4_2.L6.E: realized 28, P requires 29",
+   "V4_2.L6.SST: realized 2, P requires 1"
+  ]
+ },
+ "output_interface": {
+  "address": "FEF.L6.E",
+  "jaxfne_key": "FEF.L6.E",
+  "index_range": [
+   170,
+   198,
+   28
+  ],
+  "resolves_nonempty": true,
+  "metadata_exact": true,
+  "declaration": "y := FEF.L6.E.v(t)"
+ },
+ "input_interface": {
+  "x": {
+   "name": "Retina",
+   "N": 1024,
+   "G": [
+    32,
+    32
+   ],
+   "provenance": "DEFINITION_CHOICE: the checkpoint declares a 32 x 32 retinal field"
+  },
+  "targets": [
+   "V1.1.L4.E",
+   "V1.2.L4.E"
+  ],
+  "target_index_ranges": {
+   "V1.1.L4.E": [
+    490,
+    504,
+    14
+   ],
+   "V1.2.L4.E": [
+    690,
+    704,
+    14
+   ]
+  },
+  "n_target_neurons": 28,
+  "realized_here": false,
+  "note": "x is declared and its entry points resolved; no retinal population is constructed in this lineage, which realizes A only. The simulation lineage drives these indices"
+ },
+ "deltas": {
+  "objects": 0,
+  "populations": 12,
+  "projections": 0,
+  "index": 0
+ },
+ "verdict": "WHOLE_SYSTEM_REALIZATION_FAIL",
+ "reason": "missing 0, extra 0, population problems 12, skips 0, mechanism problems 0, output resolves True",
+ "post_execution_disclosure": {
+  "nature": "diagnosis of the recorded FAIL, appended after execution; it changes no recorded number and no verdict",
+  "fail_boundary": "allocation policy R, L6 only, one seat per instance",
+  "arithmetic": {
+   "layer_total": 30,
+   "P_L6": {
+    "E": 0.95,
+    "PV": 0.0,
+    "SST": 0.05,
+    "VIP": 0.0
+   },
+   "exact": {
+    "E": 28.5,
+    "SST": 1.5
+   },
+   "tfne_R": {
+    "E": 29,
+    "SST": 1
+   },
+   "engine": {
+    "E": 28,
+    "SST": 2
+   },
+   "engine_rule": "jaxfne/_config.py:130 _counts_from_fractions assigns int(round(total*frac)) in declaration order and gives the last key the remainder. Both remainders are exactly 0.5, and Python's round() is half-to-even: round(28.5) = 28, round(1.5) = 2",
+   "tfne_rule": "largest remainder with ties to the natural-key-first member, which awards the seat to E"
+  },
+  "scope": "12 problems = 6 instances x 2 classes, all in L6, all one neuron. Every other layer, every projection identity, every edge count, the mechanism receipt, the no-skip invariant and I[FEF.L6.E] reconcile exactly",
+  "not_done": "the definition was not changed after the result. CTX[jomission_v0] declares R as a DEFINITION_CHOICE that the engine's allocator contradicts; whether R becomes OBSERVED_CURRENT is a reviewer decision, not a repair to make here"
+ }
+}

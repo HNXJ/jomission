@@ -1081,7 +1081,7 @@
   },
   {
    "id": "SCI-V21-PV-M2",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-V21-PV-M1 NO_SINGLE_BLOCK_SUFFICIENT_FAIL, with each singleton transplant suppressing PV below the untouched base",
    "goal": "test whether the PV fate depends on compatibility among state blocks, using the three missing pairs",
    "parent_authority": "reviewer 2026-09-18: M2 pairwise transplant battery only; no triple, no presynaptic-class split",
@@ -1103,8 +1103,21 @@
    "artifacts_expected": [
     "results/v21_pv_m2.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "MINIMAL_PAIR_IDENTIFIED",
+    "result": "results/v21_pv_m2.json",
+    "summary": "controls exact (A_CTRL 0.0 Hz against sealed run A, ending 0.707 Hz; B_CTRL 15.110 Hz) and every arm verified bitwise. A_vu reaches 15.055 Hz, inside the active band and within 0.06 Hz of the donor, while A_v and A_u alone were 0.303 and 0.107 Hz. A_vs 0.162 Hz and A_us 0.000 Hz stay low, and each is lower than the corresponding singleton, so the synaptic block is antagonistic when paired rather than neutral. The PV-incoming synaptic state is not required: A_vu carries the base synaptic state throughout",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m2.py  (2 passed in 2248.20s)"
+    ],
+    "reviewer_decisions_required": [
+     "the triple closure control is no longer needed for its stated purpose, since a pair already flips",
+     "whether to test necessity (transplanting A's intrinsic pair into B) as distinct from the sufficiency shown here",
+     "whether the antagonism of the synaptic block when paired is worth its own question"
+    ]
+   }
   }
  ],
- "next_authorized_task": "SCI-V21-PV-M2"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

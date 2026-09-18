@@ -53,11 +53,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_PV_MICROSTATE: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_microstate.json`
 - V2.1_PV_M0_DECOMPOSITION: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m0_r2.json`
 - V2.1_PV_M1_TRANSPLANT: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m1.json`
+- V2.1_PV_M2_PAIR_TRANSPLANT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-m0-state-decomposition: both states regenerate with exactly the sealed sha256 of dynamic.v (A 83ce0d0c3fc44a71, B 8704423170e6ae32) — `b381896:results/v21_pv_m0.json`
-- V2.1-pv-m0-state-decomposition: the trajectory match failed on PV alone by -0.695 Hz against a 0.5 Hz tolerance — `b381896:results/v21_pv_m0.json`
 - V2.1-pv-m0-state-decomposition-r2: the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1 — `8ece148:results/v21_pv_m0_r2.json`
 - V2.1-pv-m0-state-decomposition-r2: three typed blocks differ between h_A(0) and h_B(0): v (400, max 71.4), u (400, max 10.56) and syn_state (159600, max 0.368), each differing in every entry — `8ece148:results/v21_pv_m0_r2.json`
 - V2.1-pv-m0-state-decomposition-r2: five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux — `8ece148:results/v21_pv_m0_r2.json`
@@ -69,11 +68,16 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-m1-transplant: the PV-incoming synaptic arm covered 15960 of 159600 edges (10 percent), with presynaptic classes E, PV, SST and VIP — `ed1be04:results/v21_pv_m1.json`
 - V2.1-pv-m1-transplant: late PV rates: A_v 0.303 Hz, A_u 0.107 Hz, A_syn 0.085 Hz, against an active fate of 14.425 Hz and a base of 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
 - V2.1-pv-m1-transplant: E, SST and VIP late rates are within 0.4 Hz across all five arms (E 16.93-17.07, SST 22.36-22.74, VIP 16.93-17.07) — `ed1be04:results/v21_pv_m1.json`
+- V2.1-pv-m2-pair-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz — `4b74f5e:results/v21_pv_m2.json`
+- V2.1-pv-m2-pair-transplant: each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base — `4b74f5e:results/v21_pv_m2.json`
+- V2.1-pv-m2-pair-transplant: A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control — `4b74f5e:results/v21_pv_m2.json`
+- V2.1-pv-m2-pair-transplant: A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low — `4b74f5e:results/v21_pv_m2.json`
+- V2.1-pv-m2-pair-transplant: in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz — `4b74f5e:results/v21_pv_m1.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-M2` (OPEN): test whether the PV fate depends on compatibility among state blocks, using the three missing pairs
-- stop: classification recorded in results/v21_pv_m2.json; the triple is not run; a no-pair result is scoped to the PV-incoming synaptic entries only; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

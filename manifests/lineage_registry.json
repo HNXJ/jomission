@@ -1016,6 +1016,100 @@
     "tests/test_v21_pv_m1.py"
    ],
    "commit": "ed1be04"
+  },
+  {
+   "lineage_id": "V2.1-pv-m2-pair-transplant",
+   "parent": "V2.1-pv-m1-transplant",
+   "principal_delta": "two typed state blocks replaced per arm instead of one; base, donor, future stream, horizon and fate criterion identical to M1",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m2_spec.json",
+    "commit": "efe5598"
+   },
+   "authority": "reviewer 2026-09-18: M2 pairwise transplant battery only; no triple, no presynaptic-class split",
+   "inputs": [
+    "results/v21_pv_m1.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)",
+    "the PV-incoming synaptic scope: 15960 of 159600 edges"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the intrinsic pair (v, u) is jointly sufficient to switch the PV fate while neither member is sufficient alone: a genuine interaction rather than independent authority",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "the PV-incoming synaptic state is not required for the flip: A_vu carries the base synaptic state throughout and still reaches the active band",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "the synaptic block is not merely neutral but antagonistic when paired: A_vs (0.162 Hz) is lower than A_v alone (0.303 Hz) and A_us (0.000 Hz) is lower than A_u alone (0.107 Hz)",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "exactly one pair is sufficient, so the minimal sufficient set found by this design is the intrinsic state pair and no ranking among pairs is needed",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the PV fate is carried by the joint intrinsic configuration of the PV population rather than by its synaptic drive state; sufficiency is not necessity, and this lineage tested neither necessity nor mechanism",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "MINIMAL_PAIR_IDENTIFIED",
+    "status": "PASS"
+   },
+   "acceptance": "results/v21_pv_m2_spec.json classification table",
+   "fail_boundary": "none: controls reproduced exactly, every transplant verified bitwise, and one pair flipped",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m2_spec.json",
+    "results/v21_pv_m2.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m2.py"
+   ],
+   "commit": "4b74f5e"
   }
  ]
 }

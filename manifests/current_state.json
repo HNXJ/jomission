@@ -108,11 +108,18 @@
    "component_of": "V2.1_COUPLED_BACKGROUND",
    "established": "no single block among v, u and the PV-incoming synaptic state switches the PV fate under a matched base and future stream",
    "fail_boundary": "the single-block hypothesis; controls reproduced exactly and every transplant was verified bitwise"
+  },
+  "V2.1_PV_M2_PAIR_TRANSPLANT": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "the intrinsic pair (v, u) is jointly sufficient to switch the PV fate while neither member is sufficient alone; the PV-incoming synaptic state is not required"
   }
  },
- "open_scientific_question": "which state structure carries the PV fate. The fate is owned by the initial state and not the noise realization; only v, u and syn_state differ between the two fate-carrying states; and none of those three alone switches the fate when transplanted into a matched base under a matched future stream. What remains is a combination of them or a finer structure inside one, and neither is authorized",
+ "open_scientific_question": "the PV fate is owned by the initial state and not the noise realization, only v, u and syn_state differ between the two fate-carrying states, no single block is sufficient, and the intrinsic pair (v, u) is jointly sufficient while carrying the base synaptic state. What remains open is necessity rather than sufficiency, and the mechanism by which the joint intrinsic configuration selects the fate",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "SCI-V21-PV-M2",
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

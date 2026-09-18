@@ -72,8 +72,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `SCI-V21-PV-M2` (OPEN): test whether the PV fate depends on compatibility among state blocks, using the three missing pairs
+- stop: classification recorded in results/v21_pv_m2.json; the triple is not run; a no-pair result is scoped to the PV-incoming synaptic entries only; STOP for review
 
 ### Locked gates
 

@@ -1078,7 +1078,33 @@
      "whether the arms ending below the base is worth its own question"
     ]
    }
+  },
+  {
+   "id": "SCI-V21-PV-M2",
+   "status": "OPEN",
+   "trigger": "SCI-V21-PV-M1 NO_SINGLE_BLOCK_SUFFICIENT_FAIL, with each singleton transplant suppressing PV below the untouched base",
+   "goal": "test whether the PV fate depends on compatibility among state blocks, using the three missing pairs",
+   "parent_authority": "reviewer 2026-09-18: M2 pairwise transplant battery only; no triple, no presynaptic-class split",
+   "principal_delta": "two typed state blocks replaced per arm instead of one; everything else identical to M1",
+   "required_inputs": [
+    "results/v21_pv_m2_spec.json",
+    "results/v21_pv_m1.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)",
+    "the PV-incoming synaptic scope: 15960 of 159600 edges"
+   ],
+   "procedure": "regenerate both states, build A_CTRL, B_CTRL, A_vu, A_vs and A_us under one future stream, verify bitwise that each arm moved only its two named blocks, rerun both controls, then classify",
+   "acceptance": "MINIMAL_PAIR_IDENTIFIED | MULTIPLE_PAIR_SUFFICIENT | NO_PAIR_SUFFICIENT | M2_CONTROL_FAILED | M2_TRANSPLANT_INVALID",
+   "stop_condition": "classification recorded in results/v21_pv_m2.json; the triple is not run; a no-pair result is scoped to the PV-incoming synaptic entries only; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m2.json"
+   ],
+   "downstream_unlock": []
   }
  ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "SCI-V21-PV-M2"
 }

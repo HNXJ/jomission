@@ -1,0 +1,78 @@
+{
+ "lineage": "V2.1-pv-m2-pair-transplant (SCI-V21-PV-M2)",
+ "parent": "V2.1-pv-m1-transplant, result commit ed1be04, verdict NO_SINGLE_BLOCK_SUFFICIENT_FAIL",
+ "authority": "reviewer 2026-09-18: M2 pairwise transplant battery only. Three pair arms, matched state and noise, the existing fate criterion, then STOP. The triple is deliberately not run: it approaches reconstruction of B and would say less about the minimal interaction. No presynaptic-class split of the synaptic block",
+ "declared": "2026-09-18, committed and pushed before the declared procedure runs",
+ "hypothesis": "M1 established that none of v, u or the PV-incoming synaptic state is independently sufficient, and that each one alone suppresses PV below the untouched base. The hypothesis under test is that the PV fate depends on compatibility among state blocks rather than on the authority of any one of them",
+ "arms": {
+  "A_CTRL": "h_A unmodified; must reproduce the sealed low-PV fate",
+  "B_CTRL": "h_B unmodified under the same future stream; must reach the active-PV fate",
+  "A_vu": "h_A with v and u both replaced by those of h_B",
+  "A_vs": "h_A with v and the PV-incoming syn_state entries replaced by those of h_B",
+  "A_us": "h_A with u and the PV-incoming syn_state entries replaced by those of h_B"
+ },
+ "controls_are_rerun": "the M1 controls are not reused as receipts. They are rerun inside this battery, which also proves that the pair-construction code path builds the same base state: A_CTRL must still reproduce sealed run A exactly",
+ "identical_to_m1": [
+  "the A base and the B donor, regenerated through the sealed build path and checked against the sealed v-hashes",
+  "one future stochastic stream: PRNGKey(11) at step 0 for every arm",
+  "12 x 5 s chunks (60 s), windows summarized from chunk 1",
+  "the fate definition and thresholds, taken from the sealed parent and not redefined after execution",
+  "bitwise transplant verification before any fate is interpreted",
+  "the PV-incoming synaptic scope: 15960 of 159600 edges, all four presynaptic classes together"
+ ],
+ "frozen": {
+  "states": {
+   "h_A(0)": "v-hash 83ce0d0c3fc44a71",
+   "h_B(0)": "v-hash 8704423170e6ae32"
+  },
+  "lambda": 0.65625,
+  "fate_definition": "mean PV rate over the final three 5 s windows, as in results/v21_pv_predecessor.json P1_fate",
+  "model": "V2.1 static column, kernel baseline, HDP detached, native noise, jaxfne 0.4.24, dt 0.1 ms"
+ },
+ "procedure_constants": {
+  "lambda": 0.65625,
+  "n_chunk": 12,
+  "engine_seed": 11,
+  "late_windows": 3,
+  "tolerance_abs_hz": 1.0,
+  "tolerance_rel": 0.1,
+  "a_hash": "83ce0d0c3fc44a71",
+  "b_hash": "8704423170e6ae32",
+  "sealed_low_pv_hz": 0.7066666666666666,
+  "sealed_active_pv_hz": 14.425000000000002
+ },
+ "transplant_verification": {
+  "moved": "both named blocks must equal h_B bitwise (for the synaptic block, at the PV-incoming edges)",
+  "unmoved": "every other DynamicState leaf must equal h_A bitwise, and the synaptic complement must equal h_A",
+  "on_failure": "M2_TRANSPLANT_INVALID, reported before any fate is interpreted"
+ },
+ "classification": {
+  "per_arm": {
+   "PAIR_SUFFICIENT": "the arm converts the low fate to the sealed B-like active band",
+   "NOT_SUFFICIENT": "anything else, including a late rate matching neither fate"
+  },
+  "lineage": {
+   "MINIMAL_PAIR_IDENTIFIED": "exactly one pair is sufficient",
+   "MULTIPLE_PAIR_SUFFICIENT": "more than one pair is sufficient; none is ranked",
+   "NO_PAIR_SUFFICIENT": "no pair is sufficient",
+   "M2_CONTROL_FAILED": "a control did not reproduce its sealed fate",
+   "M2_TRANSPLANT_INVALID": "a constructed state moved something other than its two named blocks"
+  }
+ },
+ "scope_limit": "the synaptic arm moves only the PV-incoming entries, while M0 found all 159600 syn_state entries differ. A NO_PAIR_SUFFICIENT result would therefore establish only that v, u and syn_PV-incoming have no sufficient singleton or pair. It would say nothing about the global synaptic state, and must not be reported as though it did",
+ "not_authorized_here": "the triple arm A_vus. The reviewer's conditional is that a NO_PAIR_SUFFICIENT result would justify it as a closure control, with a binary reading: a flip means the fate depends on the joint manifold of these blocks, and a failure means the M0 decomposition is incomplete in a causally relevant way despite the recorded equality of the other leaves. That decision is the reviewer's and is not taken by this spec",
+ "forbidden": [
+  "the triple transplant, or any arm beyond the three declared pairs",
+  "splitting the synaptic block by presynaptic class: the whole PV-incoming block failed in M1, and subset search without positive evidence is fishing",
+  "transplanting w, H, prev_spikes or b: they are bitwise identical between the two states",
+  "ranking sufficient pairs",
+  "redefining or weakening the fate thresholds after execution",
+  "reporting a no-pair result as a statement about the global synaptic state",
+  "any lambda, tonic, parameter, topology or kernel change"
+ ],
+ "artifacts": {
+  "committed": "results/v21_pv_m2.json"
+ },
+ "stop": "classify each arm and the lineage, write results/v21_pv_m2.json, STOP for review. A sufficient pair is an interaction, not a mechanism",
+ "driver": "tests/test_v21_pv_m2.py (tier 3)"
+}

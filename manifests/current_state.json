@@ -112,7 +112,7 @@
  },
  "open_scientific_question": "which state structure carries the PV fate. The fate is owned by the initial state and not the noise realization; only v, u and syn_state differ between the two fate-carrying states; and none of those three alone switches the fate when transplanted into a matched base under a matched future stream. What remains is a combination of them or a finer structure inside one, and neither is authorized",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
+ "next_authorized_task": "SCI-V21-PV-M2",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

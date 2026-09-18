@@ -1287,6 +1287,119 @@
     "tests/test_whole_system_realization.py"
    ],
    "commit": "0659293"
+  },
+  {
+   "lineage_id": "WS-DIAG-1",
+   "parent": "WS-REALIZE-R4C",
+   "principal_delta": "first execution of the composed architecture: one localized deterministic retinal perturbation, no stabilization and no tuning",
+   "introduces_mechanism": true,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_spec.json",
+    "commit": "b55fd5e"
+   },
+   "authority": "reviewer 2026-09-18: execute the sealed b55fd5e specification unchanged; observe, localize, STOP",
+   "inputs": [
+    "results/whole_system_realization_r2.json",
+    "jomission/tfne/retina.py"
+   ],
+   "frozen": [
+    "kernel=baseline, no HDP",
+    "tonic E 5.0 PV 3.0 SST 3.5 VIP 3.0, Retina 0.0",
+    "retinal drive 5.0 on 64 lit units, 8x8 spot at rows 12-19 cols 4-11",
+    "summed afferent weight 5.0 per V1 L4 E target",
+    "2 s settle, 1 s stimulus, 2 s post, dt 0.1 ms",
+    "drift tolerance 0.5 Hz/s with the sustained rule; synchrony CV tolerance 3.0"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "execution was finite throughout: no non-finite v, u or synaptic current at any of the 50000 steps",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the input interface was enforced and verified: 1047552 intra-retinal edges removed, retinal tonic 5.0 zeroed, exactly 1024 retinal edges realized, and the 24 cortical projection identities unchanged",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the retina was silent at baseline and its 64 lit units fired at 11.0 Hz during stimulation",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "PFC E population CV over the final 1000 ms is 3.1138, above the predeclared tolerance of 3.0; FEF 2.9046, V1.1 2.8988, V1.2 2.8880, V4.1 2.8807, V4.2 2.7960",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "no area E rate fell below 0.1 Hz and no group sustained over 200 Hz or full activation for 100 ms, so collapse and runaway passed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "area E rate slopes over the final 1500 ms are 1.25 to 1.90 Hz/s, above the 0.5 Hz/s tolerance, but none satisfied the predeclared sustained rule",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the directly targeted V1_1.L4.E fell 1.43 Hz from baseline to stimulus while untargeted V1_2.L4.E rose 3.57 Hz and V4_1.L4.E rose 2.14 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "w and theta_S were bitwise unchanged across all ten chunk boundaries, confirming no plastic stabilization under the baseline kernel",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "population firing is clustered well beyond independent firing: a Poisson population of this size and rate would give CV near 0.85 in 1 ms bins, against 2.80 to 3.11 observed",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the propagation measurement is not interpretable in this run: the targeted population moved opposite to the untargeted ones while every area drifted upward at 1.25 to 1.90 Hz/s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the 2 s settle interval was insufficient: the network was still evolving at the end of the 5 s horizon",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the composed network synchronizes under uniform tonic drive with all-to-all intra-area connectivity, and the retinal perturbation is negligible against that recurrent background. Neither the mechanism of the synchrony nor its dependence on any single declared quantity was tested by this lineage",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at PFC (CV 3.1138 vs 3.0). Execution, collapse and runaway passed; drift did not count; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_spec.json",
+    "results/whole_system_diagnostic.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "50bd3c5",
+   "qualification": {
+    "mechanism": "RETINA[jomission_v0], the structural input interface x := Retina^1024",
+    "configured": "jomission/tfne/retina.py: 1024 units, 32x32 raster indexing, hemifield split at column 16, exhaustive non-overlapping receptive fields of 36 or 37 units, summed afferent weight 5.0 per V1 L4 E target, AMPA, 64 lit units at drive 5.0, tonic 0.0",
+    "realized": "results/whole_system_diagnostic.json: exactly 1024 retinal edges compiled from 28 declared connections() rules, one per target cell; 1047552 intra-retinal edges removed and verified absent; retinal tonic verified 0.0; the 24 cortical identities verified unchanged",
+    "executed": "results/whole_system_diagnostic.json: retinal population rate 0.0 Hz at baseline and post, 0.6875 Hz during stimulation over the whole 1024-unit population, so the 64 lit units fired at 11.0 Hz and no unlit unit fired",
+    "effective": "not established. The declared efficacy drove no attributable response: the directly targeted V1_1.L4.E fell 1.43 Hz while untargeted populations rose, against a recurrent background of 39800 intra-area edges per area. The interface is configured, realized and executed; it is not shown to be causally effective on the cortical dynamics"
+   },
+   "drive_invariant": "I_executed = I_emitter + I_schedule, checked by jomission.harness.drive before execution"
   }
  ]
 }

@@ -1665,6 +1665,31 @@
    "path": "scripts/ctx_allocation_audit.py",
    "blob": "2767a018e7fb2e31d2a56d83607216c988961914",
    "sealed_in": "0659293"
+  },
+  {
+   "path": "results/whole_system_diagnostic_spec.json",
+   "blob": "257ba8642df681ab37273c8ade1b17dacea70e9c",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "results/whole_system_diagnostic.json",
+   "blob": "c6a456a3a425f57182b0b79bf292bc15c21893cf",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "scripts/whole_system_diagnostic.py",
+   "blob": "314da1304d788136308df3a4f58f6b859f2b3a2d",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "jomission/tfne/retina.py",
+   "blob": "76518ed13de20b68e87241ee49635647c9fa730e",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "tests/test_whole_system_diagnostic.py",
+   "blob": "082c3dad73211346295cf9d9cfd7bc08b548c6e8",
+   "sealed_in": "50bd3c5"
   }
  ]
 }

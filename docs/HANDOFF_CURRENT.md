@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-REALIZE-R4C sealed WHOLE_SYSTEM_REALIZATION_PASS. The architecture is realized from the sealed TFNE/2 semantics with all four deltas zero. The next authorized action is the first whole-system diagnostic simulation.
+- stopped because: WS-DIAG-1 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL at the first load-bearing gate. Observe, localize, STOP: no stabilization in this lineage. The composed network synchronizes under uniform tonic drive and was still evolving at 5 s, so the propagation measurement is not interpretable. Awaiting reviewer direction.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -58,11 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-m2-pair-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz — `4b74f5e:results/v21_pv_m2.json`
-- V2.1-pv-m2-pair-transplant: each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base — `4b74f5e:results/v21_pv_m2.json`
-- V2.1-pv-m2-pair-transplant: A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control — `4b74f5e:results/v21_pv_m2.json`
-- V2.1-pv-m2-pair-transplant: A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low — `4b74f5e:results/v21_pv_m2.json`
-- V2.1-pv-m2-pair-transplant: in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz — `4b74f5e:results/v21_pv_m1.json`
 - WS-REALIZE-R1R4: all 24 declared cross-area projection identities realize, with no missing and no extra identity: E_missing = E_extra = empty — `acdaf19:results/whole_system_realization.json`
 - WS-REALIZE-R1R4: the population scaffold alone realizes zero cross-area edges, so every cross-area edge comes from a declared projection — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
 - WS-REALIZE-R1R4: no projection relates non-adjacent composites: V1 reaches neither FEF nor PFC — `acdaf19:results/whole_system_realization.json`
@@ -76,6 +71,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-REALIZE-R4C: with R adopted, delta_objects = delta_populations = delta_projections = delta_index = 0 and every declared interface resolves — `0659293:results/whole_system_realization_r2.json`
 - WS-REALIZE-R4C: the corrected run reproduces the parent's topology exactly: the same 24 identities, 7020 cross-area edges of 245820, no skip projections — `0659293:results/whole_system_realization_r2.json`
 - WS-REALIZE-R4C: per-edge tau_ms is not readable from the constructed model; the configured value is 2 ms — `0659293:results/whole_system_realization_r2.json`
+- WS-DIAG-1: execution was finite throughout: no non-finite v, u or synaptic current at any of the 50000 steps — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: the input interface was enforced and verified: 1047552 intra-retinal edges removed, retinal tonic 5.0 zeroed, exactly 1024 retinal edges realized, and the 24 cortical projection identities unchanged — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: the retina was silent at baseline and its 64 lit units fired at 11.0 Hz during stimulation — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: PFC E population CV over the final 1000 ms is 3.1138, above the predeclared tolerance of 3.0; FEF 2.9046, V1.1 2.8988, V1.2 2.8880, V4.1 2.8807, V4.2 2.7960 — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: no area E rate fell below 0.1 Hz and no group sustained over 200 Hz or full activation for 100 ms, so collapse and runaway passed — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: area E rate slopes over the final 1500 ms are 1.25 to 1.90 Hz/s, above the 0.5 Hz/s tolerance, but none satisfied the predeclared sustained rule — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: the directly targeted V1_1.L4.E fell 1.43 Hz from baseline to stimulus while untargeted V1_2.L4.E rose 3.57 Hz and V4_1.L4.E rose 2.14 Hz — `50bd3c5:results/whole_system_diagnostic.json`
+- WS-DIAG-1: w and theta_S were bitwise unchanged across all ten chunk boundaries, confirming no plastic stabilization under the baseline kernel — `50bd3c5:results/whole_system_diagnostic.json`
 
 ### Next authorized task
 

@@ -19,7 +19,7 @@ import jax.numpy as jnp
 import jaxfne as jtfne
 import numpy as np
 
-from jomission.harness import drive as drive_guard
+from jomission.harness.drive import check_additive_schedule
 from jomission.tfne import architecture, nf, realize, retina
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -200,7 +200,7 @@ def main():
 
     # Drive additivity, checked before execution on a stimulated chunk.
     probe_sched = schedule_chunk(SETTLE_MS, STEPS_PER_MS * 10, n_neurons, lit_idx, np.float32)
-    rec["drive_check"] = drive_guard.check_additive_schedule(
+    rec["drive_check"] = check_additive_schedule(
         np.asarray(model.params["emitter"].drive), probe_sched,
         np.array([f"{a}.{c}" for a, c in zip(area, cls)]))
 

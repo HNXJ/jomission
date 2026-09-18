@@ -1,4 +1,4 @@
-"""HDP rule `jomission_authority_v2`: outgoing efficacy scaled by the source's own H.
+"""HDP rule `jomission_authority_v3`: outgoing efficacy scaled by the source's own H.
 
 Written because the engine does not implement the intended semantics. The two shipped families
 were both checked first:
@@ -54,14 +54,19 @@ restores 0.005 per step, so a single spike takes 99 ms to undo at a 91.7 ms mean
 interval. H spanned its whole range 0.1 to 10.0 within 1 ms.
 
 The state therefore carries a second coordinate A, a filtered firing rate normalised so that A = 1
-at the HDP-off baseline rate. Normalising A keeps it inside the same h_bounds the engine applies
-to the whole state vector, and makes gamma dimensionless. At the reference point H = A = 1 the
-barrier contributes zero (barrier_d/barrier_c = 100 centres it there), so
+at the HDP-off baseline rate, which makes gamma dimensionless. At the reference point H = A = 1
+the barrier contributes zero (barrier_d/barrier_c = 100 centres it there), so
 
     gamma = alpha*I_net + rho_passive = 0.05*5.0637 + 0.02 = 0.27320
 
 H = 1 is the reference the balance is struck at, NOT a forced setpoint: a neuron whose I_net or
 activity differs from the reference settles wherever its own budget closes.
+
+ACTIVITY FLOOR (v3). A's fixed point is A* = r_filtered/rate_ref, so a silent neuron must reach
+A = 0. Under v2 the kernel's shared floor of 0.1 clipped it: PV firing at 0.27 Hz has A* = 0.025
+but read A = 0.1000, so it was charged four times its own activity and settled at H = 4.40. The
+floor is now 0.0 and H's floor moved into the rule, which is identically equivalent and leaves
+alpha, gamma, the restore and barrier terms, m(H), W and the connectivity untouched.
 
 w_base is latched per edge into aux on the first step from the constructed weights, so the target
 is anchored to the realized architecture instead of to a constant assumed here.
@@ -71,9 +76,18 @@ from __future__ import annotations
 
 from typing import Any
 
-RULE_NAME = "jomission_authority_v2"
+RULE_NAME = "jomission_authority_v3"
 
 H_MIN, H_MAX = 0.1, 10.0
+
+#: A is a normalised rate and must reach 0 when the neuron is silent. The kernel applies ONE
+#: h_bounds to the whole state vector, and register_hdp_rule validates each bound with float(),
+#: so a per-coordinate (0.1, 0.0) cannot be declared. The floor is therefore 0.0 for both
+#: coordinates and H's own floor is enforced inside the rule, on its derivative: requiring
+#: dH >= (H_MIN - H)/dt makes H + dt*dH >= H_MIN identically, so the kernel's clip is a no-op
+#: for H. A_MAX is the kernel's shared ceiling, kept only as numerical protection.
+STATE_FLOOR = 0.0
+A_MAX = H_MAX
 W_BOUNDS = (0.0, 100.0)          # wide: m caps the target at 2*w_base, so this only guards runaway
 
 #: m(H) = M_SAT*H/(1+H). M_SAT = 2.0 puts m(1) = 1 exactly, so H = 1 is efficacy-neutral.
@@ -164,6 +178,8 @@ def _step_fn(ctx: Any) -> Any:
     H_safe = jnp.maximum(H, beps)
     dH = (alpha * I_net + beta - gamma * H * A - delta * W_out
           + rho / (H_safe * H_safe) + minus_dCdH) / tau
+    # H's lower bound, enforced here rather than by the kernel's shared clip (see STATE_FLOOR).
+    dH = jnp.maximum(dH, (h_min - H) / dt_ms)
     dstate = jnp.stack([dH, dA], axis=1)
 
     # aux holds w_base per edge, latched once from the constructed weights.
@@ -197,7 +213,7 @@ def ensure_registered() -> str:
                 aux_coords=("w_base",),
                 aux_layout="per_edge",
                 scope="node",
-                h_bounds=(H_MIN, H_MAX),
+                h_bounds=(STATE_FLOOR, H_MAX),
                 w_bounds=W_BOUNDS,
                 default_params=dict(RULE_PARAMS),
             ),

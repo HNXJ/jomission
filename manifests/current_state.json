@@ -128,7 +128,7 @@
   }
  },
  "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
- "stopped_because": "WS-REALIZE-R1R4 stopped at WHOLE_SYSTEM_REALIZATION_FAIL: delta_populations = 12. Whether CTX[jomission_v0].R becomes OBSERVED_CURRENT (the engine's allocator) instead of a DEFINITION_CHOICE is a reviewer decision. No simulation is authorized.",
+ "stopped_because": "WS-REALIZE-R4C sealed WHOLE_SYSTEM_REALIZATION_PASS. The architecture is realized from the sealed TFNE/2 semantics with all four deltas zero. The next authorized action is the first whole-system diagnostic simulation.",
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",

@@ -1200,6 +1200,93 @@
     "tests/test_whole_system_realization.py"
    ],
    "commit": "acdaf19"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R4C",
+   "parent": "WS-REALIZE-R1R4",
+   "principal_delta": "CTX[jomission_v0].R becomes OBSERVED_CURRENT, the engine's own allocation policy, instead of a contradicting DEFINITION_CHOICE. Nothing else changed.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/ctx_allocation_audit_spec.json",
+    "commit": "b7f1000"
+   },
+   "authority": "reviewer 2026-09-18: adopt the engine allocator; audit exact cardinality first; additive correction only",
+   "inputs": [
+    "results/whole_system_realization.json",
+    "results/whole_system_realization_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in the parent spec except R",
+    "the parent result file is not rewritten"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the engine's sequential allocation policy preserves sum_c N[l.c] = N[l] in all 12006 audited cases, six layers by layer totals 0 to 2000",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "the independent per-class formula int(round(N_l*P)) violates that invariant in 5031 of the same 12006 cases",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "at N = 200 the layer split is L1 20, L2 30, L3 40, L4 20, L5 60, L6 30, summing to 200, and the class counts sum to 200",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "with R adopted, delta_objects = delta_populations = delta_projections = delta_index = 0 and every declared interface resolves",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    },
+    {
+     "claim": "the corrected run reproduces the parent's topology exactly: the same 24 identities, 7020 cross-area edges of 245820, no skip projections",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    },
+    {
+     "claim": "per-edge tau_ms is not readable from the constructed model; the configured value is 2 ms",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the two readings of the engine's behaviour are different functions, and only the sequential one is admissible as a TFNE/2 allocation policy",
+     "evidence_class": "DERIVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "the parent FAIL was a genuine configured-versus-realized mismatch in R alone, since adopting R changed nothing else",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the whole-system architecture is realizable from the sealed TFNE/2 semantics with no compiler-generated undeclared projection and no hand-built topology; a future canonical CTX with a different R would require the realizer to own allocation",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_REALIZATION_PASS",
+    "status": "PASS"
+   },
+   "acceptance": "results/ctx_allocation_audit_spec.json: ALLOCATION_POLICY_PASS then all four deltas zero",
+   "fail_boundary": "none: the audit found no violation and every delta is zero",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/ctx_allocation_audit_spec.json",
+    "results/ctx_allocation_audit.json",
+    "results/whole_system_realization_r2.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_realization.py"
+   ],
+   "commit": "0659293"
   }
  ]
 }

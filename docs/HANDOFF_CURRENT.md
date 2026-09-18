@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-REALIZE-R1R4 stopped at WHOLE_SYSTEM_REALIZATION_FAIL: delta_populations = 12. Whether CTX[jomission_v0].R becomes OBSERVED_CURRENT (the engine's allocator) instead of a DEFINITION_CHOICE is a reviewer decision. No simulation is authorized.
+- stopped because: WS-REALIZE-R4C sealed WHOLE_SYSTEM_REALIZATION_PASS. The architecture is realized from the sealed TFNE/2 semantics with all four deltas zero. The next authorized action is the first whole-system diagnostic simulation.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -58,12 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-m1-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends low at 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
-- V2.1-pv-m1-transplant: B_CTRL ends at 15.110 Hz, matching its sealed reference (run C of the parent, 15.11 Hz) — `ed1be04:results/v21_pv_m1.json`
-- V2.1-pv-m1-transplant: each transplant moved exactly its named block: the block took the donor value bitwise and every other DynamicState leaf equalled the base, with one differing leaf per arm — `ed1be04:results/v21_pv_m1.json`
-- V2.1-pv-m1-transplant: the PV-incoming synaptic arm covered 15960 of 159600 edges (10 percent), with presynaptic classes E, PV, SST and VIP — `ed1be04:results/v21_pv_m1.json`
-- V2.1-pv-m1-transplant: late PV rates: A_v 0.303 Hz, A_u 0.107 Hz, A_syn 0.085 Hz, against an active fate of 14.425 Hz and a base of 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
-- V2.1-pv-m1-transplant: E, SST and VIP late rates are within 0.4 Hz across all five arms (E 16.93-17.07, SST 22.36-22.74, VIP 16.93-17.07) — `ed1be04:results/v21_pv_m1.json`
 - V2.1-pv-m2-pair-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz — `4b74f5e:results/v21_pv_m2.json`
 - V2.1-pv-m2-pair-transplant: each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base — `4b74f5e:results/v21_pv_m2.json`
 - V2.1-pv-m2-pair-transplant: A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control — `4b74f5e:results/v21_pv_m2.json`
@@ -76,6 +70,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-REALIZE-R1R4: I[FEF.L6.E] resolves to 28 neurons at indices 170-197, exactly the rows whose metadata are area FEF, layer L6, cell type E — `acdaf19:results/whole_system_realization.json`
 - WS-REALIZE-R1R4: the realized L6 split is E 28 / SST 2 while the declared allocation policy R requires E 29 / SST 1, in all six instances — `acdaf19:results/whole_system_realization.json`
 - WS-REALIZE-R1R4: without a declared mechanism the compiler takes a selector that expands any superficial layer name to {L2, L3, L2/3, L23}, which realized 18 undeclared cross-area identities; declaring AMPA selects the strict-equality selector and removes them — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
+- WS-REALIZE-R4C: the engine's sequential allocation policy preserves sum_c N[l.c] = N[l] in all 12006 audited cases, six layers by layer totals 0 to 2000 — `0659293:results/ctx_allocation_audit.json`
+- WS-REALIZE-R4C: the independent per-class formula int(round(N_l*P)) violates that invariant in 5031 of the same 12006 cases — `0659293:results/ctx_allocation_audit.json`
+- WS-REALIZE-R4C: at N = 200 the layer split is L1 20, L2 30, L3 40, L4 20, L5 60, L6 30, summing to 200, and the class counts sum to 200 — `0659293:results/ctx_allocation_audit.json`
+- WS-REALIZE-R4C: with R adopted, delta_objects = delta_populations = delta_projections = delta_index = 0 and every declared interface resolves — `0659293:results/whole_system_realization_r2.json`
+- WS-REALIZE-R4C: the corrected run reproduces the parent's topology exactly: the same 24 identities, 7020 cross-area edges of 245820, no skip projections — `0659293:results/whole_system_realization_r2.json`
+- WS-REALIZE-R4C: per-edge tau_ms is not readable from the constructed model; the configured value is 2 ms — `0659293:results/whole_system_realization_r2.json`
 
 ### Next authorized task
 

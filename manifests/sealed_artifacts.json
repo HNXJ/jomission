@@ -1615,8 +1615,9 @@
   },
   {
    "path": "scripts/whole_system_realize.py",
-   "blob": "ccf6c745cbf42ef93c7818b939f1348458656ca0",
-   "sealed_in": "acdaf19"
+   "blob": "4e3e8a225660ea94eb6485a95375affbd64daa42",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
   },
   {
    "path": "jomission/tfne/nf.py",
@@ -1625,8 +1626,9 @@
   },
   {
    "path": "jomission/tfne/ctx.py",
-   "blob": "8fce62100dc641681f0a61faccfe2f48d839660b",
-   "sealed_in": "acdaf19"
+   "blob": "a88337c12c800328ec03b0ad52527a6598066a64",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
   },
   {
    "path": "jomission/tfne/architecture.py",
@@ -1640,8 +1642,29 @@
   },
   {
    "path": "tests/test_whole_system_realization.py",
-   "blob": "51b3776dfe9ae46e797d3df9b23423588f1733a6",
-   "sealed_in": "acdaf19"
+   "blob": "aebb90846bee2f69b7bede9520b351e5b56f97e5",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
+  },
+  {
+   "path": "results/ctx_allocation_audit_spec.json",
+   "blob": "498ce562289484e93cc10e7d9f465326c2e57af7",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "results/ctx_allocation_audit.json",
+   "blob": "807f9a748e15ba10725a694bed8a85d64ba67ea6",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "results/whole_system_realization_r2.json",
+   "blob": "9b8b88443e810c153171c9e8049d884b33f925d1",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "scripts/ctx_allocation_audit.py",
+   "blob": "2767a018e7fb2e31d2a56d83607216c988961914",
+   "sealed_in": "0659293"
   }
  ]
 }

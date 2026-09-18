@@ -140,21 +140,27 @@ def schedule_chunk(t0_ms, n_steps, n_neurons, lit_idx, dtype):
 def summarize(v, u, spikes, current, H, members, n_ms):
     """Per-group, per-1 ms-bin summaries. Reductions are float64 over float32 traces."""
     out = {}
+    def binned(arr, idx, n):
+        return np.asarray(arr[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
+
     for name, idx in members.items():
         n = idx.size
-        sp = np.asarray(spikes[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
-        vv = np.asarray(v[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
-        uu = np.asarray(u[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
-        cc = np.asarray(current[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
-        hh = np.asarray(H[:, idx], dtype=np.float64).reshape(n_ms, STEPS_PER_MS, n)
+        sp = binned(spikes, idx, n)
+        vv = binned(v, idx, n)
+        hh = binned(H, idx, n)
         per_bin = sp.sum(axis=1)                      # (n_ms, n) spikes per neuron per bin
-        out[name] = {
+        row = {
          "rate_hz": per_bin.sum(axis=1) / (n * 1e-3),
          "f_active": (per_bin > 0).mean(axis=1),
          "v_mean": vv.mean(axis=(1, 2)), "v_std": vv.std(axis=(1, 2)),
-         "u_mean": uu.mean(axis=(1, 2)), "u_std": uu.std(axis=(1, 2)),
-         "current_mean": cc.mean(axis=(1, 2)), "H_mean": hh.mean(axis=(1, 2)),
+         "H_mean": hh.mean(axis=(1, 2)),
         }
+        if u is not None:
+            uu = binned(u, idx, n)
+            row["u_mean"], row["u_std"] = uu.mean(axis=(1, 2)), uu.std(axis=(1, 2))
+        if current is not None:
+            row["current_mean"] = binned(current, idx, n).mean(axis=(1, 2))
+        out[name] = row
     return out
 
 
@@ -179,8 +185,9 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
     model, enforcement = enforce(model, index)
 
     rec = {"spec": spec_name, "spec_commit": spec_commit,
-           "lineage": "WS-DIAG-1, first whole-system diagnostic",
-           "kernel": "baseline", "hdp": False,
+           "lineage": SPEC.get("lineage_id", "WS-DIAG-1"),
+           "kernel": SPEC["kernel"]["kernel"], "hdp": bool(SPEC["kernel"].get("hdp")),
+           "kernel_config": SPEC["kernel"],
            "scope": ("this verdict is scoped to the sealed 5 s horizon. A 5 s diagnostic can establish an "
                      "immediate failure; it cannot establish long-term stability"),
            "enforcement": enforcement,
@@ -208,9 +215,13 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
 
     members = {g: np.arange(index[g][0], index[g][1]) for g in groups_of(index)}
 
+    kspec = SPEC["kernel"]
+    kkw = dict(kspec.get("hdp_params", {}))
+    if kspec.get("hdp_rule"):
+        kkw["hdp_rule"] = kspec["hdp_rule"]
     step_fn, state = jtfne.compile_step_fn(
-        model, dt_ms=DT, kernel="baseline", record_weight_trace=False,
-        record_current_trace=True, record_u_trace=True)
+        model, dt_ms=DT, kernel=kspec["kernel"], record_weight_trace=False,
+        record_current_trace=True, record_u_trace=True, **kkw)
     state = jtfne.ContinuationState(dynamic=state.dynamic, prng_key=jax.random.PRNGKey(0),
                                     step_index=0, delay_state=state.delay_state)
 
@@ -223,8 +234,7 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
     n_chunks = int(round(TOTAL_MS / CHUNK_MS))
     chunk_steps = int(round(CHUNK_MS / DT))
     chunk_ms = int(round(CHUNK_MS))
-    series = {g: {k: [] for k in ("rate_hz", "f_active", "v_mean", "v_std", "u_mean", "u_std",
-                                  "current_mean", "H_mean")} for g in members}
+    series = None
     y_trace = np.zeros((int(round(TOTAL_MS / DT)), y_n), dtype=np.float32)
     plastic = []
     nonfinite = {}
@@ -233,28 +243,46 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
         t0 = c * CHUNK_MS
         sched = jnp.asarray(schedule_chunk(t0, chunk_steps, n_neurons, lit_idx, np.float32))
         state, outputs = jtfne.run_continuation(step_fn, state, sched)
-        # record_weight_trace=False drops the per-edge weight slot, so the optional current and
-        # u traces sit at 4 and 5, not 5 and 6. Verified against the state below.
-        assert len(outputs) == 6, f"unexpected output arity {len(outputs)}"
-        v, spikes, H, current, u = (np.asarray(outputs[0]), np.asarray(outputs[1]),
-                                    np.asarray(outputs[3]), np.asarray(outputs[4]), np.asarray(outputs[5]))
+        # record_weight_trace=False drops the per-edge weight slot, so with the optional traces the
+        # tuple is (v, spikes, sources, H, current, u). The hdp kernel ignores those two flags and
+        # returns arity 4; that is an observability difference between arms, recorded not assumed.
+        if len(outputs) == 6:
+            v, spikes, H, current, u = (np.asarray(outputs[0]), np.asarray(outputs[1]),
+                                        np.asarray(outputs[3]), np.asarray(outputs[4]),
+                                        np.asarray(outputs[5]))
+            assert np.allclose(u[-1], np.asarray(state.dynamic.u), atol=1e-4), "u trace is not u"
+        elif len(outputs) == 4:
+            v, spikes, H = np.asarray(outputs[0]), np.asarray(outputs[1]), np.asarray(outputs[3])
+            current = u = None
+        else:
+            raise ValueError(f"unexpected output arity {len(outputs)}")
         assert np.allclose(v[-1], np.asarray(state.dynamic.v), atol=1e-4), "v trace is not v"
-        assert np.allclose(u[-1], np.asarray(state.dynamic.u), atol=1e-4), "u trace is not u"
-        for label, arr in (("v", v), ("u", u), ("current", current)):
+        for label, arr in (("v", v), ("H", H), ("u", u), ("current", current)):
+            if arr is None:
+                continue
             bad = int((~np.isfinite(arr)).sum())
             if bad:
                 nonfinite[label] = nonfinite.get(label, 0) + bad
         y_trace[c * chunk_steps:(c + 1) * chunk_steps] = v[:, y0:y1]
-        for g, s in summarize(v, u, spikes, current, H, members, chunk_ms).items():
-            for k, arr in s.items():
+        chunk_summary = summarize(v, u, spikes, current, H, members, chunk_ms)
+        if series is None:
+            series = {g: {k: [] for k in row} for g, row in chunk_summary.items()}
+        for g, row in chunk_summary.items():
+            for k, arr in row.items():
                 series[g][k].append(arr)
         w = np.asarray(state.dynamic.w)
         theta = np.asarray(state.dynamic.theta_S)
-        plastic.append({"t_ms": t0 + CHUNK_MS,
+        Hs = np.asarray(state.dynamic.H)
+        us = np.asarray(state.dynamic.u)
+        if not np.isfinite(us).all():
+            nonfinite["u_state"] = nonfinite.get("u_state", 0) + int((~np.isfinite(us)).sum())
+        plastic.append({"t_ms": t0 + CHUNK_MS, "u_mean_state": float(us.mean()),
+                        "H_mean": float(Hs.mean()), "H_min": float(Hs.min()), "H_max": float(Hs.max()),
+                        "H_p05": float(np.percentile(Hs, 5)), "H_p95": float(np.percentile(Hs, 95)),
+                        "H_frac_above_5": float((Hs > 5.0).mean()),
                         "w_mean": float(w.mean()), "w_std": float(w.std()),
                         "w_min": float(w.min()), "w_max": float(w.max()),
-                        "theta_mean": float(theta.mean()), "theta_std": float(theta.std()),
-                        "H_mean": float(np.asarray(state.dynamic.H).mean())})
+                        "theta_mean": float(theta.mean()), "theta_std": float(theta.std())})
 
     series = {g: {k: np.concatenate(v) for k, v in s.items()} for g, s in series.items()}
     np.savez_compressed(out_y, v=y_trace, dt_ms=DT, neuron_index=np.arange(y0, y1),
@@ -262,8 +290,14 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
 
     # ---- gates, in the sealed order -------------------------------------------------
     gates = {}
+    checked = ["v", "H"] + ([] if u is None else ["u"]) + ([] if current is None else ["synaptic current"])
     gates["execution"] = {"nonfinite": nonfinite, "pass": not nonfinite,
-                          "checked": "v, u and synaptic current at every step of every chunk"}
+                          "checked": f"{', '.join(checked)} at every step of every chunk",
+                          "u_and_current_per_step": u is not None,
+                          "note": (None if u is not None else
+                                   "the hdp kernel ignores record_current_trace and record_u_trace and "
+                                   "returns arity 4, so u is checked per chunk from state and per-step "
+                                   "synaptic current is unavailable")}
 
     e_groups = {g: s for g, s in series.items() if g.endswith(".E") and not g.startswith(retina.AREA)}
     areas = sorted({g.split(".")[0] for g in e_groups})
@@ -359,8 +393,10 @@ def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
      "sampling": ("w, theta_S and H state are sampled at 500 ms chunk boundaries, not per ms: the per-edge "
                   "weight trace would be 50000 steps x 246844 edges x 4 bytes = 4.9 GB. H is additionally "
                   "recorded per 1 ms as a per-neuron trace"),
-     "interpretation": ("under kernel=baseline these are controls. Static values confirm no hidden plastic "
-                        "stabilization occurred; they are not evidence that stabilization is working")}
+     "interpretation": ("under kernel=baseline these are controls: static values confirm no hidden plastic "
+                        "stabilization occurred, and are not evidence that stabilization works. Under "
+                        "kernel=hdp they are the mechanism itself, and H reaching a bound is saturation, "
+                        "not regulation")}
 
     y = y_trace
     stim_slice = slice(int(SETTLE_MS / DT), int((SETTLE_MS + STIM_MS) / DT))

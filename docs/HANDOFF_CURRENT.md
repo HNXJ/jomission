@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized
+- stopped because: WS-REALIZE-R1R4 stopped at WHOLE_SYSTEM_REALIZATION_FAIL: delta_populations = 12. Whether CTX[jomission_v0].R becomes OBSERVED_CURRENT (the engine's allocator) instead of a DEFINITION_CHOICE is a reviewer decision. No simulation is authorized.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -58,11 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-m0-state-decomposition-r2: the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1 — `8ece148:results/v21_pv_m0_r2.json`
-- V2.1-pv-m0-state-decomposition-r2: three typed blocks differ between h_A(0) and h_B(0): v (400, max 71.4), u (400, max 10.56) and syn_state (159600, max 0.368), each differing in every entry — `8ece148:results/v21_pv_m0_r2.json`
-- V2.1-pv-m0-state-decomposition-r2: five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux — `8ece148:results/v21_pv_m0_r2.json`
-- V2.1-pv-m0-state-decomposition-r2: u differs least in PV (max 0.370, mean 0.296) against E (10.56), SST (2.78) and VIP (7.40); v differs comparably in every class (mean 27.6-28.9) — `8ece148:results/v21_pv_m0_r2.json`
-- V2.1-pv-m0-state-decomposition-r2: both states are saved and pinned for a later authorized transplant: h_A0 sha256 19be5c09, h_B0 sha256 cbd15369 — `8ece148:results/v21_pv_m0_r2.json`
 - V2.1-pv-m1-transplant: A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends low at 0.707 Hz — `ed1be04:results/v21_pv_m1.json`
 - V2.1-pv-m1-transplant: B_CTRL ends at 15.110 Hz, matching its sealed reference (run C of the parent, 15.11 Hz) — `ed1be04:results/v21_pv_m1.json`
 - V2.1-pv-m1-transplant: each transplant moved exactly its named block: the block took the donor value bitwise and every other DynamicState leaf equalled the base, with one differing leaf per arm — `ed1be04:results/v21_pv_m1.json`
@@ -74,6 +69,13 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-m2-pair-transplant: A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control — `4b74f5e:results/v21_pv_m2.json`
 - V2.1-pv-m2-pair-transplant: A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low — `4b74f5e:results/v21_pv_m2.json`
 - V2.1-pv-m2-pair-transplant: in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz — `4b74f5e:results/v21_pv_m1.json`
+- WS-REALIZE-R1R4: all 24 declared cross-area projection identities realize, with no missing and no extra identity: E_missing = E_extra = empty — `acdaf19:results/whole_system_realization.json`
+- WS-REALIZE-R1R4: the population scaffold alone realizes zero cross-area edges, so every cross-area edge comes from a declared projection — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
+- WS-REALIZE-R1R4: no projection relates non-adjacent composites: V1 reaches neither FEF nor PFC — `acdaf19:results/whole_system_realization.json`
+- WS-REALIZE-R1R4: every declared projection realizes receptor index 0, the sole declared mechanism AMPA; tau_ms is empty on the concatenated edge list and so is not readable per edge — `acdaf19:results/whole_system_realization.json`
+- WS-REALIZE-R1R4: I[FEF.L6.E] resolves to 28 neurons at indices 170-197, exactly the rows whose metadata are area FEF, layer L6, cell type E — `acdaf19:results/whole_system_realization.json`
+- WS-REALIZE-R1R4: the realized L6 split is E 28 / SST 2 while the declared allocation policy R requires E 29 / SST 1, in all six instances — `acdaf19:results/whole_system_realization.json`
+- WS-REALIZE-R1R4: without a declared mechanism the compiler takes a selector that expands any superficial layer name to {L2, L3, L2/3, L23}, which realized 18 undeclared cross-area identities; declaring AMPA selects the strict-equality selector and removes them — `acdaf19:docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md`
 
 ### Next authorized task
 

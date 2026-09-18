@@ -1110,6 +1110,96 @@
     "tests/test_v21_pv_m2.py"
    ],
    "commit": "4b74f5e"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R1R4",
+   "parent": "V2.1-pv-m2-pair-transplant",
+   "principal_delta": "a typed TFNE/2 to JaxFNE realizer: the whole-system architecture is normalized from the sealed algebra and realized, instead of being hand-built",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_realization_spec.json",
+    "commit": "3ab13e7"
+   },
+   "authority": "reviewer 2026-09-18: Option 1, phases R0-R4; branch from the PV head, no rebase onto main",
+   "inputs": [
+    "docs/tfne/TFNE_V2_SPEC.md",
+    "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+   ],
+   "frozen": [
+    "CTX[jomission_v0] N=200",
+    "V1->V4 matched_instance, V4->frontal derived frontier union",
+    "scaffold p_feedforward = p_feedback = 0",
+    "probability 1.0, weight 0.5, AMPA tau_ms 2.0",
+    "seed 0, dt 0.1 ms"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "all 24 declared cross-area projection identities realize, with no missing and no extra identity: E_missing = E_extra = empty",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "the population scaffold alone realizes zero cross-area edges, so every cross-area edge comes from a declared projection",
+     "evidence_class": "OBSERVED",
+     "receipt": "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+    },
+    {
+     "claim": "no projection relates non-adjacent composites: V1 reaches neither FEF nor PFC",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "every declared projection realizes receptor index 0, the sole declared mechanism AMPA; tau_ms is empty on the concatenated edge list and so is not readable per edge",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "I[FEF.L6.E] resolves to 28 neurons at indices 170-197, exactly the rows whose metadata are area FEF, layer L6, cell type E",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "the realized L6 split is E 28 / SST 2 while the declared allocation policy R requires E 29 / SST 1, in all six instances",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "without a declared mechanism the compiler takes a selector that expands any superficial layer name to {L2, L3, L2/3, L23}, which realized 18 undeclared cross-area identities; declaring AMPA selects the strict-equality selector and removes them",
+     "evidence_class": "OBSERVED",
+     "receipt": "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the mismatch is one seat in L6 per instance: both remainders are exactly 0.5 and the engine's sequential int(round()) is half-to-even, while R awards ties to the natural-key-first class",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_realization.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the architecture is realizable from the sealed algebra with no compiler-generated undeclared projection; what remains unreconciled is an allocation-policy conflict, not a topological one",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_REALIZATION_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_realization_spec.json: all four deltas zero",
+   "fail_boundary": "delta_populations = 12 (6 instances x 2 classes, L6 only, one neuron each). delta_objects = delta_projections = delta_index = 0",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_realization_spec.json",
+    "results/whole_system_realization.json",
+    "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+   ],
+   "tests": [
+    "tests/test_whole_system_realization.py"
+   ],
+   "commit": "acdaf19"
   }
  ]
 }

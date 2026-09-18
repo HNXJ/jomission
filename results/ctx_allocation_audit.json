@@ -1,0 +1,248 @@
+{
+ "spec": "results/ctx_allocation_audit_spec.json",
+ "question": "is the JaxFNE 0.4.24 allocation policy admissible as CTX[jomission_v0].R, i.e. does it preserve sum_c N[l.c] = N[l] for every population this definition can realize",
+ "read_only": "no model is constructed and no simulation is run",
+ "layers": [
+  "L1",
+  "L2",
+  "L3",
+  "L4",
+  "L5",
+  "L6"
+ ],
+ "classes": [
+  "E",
+  "PV",
+  "SST",
+  "VIP"
+ ],
+ "P": {
+  "L1": {
+   "E": 0.5,
+   "PV": 0.05,
+   "SST": 0.1,
+   "VIP": 0.35
+  },
+  "L2": {
+   "E": 0.5,
+   "PV": 0.25,
+   "SST": 0.1,
+   "VIP": 0.15
+  },
+  "L3": {
+   "E": 0.5,
+   "PV": 0.25,
+   "SST": 0.15,
+   "VIP": 0.1
+  },
+  "L4": {
+   "E": 0.7,
+   "PV": 0.2,
+   "SST": 0.05,
+   "VIP": 0.05
+  },
+  "L5": {
+   "E": 0.85,
+   "PV": 0.05,
+   "SST": 0.05,
+   "VIP": 0.05
+  },
+  "L6": {
+   "E": 0.95,
+   "PV": 0.0,
+   "SST": 0.05,
+   "VIP": 0.0
+  }
+ },
+ "max_layer_total": 2000,
+ "cases_per_policy": 12006,
+ "policies": {
+  "engine_sequential": {
+   "note": "jaxfne/_config.py:130 _counts_from_fractions: int(round(total*frac)) in declaration order, clamped to the remaining budget, with the last key assigned the remainder",
+   "by_layer": {
+    "L1": {
+     "violations": 0,
+     "first_violation": null
+    },
+    "L2": {
+     "violations": 0,
+     "first_violation": null
+    },
+    "L3": {
+     "violations": 0,
+     "first_violation": null
+    },
+    "L4": {
+     "violations": 0,
+     "first_violation": null
+    },
+    "L5": {
+     "violations": 0,
+     "first_violation": null
+    },
+    "L6": {
+     "violations": 0,
+     "first_violation": null
+    }
+   },
+   "violations": 0,
+   "preserves_exact_cardinality": true
+  },
+  "independent_round": {
+   "note": "int(round(N_l * P[l][c])) per class with no coupling; the literal per-class formula",
+   "by_layer": {
+    "L1": {
+     "violations": 811,
+     "first_violation": {
+      "layer_total": 1,
+      "sum_c": 0,
+      "counts": {
+       "E": 0,
+       "PV": 0,
+       "SST": 0,
+       "VIP": 0
+      }
+     }
+    },
+    "L2": {
+     "violations": 1000,
+     "first_violation": {
+      "layer_total": 1,
+      "sum_c": 0,
+      "counts": {
+       "E": 0,
+       "PV": 0,
+       "SST": 0,
+       "VIP": 0
+      }
+     }
+    },
+    "L3": {
+     "violations": 1000,
+     "first_violation": {
+      "layer_total": 1,
+      "sum_c": 0,
+      "counts": {
+       "E": 0,
+       "PV": 0,
+       "SST": 0,
+       "VIP": 0
+      }
+     }
+    },
+    "L4": {
+     "violations": 920,
+     "first_violation": {
+      "layer_total": 2,
+      "sum_c": 1,
+      "counts": {
+       "E": 1,
+       "PV": 0,
+       "SST": 0,
+       "VIP": 0
+      }
+     }
+    },
+    "L5": {
+     "violations": 1300,
+     "first_violation": {
+      "layer_total": 4,
+      "sum_c": 3,
+      "counts": {
+       "E": 3,
+       "PV": 0,
+       "SST": 0,
+       "VIP": 0
+      }
+     }
+    },
+    "L6": {
+     "violations": 0,
+     "first_violation": null
+    }
+   },
+   "violations": 5031,
+   "preserves_exact_cardinality": false
+  }
+ },
+ "at_architecture_size": {
+  "N": 200,
+  "layer_fractions": {
+   "L1": 0.1,
+   "L2": 0.15,
+   "L3": 0.2,
+   "L4": 0.10000000000000003,
+   "L5": 0.29999999999999993,
+   "L6": 0.15000000000000002
+  },
+  "layer_counts": {
+   "L1": 20,
+   "L2": 30,
+   "L3": 40,
+   "L4": 20,
+   "L5": 60,
+   "L6": 30
+  },
+  "sum_layers": 200,
+  "by_layer": {
+   "L1": {
+    "layer_total": 20,
+    "counts": {
+     "E": 10,
+     "PV": 1,
+     "SST": 2,
+     "VIP": 7
+    }
+   },
+   "L2": {
+    "layer_total": 30,
+    "counts": {
+     "E": 15,
+     "PV": 8,
+     "SST": 3,
+     "VIP": 4
+    }
+   },
+   "L3": {
+    "layer_total": 40,
+    "counts": {
+     "E": 20,
+     "PV": 10,
+     "SST": 6,
+     "VIP": 4
+    }
+   },
+   "L4": {
+    "layer_total": 20,
+    "counts": {
+     "E": 14,
+     "PV": 4,
+     "SST": 1,
+     "VIP": 1
+    }
+   },
+   "L5": {
+    "layer_total": 60,
+    "counts": {
+     "E": 51,
+     "PV": 3,
+     "SST": 3,
+     "VIP": 3
+    }
+   },
+   "L6": {
+    "layer_total": 30,
+    "counts": {
+     "E": 28,
+     "PV": 0,
+     "SST": 2,
+     "VIP": 0
+    }
+   }
+  },
+  "sum_all_classes": 200
+ },
+ "verdict": "ALLOCATION_POLICY_PASS",
+ "adoptable_as_R": true,
+ "correction": "the two policies are different functions. The independent per-class formula does not preserve exact cardinality and is therefore not admissible as R; the sequential policy the engine actually implements does. CTX[jomission_v0].R adopts the sequential policy"
+}

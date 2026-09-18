@@ -91,6 +91,26 @@ def main():
                        ("skills", v.validate_skills())):
         check(name, not errs, "; ".join(errs[:3]) + (f" (+{len(errs) - 3})" if len(errs) > 3 else ""))
 
+    # sealed-write guard: cheap, no mutation. A bare full-suite pytest must not be able to
+    # overwrite registered sealed evidence, so check the guard denies a sealed path and that
+    # tests/conftest.py installs it for every session.
+    from jomission.harness import seals
+
+    sealed_present = [r for r in sorted(seals.sealed_paths()) if (ROOT / r).exists()]
+    guard_ok, guard_detail = False, "no sealed artifact present to probe"
+    if sealed_present:
+        probe = sealed_present[0]
+        before = (ROOT / probe).read_bytes()
+        try:
+            seals.check_write(ROOT / probe)
+            guard_detail = f"{probe} is not denied by jomission.harness.seals.check_write"
+        except seals.SealedArtifactWriteError:
+            installed = "seals.install()" in (ROOT / "tests" / "conftest.py").read_text(encoding="utf-8")
+            guard_ok = installed and (ROOT / probe).read_bytes() == before
+            guard_detail = (f"denies {probe}; installed by tests/conftest.py" if guard_ok
+                            else "tests/conftest.py does not call seals.install()")
+    check("sealed-write guard", guard_ok, guard_detail)
+
     print(f"      next authorized task: {state['next_authorized_task']}")
     print(f"      current gate: {state['current_gate']['id']} = {state['current_gate']['status']}")
 

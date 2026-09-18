@@ -1010,6 +1010,36 @@
      "the declared arms are PV intrinsic (v_PV, u_PV) and PV incoming synaptic state; syn_state is reported as one block because its leading axis is edges, not neurons, so the PV-incoming subset was not split out"
     ]
    }
+  },
+  {
+   "id": "HD-SEALED-WRITE-GUARD",
+   "status": "DONE",
+   "trigger": "2026-09-17: a bare full-suite pytest ran the tier-3 batteries and overwrote 55 registered sealed result artifacts in one command",
+   "goal": "a registered sealed artifact cannot be written by default; only a narrowly authorized lineage may rewrite the path it names",
+   "parent_authority": "reviewer 2026-09-18: write-guard repair authorized, first",
+   "principal_delta": "jomission/harness/seals.py plus installation in tests/conftest.py and a cheap non-mutating probe in scripts/project_check.py",
+   "required_inputs": [
+    "manifests/sealed_artifacts.json"
+   ],
+   "frozen": [
+    "no sealed artifact content changes; the guard only denies writes"
+   ],
+   "procedure": "route open() through a guard that resolves the path against the sealed registry and raises SealedArtifactWriteError before the file is touched, unless JOMISSION_ALLOW_SEAL_WRITE names it (or 'all'); install it for every pytest session; add a project_check step that proves the denial without mutating anything",
+   "acceptance": "attempted overwrite of a sealed result fails before mutation; append and truncating-update modes are denied too; an unsealed or new path stays writable; an authorized lineage may rewrite the path it names and only that path; the guard mutates no seal and no registry; project_check carries the cheap protection",
+   "stop_condition": "harness repair only; no scientific result is rerun or withdrawn",
+   "artifacts_expected": [
+    "docs/incidents/2026-09-17-sealed-battery-rerun.md"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "PASS",
+    "result": "jomission/harness/seals.py",
+    "summary": "the command that caused the incident now raises instead of mutating evidence. 10 tier-0 acceptance checks cover denial before mutation, append and r+ and wb modes, Path.write_text, reads unaffected, unsealed paths unaffected, scoped authorization, and registry immutability; the authorization cases run against a temporary registry so no real sealed artifact is ever written by the test suite. The incident, the 55 affected files and the stash commit 4d31ae6 are recorded in docs/incidents/2026-09-17-sealed-battery-rerun.md, after which the stash was dropped",
+    "receipts": [
+     "python -m pytest tests/test_seal_write_guard.py  (10 passed)",
+     "python scripts/project_check.py  (sealed-write guard check, 73 tier-0 tests)"
+    ]
+   }
   }
  ],
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"

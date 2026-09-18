@@ -1040,7 +1040,32 @@
      "python scripts/project_check.py  (sealed-write guard check, 73 tier-0 tests)"
     ]
    }
+  },
+  {
+   "id": "SCI-V21-PV-M1",
+   "status": "OPEN",
+   "trigger": "SCI-V21-PV-M0-R2 closed the candidate set to v, u and syn_state; observational ordering is impossible because A and B differ from epoch 0",
+   "goal": "determine which single typed state block, transplanted from the active-fate donor into the low-fate base, switches the PV fate",
+   "parent_authority": "reviewer 2026-09-18: M1 authorized with three single-block arms plus A and B controls; PV-incoming synaptic edges only; keep u; no conjunction search",
+   "principal_delta": "one typed state block replaced per arm, from a common base and a single future stochastic stream",
+   "required_inputs": [
+    "results/v21_pv_m1_spec.json",
+    "results/v21_pv_m0_r2.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), 12 x 5 s chunks",
+    "the fate thresholds taken from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)"
+   ],
+   "procedure": "regenerate both states, build A_CTRL, B_CTRL, A_v, A_u and A_syn under one future stream, verify bitwise that each arm moved only its named block, check both controls, then classify each arm and the lineage",
+   "acceptance": "SINGLE_BLOCK_SUFFICIENT_PASS | MULTIPLE_BLOCKS_SUFFICIENT_PASS | NO_SINGLE_BLOCK_SUFFICIENT_FAIL | M1_CONTROL_FAILED | M1_TRANSPLANT_INVALID",
+   "stop_condition": "classification recorded in results/v21_pv_m1.json; no conjunction search and no mechanism claim; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m1.json"
+   ],
+   "downstream_unlock": []
   }
  ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "SCI-V21-PV-M1"
 }

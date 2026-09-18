@@ -72,8 +72,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `SCI-V21-PV-M1` (OPEN): determine which single typed state block, transplanted from the active-fate donor into the low-fate base, switches the PV fate
+- stop: classification recorded in results/v21_pv_m1.json; no conjunction search and no mechanism claim; STOP for review
 
 ### Locked gates
 

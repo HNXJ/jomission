@@ -83,7 +83,8 @@
     "tests/test_v21_pv_stationarity.py",
     "tests/test_v21_pv_predecessor.py",
     "tests/test_v21_pv_m0.py",
-    "tests/test_v21_pv_m0_r2.py"
+    "tests/test_v21_pv_m0_r2.py",
+    "tests/test_v21_pv_m1.py"
    ]
   }
  },

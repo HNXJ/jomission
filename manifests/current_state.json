@@ -93,11 +93,18 @@
    "component_of": "V2.1_COUPLED_BACKGROUND",
    "established": "u carries no fate-distinguishing information in the first 15 s; per-cell v adds nothing over the mean of v",
    "fail_boundary": "the comparison design: A and B differ in initial state by construction"
+  },
+  "V2.1_PV_M0_DECOMPOSITION": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m0_r2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "only v, u and syn_state differ between the two fate-carrying initial states; w and H are bitwise identical"
   }
  },
- "open_scientific_question": "what state coordinate carries the PV fate. Established: the fate is owned by the initial state, not the noise realization; it is not carried by u; and per-cell resolution adds nothing over the population mean for v. Every available contrast differs from epoch 0, so ordering cause and consequence needs runs that share an initial state and reach different fates",
+ "open_scientific_question": "which state block carries the PV fate. The candidate set is now closed to three blocks (v, u, syn_state); w and H are bitwise identical between the two initial states, and the RNG is excluded by P1. Ordering cause and consequence requires a matched transplant, which is not yet authorized",
  "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "SCI-V21-PV-M0-R2",
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

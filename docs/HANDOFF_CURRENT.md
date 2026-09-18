@@ -51,20 +51,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_BACKGROUND: **FAIL** (evidence reads BKG_DESIGN_UNRESOLVED; held until a lineage that changes or explains the mechanism producing PV state dependence) — `results/v21_background_design_r2.json`
 - V2.1_PV_PREDECESSOR: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_predecessor.json`
 - V2.1_PV_MICROSTATE: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_microstate.json`
+- V2.1_PV_M0_DECOMPOSITION: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m0_r2.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-pv-stationarity: windows 1-3 of all three trajectories reproduce the sealed 20 s runs exactly (max difference 0.0 Hz) — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: lambda-1 history: PV 14.36-14.74 Hz in windows 1-11; late drift 0.012; bands pass — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: fresh: PV 16.88, 16.58, 10.2, 16.77, 13.79, 1.68, 1.22, 1.03, 0.85, 0.87, 0.4 Hz; late PV mean 0.71 Hz, late PV drift 0.672; bands fail (PV < 1 Hz) — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: lambda-0 history: PV 17.05, 15.36, 2.01, then 0.07-0.24 Hz in windows 4-11; late PV mean 0.09 Hz, late PV drift 0.589; bands fail — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: E (16.8-17.2 Hz), VIP (16.9-17.2 Hz) and SST (19.9-22.8 Hz) are nearly identical across the three trajectories; late pairwise differences <= 0.37 Hz, while late PV differs by 13.7-14.3 Hz — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-predecessor-instrumented: runs A and B reproduce the sealed 60 s window rates for every class and window with max difference 0.0 Hz; Delta_instrumentation = 0 — `b4130f3:results/v21_pv_predecessor.json`
-- V2.1-pv-predecessor-instrumented: u reconstruction matches the engine carry at every chunk boundary to 8.5e-06 or better in all three runs — `b4130f3:results/v21_pv_predecessor.json`
-- V2.1-pv-predecessor-instrumented: the engine source term includes the tonic: residual after removing tonic and the reconstructed class inputs has mean 0.016-0.030 against a reconstructed input scale of 0.202-0.231 — `b4130f3:results/v21_pv_predecessor.json`
-- V2.1-pv-predecessor-instrumented: late PV rate: A 0.71 Hz, B 14.43 Hz, C 15.11 Hz; C and B share the same starting state hash 8704423170e6ae32 and differ only in key stream — `b4130f3:results/v21_pv_predecessor.json`
-- V2.1-pv-predecessor-instrumented: no recorded channel (v_PV, u_PV, sources, the four class inputs, the two residuals) leaves its own 0-5 s baseline by 5 sigma sustained 1 s in any run; the PV population rate does so at 15 s in run A — `b4130f3:results/v21_pv_predecessor.json`
-- V2.1-pv-predecessor-instrumented: the run A collapse is uniform across the PV population: early per-cell 16.40-17.20 Hz, late 0.00-2.60 Hz, one cell below 0.1 Hz — `b4130f3:results/v21_pv_predecessor.json`
 - V2.1-pv-microstate: trace identity confirmed: the three npz files match the sha256 pinned in the spec and reproduce the sealed population-mean numbers to the printed precision — `9c3b7ad:results/v21_pv_microstate.json`
 - V2.1-pv-microstate: level 1 per-cell v: d_AB 0.511 and d_AC 0.513 at epoch 0 against a same-fate scale max d_BC 0.048, qualifying from epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
 - V2.1-pv-microstate: level 1 population mean of v qualifies at the same epoch 0 (scale 0.0476, threshold 0.238) — `9c3b7ad:results/v21_pv_microstate.json`
@@ -72,11 +62,18 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1-pv-microstate: level 3 joint (v, u) qualifies from epoch 0 and its population-mean test also qualifies at epoch 0 — `9c3b7ad:results/v21_pv_microstate.json`
 - V2.1-pv-microstate: level 4 per-cell ISI structure: d_AB 9.3-16.8 and d_AC 5.9-18.9 against threshold 8.72, no three consecutive qualifying epochs — `9c3b7ad:results/v21_pv_microstate.json`
 - V2.1-pv-microstate: level 5 per-cell input was not evaluated: the spec makes it conditional on levels 1-4 producing no qualifying separation — `9c3b7ad:results/v21_pv_microstate.json`
+- V2.1-pv-m0-state-decomposition: both states regenerate with exactly the sealed sha256 of dynamic.v (A 83ce0d0c3fc44a71, B 8704423170e6ae32) — `b381896:results/v21_pv_m0.json`
+- V2.1-pv-m0-state-decomposition: the trajectory match failed on PV alone by -0.695 Hz against a 0.5 Hz tolerance — `b381896:results/v21_pv_m0.json`
+- V2.1-pv-m0-state-decomposition-r2: the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1 — `8ece148:results/v21_pv_m0_r2.json`
+- V2.1-pv-m0-state-decomposition-r2: three typed blocks differ between h_A(0) and h_B(0): v (400, max 71.4), u (400, max 10.56) and syn_state (159600, max 0.368), each differing in every entry — `8ece148:results/v21_pv_m0_r2.json`
+- V2.1-pv-m0-state-decomposition-r2: five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux — `8ece148:results/v21_pv_m0_r2.json`
+- V2.1-pv-m0-state-decomposition-r2: u differs least in PV (max 0.370, mean 0.296) against E (10.56), SST (2.78) and VIP (7.40); v differs comparably in every class (mean 27.6-28.9) — `8ece148:results/v21_pv_m0_r2.json`
+- V2.1-pv-m0-state-decomposition-r2: both states are saved and pinned for a later authorized transplant: h_A0 sha256 19be5c09, h_B0 sha256 cbd15369 — `8ece148:results/v21_pv_m0_r2.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-M0-R2` (OPEN): the same typed decomposition with the trajectory match taken on the chunk the sealed window actually refers to
-- stop: decomposition and justified transplant arms recorded in results/v21_pv_m0_r2.json; no transplant; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

@@ -975,7 +975,7 @@
   },
   {
    "id": "SCI-V21-PV-M0-R2",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-V21-PV-M0 STATE_REGENERATION_FAIL caused by the checking driver's window index, with both v-hashes matching exactly",
    "goal": "the same typed decomposition with the trajectory match taken on the chunk the sealed window actually refers to",
    "parent_authority": "reviewer 2026-09-17 (M0 authorization) plus owner 2026-09-17 (deterministic regeneration, v-hash plus trajectory match)",
@@ -997,8 +997,20 @@
    "artifacts_expected": [
     "results/v21_pv_m0_r2.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "STATE_DECOMPOSITION_PASS",
+    "result": "results/v21_pv_m0_r2.json",
+    "summary": "trajectory match exact (0.0 Hz on every class). Three typed blocks differ: v, u and syn_state, each in every entry. Five are bitwise identical, including w and H, which excludes the plastic and H arms. u differs least in PV (max 0.370) against E 10.56, SST 2.78, VIP 7.40. Both states are saved and pinned by sha256 for a later authorized transplant",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m0_r2.py  (2 passed in 246.31s)"
+    ],
+    "reviewer_decisions_required": [
+     "M1 is not authorized by the M0 spec: whether to authorize the matched transplant, and with which first arm",
+     "the declared arms are PV intrinsic (v_PV, u_PV) and PV incoming synaptic state; syn_state is reported as one block because its leading axis is edges, not neurons, so the PV-incoming subset was not split out"
+    ]
+   }
   }
  ],
- "next_authorized_task": "SCI-V21-PV-M0-R2"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

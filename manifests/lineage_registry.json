@@ -782,6 +782,152 @@
     "tests/test_v21_pv_microstate.py"
    ],
    "commit": "9c3b7ad"
+  },
+  {
+   "lineage_id": "V2.1-pv-m0-state-decomposition",
+   "parent": "V2.1-pv-microstate",
+   "principal_delta": "deterministic regeneration of two already-sealed initial states plus a typed decomposition of their difference",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m0_spec.json",
+    "commit": "a17487f"
+   },
+   "authority": "reviewer 2026-09-17 (authorize M0 only) plus owner 2026-09-17 (regenerate h_B(0); v-hash plus trajectory match)",
+   "inputs": [
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), four 5 s pre-run chunks at lambda 1",
+    "0.5 Hz tolerance"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "both states regenerate with exactly the sealed sha256 of dynamic.v (A 83ce0d0c3fc44a71, B 8704423170e6ae32)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0.json"
+    },
+    {
+     "claim": "the trajectory match failed on PV alone by -0.695 Hz against a 0.5 Hz tolerance",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the failure is in the checking driver, not the state: the sealed driver summarizes only chunks k >= 1, so window_rates_hz[0] is seconds 5-10 while this check continued a single chunk covering 0-5 s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0.json"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "STATE_REGENERATION_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/v21_pv_m0_spec.json classification table",
+   "fail_boundary": "the checking driver window index; the regenerated states were correct",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m0_spec.json",
+    "results/v21_pv_m0.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m0.py"
+   ],
+   "commit": "b381896"
+  },
+  {
+   "lineage_id": "V2.1-pv-m0-state-decomposition-r2",
+   "parent": "V2.1-pv-m0-state-decomposition",
+   "principal_delta": "checking driver only: continue two 5 s chunks and compare chunk index 1. States, tolerance, build path and decomposition unchanged",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m0_r2_spec.json",
+    "commit": "08d6e57"
+   },
+   "authority": "reviewer 2026-09-17 (M0) plus owner 2026-09-17; the correction is additive and the M0 label is kept as executed",
+   "inputs": [
+    "results/v21_pv_m0.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "0.5 Hz tolerance",
+    "the sealed build path",
+    "the M0 driver retained verbatim"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "three typed blocks differ between h_A(0) and h_B(0): v (400, max 71.4), u (400, max 10.56) and syn_state (159600, max 0.368), each differing in every entry",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "u differs least in PV (max 0.370, mean 0.296) against E (10.56), SST (2.78) and VIP (7.40); v differs comparably in every class (mean 27.6-28.9)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "both states are saved and pinned for a later authorized transplant: h_A0 sha256 19be5c09, h_B0 sha256 cbd15369",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the plastic and H blocks are excluded as transplant arms: w and H are bitwise identical, so no transplant of them could change anything in this HDP-detached model",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "the justified arms in the declared search order are PV intrinsic (v_PV, u_PV) and PV incoming synaptic state (the syn_state entries whose postsynaptic cell is PV), the latter differing at every entry",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "the small PV difference in u is consistent with the microstate result that u carries no fate-distinguishing information in the first 15 s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "M0 can say which blocks differ but not which one carries the fate; only a matched transplant can order that, and none is authorized by this spec",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "STATE_DECOMPOSITION_PASS",
+    "status": "PASS"
+   },
+   "acceptance": "results/v21_pv_m0_r2_spec.json classification table",
+   "fail_boundary": "none: the decomposition is complete for every DynamicState field",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m0_r2_spec.json",
+    "results/v21_pv_m0_r2.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m0_r2.py"
+   ],
+   "commit": "8ece148"
   }
  ]
 }

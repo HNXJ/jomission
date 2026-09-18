@@ -23,17 +23,26 @@ from jomission.harness.drive import check_additive_schedule
 from jomission.tfne import architecture, nf, realize, retina
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = json.loads((ROOT / "results" / "whole_system_diagnostic_spec.json").read_text(encoding="utf-8"))
+DEFAULT_SPEC = "results/whole_system_diagnostic_spec.json"
+
+
+def configure(spec_path=DEFAULT_SPEC):
+    """Load the sealed spec. Every timing constant comes from it; none is written here."""
+    global SPEC, DT, SETTLE_MS, STIM_MS, POST_MS, TOTAL_MS, CHUNK_MS, STEPS_PER_MS
+    SPEC = json.loads((ROOT / spec_path).read_text(encoding="utf-8"))
+    DT = SPEC["frozen"]["dt_ms"]
+    SETTLE_MS = SPEC["duration"]["settle_ms"]
+    STIM_MS = SPEC["duration"]["stimulus_ms"]
+    POST_MS = SPEC["duration"]["post_stimulus_ms"]
+    TOTAL_MS = SPEC["duration"]["total_ms"]
+    CHUNK_MS = SPEC["duration"]["chunk_ms"]
+    STEPS_PER_MS = int(round(1.0 / DT))
+    return SPEC
+
+
+configure()
 OUT = ROOT / "results" / "whole_system_diagnostic.json"
 OUT_Y = ROOT / "results" / "whole_system_diagnostic_y.npz"
-
-DT = SPEC["frozen"]["dt_ms"]
-SETTLE_MS = SPEC["duration"]["settle_ms"]
-STIM_MS = SPEC["duration"]["stimulus_ms"]
-POST_MS = SPEC["duration"]["post_stimulus_ms"]
-TOTAL_MS = SPEC["duration"]["total_ms"]
-CHUNK_MS = SPEC["duration"]["chunk_ms"]
-STEPS_PER_MS = int(round(1.0 / DT))
 
 
 def build():
@@ -157,12 +166,14 @@ def window(series, t0_ms, t1_ms):
     return series[a:b]
 
 
-def main():
+def main(out=None, out_y=None, spec_name=DEFAULT_SPEC, spec_commit="b55fd5e"):
+    out = out or OUT
+    out_y = out_y or OUT_Y
     model, normal, rf_decl, tonic_e = build()
     index, (area, layer, cls) = realize.index_map(model)
     model, enforcement = enforce(model, index)
 
-    rec = {"spec": "results/whole_system_diagnostic_spec.json", "spec_commit": "b55fd5e",
+    rec = {"spec": spec_name, "spec_commit": spec_commit,
            "lineage": "WS-DIAG-1, first whole-system diagnostic",
            "kernel": "baseline", "hdp": False,
            "scope": ("this verdict is scoped to the sealed 5 s horizon. A 5 s diagnostic can establish an "
@@ -241,7 +252,7 @@ def main():
                         "H_mean": float(np.asarray(state.dynamic.H).mean())})
 
     series = {g: {k: np.concatenate(v) for k, v in s.items()} for g, s in series.items()}
-    np.savez_compressed(OUT_Y, v=y_trace, dt_ms=DT, neuron_index=np.arange(y0, y1),
+    np.savez_compressed(out_y, v=y_trace, dt_ms=DT, neuron_index=np.arange(y0, y1),
                         settle_ms=SETTLE_MS, stimulus_ms=STIM_MS, post_stimulus_ms=POST_MS)
 
     # ---- gates, in the sealed order -------------------------------------------------
@@ -351,7 +362,7 @@ def main():
     base_slice = slice(int((SETTLE_MS - 1000.0) / DT), int(SETTLE_MS / DT))
     rec["y_FEF_L6_E"] = {
      "address": "FEF.L6.E.v(t)", "n_neurons": int(y_n), "dt_ms": DT,
-     "artifact": "results/whole_system_diagnostic_y.npz",
+     "artifact": str(out_y.relative_to(ROOT)).replace("\\", "/"),
      "retained": "population-resolved v_i(t); the mean is derived from it, never recorded in its place",
      "v_mean_baseline": round(float(y[base_slice].mean()), 4),
      "v_mean_stimulus": round(float(y[stim_slice].mean()), 4),
@@ -374,7 +385,7 @@ def main():
     rec["verdict"] = fail_label[first] if first else "WHOLE_SYSTEM_DIAGNOSTIC_" + "PASS"
     rec["fail_boundary"] = (f"first load-bearing failure: {first}" if first else
                             "none: every gate passed in the sealed order")
-    OUT.write_text(json.dumps(rec, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
+    out.write_text(json.dumps(rec, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
 
     print(rec["verdict"], "|", rec["fail_boundary"])
     print("  enforcement:", enforcement)
@@ -397,4 +408,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--spec", default=DEFAULT_SPEC)
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--out-y", default=None)
+    ap.add_argument("--spec-commit", default="b55fd5e")
+    a = ap.parse_args()
+    configure(a.spec)
+    main(Path(a.out) if a.out else None, Path(a.out_y) if a.out_y else None, a.spec, a.spec_commit)

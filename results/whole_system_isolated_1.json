@@ -1,0 +1,172 @@
+{
+ "spec": "results/whole_system_isolated_spec.json",
+ "spec_commit": "96b8749",
+ "g": 0.0,
+ "arm": "isolated_1",
+ "cell": "isolated_1_g000_off_s0",
+ "stimulus": "off",
+ "seed": 0,
+ "lineage": "SCI-WS-OSC-2",
+ "kernel": "baseline",
+ "hdp": false,
+ "single": true,
+ "isolation": {
+  "configured": "every edge weight set to 0.0",
+  "realized": {
+   "n_edges": 246844,
+   "weight_sum_before": 561.510437,
+   "weight_sum_after": 0.0,
+   "max_abs_after": 0.0,
+   "n_nonzero_after": 0
+  },
+  "executed": "the compiled kernel reads this edge list",
+  "effective": null,
+  "emitter_W": "left untouched. The dense (n, n) W field is not read by kernel=baseline; zeroing it yields a bit-identical spike train"
+ },
+ "single_realization": {
+  "configured": "reduce the construction to the single neuron at V1_1.L5.E",
+  "realized": {
+   "address": "V1_1.L5.E",
+   "source_index": 510,
+   "n_neurons": 1,
+   "n_edges": 0,
+   "a": 0.019999999552965164,
+   "b": 0.20000000298023224,
+   "c": -65.0,
+   "d": 8.0,
+   "u0": -13.0,
+   "v0": -6.738213539123535,
+   "drive": 5.0
+  },
+  "executed": "the compiled kernel sees one neuron and no edges",
+  "effective": null
+ },
+ "enforcement": {
+  "intra_retinal_edges_removed": 1047552,
+  "edges_before": 1294396,
+  "edges_after": 246844,
+  "retinal_tonic_before": 5.0,
+  "retinal_tonic_after": 0.0
+ },
+ "gates": {
+  "execution": {
+   "nonfinite": {},
+   "pass": true,
+   "checked": "v at every step of every chunk"
+  }
+ },
+ "gate_scope": "only the execution check applies. Collapse, runaway, synchrony, drift and propagation are defined over areas and populations that a one-neuron model does not have, so they are not evaluated rather than trivially passed",
+ "isi": {
+  "observable": "interspike interval of the single cell",
+  "window_ms": [
+   12000,
+   13000.0
+  ],
+  "final_window": {
+   "n_cells": 1,
+   "n_cells_with_isi": 1,
+   "n_cells_silent": 0,
+   "pooled": {
+    "n": 10,
+    "mean_ms": 94.5,
+    "std_ms": 1.2042,
+    "median_ms": 94.5,
+    "min_ms": 93.0,
+    "max_ms": 96.0,
+    "cv": 0.012742,
+    "implied_frequency_hz": 10.582
+   },
+   "per_cell_mean_ms": {
+    "mean": 94.5,
+    "std": 0.0,
+    "min": 94.5,
+    "max": 94.5
+   },
+   "reading": "pooled over every cell's own intervals. The per_cell_mean spread says how much the period varies between cells, which for identical parameters can differ only through v0 and the noise draw"
+  },
+  "whole_run": {
+   "n_cells": 1,
+   "n_cells_with_isi": 1,
+   "n_cells_silent": 0,
+   "pooled": {
+    "n": 138,
+    "mean_ms": 94.1449,
+    "std_ms": 1.6131,
+    "median_ms": 94.0,
+    "min_ms": 86.0,
+    "max_ms": 98.0,
+    "cv": 0.017135,
+    "implied_frequency_hz": 10.6219
+   },
+   "per_cell_mean_ms": {
+    "mean": 94.1449,
+    "std": 0.0,
+    "min": 94.1449,
+    "max": 94.1449
+   },
+   "reading": "pooled over every cell's own intervals. The per_cell_mean spread says how much the period varies between cells, which for identical parameters can differ only through v0 and the noise draw"
+  }
+ },
+ "oscillation": {
+  "estimator": "jomission.harness.oscillation.measure",
+  "window_ms": [
+   12000,
+   13000.0
+  ],
+  "n_cells": 1,
+  "signal": "the single cell's spike train in 1 ms bins, expressed in Hz",
+  "by_area": {
+   "V1_1.L5.E": {
+    "periodic_mode_present": true,
+    "period_ms": 378.0,
+    "frequency_hz": 2.6455,
+    "peak_autocorr": 0.268523,
+    "null": {
+     "percentile": 95.0,
+     "threshold": 0.220528,
+     "max": 0.327061,
+     "mean": 0.143662,
+     "n_surrogate": 200,
+     "mean_rate_hz": 11.0,
+     "n_cells": 1,
+     "seed": 0
+    },
+    "exceeds_null_by": 0.047995,
+    "mean_rate_hz": 11.0,
+    "min_rate_hz": 0.0,
+    "max_rate_hz": 1000.0,
+    "modulation_depth": 90.9091,
+    "window_samples": 1000,
+    "dt_ms": 1.0,
+    "max_lag_ms": 500.0
+   }
+  },
+  "pooled": {
+   "periodic_mode_present": true,
+   "period_ms": 378.0,
+   "frequency_hz": 2.6455,
+   "peak_autocorr": 0.268523,
+   "null": {
+    "percentile": 95.0,
+    "threshold": 0.220528,
+    "max": 0.327061,
+    "mean": 0.143662,
+    "n_surrogate": 200,
+    "mean_rate_hz": 11.0,
+    "n_cells": 1,
+    "seed": 0
+   },
+   "exceeds_null_by": 0.047995,
+   "mean_rate_hz": 11.0,
+   "min_rate_hz": 0.0,
+   "max_rate_hz": 1000.0,
+   "modulation_depth": 90.9091,
+   "window_samples": 1000,
+   "dt_ms": 1.0,
+   "max_lag_ms": 500.0
+  },
+  "caveat": "with one cell the population rate is a spike train, so peak_autocorr is a property of the interval structure and its null is the single-cell Poisson null"
+ },
+ "verdict": "ISOLATED_SINGLE_CELL_COMPLETE",
+ "elapsed_s": 13.1
+}

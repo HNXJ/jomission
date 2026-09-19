@@ -1,0 +1,54 @@
+{
+  "suite": "atlas_suite.v1",
+  "title": "SCI-WS-OSC-2 V3 atlas - ISOLATED_POP construction, every synapse = 0. Static panels are the sealed construction. Dynamic panels are an independent 500 ms simulation of it, NOT the 13000 ms run the verdict was measured in.",
+  "config_hash": "2083df38fea361d6",
+  "n_neurons": 2224,
+  "n_edges": 246844,
+  "n_steps": 5000,
+  "dt_ms": 0.1,
+  "panels": [
+    {
+      "file": "network_3d.html",
+      "panel": "Network 3D",
+      "evidence": "OBSERVED",
+      "bytes": 157036
+    },
+    {
+      "file": "connectivity.html",
+      "panel": "Connectivity",
+      "evidence": "OBSERVED",
+      "bytes": 984345
+    },
+    {
+      "file": "raster.html",
+      "panel": "Spike raster",
+      "evidence": "OBSERVED",
+      "bytes": 82096
+    },
+    {
+      "file": "traces.html",
+      "panel": "Membrane traces",
+      "evidence": "OBSERVED",
+      "bytes": 560167
+    },
+    {
+      "file": "spectral.html",
+      "panel": "Spectral",
+      "evidence": "DERIVED",
+      "bytes": 16508
+    },
+    {
+      "file": "operating_point.html",
+      "panel": "Operating point",
+      "evidence": "DERIVED",
+      "bytes": 11976
+    },
+    {
+      "file": "field.html",
+      "panel": "Field proxy",
+      "evidence": "DERIVED",
+      "bytes": 887019
+    }
+  ],
+  "sha256": "e8b461fe2b11070b"
+}

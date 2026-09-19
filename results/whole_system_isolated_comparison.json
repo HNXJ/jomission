@@ -1,0 +1,120 @@
+{
+ "lineage_id": "SCI-WS-OSC-2",
+ "spec": "results/whole_system_isolated_spec.json",
+ "arms_files": {
+  "ISOLATED_POP": "results/whole_system_isolated_pop.json",
+  "ISOLATED_1": "results/whole_system_isolated_1.json"
+ },
+ "primary_observable": "per-cell interspike interval, pooled across cells",
+ "comparison_target_ms": 94.0,
+ "comparison_target_source": "SCI-WS-OSC-1 intact pooled period, results/whole_system_oscillator_comparison.json",
+ "tolerance": 0.1,
+ "by_arm": {
+  "ISOLATED_POP": {
+   "outcome": "INTRINSIC_GENERATOR_CONFIRMED",
+   "relative_difference": 0.001601,
+   "reading": "the isolated cell fires rhythmically at the intact period, so the frequency is set inside the cell and neither E->E recurrence nor the E-I circuit is required for it",
+   "isi_pooled": {
+    "n": 8088,
+    "mean_ms": 94.1505,
+    "std_ms": 1.3292,
+    "median_ms": 94.0,
+    "min_ms": 89.0,
+    "max_ms": 100.0,
+    "cv": 0.014118,
+    "implied_frequency_hz": 10.6213
+   },
+   "n_cells": 828,
+   "n_cells_with_isi": 828,
+   "n_cells_silent": 0,
+   "per_cell_mean_ms": {
+    "mean": 94.1526,
+    "std": 0.3749,
+    "min": 93.0,
+    "max": 95.3
+   },
+   "population_estimator": {
+    "periodic_mode_present": true,
+    "period_ms": 93.0,
+    "peak_autocorr": 0.839528
+   },
+   "isolation": {
+    "n_edges": 246844,
+    "weight_sum_before": 561.510437,
+    "weight_sum_after": 0.0,
+    "max_abs_after": 0.0,
+    "n_nonzero_after": 0
+   }
+  },
+  "ISOLATED_1": {
+   "outcome": "INTRINSIC_GENERATOR_CONFIRMED",
+   "relative_difference": 0.005319,
+   "reading": "the isolated cell fires rhythmically at the intact period, so the frequency is set inside the cell and neither E->E recurrence nor the E-I circuit is required for it",
+   "isi_pooled": {
+    "n": 10,
+    "mean_ms": 94.5,
+    "std_ms": 1.2042,
+    "median_ms": 94.5,
+    "min_ms": 93.0,
+    "max_ms": 96.0,
+    "cv": 0.012742,
+    "implied_frequency_hz": 10.582
+   },
+   "n_cells": 1,
+   "n_cells_with_isi": 1,
+   "n_cells_silent": 0,
+   "per_cell_mean_ms": {
+    "mean": 94.5,
+    "std": 0.0,
+    "min": 94.5,
+    "max": 94.5
+   },
+   "population_estimator": {
+    "periodic_mode_present": true,
+    "period_ms": 378.0,
+    "peak_autocorr": 0.268523
+   },
+   "isolation": {
+    "n_edges": 246844,
+    "weight_sum_before": 561.510437,
+    "weight_sum_after": 0.0,
+    "max_abs_after": 0.0,
+    "n_nonzero_after": 0
+   }
+  }
+ },
+ "cross_check": {
+  "rule": "ISOLATED_1's period must lie inside ISOLATED_POP's per-cell mean range",
+  "isolated_1_mean_ms": 94.5,
+  "isolated_pop_per_cell_mean_range_ms": [
+   93.0,
+   95.3
+  ],
+  "pass": true,
+  "reading": "the two arms are built differently, one by slicing the construction to N = 1 and one by zeroing every weight, so agreement tests the slicing. A failure would be a defect in the reduction, not a result about the model"
+ },
+ "single_cell_estimator_harmonic": {
+  "period_reported_ms": 378.0,
+  "isi_mean_ms": 94.5,
+  "ratio": 4.0,
+  "nearest_integer": 4,
+  "is_harmonic": true,
+  "peak_autocorr": 0.268523,
+  "null_threshold": 0.220528,
+  "margin_over_null": 0.047995,
+  "reading": "the population-rate estimator on a single cell reads a harmonic of the true interval. The final window holds about ten intervals, so the autocorrelation is estimated from very few cycles and the first peak past the zero crossing need not be the fundamental. This is a limit of applying a population estimator to one spike train, which the spec anticipated by naming the interval observable primary"
+ },
+ "outcomes_observed": [
+  "INTRINSIC_GENERATOR_CONFIRMED"
+ ],
+ "unanimous": true,
+ "verdict_outcome": "INTRINSIC_GENERATOR_CONFIRMED",
+ "verdict": "INTRINSIC_GENERATOR_CONFIRMED_PASS",
+ "verdict_encoding": "the harness requires a flat verdict string ending in _<status>. verdict_outcome is the predeclared outcome name; the suffix records whether this lineage's acceptance was met",
+ "population_rate_hazard": {
+  "declared": "828 uncoupled oscillators with dispersed initial phases can produce a flat population rate while every cell oscillates at 94 ms. The population-rate measurement therefore cannot decide this lineage. A population rate showing no mode in ISOLATED_POP is predeclared as UNINFORMATIVE about the intrinsic generator and must not be read as evidence against it. The interval observable has no such degeneracy because it is computed per cell",
+  "materialized": false,
+  "what_happened": "the population rate did not flatten. The estimator still found the mode in all six areas of ISOLATED_POP at 93 to 95 ms, because the per-cell periods agree to within about 0.7 percent and stay near-locked across 13000 ms. The hazard was real and simply did not bite; the interval observable was primary either way"
+ },
+ "scope": "the isolated construction shares the intact arm's cell parameters, tonic drive, noise term, dt, seed and duration. It says what one cell does under that tonic drive, and nothing about other drives"
+}

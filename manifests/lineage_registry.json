@@ -1908,6 +1908,110 @@
      "disposition": "committed for consistency with WS-DIAG-2 and WS-DIAG-3, which seal their series the same way. The serialization policy for future lineages is still an open decision for the reviewer and is not settled here"
     }
    ]
+  },
+  {
+   "lineage_id": "WS-AUTH-2",
+   "parent": "WS-AUTH-1",
+   "principal_delta": "g_FF = g_FB = g_X = 0. Every long-range cortical weight is exactly zero, so the six cortical objects are fully disconnected while each keeps its local circuit, its tonic drive and, for V1, its retinal interface. One delta against WS-AUTH-1's g = 0.05 arm; the spec gates, retina, frozen, drive and duration blocks compare equal to the WS-AUTH-1 spec.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_authority_g0_spec.json",
+    "commit": "ff68971"
+   },
+   "authority": "reviewer 2026-09-19: extend the sealed bracket with a fifth arm at g = 0, to test WS-AUTH-1's INFERRED claim that the six areas share a period because they are identical local circuits under identical tonic drive rather than because O and X weld them.",
+   "inputs": [
+    "results/whole_system_authority_bracket.json",
+    "results/whole_system_authority_g050.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-AUTH-1, which is everything frozen in WS-DIAG-2 except the long-range weights",
+    "HDP off; delay DELAY_UNQUALIFIED_FROZEN at the inherited uniform 0 steps",
+    "the only delta against the g = 0.05 arm is g itself"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the realization is exact: all 7020 long-range cortical edges are exactly 0.0, the ff, fb and lat post-realization mean weights are all 0.0, all 238800 local weights and all 1024 retinal edges are bit-identical to the inherited edge list, and acceptance max absolute error is 0.0 over 216 checked cells",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "with the six areas fully disconnected the pooled E burst period is 190 ms, 5.26 Hz, with autocorrelation 0.895 and the pooled rate swinging from 0 to 125.6 Hz. The period is identical to every arm of WS-AUTH-1 and to WS-DIAG-2",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "mean pairwise zero-lag correlation of area E rates over the final 3 s is 0.8385 at g = 0, against 0.8381 at g = 0.05, 0.8147 at g = 0.1, 0.8332 at g = 0.2, 0.8925 at g = 0.5 and 0.8498 at the inherited weights in WS-DIAG-2",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "mean synchrony CV over the final 1000 ms is 2.9161 with one area over the 3.0 tolerance, against 2.9375 and one area at g = 0.05. The verdict is WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "the propagation gate reports every area rising during the stimulus window, including FEF at +0.7971 Hz and PFC at +0.8406 Hz, although at g = 0 no current can reach them from V1 at all",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "the retinal interface still works and is unaffected: lit units fire at 11.0 Hz and the population rate goes 0.0 to 0.6875 Hz, as in every previous arm",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "WS-AUTH-1's inference is confirmed. Six areas with literally no connection between them are as correlated as the fully coupled system: 0.8385 against 0.8498 at the inherited weights, a difference of 0.011. The apparent global oscillator is six identical local oscillators under identical tonic drive, and long-range coupling is exonerated as its cause",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "the burst period is not a network quantity. It is 190 ms at zero coupling and at every coupling strength tested across a range spanning zero to a realized g of 40, so it is set inside a single area and not by any inter-area interaction",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    },
+    {
+     "claim": "the propagation gate does not measure propagation in this architecture. At g = 0 no signal can reach FEF or PFC, yet the gate reports them rising by as much as V1. Whatever the gate's baseline-to-stimulus delta is measuring, it is common to disconnected areas and is therefore not transmission. Its FAIL in WS-DIAG-1, WS-DIAG-2, WS-DIAG-3 and all five authority arms cannot be read as evidence about the hierarchy",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_g000.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the remaining candidates for the oscillator are local recurrent dynamics within one area and intrinsic single-cell dynamics. Nothing in this lineage distinguishes them, and the natural next discriminator is a single isolated area or an intra-area recurrence ablation",
+     "evidence_class": "INFERRED"
+    },
+    {
+     "claim": "the propagation gate most likely compares two windows of a bursty signal whose 190 ms period gives only about five bursts per 1 s window, so its delta is dominated by burst-count sampling rather than by any response. This was not established by a dedicated measurement and is a hypothesis about the gate, not a finding about the model",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "LONG_RANGE_COUPLING_NOT_CAUSAL",
+    "status": "PASS",
+    "status_note": "PASS is scoped to this lineage's own question, which was whether disconnection changes the phenotype. It does not. The system still fails its synchrony gate, which is a different question and remains open"
+   },
+   "acceptance": "results/whole_system_authority_g0_spec.json gate table in the sealed order, plus the pre-execution realization acceptance. At g = 0 the pass criterion is max_abs_error, which is exactly 0.0; max_rel_error is err/g and is NaN because relative error against a zero target is undefined. This was predeclared in the spec and jomission/tfne/o_authority.py, a sealed artifact, was not edited to hide it",
+   "fail_boundary": "none for this lineage's question. The synchrony gate still fails, as predeclared, and the propagation gate's failure was predeclared as carrying no information at g = 0",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_authority_g0_spec.json",
+    "results/whole_system_authority_g000.json"
+   ],
+   "tests": [
+    "tests/test_o_authority.py"
+   ],
+   "commit": "d5e8205",
+   "harness_changes": [
+    {
+     "what": "scripts/whole_system_authority_arm_v2.py, a fork of the sealed v1 arm driver",
+     "why": "v1 shadowed its own authority parameter and exited nonzero after writing a correct result. The fork renames it g_auth, verified by AST to be never rebound inside main. This arm exited 0. Closes HD-ARM-DRIVER-SHADOWED-G",
+     "also": "arm_tag's docstring corrected, and the per-group series moved from the result JSON to the gitignored .npz per the reviewer's 2026-09-19 decision. The result file is 30 KB against 16.5 MB for each WS-AUTH-1 arm; the series values are unchanged"
+    }
+   ]
   }
  ]
 }

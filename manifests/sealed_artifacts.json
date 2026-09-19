@@ -1741,6 +1741,21 @@
    "path": "results/whole_system_authority_bracket.json",
    "blob": "6a69385f9a788be3fcd6cfce93439ea4821d62d2",
    "sealed_in": "9172036"
+  },
+  {
+   "path": "results/whole_system_authority_g0_spec.json",
+   "blob": "dd4b17baca96d8a73346600b559a76273d37c64c",
+   "sealed_in": "ff68971"
+  },
+  {
+   "path": "scripts/whole_system_authority_arm_v2.py",
+   "blob": "fe8d014056a01b6e92cb2063e22105783834ee8d",
+   "sealed_in": "ff68971"
+  },
+  {
+   "path": "results/whole_system_authority_g000.json",
+   "blob": "be47bb1672e1115cca0bbd5d2a7362d42ed07ebd",
+   "sealed_in": "d5e8205"
   }
  ]
 }

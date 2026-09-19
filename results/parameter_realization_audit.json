@@ -1,0 +1,1400 @@
+{
+ "schema": "jomission.parameter_realization_audit.v1",
+ "scope": "parameters only. WS-REALIZE-R4 established graph identity and that PASS is not retracted; this audit covers what R4 did not compare",
+ "read_only": "no simulation; the model is constructed and measured, never modified",
+ "spec_frozen_weight": 0.5,
+ "spec_frozen_probability": 1.0,
+ "spec_source": "results/whole_system_diagnostic_3_spec.json frozen block",
+ "tau_delay_storage": {
+  "tau_storage": "sign_from_receptor",
+  "uniform_delay_steps": 0,
+  "note": "tau and delay are stored uniformly, not per edge; these are resolved through the engine helpers the kernel itself uses"
+ },
+ "totals": {
+  "n_edges": 245820,
+  "n_intra_area": 238800,
+  "n_cross_area": 7020,
+  "w_abs_mean_intra": 0.006320667918771505,
+  "w_abs_mean_cross": 0.5,
+  "disparity_cross_over_intra": 79.10556030273438,
+  "cross_edges_at_frozen_weight": 1.0,
+  "intra_edges_at_frozen_weight": 0.0
+ },
+ "long_range_projections": [
+  {
+   "name": "FEF.L6.E -> V4_1.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "FEF.L6.E"
+   ],
+   "post_groups": [
+    "V4_1.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "FEF.L6.E -> V4_2.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "FEF.L6.E"
+   ],
+   "post_groups": [
+    "V4_2.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "PFC.L6.E -> V4_1.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "PFC.L6.E"
+   ],
+   "post_groups": [
+    "V4_1.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "PFC.L6.E -> V4_2.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "PFC.L6.E"
+   ],
+   "post_groups": [
+    "V4_2.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "V4_1.L6.E -> V1_1.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "V4_1.L6.E"
+   ],
+   "post_groups": [
+    "V1_1.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "V4_2.L6.E -> V1_2.L1.E",
+   "relation": "fb",
+   "pre_groups": [
+    "V4_2.L6.E"
+   ],
+   "post_groups": [
+    "V1_2.L1.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 28,
+   "n_post": 10,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 28.0,
+   "K_per_target_mean": 14.0,
+   "K_per_target_min": 14.0,
+   "K_per_target_max": 14.0
+  },
+  {
+   "name": "V1_1.L2.E -> V4_1.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V1_1.L2.E"
+   ],
+   "post_groups": [
+    "V4_1.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V1_1.L3.E -> V4_1.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V1_1.L3.E"
+   ],
+   "post_groups": [
+    "V4_1.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V1_2.L2.E -> V4_2.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V1_2.L2.E"
+   ],
+   "post_groups": [
+    "V4_2.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V1_2.L3.E -> V4_2.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V1_2.L3.E"
+   ],
+   "post_groups": [
+    "V4_2.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_1.L2.E -> FEF.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_1.L2.E"
+   ],
+   "post_groups": [
+    "FEF.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V4_1.L2.E -> PFC.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_1.L2.E"
+   ],
+   "post_groups": [
+    "PFC.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V4_1.L3.E -> FEF.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_1.L3.E"
+   ],
+   "post_groups": [
+    "FEF.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_1.L3.E -> PFC.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_1.L3.E"
+   ],
+   "post_groups": [
+    "PFC.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_2.L2.E -> FEF.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_2.L2.E"
+   ],
+   "post_groups": [
+    "FEF.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V4_2.L2.E -> PFC.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_2.L2.E"
+   ],
+   "post_groups": [
+    "PFC.L4.E"
+   ],
+   "n_edges": 210,
+   "n_pre": 15,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 15.0,
+   "K_per_target_mean": 7.5,
+   "K_per_target_min": 7.5,
+   "K_per_target_max": 7.5
+  },
+  {
+   "name": "V4_2.L3.E -> FEF.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_2.L3.E"
+   ],
+   "post_groups": [
+    "FEF.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_2.L3.E -> PFC.L4.E",
+   "relation": "ff",
+   "pre_groups": [
+    "V4_2.L3.E"
+   ],
+   "post_groups": [
+    "PFC.L4.E"
+   ],
+   "n_edges": 280,
+   "n_pre": 20,
+   "n_post": 14,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "FEF.L3.E -> PFC.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "FEF.L3.E"
+   ],
+   "post_groups": [
+    "PFC.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "PFC.L3.E -> FEF.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "PFC.L3.E"
+   ],
+   "post_groups": [
+    "FEF.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V1_1.L3.E -> V1_2.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "V1_1.L3.E"
+   ],
+   "post_groups": [
+    "V1_2.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V1_2.L3.E -> V1_1.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "V1_2.L3.E"
+   ],
+   "post_groups": [
+    "V1_1.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_1.L3.E -> V4_2.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "V4_1.L3.E"
+   ],
+   "post_groups": [
+    "V4_2.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  },
+  {
+   "name": "V4_2.L3.E -> V4_1.L3.E",
+   "relation": "lat",
+   "pre_groups": [
+    "V4_2.L3.E"
+   ],
+   "post_groups": [
+    "V4_1.L3.E"
+   ],
+   "n_edges": 400,
+   "n_pre": 20,
+   "n_post": 20,
+   "p_realized": 1.0,
+   "w_mean": 0.5,
+   "w_abs_mean": 0.5,
+   "w_abs_min": 0.5,
+   "w_abs_max": 0.5,
+   "w_uniform": true,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 20.0,
+   "K_per_target_mean": 10.0,
+   "K_per_target_min": 10.0,
+   "K_per_target_max": 10.0
+  }
+ ],
+ "local_families": [
+  {
+   "name": "E -> E (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all E>"
+   ],
+   "post_groups": [
+    "<all E>"
+   ],
+   "n_edges": 113436,
+   "n_pre": 828,
+   "n_post": 828,
+   "p_realized": 0.16545893719806765,
+   "w_mean": 0.006321405526250601,
+   "w_abs_mean": 0.006321405526250601,
+   "w_abs_min": 0.0025259777903556824,
+   "w_abs_max": 0.010103581473231316,
+   "w_uniform": false,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 137.0,
+   "K_per_target_mean": 0.8660325133427302,
+   "K_per_target_min": 0.7800355257932097,
+   "K_per_target_max": 0.9444050865713507
+  },
+  {
+   "name": "E -> PV (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all E>"
+   ],
+   "post_groups": [
+    "<all PV>"
+   ],
+   "n_edges": 21528,
+   "n_pre": 828,
+   "n_post": 156,
+   "p_realized": 0.16666666666666666,
+   "w_mean": 0.006322003901004791,
+   "w_abs_mean": 0.006322003901004791,
+   "w_abs_min": 0.002526118652895093,
+   "w_abs_max": 0.01010303758084774,
+   "w_uniform": false,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 138.0,
+   "K_per_target_mean": 0.8724364451720762,
+   "K_per_target_min": 0.7952850568108261,
+   "K_per_target_max": 0.9361066578421742
+  },
+  {
+   "name": "E -> SST (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all E>"
+   ],
+   "post_groups": [
+    "<all SST>"
+   ],
+   "n_edges": 14076,
+   "n_pre": 828,
+   "n_post": 102,
+   "p_realized": 0.16666666666666666,
+   "w_mean": 0.006333300843834877,
+   "w_abs_mean": 0.006333300843834877,
+   "w_abs_min": 0.00252761272713542,
+   "w_abs_max": 0.01010291837155819,
+   "w_uniform": false,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 138.0,
+   "K_per_target_mean": 0.8739955233085864,
+   "K_per_target_min": 0.8063858149107546,
+   "K_per_target_max": 0.934048708062619
+  },
+  {
+   "name": "E -> VIP (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all E>"
+   ],
+   "post_groups": [
+    "<all VIP>"
+   ],
+   "n_edges": 15732,
+   "n_pre": 828,
+   "n_post": 114,
+   "p_realized": 0.16666666666666666,
+   "w_mean": 0.006301362998783588,
+   "w_abs_mean": 0.006301362998783588,
+   "w_abs_min": 0.0025264627765864134,
+   "w_abs_max": 0.01010342501103878,
+   "w_uniform": false,
+   "sign": "excitatory",
+   "tau_ms": [
+    2.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    0
+   ],
+   "afferents_per_target_mean": 138.0,
+   "K_per_target_mean": 0.8695880568284019,
+   "K_per_target_min": 0.8079402977600694,
+   "K_per_target_max": 0.935851471265778
+  },
+  {
+   "name": "PV -> E (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all PV>"
+   ],
+   "post_groups": [
+    "<all E>"
+   ],
+   "n_edges": 21528,
+   "n_pre": 156,
+   "n_post": 828,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.006343393586575985,
+   "w_abs_mean": 0.006343393586575985,
+   "w_abs_min": 0.002526066964492202,
+   "w_abs_max": 0.010103262029588223,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 26.0,
+   "K_per_target_mean": 0.1649282315185244,
+   "K_per_target_min": 0.13724469975568354,
+   "K_per_target_max": 0.19992801314219832
+  },
+  {
+   "name": "PV -> PV (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all PV>"
+   ],
+   "post_groups": [
+    "<all PV>"
+   ],
+   "n_edges": 3900,
+   "n_pre": 156,
+   "n_post": 156,
+   "p_realized": 0.16025641025641027,
+   "w_mean": -0.00629425048828125,
+   "w_abs_mean": 0.00629425048828125,
+   "w_abs_min": 0.002525982214137912,
+   "w_abs_max": 0.01010221429169178,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 25.0,
+   "K_per_target_mean": 0.15735627218591383,
+   "K_per_target_min": 0.13346597622148693,
+   "K_per_target_max": 0.19164192164316773
+  },
+  {
+   "name": "PV -> SST (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all PV>"
+   ],
+   "post_groups": [
+    "<all SST>"
+   ],
+   "n_edges": 2652,
+   "n_pre": 156,
+   "n_post": 102,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.006343890447169542,
+   "w_abs_mean": 0.006343890447169542,
+   "w_abs_min": 0.002528094919398427,
+   "w_abs_max": 0.010101101361215115,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 26.0,
+   "K_per_target_mean": 0.1649411480472076,
+   "K_per_target_min": 0.1300736265257001,
+   "K_per_target_max": 0.19971464108675718
+  },
+  {
+   "name": "PV -> VIP (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all PV>"
+   ],
+   "post_groups": [
+    "<all VIP>"
+   ],
+   "n_edges": 2964,
+   "n_pre": 156,
+   "n_post": 114,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.0064137764275074005,
+   "w_abs_mean": 0.0064137764275074005,
+   "w_abs_min": 0.002526393160223961,
+   "w_abs_max": 0.010103586129844189,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 26.0,
+   "K_per_target_mean": 0.16675819488642574,
+   "K_per_target_min": 0.1424110010266304,
+   "K_per_target_max": 0.19392827758565545
+  },
+  {
+   "name": "SST -> E (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all SST>"
+   ],
+   "post_groups": [
+    "<all E>"
+   ],
+   "n_edges": 14076,
+   "n_pre": 102,
+   "n_post": 828,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.006281077396124601,
+   "w_abs_mean": 0.006281077396124601,
+   "w_abs_min": 0.00252615287899971,
+   "w_abs_max": 0.010103619657456875,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 17.0,
+   "K_per_target_mean": 0.10677831798425205,
+   "K_per_target_min": 0.0783495781943202,
+   "K_per_target_max": 0.13502781884744763
+  },
+  {
+   "name": "SST -> PV (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all SST>"
+   ],
+   "post_groups": [
+    "<all PV>"
+   ],
+   "n_edges": 2652,
+   "n_pre": 102,
+   "n_post": 156,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.0062462217174470425,
+   "w_abs_mean": 0.0062462217174470425,
+   "w_abs_min": 0.0025314753875136375,
+   "w_abs_max": 0.01009882427752018,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 17.0,
+   "K_per_target_mean": 0.10618577019060747,
+   "K_per_target_min": 0.08393990737386048,
+   "K_per_target_max": 0.13086737226694822
+  },
+  {
+   "name": "SST -> SST (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all SST>"
+   ],
+   "post_groups": [
+    "<all SST>"
+   ],
+   "n_edges": 1632,
+   "n_pre": 102,
+   "n_post": 102,
+   "p_realized": 0.1568627450980392,
+   "w_mean": -0.006284609902650118,
+   "w_abs_mean": 0.006284609902650118,
+   "w_abs_min": 0.002535428386181593,
+   "w_abs_max": 0.010103203356266022,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 16.0,
+   "K_per_target_mean": 0.10055375767543036,
+   "K_per_target_min": 0.07447942672297359,
+   "K_per_target_max": 0.12119676871225238
+  },
+  {
+   "name": "SST -> VIP (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all SST>"
+   ],
+   "post_groups": [
+    "<all VIP>"
+   ],
+   "n_edges": 1938,
+   "n_pre": 102,
+   "n_post": 114,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.00632447050884366,
+   "w_abs_mean": 0.00632447050884366,
+   "w_abs_min": 0.0025295233353972435,
+   "w_abs_max": 0.010099601931869984,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 17.0,
+   "K_per_target_mean": 0.10751599472081452,
+   "K_per_target_min": 0.08724843664094806,
+   "K_per_target_max": 0.12500400538556278
+  },
+  {
+   "name": "VIP -> E (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all VIP>"
+   ],
+   "post_groups": [
+    "<all E>"
+   ],
+   "n_edges": 15732,
+   "n_pre": 114,
+   "n_post": 828,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.006336939055472612,
+   "w_abs_mean": 0.006336939055472612,
+   "w_abs_min": 0.0025267419405281544,
+   "w_abs_max": 0.010102786123752594,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 19.0,
+   "K_per_target_mean": 0.12040184288969542,
+   "K_per_target_min": 0.09529490885324776,
+   "K_per_target_max": 0.15082193352282047
+  },
+  {
+   "name": "VIP -> PV (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all VIP>"
+   ],
+   "post_groups": [
+    "<all PV>"
+   ],
+   "n_edges": 2964,
+   "n_pre": 114,
+   "n_post": 156,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.006283714901655912,
+   "w_abs_mean": 0.006283714901655912,
+   "w_abs_min": 0.0025333568919450045,
+   "w_abs_max": 0.010101476684212685,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 19.0,
+   "K_per_target_mean": 0.11939060095643911,
+   "K_per_target_min": 0.09756991732865572,
+   "K_per_target_max": 0.14050096808932722
+  },
+  {
+   "name": "VIP -> SST (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all VIP>"
+   ],
+   "post_groups": [
+    "<all SST>"
+   ],
+   "n_edges": 1938,
+   "n_pre": 114,
+   "n_post": 102,
+   "p_realized": 0.16666666666666666,
+   "w_mean": -0.00624192226678133,
+   "w_abs_mean": 0.00624192226678133,
+   "w_abs_min": 0.002530446508899331,
+   "w_abs_max": 0.010101038962602615,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 19.0,
+   "K_per_target_mean": 0.11859651938920804,
+   "K_per_target_min": 0.09878698782995343,
+   "K_per_target_max": 0.14116209605708718
+  },
+  {
+   "name": "VIP -> VIP (intra-area)",
+   "relation": "local",
+   "pre_groups": [
+    "<all VIP>"
+   ],
+   "post_groups": [
+    "<all VIP>"
+   ],
+   "n_edges": 2052,
+   "n_pre": 114,
+   "n_post": 114,
+   "p_realized": 0.15789473684210525,
+   "w_mean": -0.006370402406901121,
+   "w_abs_mean": 0.006370402406901121,
+   "w_abs_min": 0.002527219709008932,
+   "w_abs_max": 0.01010286994278431,
+   "w_uniform": false,
+   "sign": "inhibitory",
+   "tau_ms": [
+    5.0
+   ],
+   "delay_steps": [
+    0
+   ],
+   "receptor_index": [
+    1
+   ],
+   "afferents_per_target_mean": 18.0,
+   "K_per_target_mean": 0.11466723997268434,
+   "K_per_target_min": 0.088782919337973,
+   "K_per_target_max": 0.140036066994071
+  }
+ ],
+ "authority_per_postsynaptic_class": {
+  "E": {
+   "local_exc": 0.8660325133427302,
+   "local_inh": 0.39210839239247186,
+   "long_ff": 1.7753623188405796,
+   "long_fb": 1.0144927536231885,
+   "long_lat": 1.4492753623188406,
+   "g_ff": 2.049994996132419,
+   "g_fb": 1.1714257120756684,
+   "g_lat": 1.6734653029652402,
+   "g_long_total": 4.894886011173328,
+   "n": 828
+  },
+  "PV": {
+   "local_exc": 0.8724364451720762,
+   "local_inh": 0.3829326433329604,
+   "long_ff": 0.0,
+   "long_fb": 0.0,
+   "long_lat": 0.0,
+   "g_ff": 0.0,
+   "g_fb": 0.0,
+   "g_lat": 0.0,
+   "g_long_total": 0.0,
+   "n": 156
+  },
+  "SST": {
+   "local_exc": 0.8739955233085864,
+   "local_inh": 0.384091425111846,
+   "long_ff": 0.0,
+   "long_fb": 0.0,
+   "long_lat": 0.0,
+   "g_ff": 0.0,
+   "g_fb": 0.0,
+   "g_lat": 0.0,
+   "g_long_total": 0.0,
+   "n": 102
+  },
+  "VIP": {
+   "local_exc": 0.8695880568284019,
+   "local_inh": 0.3889414295799246,
+   "long_ff": 0.0,
+   "long_fb": 0.0,
+   "long_lat": 0.0,
+   "g_ff": 0.0,
+   "g_fb": 0.0,
+   "g_lat": 0.0,
+   "g_long_total": 0.0,
+   "n": 114
+  }
+ },
+ "qualification": "PARAMETER_REALIZATION_UNQUALIFIED",
+ "qualification_reason": "the spec freezes weight 0.5 and probability 1.0 without scoping them. Realization applied 0.5 to every cross-area edge and none of the intra-area edges, which carry engine-assigned weights. No gate in the chain compared them, so the parameter half of the realization contract is unestablished, not passed",
+ "decision_not_taken": "the intended long-range to local authority ratio g is a model-definition decision. This audit reports the realized g and does not propose a value"
+}

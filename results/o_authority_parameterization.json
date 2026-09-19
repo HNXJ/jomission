@@ -1,0 +1,294 @@
+{
+ "schema": "jomission.o_authority_parameterization.v1",
+ "lineage": "WS-REALIZE-R4-PARAM (measurement); this file is its analytic inverse",
+ "read_only": "no simulation; the model is constructed and measured, never modified",
+ "chooses_nothing": "g_FF, g_FB and g_X are model-definition decisions. This file tabulates w_p(g), states which conventions are ambiguous, and proposes no value. Nothing here is fitted to the observed oscillator",
+ "definition": "g_p = (sum |w| over p-afferents of cell i) / (sum |w| over local excitatory afferents of i), per receiving neuron. Inverted: w_p = g_p * K_local / N_afferents,p",
+ "K_local": 0.8660325133427302,
+ "K_local_evidence": "layer-wise means span 0.8649-0.8683, a spread of 0.0022 about the mean, so one reference serves every target population. Cell-to-cell spread within a layer is about +/-0.08 and is not collapsed here",
+ "K_local_by_layer": {
+  "L1": {
+   "n": 60,
+   "K_local_exc_mean": 0.8649482528562658,
+   "min": 0.8112303928937763,
+   "max": 0.9318185593001544
+  },
+  "L2": {
+   "n": 90,
+   "K_local_exc_mean": 0.8681873610139721,
+   "min": 0.7975715431384742,
+   "max": 0.9191857140976936
+  },
+  "L3": {
+   "n": 120,
+   "K_local_exc_mean": 0.8650809757508493,
+   "min": 0.8032670696265996,
+   "max": 0.9115901223849505
+  },
+  "L4": {
+   "n": 84,
+   "K_local_exc_mean": 0.8682716936177929,
+   "min": 0.7980245456565171,
+   "max": 0.9393662922084332
+  },
+  "L5": {
+   "n": 306,
+   "K_local_exc_mean": 0.8657999780687985,
+   "min": 0.7800355257932097,
+   "max": 0.9444050865713507
+  },
+  "L6": {
+   "n": 168,
+   "K_local_exc_mean": 0.8652489925124904,
+   "min": 0.800900207599625,
+   "max": 0.9302842777688056
+  }
+ },
+ "measured": {
+  "ff": {
+   "post_layers": [
+    "L4"
+   ],
+   "source_motifs": [
+    "L2.E -> L4.E",
+    "L3.E -> L4.E"
+   ],
+   "w_realized": 0.5,
+   "n_target_cells": 56,
+   "convergence_uniform": false,
+   "convergence_classes": {
+    "35": {
+     "N_afferents": 35,
+     "n_target_cells": 28,
+     "target_areas": [
+      "V4_1",
+      "V4_2"
+     ],
+     "K_realized": 17.5,
+     "g_realized": 20.207093533305276
+    },
+    "70": {
+     "N_afferents": 70,
+     "n_target_cells": 28,
+     "target_areas": [
+      "FEF",
+      "PFC"
+     ],
+     "K_realized": 35.0,
+     "g_realized": 40.41418706661055
+    }
+   }
+  },
+  "fb": {
+   "post_layers": [
+    "L1"
+   ],
+   "source_motifs": [
+    "L6.E -> L1.E"
+   ],
+   "w_realized": 0.5,
+   "n_target_cells": 40,
+   "convergence_uniform": false,
+   "convergence_classes": {
+    "28": {
+     "N_afferents": 28,
+     "n_target_cells": 20,
+     "target_areas": [
+      "V1_1",
+      "V1_2"
+     ],
+     "K_realized": 14.0,
+     "g_realized": 16.16567482664422
+    },
+    "56": {
+     "N_afferents": 56,
+     "n_target_cells": 20,
+     "target_areas": [
+      "V4_1",
+      "V4_2"
+     ],
+     "K_realized": 28.0,
+     "g_realized": 32.33134965328844
+    }
+   }
+  },
+  "lat": {
+   "post_layers": [
+    "L3"
+   ],
+   "source_motifs": [
+    "L3.E -> L3.E"
+   ],
+   "w_realized": 0.5,
+   "n_target_cells": 120,
+   "convergence_uniform": true,
+   "convergence_classes": {
+    "20": {
+     "N_afferents": 20,
+     "n_target_cells": 120,
+     "target_areas": [
+      "FEF",
+      "PFC",
+      "V1_1",
+      "V1_2",
+      "V4_1",
+      "V4_2"
+     ],
+     "K_realized": 10.0,
+     "g_realized": 11.546910590460158
+    }
+   }
+  }
+ },
+ "construction": {
+  "ff": {
+   "equal_g_per_cell": {
+    "35": {
+     "N_afferents": 35,
+     "target_areas": [
+      "V4_1",
+      "V4_2"
+     ],
+     "w_of_g": {
+      "0.05": 0.001237189304775329,
+      "0.1": 0.002474378609550658,
+      "0.2": 0.004948757219101316,
+      "0.3": 0.007423135828651973,
+      "0.5": 0.01237189304775329,
+      "0.75": 0.018557839571629934
+     }
+    },
+    "70": {
+     "N_afferents": 70,
+     "target_areas": [
+      "FEF",
+      "PFC"
+     ],
+     "w_of_g": {
+      "0.05": 0.0006185946523876645,
+      "0.1": 0.001237189304775329,
+      "0.2": 0.002474378609550658,
+      "0.3": 0.0037115679143259867,
+      "0.5": 0.006185946523876645,
+      "0.75": 0.009278919785814967
+     }
+    }
+   },
+   "equal_w_per_edge": {
+    "pinned_to_N": 35,
+    "w_of_g": {
+     "0.05": 0.001237189304775329,
+     "0.1": 0.002474378609550658,
+     "0.2": 0.004948757219101316,
+     "0.3": 0.007423135828651973,
+     "0.5": 0.01237189304775329,
+     "0.75": 0.018557839571629934
+    },
+    "g_actual_by_class": {
+     "35": 1.0,
+     "70": 2.0
+    }
+   }
+  },
+  "fb": {
+   "equal_g_per_cell": {
+    "28": {
+     "N_afferents": 28,
+     "target_areas": [
+      "V1_1",
+      "V1_2"
+     ],
+     "w_of_g": {
+      "0.05": 0.0015464866309691614,
+      "0.1": 0.0030929732619383228,
+      "0.2": 0.0061859465238766455,
+      "0.3": 0.009278919785814967,
+      "0.5": 0.015464866309691612,
+      "0.75": 0.023197299464537417
+     }
+    },
+    "56": {
+     "N_afferents": 56,
+     "target_areas": [
+      "V4_1",
+      "V4_2"
+     ],
+     "w_of_g": {
+      "0.05": 0.0007732433154845807,
+      "0.1": 0.0015464866309691614,
+      "0.2": 0.0030929732619383228,
+      "0.3": 0.0046394598929074835,
+      "0.5": 0.007732433154845806,
+      "0.75": 0.011598649732268708
+     }
+    }
+   },
+   "equal_w_per_edge": {
+    "pinned_to_N": 28,
+    "w_of_g": {
+     "0.05": 0.0015464866309691614,
+     "0.1": 0.0030929732619383228,
+     "0.2": 0.0061859465238766455,
+     "0.3": 0.009278919785814967,
+     "0.5": 0.015464866309691612,
+     "0.75": 0.023197299464537417
+    },
+    "g_actual_by_class": {
+     "28": 1.0,
+     "56": 2.0
+    }
+   }
+  },
+  "lat": {
+   "equal_g_per_cell": {
+    "20": {
+     "N_afferents": 20,
+     "target_areas": [
+      "FEF",
+      "PFC",
+      "V1_1",
+      "V1_2",
+      "V4_1",
+      "V4_2"
+     ],
+     "w_of_g": {
+      "0.05": 0.002165081283356826,
+      "0.1": 0.004330162566713652,
+      "0.2": 0.008660325133427304,
+      "0.3": 0.012990487700140954,
+      "0.5": 0.021650812833568255,
+      "0.75": 0.032476219250352385
+     }
+    }
+   },
+   "equal_w_per_edge": {
+    "pinned_to_N": 20,
+    "w_of_g": {
+     "0.05": 0.002165081283356826,
+     "0.1": 0.004330162566713652,
+     "0.2": 0.008660325133427304,
+     "0.3": 0.012990487700140954,
+     "0.5": 0.021650812833568255,
+     "0.75": 0.032476219250352385
+    },
+    "g_actual_by_class": {
+     "20": 1.0
+    }
+   }
+  }
+ },
+ "g_grid": [
+  0.05,
+  0.1,
+  0.2,
+  0.3,
+  0.5,
+  0.75
+ ],
+ "open_conventions": {
+  "convergence_is_not_uniform": "ff targets split 35 afferents (V4_1, V4_2, one upstream area) against 70 (FEF, PFC, two upstream V4 instances); fb splits 28 (V1_1, V1_2) against 56 (V4_1, V4_2, reached by both FEF and PFC); lat is uniform at 20. So a single per-edge weight gives frontal cells exactly twice the feedforward authority of sensory cells. Whether that doubling is intended hierarchy or an unintended artifact of the fan-in is a model-definition decision. Both policies are tabulated",
+  "ff_is_two_motifs": "L4.E receives both L2.E->L4.E and L3.E->L4.E. The channel totals above pool them, which is what the receiving neuron experiences; whether the two motifs should additionally carry different per-edge weights is not decided here",
+  "delay": "delay is a second unqualified parameter and is not parameterized here. The edge list uses delay_storage uniform at 0 steps; jaxfne.emitters.resolve_edge_delay_steps supports delay_storage 'per_edge' with a per-edge delay_steps array, so distinguishing local recurrence from inter-area communication needs no engine change",
+  "targets": "every long-range projection is E->E. Whether O should also reach PV, SST or VIP is a separate model-definition question, untouched here"
+ }
+}

@@ -1,0 +1,400 @@
+{
+ "lineage_id": "WS-PROP-1",
+ "preexecution_spec": {
+  "path": "results/whole_system_causal_spec.json",
+  "commit": "2a2f4d8"
+ },
+ "cells": {
+  "g500_on_s0": {
+   "artifact": "results/whole_system_causal_g500_on_s0.json",
+   "elapsed_s": 153.8,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "g500_off_s0": {
+   "artifact": "results/whole_system_causal_g500_off_s0.json",
+   "elapsed_s": 153.6,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "g000_on_s0": {
+   "artifact": "results/whole_system_causal_g000_on_s0.json",
+   "elapsed_s": 152.9,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "g000_off_s0": {
+   "artifact": "results/whole_system_causal_g000_off_s0.json",
+   "elapsed_s": 153.2,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "g000_on_s1": {
+   "artifact": "results/whole_system_causal_g000_on_s1.json",
+   "elapsed_s": 152.9,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "g000_off_s1": {
+   "artifact": "results/whole_system_causal_g000_off_s1.json",
+   "elapsed_s": 153.1,
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  }
+ },
+ "declared_estimator": {
+  "formula": "R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)]",
+  "observable": "gates.propagation.by_area[A].stimulus_hz: the mean of the 1 ms population rate of area A's E cells over the 1000 ms stimulus window. Because rate_hz[t] = spikes_in_bin_t / (n_cells * 1e-3), this window mean in Hz is numerically the spike count per E cell over that second.",
+  "R_hz": {
+   "FEF": 0.0,
+   "PFC": 0.0,
+   "V1_1": 0.0,
+   "V1_2": 0.0,
+   "V4_1": 0.0,
+   "V4_2": 0.0
+  },
+  "paired_on_minus_off_hz": {
+   "g0.5_test": {
+    "FEF": 0.0,
+    "PFC": 0.0,
+    "V1_1": 0.0,
+    "V1_2": 0.0,
+    "V4_1": 0.0,
+    "V4_2": 0.0
+   },
+   "g0_control": {
+    "FEF": 0.0,
+    "PFC": 0.0,
+    "V1_1": 0.0,
+    "V1_2": 0.0,
+    "V4_1": 0.0,
+    "V4_2": 0.0
+   },
+   "g0_replicate_s1": {
+    "FEF": 0.0,
+    "PFC": 0.0,
+    "V1_1": 0.0,
+    "V1_2": 0.0,
+    "V4_1": 0.0,
+    "V4_2": 0.0
+   }
+  },
+  "null_floor": {
+   "max_abs": 0.0,
+   "mean_abs": 0.0,
+   "rms": 0.0,
+   "n_areas": 4,
+   "is_degenerate": true
+  },
+  "evaluate": {
+   "called": true,
+   "outcome": "ValueError: tolerance_hz must be positive and derived from a measured null",
+   "why": "the held-out replicate's floor is exactly 0.0, so there is no measured tolerance to pass in. The module refuses rather than substituting a default, which is the behaviour tests/test_propagation_causal.py pins."
+  }
+ },
+ "why_R_is_identically_zero": {
+  "finding": "the ON minus OFF difference is exactly 0.0 in every area of every pair, INCLUDING V1_1, the area the retina drives directly. The declared observable has zero sensitivity to the stimulus at the point of injection, so it cannot report transmission anywhere downstream. R = 0 is the true value of this estimator on these runs; it is not a plumbing fault and not evidence about propagation.",
+  "mechanism": "the two-window total is exactly 21.000000 spikes per E cell in every area, every coupling, every seed and both stimulus conditions. The network sits in a count-locked regime: the 1 s window count is quantized by the 190 ms burst cycle and is invariant to the stimulus. The stimulus moves spike timing, not spike count, so a window-mean rate estimator differences to zero.",
+  "two_window_totals_observed": [
+   21.0
+  ],
+  "per_cell_windows": {
+   "g500_on_s0": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1304,
+     "stimulus_spikes_per_cell": 10.8696,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.1304,
+     "stimulus_spikes_per_cell": 10.8696,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.1449,
+     "stimulus_spikes_per_cell": 10.8551,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.1449,
+     "stimulus_spikes_per_cell": 10.8551,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.1812,
+     "stimulus_spikes_per_cell": 10.8188,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.0942,
+     "stimulus_spikes_per_cell": 10.9058,
+     "two_window_total": 21.0
+    }
+   },
+   "g500_off_s0": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1304,
+     "stimulus_spikes_per_cell": 10.8696,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.1304,
+     "stimulus_spikes_per_cell": 10.8696,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.1449,
+     "stimulus_spikes_per_cell": 10.8551,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.1449,
+     "stimulus_spikes_per_cell": 10.8551,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.1812,
+     "stimulus_spikes_per_cell": 10.8188,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.0942,
+     "stimulus_spikes_per_cell": 10.9058,
+     "two_window_total": 21.0
+    }
+   },
+   "g000_on_s0": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1014,
+     "stimulus_spikes_per_cell": 10.8986,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.0797,
+     "stimulus_spikes_per_cell": 10.9203,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.1232,
+     "stimulus_spikes_per_cell": 10.8768,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.0507,
+     "stimulus_spikes_per_cell": 10.9493,
+     "two_window_total": 21.0
+    }
+   },
+   "g000_off_s0": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1014,
+     "stimulus_spikes_per_cell": 10.8986,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.0797,
+     "stimulus_spikes_per_cell": 10.9203,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.1232,
+     "stimulus_spikes_per_cell": 10.8768,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.0507,
+     "stimulus_spikes_per_cell": 10.9493,
+     "two_window_total": 21.0
+    }
+   },
+   "g000_on_s1": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.1522,
+     "stimulus_spikes_per_cell": 10.8478,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.0942,
+     "stimulus_spikes_per_cell": 10.9058,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.0652,
+     "stimulus_spikes_per_cell": 10.9348,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.0435,
+     "stimulus_spikes_per_cell": 10.9565,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.2101,
+     "stimulus_spikes_per_cell": 10.7899,
+     "two_window_total": 21.0
+    }
+   },
+   "g000_off_s1": {
+    "FEF": {
+     "baseline_spikes_per_cell": 10.1159,
+     "stimulus_spikes_per_cell": 10.8841,
+     "two_window_total": 21.0
+    },
+    "PFC": {
+     "baseline_spikes_per_cell": 10.1522,
+     "stimulus_spikes_per_cell": 10.8478,
+     "two_window_total": 21.0
+    },
+    "V1_1": {
+     "baseline_spikes_per_cell": 10.0942,
+     "stimulus_spikes_per_cell": 10.9058,
+     "two_window_total": 21.0
+    },
+    "V1_2": {
+     "baseline_spikes_per_cell": 10.0652,
+     "stimulus_spikes_per_cell": 10.9348,
+     "two_window_total": 21.0
+    },
+    "V4_1": {
+     "baseline_spikes_per_cell": 10.0435,
+     "stimulus_spikes_per_cell": 10.9565,
+     "two_window_total": 21.0
+    },
+    "V4_2": {
+     "baseline_spikes_per_cell": 10.2101,
+     "stimulus_spikes_per_cell": 10.7899,
+     "two_window_total": 21.0
+    }
+   }
+  },
+  "relation_to_WS-AUTH-2": "this confirms and sharpens WS-AUTH-2's INFERRED hypothesis that the gate's delta is burst-count sampling. The count is not merely noisy: over the two windows it is exactly conserved, so the legacy delta is entirely how a fixed 21 spikes per cell split at the window boundary."
+ },
+ "sensitivity_diagnostic": {
+  "status": "DIAGNOSTIC, NOT A PROPAGATION VERDICT",
+  "purpose": "to establish whether the runs differ at all, i.e. whether the defect is the observable or the contrast. It uses a zero-threshold presence test on the recorded per-group series, so there is no threshold to tune.",
+  "method": "a group counts as differing if max|rate_on - rate_off| > 0 anywhere in the recorded series. 133 groups, sampled every 10 ms.",
+  "by_coupling": {
+   "g000": {
+    "g": 0.0,
+    "n_groups_differing": {
+     "FEF": 0,
+     "PFC": 0,
+     "V1_1": 12,
+     "V1_2": 0,
+     "V4_1": 0,
+     "V4_2": 0,
+     "Retina": 1
+    },
+    "first_divergence_ms": {
+     "FEF": null,
+     "PFC": null,
+     "V1_1": 10140.0,
+     "V1_2": null,
+     "V4_1": null,
+     "V4_2": null,
+     "Retina": 10090.0
+    }
+   },
+   "g500": {
+    "g": 0.5,
+    "n_groups_differing": {
+     "FEF": 10,
+     "PFC": 10,
+     "V1_1": 11,
+     "V1_2": 12,
+     "V4_1": 12,
+     "V4_2": 12,
+     "Retina": 1
+    },
+    "first_divergence_ms": {
+     "FEF": 12090.0,
+     "PFC": 11610.0,
+     "V1_1": 10100.0,
+     "V1_2": 10860.0,
+     "V4_1": 11080.0,
+     "V4_2": 11360.0,
+     "Retina": 10090.0
+    }
+   }
+  },
+  "control": "at g = 0 the four areas the stimulus cannot reach are bit-identical across all 133 groups, so a difference at g = 0.5 in those same areas cannot be floating-point nondeterminism: the same machinery produces exact equality when the path is cut.",
+  "limits": "the series is decimated to 10 ms, so a first-divergence time is an upper bound quantized to 10 ms and a divergence lasting under one sample interval is missed. These times are not a conduction-latency measurement.",
+  "not_claimed": "no magnitude, no latency and no propagation PASS is claimed from this diagnostic. Choosing a replacement observable after seeing that the declared one is degenerate would be retuning, and that choice belongs to the reviewer."
+ },
+ "other_evidence_the_stimulus_acts": {
+  "scope": "g = 0, V1_1 only, ON against OFF",
+  "retinal_receipt": {
+   "n_lit": 64,
+   "lit_fraction": 0.0625,
+   "population_rate_stimulus_hz": [
+    0.6875,
+    0.0
+   ],
+   "implied_lit_unit_rate_hz": [
+    11.0,
+    null
+   ]
+  },
+  "V1_1_changes_that_are_not_counts": {
+   "synchrony_cv_final_1000ms": [
+    2.896,
+    2.9326
+   ],
+   "drift_slope_hz_per_s": [
+    -1.8038,
+    -1.7754
+   ],
+   "drift_first_half": [
+    -3.8561,
+    -3.5714
+   ]
+  },
+  "areas_outside_V1_1_at_g0": "no recorded scalar or series value differs"
+ },
+ "acceptance": {
+  "plumbing_check": {
+   "rule": "R with the control pair as its own test is identically zero",
+   "result": "satisfied, and predeclared in the spec as a tautology"
+  },
+  "adversarial_null": {
+   "rule": "R on the held-out g = 0 replicate at seed 1 over V4_1, V4_2, FEF, PFC",
+   "result": "max_abs 0.0, is_degenerate True",
+   "reading": "the floor is degenerate for the same reason R is: the observable does not move. A degenerate floor cannot license a tolerance, and the module refuses to invent one. This acceptance is UNMET, not passed."
+  },
+  "old_gate_preserved": {
+   "rule": "legacy within-run numbers unchanged in every cell",
+   "result": "satisfied; each carries the NON_IDENTIFYING qualification inline"
+  }
+ },
+ "predeclared_expectations_scored": {
+  "old_gate_at_g0": "MET. FEF +0.7971 and PFC +0.8406 Hz again at g = 0.",
+  "null_floor_large": "NOT MET in the anticipated direction. The floor is not large, it is exactly zero, which the spec did not anticipate and which is worse: a large floor bounds detectability, a zero floor means the instrument has no scale at all.",
+  "if_transmission_exists": "NOT EVALUABLE on the declared observable.",
+  "if_it_does_not": "NOT EVALUABLE on the declared observable.",
+  "no_tuning": "HELD. No threshold, window, duration or stimulus was adjusted. The declared estimator was run as sealed and its degenerate result is reported as measured."
+ },
+ "verdict": {
+  "label": "PROPAGATION_OBSERVABLE_INSENSITIVE",
+  "status": "UNRESOLVED",
+  "status_note": "the causal contrast is correct and its known-answer tests pass, but the observable it was specified over is invariant to the stimulus even in the directly driven area, so the repaired gate is still not identifying. The lineage's own acceptance is UNMET. Propagation at g = 0.5 is neither confirmed nor denied here."
+ }
+}

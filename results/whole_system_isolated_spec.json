@@ -1,0 +1,196 @@
+{
+ "schema": "jomission.preexecution_spec.v1",
+ "lineage_id": "SCI-WS-OSC-2",
+ "parent": "SCI-WS-OSC-1",
+ "parent_commit": "3b239c9",
+ "authority": "reviewer 2026-09-19 on the SCI-WS-OSC-1 disposition: next science recommendation is a single-neuron intrinsic-mode probe only. No HDP, O/X, propagation or weight changes. Use the exact E cell, tonic, noise, dt and baseline kernel from the intact arm, but N = 1, no synapses. Interpretation is binary: a single E with the 94 to 95 ms mode identifies the intrinsic generator; a single E without it leaves the local E-I interaction required. Authorized in manifests/todo.json as SCI-WS-OSC-2, next_authorized_task at seal time",
+ "question": "does an isolated E cell retain the 94 to 95 ms mode?",
+ "arms": {
+  "ISOLATED_POP": {
+   "single": false,
+   "g": 0.0,
+   "meaning": "the intact construction with every edge weight set to 0.0. 828 cortical E cells, each isolated, so each is an independent replica of the same cell differing only in v0 and its noise draw. Measurable by the sealed estimator and directly comparable to SCI-WS-OSC-1"
+  },
+  "ISOLATED_1": {
+   "single": true,
+   "g": 0.0,
+   "meaning": "the reviewer's literal N = 1. One cortical E cell at V1_1.L5.E, no edges at all. Every parameter is sliced from the intact construction by index, never retyped"
+  }
+ },
+ "principal_delta": "complete synaptic isolation. Every edge weight the baseline kernel reads is set to exactly 0.0. Cell parameters, tonic drive, the intrinsic noise term, dt, seed semantics, duration and the kernel are the intact arm's",
+ "substrate_facts_established_before_execution": {
+  "E_cells_are_identical": "all 828 cortical E cells carry a 0.02, b 0.2, c -65, d 8, u0 -13 and tonic drive 5.0. v0 is the only per-cell heterogeneity, 828 distinct values spanning -69.9847 to -0.1247 mV. So ISOLATED_POP is 828 replicas of one cell, not a population of different cells",
+  "the_kernel_is_stochastic": "kernel=baseline draws Gaussian noise internally from a per-step PRNG key, so an isolated cell is still stochastic. Isolation removes coupling, not variability. Verified by running the same fully synapse-free construction at two seeds and obtaining different spike counts",
+  "emitter_W_is_not_read": "emitter.W is a dense 2224 x 2224 field. Zeroing it leaves the spike train bit-identical under kernel=baseline, so it is not a coupling path and is left untouched. This also confirms SCI-WS-OSC-1's E->E cut was complete. It is a latent trap: a kernel that ever read W would silently reintroduce coupling"
+ },
+ "observable": {
+  "primary": "per-cell interspike interval, pooled across cells",
+  "secondary": "jomission.harness.oscillation.measure on the population rate",
+  "hazard_declared_before_execution": "828 uncoupled oscillators with dispersed initial phases can produce a flat population rate while every cell oscillates at 94 ms. The population-rate measurement therefore cannot decide this lineage. A population rate showing no mode in ISOLATED_POP is predeclared as UNINFORMATIVE about the intrinsic generator and must not be read as evidence against it. The interval observable has no such degeneracy because it is computed per cell",
+  "isi_definition": "differences of successive spike times per cell, 1 ms bins, over the final 1000 ms; pooled across every cell that fired at least twice. Reported with its own spread and with the spread of the per-cell means, which for parametrically identical cells can differ only through v0 and noise"
+ },
+ "estimator": {
+  "module": "jomission.harness.oscillation",
+  "function": "measure",
+  "status": "unchanged from SCI-WS-OSC-1, sealed blob, not modified for this lineage",
+  "validated_by": "tests/test_oscillation.py"
+ },
+ "oscillation": {
+  "window_ms": 1000.0,
+  "max_lag_ms": 500.0,
+  "n_surrogate": 200,
+  "window_meaning": "the final 1000 ms of the 13000 ms run"
+ },
+ "predeclared_outcomes": {
+  "comparison_target": "SCI-WS-OSC-1's intact per-area period, 94 to 95 ms, and its pooled 94.0 ms. Tolerance 10 percent, the same as that lineage",
+  "INTRINSIC_GENERATOR_CONFIRMED": "the isolated cell fires rhythmically with a pooled ISI within 10 percent of 94 ms. The frequency is set inside the cell and neither E->E recurrence nor the E-I circuit is required for it",
+  "INTRINSIC_ABSENT": "the isolated cell does not fire, or fires without interval structure. The local E-I interaction remains required and the next question is the E-I circuit",
+  "INTRINSIC_PRESENT_DIFFERENT_PERIOD": "the isolated cell is rhythmic but its pooled ISI is outside 10 percent of 94 ms. Intrinsic dynamics contribute without setting the observed frequency",
+  "committed": "no outcome is preferred. The interval is reported with its spread and no winner is selected. Nothing is tuned after the result"
+ },
+ "cross_check": "ISOLATED_1's period must lie inside ISOLATED_POP's per-cell mean ISI range. The two constructions are built differently, one by slicing to N = 1 and one by zeroing weights, so agreement is a known-answer check on the slicing and disagreement is a defect in it rather than a result about the model",
+ "frozen": {
+  "inherits": "everything results/whole_system_oscillator_spec.json froze",
+  "cell_parameters": {
+   "a": 0.02,
+   "b": 0.2,
+   "c": -65.0,
+   "d": 8.0,
+   "u0": -13.0,
+   "source": "read from the intact construction's emitter arrays at run time and recorded in each arm's single_realization or isolation block; these values are the observed ones, not an input"
+  },
+  "tonic": {
+   "E": 5.0,
+   "PV": 3.0,
+   "SST": 3.5,
+   "VIP": 3.0,
+   "Retina": 0.0
+  },
+  "dt_ms": 0.1,
+  "seed": 0,
+  "prng_key": 0,
+  "delay": "DELAY_UNQUALIFIED_FROZEN, uniform 0 steps",
+  "kernel": "baseline, hdp false",
+  "stimulus": "off in both arms. An isolated cell has no path from the retina, so a stimulus would be inert; declaring it off makes that explicit rather than incidental",
+  "duration": {
+   "settle_ms": 10000.0,
+   "stimulus_ms": 1000.0,
+   "post_stimulus_ms": 2000.0,
+   "total_ms": 13000.0,
+   "dt_ms": 0.1,
+   "steps": 130000,
+   "chunk_ms": 500.0,
+   "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed",
+   "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+   "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+  },
+  "single_cell_address": "V1_1.L5.E"
+ },
+ "driver": {
+  "path": "scripts/whole_system_isolated_arm.py",
+  "forked_from": "scripts/whole_system_oscillator_arm.py (sealed, blob 409fcc8, sealed_in 3b239c9)",
+  "why_forked": "a sealed artifact is not edited",
+  "additive_changes": [
+   "isolate(), which zeroes every edge weight and raises if any survives",
+   "reduce_to_single_cell(), which slices every per-neuron array at one index",
+   "isi_summary(), the per-cell interval observable",
+   "single_cell_run(), a separate path for N = 1 that evaluates only the execution check, because collapse, runaway, synchrony, drift and propagation are defined over areas and populations a one-neuron model does not have and would otherwise be trivially passed"
+  ]
+ },
+ "runs": [
+  {
+   "arm": "ISOLATED_POP",
+   "command": "python scripts/whole_system_isolated_arm.py --spec results/whole_system_isolated_spec.json --g 0.0 --stimulus off --seed 0 --out results/whole_system_isolated_pop.json --out-y results/whole_system_isolated_pop_y.npz",
+   "out": "results/whole_system_isolated_pop.json"
+  },
+  {
+   "arm": "ISOLATED_1",
+   "command": "python scripts/whole_system_isolated_arm.py --spec results/whole_system_isolated_spec.json --g 0.0 --stimulus off --seed 0 --single --out results/whole_system_isolated_1.json",
+   "out": "results/whole_system_isolated_1.json"
+  }
+ ],
+ "execution": "one process at a time, in the order listed",
+ "acceptance": "both arms complete, every edge weight reads 0.0 after isolation with the count verified and n_nonzero_after equal to 0, the single-cell arm records the sliced parameters it actually compiled, and the interval observable is reported in each arm with its spread",
+ "stop_condition": "two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, no O or X change, no propagation work, and no retuning after results",
+ "visualization_contract": {
+  "V0": "results/viz/SCI-WS-OSC-2/jaxfne_network_hspice.png",
+  "V1": "results/viz/SCI-WS-OSC-2/raster_initial_1000ms.png",
+  "V2": "results/viz/SCI-WS-OSC-2/raster_final.png",
+  "V3": "results/viz/SCI-WS-OSC-2/atlas/index.html",
+  "rule": "V0 and V1 are rendered and looked at before any interpretation. V0 of an isolated construction should show every projection inert, which is the receipt that the isolation reached the figure and not only the record"
+ },
+ "artifacts_expected": [
+  "results/whole_system_isolated_spec.json",
+  "results/whole_system_isolated_pop.json",
+  "results/whole_system_isolated_1.json",
+  "results/whole_system_isolated_comparison.json",
+  "results/viz/SCI-WS-OSC-2/jaxfne_network_hspice.png",
+  "results/viz/SCI-WS-OSC-2/raster_initial_1000ms.png",
+  "results/viz/SCI-WS-OSC-2/raster_final.png",
+  "results/viz/SCI-WS-OSC-2/atlas/index.html"
+ ],
+ "relation_to_parent": "SCI-WS-OSC-1 exonerated inter-area coupling and local E->E recurrence for period generation. This lineage removes every remaining synapse, leaving intrinsic single-cell dynamics as the only mechanism present",
+ "sealed_before_execution": "this file is committed and pushed before either arm runs",
+ "duration": {
+  "settle_ms": 10000.0,
+  "stimulus_ms": 1000.0,
+  "post_stimulus_ms": 2000.0,
+  "total_ms": 13000.0,
+  "dt_ms": 0.1,
+  "steps": 130000,
+  "chunk_ms": 500.0,
+  "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed",
+  "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+  "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+ },
+ "kernel": {
+  "kernel": "baseline",
+  "hdp": false,
+  "authority": "reviewer 2026-09-18, chosen over jomission_sat_ee_v0",
+  "reason": "the qualified scientific lineage (V2.1 and the whole PV chain) executed kernel=baseline. jomission_sat_ee_v0 was qualified on star-column geometry and never on a multi-area composition, so running it here would confound the architecture with an unqualified rule transplanted to a new topology",
+  "H_recording": "H, Theta and w_eff are recorded as realized. Under the baseline kernel they are expected static; a static trace is reported as static and is not evidence of stabilization",
+  "hdp_off_reason": "HDP is OFF so that long-range authority is the single principal delta. Reviewer 2026-09-18: after locating the operating regime, then turn the repaired H-homeostasis back on and ask whether HDP extends and stabilizes the viable coupling range. That is a later lineage."
+ },
+ "gates": {
+  "order": [
+   "execution",
+   "collapse",
+   "runaway",
+   "synchrony",
+   "drift",
+   "propagation"
+  ],
+  "rule": "report the earliest load-bearing failure in this order; a later gate is not evaluated as the primary verdict once an earlier one fails",
+  "execution": {
+   "criterion": "every recorded v, u and current is finite for every step",
+   "fail": "WHOLE_SYSTEM_EXECUTION_FAIL"
+  },
+  "collapse": {
+   "criterion": "in the final 1000 ms, every area's E population rate is at least 0.1 Hz",
+   "fail": "WHOLE_SYSTEM_COLLAPSE"
+  },
+  "runaway": {
+   "criterion": "no class population rate exceeds 200 Hz sustained for 100 ms, and f_active does not reach 1.0 sustained for 100 ms",
+   "fail": "WHOLE_SYSTEM_RUNAWAY"
+  },
+  "synchrony": {
+   "criterion": "for every area's E population, std/mean of the 1 ms-binned population rate over the final 1000 ms is at most 3.0",
+   "estimator": "coefficient of variation of the 1 ms population rate; predeclared before execution",
+   "fail": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "drift": {
+   "criterion": "over the final 1500 ms of the post-stimulus interval, the least-squares slope of each area's E population rate in 100 ms bins satisfies |slope| <= 0.5 Hz/s, OR the slope is not sustained",
+   "sustained_rule": "a slope counts as drift only if the first and second halves of that window both exceed the tolerance with the same sign. A slow transient that is decaying fails the sustained test and is not drift",
+   "tolerance_hz_per_s": 0.5,
+   "predeclared": "estimator and tolerance fixed before execution and not adjustable afterwards",
+   "fail": "WHOLE_SYSTEM_DRIFT"
+  },
+  "propagation": {
+   "criterion": "the stimulus changes the E population rate at every hierarchical level: V1.1, at least one V4, and at least one of FEF/PFC. A change counts when the stimulus-window rate differs from the settle baseline by more than max(1 Hz, 10% of baseline)",
+   "band_authority": "the sealed V2.1 band convention max(1 Hz, 10%), reused unchanged",
+   "lateral_probe": "the spot lies entirely in the left hemifield, so any V1.2 change is transfer through X[lat] or the V4 level, and is reported separately rather than counted toward propagation",
+   "fail": "WHOLE_SYSTEM_PROPAGATION_FAIL"
+  }
+ },
+ "runtime_blocks_copied_verbatim_from_parent": "duration, kernel and gates are copied byte-for-byte from results/whole_system_oscillator_spec.json, which copied them from the WS-AUTH bracket spec, so this driver reads one sealed file. A test asserts the copy is identical"
+}

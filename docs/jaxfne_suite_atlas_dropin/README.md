@@ -72,3 +72,16 @@ count, so it is unaffected. The underlying float32 accumulation is still worth f
 The visual standard is the jomission Plotly reference gallery (`jomission/visualization/theme.py`,
 commit `57d8682`): `#0d1117` paper, `#161b22` plot, Inter, and the provenance-card HTML wrapper.
 That theme is inlined here so this file stands alone.
+
+## Correspondence to this repository
+
+`jaxfne_suite_atlas.py` here is an **adaptation**, not a verbatim copy, of
+`jomission/jomission/visualization/jaxfne_suite_atlas.py`: the jomission module
+imports `jomission.visualization.theme` for the gallery palette, which this file
+inlines so it is self-contained upstream. 105 lines differ.
+
+No automated correspondence therefore exists between the two. A change to one does
+not propagate to the other and will not be caught. This is declared in
+`manifests/dropin_packets.json` and enforced only to the extent that the relation is
+recorded with its reason and its cost; re-verify by hand before handing this packet
+upstream.

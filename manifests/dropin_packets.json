@@ -1,0 +1,65 @@
+{
+ "schema": "jomission.dropin_packets.v1",
+ "rule": "A drop-in packet ships a copy of a file whose source of truth lives in this repository while the packet is unmerged. Every copy declares its relation to that source, and tests/test_dropin_packets.py enforces exactly the relation declared. An undeclared copy, or a copy that no longer matches its declared relation, is a defect: the packet would hand upstream a file that does not correspond to the one this project runs and tests.",
+ "relations": {
+  "verbatim": "the copy is byte-identical to its source",
+  "rewritten_imports": "byte-identical after applying the declared substitutions and ignoring the module docstring, which is rewritten for an upstream reader",
+  "adapted": "deliberately rewritten for upstream; no byte correspondence exists. The declared portability invariants are checked instead, and the divergence is recorded rather than hidden"
+ },
+ "portability_invariant": "every shipped .py copy must import nothing from jomission or tfne, whatever its relation, because it is destined for a repository where neither exists",
+ "packets": [
+  {
+   "dir": "docs/jaxfne_vis_dropin",
+   "handout": "docs/JAXFNE_VIS_HANDOUT.md",
+   "upstream": "jaxfne",
+   "files": [
+    {
+     "copy": "network_inspect.py",
+     "source": "jomission/visualization/jaxfne_vis.py",
+     "relation": "verbatim"
+    },
+    {
+     "copy": "test_network_inspect.py",
+     "source": "tests/test_jaxfne_vis.py",
+     "relation": "rewritten_imports",
+     "substitutions": [
+      ["from jaxfne.vis import network_inspect as JV",
+       "from jomission.visualization import jaxfne_vis as JV"]
+     ]
+    }
+   ]
+  },
+  {
+   "dir": "docs/jaxfne_atlas_suite_dropin",
+   "handout": "docs/ATLAS_SUITE_HANDOUT.md",
+   "upstream": "jaxfne",
+   "files": [
+    {
+     "copy": "atlas_suite.py",
+     "source": "jomission/visualization/atlas_suite.py",
+     "relation": "verbatim"
+    }
+   ]
+  },
+  {
+   "dir": "docs/jaxfne_suite_atlas_dropin",
+   "upstream": "jaxfne",
+   "files": [
+    {
+     "copy": "jaxfne_suite_atlas.py",
+     "source": "jomission/visualization/jaxfne_suite_atlas.py",
+     "relation": "adapted",
+     "reason": "the jomission module imports jomission.visualization.theme for the gallery palette; the drop-in inlines it so the file is self-contained upstream. Its docstring is also rewritten for a reader who has never seen this repository's figures. 105 lines differ.",
+     "consequence": "no automated correspondence exists between this copy and its source. A change to one does not propagate to the other and will not be caught. Re-verify by hand before handing this packet upstream, or promote it to rewritten_imports by declaring the substitutions."
+    },
+    {
+     "copy": "example_minimal.py",
+     "source": null,
+     "relation": "adapted",
+     "reason": "a usage example written for the packet; it has no counterpart in this repository",
+     "consequence": "nothing to compare. Only the portability invariant applies."
+    }
+   ]
+  }
+ ]
+}

@@ -26,7 +26,8 @@
     "tests/test_o_authority.py",
     "tests/test_propagation_causal.py",
     "tests/test_visualization_contract.py",
-    "tests/test_jaxfne_vis.py"
+    "tests/test_jaxfne_vis.py",
+    "tests/test_dropin_packets.py"
    ]
   },
   "1": {

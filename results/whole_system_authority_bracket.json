@@ -1,0 +1,474 @@
+{
+ "schema": "jomission.whole_system_authority_bracket.v1",
+ "lineage_id": "WS-AUTH-1",
+ "spec": "results/whole_system_authority_bracket_spec.json",
+ "spec_commit": "74ee2cd",
+ "policy": "EQUAL_G, g_FF = g_FB = g_X = g, HDP off, DELAY_UNQUALIFIED_FROZEN at 0 steps",
+ "baseline": {
+  "lineage": "WS-DIAG-2",
+  "artifact": "results/whole_system_diagnostic_2.json",
+  "coupling": "inherited uniform w = 0.5, realized g 11.5 to 40.4 per receiving neuron"
+ },
+ "arms": [
+  {
+   "arm": "g050",
+   "g": 0.05,
+   "artifact": "results/whole_system_authority_g050.json",
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+   "fail_boundary": "first load-bearing failure: synchrony",
+   "elapsed_s": 178.6,
+   "gates": {
+    "execution": true,
+    "collapse": true,
+    "runaway": true,
+    "synchrony": false,
+    "drift": true,
+    "propagation": false
+   },
+   "o_authority": {
+    "policy": "EQUAL_G",
+    "g": 0.05,
+    "definition": "w_p,i = g * K_local,i / N_afferents,p,i, per receiving neuron",
+    "channels_held_equal": "g_FF = g_FB = g_X = g, one principal delta",
+    "delay": "DELAY_UNQUALIFIED_FROZEN: inherited uniform 0 steps, untouched",
+    "edges_reweighted": 7020,
+    "edges_total": 246844,
+    "edges_untouched": 239824,
+    "local_and_retinal_weights_unchanged": true,
+    "K_local_mean_over_targets": 0.6376748343544831,
+    "per_channel": {
+     "ff": {
+      "n_edges": 2940,
+      "n_target_cells": 56,
+      "convergence_classes": [
+       35,
+       70
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0006064386547445699,
+      "w_after_by_convergence": {
+       "35": 0.0009071336040862513,
+       "70": 0.00045609118007372936
+      },
+      "g_before_mean": 41.2259412490701,
+      "g_after_max_abs_error": 9.71445146547012e-17
+     },
+     "fb": {
+      "n_edges": 1680,
+      "n_target_cells": 40,
+      "convergence_classes": [
+       28,
+       56
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0007575303413718108,
+      "w_after_by_convergence": {
+       "28": 0.0011320049894233567,
+       "56": 0.0005702930173460376
+      },
+      "g_before_mean": 33.001479783339605,
+      "g_after_max_abs_error": 6.245004513516506e-17
+     },
+     "lat": {
+      "n_edges": 2400,
+      "n_target_cells": 120,
+      "convergence_classes": [
+       20
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0015963781635728082,
+      "w_after_by_convergence": {
+       "20": 0.0015963781635728082
+      },
+      "g_before_mean": 15.674900314929719,
+      "g_after_max_abs_error": 2.7755575615628914e-17
+     }
+    },
+    "cells_receiving_two_channels": 0,
+    "acceptance": {
+     "rule": "max_i |K_long,i / K_local,i - g| < eps",
+     "eps": 1e-06,
+     "n_cells_checked": 216,
+     "max_abs_error": 2.56925943020736e-09,
+     "max_rel_error": 5.13851886041472e-08,
+     "measured_on": "float32 weights as stored, not the float64 intermediate",
+     "pass": true
+    }
+   },
+   "cv_final_1000ms": {
+    "FEF": 2.9343,
+    "PFC": 2.9809,
+    "V1_1": 2.9463,
+    "V1_2": 2.8947,
+    "V4_1": 2.8392,
+    "V4_2": 3.0293
+   },
+   "cv_mean": 2.93745,
+   "cv_areas_over_3": 1,
+   "delta_hz": {
+    "V1_1": 0.7681,
+    "V1_2": 0.7681,
+    "V4_1": 0.7826,
+    "V4_2": 0.8986,
+    "FEF": 0.7971,
+    "PFC": 0.7971
+   },
+   "attribution_V1_1_minus_V1_2": 0.0
+  },
+  {
+   "arm": "g100",
+   "g": 0.1,
+   "artifact": "results/whole_system_authority_g100.json",
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+   "fail_boundary": "first load-bearing failure: synchrony",
+   "elapsed_s": 188.1,
+   "gates": {
+    "execution": true,
+    "collapse": true,
+    "runaway": true,
+    "synchrony": false,
+    "drift": true,
+    "propagation": false
+   },
+   "o_authority": {
+    "policy": "EQUAL_G",
+    "g": 0.1,
+    "definition": "w_p,i = g * K_local,i / N_afferents,p,i, per receiving neuron",
+    "channels_held_equal": "g_FF = g_FB = g_X = g, one principal delta",
+    "delay": "DELAY_UNQUALIFIED_FROZEN: inherited uniform 0 steps, untouched",
+    "edges_reweighted": 7020,
+    "edges_total": 246844,
+    "edges_untouched": 239824,
+    "local_and_retinal_weights_unchanged": true,
+    "K_local_mean_over_targets": 0.6376748343544831,
+    "per_channel": {
+     "ff": {
+      "n_edges": 2940,
+      "n_target_cells": 56,
+      "convergence_classes": [
+       35,
+       70
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0012128773094891398,
+      "w_after_by_convergence": {
+       "35": 0.0018142672081725025,
+       "70": 0.0009121823601474587
+      },
+      "g_before_mean": 41.2259412490701,
+      "g_after_max_abs_error": 1.942890293094024e-16
+     },
+     "fb": {
+      "n_edges": 1680,
+      "n_target_cells": 40,
+      "convergence_classes": [
+       28,
+       56
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0015150606827436216,
+      "w_after_by_convergence": {
+       "28": 0.0022640099788467133,
+       "56": 0.0011405860346920752
+      },
+      "g_before_mean": 33.001479783339605,
+      "g_after_max_abs_error": 1.249000902703301e-16
+     },
+     "lat": {
+      "n_edges": 2400,
+      "n_target_cells": 120,
+      "convergence_classes": [
+       20
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0031927563271456163,
+      "w_after_by_convergence": {
+       "20": 0.0031927563271456163
+      },
+      "g_before_mean": 15.674900314929719,
+      "g_after_max_abs_error": 5.551115123125783e-17
+     }
+    },
+    "cells_receiving_two_channels": 0,
+    "acceptance": {
+     "rule": "max_i |K_long,i / K_local,i - g| < eps",
+     "eps": 1e-06,
+     "n_cells_checked": 216,
+     "max_abs_error": 5.13851886041472e-09,
+     "max_rel_error": 5.13851886041472e-08,
+     "measured_on": "float32 weights as stored, not the float64 intermediate",
+     "pass": true
+    }
+   },
+   "cv_final_1000ms": {
+    "FEF": 2.9483,
+    "PFC": 2.965,
+    "V1_1": 2.9324,
+    "V1_2": 2.9436,
+    "V4_1": 2.8448,
+    "V4_2": 3.0584
+   },
+   "cv_mean": 2.94875,
+   "cv_areas_over_3": 1,
+   "delta_hz": {
+    "V1_1": 0.7536,
+    "V1_2": 0.7391,
+    "V4_1": 0.7536,
+    "V4_2": 0.8986,
+    "FEF": 0.7681,
+    "PFC": 0.7971
+   },
+   "attribution_V1_1_minus_V1_2": 0.014500000000000068
+  },
+  {
+   "arm": "g200",
+   "g": 0.2,
+   "artifact": "results/whole_system_authority_g200.json",
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+   "fail_boundary": "first load-bearing failure: synchrony",
+   "elapsed_s": 159.6,
+   "gates": {
+    "execution": true,
+    "collapse": true,
+    "runaway": true,
+    "synchrony": false,
+    "drift": true,
+    "propagation": false
+   },
+   "o_authority": {
+    "policy": "EQUAL_G",
+    "g": 0.2,
+    "definition": "w_p,i = g * K_local,i / N_afferents,p,i, per receiving neuron",
+    "channels_held_equal": "g_FF = g_FB = g_X = g, one principal delta",
+    "delay": "DELAY_UNQUALIFIED_FROZEN: inherited uniform 0 steps, untouched",
+    "edges_reweighted": 7020,
+    "edges_total": 246844,
+    "edges_untouched": 239824,
+    "local_and_retinal_weights_unchanged": true,
+    "K_local_mean_over_targets": 0.6376748343544831,
+    "per_channel": {
+     "ff": {
+      "n_edges": 2940,
+      "n_target_cells": 56,
+      "convergence_classes": [
+       35,
+       70
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0024257546189782797,
+      "w_after_by_convergence": {
+       "35": 0.003628534416345005,
+       "70": 0.0018243647202949174
+      },
+      "g_before_mean": 41.2259412490701,
+      "g_after_max_abs_error": 3.885780586188048e-16
+     },
+     "fb": {
+      "n_edges": 1680,
+      "n_target_cells": 40,
+      "convergence_classes": [
+       28,
+       56
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.003030121365487243,
+      "w_after_by_convergence": {
+       "28": 0.004528019957693427,
+       "56": 0.0022811720693841505
+      },
+      "g_before_mean": 33.001479783339605,
+      "g_after_max_abs_error": 2.498001805406602e-16
+     },
+     "lat": {
+      "n_edges": 2400,
+      "n_target_cells": 120,
+      "convergence_classes": [
+       20
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.006385512654291233,
+      "w_after_by_convergence": {
+       "20": 0.006385512654291233
+      },
+      "g_before_mean": 15.674900314929719,
+      "g_after_max_abs_error": 1.1102230246251565e-16
+     }
+    },
+    "cells_receiving_two_channels": 0,
+    "acceptance": {
+     "rule": "max_i |K_long,i / K_local,i - g| < eps",
+     "eps": 1e-06,
+     "n_cells_checked": 216,
+     "max_abs_error": 1.027703772082944e-08,
+     "max_rel_error": 5.13851886041472e-08,
+     "measured_on": "float32 weights as stored, not the float64 intermediate",
+     "pass": true
+    }
+   },
+   "cv_final_1000ms": {
+    "FEF": 2.9667,
+    "PFC": 2.9743,
+    "V1_1": 2.9222,
+    "V1_2": 2.9306,
+    "V4_1": 2.8221,
+    "V4_2": 3.0919
+   },
+   "cv_mean": 2.9513,
+   "cv_areas_over_3": 1,
+   "delta_hz": {
+    "V1_1": 0.7246,
+    "V1_2": 0.7101,
+    "V4_1": 0.7246,
+    "V4_2": 0.8841,
+    "FEF": 0.7391,
+    "PFC": 0.7681
+   },
+   "attribution_V1_1_minus_V1_2": 0.014500000000000068
+  },
+  {
+   "arm": "g500",
+   "g": 0.5,
+   "artifact": "results/whole_system_authority_g500.json",
+   "verdict": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+   "fail_boundary": "first load-bearing failure: synchrony",
+   "elapsed_s": 158.3,
+   "gates": {
+    "execution": true,
+    "collapse": true,
+    "runaway": true,
+    "synchrony": false,
+    "drift": true,
+    "propagation": false
+   },
+   "o_authority": {
+    "policy": "EQUAL_G",
+    "g": 0.5,
+    "definition": "w_p,i = g * K_local,i / N_afferents,p,i, per receiving neuron",
+    "channels_held_equal": "g_FF = g_FB = g_X = g, one principal delta",
+    "delay": "DELAY_UNQUALIFIED_FROZEN: inherited uniform 0 steps, untouched",
+    "edges_reweighted": 7020,
+    "edges_total": 246844,
+    "edges_untouched": 239824,
+    "local_and_retinal_weights_unchanged": true,
+    "K_local_mean_over_targets": 0.6376748343544831,
+    "per_channel": {
+     "ff": {
+      "n_edges": 2940,
+      "n_target_cells": 56,
+      "convergence_classes": [
+       35,
+       70
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.0060643865474457,
+      "w_after_by_convergence": {
+       "35": 0.009071336040862512,
+       "70": 0.004560911800737292
+      },
+      "g_before_mean": 41.2259412490701,
+      "g_after_max_abs_error": 8.326672684688674e-16
+     },
+     "fb": {
+      "n_edges": 1680,
+      "n_target_cells": 40,
+      "convergence_classes": [
+       28,
+       56
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.007575303413718107,
+      "w_after_by_convergence": {
+       "28": 0.011320049894233566,
+       "56": 0.005702930173460378
+      },
+      "g_before_mean": 33.001479783339605,
+      "g_after_max_abs_error": 3.3306690738754696e-16
+     },
+     "lat": {
+      "n_edges": 2400,
+      "n_target_cells": 120,
+      "convergence_classes": [
+       20
+      ],
+      "w_before_mean": 0.5,
+      "w_after_mean": 0.01596378163572808,
+      "w_after_by_convergence": {
+       "20": 0.015963781635728085
+      },
+      "g_before_mean": 15.674900314929719,
+      "g_after_max_abs_error": 2.220446049250313e-16
+     }
+    },
+    "cells_receiving_two_channels": 0,
+    "acceptance": {
+     "rule": "max_i |K_long,i / K_local,i - g| < eps",
+     "eps": 1e-06,
+     "n_cells_checked": 216,
+     "max_abs_error": 2.950300936888084e-08,
+     "max_rel_error": 5.900601873776168e-08,
+     "measured_on": "float32 weights as stored, not the float64 intermediate",
+     "pass": true
+    }
+   },
+   "cv_final_1000ms": {
+    "FEF": 3.0171,
+    "PFC": 2.9763,
+    "V1_1": 2.9484,
+    "V1_2": 2.9678,
+    "V4_1": 2.8738,
+    "V4_2": 3.0871
+   },
+   "cv_mean": 2.9784166666666665,
+   "cv_areas_over_3": 2,
+   "delta_hz": {
+    "V1_1": 0.7101,
+    "V1_2": 0.7101,
+    "V4_1": 0.6377,
+    "V4_2": 0.8116,
+    "FEF": 0.7391,
+    "PFC": 0.7391
+   },
+   "attribution_V1_1_minus_V1_2": 0.0
+  }
+ ],
+ "curve": {
+  "cv_sync_mean": {
+   "0.05": 2.93745,
+   "0.1": 2.94875,
+   "0.2": 2.9513,
+   "0.5": 2.9784166666666665
+  },
+  "cv_areas_over_tolerance": {
+   "0.05": 1,
+   "0.1": 1,
+   "0.2": 1,
+   "0.5": 2
+  },
+  "attribution": {
+   "0.05": 0.0,
+   "0.1": 0.014500000000000068,
+   "0.2": 0.014500000000000068,
+   "0.5": 0.0
+  },
+  "burst_period_ms": {
+   "WS-DIAG-2": 190.0,
+   "0.05": 190.0,
+   "0.5": 190.0,
+   "note": "measured on the decimated 10 ms series over the final 3 s"
+  },
+  "inter_area_correlation_mean": {
+   "WS-DIAG-2": 0.8498,
+   "0.5": 0.8925,
+   "0.2": 0.8332,
+   "0.1": 0.8147,
+   "0.05": 0.8381
+  }
+ },
+ "verdict": {
+  "label": "LONG_RANGE_AUTHORITY_EXONERATED",
+  "status": "PARTIAL"
+ },
+ "reading": "every arm returned WHOLE_SYSTEM_SYNCHRONY_FAIL with propagation also failing. Across a tenfold range of g the synchrony CV moved by 0.04 and the burst period did not move at all. This is the first row of the reviewer's outcome table: long-range coupling is exonerated as the cause of the global burst",
+ "no_arm_selected": "no g is proposed as correct. The bracket was run to locate a regime transition and found none within it; selecting a value is not warranted by this evidence",
+ "driver_defect": "scripts/whole_system_authority_arm.py shadows its own g parameter at lines 328 and 385 with a loop variable, so the final summary print raises TypeError after the result file is written. Every use of the real g precedes line 217, which the recorded g, arm tag and acceptance values confirm. The defect is confined to reporting and no computed value is affected; it was not repaired mid-bracket so that the four arms would differ only in g"
+}

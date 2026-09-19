@@ -81,7 +81,13 @@ def test_operation_batteries_use_canonical_estimators():
     assert uses.search("from jomission.harness import gates, operation") and not uses.search("from jomission.harness import gates")
 
 
-HISTORICAL_PROFILE_USERS = {"tests/test_gates_single_source.py", "tests/test_v2_operation_prospective.py"}
+HISTORICAL_PROFILE_USERS = {
+    "tests/test_gates_single_source.py",
+    "tests/test_v2_operation_prospective.py",
+    # Renders sealed V2.1 results, whose checks ARE the frozen semantics. It reproduces
+    # them for display and evaluates no new execution, which is what this guard protects.
+    "jomission/visualization/regime_atlas.py",
+}
 
 
 def test_historical_profile_is_reproduction_only():

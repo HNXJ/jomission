@@ -37,20 +37,24 @@ from plotly.subplots import make_subplots
 
 from jomission.visualization.theme import CLASS_COLORS, apply_dark_theme
 
+from jomission.harness import gates as _gates
+
 CLASSES = ("E", "PV", "SST", "VIP")
 INTERNEURONS = ("PV", "SST", "VIP")
 FAMILY_LABELS = {"v21": "V2.1"}
 FAMILY_PRODUCERS = {"v21": "tests/test_v21_operation.py::run_regime"}
 
-# V2.1 gate thresholds, copied from tests/test_v21_operation.py::run_regime.
-# test_regime_atlas.py asserts that recomputing checks with these reproduces
-# every sealed ``checks`` dict, so drift from the battery fails loudly.
-E_BAND_HZ = (2.0, 30.0)
-INTERNEURON_MIN_HZ = 1.0
-ISI_CV_FRAC_MIN = 0.8
-E_RATE_CV_MIN = 0.3
-SYNC_MAX = 0.01  # strict: max(sync) < SYNC_MAX
-DRIFT_MAX = 0.20
+# V2.1 gate thresholds, read from the single source rather than restated here.
+# These were literals copied from tests/test_v21_operation.py::run_regime when
+# this module was written, before manifests/gates existed; they are identical to
+# the historical_v21_battery profile, so this is a rewiring and not a change.
+_V21 = _gates.load_gate()["profiles"]["historical_v21_battery"]["checks"]
+E_BAND_HZ = tuple(_V21["E_band"]["rate_hz"])
+INTERNEURON_MIN_HZ = _V21["classes_active"]["rate_hz_min"]
+ISI_CV_FRAC_MIN = _V21["isi_cv"]["min_fraction"]
+E_RATE_CV_MIN = _V21["E_het"]["rate_cv_min"]
+SYNC_MAX = _V21["sync"]["max"]  # strict: max(sync) < SYNC_MAX
+DRIFT_MAX = _V21["drift"]["max"]
 
 PANELS = (
     ("gates.html", "Gates"),

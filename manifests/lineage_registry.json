@@ -1612,6 +1612,93 @@
     "tests/test_whole_system_diagnostic.py"
    ],
    "commit": "d4c9d17"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R4-PARAM",
+   "parent": "WS-REALIZE-R4C",
+   "principal_delta": "a read-only parameter audit of the same realized model. No simulation, no model change. It supplies the half of the realization contract the R1R4 and R4C gates did not compare: the realized value of weight, probability, tau, delay and mechanism per projection class",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "scripts/parameter_realization_audit.py",
+    "commit": "cd0e581",
+    "note": "the audit code, committed before the result it produced. This lineage runs no simulation and gates nothing, so the seal is over the measuring code rather than over a run configuration."
+   },
+   "authority": "reviewer 2026-09-18: 'Read-only inverse calibration first. No simulation.' Derive K_p = N_afferents,p * mean|w_p| per projection and compare g_p = K_long,p / K_local,reference for FF and FB separately",
+   "inputs": [
+    "results/whole_system_realization_r2.json",
+    "results/whole_system_diagnostic_3_spec.json"
+   ],
+   "frozen": [
+    "the realized model is constructed exactly as WS-REALIZE-R4C constructed it",
+    "no weight, probability, tau, delay or connectivity is modified"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the frozen weight 0.5 is realized on 7020 of 7020 cross-area edges and on 0 of 238800 intra-area edges. Intra-area mean |w| is 0.006321, cross-area exactly 0.500000, a disparity of 79.1x",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "all 24 cross-area identities realize p = 1.0 with uniform |w| = 0.5, receptor index 0, tau 2.0 ms and delay 0 steps. Per receiving cell: ff L2.E->L4.E K = 7.5 (15 afferents), ff L3.E->L4.E K = 10.0 (20), fb L6.E->L1.E K = 14.0 (28), lat L3.E->L3.E K = 10.0 (20)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "the local reference K for an E cell from intra-area excitation is 0.8660, from intra-area inhibition 0.3921. No long-range projection targets PV, SST or VIP: their long_ff, long_fb and long_lat are all exactly 0.0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "tau and delay are not stored per edge. tau_storage is sign_from_receptor, so tau is 2.0 ms for every receptor-0 edge and 5.0 ms for every receptor-1 edge, local and long-range alike; uniform_delay_steps is 0 for the whole edge list",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "the string 'weight' does not appear in results/whole_system_realization_r2.json, so no gate in the realization chain compared a realized weight against the spec",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "g_p = K_long,p / K_local,reference with K_local,reference = 0.8660: ff L2->L4 8.66, ff L3->L4 11.55, fb L6->L1 16.17, lat L3->L3 11.55. An L4.E cell receiving both ff streams carries g_ff_total = 20.2. Long-range authority exceeds local excitatory authority by an order of magnitude at every projection class",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "averaged over all 828 E cells rather than over receiving cells, g_ff 2.05, g_fb 1.17, g_lat 1.67, total 4.89. The dilution factor is the fraction of E cells a given long-range projection reaches; both forms are reported so neither is mistaken for the other",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "delay 0 means a long-range projection transmits in the same step as a local one. Conduction delay is therefore not realized as a distinguishing parameter of the TFNE O relation",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "this parameter regime is a plausible proximate cause of the globally periodic E burst sealed in WS-DIAG-2 and WS-DIAG-3, since it makes every cortical area's E drive dominated by zero-delay long-range input at 79x the local weight. It was not tested causally here and no burst experiment was run",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "PARAMETER_REALIZATION_UNQUALIFIED",
+    "status": "UNRESOLVED",
+    "status_note": "UNQUALIFIED is not in manifests/vocabulary.json status_labels and was not added without authority. UNRESOLVED is the existing token for measured-but-not-concluded; the reviewer-named label is carried verbatim in label."
+   },
+   "acceptance": "none. This lineage measures and does not gate. The intended long-range to local authority ratio is a model-definition decision and is not inferred here",
+   "fail_boundary": "not applicable. UNQUALIFIED is not FAIL: it records that the parameter half of the realization contract has no established value, neither passed nor failed",
+   "relation_to_parent": "WS-REALIZE-R4C's PASS is NOT retracted. Its scoped claims stand exactly as sealed: delta_objects = delta_populations = delta_projection_identities = delta_index = 0. Those are claims about graph identity. This lineage adds the disjoint parameter scope and leaves the graph claims untouched",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/parameter_realization_audit.json"
+   ],
+   "tests": [],
+   "blocks": "the burst-onset experiment. Per the reviewer's order: weight semantics, then the parameter-realization receipt, then a corrected baseline, before any full-resolution burst analysis. The current burst phenotype remains sealed as a negative control",
+   "commit": "7996113"
   }
  ]
 }

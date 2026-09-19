@@ -58,14 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- WS-DIAG-1: execution was finite throughout: no non-finite v, u or synaptic current at any of the 50000 steps — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: the input interface was enforced and verified: 1047552 intra-retinal edges removed, retinal tonic 5.0 zeroed, exactly 1024 retinal edges realized, and the 24 cortical projection identities unchanged — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: the retina was silent at baseline and its 64 lit units fired at 11.0 Hz during stimulation — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: PFC E population CV over the final 1000 ms is 3.1138, above the predeclared tolerance of 3.0; FEF 2.9046, V1.1 2.8988, V1.2 2.8880, V4.1 2.8807, V4.2 2.7960 — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: no area E rate fell below 0.1 Hz and no group sustained over 200 Hz or full activation for 100 ms, so collapse and runaway passed — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: area E rate slopes over the final 1500 ms are 1.25 to 1.90 Hz/s, above the 0.5 Hz/s tolerance, but none satisfied the predeclared sustained rule — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: the directly targeted V1_1.L4.E fell 1.43 Hz from baseline to stimulus while untargeted V1_2.L4.E rose 3.57 Hz and V4_1.L4.E rose 2.14 Hz — `50bd3c5:results/whole_system_diagnostic.json`
-- WS-DIAG-1: w and theta_S were bitwise unchanged across all ten chunk boundaries, confirming no plastic stabilization under the baseline kernel — `50bd3c5:results/whole_system_diagnostic.json`
 - WS-DIAG-2: execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged — `0e76900:results/whole_system_diagnostic_2.json`
 - WS-DIAG-2: synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below — `0e76900:results/whole_system_diagnostic_2.json`
 - WS-DIAG-2: area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule — `0e76900:results/whole_system_diagnostic_2.json`
@@ -80,6 +72,11 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-DIAG-3: every area's E rate FELL during the stimulus, by -1.0000 Hz at V1_1, V1_2, V4_1 and V4_2 (11.0 -> 10.0 exactly), -1.1159 at FEF and -1.1014 at PFC, where the HDP-off arm had risen by +0.41 to +0.64 Hz — `d4c9d17:results/whole_system_diagnostic_3.json`
 - WS-DIAG-3: the lit retinal units again fired at 11.0 Hz and no unlit unit fired: population rate 0.0 -> 0.6875 Hz over the 1024-unit population — `d4c9d17:results/whole_system_diagnostic_3.json`
 - WS-DIAG-3: execution, collapse, runaway and drift all passed; synchrony and propagation failed — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-REALIZE-R4-PARAM: the frozen weight 0.5 is realized on 7020 of 7020 cross-area edges and on 0 of 238800 intra-area edges. Intra-area mean |w| is 0.006321, cross-area exactly 0.500000, a disparity of 79.1x — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: all 24 cross-area identities realize p = 1.0 with uniform |w| = 0.5, receptor index 0, tau 2.0 ms and delay 0 steps. Per receiving cell: ff L2.E->L4.E K = 7.5 (15 afferents), ff L3.E->L4.E K = 10.0 (20), fb L6.E->L1.E K = 14.0 (28), lat L3.E->L3.E K = 10.0 (20) — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: the local reference K for an E cell from intra-area excitation is 0.8660, from intra-area inhibition 0.3921. No long-range projection targets PV, SST or VIP: their long_ff, long_fb and long_lat are all exactly 0.0 — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: tau and delay are not stored per edge. tau_storage is sign_from_receptor, so tau is 2.0 ms for every receptor-0 edge and 5.0 ms for every receptor-1 edge, local and long-range alike; uniform_delay_steps is 0 for the whole edge list — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: the string 'weight' does not appear in results/whole_system_realization_r2.json, so no gate in the realization chain compared a realized weight against the spec — `7996113:results/whole_system_realization_r2.json`
 
 ### Next authorized task
 

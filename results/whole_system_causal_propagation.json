@@ -392,7 +392,8 @@
   "if_it_does_not": "NOT EVALUABLE on the declared observable.",
   "no_tuning": "HELD. No threshold, window, duration or stimulus was adjusted. The declared estimator was run as sealed and its degenerate result is reported as measured."
  },
- "verdict": {
+ "verdict": "PROPAGATION_OBSERVABLE_INSENSITIVE_UNRESOLVED",
+ "verdict_detail": {
   "label": "PROPAGATION_OBSERVABLE_INSENSITIVE",
   "status": "UNRESOLVED",
   "status_note": "the causal contrast is correct and its known-answer tests pass, but the observable it was specified over is invariant to the stimulus even in the directly driven area, so the repaired gate is still not identifying. The lineage's own acceptance is UNMET. Propagation at g = 0.5 is neither confirmed nor denied here."

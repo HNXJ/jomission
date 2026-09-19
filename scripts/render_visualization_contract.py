@@ -60,6 +60,7 @@ def main() -> int:
     ap.add_argument("--t0-ms", type=float, default=0.0)
     ap.add_argument("--window-ms", type=float, default=1000.0)
     ap.add_argument("--subtitle", default="")
+    ap.add_argument("--theme", default="light", choices=["light", "dark"])
     ap.add_argument("--out", help="override the contract path")
     args = ap.parse_args()
 
@@ -70,8 +71,8 @@ def main() -> int:
     if args.stage == "V0":
         model, index, rf_decl, enforcement, _ = build_from_driver(args.driver)
         n_units = sum(v["n_units"] for v in rf_decl.values())
-        info = VC.hspice_schematic(
-            model, index, out, title=TITLE,
+        info = VC.schematic(
+            model, out, title=TITLE, theme=args.theme,
             x_label=f"Retina\n{len(rf_decl)} RFs / {n_units} edges",
             y_label="FEF.L6.E\nv(t)")
         info["driver"] = args.driver
@@ -81,11 +82,11 @@ def main() -> int:
             ap.error("--spikes is required for V1 and V2")
         z = np.load(args.spikes)
         spikes = z[args.spikes_key]
-        _model, index, _rf, _enf, _drv = build_from_driver(args.driver)
+        model, _index, _rf, _enf, _drv = build_from_driver(args.driver)
         stage = contract["stages"][args.stage]
         info = VC.raster(
-            spikes, index, out, dt_ms=args.dt_ms, t0_ms=args.t0_ms,
-            window_ms=args.window_ms,
+            model, spikes, out, dt_ms=args.dt_ms, t0_ms=args.t0_ms,
+            window_ms=args.window_ms, theme=args.theme,
             title=f"{args.lineage} — {stage['name']} — {stage['artifact']}",
             subtitle=args.subtitle or stage["purpose"])
 

@@ -31,3 +31,6 @@ results/whole_system_authority_g050.json
 results/whole_system_authority_g100.json
 results/whole_system_authority_g200.json
 results/whole_system_authority_g500.json
+
+# Packet gallery: duplicated verbatim in docs/jaxfne_vis_dropin/gallery, which is tracked.
+results/viz/_gallery/

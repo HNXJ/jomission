@@ -23,7 +23,8 @@
     "tests/test_tfne_v2_spec.py",
     "tests/test_whole_system_realization.py",
     "tests/test_whole_system_diagnostic.py",
-    "tests/test_o_authority.py"
+    "tests/test_o_authority.py",
+    "tests/test_propagation_causal.py"
    ]
   },
   "1": {

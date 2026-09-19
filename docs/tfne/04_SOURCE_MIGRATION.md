@@ -1,5 +1,7 @@
 # TFNE v1 to project source: conflicts and unspecified items
 
+> **SUPERSEDED by `TFNE_V2_SPEC.md` (tfne/2, 2026-09-17).** Kept as the migration record.
+
 **Date:** 2026-09-17
 **Authoritative:** `TFNE_ALGEBRA_PROJECT_SOURCE.md` (supplied by Hamm, final).
 **Superseded where they differ:** `00_TFNE_ALGEBRA_SPEC.md` (algebra version `tfne-algebra/1`, commit `cfd1e16`), and the fixtures and probes built on its spelling.
@@ -55,6 +57,10 @@ decision before any parser or compiler is built.
 | JaxFNE findings A–D, normalization receipt, §5 spectrolaminar tooling F1–F5 | `02_JAXFNE_COMPATIBILITY.md` | unaffected: engine facts, not algebra |
 
 ## 4. Questions for the owner
+
+> **Answered 2026-09-17:** `05_V2_MIGRATION_DECISIONS.md`. Q retired into `X[lateral]`;
+> the cortical unit becomes the definition `CTX`; the validity layer is rebuilt after the
+> corpus; SL0-SL2 move onto a candidate `CTX`; fixtures kept as `V1_FIXTURE`.
 
 1. **`Q`.** Retired into `X`, or kept as a separate operator that the source omits? If retired, the v1 laterality rules (frontier union, level-wise expansion on chains, the `O`/`Q` interchange law) either move onto `X[k]` rules or are dropped.
 2. **Unit content.** Does the canonical cortical unit survive as a named object (for example `CTX := [...]` with `P`, `C`, `G`, `model`), leaving D4a–D4f open against that object? The letter `H` is no longer available for it.

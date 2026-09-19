@@ -240,7 +240,8 @@ def cut_local_ee(model, area, cls):
 
 
 
-def probe(g_auth, ms, *, stimulus="off", seed=0, ee_cut=False, out=None):
+def probe(g_auth, ms, *, stimulus="off", seed=0, ee_cut=False, out=None,
+          keep_last_ms=None):
     """Run the arm's own construction for `ms` and save the spike raster.
 
     V1 of the visualization contract: look at the starting model before interpreting it.
@@ -265,15 +266,29 @@ def probe(g_auth, ms, *, stimulus="off", seed=0, ee_cut=False, out=None):
     state = jtfne.ContinuationState(dynamic=state.dynamic,
                                     prng_key=jax.random.PRNGKey(int(seed)),
                                     step_index=0, delay_state=state.delay_state)
-    n_steps = int(round(ms / DT))
-    sched = jnp.asarray(schedule_chunk(0.0, n_steps, n_neurons, lit, np.float32))
-    state, outputs = jtfne.run_continuation(step_fn, state, sched)
-    spikes = np.asarray(outputs[1])
-    # Per-step spikes at dt = 0.1 ms, reduced to 1 ms bins so the raster's time axis is ms.
-    per_ms = spikes.reshape(n_steps // STEPS_PER_MS, STEPS_PER_MS, -1).max(axis=1)
+    # Chunked for the same reason main() chunks: 13000 ms of per-step spikes for 2224 neurons
+    # is 1.1 GB before reduction. Only the requested tail is kept.
+    keep = float(keep_last_ms or ms)
+    if keep > ms:
+        raise ValueError(f"keep_last_ms {keep} exceeds the {ms} ms probe")
+    chunk_ms = min(CHUNK_MS, ms)
+    n_chunks = int(round(ms / chunk_ms))
+    if abs(n_chunks * chunk_ms - ms) > 1e-9:
+        raise ValueError(f"{ms} ms is not a whole number of {chunk_ms} ms chunks")
+    chunk_steps = int(round(chunk_ms / DT))
+    tail = []
+    for c in range(n_chunks):
+        sched = jnp.asarray(schedule_chunk(c * chunk_ms, chunk_steps, n_neurons, lit, np.float32))
+        state, outputs = jtfne.run_continuation(step_fn, state, sched)
+        sp = np.asarray(outputs[1])
+        tail.append(sp.reshape(chunk_steps // STEPS_PER_MS, STEPS_PER_MS, -1).max(axis=1))
+        while sum(t.shape[0] for t in tail) - tail[0].shape[0] >= keep:
+            tail.pop(0)
+    per_ms = np.concatenate(tail)[-int(round(keep)):]
     out = Path(out) if out else (ROOT / "results" / f"probe_{ARM_NAME[bool(ee_cut)]}.npz")
     out.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(out, spikes=per_ms.astype(np.uint8), dt_ms=1.0, ms=ms)
+    np.savez_compressed(out, spikes=per_ms.astype(np.uint8), dt_ms=1.0, ms=ms,
+                        t0_ms=ms - per_ms.shape[0])
     print(f"probe {ARM_NAME[bool(ee_cut)]} g={g_auth} {ms:g} ms -> {out} "
           f"shape {per_ms.shape} mean rate "
           f"{per_ms.mean() * 1000.0:.3f} Hz")
@@ -722,10 +737,13 @@ if __name__ == "__main__":
     ap.add_argument("--spec-commit", default=None)
     ap.add_argument("--probe-ms", type=float, default=None,
                     help="render mode: run this many ms and save the spike raster, then exit")
+    ap.add_argument("--probe-keep-last-ms", type=float, default=None,
+                    help="keep only this final window of the probe; defaults to the whole run")
     a = ap.parse_args()
     configure(a.spec)
     if a.probe_ms is not None:
-        probe(a.g, a.probe_ms, stimulus=a.stimulus, seed=a.seed, ee_cut=a.ee_cut, out=a.out)
+        probe(a.g, a.probe_ms, stimulus=a.stimulus, seed=a.seed, ee_cut=a.ee_cut,
+              out=a.out, keep_last_ms=a.probe_keep_last_ms)
         raise SystemExit(0)
     main(a.g, a.stimulus, a.seed, a.ee_cut,
          Path(a.out) if a.out else None, Path(a.out_y) if a.out_y else None,

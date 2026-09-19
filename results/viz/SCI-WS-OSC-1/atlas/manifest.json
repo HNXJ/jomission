@@ -1,0 +1,54 @@
+{
+  "suite": "atlas_suite.v1",
+  "title": "SCI-WS-OSC-1 V3 atlas \u2014 SINGLE_AREA construction (g = 0, E->E intact). Static panels are the sealed construction. Dynamic panels are an independent 500 ms simulation of it, NOT the 13000 ms run the verdict was measured in (results/whole_system_oscillator_single_area.json).",
+  "config_hash": "2083df38fea361d6",
+  "n_neurons": 2224,
+  "n_edges": 246844,
+  "n_steps": 5000,
+  "dt_ms": 0.1,
+  "panels": [
+    {
+      "file": "network_3d.html",
+      "panel": "Network 3D",
+      "evidence": "OBSERVED",
+      "bytes": 157090
+    },
+    {
+      "file": "connectivity.html",
+      "panel": "Connectivity",
+      "evidence": "OBSERVED",
+      "bytes": 992124
+    },
+    {
+      "file": "raster.html",
+      "panel": "Spike raster",
+      "evidence": "OBSERVED",
+      "bytes": 82150
+    },
+    {
+      "file": "traces.html",
+      "panel": "Membrane traces",
+      "evidence": "OBSERVED",
+      "bytes": 560221
+    },
+    {
+      "file": "spectral.html",
+      "panel": "Spectral",
+      "evidence": "DERIVED",
+      "bytes": 16562
+    },
+    {
+      "file": "operating_point.html",
+      "panel": "Operating point",
+      "evidence": "DERIVED",
+      "bytes": 12030
+    },
+    {
+      "file": "field.html",
+      "panel": "Field proxy",
+      "evidence": "DERIVED",
+      "bytes": 887073
+    }
+  ],
+  "sha256": "b07cec4669c6c721"
+}

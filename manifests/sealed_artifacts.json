@@ -1721,6 +1721,26 @@
    "path": "results/whole_system_diagnostic_3.json",
    "blob": "9c5912b05253050f94fc8a6fda79a92e12b20238",
    "sealed_in": "d4c9d17"
+  },
+  {
+   "path": "results/whole_system_authority_bracket_spec.json",
+   "blob": "11a2d20f6ec4424a24fb59c729cfdfcaa2b2f111",
+   "sealed_in": "74ee2cd"
+  },
+  {
+   "path": "scripts/whole_system_authority_arm.py",
+   "blob": "6bfb97dd13c0760e99924f6fd31bcda2f74e5571",
+   "sealed_in": "74ee2cd"
+  },
+  {
+   "path": "jomission/tfne/o_authority.py",
+   "blob": "13980f5ac7453e1342a500c65bbba350ca5aa375",
+   "sealed_in": "74ee2cd"
+  },
+  {
+   "path": "results/whole_system_authority_bracket.json",
+   "blob": "6a69385f9a788be3fcd6cfce93439ea4821d62d2",
+   "sealed_in": "9172036"
   }
  ]
 }

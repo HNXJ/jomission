@@ -1794,6 +1794,120 @@
    "tests": [],
    "commit": "d38e6cb",
    "blocks": "the burst-onset experiment and any corrected baseline, until g_FF, g_FB, g_X and the delay policy are decided by the reviewer"
+  },
+  {
+   "lineage_id": "WS-AUTH-1",
+   "parent": "WS-DIAG-2",
+   "principal_delta": "long-range cortical coupling specified as dimensionless transfer authority g, with the per-edge weight derived per receiving neuron, replacing the inherited uniform 0.5. Four arms at g_FF = g_FB = g_X = g in {0.05, 0.1, 0.2, 0.5}. Architecture, retina, stimulus, drive, seed, dt, durations, gates and tolerances are identical to WS-DIAG-2; the spec gates, retina, frozen and drive blocks compare equal to the parent.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_authority_bracket_spec.json",
+    "commit": "74ee2cd"
+   },
+   "authority": "reviewer 2026-09-18, settling the three open decisions of WS-O-AUTHORITY-1: EQUAL_G for the hierarchical doubling, channel-level pooled authority for g_FF, and delay left UNQUALIFIED rather than chosen. The bracket and the stop condition were authorized in the same message.",
+   "inputs": [
+    "results/o_authority_parameterization.json",
+    "results/whole_system_diagnostic_2.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-DIAG-2 except the long-range weights, which g specifies",
+    "HDP off, matching WS-DIAG-2, so authority is the single principal delta",
+    "delay DELAY_UNQUALIFIED_FROZEN at the inherited uniform 0 steps",
+    "the four arms differ from each other only in g"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "every arm passed the pre-execution realization acceptance in-run: 216 cells checked, being 56 ff, 40 fb and 120 lat targets; max relative error of K_long over K_local minus g was 5.14e-08 at g = 0.05, 0.1 and 0.2 and 5.90e-08 at g = 0.5, measured on the stored float32 weights. 7020 edges reweighted, every other weight bit-identical",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "all four arms returned WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed in every arm; synchrony and propagation failed in every arm",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "mean synchrony CV over the final 1000 ms was 2.9375, 2.9487, 2.9513 and 2.9784 at g = 0.05, 0.1, 0.2 and 0.5, against 3.0510 at the inherited weights in WS-DIAG-2. Areas over the 3.0 tolerance fell from four to one at the three lower g and to two at g = 0.5",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "the pooled E burst period is 190 ms at g = 0.05, at g = 0.5 and in WS-DIAG-2, measured identically on the decimated 10 ms series over the final 3 s, with autocorrelation 0.896, 0.873 and 0.880 and pooled E swinging from 0 to about 140 Hz in every case",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "mean pairwise zero-lag correlation of area E rates over the final 3 s was 0.8381, 0.8147, 0.8332 and 0.8925 at g = 0.05, 0.1, 0.2 and 0.5, against 0.8498 in WS-DIAG-2",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "the targeted and untargeted hemifield responded equally: the V1_1 minus V1_2 delta was 0.0000, +0.0145, +0.0145 and 0.0000 Hz across the bracket, against -0.0145 in WS-DIAG-2, while every area including FEF and PFC rose by 0.71 to 0.90 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "long-range authority is not the cause of the global burst. A twentyfold reduction, from a realized g of 11.5 to 40.4 down to 0.05, moved the mean synchrony CV by 0.11 and moved the burst period not at all. Within the bracket a tenfold change in g moved the CV by 0.04, smaller than the spread across areas within any single arm",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "no regime transition exists inside the authorized bracket. The predeclared disconnected-hierarchy end was not reached even at g = 0.05, where long-range input is 5 percent of local excitatory authority, because inter-area correlation stayed near 0.84 there",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    },
+    {
+     "claim": "propagation fails for a reason unchanged by g: every area rises by a similar amount and the untargeted hemifield rises as much as the targeted one, so the change is not attributable to the stimulus through the hierarchy at any authority in the bracket",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_authority_bracket.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the six areas most likely oscillate at a common period because they are identically parameterised local circuits under identical tonic drive, not because long-range projections weld them. Inter-area correlation near 0.84 at g = 0.05 is difficult to attribute to coupling that weak. This was not tested by ablating the long-range projections entirely, which this lineage had no authority to do",
+     "evidence_class": "INFERRED"
+    },
+    {
+     "claim": "the remaining candidates for the oscillator are local recurrent dynamics and intrinsic cell dynamics. Nothing in this lineage distinguishes them",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "LONG_RANGE_AUTHORITY_EXONERATED",
+    "status": "PARTIAL",
+    "status_note": "PARTIAL, not PASS: the lineage answered its discriminating question and left the system failing. Synchrony and propagation both still fail at every g"
+   },
+   "acceptance": "results/whole_system_authority_bracket_spec.json gate table, evaluated in the sealed order, plus the pre-execution realization acceptance on K_long over K_local minus g, below 1e-6",
+   "fail_boundary": "synchrony, load-bearing in every arm. The bracket objective, locating a regime transition, was not met because no transition exists within it",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_authority_bracket_spec.json",
+    "results/whole_system_authority_bracket.json",
+    "results/whole_system_authority_g050.json",
+    "results/whole_system_authority_g100.json",
+    "results/whole_system_authority_g200.json",
+    "results/whole_system_authority_g500.json"
+   ],
+   "tests": [
+    "tests/test_o_authority.py"
+   ],
+   "commit": "9172036",
+   "defects": [
+    {
+     "what": "scripts/whole_system_authority_arm.py shadows its own g parameter at lines 328 and 385 with loop variables, so the trailing summary print raises TypeError after the result file is written",
+     "impact": "confined to reporting. Every use of the real g is at lines 198 to 217, before the first shadowing; the recorded g, arm tag and per-arm acceptance values confirm each arm ran at its intended authority",
+     "disposition": "not repaired mid-bracket, so that the four arms would differ only in g. Repaired additively after sealing"
+    },
+    {
+     "what": "the four arm artifacts are 16.5 MB each because the per-group series is serialized into the result JSON. Sealing them grew .git from 20 MB to 34 MB",
+     "impact": "no scientific consequence; a repository-cost issue",
+     "disposition": "committed for consistency with WS-DIAG-2 and WS-DIAG-3, which seal their series the same way. The serialization policy for future lineages is still an open decision for the reviewer and is not settled here"
+    }
+   ]
   }
  ]
 }

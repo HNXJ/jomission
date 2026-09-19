@@ -2331,7 +2331,20 @@
      "blob": "06f4a2a5",
      "sealed_in": "2a2f4d8"
     }
-   }
+   },
+   "qualifies": [
+    {
+     "target": "the 190 ms burst period asserted by every whole-system lineage predating this one",
+     "affected": [
+      "WS-DIAG-2",
+      "WS-AUTH-1",
+      "WS-AUTH-2"
+     ],
+     "label": "UNRECEIPTED_SUPERSEDED_FOR_ACTIVE_USE",
+     "statement": "those lineages assert a 190 ms pooled burst period with autocorrelation 0.896, 0.873, 0.880 and 0.895. The figure has a stated method, the decimated 10 ms series over the final 3 s, and no preserved computation: no result file carries a period, frequency or autocorrelation field and no module computed one. Their recorded numbers are NOT rewritten and no verdict is retracted. What changes is that 190 ms may not be used as an input to any argument, threshold, window or design choice. The value for active use is 94 to 95 ms per area, measured by jomission.harness.oscillation against a Poisson null",
+     "authority": "reviewer 2026-09-19 on the SCI-WS-OSC-1 disposition: retire the unreceipted 190 ms description from active reasoning; the historical value remains as provenance with its lack of receipt explicitly marked"
+    }
+   ]
   }
  ]
 }

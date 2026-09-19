@@ -60,6 +60,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WHOLE_SYSTEM_PERIODIC_MODE: **PASS** — `results/whole_system_oscillator_comparison.json`
 - WHOLE_SYSTEM_BURST_STRUCTURE: **UNRESOLVED** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
 - WHOLE_SYSTEM_PERIOD_MEASURED: **PASS** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
+- WHOLE_SYSTEM_PERIOD_HISTORICAL: **QUARANTINED** (component of WHOLE_SYSTEM_PERIOD_MEASURED) — `results/whole_system_oscillator_comparison.json`
 
 ### Latest evidence (observed, with receipts)
 
@@ -88,8 +89,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-SKILL-DOGFOOD` (OPEN): Next scientific lineage uses jomission-gate-runner; improve the skill only from observed friction
-- stop: skill edits only from logged friction
+- `SCI-WS-OSC-2` (OPEN): answer whether an isolated E cell retains the 94 to 95 ms mode, with the exact cell parameters, tonic, noise, dt and baseline kernel of the intact arm, no synapses. Two arms: ISOLATED_1 at N = 1, and ISOLATED_POP, the intact construction with every edge weight zeroed, which gives 828 independent replicas measurable by the sealed estimator and comparable to SCI-WS-OSC-1
+- stop: two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, no O or X change, and no propagation work
 
 ### Locked gates
 

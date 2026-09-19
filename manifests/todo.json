@@ -1207,7 +1207,43 @@
     "commit": "3b239c9",
     "summary": "unanimous across all six areas. The 94 to 95 ms mode survives zeroing 113436 local E->E edges with the period moving by at most 1 percent. Burst structure does not survive: peak autocorrelation falls to 0.64 to 0.74 of intact and the final raster shows a smooth rate wave rather than discrete bursts. Recorded as an observation, outside the predeclared rule, not retuned into the verdict"
    }
+  },
+  {
+   "id": "SCI-WS-OSC-2",
+   "status": "OPEN",
+   "trigger": "SCI-WS-OSC-1 exonerated local E->E recurrence for period generation: the 94 to 95 ms mode survives zeroing all 113436 local E->E edges. Of the candidates, intrinsic single-cell dynamics and the local E-I circuit remain, and neither has been isolated",
+   "goal": "answer whether an isolated E cell retains the 94 to 95 ms mode, with the exact cell parameters, tonic, noise, dt and baseline kernel of the intact arm, no synapses. Two arms: ISOLATED_1 at N = 1, and ISOLATED_POP, the intact construction with every edge weight zeroed, which gives 828 independent replicas measurable by the sealed estimator and comparable to SCI-WS-OSC-1",
+   "parent_authority": "reviewer 2026-09-19 on the SCI-WS-OSC-1 disposition: next science recommendation is a single-neuron intrinsic-mode probe only. No HDP, O/X, propagation or weight changes. Use the exact E cell, tonic, noise, dt and baseline kernel from the intact arm, but N = 1, no synapses. Interpretation is binary: a single E with the mode identifies the intrinsic generator; a single E without it leaves the local E-I interaction required",
+   "principal_delta": "complete synaptic isolation. Every edge weight the baseline kernel reads is set to 0.0. Nothing else changes: cell parameters, tonic drive, the noise term, dt, seed semantics, duration and the kernel are the intact arm's",
+   "required_inputs": [
+    "results/whole_system_oscillator_single_area.json",
+    "results/whole_system_oscillator_comparison.json",
+    "manifests/visualization_contract.json"
+   ],
+   "frozen": [
+    "the E cell parameters, which are identical across all 828 cortical E cells: a 0.02, b 0.2, c -65, d 8, u0 -13. They are read from the intact arm's own emitter arrays, never retyped",
+    "v0, the only per-cell heterogeneity, taken per index from the intact construction",
+    "tonic drive E 5.0, dt 0.1 ms, seed 0, kernel baseline, HDP off, 13000 ms duration",
+    "the periodicity estimator and its window, max lag, surrogate count and 10 percent tolerance, unchanged from SCI-WS-OSC-1",
+    "everything SCI-WS-OSC-1 froze"
+   ],
+   "procedure": "VISUALIZATION_CONTRACT first: render V0 and V1 for both isolated constructions and look at them before interpreting anything. Seal a pre-execution spec naming both arms and the per-cell ISI observable, run them one process each, and report the ISI distribution and the periodicity measurement in each. Render V2 and V3 before declaring the lineage complete and list all four paths in the acceptance report",
+   "acceptance": "both arms complete, every edge weight reads 0.0 after the isolation with the count verified, and the isolated period is measured by the same sealed estimator. The informative outcomes are stated before execution: the isolated cell carries the mode at the same period, which identifies the intrinsic generator; it carries no mode, which leaves the local E-I interaction required; or it is rhythmic at a different period, which means intrinsic dynamics contribute without setting the observed frequency",
+   "measurement_hazard_declared_before_execution": "828 uncoupled oscillators with dispersed initial phases can produce a flat population rate while every cell oscillates. The population-rate measurement is therefore NOT the primary observable for ISOLATED_POP: the per-cell ISI distribution is. A population rate showing no mode is predeclared as uninformative about the intrinsic generator, and must not be read as evidence against it",
+   "stop_condition": "two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, no O or X change, and no propagation work",
+   "artifacts_expected": [
+    "results/whole_system_isolated_spec.json",
+    "results/whole_system_isolated_1.json",
+    "results/whole_system_isolated_pop.json",
+    "results/whole_system_isolated_comparison.json",
+    "results/viz/SCI-WS-OSC-2/jaxfne_network_hspice.png",
+    "results/viz/SCI-WS-OSC-2/raster_initial_1000ms.png",
+    "results/viz/SCI-WS-OSC-2/raster_final.png",
+    "results/viz/SCI-WS-OSC-2/atlas/index.html"
+   ],
+   "downstream_unlock": [],
+   "downstream_note": "unlocks nothing automatically. If the mode is intrinsic, the next question is what E->E recurrence does to burst coherence, which SCI-WS-OSC-1 left UNRESOLVED. If it is not, the next question is the local E-I circuit"
   }
  ],
- "next_authorized_task": "HARNESS-SKILL-DOGFOOD"
+ "next_authorized_task": "SCI-WS-OSC-2"
 }

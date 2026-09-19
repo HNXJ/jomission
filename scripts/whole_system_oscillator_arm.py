@@ -239,6 +239,47 @@ def cut_local_ee(model, area, cls):
     return model, realized
 
 
+
+def probe(g_auth, ms, *, stimulus="off", seed=0, ee_cut=False, out=None):
+    """Run the arm's own construction for `ms` and save the spike raster.
+
+    V1 of the visualization contract: look at the starting model before interpreting it.
+    Built through the same build / enforce / EQUAL_G / cut path main() uses, so the raster is
+    of the circuit that will run and not of a second description of it. The default stimulus
+    is off, because V1 is about what the model does unprompted.
+    """
+    model, normal, rf_decl, tonic_e = build()
+    index, (area, layer, cls) = realize.index_map(model)
+    model, enforcement = enforce(model, index)
+    model, authority = o_authority.realize_equal_g(model, index, area, layer, cls, g_auth)
+    realized = None
+    if ee_cut:
+        model, realized = cut_local_ee(model, area, cls)
+    n_neurons = int(model.params["emitter"].n_neurons)
+    lit = (np.asarray([index[f"{retina.AREA}.{retina.LAYER}.{retina.CLASS}"][0] + u
+                       for u in retina.spot_units()], dtype=np.int64)
+           if stimulus == "on" else np.zeros((0,), dtype=np.int64))
+    kspec = SPEC["kernel"]
+    step_fn, state = jtfne.compile_step_fn(model, dt_ms=DT, kernel=kspec["kernel"],
+                                           record_weight_trace=False)
+    state = jtfne.ContinuationState(dynamic=state.dynamic,
+                                    prng_key=jax.random.PRNGKey(int(seed)),
+                                    step_index=0, delay_state=state.delay_state)
+    n_steps = int(round(ms / DT))
+    sched = jnp.asarray(schedule_chunk(0.0, n_steps, n_neurons, lit, np.float32))
+    state, outputs = jtfne.run_continuation(step_fn, state, sched)
+    spikes = np.asarray(outputs[1])
+    # Per-step spikes at dt = 0.1 ms, reduced to 1 ms bins so the raster's time axis is ms.
+    per_ms = spikes.reshape(n_steps // STEPS_PER_MS, STEPS_PER_MS, -1).max(axis=1)
+    out = Path(out) if out else (ROOT / "results" / f"probe_{ARM_NAME[bool(ee_cut)]}.npz")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(out, spikes=per_ms.astype(np.uint8), dt_ms=1.0, ms=ms)
+    print(f"probe {ARM_NAME[bool(ee_cut)]} g={g_auth} {ms:g} ms -> {out} "
+          f"shape {per_ms.shape} mean rate "
+          f"{per_ms.mean() * 1000.0:.3f} Hz")
+    return out, realized, enforcement
+
+
 def main(g_auth, stimulus='on', seed=0, ee_cut=False, out=None, out_y=None,
          spec_name=DEFAULT_SPEC,
          spec_commit=None):
@@ -679,8 +720,13 @@ if __name__ == "__main__":
     ap.add_argument("--out", default=None)
     ap.add_argument("--out-y", default=None)
     ap.add_argument("--spec-commit", default=None)
+    ap.add_argument("--probe-ms", type=float, default=None,
+                    help="render mode: run this many ms and save the spike raster, then exit")
     a = ap.parse_args()
     configure(a.spec)
+    if a.probe_ms is not None:
+        probe(a.g, a.probe_ms, stimulus=a.stimulus, seed=a.seed, ee_cut=a.ee_cut, out=a.out)
+        raise SystemExit(0)
     main(a.g, a.stimulus, a.seed, a.ee_cut,
          Path(a.out) if a.out else None, Path(a.out_y) if a.out_y else None,
          a.spec, a.spec_commit)

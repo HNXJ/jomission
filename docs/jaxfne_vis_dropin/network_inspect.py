@@ -36,6 +36,11 @@ import numpy as np
 
 CHANNEL_ABBREV = {"feedforward": "FF", "feedback": "FB", "lateral": "LAT"}
 
+# A projection whose every realized weight is 0.0 exists in the construction and carries
+# nothing. Drawn solid it reads as a working connection, which is the opposite of the truth,
+# so it is drawn dotted and faint with its w=0.000 label intact. Information is unchanged.
+INERT_ALPHA = 0.3
+
 __all__ = ["network_hspice", "network_raster", "describe", "Theme", "THEMES", "resolve_theme"]
 
 # ---------------------------------------------------------------------------- themes
@@ -358,6 +363,7 @@ def network_hspice(model: Any, *, x: str | None = None, y: str | None = None,
         if sa not in rows or da not in rows:
             continue
         colour = th.channel_color("inhibitory" if p["sign"] == "inhibitory" else ch)
+        inert = p["mean_weight"] == 0.0
         label = (f"{CHANNEL_ABBREV.get(ch, ch[:3].upper())}  {p['source'].split('.', 1)[1]}"
                  f"→{p['target'].split('.', 1)[1]}\n"
                  f"n={p['n_edges']}  w={p['mean_weight']:.3f}")
@@ -369,10 +375,14 @@ def network_hspice(model: Any, *, x: str | None = None, y: str | None = None,
                 continue
             drawn.add(key)
             ax.annotate("", xy=(cx_of[da], yd), xytext=(cx_of[sa], ys), zorder=6,
-                        arrowprops=dict(arrowstyle="<|-|>", color=colour, linewidth=2.0,
+                        arrowprops=dict(arrowstyle="<|-|>", color=colour,
+                                        linewidth=1.1 if inert else 2.0,
+                                        linestyle=":" if inert else "-",
+                                        alpha=INERT_ALPHA if inert else 1.0,
                                         shrinkA=3, shrinkB=3))
             ax.text(cx_of[sa] + 0.004, (ys + yd) / 2, label, ha="left", va="center",
                     fontsize=6.5, color=colour, zorder=7,
+                    alpha=INERT_ALPHA if inert else 1.0,
                     bbox=dict(boxstyle="round,pad=0.18", facecolor=th.label_halo, alpha=0.9,
                               edgecolor="none"))
             continue
@@ -384,7 +394,7 @@ def network_hspice(model: Any, *, x: str | None = None, y: str | None = None,
         p1 = (span[da][0] if fwd else span[da][1], yd)
         _arrow(ax, p0, p1, colour, th, label, rad=0.16 if sa != da else 0.04,
                style="-|>" if p["sign"] != "inhibitory" else "-[",
-               dashed=not fwd, label_pos=pool[k % len(pool)])
+               dashed=not fwd, label_pos=pool[k % len(pool)], inert=inert)
 
     if show_legend:
         handles = [mpatches.Patch(color=cmap[c], label=c) for c in all_classes]
@@ -465,16 +475,19 @@ def _draw_block(ax, x, y, w, h, area, layers, th, cmap, *, fontsize=7):
 
 
 def _arrow(ax, p0, p1, colour, th, label, *, rad=0.0, lw=1.6, style="-|>", dashed=False,
-           label_pos=0.5, fontsize=6.5):
+           label_pos=0.5, fontsize=6.5, inert=False):
     ax.annotate("", xy=p1, xytext=p0, zorder=6, annotation_clip=False,
                 arrowprops=dict(arrowstyle=style, color=colour,
-                                linestyle="--" if dashed else "-", linewidth=lw,
+                                linestyle=":" if inert else ("--" if dashed else "-"),
+                                linewidth=lw * (0.55 if inert else 1.0),
+                                alpha=INERT_ALPHA if inert else 1.0,
                                 connectionstyle=f"arc3,rad={rad}", shrinkA=2, shrinkB=2))
     if not label:
         return
     mx = p0[0] + (p1[0] - p0[0]) * label_pos
     my = p0[1] + (p1[1] - p0[1]) * label_pos + rad * 0.35
     ax.text(mx, my, label, ha="center", va="center", fontsize=fontsize, color=colour,
+            alpha=INERT_ALPHA if inert else 1.0,
             zorder=7, bbox=dict(boxstyle="round,pad=0.15", facecolor=th.label_halo,
                                 alpha=0.88, edgecolor="none"))
 

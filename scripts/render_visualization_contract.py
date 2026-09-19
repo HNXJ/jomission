@@ -38,7 +38,7 @@ def load_driver(path: str):
     return mod
 
 
-def build_from_driver(path: str, *, g=None, ee_cut=False):
+def build_from_driver(path: str, *, g=None, ee_cut=False, isolate=False):
     """Use the driver's own build() and enforce(), so V0 shows the circuit that runs.
 
     ``g`` and ``ee_cut`` carry the realization the arm actually compiles. Without them the
@@ -57,6 +57,9 @@ def build_from_driver(path: str, *, g=None, ee_cut=False):
     if ee_cut:
         model, ee = drv.cut_local_ee(model, area, cls)
         realization["ee_cut"] = ee["realized"]
+    if isolate:
+        model, iso = drv.isolate(model)
+        realization["isolation"] = iso["realized"]
     index, _ = realize.index_map(model)
     return model, index, rf_decl, {**enforcement, **realization}, drv
 
@@ -78,6 +81,8 @@ def main() -> int:
                     help="realize EQUAL_G at this authority before rendering")
     ap.add_argument("--ee-cut", action="store_true",
                     help="apply the driver's local E->E ablation before rendering")
+    ap.add_argument("--isolate", action="store_true",
+                    help="apply the driver's complete synaptic isolation before rendering")
     ap.add_argument("--arm", default="", help="arm name, appended to the title")
     args = ap.parse_args()
 
@@ -87,8 +92,17 @@ def main() -> int:
 
     if args.stage == "V0":
         model, index, rf_decl, enforcement, _ = build_from_driver(
-            args.driver, g=args.g, ee_cut=args.ee_cut)
+            args.driver, g=args.g, ee_cut=args.ee_cut, isolate=args.isolate)
         n_units = sum(v["n_units"] for v in rf_decl.values())
+        # The x arrow is structural decoration in the portable renderer and stays solid
+        # whatever the weights are, so the realized retinal weight goes in the label. Without
+        # it an isolated construction shows a live input path it does not have.
+        import numpy as _np
+        _el = model.params["edge_list"]
+        _w = _np.asarray(_el.weight)
+        _pre = _np.asarray(_el.pre)
+        _r0 = index["Retina.L4.E"][0] if "Retina.L4.E" in index else None
+        _ret = _w[_pre >= _r0].sum() if _r0 is not None else float("nan")
         info = VC.schematic(
             model, out, title=TITLE + (f"   —   {args.arm}" if args.arm else ""),
             theme=args.theme,

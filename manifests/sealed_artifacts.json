@@ -1806,6 +1806,31 @@
    "path": "jomission/harness/oscillation.py",
    "blob": "d0dce0f2d62d76874640f6a40da91aa7ab268190",
    "sealed_in": "2c50b7b"
+  },
+  {
+   "path": "results/whole_system_isolated_spec.json",
+   "blob": "d0d801092c1e3441014673599e9359323dcd026f",
+   "sealed_in": "96b8749"
+  },
+  {
+   "path": "results/whole_system_isolated_pop.json",
+   "blob": "fc33aa081a242877c5c3cc0d797f7d6f1749a3f5",
+   "sealed_in": "8f3ab6d"
+  },
+  {
+   "path": "results/whole_system_isolated_1.json",
+   "blob": "0b4d3c3bed791b1dd2b4a816e6af54517b55f3d0",
+   "sealed_in": "8f3ab6d"
+  },
+  {
+   "path": "results/whole_system_isolated_comparison.json",
+   "blob": "db76c94b310f6ad9ddc04c373eee0de9a322bb6f",
+   "sealed_in": "8f3ab6d"
+  },
+  {
+   "path": "scripts/whole_system_isolated_arm.py",
+   "blob": "a524e6b219208bf58bfbc97322ecd137920788c9",
+   "sealed_in": "96b8749"
   }
  ]
 }

@@ -1210,7 +1210,7 @@
   },
   {
    "id": "SCI-WS-OSC-2",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "SCI-WS-OSC-1 exonerated local E->E recurrence for period generation: the 94 to 95 ms mode survives zeroing all 113436 local E->E edges. Of the candidates, intrinsic single-cell dynamics and the local E-I circuit remain, and neither has been isolated",
    "goal": "answer whether an isolated E cell retains the 94 to 95 ms mode, with the exact cell parameters, tonic, noise, dt and baseline kernel of the intact arm, no synapses. Two arms: ISOLATED_1 at N = 1, and ISOLATED_POP, the intact construction with every edge weight zeroed, which gives 828 independent replicas measurable by the sealed estimator and comparable to SCI-WS-OSC-1",
    "parent_authority": "reviewer 2026-09-19 on the SCI-WS-OSC-1 disposition: next science recommendation is a single-neuron intrinsic-mode probe only. No HDP, O/X, propagation or weight changes. Use the exact E cell, tonic, noise, dt and baseline kernel from the intact arm, but N = 1, no synapses. Interpretation is binary: a single E with the mode identifies the intrinsic generator; a single E without it leaves the local E-I interaction required",
@@ -1242,8 +1242,38 @@
     "results/viz/SCI-WS-OSC-2/atlas/index.html"
    ],
    "downstream_unlock": [],
-   "downstream_note": "unlocks nothing automatically. If the mode is intrinsic, the next question is what E->E recurrence does to burst coherence, which SCI-WS-OSC-1 left UNRESOLVED. If it is not, the next question is the local E-I circuit"
+   "downstream_note": "unlocks nothing automatically. If the mode is intrinsic, the next question is what E->E recurrence does to burst coherence, which SCI-WS-OSC-1 left UNRESOLVED. If it is not, the next question is the local E-I circuit",
+   "result": {
+    "verdict": "INTRINSIC_GENERATOR_CONFIRMED",
+    "commit": "8f3ab6d",
+    "summary": "both arms, 0.16 and 0.53 percent from the intact 94.0 ms period with every synapse zeroed. Cross-check passed"
+   }
+  },
+  {
+   "id": "SCI-EI-REGIME-1",
+   "status": "BLOCKED",
+   "trigger": "while scoping the reviewer's AGSDR calibration question, the intact whole-system model was measured per class: E 10.93 Hz, PV 0.433 Hz, SST 51.28 Hz, VIP 0.446 Hz against B1 targets of 5-8, 12-25, 6-12 and 8-15. PV and VIP are 30 to 60 times below target, SST is 5 to 8 times above, and the required E < PV ordering is inverted",
+   "goal": "diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP",
+   "parent_authority": "none yet. Raised by the Actor as a finding. The reviewer's AGSDR question of 2026-09-19 is the context, but no lineage is authorized",
+   "principal_delta": "none. A diagnosis, not an intervention",
+   "required_inputs": [
+    "results/whole_system_oscillator_single_area.json",
+    "jomission/qualification/b1_targets.py",
+    "manifests/agsdr_local_objectives.json"
+   ],
+   "frozen": [
+    "everything. Nothing is changed by a diagnosis"
+   ],
+   "procedure": "re-measure per-class rates at full 1 ms resolution rather than from the series decimated by 10, then attribute the deficit",
+   "acceptance": "per-class rates re-measured at full resolution with the subsampling caveat removed, and the PV and VIP deficit attributed to a named mechanism rather than left as an observation",
+   "stop_condition": "diagnosis only. No parameter is changed and no rate is calibrated",
+   "artifacts_expected": [
+    "results/ei_regime_diagnosis.json"
+   ],
+   "downstream_unlock": [],
+   "blocked_by": "reviewer authorization. Also blocked on the ratification of B1_CLASS_TARGETS, which jomission/qualification/b1_targets.py marks MODEL_ASSUMPTION and ratification-pending, and which state that they must not be tuned post-hoc",
+   "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it"
   }
  ],
- "next_authorized_task": "SCI-WS-OSC-2"
+ "next_authorized_task": "HARNESS-SKILL-DOGFOOD"
 }

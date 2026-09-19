@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-WS-OSC-1 sealed MODE_INDEPENDENT_OF_ABLATED_CONNECTION, unanimous across all six areas, and its stop_condition is reached: two arms, then STOP. No HDP, tonic, delay or inter-area parameter was changed and no recurrence beyond local E->E was ablated. Where the next question is asked is a reviewer decision
+- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The reviewer has raised an AGSDR-based per-class rate calibration; two of its prerequisites are open decisions for the reviewer, the ratification of the B1 targets and whether to break the one-spike-per-cycle regime, so no spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -61,15 +61,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WHOLE_SYSTEM_BURST_STRUCTURE: **UNRESOLVED** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
 - WHOLE_SYSTEM_PERIOD_MEASURED: **PASS** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
 - WHOLE_SYSTEM_PERIOD_HISTORICAL: **QUARANTINED** (component of WHOLE_SYSTEM_PERIOD_MEASURED) — `results/whole_system_oscillator_comparison.json`
+- WHOLE_SYSTEM_INTRINSIC_GENERATOR: **PASS** — `results/whole_system_isolated_comparison.json`
+- E_RATE_AND_PERIOD_ARE_ONE_DOF: **PASS** (component of WHOLE_SYSTEM_INTRINSIC_GENERATOR) — `results/whole_system_isolated_pop.json`
+- INTERNEURON_RATE_REGIME: **FAIL** (component of WHOLE_SYSTEM_INTRINSIC_GENERATOR) — `results/whole_system_oscillator_single_area.json`
 
 ### Latest evidence (observed, with receipts)
 
-- WS-AUTH-2: the realization is exact: all 7020 long-range cortical edges are exactly 0.0, the ff, fb and lat post-realization mean weights are all 0.0, all 238800 local weights and all 1024 retinal edges are bit-identical to the inherited edge list, and acceptance max absolute error is 0.0 over 216 checked cells — `d5e8205:results/whole_system_authority_g000.json`
-- WS-AUTH-2: with the six areas fully disconnected the pooled E burst period is 190 ms, 5.26 Hz, with autocorrelation 0.895 and the pooled rate swinging from 0 to 125.6 Hz. The period is identical to every arm of WS-AUTH-1 and to WS-DIAG-2 — `d5e8205:results/whole_system_authority_g000.json`
-- WS-AUTH-2: mean pairwise zero-lag correlation of area E rates over the final 3 s is 0.8385 at g = 0, against 0.8381 at g = 0.05, 0.8147 at g = 0.1, 0.8332 at g = 0.2, 0.8925 at g = 0.5 and 0.8498 at the inherited weights in WS-DIAG-2 — `d5e8205:results/whole_system_authority_g000.json`
-- WS-AUTH-2: mean synchrony CV over the final 1000 ms is 2.9161 with one area over the 3.0 tolerance, against 2.9375 and one area at g = 0.05. The verdict is WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed — `d5e8205:results/whole_system_authority_g000.json`
-- WS-AUTH-2: the propagation gate reports every area rising during the stimulus window, including FEF at +0.7971 Hz and PFC at +0.8406 Hz, although at g = 0 no current can reach them from V1 at all — `d5e8205:results/whole_system_authority_g000.json`
-- WS-AUTH-2: the retinal interface still works and is unaffected: lit units fire at 11.0 Hz and the population rate goes 0.0 to 0.6875 Hz, as in every previous arm — `d5e8205:results/whole_system_authority_g000.json`
 - WS-PROP-1: all six cells ran one process each, 152.9 to 153.2 s, and each wrote a complete result with verdict WHOLE_SYSTEM_SYNCHRONY_FAIL as predeclared — `9e2372b:results/whole_system_causal_propagation.json`
 - WS-PROP-1: R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1 — `9e2372b:results/whole_system_causal_propagation.json`
 - WS-PROP-1: the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection — `9e2372b:results/whole_system_causal_propagation.json`
@@ -86,11 +83,18 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-WS-OSC-1: the intact arm's final 1000 ms is discrete synchronous bursts reaching about 100 Hz with near silence between them — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final.png`
 - SCI-WS-OSC-1: the cut arm's final 1000 ms over the same window, ordering and conventions shows no discrete bursts: the population rate is a smooth 3 to 30 Hz wave at the same period — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final_ee_cut.png`
 - SCI-WS-OSC-1: results/whole_system_authority_g000.json contains no period, frequency or autocorrelation field anywhere in its structure, and before this lineage no module in the repository computed one. The 190 ms figure quoted in prose has no receipt — `3b239c9:results/whole_system_authority_g000.json`
+- SCI-WS-OSC-2: the ISOLATED_POP arm ran one process, 162 s, with all 246844 edge weights zeroed, weight sum 561.510437 to 0.0, max_abs_after 0.0 and n_nonzero_after 0 — `8f3ab6d:results/whole_system_isolated_pop.json`
+- SCI-WS-OSC-2: all 828 cortical E cells fire with every synapse zeroed. None is silent, and the pooled interspike interval over the final 1000 ms is 94.1505 ms with standard deviation 1.3292 ms, CV 0.014118, implying 10.6213 Hz — `8f3ab6d:results/whole_system_isolated_pop.json`
+- SCI-WS-OSC-2: the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone — `8f3ab6d:results/whole_system_isolated_pop.json`
+- SCI-WS-OSC-2: the ISOLATED_1 arm compiled one neuron and zero edges at V1_1.L5.E with a 0.02, b 0.2, c -65, d 8, u0 -13, v0 -6.738214 and drive 5.0, each sliced from the intact construction, and its pooled interval over the final 1000 ms is 94.5 ms with standard deviation 1.2042 ms, CV 0.012742, implying 10.582 Hz — `8f3ab6d:results/whole_system_isolated_1.json`
+- SCI-WS-OSC-2: the population-rate estimator applied to the single cell reported a period of 378.0 ms, exactly four times its 94.5 ms interval, with peak autocorrelation 0.268523 against a null threshold of 0.220528 — `8f3ab6d:results/whole_system_isolated_1.json`
+- SCI-WS-OSC-2: the population rate of ISOLATED_POP did not flatten. The estimator still found a mode in all six areas at 93 to 95 ms with peak autocorrelation 0.580 to 0.663 against nulls near 0.102 — `8f3ab6d:results/whole_system_isolated_pop.json`
+- SCI-WS-OSC-2: the isolated final-window raster shows a smooth 0 to 33 Hz rate wave at about 95 ms with no discrete bursts, the same waveform SCI-WS-OSC-1's EE_CUT arm produced — `8f3ab6d:results/viz/SCI-WS-OSC-2/raster_final.png`
 
 ### Next authorized task
 
-- `SCI-WS-OSC-2` (OPEN): answer whether an isolated E cell retains the 94 to 95 ms mode, with the exact cell parameters, tonic, noise, dt and baseline kernel of the intact arm, no synapses. Two arms: ISOLATED_1 at N = 1, and ISOLATED_POP, the intact construction with every edge weight zeroed, which gives 828 independent replicas measurable by the sealed estimator and comparable to SCI-WS-OSC-1
-- stop: two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, no O or X change, and no propagation work
+- `HARNESS-SKILL-DOGFOOD` (OPEN): Next scientific lineage uses jomission-gate-runner; improve the skill only from observed friction
+- stop: skill edits only from logged friction
 
 ### Locked gates
 

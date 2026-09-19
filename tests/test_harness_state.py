@@ -72,7 +72,7 @@ def test_test_tiers_consistent():
     for f in sorted((root / "tests").glob("test_*.py")):
         text = f.read_text(encoding="utf-8", errors="ignore")
         rel = f.relative_to(root).as_posix()
-        if re.search(r"[\"']results[/\"']|RESULTS", text) and writes.search(text) and rel != "tests/test_harness_guards.py":
+        if re.search(r"[\"']results[/\"']|RESULTS", text) and writes.search(text) and rel not in ("tests/test_harness_guards.py", "tests/test_seal_write_guard.py"):
             assert rel in t3, f"{rel} writes results but is not tier 3"
 
 

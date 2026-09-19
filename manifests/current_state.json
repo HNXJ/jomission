@@ -1,6 +1,6 @@
 {
  "schema": "jomission.current_state.v1",
- "updated": "2026-09-17",
+ "updated": "2026-09-18",
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
@@ -77,11 +77,59 @@
     "authority": "reviewer 2026-09-17",
     "lift": "a lineage that changes or explains the mechanism producing PV state dependence"
    }
+  },
+  "V2.1_PV_PREDECESSOR": {
+   "status": "UNRESOLVED",
+   "evidence": "results/v21_pv_predecessor.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "the PV fate is set by the initial state, not the noise realization (key-matched control)",
+   "fail_boundary": "the recorded observable set: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz"
+  },
+  "V2.1_PV_MICROSTATE": {
+   "status": "UNRESOLVED",
+   "evidence": "results/v21_pv_microstate.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "u carries no fate-distinguishing information in the first 15 s; per-cell v adds nothing over the mean of v",
+   "fail_boundary": "the comparison design: A and B differ in initial state by construction"
+  },
+  "V2.1_PV_M0_DECOMPOSITION": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m0_r2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "only v, u and syn_state differ between the two fate-carrying initial states; w and H are bitwise identical"
+  },
+  "V2.1_PV_M1_TRANSPLANT": {
+   "status": "FAIL",
+   "evidence": "results/v21_pv_m1.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "no single block among v, u and the PV-incoming synaptic state switches the PV fate under a matched base and future stream",
+   "fail_boundary": "the single-block hypothesis; controls reproduced exactly and every transplant was verified bitwise"
+  },
+  "V2.1_PV_M2_PAIR_TRANSPLANT": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "established": "the intrinsic pair (v, u) is jointly sufficient to switch the PV fate while neither member is sufficient alone; the PV-incoming synaptic state is not required"
+  },
+  "PV_INTRINSIC_VU_PAIR_SUFFICIENT": {
+   "status": "PASS",
+   "evidence": "results/v21_pv_m2.json",
+   "scope": "component",
+   "component_of": "V2.1_COUPLED_BACKGROUND",
+   "evidence_class": "OBSERVED",
+   "claim": "transplanting the donor v and u pair into the low-PV base state is sufficient to recover the active-PV fate under the matched future stochastic stream (A_vu 15.055 Hz against a donor control of 15.110 Hz); neither v nor u alone is sufficient (A_v 0.303 Hz, A_u 0.107 Hz, base 0.707 Hz)",
+   "not_established": "necessity and mechanism. The converse transplant was not run, and sufficiency of a joint configuration is not a mechanism",
+   "authority": "reviewer 2026-09-18 disposition of SCI-V21-PV-M2"
   }
  },
- "open_scientific_question": "what state variable or pathway distinguishes active-PV and silent-PV histories at identical external parameters (x:H(s1) != x:H(s2))",
- "stopped_because": "SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized",
- "next_authorized_task": "SCI-V21-PV-STATE-PREDECESSOR",
+ "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
+ "stopped_because": "WS-DIAG-3 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL with the intended HDP mechanism ON (jomission_authority_v3), matched to the WS-DIAG-2 baseline in every other respect. Every predeclared equilibrium was met and neither H bound was touched, so the verdict is readable as evidence about the architecture. Synchrony improved but did not clear: areas over the 3.0 tolerance fell from four to one, PFC 3.0372. Efficacy redistribution acted almost only on inhibition, because E sits at H = 1 where m(H) = 1 is neutral while silent PV and VIP reach m(7.43) = 1.76. Propagation still unattributable, now with the opposite sign: every area falls about 1 Hz during the stimulus, four of them exactly 11.0 -> 10.0, the signature of a globally periodic burst regime. Observe, localize, STOP: no stabilization or retuning in this lineage. Awaiting reviewer direction.",
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

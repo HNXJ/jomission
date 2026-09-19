@@ -1,0 +1,85 @@
+{
+ "lineage": "V2.1-pv-microstate (SCI-V21-PV-MICROSTATE)",
+ "parent": "V2.1-pv-predecessor-instrumented, result commit b4130f3, verdict UNRESOLVED",
+ "authority": "reviewer 2026-09-17: before any new execution, reopen the saved instrumented trajectories at per-cell resolution. Minimal predeclared hierarchy, distributional comparison rather than a search over summary statistics, A against B and C because P1 showed those carry opposite fates. Only RECORDED_MICROSTATE_INSUFFICIENT would justify another instrumented execution",
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "kind": "read-only reanalysis of trajectories already produced by SCI-V21-PV-PREDECESSOR. No simulation, no engine call, no parameter of any kind",
+ "question": "does the fate-carrying information already exist in the recorded microscopic state, earlier than the macroscopic PV-rate divergence at 15 s in run A",
+ "inputs": {
+  "traces": {
+   "A_collapse.npz": "sha256 fcb2b3004f31eb58e0df13de488ac142ecb86552e4d1a08a0fabe4fbb325646b",
+   "B_active.npz": "sha256 912f422c39a82ef1218c03d4d666dd738df0d3a41dc1b806f4ac0eb21d1d485e",
+   "C_control.npz": "sha256 89f8c5f80e533142cbe6d39897061b2331c5685e60e18a3006f796ca6e5d5815",
+   "location": "the session scratch directory named in results/v21_pv_predecessor.json scratch_dir; regenerable by rerunning tests/test_v21_pv_predecessor.py at commit b4130f3",
+   "contents": "per-PV-cell v, u, sources and the four reconstructed class inputs as 1 ms means, 60000 bins x 40 cells, plus exact (step, cell) PV spike pairs"
+  },
+  "sealed": [
+   "results/v21_pv_predecessor.json",
+   "results/v21_pv_stationarity.json"
+  ]
+ },
+ "integrity_check": "the population-mean channels recomputed from the traces must reproduce the numbers sealed in results/v21_pv_predecessor.json post_execution_disclosure to the digits printed there (v_PV baseline -63.750 +- 5.607, late -63.495; sources baseline 3.3786 +- 0.4464, late 3.3866; u_PV baseline -12.411 +- 0.798, late -12.687), and the per-cell early and late rate ranges must match. Otherwise TRACE_IDENTITY_FAILED and stop",
+ "interpretation_limit": "A and B start from different states by construction, so a per-cell difference at epoch 0 is constitutive and is not by itself evidence of anything. The claim this lineage can support is narrower and is what the criterion below tests: a per-cell representation separates the fates at epochs where the population-mean representation of the same variable does not",
+ "null_scale": "B and C share an initial state (hash 8704423170e6ae32) and the same fate, and differ only in the noise realization, so the B-C distance at each level is the fate-irrelevant scale. It is zero at epoch 0 and grows as the two runs decorrelate; the scale used is its maximum over the lead window",
+ "procedure_constants": {
+  "epoch_ms": 1000,
+  "lead_window_epochs": 15,
+  "pv_rate_divergence_ms": 15000.0,
+  "precede_ms": 1000,
+  "separation_factor": 5.0,
+  "sustain_epochs": 3,
+  "min_cells_for_isi": 20,
+  "min_spikes_per_cell_for_isi": 3,
+  "warmup_ms": 50,
+  "n_pv": 40
+ },
+ "hierarchy": [
+  {
+   "level": 1,
+   "representation": "per-cell epoch-mean v, a 40-vector per epoch",
+   "statistic": "Wasserstein-1 between 40-vectors"
+  },
+  {
+   "level": 2,
+   "representation": "per-cell epoch-mean u",
+   "statistic": "Wasserstein-1 between 40-vectors"
+  },
+  {
+   "level": 3,
+   "representation": "joint per-cell (v, u), standardized by the run-B epoch-0 cell spread",
+   "statistic": "energy distance between the two 40-point clouds"
+  },
+  {
+   "level": 4,
+   "representation": "per-cell within-epoch ISI mean and ISI CV; cells with fewer than 3 spikes in the epoch are excluded and an epoch with fewer than 20 qualifying cells in any run is ineligible",
+   "statistic": "energy distance between the two clouds"
+  },
+  {
+   "level": 5,
+   "representation": "per-cell epoch-mean total reconstructed synaptic input, first 50 ms excluded",
+   "statistic": "Wasserstein-1 between 40-vectors",
+   "condition": "evaluated only if levels 1-4 produce no qualifying separation"
+  }
+ ],
+ "criterion": "at each level and epoch, d(A,B) and d(A,C) must both exceed separation_factor times the maximum of d(B,C) over the lead window, for sustain_epochs consecutive epochs. The qualifying time is the first epoch of that run. In parallel the same test is applied to the population mean of the same variable, using |mean_A - mean_B| and |mean_A - mean_C| against the maximum |mean_B - mean_C| over the lead window",
+ "lead_rule": "a level qualifies as a predecessor only if its qualifying time is at least precede_ms earlier than the macroscopic PV-rate divergence at 15000 ms",
+ "hierarchy_rule": "levels are evaluated in order and the first qualifying level is the reported one; lower levels are not searched for a better statistic and no level's statistic is changed after the distances are computed",
+ "classification": {
+  "PV_MICROSTATE_PREDECESSOR": "a level qualifies under the criterion and the lead rule, at epochs where the population-mean test of the same variable does not qualify",
+  "RECORDED_MICROSTATE_INSUFFICIENT": "no level qualifies: the retained microscopic state contains no predecessor, which is the only outcome that would justify another instrumented execution with additional observables",
+  "UNRESOLVED": "a level separates but the ordering is ambiguous: it does not lead the macroscopic divergence by precede_ms, or the population-mean test qualifies at the same epochs, so the separation is not specific to the microscopic representation",
+  "TRACE_IDENTITY_FAILED": "the traces do not reproduce the sealed population-mean numbers"
+ },
+ "forbidden": [
+  "any simulation, engine call or new execution",
+  "adding statistics or levels beyond the five declared, or changing one after seeing a distance",
+  "treating the constitutive epoch-0 difference between A and B as evidence",
+  "concluding a mechanism: this lineage can locate a representation, not a cause",
+  "declaring PV_SPIKE_MICROSTATE falsified because the collapse is uniform across cells: a collective state can differ in phase configuration or joint (v, u) structure while every cell shares the same eventual fate"
+ ],
+ "artifacts": {
+  "committed": "results/v21_pv_microstate.json",
+  "driver": "scripts/v21_pv_microstate.py, checked by tests/test_v21_pv_microstate.py (tier 0)"
+ },
+ "stop": "classify, write results/v21_pv_microstate.json, STOP for review. No intervention and no new execution follows automatically"
+}

@@ -1,0 +1,38 @@
+{
+ "schema": "jomission.realization_spec.v1",
+ "lineage_id": "WS-REALIZE-R1R4",
+ "authority": "reviewer 2026-09-18: Option 1, phases R0-R4. Ancestry: branch whole-system-realizer from PV head e2bd273; no rebase onto main.",
+ "goal": "Realize x : A : y in JaxFNE from the sealed TFNE/2 semantics and reconcile the realized graph against NF(A). No simulation.",
+ "expression": "x : {V1^2 X[lat]} O[fffb] {V4^2 X[lat]} O[fffb] {FEF X[lat] PFC} : y",
+ "frozen": {
+  "tfne_authority": "docs/tfne/TFNE_V2_SPEC.md (SEALED)",
+  "definition": "CTX[jomission_v0], jomission/tfne/ctx.py, N=200 per instance",
+  "architecture": "jomission/tfne/architecture.py; V1->V4 matched_instance, V4->frontal derived_frontier_union",
+  "realizer": "jomission/tfne/realize.py; scaffold p_feedforward=p_feedback=0, one connections() per projection, probability=1.0, weight=0.5, AMPA tau_ms=2.0",
+  "seed": 0,
+  "dt_ms": 0.1
+ },
+ "procedure": [
+  "normalize NF(A) and emit the expected graph before construction",
+  "check the no-skip invariant: no projection relates non-adjacent composites",
+  "scaffold populations, declare mechanisms, declare one connection per projection, construct",
+  "reconcile projection identities first, then edge counts, then populations, mechanisms and I"
+ ],
+ "acceptance": "WHOLE_SYSTEM_REALIZATION_PASS iff delta_objects = delta_populations = delta_projections = delta_index = 0, E_missing = E_extra = empty, the no-skip invariant holds, I[FEF.L6.E] resolves nonempty and exactly to area=FEF/layer=L6/cell_type=E, and every declared input frontier resolves",
+ "stop_condition": "WHOLE_SYSTEM_REALIZATION_FAIL at the narrowest realization failure; no simulation is authorized by this lineage",
+ "artifacts_expected": [
+  "results/whole_system_realization.json"
+ ],
+ "no_simulation": "no step function is compiled and no continuation is run in this lineage",
+ "input_interface": {
+  "x": "Retina^1024",
+  "G": [
+   32,
+   32
+  ],
+  "note": "declared and its entry points resolved structurally; no retinal population is constructed here"
+ },
+ "output_interface": {
+  "y": "FEF.L6.E.v(t)"
+ }
+}

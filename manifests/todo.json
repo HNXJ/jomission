@@ -411,7 +411,7 @@
   },
   {
    "id": "SCI-V21-PV-STATE-PREDECESSOR",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "PV_NONSTATIONARY / PV_STATE_MULTIPLICITY_SUSPECTED: identical x gives history-dependent PV state; the defect is inside H, not x",
    "goal": "identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only",
    "parent_authority": "SCI-V21-PV-STATIONARITY delivered.reviewer_decision (reviewer 2026-09-17)",
@@ -442,7 +442,8 @@
     ],
     "reviewer_decisions_required": [
      "whether to authorize a tightly instrumented matched rerun (instrumentation list in the record); none is run"
-    ]
+    ],
+    "reviewer_decision": "reviewer 2026-09-17: MISSING_OBSERVABLE accepted as a valid stopping boundary; absence of discriminating evidence is not absence of a discriminating state. Authorized one instrumented matched rerun (SCI-V21-PV-PREDECESSOR), not another substrate experiment"
    }
   },
   {
@@ -828,6 +829,295 @@
    "downstream_unlock": [
     "SCI-V21C-BOUNDARY"
    ]
+  },
+  {
+   "id": "SCI-V21-PV-PREDECESSOR",
+   "status": "DONE",
+   "trigger": "MISSING_OBSERVABLE: the sealed 60 s artifacts hold only 5 s class statistics, so no predecessor of the PV fate separation can be read from them",
+   "goal": "re-execute the two sealed histories at the frozen lambda with retention of PV state, plus one key-matched control, and find the earliest recorded channel that deviates before the PV rate separates",
+   "parent_authority": "reviewer 2026-09-17 (SCI-V21-PV-STATE-PREDECESSOR delivered.reviewer_decision): one instrumented matched rerun; two histories plus an authorized key-matched control; 1 ms means for continuous channels, exact spike times",
+   "principal_delta": "none: no parameter, tonic, topology, kernel or gate change. Instrumentation by retention of outputs the engine already returns; run C reuses an existing state with an existing key stream",
+   "required_inputs": [
+    "results/v21_pv_predecessor_spec.json",
+    "results/v21_pv_stationarity.json",
+    "tests/test_v21_pv_stationarity.py",
+    "tests/test_v21_operation.py",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "lambda 0.65625",
+    "V2.1 model, kernel baseline, dt 0.1 ms, PRNGKey(11), zero additive schedule",
+    "12 x 5 s chunks",
+    "the sealed PV stationarity trajectories as the reproduction reference"
+   ],
+   "procedure": "run A (fresh), B (lambda-1 end state) and C (B state, A key stream) for 60 s at lambda 0.65625 retaining per-cell PV spikes, v_PV, reconstructed u_PV, PV input split by source class, the engine source term and the tonic; validate reproduction (A, B within 0.5 Hz of the sealed windows), u reconstruction (1e-3 at chunk boundaries) and the input split; then P1 fate attribution from run C and P2 deviation ordering within a collapsing run, per results/v21_pv_predecessor_spec.json",
+   "acceptance": "PV_INPUT_STATE | PV_INTRINSIC_STATE | PV_RECURRENT_STATE | PV_SPIKE_MICROSTATE | MISSING_OBSERVABLE | UNRESOLVED; INSTRUMENTATION_PERTURBED_EXECUTION if the reproduction check fails",
+   "stop_condition": "classification recorded in results/v21_pv_predecessor.json; no intervention follows automatically; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_predecessor.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "UNRESOLVED",
+    "result": "results/v21_pv_predecessor.json",
+    "summary": "reproduction exact (A and B match the sealed windows to 0.0 Hz, so Delta_instrumentation = 0); u reconstruction valid to 8.5e-06; the engine source term includes the tonic. P1: the key-matched control C ends at 15.11 Hz, like B (14.43) and unlike A (0.71), so the PV fate is set by the initial state, not the noise realization. P2: no recorded channel deviates before the PV rate separates, so the lineage stops at UNRESOLVED. Disclosed post hoc: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz, and the collapse is uniform across all 40 PV cells",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_predecessor.py  (2 passed in 1601.24s)",
+     "python scripts/project_check.py"
+    ],
+    "reviewer_decisions_required": [
+     "whether the observability limit justifies a further lineage at per-cell or subthreshold resolution, or whether the background program stays STOPPED",
+     "disposition of the warm-up NaN defect in the input-channel detector (no effect on this verdict; recomputation without it changes nothing)"
+    ]
+   }
+  },
+  {
+   "id": "HD-DEVIATION-BASELINE",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-PREDECESSOR post-execution disclosure: the deviation detector took its baseline over a window whose leading samples were NaN",
+   "goal": "one canonical deviation-time estimator whose baseline holds only finite eligible samples, with a regression that a leading-NaN trace still reports a later deviation",
+   "parent_authority": "reviewer 2026-09-17: repair it in the harness now; do not merely special-case 50 ms",
+   "principal_delta": "jomission.harness.operation.deviation_time added; no existing estimator changed",
+   "required_inputs": [
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "tests/test_v21_pv_predecessor.py is retained verbatim as the record of what executed; its defective local detector is not edited"
+   ],
+   "procedure": "add deviation_time to the canonical estimator module: baseline mean and sd over finite samples inside the baseline window only, fewer than min_baseline_samples finite samples raises, non-finite samples outside the baseline are ineligible and break a sustained run. Add tier-0 regressions including a leading-NaN trace with a later synthetic step",
+   "acceptance": "tests/test_deviation_estimator.py passes, including the receipt test showing the old arithmetic produced a NaN band",
+   "stop_condition": "harness repair only; no scientific result is rerun or withdrawn",
+   "artifacts_expected": [],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "PASS",
+    "result": "jomission/harness/operation.py deviation_time",
+    "summary": "the defective detector is recorded in results/v21_pv_predecessor.json post_execution_disclosure.defect_found; the corrected calculation is verdict-preserving (the four input channels still show no sustained 5 sigma deviation), so SCI-V21-PV-PREDECESSOR stands at UNRESOLVED and is not rerun. New analyses use the harness estimator",
+    "receipts": [
+     "python -m pytest tests/test_deviation_estimator.py  (7 passed)"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-MICROSTATE",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-PREDECESSOR UNRESOLVED: population-mean 1 ms channels move 0.02-0.35 baseline sd while per-cell PV firing falls from 17.12 to 0.63 Hz",
+   "goal": "decide whether the fate-carrying information already exists in the recorded microscopic state, before any further execution",
+   "parent_authority": "reviewer 2026-09-17: read-only reanalysis first; minimal predeclared hierarchy; only RECORDED_MICROSTATE_INSUFFICIENT would justify another instrumented execution",
+   "principal_delta": "none: read-only reanalysis of the retained per-cell traces. No simulation",
+   "required_inputs": [
+    "results/v21_pv_microstate_spec.json",
+    "results/v21_pv_predecessor.json",
+    "the three retained npz traces pinned by sha256 in the spec"
+   ],
+   "frozen": [
+    "the five declared representations and their statistics",
+    "separation factor 5, three consecutive 1 s epochs, 1 s lead over the 15 s macroscopic divergence",
+    "B against C as the fate-irrelevant null scale"
+   ],
+   "procedure": "evaluate levels 1-4 (per-cell v, per-cell u, joint (v, u), per-cell ISI structure) in order and level 5 (per-cell input) only if none qualifies; for each, compare d(A,B) and d(A,C) against 5x the largest d(B,C) in the lead window and run the same test on the population mean of the same variable",
+   "acceptance": "PV_MICROSTATE_PREDECESSOR | RECORDED_MICROSTATE_INSUFFICIENT | UNRESOLVED | TRACE_IDENTITY_FAILED",
+   "stop_condition": "classification recorded in results/v21_pv_microstate.json; no new execution and no intervention follows automatically; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_microstate.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "UNRESOLVED",
+    "result": "results/v21_pv_microstate.json",
+    "summary": "per-cell v separates the fates from epoch 0 but so does the population mean of v, so the separation is not specific to the microscopic representation; per-cell u separates nowhere in the lead window; joint (v, u) behaves like v; ISI structure exceeds the same-fate scale but not by the predeclared factor for three consecutive epochs; level 5 was not evaluated. Every representation that separates does so from epoch 0, which is constitutive of the different initial states",
+    "receipts": [
+     "python scripts/v21_pv_microstate.py",
+     "python -m pytest tests/test_v21_pv_microstate.py  (7 passed)"
+    ],
+    "reviewer_decisions_required": [
+     "RECORDED_MICROSTATE_INSUFFICIENT was not reached, so the spec's trigger for another instrumented execution did not fire",
+     "whether to authorize a design that shares an initial state across fates (a matched intervention), since no A-against-B contrast can order cause and consequence",
+     "whether the negative result on u is worth recording as a constraint on intrinsic-adaptation explanations"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-M0",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-MICROSTATE UNRESOLVED: every observational contrast differs from epoch 0, so ordering cause and consequence needs a matched-state design",
+   "goal": "identify the smallest typed state block that differs between the two initial states carrying opposite PV fates, and therefore which transplant arms are justified",
+   "parent_authority": "reviewer 2026-09-17: authorize M0 only; typed blocks, not coordinates; exclude the RNG from the causal candidate set. Owner 2026-09-17 authorized deterministic regeneration of h_B(0) with v-hash plus trajectory match",
+   "principal_delta": "none new: regeneration of two already-sealed initial states plus a read-only typed decomposition of their difference",
+   "required_inputs": [
+    "results/v21_pv_m0_spec.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "the sealed build path and both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), four 5 s pre-run chunks at lambda 1",
+    "reproduction tolerance 0.5 Hz on run B window 1"
+   ],
+   "procedure": "regenerate h_A(0) and h_B(0) through the sealed build path, accept them only on matching v-hashes and a 5 s continuation reproducing run B window 1 within 0.5 Hz, then compare every DynamicState field by leaf path: presence, shape, bitwise identity, difference size, and the same statistics split by cell class",
+   "acceptance": "STATE_DECOMPOSITION_PASS | STATE_REGENERATION_FAIL",
+   "stop_condition": "decomposition and the justified transplant arms recorded in results/v21_pv_m0.json; no transplant is executed; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m0.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "STATE_REGENERATION_FAIL",
+    "result": "results/v21_pv_m0.json",
+    "summary": "both states regenerated with exactly the sealed v-hashes; the trajectory match failed on PV alone by -0.695 Hz because the checking driver compared a single continued chunk (0-5 s) against a sealed window that is the sealed driver's second chunk (5-10 s), the sealed driver summarizing only k >= 1. The state was correct; the check was off by one chunk",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m0.py  (1 failed, 1 passed in 207.23s)"
+    ],
+    "reviewer_decisions_required": [
+     "the correction is additive in SCI-V21-PV-M0-R2; this label is kept as executed and not reinterpreted"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-M0-R2",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-M0 STATE_REGENERATION_FAIL caused by the checking driver's window index, with both v-hashes matching exactly",
+   "goal": "the same typed decomposition with the trajectory match taken on the chunk the sealed window actually refers to",
+   "parent_authority": "reviewer 2026-09-17 (M0 authorization) plus owner 2026-09-17 (deterministic regeneration, v-hash plus trajectory match)",
+   "principal_delta": "checking driver only: continue two 5 s chunks and compare chunk index 1. Tolerance, states, build path and decomposition unchanged",
+   "required_inputs": [
+    "results/v21_pv_m0_r2_spec.json",
+    "results/v21_pv_m0.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "0.5 Hz tolerance",
+    "the sealed build path",
+    "the M0 driver, retained verbatim as the record of what ran"
+   ],
+   "procedure": "as SCI-V21-PV-M0, with a 10 s continuation from h_B(0) whose second chunk is compared against run B window 1",
+   "acceptance": "STATE_DECOMPOSITION_PASS | STATE_REGENERATION_FAIL",
+   "stop_condition": "decomposition and justified transplant arms recorded in results/v21_pv_m0_r2.json; no transplant; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m0_r2.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "STATE_DECOMPOSITION_PASS",
+    "result": "results/v21_pv_m0_r2.json",
+    "summary": "trajectory match exact (0.0 Hz on every class). Three typed blocks differ: v, u and syn_state, each in every entry. Five are bitwise identical, including w and H, which excludes the plastic and H arms. u differs least in PV (max 0.370) against E 10.56, SST 2.78, VIP 7.40. Both states are saved and pinned by sha256 for a later authorized transplant",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m0_r2.py  (2 passed in 246.31s)"
+    ],
+    "reviewer_decisions_required": [
+     "M1 is not authorized by the M0 spec: whether to authorize the matched transplant, and with which first arm",
+     "the declared arms are PV intrinsic (v_PV, u_PV) and PV incoming synaptic state; syn_state is reported as one block because its leading axis is edges, not neurons, so the PV-incoming subset was not split out"
+    ]
+   }
+  },
+  {
+   "id": "HD-SEALED-WRITE-GUARD",
+   "status": "DONE",
+   "trigger": "2026-09-17: a bare full-suite pytest ran the tier-3 batteries and overwrote 55 registered sealed result artifacts in one command",
+   "goal": "a registered sealed artifact cannot be written by default; only a narrowly authorized lineage may rewrite the path it names",
+   "parent_authority": "reviewer 2026-09-18: write-guard repair authorized, first",
+   "principal_delta": "jomission/harness/seals.py plus installation in tests/conftest.py and a cheap non-mutating probe in scripts/project_check.py",
+   "required_inputs": [
+    "manifests/sealed_artifacts.json"
+   ],
+   "frozen": [
+    "no sealed artifact content changes; the guard only denies writes"
+   ],
+   "procedure": "route open() through a guard that resolves the path against the sealed registry and raises SealedArtifactWriteError before the file is touched, unless JOMISSION_ALLOW_SEAL_WRITE names it (or 'all'); install it for every pytest session; add a project_check step that proves the denial without mutating anything",
+   "acceptance": "attempted overwrite of a sealed result fails before mutation; append and truncating-update modes are denied too; an unsealed or new path stays writable; an authorized lineage may rewrite the path it names and only that path; the guard mutates no seal and no registry; project_check carries the cheap protection",
+   "stop_condition": "harness repair only; no scientific result is rerun or withdrawn",
+   "artifacts_expected": [
+    "docs/incidents/2026-09-17-sealed-battery-rerun.md"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "PASS",
+    "result": "jomission/harness/seals.py",
+    "summary": "the command that caused the incident now raises instead of mutating evidence. 10 tier-0 acceptance checks cover denial before mutation, append and r+ and wb modes, Path.write_text, reads unaffected, unsealed paths unaffected, scoped authorization, and registry immutability; the authorization cases run against a temporary registry so no real sealed artifact is ever written by the test suite. The incident, the 55 affected files and the stash commit 4d31ae6 are recorded in docs/incidents/2026-09-17-sealed-battery-rerun.md, after which the stash was dropped",
+    "receipts": [
+     "python -m pytest tests/test_seal_write_guard.py  (10 passed)",
+     "python scripts/project_check.py  (sealed-write guard check, 73 tier-0 tests)"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-M1",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-M0-R2 closed the candidate set to v, u and syn_state; observational ordering is impossible because A and B differ from epoch 0",
+   "goal": "determine which single typed state block, transplanted from the active-fate donor into the low-fate base, switches the PV fate",
+   "parent_authority": "reviewer 2026-09-18: M1 authorized with three single-block arms plus A and B controls; PV-incoming synaptic edges only; keep u; no conjunction search",
+   "principal_delta": "one typed state block replaced per arm, from a common base and a single future stochastic stream",
+   "required_inputs": [
+    "results/v21_pv_m1_spec.json",
+    "results/v21_pv_m0_r2.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), 12 x 5 s chunks",
+    "the fate thresholds taken from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)"
+   ],
+   "procedure": "regenerate both states, build A_CTRL, B_CTRL, A_v, A_u and A_syn under one future stream, verify bitwise that each arm moved only its named block, check both controls, then classify each arm and the lineage",
+   "acceptance": "SINGLE_BLOCK_SUFFICIENT_PASS | MULTIPLE_BLOCKS_SUFFICIENT_PASS | NO_SINGLE_BLOCK_SUFFICIENT_FAIL | M1_CONTROL_FAILED | M1_TRANSPLANT_INVALID",
+   "stop_condition": "classification recorded in results/v21_pv_m1.json; no conjunction search and no mechanism claim; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m1.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "NO_SINGLE_BLOCK_SUFFICIENT_FAIL",
+    "result": "results/v21_pv_m1.json",
+    "summary": "controls exact (A_CTRL reproduces sealed run A to 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz against its sealed 15.11 Hz reference) and every transplant verified bitwise with one differing leaf per arm. No arm flips: A_v 0.303, A_u 0.107, A_syn 0.085 Hz against an active fate of 14.425 Hz. Each arm ends lower than the unmodified base, so none is a partial flip",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m1.py  (2 passed in 2262.73s)"
+    ],
+    "reviewer_decisions_required": [
+     "no conjunction search follows automatically: whether to authorize one, and with what justification",
+     "the alternative to a conjunction is finer structure inside a single block (for example the PV-incoming synaptic arm split by presynaptic class), which the M1 spec forbids without a flip on the whole arm",
+     "whether the arms ending below the base is worth its own question"
+    ]
+   }
+  },
+  {
+   "id": "SCI-V21-PV-M2",
+   "status": "DONE",
+   "trigger": "SCI-V21-PV-M1 NO_SINGLE_BLOCK_SUFFICIENT_FAIL, with each singleton transplant suppressing PV below the untouched base",
+   "goal": "test whether the PV fate depends on compatibility among state blocks, using the three missing pairs",
+   "parent_authority": "reviewer 2026-09-18: M2 pairwise transplant battery only; no triple, no presynaptic-class split",
+   "principal_delta": "two typed state blocks replaced per arm instead of one; everything else identical to M1",
+   "required_inputs": [
+    "results/v21_pv_m2_spec.json",
+    "results/v21_pv_m1.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)",
+    "the PV-incoming synaptic scope: 15960 of 159600 edges"
+   ],
+   "procedure": "regenerate both states, build A_CTRL, B_CTRL, A_vu, A_vs and A_us under one future stream, verify bitwise that each arm moved only its two named blocks, rerun both controls, then classify",
+   "acceptance": "MINIMAL_PAIR_IDENTIFIED | MULTIPLE_PAIR_SUFFICIENT | NO_PAIR_SUFFICIENT | M2_CONTROL_FAILED | M2_TRANSPLANT_INVALID",
+   "stop_condition": "classification recorded in results/v21_pv_m2.json; the triple is not run; a no-pair result is scoped to the PV-incoming synaptic entries only; STOP for review",
+   "artifacts_expected": [
+    "results/v21_pv_m2.json"
+   ],
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "MINIMAL_PAIR_IDENTIFIED",
+    "result": "results/v21_pv_m2.json",
+    "summary": "controls exact (A_CTRL 0.0 Hz against sealed run A, ending 0.707 Hz; B_CTRL 15.110 Hz) and every arm verified bitwise. A_vu reaches 15.055 Hz, inside the active band and within 0.06 Hz of the donor, while A_v and A_u alone were 0.303 and 0.107 Hz. A_vs 0.162 Hz and A_us 0.000 Hz stay low, and each is lower than the corresponding singleton, so the synaptic block is antagonistic when paired rather than neutral. The PV-incoming synaptic state is not required: A_vu carries the base synaptic state throughout",
+    "receipts": [
+     "python -m pytest tests/test_v21_pv_m2.py  (2 passed in 2248.20s)"
+    ],
+    "reviewer_decisions_required": [
+     "the triple closure control is no longer needed for its stated purpose, since a pair already flips",
+     "whether to test necessity (transplanting A's intrinsic pair into B) as distinct from the sufficiency shown here",
+     "whether the antagonism of the synaptic block when paired is worth its own question"
+    ]
+   }
   }
- ]
+ ],
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

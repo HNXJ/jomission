@@ -1,0 +1,295 @@
+{
+ "schema": "jomission.diagnostic_spec.v1",
+ "lineage_id": "WS-DIAG-3",
+ "parent": "WS-DIAG-2",
+ "authority": "reviewer 2026-09-18: same TFNE architecture with HDP ON, everything else frozen, compared against the HDP-off baseline. Authorized only after S1b and S2 each passed their own acceptance as separate one-delta repairs.",
+ "objective": "what does the composed system actually do before we modify it",
+ "expression": "x : {V1^2 X[lat]} O[fffb] {V4^2 X[lat]} O[fffb] {FEF X[lat] PFC} : y",
+ "y": "FEF.L6.E.v(t), retained population-resolved as v_i(t), never only the mean",
+ "retina_definition_status": "RETINA_DEFINITION_REQUIRED, drafted as RETINA[jomission_v0], pending approval",
+ "retina": {
+  "definition": "RETINA[jomission_v0]",
+  "draft": "pending reviewer approval; no execution may consume this until approved",
+  "N": 1024,
+  "grid": {
+   "rows": 32,
+   "cols": 32
+  },
+  "indexing": "unit = row * 32 + col",
+  "area": "Retina",
+  "layer": "L4",
+  "cell_type": "E",
+  "hemifield_split_col": 16,
+  "targets": {
+   "left": "V1.1.L4.E",
+   "right": "V1.2.L4.E"
+  },
+  "units_per_hemifield": {
+   "left": 512,
+   "right": 512
+  },
+  "receptive_field_sizes": {
+   "left": [
+    36,
+    37
+   ],
+   "right": [
+    36,
+    37
+   ]
+  },
+  "mechanism": "AMPA",
+  "peak_efficacy_x_tonic": 1.0,
+  "edge_weight": {
+   "left": [
+    0.13513514,
+    0.13888889
+   ],
+   "right": [
+    0.13513514,
+    0.13888889
+   ],
+   "tonic_e": 5.0
+  },
+  "stimulus": {
+   "kind": "static localized spot, deterministic",
+   "row0": 12,
+   "row1": 20,
+   "col0": 4,
+   "col1": 12,
+   "n_lit": 64,
+   "drive": 5.0,
+   "hemifields_lit": [
+    "left"
+   ],
+   "note": "the spot lies entirely in the left hemifield, so V1.2 is reached only through X[lat] and the V4 level"
+  },
+  "tonic": 0.0,
+  "enforced_after_construction": [
+   "intra-retinal edges removed: Retina^1024 declares no connectivity",
+   "retinal tonic zeroed: the retina is silent absent stimulus"
+  ],
+  "provenance": {
+   "N": "DEFINITION_CHOICE: the checkpoint architecture declares Retina^1024",
+   "GRID": "DEFINITION_CHOICE: G[Retina] = 32 x 32, from the sealed architecture",
+   "indexing": "DEFINITION_CHOICE: row-major, unit = row * 32 + col; deterministic, no RNG",
+   "hemifield": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: columns 0-15 to V1.1 and 16-31 to V1.2, so the two V1 instances are not redundant",
+   "targets": "DERIVED: in({V1^2 X[lat]}) = V1.1.L4.E, V1.2.L4.E, as qualified in R4",
+   "receptive_fields": "DEFINITION_CHOICE: contiguous equal-sized blocks in hemifield raster order, one block per target cell, assigned by floor(u * n_cells / n_units). Deterministic, non-overlapping, and exhaustive",
+   "efficacy": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: summed afferent weight per target cell equals 1.0x the E tonic",
+   "mechanism": "DERIVED: AMPA, the only mechanism the architecture declares",
+   "stimulus": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: a static deterministic spot, no stochastic activation, so propagation is attributable to the stimulus",
+   "stimulus_drive": "DEFINITION_CHOICE: 5.0, equal to the cortical E tonic. Realized retinal firing rate is recorded as an observation, not asserted here",
+   "tonic": "DEFINITION_CHOICE: retinal tonic is zeroed, so the retina is silent absent stimulus and the drive additivity invariant reads I_executed = 0 + I_schedule on these units",
+   "no_intra_retinal_edges": "DERIVED: TFNE/2 gives A^n n instances and no connectivity, and Retina is not a CTX instance, so it inherits no D4d local connectivity"
+  }
+ },
+ "kernel": {
+  "kernel": "hdp",
+  "hdp": true,
+  "hdp_rule": "jomission_authority_v3",
+  "hdp_rule_module": "jomission.tfne.hdp_authority",
+  "inject_tonic_drive": true,
+  "hdp_rule_params": {},
+  "params_source": "the module's RULE_PARAMS, taken as registered defaults rather than restated here, so the spec cannot drift from the rule it names",
+  "params_as_registered": {
+   "alpha": 0.05,
+   "beta": 0.0,
+   "gamma": 0.2732,
+   "delta": 0.0,
+   "rho_passive": 0.02,
+   "barrier_c": 0.01,
+   "barrier_d": 1.0,
+   "barrier_eps": 0.001,
+   "tau_0_ms": 5.0,
+   "tau_act_ms": 500.0,
+   "rate_ref_per_ms": 0.0109089,
+   "k_relax": 0.01,
+   "m_sat": 2.0,
+   "tonic_drive": 0.0
+  },
+  "authority": "reviewer 2026-09-18, S1b and S2 authorizations",
+  "rule_reason": "the two shipped families were both measured and both rejected. signed_linear keys on H_post - H_pre, so outward efficacy rises when the TARGET is better resourced, which is not the intended redistribution. hebbian_product carries no negative term: measured mean w 0.225 -> 10.83 against a ceiling of 10.0 in 2.4 s. This rule relaxes each edge toward w_base * m(H_pre) with m(H) = 2H/(1+H), so efficacy is bounded in [0, 2*w_base] by construction",
+  "kernel_equation": "tau_H*dH_i/dt = alpha*I_net_i + beta - gamma*H_i*A_i - delta*W_out_i + rho_passive/H_i**2 - dC/dH_i, with C(H) = barrier_c/(H-H_min) + barrier_d/(H_max-H); tau_act*dA_i/dt = -A_i + r_i/rate_ref; dw_e/dt = k_relax*(w_base_e*m(H_pre(e)) - abs(w_e)), m(H) = m_sat*H/(1+H)",
+  "provenance": {
+   "alpha": "OBSERVED_CURRENT: DEFAULT_HDP_V1_PFC_AAAB",
+   "tau_0_ms": "OBSERVED_CURRENT: DEFAULT_HDP_V1_PFC_AAAB",
+   "gamma": "DERIVED, not inherited: gamma = alpha*I_net + rho_passive = 0.05*5.0637 + 0.02 = 0.27320, the value that makes H = A = 1 an equilibrium at the measured operating point. The preset 0.5 was calibrated against a different quantity",
+   "rho_passive": "DEFINITION_CHOICE: 0.02, enabling the 1/H^2 restoring term every shipped preset leaves at 0.0. No qualified source exists for its magnitude",
+   "K_ctrl": "DEFINITION_CHOICE: absent. The presets use a symmetric linear controller K_ctrl*(1-H); it is not implemented here so the restoring geometry is attributable to rho_passive and the barrier alone",
+   "barrier_c/barrier_d": "DERIVED: ratio 100 places the minimum of C at H* = 1 for H_min = 0.1 and H_max = 10.0, per the kernel docstring. Every shipped preset uses ratio 1, which the same docstring states does not centre the barrier at H* = 1",
+   "tau_act_ms": "DEFINITION_CHOICE: 500 ms, so one spike jump in A of 0.1833 is small against A's own mean at the reference rate",
+   "rate_ref_per_ms": "DERIVED from the HDP-off baseline E rate, so A = 1 there and gamma is dimensionless",
+   "m_sat": "DERIVED: 2.0 puts m(1) = 1 exactly, so H = 1 is efficacy-neutral",
+   "k_relax": "DEFINITION_CHOICE: 0.01 per ms, slow against tau_H = 5 ms",
+   "delta_and_beta": "DEFINITION_CHOICE: 0.0, both disabled; W_out carries no cost in this lineage",
+   "H_min/H_max": "OBSERVED_CURRENT: the kernel canonical clamps"
+  },
+  "qualification_before_this_lineage": {
+   "S1b": "H income is the engine own signed native current, I_net = I_tonic + segment_sum(w*syn_state, post), reproduced from _hdp_registrable_kernel.py:258-260. Acceptance dHdot/dI_net > 0: exact partial at H = A = 1 measured +0.010000 against the predicted alpha/tau = 0.010000, monotone over dI in [-2, +2]. PASS",
+   "S2": "A floor freed so a silent neuron reaches A = 0. Acceptance at r/r_ref = {0, 0.25, 0.5, 1, 2}: A = {0.000000, 0.250502, 0.499816, 0.999985, 1.999974}, max error 5.02e-04 against tolerance 5e-03, A(0) = 0 exactly, monotone. PASS",
+   "one_delta_check": "S2 moved only the classes the old floor had clipped: E and SST equilibria are bit-identical across v2 and v3 (E 1.0355 sd 0.0622; SST 0.3640), PV and VIP moved 4.4005 -> 7.4325 as their A fell 0.1000 -> 0.0000"
+  },
+  "observability_boundary": {
+   "statement": "a registered rule is not given three of the kernel four current terms. This is declared, not approximated away",
+   "I_tonic": "injected per neuron via hdp_rule_params; exact",
+   "I_syn": "reproduced exactly inside the rule from ctx.w and ctx.syn_state",
+   "I_schedule": "NOT visible to the rule. Exactly zero for every cortical neuron, because the schedule drives only retinal units. For the 64 lit retinal units during the stimulus interval it is 5.0 and is therefore absent from THEIR H income; no cortical conclusion depends on it",
+   "I_noise": "NOT visible to the rule. noise_coef = 0.5 with N(0,1) per step per neuron: zero-mean, but its per-step sd is 7.9x E mean I_syn of 0.0637. H income therefore omits a zero-mean term of that size"
+  },
+  "gamma_scope": "gamma was derived on a cortex-only zero-schedule settle (1200 neurons). Adding the 1024 retinal units does not change it: retinal tonic is zeroed and intra-retinal edges are removed, so retinal syn_state is identically zero absent stimulus and contributes nothing to cortical I_syn. The realized per-class I_net is recorded so this is checkable rather than assumed",
+  "H_recording": "H is the mechanism here, not a control. Its distribution is recorded per chunk.",
+  "observability_asymmetry": "the hdp kernel silently ignores record_current_trace and record_u_trace, returning 4 outputs where baseline returns 6. u and the synaptic current are therefore NOT recorded in this arm. The summary omits those columns rather than fabricating them, and the baseline comparison is restricted to the columns both arms produced"
+ },
+ "frozen": {
+  "architecture": "results/whole_system_realization_r2.json (WHOLE_SYSTEM_REALIZATION_PASS)",
+  "definition": "CTX[jomission_v0] with R := R_JaxFNE 0.4.24",
+  "realizer": "jomission/tfne/realize.py, unchanged",
+  "tonic": {
+   "E": 5.0,
+   "PV": 3.0,
+   "SST": 3.5,
+   "VIP": 3.0,
+   "Retina": 0.0
+  },
+  "dt_ms": 0.1,
+  "seed": 0,
+  "prng_key": 0,
+  "weight": 0.5,
+  "probability": 1.0,
+  "mechanism_tau_ms": {
+   "AMPA": 2.0
+  }
+ },
+ "drive": {
+  "invariant": "I_executed = I_emitter + I_schedule",
+  "schedule": "zero everywhere except lit retinal units during the stimulation interval, where it is 5.0. Cortical neurons receive no schedule at all, so their executed input is their emitter tonic alone and no tonic is duplicated",
+  "guard": "jomission.harness.drive.check_additive_schedule, run before execution",
+  "rationale": "the smallest stimulus sufficient to probe propagation; this is a diagnostic input, not an omission paradigm"
+ },
+ "duration": {
+  "settle_ms": 10000.0,
+  "stimulus_ms": 1000.0,
+  "post_stimulus_ms": 2000.0,
+  "total_ms": 13000.0,
+  "dt_ms": 0.1,
+  "steps": 130000,
+  "chunk_ms": 500.0,
+  "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed Under the hdp kernel the slowest enabled state is no longer u but A, at tau_act = 500 ms; settle is 20x that, and the cortex-only assay reached a stationary H by 2 s. The interval is unchanged from WS-DIAG-2 so the arms stay matched",
+  "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+  "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+ },
+ "record": {
+  "per_group_per_ms": [
+   "rate_hz",
+   "f_active",
+   "v_mean",
+   "v_std",
+   "u_mean",
+   "u_std",
+   "synaptic_current_mean",
+   "H_mean",
+   "theta_mean",
+   "w_eff_mean"
+  ],
+  "groups": "every populated area x layer x class, including Retina",
+  "y_full_resolution": "FEF.L6.E v_i(t) for all 28 neurons at dt = 0.1 ms, so distribution and mean are both derivable",
+  "spikes": "per-group spike counts per 1 ms bin, for the synchrony estimator",
+  "note": "population summaries are binned at 1 ms; y is not binned"
+ },
+ "gates": {
+  "order": [
+   "execution",
+   "collapse",
+   "runaway",
+   "synchrony",
+   "drift",
+   "propagation"
+  ],
+  "rule": "report the earliest load-bearing failure in this order; a later gate is not evaluated as the primary verdict once an earlier one fails",
+  "execution": {
+   "criterion": "every recorded v, u and current is finite for every step",
+   "fail": "WHOLE_SYSTEM_EXECUTION_FAIL"
+  },
+  "collapse": {
+   "criterion": "in the final 1000 ms, every area's E population rate is at least 0.1 Hz",
+   "fail": "WHOLE_SYSTEM_COLLAPSE"
+  },
+  "runaway": {
+   "criterion": "no class population rate exceeds 200 Hz sustained for 100 ms, and f_active does not reach 1.0 sustained for 100 ms",
+   "fail": "WHOLE_SYSTEM_RUNAWAY"
+  },
+  "synchrony": {
+   "criterion": "for every area's E population, std/mean of the 1 ms-binned population rate over the final 1000 ms is at most 3.0",
+   "estimator": "coefficient of variation of the 1 ms population rate; predeclared before execution",
+   "fail": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "drift": {
+   "criterion": "over the final 1500 ms of the post-stimulus interval, the least-squares slope of each area's E population rate in 100 ms bins satisfies |slope| <= 0.5 Hz/s, OR the slope is not sustained",
+   "sustained_rule": "a slope counts as drift only if the first and second halves of that window both exceed the tolerance with the same sign. A slow transient that is decaying fails the sustained test and is not drift",
+   "tolerance_hz_per_s": 0.5,
+   "predeclared": "estimator and tolerance fixed before execution and not adjustable afterwards",
+   "fail": "WHOLE_SYSTEM_DRIFT"
+  },
+  "propagation": {
+   "criterion": "the stimulus changes the E population rate at every hierarchical level: V1.1, at least one V4, and at least one of FEF/PFC. A change counts when the stimulus-window rate differs from the settle baseline by more than max(1 Hz, 10% of baseline)",
+   "band_authority": "the sealed V2.1 band convention max(1 Hz, 10%), reused unchanged",
+   "lateral_probe": "the spot lies entirely in the left hemifield, so any V1.2 change is transfer through X[lat] or the V4 level, and is reported separately rather than counted toward propagation",
+   "fail": "WHOLE_SYSTEM_PROPAGATION_FAIL"
+  }
+ },
+ "acceptance": "exactly one primary verdict: WHOLE_SYSTEM_DIAGNOSTIC_PASS if every gate passes, else the earliest load-bearing failure in the declared order, else UNRESOLVED",
+ "pass_means": "no material failure was detected under these sealed first-diagnostic conditions. It does not mean the system is globally stable for arbitrary input",
+ "stop_condition": "observe, localize, STOP. No stabilization, retuning or parameter scan in this lineage, including no adjustment of the HDP coefficients after seeing the result.",
+ "artifacts_expected": [
+  "results/whole_system_diagnostic_3.json",
+  "results/whole_system_diagnostic_3_y.npz"
+ ],
+ "enforced_after_construction": [
+  "intra-retinal edges removed and the count verified zero",
+  "retinal tonic zeroed and verified",
+  "the 24 cortical projection identities re-verified unchanged against the R4 receipt"
+ ],
+ "observability_limit": "configured tau = 2 ms; per-edge realized tau observability = unavailable",
+ "principal_delta": "kernel baseline -> hdp with the registered rule jomission_authority_v3. No architecture, weight, drive, stimulus, duration, gate or tolerance change.",
+ "settle_adequacy": "the pre-stimulus slope over the final 1500 ms of the settle interval is reported so the adequacy of the 10 s settle is itself observable, using the same estimator and tolerance as the drift gate. It is reported, not gated.",
+ "relation_to_parent": "the HDP-off results are immutable evidence and are not rewritten. This lineage adds the HDP-on arm; it does not supersede the baseline",
+ "predeclared_expectations": {
+  "note": "stated before execution so the run cannot be read as confirming whatever it produces",
+  "H_equilibrium": "from the cortex-only settle, E should sit near 1.03 with sd near 0.06, SST near 0.36, and PV/VIP near 7.43. H reaching a bound is saturation and a FAIL of the mechanism configuration, not evidence about the architecture",
+  "weights": "abs(w)/abs(w0) bounded in [0, 2] by construction. Predicted mean near 1.13 and max near 1.76, the latter being m(7.43) for the silent inhibitory classes",
+  "inhibition_warning": "PV and VIP are silent under zero schedule, so they spend nothing, accumulate H, and receive m(H) = 1.76. This arm therefore runs with inhibition from non-firing cells amplified 1.76x. That follows from the stated semantics and is recorded as a predicted consequence, not a defect to be corrected mid-lineage",
+  "if_HDP_works": "synchrony CV falls below 3.0 and inter-area propagation becomes attributable: the targeted V1_1 response exceeds the untargeted areas response",
+  "if_HDP_does_not": "synchrony stays above tolerance or H saturates. Either outcome is reported as observed; neither is repaired in this lineage",
+  "saturation_gate": "H saturation is reported explicitly as H_frac_above_5 per chunk, so regulation and pinning are distinguishable by observation"
+ },
+ "comparison": {
+  "baseline": "results/whole_system_diagnostic_2.json (WHOLE_SYSTEM_SYNCHRONY_FAIL, HDP off)",
+  "matched": "identical architecture, retina, stimulus, drive, seed, durations, gates and tolerances. The only delta is the kernel",
+  "baseline_synchrony_cv": {
+   "FEF": 2.9425,
+   "PFC": 3.0409,
+   "V1_1": 2.9782,
+   "V1_2": 3.0168,
+   "V4_1": 3.1642,
+   "V4_2": 3.1636
+  },
+  "baseline_propagation": {
+   "FEF": 0.5942,
+   "PFC": 0.6377,
+   "V1_1": 0.4783,
+   "V1_2": 0.4928,
+   "V4_1": 0.4638,
+   "V4_2": 0.4058
+  }
+ },
+ "driver": {
+  "path": "scripts/whole_system_diagnostic_3.py",
+  "forked_from": "scripts/whole_system_diagnostic.py, blob 208cae2e, sealed_in 696a597. That file is a sealed artifact of WS-DIAG-2 and records what WS-DIAG-2 executed. It was edited in place at 6744b61, which broke its seal and failed project_check for four commits; the edit is reverted and moved here",
+  "additive_changes": [
+   "output-arity adaptation for the hdp kernel",
+   "registration of a repo-defined rule via hdp_rule_module",
+   "per-neuron tonic injection via hdp_rule_params"
+  ]
+ }
+}

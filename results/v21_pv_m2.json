@@ -1,0 +1,476 @@
+{
+ "spec": "results/v21_pv_m2_spec.json",
+ "lambda": 0.65625,
+ "corrects_nothing": "additive to SCI-V21-PV-M1; that result stands",
+ "regeneration": {
+  "A_hash": "83ce0d0c3fc44a71",
+  "B_hash": "8704423170e6ae32",
+  "A_expected": "83ce0d0c3fc44a71",
+  "B_expected": "8704423170e6ae32",
+  "hashes_match": true
+ },
+ "syn_arm_scope": {
+  "n_edges_total": 159600,
+  "n_edges_into_PV": 15960,
+  "fraction": 0.1,
+  "presynaptic_classes": [
+   "E",
+   "PV",
+   "SST",
+   "VIP"
+  ],
+  "limit": "the synaptic arm moves only the PV-incoming entries, while M0 found all 159600 syn_state entries differ. A NO_PAIR_SUFFICIENT result would therefore establish only that v, u and syn_PV-incoming have no sufficient singleton or pair. It would say nothing about the global synaptic state, and must not be reported as though it did"
+ },
+ "transplant_verification": {
+  "A_vu": {
+   "blocks": [
+    "v",
+    "u"
+   ],
+   "blocks_took_donor_values": true,
+   "every_other_leaf_equals_A": true,
+   "leaves_differing_from_A": [
+    "u",
+    "v"
+   ]
+  },
+  "A_vs": {
+   "blocks": [
+    "v",
+    "syn_state"
+   ],
+   "blocks_took_donor_values": true,
+   "every_other_leaf_equals_A": true,
+   "leaves_differing_from_A": [
+    "syn_state",
+    "v"
+   ]
+  },
+  "A_us": {
+   "blocks": [
+    "u",
+    "syn_state"
+   ],
+   "blocks_took_donor_values": true,
+   "every_other_leaf_equals_A": true,
+   "leaves_differing_from_A": [
+    "syn_state",
+    "u"
+   ]
+  }
+ },
+ "arms": {
+  "A_CTRL": {
+   "window_rates_hz": [
+    {
+     "E": 17.008666666666667,
+     "PV": 16.880000000000003,
+     "SST": 21.4,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.191333333333333,
+     "PV": 16.580000000000002,
+     "SST": 21.225,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.2,
+     "PV": 10.195,
+     "SST": 19.91875,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.017333333333333,
+     "PV": 16.775,
+     "SST": 21.150000000000002,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.182666666666663,
+     "PV": 13.790000000000001,
+     "SST": 20.606250000000003,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.062,
+     "PV": 1.6800000000000002,
+     "SST": 21.85625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.137999999999998,
+     "PV": 1.22,
+     "SST": 22.5375,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 1.035,
+     "SST": 22.54375,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.064,
+     "PV": 0.8549999999999999,
+     "SST": 22.49375,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.002000000000002,
+     "PV": 0.8699999999999999,
+     "SST": 22.5625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.134,
+     "PV": 0.395,
+     "SST": 22.668750000000003,
+     "VIP": 17.199999999999996
+    }
+   ],
+   "late_pv_hz": 0.7066666666666666,
+   "late_other_classes_hz": {
+    "E": 17.066666666666666,
+    "SST": 22.575,
+    "VIP": 17.066666666666666
+   }
+  },
+  "B_CTRL": {
+   "window_rates_hz": [
+    {
+     "E": 17.0,
+     "PV": 15.175,
+     "SST": 22.356250000000003,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.209999999999999,
+     "SST": 22.300000000000004,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 15.255,
+     "SST": 22.325000000000003,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.96,
+     "PV": 15.1,
+     "SST": 22.393749999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 15.02,
+     "SST": 22.362499999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.255,
+     "SST": 22.33125,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.997333333333334,
+     "PV": 15.280000000000001,
+     "SST": 22.3125,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.962666666666664,
+     "PV": 15.155000000000001,
+     "SST": 22.43125,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.999333333333333,
+     "PV": 14.919999999999998,
+     "SST": 22.34375,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.840666666666667,
+     "PV": 15.260000000000002,
+     "SST": 22.424999999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.96,
+     "PV": 15.15,
+     "SST": 22.31875,
+     "VIP": 16.900000000000002
+    }
+   ],
+   "late_pv_hz": 15.11,
+   "late_other_classes_hz": {
+    "E": 16.933333333333334,
+    "SST": 22.3625,
+    "VIP": 16.933333333333337
+   }
+  },
+  "A_vu": {
+   "window_rates_hz": [
+    {
+     "E": 17.0,
+     "PV": 15.160000000000002,
+     "SST": 22.38125,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.114999999999998,
+     "SST": 22.25,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 15.3,
+     "SST": 22.2875,
+     "VIP": 16.90714285714286
+    },
+    {
+     "E": 16.96,
+     "PV": 15.1,
+     "SST": 22.475,
+     "VIP": 16.992857142857144
+    },
+    {
+     "E": 17.0,
+     "PV": 14.995,
+     "SST": 22.38125,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.319999999999999,
+     "SST": 22.34375,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 15.260000000000002,
+     "SST": 22.293750000000003,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.96,
+     "PV": 15.145000000000001,
+     "SST": 22.425,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 15.009999999999996,
+     "SST": 22.3875,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.84,
+     "PV": 15.114999999999998,
+     "SST": 22.493750000000002,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.96,
+     "PV": 15.040000000000001,
+     "SST": 22.35,
+     "VIP": 16.900000000000002
+    }
+   ],
+   "late_pv_hz": 15.054999999999998,
+   "late_other_classes_hz": {
+    "E": 16.933333333333334,
+    "SST": 22.410416666666666,
+    "VIP": 16.933333333333337
+   },
+   "fate": "active",
+   "classification": "PAIR_SUFFICIENT"
+  },
+  "A_vs": {
+   "window_rates_hz": [
+    {
+     "E": 17.010666666666665,
+     "PV": 16.880000000000003,
+     "SST": 21.35,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.18933333333333,
+     "PV": 15.719999999999999,
+     "SST": 21.03125,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.07,
+     "PV": 3.0149999999999997,
+     "SST": 21.15,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.13,
+     "PV": 0.195,
+     "SST": 22.662499999999998,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 0.19,
+     "SST": 22.712500000000002,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.070666666666668,
+     "PV": 0.125,
+     "SST": 22.66875,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.038,
+     "PV": 0.2,
+     "SST": 22.675,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.091333333333335,
+     "PV": 0.17,
+     "SST": 22.725,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.070666666666668,
+     "PV": 0.12,
+     "SST": 22.65625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.00133333333333,
+     "PV": 0.225,
+     "SST": 22.61875,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.128,
+     "PV": 0.14,
+     "SST": 22.724999999999998,
+     "VIP": 17.199999999999996
+    }
+   ],
+   "late_pv_hz": 0.16166666666666665,
+   "late_other_classes_hz": {
+    "E": 17.066666666666666,
+    "SST": 22.666666666666668,
+    "VIP": 17.066666666666666
+   },
+   "fate": "low",
+   "classification": "NOT_SUFFICIENT"
+  },
+  "A_us": {
+   "window_rates_hz": [
+    {
+     "E": 17.038,
+     "PV": 15.15,
+     "SST": 20.950000000000003,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.162,
+     "PV": 1.525,
+     "SST": 21.075,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.089333333333332,
+     "PV": 0.0,
+     "SST": 22.7125,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.11066666666667,
+     "PV": 0.0,
+     "SST": 22.69375,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.0,
+     "PV": 0.0,
+     "SST": 22.65625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.090666666666667,
+     "PV": 0.0,
+     "SST": 22.7,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.109333333333336,
+     "PV": 0.0,
+     "SST": 22.668750000000003,
+     "VIP": 17.05
+    },
+    {
+     "E": 17.0,
+     "PV": 0.0,
+     "SST": 22.68125,
+     "VIP": 17.15
+    },
+    {
+     "E": 17.092000000000002,
+     "PV": 0.0,
+     "SST": 22.71875,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.108,
+     "PV": 0.0,
+     "SST": 22.58125,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 0.0,
+     "SST": 22.66875,
+     "VIP": 17.199999999999996
+    }
+   ],
+   "late_pv_hz": 0.0,
+   "late_other_classes_hz": {
+    "E": 17.066666666666666,
+    "SST": 22.65625,
+    "VIP": 17.066666666666666
+   },
+   "fate": "low",
+   "classification": "NOT_SUFFICIENT"
+  }
+ },
+ "controls": {
+  "A_CTRL_reproduces_sealed_run_A": {
+   "max_abs_diff_hz": 0.0,
+   "within_tol": true
+  },
+  "A_CTRL_is_low_pv": true,
+  "B_CTRL_is_active_pv": true,
+  "m1_reference_hz": {
+   "A_CTRL": 0.7066666666666666,
+   "B_CTRL": 15.11
+  }
+ },
+ "flips": [
+  "A_vu"
+ ],
+ "verdict": "MINIMAL_PAIR_IDENTIFIED",
+ "reason": "v and u together are sufficient while neither is alone: A_vu reaches 15.05 Hz",
+ "forbidden_respected": [
+  "the triple transplant, or any arm beyond the three declared pairs",
+  "splitting the synaptic block by presynaptic class: the whole PV-incoming block failed in M1, and subset search without positive evidence is fishing",
+  "transplanting w, H, prev_spikes or b: they are bitwise identical between the two states",
+  "ranking sufficient pairs",
+  "redefining or weakening the fate thresholds after execution",
+  "reporting a no-pair result as a statement about the global synaptic state",
+  "any lambda, tonic, parameter, topology or kernel change"
+ ]
+}

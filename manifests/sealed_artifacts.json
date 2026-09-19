@@ -1542,6 +1542,185 @@
    "path": "tests/test_v21c_boundary.py",
    "blob": "9eaa44ffd31e6ab206658866e6aa1dd40ee0ef51",
    "sealed_in": "620634d"
+  },
+  {
+   "path": "results/v21_pv_predecessor_spec.json",
+   "blob": "845b04ef574a9567515278b0ef9abf3d7cd4f170",
+   "sealed_in": "1e9d0a8"
+  },
+  {
+   "path": "results/v21_pv_predecessor.json",
+   "blob": "16d47800a866caadeedb88220bea993025291332",
+   "sealed_in": "b4130f3"
+  },
+  {
+   "path": "results/v21_pv_microstate_spec.json",
+   "blob": "9276d56f3a8ba4d15a4978f6ef00033a93fcbd7e",
+   "sealed_in": "d5061a4"
+  },
+  {
+   "path": "results/v21_pv_microstate.json",
+   "blob": "f004560e0795cd637984d562a3a162257d3a83e7",
+   "sealed_in": "9c3b7ad"
+  },
+  {
+   "path": "results/v21_pv_m0_spec.json",
+   "blob": "2dc23d19b0c0e9afeafff8e2fc642201aa5702b3",
+   "sealed_in": "a17487f"
+  },
+  {
+   "path": "results/v21_pv_m0.json",
+   "blob": "5e13d76e1b161438ee5709a1746d1ce3781796f8",
+   "sealed_in": "b381896"
+  },
+  {
+   "path": "results/v21_pv_m0_r2_spec.json",
+   "blob": "f4f0b9b179f80c878a23598cd5940d74a959fb47",
+   "sealed_in": "08d6e57"
+  },
+  {
+   "path": "results/v21_pv_m0_r2.json",
+   "blob": "76eb96fe6bb34bd7458009b1ee7036789ce252e6",
+   "sealed_in": "8ece148"
+  },
+  {
+   "path": "results/v21_pv_m1_spec.json",
+   "blob": "322d0a18063bc1554396305cb80ca3ebf4955fe9",
+   "sealed_in": "4f4ded7"
+  },
+  {
+   "path": "results/v21_pv_m1.json",
+   "blob": "86f8ca525167144f441334bbf152524c6e577d7f",
+   "sealed_in": "ed1be04"
+  },
+  {
+   "path": "results/v21_pv_m2_spec.json",
+   "blob": "0d0cb08d0f73756a5af6ac94536564c64b62ddbc",
+   "sealed_in": "efe5598"
+  },
+  {
+   "path": "results/v21_pv_m2.json",
+   "blob": "9128d8468fb9888683a703c395d0aefdebb746fc",
+   "sealed_in": "4b74f5e"
+  },
+  {
+   "path": "results/whole_system_realization_spec.json",
+   "blob": "9c558bd69ebf7d9452af0aa58d4cc822f4febc1d",
+   "sealed_in": "acdaf19"
+  },
+  {
+   "path": "results/whole_system_realization.json",
+   "blob": "bd4389a79b05d73fbc6cdb478c808bc48162a75b",
+   "sealed_in": "acdaf19"
+  },
+  {
+   "path": "scripts/whole_system_realize.py",
+   "blob": "4e3e8a225660ea94eb6485a95375affbd64daa42",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
+  },
+  {
+   "path": "jomission/tfne/nf.py",
+   "blob": "b6db0fa2197505f43829992056de58a15bb20c7d",
+   "sealed_in": "acdaf19"
+  },
+  {
+   "path": "jomission/tfne/ctx.py",
+   "blob": "a88337c12c800328ec03b0ad52527a6598066a64",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
+  },
+  {
+   "path": "jomission/tfne/architecture.py",
+   "blob": "ad51915eed5eb8cf0781974f48169edeb5a58751",
+   "sealed_in": "acdaf19"
+  },
+  {
+   "path": "jomission/tfne/realize.py",
+   "blob": "78b730d5e942ba9fd993598249bc99a1f42586b2",
+   "sealed_in": "acdaf19"
+  },
+  {
+   "path": "tests/test_whole_system_realization.py",
+   "blob": "aebb90846bee2f69b7bede9520b351e5b56f97e5",
+   "sealed_in": "0659293",
+   "resealed": "WS-REALIZE-R4C: R adopted from the engine under reviewer authority"
+  },
+  {
+   "path": "results/ctx_allocation_audit_spec.json",
+   "blob": "498ce562289484e93cc10e7d9f465326c2e57af7",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "results/ctx_allocation_audit.json",
+   "blob": "807f9a748e15ba10725a694bed8a85d64ba67ea6",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "results/whole_system_realization_r2.json",
+   "blob": "9b8b88443e810c153171c9e8049d884b33f925d1",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "scripts/ctx_allocation_audit.py",
+   "blob": "2767a018e7fb2e31d2a56d83607216c988961914",
+   "sealed_in": "0659293"
+  },
+  {
+   "path": "results/whole_system_diagnostic_spec.json",
+   "blob": "257ba8642df681ab37273c8ade1b17dacea70e9c",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "results/whole_system_diagnostic.json",
+   "blob": "c6a456a3a425f57182b0b79bf292bc15c21893cf",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "scripts/whole_system_diagnostic.py",
+   "blob": "208cae2e4da736ea08fdf799dfd748eb870188c4",
+   "sealed_in": "0e76900",
+   "resealed": "WS-DIAG-2: --spec plumbing and two write-path defect repairs; no scientific parameter changed"
+  },
+  {
+   "path": "jomission/tfne/retina.py",
+   "blob": "76518ed13de20b68e87241ee49635647c9fa730e",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "tests/test_whole_system_diagnostic.py",
+   "blob": "082c3dad73211346295cf9d9cfd7bc08b548c6e8",
+   "sealed_in": "50bd3c5"
+  },
+  {
+   "path": "results/whole_system_diagnostic_2_spec.json",
+   "blob": "1765b99edd76d4053a6afc0d1d3440d6b0c1317b",
+   "sealed_in": "0e76900"
+  },
+  {
+   "path": "results/whole_system_diagnostic_2.json",
+   "blob": "56fb0608814e8af65b1d37a49754c83293aca0f8",
+   "sealed_in": "0e76900"
+  },
+  {
+   "path": "results/whole_system_diagnostic_3_spec.json",
+   "blob": "a908fb01a21e9de88954044f0d7afaf496bc8b3b",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "scripts/whole_system_diagnostic_3.py",
+   "blob": "7505c30fe22aedadd6c642491aa48ff393fd297b",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "jomission/tfne/hdp_authority.py",
+   "blob": "21dd748ad47d4916d49771427e901b0fabba08c8",
+   "sealed_in": "66ba377"
+  },
+  {
+   "path": "results/whole_system_diagnostic_3.json",
+   "blob": "9c5912b05253050f94fc8a6fda79a92e12b20238",
+   "sealed_in": "d4c9d17"
   }
  ]
 }

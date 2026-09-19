@@ -1,0 +1,82 @@
+{
+ "lineage": "V2.1-pv-m1-transplant (SCI-V21-PV-M1)",
+ "parent": "V2.1-pv-m0-state-decomposition-r2, result commit 8ece148, verdict STATE_DECOMPOSITION_PASS",
+ "authority": "reviewer 2026-09-18: M1 authorized with three single-block arms. Common base A, donor B, identical future input and RNG stream, exactly one typed state block replaced per arm. Magnitude is not causal authority, so u is kept despite its weak observational evidence. The synaptic arm is incoming-to-PV edges only. No E/PV/SST/VIP split of that arm yet. No conjunction search follows zero flips",
+ "declared": "2026-09-18, committed and pushed before the declared procedure runs",
+ "question": "starting from one identical h_0, which single typed state block, transplanted from the active-fate donor, switches the PV fate",
+ "candidate_set": {
+  "from_M0": "only v, u and syn_state differ between h_A(0) and h_B(0); w, H, prev_spikes and b are bitwise identical, and theta_S and aux are empty",
+  "excluded": "prng_key and step_index (P1: swapping the noise stream does not swap fate); w and H (bitwise identical, so no transplant of them could change anything)"
+ },
+ "arms": {
+  "A_CTRL": "h_A unmodified. Must reproduce the sealed low-PV fate",
+  "B_CTRL": "h_B unmodified, run under the same future stream as the A arms. Must reach the active-PV fate",
+  "A_v": "h_A with the whole v vector (400) replaced by v_B",
+  "A_u": "h_A with the whole u vector (400) replaced by u_B",
+  "A_syn": "h_A with the syn_state entries whose postsynaptic cell is PV replaced by those of h_B, all presynaptic classes together"
+ },
+ "future_stream": "every arm starts from PRNGKey(11) at step_index 0 and runs the same schedule, so the future input and noise realization are identical across arms. The donor's own step_index is not carried into an A-based arm: only the named state block moves",
+ "frozen": {
+  "states": {
+   "h_A(0)": "sha256 19be5c09fb6f21ff158fcafc294c06a6b1dd4a26ae1a3bb3878259313eb35f95 (m0_states/h_A0.npz)",
+   "h_B(0)": "sha256 cbd153691b9e3d1c31c86909956749db09d8716f15264cce3f425a6139427600 (m0_states/h_B0.npz)"
+  },
+  "regeneration": "both states are regenerated through the sealed build path and must reproduce the sealed v-hashes 83ce0d0c3fc44a71 and 8704423170e6ae32; the pinned npz are the identity reference",
+  "lambda": 0.65625,
+  "duration": "12 x 5 s chunks (60 s), the fate horizon already qualified by the parent experiment; windows are summarized from chunk 1 as in the parent driver",
+  "fate_definition": "the late-window PV rate, the mean over the final three 5 s windows, exactly as in results/v21_pv_predecessor.json P1_fate",
+  "model": "V2.1 static column, kernel baseline, HDP detached, native noise, jaxfne 0.4.24, dt 0.1 ms"
+ },
+ "procedure_constants": {
+  "lambda": 0.65625,
+  "n_chunk": 12,
+  "pre_chunks": 4,
+  "engine_seed": 11,
+  "late_windows": 3,
+  "tolerance_abs_hz": 1.0,
+  "tolerance_rel": 0.1,
+  "a_hash": "83ce0d0c3fc44a71",
+  "b_hash": "8704423170e6ae32",
+  "sealed_low_pv_hz": 0.7066666666666666,
+  "sealed_active_pv_hz": 14.425000000000002
+ },
+ "fate_thresholds": "taken from the sealed parent and not redefined after execution: low-PV means the late PV rate is within max(1 Hz, 10%) of the sealed A value 0.707 Hz, active-PV means within max(1 Hz, 10%) of the sealed B value 14.425 Hz. A late rate matching neither is reported as neither, never reinterpreted into one of them",
+ "transplant_verification": {
+  "moved": "h'[k] must equal h_B[k] bitwise for the transplanted block",
+  "unmoved": "h'[not k] must equal h_A[not k] bitwise for every other leaf of the DynamicState",
+  "syn_arm_scope": "the edge indices whose postsynaptic cell is PV, derived from the model edge list; the count and the fraction of syn_state they cover are recorded, and the complement must be bitwise equal to h_A",
+  "on_failure": "M1_TRANSPLANT_INVALID, reported before any fate is interpreted"
+ },
+ "controls": {
+  "A_CTRL": "must reproduce the sealed run A window rates within 0.5 Hz",
+  "B_CTRL": "must reach the active-PV fate; it runs under the fresh key stream, which is run C of the parent, so its sealed reference is run C at 15.11 Hz",
+  "on_failure": "M1_CONTROL_FAILED, reported before any transplant fate is interpreted"
+ },
+ "classification": {
+  "per_arm": {
+   "CAUSAL_SUFFICIENT": "the A-based transplant reaches the active-PV fate while A_CTRL stays low and B_CTRL stays active",
+   "NOT_SUFFICIENT": "anything else, including a late rate matching neither fate"
+  },
+  "lineage": {
+   "SINGLE_BLOCK_SUFFICIENT_PASS": "exactly one arm flips; that block is localized as sufficient",
+   "MULTIPLE_BLOCKS_SUFFICIENT_PASS": "more than one arm flips; all are reported as independently sufficient and none is ranked",
+   "NO_SINGLE_BLOCK_SUFFICIENT_FAIL": "no arm flips; STOP, and no conjunction search follows automatically",
+   "M1_CONTROL_FAILED": "a control did not reproduce its sealed fate",
+   "M1_TRANSPLANT_INVALID": "a constructed state moved something other than the named block"
+  }
+ },
+ "forbidden": [
+  "splitting the PV-incoming synaptic arm by presynaptic class: that is a second-stage decomposition, only if this arm flips the fate",
+  "transplanting w, H, prev_spikes or b: they are bitwise identical between the two states",
+  "combining blocks: a conjunction search requires separate justification",
+  "ranking sufficient blocks by the size of their state difference",
+  "redefining or weakening the fate thresholds after execution",
+  "any lambda, tonic, parameter, topology or kernel change"
+ ],
+ "artifacts": {
+  "committed": "results/v21_pv_m1.json",
+  "not_committed": "per-arm window rates are in the result; no traces are retained"
+ },
+ "stop": "classify each arm and the lineage, write results/v21_pv_m1.json, STOP for review. No mechanism is claimed: a sufficient block is not a mechanism",
+ "driver": "tests/test_v21_pv_m1.py (tier 3)"
+}

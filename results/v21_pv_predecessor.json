@@ -1,0 +1,379 @@
+{
+ "spec": "results/v21_pv_predecessor_spec.json",
+ "lambda": 0.65625,
+ "scratch_dir": "C:\\Users\\nejath\\AppData\\Local\\Temp\\claude\\pv_predecessor\\pv_predecessor",
+ "runs": {
+  "A_collapse": {
+   "window_rates_hz": [
+    {
+     "E": 17.008666666666667,
+     "PV": 16.880000000000003,
+     "SST": 21.4,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.191333333333333,
+     "PV": 16.580000000000002,
+     "SST": 21.225,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.2,
+     "PV": 10.195,
+     "SST": 19.91875,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.017333333333333,
+     "PV": 16.775,
+     "SST": 21.150000000000002,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.182666666666663,
+     "PV": 13.790000000000001,
+     "SST": 20.606250000000003,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.062,
+     "PV": 1.6800000000000002,
+     "SST": 21.85625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.137999999999998,
+     "PV": 1.22,
+     "SST": 22.5375,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 1.035,
+     "SST": 22.54375,
+     "VIP": 17.199999999999996
+    },
+    {
+     "E": 17.064,
+     "PV": 0.8549999999999999,
+     "SST": 22.49375,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.002000000000002,
+     "PV": 0.8699999999999999,
+     "SST": 22.5625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.134,
+     "PV": 0.395,
+     "SST": 22.668750000000003,
+     "VIP": 17.199999999999996
+    }
+   ],
+   "u_max_boundary_err": 8.49567026861564e-06,
+   "pv_spike_count": 19480,
+   "state_hash": "83ce0d0c3fc44a71"
+  },
+  "B_active": {
+   "window_rates_hz": [
+    {
+     "E": 17.0,
+     "PV": 14.65,
+     "SST": 22.3625,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.848666666666666,
+     "PV": 14.690000000000001,
+     "SST": 22.35,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.993333333333332,
+     "PV": 14.66,
+     "SST": 22.3375,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.958,
+     "PV": 14.739999999999998,
+     "SST": 22.400000000000002,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 14.470000000000002,
+     "SST": 22.356250000000003,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.842666666666666,
+     "PV": 14.410000000000002,
+     "SST": 22.36875,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 14.540000000000001,
+     "SST": 22.2625,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.957333333333334,
+     "PV": 14.594999999999999,
+     "SST": 22.40625,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 14.375,
+     "SST": 22.331249999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.842666666666666,
+     "PV": 14.539999999999997,
+     "SST": 22.31875,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.97866666666667,
+     "PV": 14.360000000000003,
+     "SST": 22.325,
+     "VIP": 16.900000000000002
+    }
+   ],
+   "u_max_boundary_err": 6.00327256883304e-06,
+   "pv_spike_count": 34797,
+   "state_hash": "8704423170e6ae32"
+  },
+  "C_control": {
+   "window_rates_hz": [
+    {
+     "E": 17.0,
+     "PV": 15.175,
+     "SST": 22.356250000000003,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.209999999999999,
+     "SST": 22.300000000000004,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 17.0,
+     "PV": 15.255,
+     "SST": 22.325000000000003,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.96,
+     "PV": 15.1,
+     "SST": 22.393749999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 17.0,
+     "PV": 15.02,
+     "SST": 22.362499999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.84,
+     "PV": 15.255,
+     "SST": 22.33125,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.997333333333334,
+     "PV": 15.280000000000001,
+     "SST": 22.3125,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.962666666666664,
+     "PV": 15.155000000000001,
+     "SST": 22.43125,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.999333333333333,
+     "PV": 14.919999999999998,
+     "SST": 22.34375,
+     "VIP": 16.900000000000002
+    },
+    {
+     "E": 16.840666666666667,
+     "PV": 15.260000000000002,
+     "SST": 22.424999999999997,
+     "VIP": 17.0
+    },
+    {
+     "E": 16.96,
+     "PV": 15.15,
+     "SST": 22.31875,
+     "VIP": 16.900000000000002
+    }
+   ],
+   "u_max_boundary_err": 7.032036318577184e-06,
+   "pv_spike_count": 36235,
+   "state_hash": "8704423170e6ae32"
+  }
+ },
+ "reproduction": {
+  "A_collapse": {
+   "max_abs_diff_hz": 0.0,
+   "within_tol": true
+  },
+  "B_active": {
+   "max_abs_diff_hz": 0.0,
+   "within_tol": true
+  }
+ },
+ "u_reconstruction": {
+  "A_collapse": {
+   "max_boundary_err": 8.49567026861564e-06,
+   "valid": true
+  },
+  "B_active": {
+   "max_boundary_err": 6.00327256883304e-06,
+   "valid": true
+  },
+  "C_control": {
+   "max_boundary_err": 7.032036318577184e-06,
+   "valid": true
+  }
+ },
+ "source_split": {
+  "A_collapse": {
+   "residual_synaptic_only": {
+    "mean": 3.3412404736727663,
+    "std": 0.09540358535940335
+   },
+   "residual_minus_tonic": {
+    "mean": 0.016240473672765664,
+    "std": 0.09540358535940335
+   },
+   "reconstructed_input_scale": 0.20214471717769233,
+   "closer_hypothesis": "sources_includes_tonic"
+  },
+  "B_active": {
+   "residual_synaptic_only": {
+    "mean": 3.353997972831388,
+    "std": 0.0992709048543146
+   },
+   "residual_minus_tonic": {
+    "mean": 0.028997972831387463,
+    "std": 0.0992709048543146
+   },
+   "reconstructed_input_scale": 0.2298722092202426,
+   "closer_hypothesis": "sources_includes_tonic"
+  },
+  "C_control": {
+   "residual_synaptic_only": {
+    "mean": 3.3552436949297015,
+    "std": 0.10447878291276355
+   },
+   "residual_minus_tonic": {
+    "mean": 0.0302436949297015,
+    "std": 0.10447878291276355
+   },
+   "reconstructed_input_scale": 0.2311519202392765,
+   "closer_hypothesis": "sources_includes_tonic"
+  }
+ },
+ "P1_fate": {
+  "late_pv_hz": {
+   "A_collapse": 0.7066666666666666,
+   "B_active": 14.425000000000002,
+   "C_control": 15.11
+  },
+  "tolerance_hz": 1.4425000000000003,
+  "C_like_B": true,
+  "C_like_A": false,
+  "attribution": "initial_state"
+ },
+ "P2_order": {
+  "A_collapse": {
+   "pv_rate_deviation_ms": 15000.0,
+   "channel_deviation_ms": {
+    "v_PV": null,
+    "u_PV": null,
+    "sources_engine": null,
+    "input_E_to_PV": null,
+    "input_PV_to_PV": null,
+    "input_SST_to_PV": null,
+    "input_VIP_to_PV": null,
+    "residual_sources_minus_synaptic": null,
+    "residual_minus_synaptic_and_tonic": null
+   },
+   "preceding_channels": {},
+   "collapsing": true,
+   "earliest_preceding": null
+  },
+  "B_active": {
+   "pv_rate_deviation_ms": null,
+   "channel_deviation_ms": {
+    "v_PV": null,
+    "u_PV": null,
+    "sources_engine": null,
+    "input_E_to_PV": null,
+    "input_PV_to_PV": null,
+    "input_SST_to_PV": null,
+    "input_VIP_to_PV": null,
+    "residual_sources_minus_synaptic": null,
+    "residual_minus_synaptic_and_tonic": null
+   },
+   "preceding_channels": {},
+   "collapsing": false,
+   "earliest_preceding": null
+  },
+  "C_control": {
+   "pv_rate_deviation_ms": null,
+   "channel_deviation_ms": {
+    "v_PV": null,
+    "u_PV": null,
+    "sources_engine": null,
+    "input_E_to_PV": null,
+    "input_PV_to_PV": null,
+    "input_SST_to_PV": null,
+    "input_VIP_to_PV": null,
+    "residual_sources_minus_synaptic": null,
+    "residual_minus_synaptic_and_tonic": null
+   },
+   "preceding_channels": {},
+   "collapsing": false,
+   "earliest_preceding": null
+  }
+ },
+ "verdict": "UNRESOLVED",
+ "reason": "no recorded channel precedes the PV-rate separation in every collapsing run ({'A_collapse': None})",
+ "forbidden_respected": [
+  "any other lambda, tonic vector, parameter, topology or kernel change",
+  "additional initial states beyond runs A, B and the key-matched control C",
+  "intervention, silencing, clamping or perturbation of any variable",
+  "enabling engine recording flags that alter the outputs contract of the sealed runs",
+  "ISI-CV, synchrony or heterogeneity as success criteria",
+  "inferring mechanism directly from observation"
+ ],
+ "post_execution_disclosure": {
+  "scope": "read-only inspection of the traces this run produced, after the sealed classification was written. No computed field above was changed and the verdict was not re-derived",
+  "defect_found": {
+   "what": "_channels() marks the first 50 ms of each reconstructed input channel NaN as warm-up, but deviation_time_ms() takes its 0-5 s baseline over that same array, so mu and sd are NaN and the four input_*_to_PV channels can never fire the detector",
+   "effect_on_verdict": "none. Recomputing the four channels with the warm-up excluded from the baseline (mean and sd over bins 50-5000) still yields no sustained 5 sigma deviation in run A or run B, so those channels remain non-preceding on correct arithmetic",
+   "receipt": "A_collapse syn_E base 0.14701+-0.41418 late 0.14778; syn_PV -0.04703+-0.09195 late -0.00174; syn_SST -0.04824+-0.03661 late -0.05171; syn_VIP -0.03374+-0.06332 late -0.03403; first sustained deviation None for all four"
+  },
+  "observability_limit": {
+   "what": "the sealed channels are means over the 40 PV cells and over 10 steps. Run A PV firing falls from 17.12 to 0.63 Hz per cell while the population-mean channels stay inside their own baseline bands: v_PV -63.750+-5.607 baseline, -63.495 late (0.05 sd); u_PV -12.411+-0.798 baseline, -12.687 late (0.35 sd); sources 3.3786+-0.4464 baseline, 3.3866 late (0.02 sd)",
+   "consequence": "UNRESOLVED is correct under the sealed procedure, but it is a statement about population-mean 1 ms channels, not a demonstration that no state variable changed. A spike-dominated quantity averaged over cells and time is close to blind to the firing change itself"
+  },
+  "uniformity_observation": {
+   "what": "the collapse in run A is uniform across the PV population, not a subset dropout: early per-cell rates 16.40-17.20 Hz (0 silent), late 0.00-2.60 Hz (1 cell below 0.1 Hz); late per-cell mean v spans -63.60 to -63.32 and u -12.72 to -12.61",
+   "consequence": "the PV_SPIKE_MICROSTATE branch of the classification, which is defined by per-cell dropout order, has no per-cell structure to key on in this run. The driver did not evaluate that branch; this observation is why it would not have fired"
+  },
+  "not_done": "no channel definition, tolerance or classification rule was changed, and no run was repeated"
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "lineage": "V2.1-pv-m0-state-decomposition-r2 (SCI-V21-PV-M0-R2)",
+ "parent": "V2.1-pv-m0-state-decomposition, result commit b381896, verdict STATE_REGENERATION_FAIL",
+ "authority": "reviewer 2026-09-17: authorize M0 only. Compare the exact initial states h_A(0) and h_B(0) by typed state component, exclude the RNG from the causal candidate set because P1 showed swapping the noise stream does not swap fate, and identify the smallest state block that differs. Not another predictive statistic. M1 (matched-state transplant) is not authorized by this spec",
+ "declared": "2026-09-17, committed and pushed before the declared procedure runs",
+ "blocker_and_resolution": {
+  "blocker": "h_B(0) was never persisted: tests/test_v21_pv_predecessor.py kept only a 16-hex sha256 of dynamic.v per run, and the reconstructed synaptic traces were started from zero by design, so B's synaptic and history state is absent from the traces",
+  "resolution": "owner 2026-09-17 authorized deterministic regeneration: rerun the sealed 20 s lambda-1 pre-run to recover h_B(0). This produces no new evidence, it recovers an already-sealed object, and M1 would require the same regeneration",
+  "identity_check": "owner 2026-09-17 chose v-hash plus trajectory match: the regenerated state must reproduce the sealed sha256 of dynamic.v AND a 10 s continuation from it at lambda 0.65625 must reproduce run B's first sealed window rate, which is its second chunk, for every class within 0.5 Hz. The v-hash alone says nothing about u, syn_state or the other fields; the continuation exercises every field that participates in the dynamics"
+ },
+ "kind": "deterministic regeneration of two already-sealed initial states plus a read-only typed decomposition of their difference. No new parameter, tonic, topology, kernel or gate",
+ "frozen": {
+  "states": {
+   "h_A(0)": "fresh state at lambda 0.65625, PRNGKey(11), step 0; sealed v-hash 83ce0d0c3fc44a71",
+   "h_B(0)": "end state of four 5 s chunks at lambda 1 from the fresh state, PRNGKey(11); sealed v-hash 8704423170e6ae32"
+  },
+  "build_path": "tests/test_v21_pv_predecessor.py _Sim.fresh_state and _Sim.lambda1_end_state, loaded by path so the build cannot drift from the sealed runs",
+  "reference": "results/v21_pv_predecessor.json runs.*.state_hash and runs.B_active.window_rates_hz[0]",
+  "model": "V2.1 static column, kernel baseline, HDP detached, native noise, jaxfne 0.4.24, dt 0.1 ms"
+ },
+ "procedure_constants": {
+  "lambda": 0.65625,
+  "pre_chunks": 4,
+  "trajectory_chunks": 2,
+  "repro_tol_hz": 0.5,
+  "engine_seed": 11,
+  "a_hash": "83ce0d0c3fc44a71",
+  "b_hash": "8704423170e6ae32",
+  "compare_chunk_index": 1
+ },
+ "decomposition": {
+  "unit": "typed state block, never an individual floating-point coordinate",
+  "blocks": "every field of DynamicState (v, u, prev_spikes, syn_state, H, w, theta_S, aux, b), flattened through its own structure so a nested field is reported by leaf path",
+  "per_block": "presence in each state, shape, dtype, whether the two states are bitwise identical, max and mean absolute difference, fraction of entries differing, and the same statistics split by cell class where the leading axis is the neuron axis",
+  "excluded": "prng_key and step_index are excluded from the causal candidate set on the P1 result, and are reported only as context",
+  "purpose": "identify the smallest state block that differs between A and B, and therefore which transplant arms are scientifically justified"
+ },
+ "search_order_for_a_later_lineage": [
+  "PV intrinsic dynamic state (v_PV, u_PV)",
+  "PV incoming synaptic and history state",
+  "other-class dynamic state, only if required",
+  "broader blocks, only after narrower blocks fail"
+ ],
+ "classification": {
+  "STATE_DECOMPOSITION_PASS": "both states regenerate with the sealed v-hash, the trajectory match holds, and the typed decomposition is complete",
+  "STATE_REGENERATION_FAIL": "a regenerated state fails its v-hash or the trajectory match; no decomposition is reported"
+ },
+ "artifacts": {
+  "committed": "results/v21_pv_m0_r2.json",
+  "not_committed": "the two regenerated states written to the session scratch directory as npz and pinned there by sha256"
+ },
+ "forbidden": [
+  "any transplant, intervention, clamp or perturbation: M1 is not authorized by this spec",
+  "any lambda, tonic, parameter, topology or kernel change",
+  "treating a difference in prng_key or step_index as a causal candidate",
+  "comparing individual coordinates instead of typed blocks",
+  "concluding which block causes the fate: M0 can only say which blocks differ"
+ ],
+ "stop": "write results/v21_pv_m0_r2.json with the typed decomposition and the justified transplant arms, then STOP for review",
+ "correction": {
+  "of": "SCI-V21-PV-M0, results/v21_pv_m0.json at b381896",
+  "kind": "additive correction of the checking driver only; the executed FAIL label is kept and not reinterpreted",
+  "defect": "the M0 driver continued one 5 s chunk from h_B(0) and compared it against results/v21_pv_predecessor.json runs.B_active.window_rates_hz[0]. The sealed driver summarizes only chunks k >= 1 (11 windows from 12 chunks), so that entry is seconds 5-10, not 0-5. The comparison was off by one chunk",
+  "evidence_that_the_state_was_correct": "both regenerated states reproduced the sealed sha256 of dynamic.v exactly (A 83ce0d0c3fc44a71, B 8704423170e6ae32)",
+  "repair": "continue two 5 s chunks and compare the second one, chunk index 1, against the same sealed window. Nothing else changes",
+  "not_changed": "the tolerance (0.5 Hz), the states, the build path, the decomposition, and the classification table"
+ }
+}

@@ -1,6 +1,9 @@
 import pytest
 
+from jomission.harness import seals
 from jomission.harness.envfail import classify
+
+seals.install()   # a bare `pytest tests/` must not be able to overwrite sealed evidence
 
 
 @pytest.hookimpl(hookwrapper=True)

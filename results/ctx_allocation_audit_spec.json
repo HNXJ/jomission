@@ -1,0 +1,24 @@
+{
+ "schema": "jomission.realization_spec.v1",
+ "lineage_id": "WS-REALIZE-R4C",
+ "parent": "WS-REALIZE-R1R4",
+ "authority": "reviewer 2026-09-18: adopt the engine allocator for CTX[jomission_v0]; audit sum_c N[l.c] = N[l] exhaustively first; if PASS, additive R4 correction; do not rewrite WHOLE_SYSTEM_REALIZATION_FAIL",
+ "principal_delta": "CTX[jomission_v0].R becomes OBSERVED_CURRENT (the engine's policy) instead of a DEFINITION_CHOICE. Nothing else changes.",
+ "procedure": [
+  "audit R exhaustively over layer totals 0..2000 for all six layers, read-only, no construction",
+  "stop at ALLOCATION_POLICY_FAIL if exact cardinality is violated anywhere",
+  "otherwise re-run the sealed R3/R4 realizer unchanged and reconcile"
+ ],
+ "frozen": [
+  "everything frozen in results/whole_system_realization_spec.json except R",
+  "the R1R4 result file is immutable evidence and is not rewritten"
+ ],
+ "acceptance": "ALLOCATION_POLICY_PASS, then WHOLE_SYSTEM_REALIZATION_PASS iff all four deltas are zero, E_missing = E_extra = empty, the no-skip invariant holds, I[FEF.L6.E] resolves exactly, and every declared input frontier resolves",
+ "stop_condition": "ALLOCATION_POLICY_FAIL: the engine policy is inadmissible as R and the realizer must own allocation. WHOLE_SYSTEM_REALIZATION_FAIL at the narrowest remaining failure.",
+ "artifacts_expected": [
+  "results/ctx_allocation_audit.json",
+  "results/whole_system_realization_r2.json"
+ ],
+ "observability_limit": "configured tau = 2 ms; per-edge realized tau observability = unavailable",
+ "no_simulation": "no step function is compiled and no continuation is run in this lineage"
+}

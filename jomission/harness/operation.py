@@ -118,3 +118,38 @@ def run_battery(engine, step_fn, state, cls, emitter_drive, schedule_chunks, exp
     rec = evaluate(summaries, profile, gate_id)
     rec["drive_additivity"] = additivity
     return rec
+
+
+def deviation_time(trace, dt_ms: float, baseline_ms: float, k_sigma: float, sustain_ms: float,
+                   min_baseline_samples: int = 100) -> float | None:
+    """First time (ms) a trace leaves its own baseline band by k_sigma and stays out for sustain_ms.
+
+    The baseline mean and standard deviation are taken over the *finite* samples inside the
+    baseline window only: a trace whose leading samples are NaN (a reconstruction warm-up, a
+    filter transient) would otherwise produce a NaN band that no sample can ever exceed, which
+    reads as "no deviation" instead of as a broken estimator. Fewer than min_baseline_samples
+    finite baseline samples is an error, not a None.
+
+    A non-finite sample outside the baseline window is ineligible and breaks a sustained run,
+    so an excursion is only reported when sustain_ms of consecutive finite samples lie outside
+    the band. Returns the time of the first such sample, or None if there is none.
+    """
+    t = np.asarray(trace, dtype=np.float64)
+    nb = int(round(baseline_ms / dt_ms))
+    if t.size <= nb:
+        return None
+    finite = np.isfinite(t)
+    base = t[:nb][finite[:nb]]
+    if base.size < min_baseline_samples:
+        raise ValueError(f"baseline window holds {base.size} finite samples (need {min_baseline_samples})")
+    mu, sd = float(base.mean()), float(base.std())
+    if sd == 0.0:
+        sd = 1e-12
+    out = np.zeros(t.size, dtype=np.int32)
+    out[finite] = (np.abs(t[finite] - mu) > k_sigma * sd).astype(np.int32)
+    need = int(round(sustain_ms / dt_ms))
+    if need < 1 or out.size < need:
+        return None
+    run = np.convolve(out, np.ones(need, dtype=np.int32), mode="valid")
+    hit = np.flatnonzero(run == need)
+    return float(hit[0] * dt_ms) if hit.size else None

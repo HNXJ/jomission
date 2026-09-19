@@ -594,6 +594,1111 @@
     "tests/test_v21_pv_stationarity.py"
    ],
    "commit": "907c7f2"
+  },
+  {
+   "lineage_id": "V2.1-pv-predecessor-instrumented",
+   "parent": "V2.1-pv-stationarity",
+   "principal_delta": "retention of per-cell PV state during a matched re-execution; plus one key-matched control run (state of B, noise of A). No parameter, tonic, topology, kernel or gate change",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_predecessor_spec.json",
+    "commit": "1e9d0a8"
+   },
+   "authority": "manifests/todo.json SCI-V21-PV-STATE-PREDECESSOR.delivered.reviewer_decision (reviewer 2026-09-17): one instrumented matched rerun, not another substrate experiment",
+   "inputs": [
+    "results/v21_pv_stationarity.json",
+    "tests/test_v21_pv_stationarity.py",
+    "tests/test_v21_operation.py",
+    "results/v21_vectors.json"
+   ],
+   "frozen": [
+    "lambda 0.65625 tonic (E 7.75625, PV 3.325, SST 0.9771875, VIP 26.521875)",
+    "V2.1 static column, kernel baseline, HDP detached",
+    "native noise, PRNGKey(11) semantics",
+    "12 x 5 s chunks",
+    "blobs pinned in the spec"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "runs A and B reproduce the sealed 60 s window rates for every class and window with max difference 0.0 Hz; Delta_instrumentation = 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "u reconstruction matches the engine carry at every chunk boundary to 8.5e-06 or better in all three runs",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "the engine source term includes the tonic: residual after removing tonic and the reconstructed class inputs has mean 0.016-0.030 against a reconstructed input scale of 0.202-0.231",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "late PV rate: A 0.71 Hz, B 14.43 Hz, C 15.11 Hz; C and B share the same starting state hash 8704423170e6ae32 and differ only in key stream",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "no recorded channel (v_PV, u_PV, sources, the four class inputs, the two residuals) leaves its own 0-5 s baseline by 5 sigma sustained 1 s in any run; the PV population rate does so at 15 s in run A",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    },
+    {
+     "claim": "the run A collapse is uniform across the PV population: early per-cell 16.40-17.20 Hz, late 0.00-2.60 Hz, one cell below 0.1 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_predecessor.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the PV fate at lambda 0.65625 is set by the initial state, not by the noise realization: C tracks B within the sealed tolerance max(1 Hz, 10%) and differs from A by 14.4 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_predecessor.json P1_fate"
+    },
+    {
+     "claim": "population-mean 1 ms channels are close to blind to the firing collapse: v_PV moves 0.05 baseline sd, sources 0.02 sd, u_PV 0.35 sd while per-cell firing falls from 17.12 to 0.63 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_predecessor.json post_execution_disclosure.observability_limit"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the state that selects the PV fate is not visible at the population-mean 1 ms resolution of this lineage; a per-cell or subthreshold-resolved observable would be needed to locate it",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "UNRESOLVED",
+    "status": "UNRESOLVED"
+   },
+   "acceptance": "results/v21_pv_predecessor_spec.json classification table (reproduction -> P1 -> P2 -> classification)",
+   "fail_boundary": "the recorded observable set, not the execution: reproduction and both reconstruction validations passed, and no candidate channel precedes the PV-rate separation",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_predecessor_spec.json",
+    "results/v21_pv_predecessor.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "commit": "b4130f3"
+  },
+  {
+   "lineage_id": "V2.1-pv-microstate",
+   "parent": "V2.1-pv-predecessor-instrumented",
+   "principal_delta": "none: read-only per-cell reanalysis of the retained traces at 1 s epochs. No simulation",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_microstate_spec.json",
+    "commit": "d5061a4"
+   },
+   "authority": "reviewer 2026-09-17: read-only reanalysis before any new execution; minimal predeclared hierarchy; A against B and C",
+   "inputs": [
+    "results/v21_pv_predecessor.json",
+    "the three retained npz traces pinned by sha256 in the spec"
+   ],
+   "frozen": [
+    "the five declared representations and statistics",
+    "separation factor 5, three consecutive 1 s epochs, 1 s lead over the 15 s divergence",
+    "B against C as the fate-irrelevant null scale"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "trace identity confirmed: the three npz files match the sha256 pinned in the spec and reproduce the sealed population-mean numbers to the printed precision",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 1 per-cell v: d_AB 0.511 and d_AC 0.513 at epoch 0 against a same-fate scale max d_BC 0.048, qualifying from epoch 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 1 population mean of v qualifies at the same epoch 0 (scale 0.0476, threshold 0.238)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 2 per-cell u: d_AB 0.014-0.046 and d_AC 0.016-0.054 against d_BC 0.008-0.016, no qualifying epoch in the lead window",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 3 joint (v, u) qualifies from epoch 0 and its population-mean test also qualifies at epoch 0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 4 per-cell ISI structure: d_AB 9.3-16.8 and d_AC 5.9-18.9 against threshold 8.72, no three consecutive qualifying epochs",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "level 5 per-cell input was not evaluated: the spec makes it conditional on levels 1-4 producing no qualifying separation",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_microstate.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the per-cell v distribution distinguishes the fates but adds nothing over the population mean of v, which distinguishes them at the same epoch",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "the recovery variable u carries no fate-distinguishing information in the first 15 s at either resolution: the A-to-B and A-to-C distances are the size of the same-fate B-to-C distance",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    },
+    {
+     "claim": "the earlier finding that population means are insufficient was about within-run temporal deviation; across runs at matched times the mean of v does differ, small against run A's own temporal spread but large against the same-fate noise scale",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_microstate.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the fate difference is visible from epoch 0 in every representation that shows it at all, which is constitutive of the different initial states and cannot order cause and consequence. Separating the two requires runs that share an initial state and reach different fates, which no existing artifact provides",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "UNRESOLVED",
+    "status": "UNRESOLVED"
+   },
+   "acceptance": "results/v21_pv_microstate_spec.json classification table",
+   "fail_boundary": "the comparison design, not the resolution: A and B differ in initial state by construction, so no A-against-B contrast can place a predecessor in time",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_microstate_spec.json",
+    "results/v21_pv_microstate.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_microstate.py"
+   ],
+   "commit": "9c3b7ad"
+  },
+  {
+   "lineage_id": "V2.1-pv-m0-state-decomposition",
+   "parent": "V2.1-pv-microstate",
+   "principal_delta": "deterministic regeneration of two already-sealed initial states plus a typed decomposition of their difference",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m0_spec.json",
+    "commit": "a17487f"
+   },
+   "authority": "reviewer 2026-09-17 (authorize M0 only) plus owner 2026-09-17 (regenerate h_B(0); v-hash plus trajectory match)",
+   "inputs": [
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11), four 5 s pre-run chunks at lambda 1",
+    "0.5 Hz tolerance"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "both states regenerate with exactly the sealed sha256 of dynamic.v (A 83ce0d0c3fc44a71, B 8704423170e6ae32)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0.json"
+    },
+    {
+     "claim": "the trajectory match failed on PV alone by -0.695 Hz against a 0.5 Hz tolerance",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the failure is in the checking driver, not the state: the sealed driver summarizes only chunks k >= 1, so window_rates_hz[0] is seconds 5-10 while this check continued a single chunk covering 0-5 s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0.json"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "STATE_REGENERATION_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/v21_pv_m0_spec.json classification table",
+   "fail_boundary": "the checking driver window index; the regenerated states were correct",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m0_spec.json",
+    "results/v21_pv_m0.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m0.py"
+   ],
+   "commit": "b381896"
+  },
+  {
+   "lineage_id": "V2.1-pv-m0-state-decomposition-r2",
+   "parent": "V2.1-pv-m0-state-decomposition",
+   "principal_delta": "checking driver only: continue two 5 s chunks and compare chunk index 1. States, tolerance, build path and decomposition unchanged",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m0_r2_spec.json",
+    "commit": "08d6e57"
+   },
+   "authority": "reviewer 2026-09-17 (M0) plus owner 2026-09-17; the correction is additive and the M0 label is kept as executed",
+   "inputs": [
+    "results/v21_pv_m0.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "0.5 Hz tolerance",
+    "the sealed build path",
+    "the M0 driver retained verbatim"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the corrected trajectory match is exact: 0.0 Hz deviation on E, PV, SST and VIP against run B window 1",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "three typed blocks differ between h_A(0) and h_B(0): v (400, max 71.4), u (400, max 10.56) and syn_state (159600, max 0.368), each differing in every entry",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "five blocks are bitwise identical: w (159600), H (400), prev_spikes (400), b (400), and the empty theta_S and aux",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "u differs least in PV (max 0.370, mean 0.296) against E (10.56), SST (2.78) and VIP (7.40); v differs comparably in every class (mean 27.6-28.9)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "both states are saved and pinned for a later authorized transplant: h_A0 sha256 19be5c09, h_B0 sha256 cbd15369",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the plastic and H blocks are excluded as transplant arms: w and H are bitwise identical, so no transplant of them could change anything in this HDP-detached model",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "the justified arms in the declared search order are PV intrinsic (v_PV, u_PV) and PV incoming synaptic state (the syn_state entries whose postsynaptic cell is PV), the latter differing at every entry",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    },
+    {
+     "claim": "the small PV difference in u is consistent with the microstate result that u carries no fate-distinguishing information in the first 15 s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m0_r2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "M0 can say which blocks differ but not which one carries the fate; only a matched transplant can order that, and none is authorized by this spec",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "STATE_DECOMPOSITION_PASS",
+    "status": "PASS"
+   },
+   "acceptance": "results/v21_pv_m0_r2_spec.json classification table",
+   "fail_boundary": "none: the decomposition is complete for every DynamicState field",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m0_r2_spec.json",
+    "results/v21_pv_m0_r2.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m0_r2.py"
+   ],
+   "commit": "8ece148"
+  },
+  {
+   "lineage_id": "V2.1-pv-m1-transplant",
+   "parent": "V2.1-pv-m0-state-decomposition-r2",
+   "principal_delta": "one typed state block replaced per arm, from a common base state and a single future stochastic stream",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m1_spec.json",
+    "commit": "4f4ded7"
+   },
+   "authority": "reviewer 2026-09-18: M1 authorized with three single-block arms plus A and B controls; PV-incoming edges only; keep u; no conjunction search",
+   "inputs": [
+    "results/v21_pv_m0_r2.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends low at 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "B_CTRL ends at 15.110 Hz, matching its sealed reference (run C of the parent, 15.11 Hz)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "each transplant moved exactly its named block: the block took the donor value bitwise and every other DynamicState leaf equalled the base, with one differing leaf per arm",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "the PV-incoming synaptic arm covered 15960 of 159600 edges (10 percent), with presynaptic classes E, PV, SST and VIP",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "late PV rates: A_v 0.303 Hz, A_u 0.107 Hz, A_syn 0.085 Hz, against an active fate of 14.425 Hz and a base of 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "E, SST and VIP late rates are within 0.4 Hz across all five arms (E 16.93-17.07, SST 22.36-22.74, VIP 16.93-17.07)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "no single typed state block among v, u and the PV-incoming synaptic state is sufficient to switch the PV fate under a matched base and a matched future stream",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m1.json"
+    },
+    {
+     "claim": "every transplant arm ends lower than the unmodified base rather than between the two fates, so none of them is a partial flip",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the fate is not owned by any one of the three differing blocks alone; it is carried either by a combination of them or by a finer structure inside one of them. Deciding between those requires separately justified work, and no conjunction search follows automatically",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "NO_SINGLE_BLOCK_SUFFICIENT_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/v21_pv_m1_spec.json classification table",
+   "fail_boundary": "the single-block hypothesis, not the experiment: controls reproduced exactly and every transplant was verified bitwise",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m1_spec.json",
+    "results/v21_pv_m1.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m1.py"
+   ],
+   "commit": "ed1be04"
+  },
+  {
+   "lineage_id": "V2.1-pv-m2-pair-transplant",
+   "parent": "V2.1-pv-m1-transplant",
+   "principal_delta": "two typed state blocks replaced per arm instead of one; base, donor, future stream, horizon and fate criterion identical to M1",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/v21_pv_m2_spec.json",
+    "commit": "efe5598"
+   },
+   "authority": "reviewer 2026-09-18: M2 pairwise transplant battery only; no triple, no presynaptic-class split",
+   "inputs": [
+    "results/v21_pv_m1.json",
+    "results/v21_pv_predecessor.json",
+    "tests/test_v21_pv_predecessor.py"
+   ],
+   "frozen": [
+    "both sealed v-hashes",
+    "lambda 0.65625, PRNGKey(11) step 0 for every arm, 12 x 5 s chunks",
+    "fate thresholds from the sealed parent: low 0.707 Hz, active 14.425 Hz, band max(1 Hz, 10%)",
+    "the PV-incoming synaptic scope: 15960 of 159600 edges"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m1.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the intrinsic pair (v, u) is jointly sufficient to switch the PV fate while neither member is sufficient alone: a genuine interaction rather than independent authority",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "the PV-incoming synaptic state is not required for the flip: A_vu carries the base synaptic state throughout and still reaches the active band",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "the synaptic block is not merely neutral but antagonistic when paired: A_vs (0.162 Hz) is lower than A_v alone (0.303 Hz) and A_us (0.000 Hz) is lower than A_u alone (0.107 Hz)",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "exactly one pair is sufficient, so the minimal sufficient set found by this design is the intrinsic state pair and no ranking among pairs is needed",
+     "evidence_class": "DERIVED",
+     "receipt": "results/v21_pv_m2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the PV fate is carried by the joint intrinsic configuration of the PV population rather than by its synaptic drive state; sufficiency is not necessity, and this lineage tested neither necessity nor mechanism",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "MINIMAL_PAIR_IDENTIFIED",
+    "status": "PASS"
+   },
+   "acceptance": "results/v21_pv_m2_spec.json classification table",
+   "fail_boundary": "none: controls reproduced exactly, every transplant verified bitwise, and one pair flipped",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/v21_pv_m2_spec.json",
+    "results/v21_pv_m2.json"
+   ],
+   "tests": [
+    "tests/test_v21_pv_m2.py"
+   ],
+   "commit": "4b74f5e"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R1R4",
+   "parent": "V2.1-pv-m2-pair-transplant",
+   "principal_delta": "a typed TFNE/2 to JaxFNE realizer: the whole-system architecture is normalized from the sealed algebra and realized, instead of being hand-built",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_realization_spec.json",
+    "commit": "3ab13e7"
+   },
+   "authority": "reviewer 2026-09-18: Option 1, phases R0-R4; branch from the PV head, no rebase onto main",
+   "inputs": [
+    "docs/tfne/TFNE_V2_SPEC.md",
+    "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+   ],
+   "frozen": [
+    "CTX[jomission_v0] N=200",
+    "V1->V4 matched_instance, V4->frontal derived frontier union",
+    "scaffold p_feedforward = p_feedback = 0",
+    "probability 1.0, weight 0.5, AMPA tau_ms 2.0",
+    "seed 0, dt 0.1 ms"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "all 24 declared cross-area projection identities realize, with no missing and no extra identity: E_missing = E_extra = empty",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "the population scaffold alone realizes zero cross-area edges, so every cross-area edge comes from a declared projection",
+     "evidence_class": "OBSERVED",
+     "receipt": "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+    },
+    {
+     "claim": "no projection relates non-adjacent composites: V1 reaches neither FEF nor PFC",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "every declared projection realizes receptor index 0, the sole declared mechanism AMPA; tau_ms is empty on the concatenated edge list and so is not readable per edge",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "I[FEF.L6.E] resolves to 28 neurons at indices 170-197, exactly the rows whose metadata are area FEF, layer L6, cell type E",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "the realized L6 split is E 28 / SST 2 while the declared allocation policy R requires E 29 / SST 1, in all six instances",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization.json"
+    },
+    {
+     "claim": "without a declared mechanism the compiler takes a selector that expands any superficial layer name to {L2, L3, L2/3, L23}, which realized 18 undeclared cross-area identities; declaring AMPA selects the strict-equality selector and removes them",
+     "evidence_class": "OBSERVED",
+     "receipt": "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the mismatch is one seat in L6 per instance: both remainders are exactly 0.5 and the engine's sequential int(round()) is half-to-even, while R awards ties to the natural-key-first class",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_realization.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the architecture is realizable from the sealed algebra with no compiler-generated undeclared projection; what remains unreconciled is an allocation-policy conflict, not a topological one",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_REALIZATION_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_realization_spec.json: all four deltas zero",
+   "fail_boundary": "delta_populations = 12 (6 instances x 2 classes, L6 only, one neuron each). delta_objects = delta_projections = delta_index = 0",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_realization_spec.json",
+    "results/whole_system_realization.json",
+    "docs/tfne/07_JAXFNE_REALIZATION_BOUNDARY.md"
+   ],
+   "tests": [
+    "tests/test_whole_system_realization.py"
+   ],
+   "commit": "acdaf19"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R4C",
+   "parent": "WS-REALIZE-R1R4",
+   "principal_delta": "CTX[jomission_v0].R becomes OBSERVED_CURRENT, the engine's own allocation policy, instead of a contradicting DEFINITION_CHOICE. Nothing else changed.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/ctx_allocation_audit_spec.json",
+    "commit": "b7f1000"
+   },
+   "authority": "reviewer 2026-09-18: adopt the engine allocator; audit exact cardinality first; additive correction only",
+   "inputs": [
+    "results/whole_system_realization.json",
+    "results/whole_system_realization_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in the parent spec except R",
+    "the parent result file is not rewritten"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the engine's sequential allocation policy preserves sum_c N[l.c] = N[l] in all 12006 audited cases, six layers by layer totals 0 to 2000",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "the independent per-class formula int(round(N_l*P)) violates that invariant in 5031 of the same 12006 cases",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "at N = 200 the layer split is L1 20, L2 30, L3 40, L4 20, L5 60, L6 30, summing to 200, and the class counts sum to 200",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "with R adopted, delta_objects = delta_populations = delta_projections = delta_index = 0 and every declared interface resolves",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    },
+    {
+     "claim": "the corrected run reproduces the parent's topology exactly: the same 24 identities, 7020 cross-area edges of 245820, no skip projections",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    },
+    {
+     "claim": "per-edge tau_ms is not readable from the constructed model; the configured value is 2 ms",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the two readings of the engine's behaviour are different functions, and only the sequential one is admissible as a TFNE/2 allocation policy",
+     "evidence_class": "DERIVED",
+     "receipt": "results/ctx_allocation_audit.json"
+    },
+    {
+     "claim": "the parent FAIL was a genuine configured-versus-realized mismatch in R alone, since adopting R changed nothing else",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the whole-system architecture is realizable from the sealed TFNE/2 semantics with no compiler-generated undeclared projection and no hand-built topology; a future canonical CTX with a different R would require the realizer to own allocation",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_REALIZATION_PASS",
+    "status": "PASS"
+   },
+   "acceptance": "results/ctx_allocation_audit_spec.json: ALLOCATION_POLICY_PASS then all four deltas zero",
+   "fail_boundary": "none: the audit found no violation and every delta is zero",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/ctx_allocation_audit_spec.json",
+    "results/ctx_allocation_audit.json",
+    "results/whole_system_realization_r2.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_realization.py"
+   ],
+   "commit": "0659293"
+  },
+  {
+   "lineage_id": "WS-DIAG-1",
+   "parent": "WS-REALIZE-R4C",
+   "principal_delta": "first execution of the composed architecture: one localized deterministic retinal perturbation, no stabilization and no tuning",
+   "introduces_mechanism": true,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_spec.json",
+    "commit": "b55fd5e"
+   },
+   "authority": "reviewer 2026-09-18: execute the sealed b55fd5e specification unchanged; observe, localize, STOP",
+   "inputs": [
+    "results/whole_system_realization_r2.json",
+    "jomission/tfne/retina.py"
+   ],
+   "frozen": [
+    "kernel=baseline, no HDP",
+    "tonic E 5.0 PV 3.0 SST 3.5 VIP 3.0, Retina 0.0",
+    "retinal drive 5.0 on 64 lit units, 8x8 spot at rows 12-19 cols 4-11",
+    "summed afferent weight 5.0 per V1 L4 E target",
+    "2 s settle, 1 s stimulus, 2 s post, dt 0.1 ms",
+    "drift tolerance 0.5 Hz/s with the sustained rule; synchrony CV tolerance 3.0"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "execution was finite throughout: no non-finite v, u or synaptic current at any of the 50000 steps",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the input interface was enforced and verified: 1047552 intra-retinal edges removed, retinal tonic 5.0 zeroed, exactly 1024 retinal edges realized, and the 24 cortical projection identities unchanged",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the retina was silent at baseline and its 64 lit units fired at 11.0 Hz during stimulation",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "PFC E population CV over the final 1000 ms is 3.1138, above the predeclared tolerance of 3.0; FEF 2.9046, V1.1 2.8988, V1.2 2.8880, V4.1 2.8807, V4.2 2.7960",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "no area E rate fell below 0.1 Hz and no group sustained over 200 Hz or full activation for 100 ms, so collapse and runaway passed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "area E rate slopes over the final 1500 ms are 1.25 to 1.90 Hz/s, above the 0.5 Hz/s tolerance, but none satisfied the predeclared sustained rule",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the directly targeted V1_1.L4.E fell 1.43 Hz from baseline to stimulus while untargeted V1_2.L4.E rose 3.57 Hz and V4_1.L4.E rose 2.14 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "w and theta_S were bitwise unchanged across all ten chunk boundaries, confirming no plastic stabilization under the baseline kernel",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "population firing is clustered well beyond independent firing: a Poisson population of this size and rate would give CV near 0.85 in 1 ms bins, against 2.80 to 3.11 observed",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the propagation measurement is not interpretable in this run: the targeted population moved opposite to the untargeted ones while every area drifted upward at 1.25 to 1.90 Hz/s",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    },
+    {
+     "claim": "the 2 s settle interval was insufficient: the network was still evolving at the end of the 5 s horizon",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the composed network synchronizes under uniform tonic drive with all-to-all intra-area connectivity, and the retinal perturbation is negligible against that recurrent background. Neither the mechanism of the synchrony nor its dependence on any single declared quantity was tested by this lineage",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at PFC (CV 3.1138 vs 3.0). Execution, collapse and runaway passed; drift did not count; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_spec.json",
+    "results/whole_system_diagnostic.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "50bd3c5",
+   "qualification": {
+    "mechanism": "RETINA[jomission_v0], the structural input interface x := Retina^1024",
+    "configured": "jomission/tfne/retina.py: 1024 units, 32x32 raster indexing, hemifield split at column 16, exhaustive non-overlapping receptive fields of 36 or 37 units, summed afferent weight 5.0 per V1 L4 E target, AMPA, 64 lit units at drive 5.0, tonic 0.0",
+    "realized": "results/whole_system_diagnostic.json: exactly 1024 retinal edges compiled from 28 declared connections() rules, one per target cell; 1047552 intra-retinal edges removed and verified absent; retinal tonic verified 0.0; the 24 cortical identities verified unchanged",
+    "executed": "results/whole_system_diagnostic.json: retinal population rate 0.0 Hz at baseline and post, 0.6875 Hz during stimulation over the whole 1024-unit population, so the 64 lit units fired at 11.0 Hz and no unlit unit fired",
+    "effective": "not established. The declared efficacy drove no attributable response: the directly targeted V1_1.L4.E fell 1.43 Hz while untargeted populations rose, against a recurrent background of 39800 intra-area edges per area. The interface is configured, realized and executed; it is not shown to be causally effective on the cortical dynamics"
+   },
+   "drive_invariant": "I_executed = I_emitter + I_schedule, checked by jomission.harness.drive before execution"
+  },
+  {
+   "lineage_id": "WS-DIAG-2",
+   "parent": "WS-DIAG-1",
+   "principal_delta": "settle_ms 2000 -> 10000. No other quantity changed.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_2_spec.json",
+    "commit": "1a7e7a5"
+   },
+   "authority": "reviewer 2026-09-18: extend settle to 10 s and rerun the same diagnostic",
+   "inputs": [
+    "results/whole_system_diagnostic.json",
+    "results/whole_system_diagnostic_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-DIAG-1 except settle_ms",
+    "stimulus 1000 ms and post-stimulus 2000 ms unchanged",
+    "synchrony CV tolerance 3.0 and the drift rule unchanged"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the lit retinal units again fired at 11.0 Hz and no unlit unit fired",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "w and theta_S were bitwise unchanged across all 26 chunk boundaries",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the synchrony failure is not a settling artifact: a 5x longer settle did not reduce it, and the count of areas over tolerance rose from one to four",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the drift slope reversed sign between the two runs while neither met the sustained rule, so the end-of-horizon slope is fluctuation rather than a secular approach to a fixed point, and WS-DIAG-1's reading of an unsettled network is superseded",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    },
+    {
+     "claim": "the uniformity of the per-area response across all six areas, independent of whether an area was targeted, shows the measured change is global fluctuation and not stimulus transfer",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_2.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the composed network's synchrony and the retinal interface's ineffectiveness are properties of the realized architecture under uniform tonic drive, not of the observation horizon. Neither the mechanism of the synchrony nor the cause of the ineffectiveness was tested by this lineage",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_2_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at V4.1, V4.2, PFC and V1.2. Execution, collapse and runaway passed; drift did not count; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_2_spec.json",
+    "results/whole_system_diagnostic_2.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "0e76900"
+  },
+  {
+   "lineage_id": "WS-DIAG-3",
+   "parent": "WS-DIAG-2",
+   "principal_delta": "kernel baseline -> hdp with the registered rule jomission_authority_v3. Architecture, retina, stimulus, drive, seed, durations, gates and tolerances are bit-identical to WS-DIAG-2; the spec's gates, retina, frozen and drive blocks compare equal to the parent's.",
+   "introduces_mechanism": true,
+   "preexecution_spec": {
+    "path": "results/whole_system_diagnostic_3_spec.json",
+    "commit": "66ba377"
+   },
+   "authority": "reviewer 2026-09-18: same TFNE architecture with HDP ON, everything else frozen. Authorized after S1b and S2 each passed their own acceptance as separate one-delta repairs, with the instruction not to calibrate them simultaneously.",
+   "inputs": [
+    "results/whole_system_diagnostic_2.json",
+    "results/whole_system_diagnostic_2_spec.json",
+    "results/whole_system_diagnostic_3_spec.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-DIAG-2 except the kernel",
+    "settle 10000 ms, stimulus 1000 ms, post-stimulus 2000 ms unchanged",
+    "synchrony CV tolerance 3.0 and the drift rule unchanged",
+    "the 24 cortical projection identities and RETINA[jomission_v0] unchanged"
+   ],
+   "executed": true,
+   "qualification": {
+    "mechanism": "jomission_authority_v3, a registered HDP rule: outgoing efficacy relaxed toward a target set by the source's own capacity H, with H driven by the engine's signed native current and spent against a filtered activity coordinate A",
+    "configured": "jomission/tfne/hdp_authority.py: h_coords (H, A), h_shape (2,), aux per-edge w_base, theta target edge_weight, h_bounds (0.0, 10.0) with H's own floor of 0.1 enforced on its derivative. alpha 0.05, beta 0.0, gamma 0.27320, delta 0.0, rho_passive 0.02, barrier_c 0.01, barrier_d 1.0, tau_0_ms 5.0, tau_act_ms 500.0, rate_ref_per_ms 0.0109089, k_relax 0.01, m_sat 2.0",
+    "realized": "results/whole_system_diagnostic_3.json: hdp_rule_registration records module jomission.tfne.hdp_authority, registered_name jomission_authority_v3, tonic_injected true, rule_param_keys ['tonic_drive']. The name the module returned was checked against the name the spec declared before compiling, so a silent mismatch would have raised",
+    "executed": "results/whole_system_diagnostic_3.json: H and A evolved over all 26 chunk boundaries with w_changed true and A_changed true. Final H mean 1.9986, p05 0.9890, p95 7.4306, min 0.3626, max 7.4324, frac_above_5 0.1214; A mean 0.6085, min 0.0 exactly, max 4.7114",
+    "effective": "partially, and the part that worked is separable from the part that did not. Efficacy redistribution was effective on inhibition and inert on excitation, exactly as m(H) predicts: E sits at H = 1.0 where m = 1.0 is neutral, so w_max moved only 0.5008 -> 0.5138, while inhibitory magnitude grew 0.008179 -> 0.013081, a factor 1.6 toward m(7.43) = 1.76. Synchrony fell in five of six areas and the count over tolerance fell from four to one, so the mechanism is causally effective on the failure it was aimed at; it did not clear the tolerance at PFC"
+   },
+   "observations": [
+    {
+     "claim": "execution was finite throughout all 130000 steps and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, 246844 edges after, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities with no missing and no extra",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "synchrony CV over the final 1000 ms fell in five of six areas: FEF 2.9425 -> 2.9705, PFC 3.0409 -> 3.0372, V1_1 2.9782 -> 2.8731, V1_2 3.0168 -> 2.7107, V4_1 3.1642 -> 2.7376, V4_2 3.1636 -> 2.8356. Areas over the 3.0 tolerance fell from four to one",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "H reached neither bound: final min 0.3626 and max 7.4324 against clamps 0.1 and 10.0, with H_frac_above_5 0.1214 and 270 of 2224 neurons being PV or VIP",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "A reached 0.0 exactly and A_frac_zero was 0.0 at every chunk boundary, so no neuron was held at a floor while some reached zero instantaneously",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "weights stayed inside their construction bound: w_max 0.500805 -> 0.513842 and w_min -0.008179 -> -0.013081 across the run, with w_changed true",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "every area's E rate FELL during the stimulus, by -1.0000 Hz at V1_1, V1_2, V4_1 and V4_2 (11.0 -> 10.0 exactly), -1.1159 at FEF and -1.1014 at PFC, where the HDP-off arm had risen by +0.41 to +0.64 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "the lit retinal units again fired at 11.0 Hz and no unlit unit fired: population rate 0.0 -> 0.6875 Hz over the 1024-unit population",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "execution, collapse, runaway and drift all passed; synchrony and propagation failed",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the efficacy mechanism acted almost entirely on inhibition. m(H) = 2H/(1+H) is 1.0 at H = 1 where E sits, and 1.76 at H = 7.43 where the silent PV and VIP sit, so the measured 1.6x growth of inhibitory magnitude against a 1.026x change in w_max is the predicted asymmetry and not an anomaly",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "the exactly integer rates, 11.0 -> 10.0 in four areas, indicate a globally periodic burst regime in which each E cell fires once per burst; the stimulus slows the global burst rate by one per second everywhere at once",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "propagation remains unattributable for the same reason as the HDP-off arm but with the opposite sign: the targeted V1_1 delta of -1.0000 Hz is not distinguishable from the untargeted V1_2 delta of -1.0000 Hz",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    },
+    {
+     "claim": "every predeclared quantity was met: H_max 7.4324 against 7.43, H_frac_above_5 0.1214 against 0.121, E near 1.0 and SST near 0.36, weights inside [0, 2] x w_base. The verdict is therefore readable as evidence about the architecture rather than about a misconfigured mechanism",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_diagnostic_3.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the synchrony is not caused by the absence of homeostatic capacity control. Enabling the intended mechanism, with its equilibria landing where predicted, moved CV by at most 0.43 and left PFC above tolerance. Whether a differently parameterised HDP could clear it was not tested by this lineage, and no parameter was adjusted after the result",
+     "evidence_class": "INFERRED"
+    },
+    {
+     "claim": "amplified inhibition from non-firing PV and VIP is the most likely proximate cause of the sign reversal in the stimulus response, since it is the only large weight change the run produced. This was predeclared as a consequence of the stated semantics and was not tested causally here",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
+    "status": "FAIL"
+   },
+   "acceptance": "results/whole_system_diagnostic_3_spec.json gate table, evaluated in the sealed order",
+   "fail_boundary": "synchrony, load-bearing at PFC (3.0372 against tolerance 3.0). Execution, collapse, runaway and drift passed; propagation also failed but is later in the order",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_diagnostic_3_spec.json",
+    "results/whole_system_diagnostic_3.json"
+   ],
+   "tests": [
+    "tests/test_whole_system_diagnostic.py"
+   ],
+   "commit": "d4c9d17"
+  },
+  {
+   "lineage_id": "WS-REALIZE-R4-PARAM",
+   "parent": "WS-REALIZE-R4C",
+   "principal_delta": "a read-only parameter audit of the same realized model. No simulation, no model change. It supplies the half of the realization contract the R1R4 and R4C gates did not compare: the realized value of weight, probability, tau, delay and mechanism per projection class",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "scripts/parameter_realization_audit.py",
+    "commit": "cd0e581",
+    "note": "the audit code, committed before the result it produced. This lineage runs no simulation and gates nothing, so the seal is over the measuring code rather than over a run configuration."
+   },
+   "authority": "reviewer 2026-09-18: 'Read-only inverse calibration first. No simulation.' Derive K_p = N_afferents,p * mean|w_p| per projection and compare g_p = K_long,p / K_local,reference for FF and FB separately",
+   "inputs": [
+    "results/whole_system_realization_r2.json",
+    "results/whole_system_diagnostic_3_spec.json"
+   ],
+   "frozen": [
+    "the realized model is constructed exactly as WS-REALIZE-R4C constructed it",
+    "no weight, probability, tau, delay or connectivity is modified"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the frozen weight 0.5 is realized on 7020 of 7020 cross-area edges and on 0 of 238800 intra-area edges. Intra-area mean |w| is 0.006321, cross-area exactly 0.500000, a disparity of 79.1x",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "all 24 cross-area identities realize p = 1.0 with uniform |w| = 0.5, receptor index 0, tau 2.0 ms and delay 0 steps. Per receiving cell: ff L2.E->L4.E K = 7.5 (15 afferents), ff L3.E->L4.E K = 10.0 (20), fb L6.E->L1.E K = 14.0 (28), lat L3.E->L3.E K = 10.0 (20)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "the local reference K for an E cell from intra-area excitation is 0.8660, from intra-area inhibition 0.3921. No long-range projection targets PV, SST or VIP: their long_ff, long_fb and long_lat are all exactly 0.0",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "tau and delay are not stored per edge. tau_storage is sign_from_receptor, so tau is 2.0 ms for every receptor-0 edge and 5.0 ms for every receptor-1 edge, local and long-range alike; uniform_delay_steps is 0 for the whole edge list",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "the string 'weight' does not appear in results/whole_system_realization_r2.json, so no gate in the realization chain compared a realized weight against the spec",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_realization_r2.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "g_p = K_long,p / K_local,reference with K_local,reference = 0.8660: ff L2->L4 8.66, ff L3->L4 11.55, fb L6->L1 16.17, lat L3->L3 11.55. An L4.E cell receiving both ff streams carries g_ff_total = 20.2. Long-range authority exceeds local excitatory authority by an order of magnitude at every projection class",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "averaged over all 828 E cells rather than over receiving cells, g_ff 2.05, g_fb 1.17, g_lat 1.67, total 4.89. The dilution factor is the fraction of E cells a given long-range projection reaches; both forms are reported so neither is mistaken for the other",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    },
+    {
+     "claim": "delay 0 means a long-range projection transmits in the same step as a local one. Conduction delay is therefore not realized as a distinguishing parameter of the TFNE O relation",
+     "evidence_class": "DERIVED",
+     "receipt": "results/parameter_realization_audit.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "this parameter regime is a plausible proximate cause of the globally periodic E burst sealed in WS-DIAG-2 and WS-DIAG-3, since it makes every cortical area's E drive dominated by zero-delay long-range input at 79x the local weight. It was not tested causally here and no burst experiment was run",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "PARAMETER_REALIZATION_UNQUALIFIED",
+    "status": "UNRESOLVED",
+    "status_note": "UNQUALIFIED is not in manifests/vocabulary.json status_labels and was not added without authority. UNRESOLVED is the existing token for measured-but-not-concluded; the reviewer-named label is carried verbatim in label."
+   },
+   "acceptance": "none. This lineage measures and does not gate. The intended long-range to local authority ratio is a model-definition decision and is not inferred here",
+   "fail_boundary": "not applicable. UNQUALIFIED is not FAIL: it records that the parameter half of the realization contract has no established value, neither passed nor failed",
+   "relation_to_parent": "WS-REALIZE-R4C's PASS is NOT retracted. Its scoped claims stand exactly as sealed: delta_objects = delta_populations = delta_projection_identities = delta_index = 0. Those are claims about graph identity. This lineage adds the disjoint parameter scope and leaves the graph claims untouched",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/parameter_realization_audit.json"
+   ],
+   "tests": [],
+   "blocks": "the burst-onset experiment. Per the reviewer's order: weight semantics, then the parameter-realization receipt, then a corrected baseline, before any full-resolution burst analysis. The current burst phenotype remains sealed as a negative control",
+   "commit": "7996113"
   }
  ]
 }

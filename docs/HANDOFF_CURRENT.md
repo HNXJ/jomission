@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-V21-PV-STATE-PREDECESSOR: MISSING_OBSERVABLE (results/v21_pv_state_predecessor.json, branch v21-pv-state-predecessor); background family STOPPED; no instrumented rerun authorized
+- stopped because: WS-DIAG-3 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL with the intended HDP mechanism ON (jomission_authority_v3), matched to the WS-DIAG-2 baseline in every other respect. Every predeclared equilibrium was met and neither H bound was touched, so the verdict is readable as evidence about the architecture. Synchrony improved but did not clear: areas over the 3.0 tolerance fell from four to one, PFC 3.0372. Efficacy redistribution acted almost only on inhibition, because E sits at H = 1 where m(H) = 1 is neutral while silent PV and VIP reach m(7.43) = 1.76. Propagation still unattributable, now with the opposite sign: every area falls about 1 Hz during the stimulus, four of them exactly 11.0 -> 10.0, the signature of a globally periodic burst regime. Observe, localize, STOP: no stabilization or retuning in this lineage. Awaiting reviewer direction.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -49,28 +49,39 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_COUPLED_BACKGROUND: **UNRESOLVED** — `results/v21_coupled_background.json`
 - V2.1_PV_STATIONARITY: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_stationarity.json`
 - V2.1_BACKGROUND: **FAIL** (evidence reads BKG_DESIGN_UNRESOLVED; held until a lineage that changes or explains the mechanism producing PV state dependence) — `results/v21_background_design_r2.json`
+- V2.1_PV_PREDECESSOR: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_predecessor.json`
+- V2.1_PV_MICROSTATE: **UNRESOLVED** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_microstate.json`
+- V2.1_PV_M0_DECOMPOSITION: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m0_r2.json`
+- V2.1_PV_M1_TRANSPLANT: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m1.json`
+- V2.1_PV_M2_PAIR_TRANSPLANT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
+- PV_INTRINSIC_VU_PAIR_SUFFICIENT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
 
 ### Latest evidence (observed, with receipts)
 
-- V2.1-bkg-pv-calibration: isolated PV class-mean rate 0.0 Hz at I = 2.8 and at I = 3.6 in every analysis window; 10 Hz not bracketed, no bisection run — `d70b575:results/v21_bkg_pv_calibration.json`
-- V2.1-bkg-pv-calibration: network PV at I0 2.8 (V_MID): 0.0 Hz in every window — `d70b575:results/v21_mid.json`
-- V2.1-bkg-pv-calibration: network PV at I0 3.6 (V_HIGH): 20.0-20.2 Hz — `d70b575:results/v21_high.json`
-- V2.1-bkg-pv-calibration: pre-seal timing probe (I = 3.6, seed 1) gave 0.0 Hz; disclosed in the spec field pre_seal_disclosure — `d70b575:results/v21_bkg_pv_calibration_spec.json`
-- V2.1-coupled-background: endpoint runs reproduce the sealed V2.1 rates to 3.6e-15 Hz (lambda 0 and 1) — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: class_rate_bands fail at lambda 0 (PV 0.0 Hz) and 0.25 (PV window rates 1.40, 1.22, 0.89 Hz) and pass at 0.3125, 0.375, 0.5, 0.65625 and 1; passing run [0.3125, 1], boundary in (0.25, 0.3125] — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: mean PV rate rises with lambda: 0.0, 1.17, 3.73, 8.13, 14.32 Hz at 0, 0.25, 0.3125, 0.375, 0.5; E and VIP 10.67 to 15.6 Hz; SST 10.78 to 20.22 Hz — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: candidate lambda 0.65625 (margin 0.40625) passes the bands fresh, but its PV window rates are 16.88, 16.58, 10.2 Hz (PV drift 0.46) — `54ff926:results/v21_coupled_background.json`
-- V2.1-coupled-background: at lambda 0.65625 continued from the lambda-0 end state, PV window rates are 17.05, 15.36, 2.01 Hz (mean 11.47, -3.08 Hz vs fresh; tolerance 1.455 Hz); continued from the lambda-1 end state, 14.65, 14.69, 14.66 Hz (+0.11 Hz). All three runs pass the bands; E, SST, VIP agree within tolerance — `54ff926:results/v21_coupled_background.json`
-- V2.1-pv-stationarity: windows 1-3 of all three trajectories reproduce the sealed 20 s runs exactly (max difference 0.0 Hz) — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: lambda-1 history: PV 14.36-14.74 Hz in windows 1-11; late drift 0.012; bands pass — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: fresh: PV 16.88, 16.58, 10.2, 16.77, 13.79, 1.68, 1.22, 1.03, 0.85, 0.87, 0.4 Hz; late PV mean 0.71 Hz, late PV drift 0.672; bands fail (PV < 1 Hz) — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: lambda-0 history: PV 17.05, 15.36, 2.01, then 0.07-0.24 Hz in windows 4-11; late PV mean 0.09 Hz, late PV drift 0.589; bands fail — `907c7f2:results/v21_pv_stationarity.json`
-- V2.1-pv-stationarity: E (16.8-17.2 Hz), VIP (16.9-17.2 Hz) and SST (19.9-22.8 Hz) are nearly identical across the three trajectories; late pairwise differences <= 0.37 Hz, while late PV differs by 13.7-14.3 Hz — `907c7f2:results/v21_pv_stationarity.json`
+- WS-DIAG-2: execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594 — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: the lit retinal units again fired at 11.0 Hz and no unlit unit fired — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-2: w and theta_S were bitwise unchanged across all 26 chunk boundaries — `0e76900:results/whole_system_diagnostic_2.json`
+- WS-DIAG-3: execution was finite throughout all 130000 steps and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, 246844 edges after, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities with no missing and no extra — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: synchrony CV over the final 1000 ms fell in five of six areas: FEF 2.9425 -> 2.9705, PFC 3.0409 -> 3.0372, V1_1 2.9782 -> 2.8731, V1_2 3.0168 -> 2.7107, V4_1 3.1642 -> 2.7376, V4_2 3.1636 -> 2.8356. Areas over the 3.0 tolerance fell from four to one — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: H reached neither bound: final min 0.3626 and max 7.4324 against clamps 0.1 and 10.0, with H_frac_above_5 0.1214 and 270 of 2224 neurons being PV or VIP — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: A reached 0.0 exactly and A_frac_zero was 0.0 at every chunk boundary, so no neuron was held at a floor while some reached zero instantaneously — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: weights stayed inside their construction bound: w_max 0.500805 -> 0.513842 and w_min -0.008179 -> -0.013081 across the run, with w_changed true — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: every area's E rate FELL during the stimulus, by -1.0000 Hz at V1_1, V1_2, V4_1 and V4_2 (11.0 -> 10.0 exactly), -1.1159 at FEF and -1.1014 at PFC, where the HDP-off arm had risen by +0.41 to +0.64 Hz — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: the lit retinal units again fired at 11.0 Hz and no unlit unit fired: population rate 0.0 -> 0.6875 Hz over the 1024-unit population — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-DIAG-3: execution, collapse, runaway and drift all passed; synchrony and propagation failed — `d4c9d17:results/whole_system_diagnostic_3.json`
+- WS-REALIZE-R4-PARAM: the frozen weight 0.5 is realized on 7020 of 7020 cross-area edges and on 0 of 238800 intra-area edges. Intra-area mean |w| is 0.006321, cross-area exactly 0.500000, a disparity of 79.1x — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: all 24 cross-area identities realize p = 1.0 with uniform |w| = 0.5, receptor index 0, tau 2.0 ms and delay 0 steps. Per receiving cell: ff L2.E->L4.E K = 7.5 (15 afferents), ff L3.E->L4.E K = 10.0 (20), fb L6.E->L1.E K = 14.0 (28), lat L3.E->L3.E K = 10.0 (20) — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: the local reference K for an E cell from intra-area excitation is 0.8660, from intra-area inhibition 0.3921. No long-range projection targets PV, SST or VIP: their long_ff, long_fb and long_lat are all exactly 0.0 — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: tau and delay are not stored per edge. tau_storage is sign_from_receptor, so tau is 2.0 ms for every receptor-0 edge and 5.0 ms for every receptor-1 edge, local and long-range alike; uniform_delay_steps is 0 for the whole edge list — `7996113:results/parameter_realization_audit.json`
+- WS-REALIZE-R4-PARAM: the string 'weight' does not appear in results/whole_system_realization_r2.json, so no gate in the realization chain compared a realized weight against the spec — `7996113:results/whole_system_realization_r2.json`
 
 ### Next authorized task
 
-- `SCI-V21-PV-STATE-PREDECESSOR` (OPEN): identify the state variable or pathway that distinguishes active-PV and silent-PV histories at identical external parameters, from existing artifacts only
-- stop: classification recorded; no simulation; STOP for review
+- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
+- stop: no rewriting of sealed results
 
 ### Locked gates
 

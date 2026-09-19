@@ -139,7 +139,7 @@
   "MODE_INDEPENDENT_OF_ABLATED_CONNECTION"
  ],
  "unanimous": true,
- "verdict": "MODE_INDEPENDENT_OF_ABLATED_CONNECTION",
+ "verdict": "MODE_INDEPENDENT_OF_ABLATED_CONNECTION_PASS",
  "arm_gate_verdicts": {
   "SINGLE_AREA": "WHOLE_SYSTEM_SYNCHRONY_FAIL",
   "EE_CUT": "WHOLE_SYSTEM_PROPAGATION_FAIL"
@@ -153,5 +153,7 @@
   "n_edges_untouched": 133408,
   "untouched_weight_sum": 34.78334
  },
- "scope": "the verdict is scoped to the disconnected regime. It does not establish what the coupled system does, and must not be read as if it did"
+ "scope": "the verdict is scoped to the disconnected regime. It does not establish what the coupled system does, and must not be read as if it did",
+ "verdict_outcome": "MODE_INDEPENDENT_OF_ABLATED_CONNECTION",
+ "verdict_encoding": "the harness requires a flat verdict string ending in _<status>. The outcome name is verdict_outcome and is exactly one of the four predeclared in the spec; _PASS records that this lineage's acceptance was met, not that the model passed a gate"
 }

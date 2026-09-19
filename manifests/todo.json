@@ -1171,7 +1171,7 @@
   },
   {
    "id": "SCI-WS-OSC-1",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "WS-AUTH-2 showed six fully disconnected areas keep the same 190 ms period and the same correlation as the coupled system, so the period is generated inside one cortical object. The remaining candidates are local recurrent dynamics and intrinsic single-cell dynamics",
    "goal": "answer x:CTX:y, does the 190 ms mode require local E-to-E recurrence, with two arms: SINGLE_AREA intact, and EE_CUT with local E-to-E weights set to zero and nothing else changed",
    "parent_authority": "reviewer 2026-09-19: stop describing this as a global oscillator, it is parallel local oscillators with nearly identical frequency. The problem has moved from O and X back inside the definition of CTX[jomission_v0], and that must be answered before changing HDP, tonic drive, delays or any inter-area parameter",
@@ -1201,8 +1201,13 @@
     "results/viz/SCI-WS-OSC-1/atlas/index.html"
    ],
    "downstream_unlock": [],
-   "downstream_note": "unlocks nothing automatically. Its result determines where the next question is asked, inside the cell or inside the local circuit"
+   "downstream_note": "unlocks nothing automatically. Its result determines where the next question is asked, inside the cell or inside the local circuit",
+   "result": {
+    "verdict": "MODE_INDEPENDENT_OF_ABLATED_CONNECTION",
+    "commit": "3b239c9",
+    "summary": "unanimous across all six areas. The 94 to 95 ms mode survives zeroing 113436 local E->E edges with the period moving by at most 1 percent. Burst structure does not survive: peak autocorrelation falls to 0.64 to 0.74 of intact and the final raster shows a smooth rate wave rather than discrete bursts. Recorded as an observation, outside the predeclared rule, not retuned into the verdict"
+   }
   }
  ],
- "next_authorized_task": "SCI-WS-OSC-1"
+ "next_authorized_task": "HARNESS-SKILL-DOGFOOD"
 }

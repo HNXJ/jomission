@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-PROP-1 sealed PROPAGATION_OBSERVABLE_INSENSITIVE, status UNRESOLVED. The authorized causal estimator was built, tested against eight known-answer cases and run over six matched cells. It removes the confound WS-AUTH-2 exposed, but it returns exactly zero everywhere including V1_1, the directly driven area, because the observable it was specified over is a 1 s spike count that this architecture conserves at exactly 21 per E cell in every area and condition. The held-out null floor is likewise exactly zero, so no tolerance can be licensed and the lineage's adversarial acceptance is UNMET. The propagation field of all eight earlier whole-system results is qualified NON_IDENTIFYING additively, with no sealed artifact edited and no verdict retracted. An identifying observable must be sensitive to spike timing rather than to count in a window; choosing one after seeing the declared one is degenerate would be retuning, so none was chosen. Two things now await the reviewer: that observable choice, and whether the oscillator discriminator proceeds first as sequenced.
+- stopped because: SCI-WS-OSC-1 sealed MODE_INDEPENDENT_OF_ABLATED_CONNECTION, unanimous across all six areas, and its stop_condition is reached: two arms, then STOP. No HDP, tonic, delay or inter-area parameter was changed and no recurrence beyond local E->E was ablated. Where the next question is asked is a reviewer decision
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -57,15 +57,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - PV_INTRINSIC_VU_PAIR_SUFFICIENT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
 - WHOLE_SYSTEM_PROPAGATION: **UNRESOLVED** — `results/whole_system_causal_propagation.json`
 - WHOLE_SYSTEM_PROPAGATION_HISTORICAL: **QUARANTINED** (component of WHOLE_SYSTEM_PROPAGATION) — `results/whole_system_causal_propagation.json`
+- WHOLE_SYSTEM_PERIODIC_MODE: **PASS** — `results/whole_system_oscillator_comparison.json`
+- WHOLE_SYSTEM_BURST_STRUCTURE: **UNRESOLVED** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
+- WHOLE_SYSTEM_PERIOD_MEASURED: **PASS** (component of WHOLE_SYSTEM_PERIODIC_MODE) — `results/whole_system_oscillator_comparison.json`
 
 ### Latest evidence (observed, with receipts)
 
-- WS-AUTH-1: every arm passed the pre-execution realization acceptance in-run: 216 cells checked, being 56 ff, 40 fb and 120 lat targets; max relative error of K_long over K_local minus g was 5.14e-08 at g = 0.05, 0.1 and 0.2 and 5.90e-08 at g = 0.5, measured on the stored float32 weights. 7020 edges reweighted, every other weight bit-identical — `9172036:results/whole_system_authority_bracket.json`
-- WS-AUTH-1: all four arms returned WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed in every arm; synchrony and propagation failed in every arm — `9172036:results/whole_system_authority_bracket.json`
-- WS-AUTH-1: mean synchrony CV over the final 1000 ms was 2.9375, 2.9487, 2.9513 and 2.9784 at g = 0.05, 0.1, 0.2 and 0.5, against 3.0510 at the inherited weights in WS-DIAG-2. Areas over the 3.0 tolerance fell from four to one at the three lower g and to two at g = 0.5 — `9172036:results/whole_system_authority_bracket.json`
-- WS-AUTH-1: the pooled E burst period is 190 ms at g = 0.05, at g = 0.5 and in WS-DIAG-2, measured identically on the decimated 10 ms series over the final 3 s, with autocorrelation 0.896, 0.873 and 0.880 and pooled E swinging from 0 to about 140 Hz in every case — `9172036:results/whole_system_authority_bracket.json`
-- WS-AUTH-1: mean pairwise zero-lag correlation of area E rates over the final 3 s was 0.8381, 0.8147, 0.8332 and 0.8925 at g = 0.05, 0.1, 0.2 and 0.5, against 0.8498 in WS-DIAG-2 — `9172036:results/whole_system_authority_bracket.json`
-- WS-AUTH-1: the targeted and untargeted hemifield responded equally: the V1_1 minus V1_2 delta was 0.0000, +0.0145, +0.0145 and 0.0000 Hz across the bracket, against -0.0145 in WS-DIAG-2, while every area including FEF and PFC rose by 0.71 to 0.90 Hz — `9172036:results/whole_system_authority_bracket.json`
 - WS-AUTH-2: the realization is exact: all 7020 long-range cortical edges are exactly 0.0, the ff, fb and lat post-realization mean weights are all 0.0, all 238800 local weights and all 1024 retinal edges are bit-identical to the inherited edge list, and acceptance max absolute error is 0.0 over 216 checked cells — `d5e8205:results/whole_system_authority_g000.json`
 - WS-AUTH-2: with the six areas fully disconnected the pooled E burst period is 190 ms, 5.26 Hz, with autocorrelation 0.895 and the pooled rate swinging from 0 to 125.6 Hz. The period is identical to every arm of WS-AUTH-1 and to WS-DIAG-2 — `d5e8205:results/whole_system_authority_g000.json`
 - WS-AUTH-2: mean pairwise zero-lag correlation of area E rates over the final 3 s is 0.8385 at g = 0, against 0.8381 at g = 0.05, 0.8147 at g = 0.1, 0.8332 at g = 0.2, 0.8925 at g = 0.5 and 0.8498 at the inherited weights in WS-DIAG-2 — `d5e8205:results/whole_system_authority_g000.json`
@@ -79,11 +76,20 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-PROP-1: across all 36 area-cells the baseline plus stimulus window total is exactly 21.000000 spikes per E cell: six areas by six cells, both couplings, both seeds, ON and OFF, with no exception — `9e2372b:results/whole_system_causal_propagation.json`
 - WS-PROP-1: the stimulus does act. At g = 0 the retinal receipt is 64 lit units, population 0.6875 Hz and an implied 11.0 Hz per lit unit against 0, 0.0 and undefined for OFF, and V1_1's synchrony CV moves 2.896 to 2.9326 and its drift slope -1.8038 to -1.7754 while its window counts do not move at all — `9e2372b:results/whole_system_causal_propagation.json`
 - WS-PROP-1: zero-threshold presence diagnostic: at g = 0 the ON and OFF runs differ in 12 V1_1 groups and in no group of any other area, all 133 groups compared. At g = 0.5 they differ in every area — `9e2372b:results/whole_system_causal_propagation.json`
+- SCI-WS-OSC-1: the SINGLE_AREA arm ran one process, 156 s, and wrote a complete result with the whole-system gate evaluated in the sealed order, verdict WHOLE_SYSTEM_SYNCHRONY_FAIL from V4_2 at CV 3.0129 against a 3.0 threshold with the other five areas at 2.83 to 2.95 — `3b239c9:results/whole_system_oscillator_single_area.json`
+- SCI-WS-OSC-1: the EE_CUT arm ran one process, 157 s, and wrote a complete result with the same gate in the same order. Synchrony passes and the first load-bearing failure is propagation, the field WS-PROP-1 qualified NON_IDENTIFYING — `3b239c9:results/whole_system_oscillator_ee_cut.json`
+- SCI-WS-OSC-1: the EE_CUT arm realized the cut as specified: 113436 edges targeted, weight sum 526.727051 before and 0.0 after, max_abs_after 0.0, and 133408 edges untouched with weight sum 34.78334 — `3b239c9:results/whole_system_oscillator_ee_cut.json`
+- SCI-WS-OSC-1: a periodic mode is present in all six areas of both arms, above each area's own Poisson null of about 0.104 to 0.107 — `3b239c9:results/whole_system_oscillator_comparison.json`
+- SCI-WS-OSC-1: the period is 94 to 95 ms in the intact arm and 94 to 95 ms in the cut arm. The intact pooled measurement is 94.0 ms, 10.6383 Hz, peak autocorrelation 0.885737 — `3b239c9:results/whole_system_oscillator_comparison.json`
+- SCI-WS-OSC-1: peak autocorrelation falls in every area when E->E is cut, to between 0.64 and 0.74 of its intact value: V1_1 0.832 to 0.612, V1_2 0.848 to 0.593, V4_1 0.849 to 0.584, V4_2 0.850 to 0.574, FEF 0.855 to 0.544, PFC 0.834 to 0.550 — `3b239c9:results/whole_system_oscillator_comparison.json`
+- SCI-WS-OSC-1: the intact arm's final 1000 ms is discrete synchronous bursts reaching about 100 Hz with near silence between them — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final.png`
+- SCI-WS-OSC-1: the cut arm's final 1000 ms over the same window, ordering and conventions shows no discrete bursts: the population rate is a smooth 3 to 30 Hz wave at the same period — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final_ee_cut.png`
+- SCI-WS-OSC-1: results/whole_system_authority_g000.json contains no period, frequency or autocorrelation field anywhere in its structure, and before this lineage no module in the repository computed one. The 190 ms figure quoted in prose has no receipt — `3b239c9:results/whole_system_authority_g000.json`
 
 ### Next authorized task
 
-- `SCI-WS-OSC-1` (OPEN): answer x:CTX:y, does the 190 ms mode require local E-to-E recurrence, with two arms: SINGLE_AREA intact, and EE_CUT with local E-to-E weights set to zero and nothing else changed
-- stop: two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, and no ablation of any recurrence beyond local E-to-E
+- `HARNESS-SKILL-DOGFOOD` (OPEN): Next scientific lineage uses jomission-gate-runner; improve the skill only from observed friction
+- stop: skill edits only from logged friction
 
 ### Locked gates
 

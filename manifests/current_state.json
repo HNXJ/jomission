@@ -145,11 +145,42 @@
    "claim": "the propagation field of all eight earlier whole-system results is NON_IDENTIFYING. Its recorded numbers are correct as measurements of what they measured and are NOT rewritten, and no verdict is retracted; what changes is what may be concluded from them",
    "established": "the field measures how a conserved 21 spikes per E cell splits across a window boundary in a 190 ms burst cycle, which is why it took the same values in areas no signal could reach",
    "authority": "reviewer 2026-09-19: add a qualification, do not alter historical result numbers"
+  },
+  "WHOLE_SYSTEM_PERIODIC_MODE": {
+   "status": "PASS",
+   "evidence": "results/whole_system_oscillator_comparison.json",
+   "scope": "gate",
+   "evidence_class": "OBSERVED",
+   "claim": "the periodic mode of a disconnected cortical object does not require local E->E recurrence. Zeroing all 113436 within-area E->E weights leaves a mode present in all six areas at 94 to 95 ms against an intact 94 to 95 ms, a change of at most 1 percent against a 10 percent tolerance fixed before execution, and far above each area's own Poisson null of about 0.10",
+   "established": "local E->E recurrence is not necessary for the mode, at g = 0. Of the candidates WS-AUTH-2 left, intrinsic single-cell dynamics and the local E-I loop remain; the E-I loop was excluded from this intervention by the reviewer and was not ablated",
+   "not_established": "what the coupled system does. Both arms ran fully disconnected, which the spec declared before execution. Also unestablished is which of the remaining candidates generates the mode",
+   "authority": "reviewer 2026-09-19: SCI-WS-OSC-1, proceed, already authorized"
+  },
+  "WHOLE_SYSTEM_BURST_STRUCTURE": {
+   "status": "UNRESOLVED",
+   "evidence": "results/whole_system_oscillator_comparison.json",
+   "scope": "component",
+   "component_of": "WHOLE_SYSTEM_PERIODIC_MODE",
+   "evidence_class": "OBSERVED",
+   "claim": "the burst structure does not survive the cut even though the mode does. Peak autocorrelation falls to 0.64 to 0.74 of its intact value in every area, and the final raster changes from discrete synchronous bursts reaching about 100 Hz with near silence between them to a smooth 3 to 30 Hz rate wave at the same period. The whole-system synchrony gate agrees independently: the intact arm fails it at V4_2 with CV 3.0129 against a 3.0 threshold and the cut arm passes",
+   "not_established": "anything quantitative about burst discreteness. The predeclared rule scores presence and period only. Adopting an observable for this after seeing the result would be retuning, so none is adopted and no verdict is claimed",
+   "authority": "recorded by the Actor as an observation outside the predeclared rule"
+  },
+  "WHOLE_SYSTEM_PERIOD_MEASURED": {
+   "status": "PASS",
+   "evidence": "results/whole_system_oscillator_comparison.json",
+   "scope": "component",
+   "component_of": "WHOLE_SYSTEM_PERIODIC_MODE",
+   "evidence_class": "OBSERVED",
+   "claim": "the pooled E burst period is 94.0 ms, 10.6383 Hz, peak autocorrelation 0.885737 against a Poisson null threshold of 0.105559, measured by jomission.harness.oscillation over the final 1000 ms of the intact arm",
+   "established": "this is the first period figure in the project with a receipt. The 190 ms quoted in earlier prose has none: results/whole_system_authority_g000.json carries no period, frequency or autocorrelation field and no module computed one. No historical number is altered and no verdict is retracted",
+   "not_established": "what the earlier 190 ms figure was computed from. It is about twice 94 and its quoted 0.895 is close to this run's 0.886, which reading the second autocorrelation peak would produce, but that is a consistent explanation and not a measurement of the earlier run",
+   "authority": "reviewer 2026-09-19: SCI-WS-OSC-1"
   }
  },
- "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
- "stopped_because": "WS-PROP-1 sealed PROPAGATION_OBSERVABLE_INSENSITIVE, status UNRESOLVED. The authorized causal estimator was built, tested against eight known-answer cases and run over six matched cells. It removes the confound WS-AUTH-2 exposed, but it returns exactly zero everywhere including V1_1, the directly driven area, because the observable it was specified over is a 1 s spike count that this architecture conserves at exactly 21 per E cell in every area and condition. The held-out null floor is likewise exactly zero, so no tolerance can be licensed and the lineage's adversarial acceptance is UNMET. The propagation field of all eight earlier whole-system results is qualified NON_IDENTIFYING additively, with no sealed artifact edited and no verdict retracted. An identifying observable must be sensitive to spike timing rather than to count in a window; choosing one after seeing the declared one is degenerate would be retuning, so none was chosen. Two things now await the reviewer: that observable choice, and whether the oscillator discriminator proceeds first as sequenced.",
- "next_authorized_task": "SCI-WS-OSC-1",
+ "open_scientific_question": "where the 94 ms mode is generated inside one cortical object. SCI-WS-OSC-1 excludes local E->E recurrence as necessary. The remaining candidates are intrinsic single-cell dynamics and the local E-I loop, which was deliberately not ablated. Separately open: what makes the bursts discrete, which E->E clearly shapes and which no sealed observable measures",
+ "stopped_because": "SCI-WS-OSC-1 sealed MODE_INDEPENDENT_OF_ABLATED_CONNECTION, unanimous across all six areas, and its stop_condition is reached: two arms, then STOP. No HDP, tonic, delay or inter-area parameter was changed and no recurrence beyond local E->E was ablated. Where the next question is asked is a reviewer decision",
+ "next_authorized_task": "HARNESS-SKILL-DOGFOOD",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

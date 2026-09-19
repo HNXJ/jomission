@@ -1776,6 +1776,36 @@
    "path": "results/whole_system_causal_propagation.json",
    "blob": "39cbf1c6534770aec900e1b7173c2a70974e7b45",
    "sealed_in": "dee0606"
+  },
+  {
+   "path": "results/whole_system_oscillator_spec.json",
+   "blob": "8e8b8c0568d85de7fa627e6644ae9c46fc5dcb31",
+   "sealed_in": "2c50b7b"
+  },
+  {
+   "path": "results/whole_system_oscillator_single_area.json",
+   "blob": "39f4d915f47097e736463fa431c4945e2e73e378",
+   "sealed_in": "3b239c9"
+  },
+  {
+   "path": "results/whole_system_oscillator_ee_cut.json",
+   "blob": "681c0d093869eb377f19612ae6a09a1e0846955f",
+   "sealed_in": "3b239c9"
+  },
+  {
+   "path": "results/whole_system_oscillator_comparison.json",
+   "blob": "92d91ba23315cb0b10a471221871777cd5a94118",
+   "sealed_in": "3b239c9"
+  },
+  {
+   "path": "scripts/whole_system_oscillator_arm.py",
+   "blob": "409fcc8fa222bed4e814294f00d0b74e338b977b",
+   "sealed_in": "3b239c9"
+  },
+  {
+   "path": "jomission/harness/oscillation.py",
+   "blob": "d0dce0f2d62d76874640f6a40da91aa7ab268190",
+   "sealed_in": "2c50b7b"
   }
  ]
 }

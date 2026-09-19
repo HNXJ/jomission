@@ -1117,6 +1117,31 @@
      "whether the antagonism of the synaptic block when paired is worth its own question"
     ]
    }
+  },
+  {
+   "id": "HD-ARM-DRIVER-SHADOWED-G",
+   "status": "OPEN",
+   "trigger": "every arm of WS-AUTH-1 exited nonzero after writing a correct result, because scripts/whole_system_authority_arm.py shadows its own g parameter at lines 328 and 385 with loop variables, so the trailing summary print applies %g to a group-name string",
+   "goal": "a driver whose arm parameter cannot be shadowed, and whose arm_tag docstring states its real mapping",
+   "parent_authority": "harness repair, no scientific authority required. It changes no computed value and opens no lineage",
+   "principal_delta": "rename the arm parameter away from g, or rename the two loop variables. Also correct the arm_tag docstring, which says 0.05 -> g005 and 0.5 -> g050 where the function actually produces g050 and g500",
+   "required_inputs": [
+    "manifests/sealed_artifacts.json",
+    "results/whole_system_authority_bracket.json"
+   ],
+   "frozen": [
+    "scripts/whole_system_authority_arm.py is a sealed artifact (blob 6bfb97dd, sealed_in 74ee2cd) and records what WS-AUTH-1 executed. It must NOT be edited in place",
+    "no computed value, gate, tolerance or default may change"
+   ],
+   "procedure": "fork the sealed driver when the next lineage needs one, and apply the rename in the fork. Do not create a fork before there is a lineage to run with it: a dead second driver is worse than a recorded defect. Until then the defect stands recorded in the WS-AUTH-1 lineage record",
+   "acceptance": "the forked driver runs an arm end to end with exit code 0 and prints its summary, and the sealed original still matches its blob",
+   "stop_condition": "harness only. Opening it authorizes no run and no parameter change",
+   "evidence": "the defect and its impact analysis are recorded in the WS-AUTH-1 lineage record under defects; every use of the real g precedes the first shadowing, so no arm result is affected",
+   "artifacts_expected": [
+    "the forked driver of whatever lineage next needs one; this item produces no artifact of its own"
+   ],
+   "downstream_unlock": [],
+   "downstream_note": "blocks nothing and unlocks nothing; it prevents a repeat of the nonzero exit"
   }
  ],
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"

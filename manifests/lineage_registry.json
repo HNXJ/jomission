@@ -1907,7 +1907,8 @@
      "impact": "no scientific consequence; a repository-cost issue",
      "disposition": "committed for consistency with WS-DIAG-2 and WS-DIAG-3, which seal their series the same way. The serialization policy for future lineages is still an open decision for the reviewer and is not settled here"
     }
-   ]
+   ],
+   "artifact_note": "the four arm results were untracked from the working tree on 2026-09-19: each is 16.5 MB and about 1.39M lines, essentially all per-group series. History was NOT rewritten, so they remain permanently at 9172036:<path>, which is exactly how this record is validated. The evidence is unchanged and fully retrievable; only the working-tree copy is gone."
   },
   {
    "lineage_id": "WS-AUTH-2",

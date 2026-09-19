@@ -21,3 +21,13 @@ engine-status.md
 *.npy
 *.h5
 *.zarr
+
+# WS-AUTH-1 arm results: 16.5 MB each, ~1.39M lines each, essentially all per-group series.
+# Untracked 2026-09-19 at the reviewer's request. History is NOT rewritten, so each remains
+# permanently retrievable as 9172036:results/whole_system_authority_gNNN.json, which is how the
+# WS-AUTH-1 lineage record now references them. From WS-AUTH-2 onward the series lives in the
+# gitignored .npz and result JSONs are about 30 KB.
+results/whole_system_authority_g050.json
+results/whole_system_authority_g100.json
+results/whole_system_authority_g200.json
+results/whole_system_authority_g500.json

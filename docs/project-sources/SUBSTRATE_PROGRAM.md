@@ -59,6 +59,12 @@ HDP (S6), coarse geometry S7 and linear stability S8 as reductions only.
 - `NATIVE_NOISE_DEFAULT`: `compile_step_fn(kernel="baseline")` without `noise_scale`
   adds 0.5*N(0,1) per neuron per step; "deterministic" requires `noise_scale=0`
   (results/v21_provenance_correction.json).
+- `VISUALIZATION_CONTRACT`: every model lineage runs construct -> V0 block schematic
+  -> V1 initial 1 s raster -> scientific work -> V2 final raster -> V3 atlas. V0 and
+  V1 precede any interpretation or tuning; V2 and V3 precede completion. The lineage
+  record's `visualization` block names all four paths and the acceptance report
+  repeats them; a lineage that builds no model declares the manifest's exemption with
+  a reason (manifests/visualization_contract.json).
 
 ## Interpretation rules
 

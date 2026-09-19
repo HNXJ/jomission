@@ -24,7 +24,9 @@
     "tests/test_whole_system_realization.py",
     "tests/test_whole_system_diagnostic.py",
     "tests/test_o_authority.py",
-    "tests/test_propagation_causal.py"
+    "tests/test_propagation_causal.py",
+    "tests/test_visualization_contract.py",
+    "tests/test_visualization_renderers.py"
    ]
   },
   "1": {

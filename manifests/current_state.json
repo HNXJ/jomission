@@ -183,7 +183,8 @@
   "OMISSION_FIREWALL",
   "SEALED_ARTIFACT_IMMUTABILITY",
   "WORKSPACE_PROVENANCE",
-  "NATIVE_NOISE_DEFAULT"
+  "NATIVE_NOISE_DEFAULT",
+  "VISUALIZATION_CONTRACT"
  ],
  "required_artifacts": [
   "results/generic_substrate_v2_spec.json",
@@ -208,7 +209,8 @@
   "results/v21_coupled_background_spec.json",
   "results/v21_coupled_background.json",
   "results/v21_pv_stationarity_spec.json",
-  "results/v21_pv_stationarity.json"
+  "results/v21_pv_stationarity.json",
+  "manifests/visualization_contract.json"
  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [

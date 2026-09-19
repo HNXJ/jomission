@@ -18,6 +18,7 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 - Omission firewall: no omission outcome informs substrate construction or appears in Pages before blind omission.
 - Artifacts: files in `manifests/sealed_artifacts.json` never change; corrections are additive records. Gate thresholds come only from `jomission.harness.gates`. Stage exact paths; push over SSH.
 - Tests: lowest covering tier in `manifests/test_tiers.json`; tier 3 runs only inside an authorizing TODO.
+- Visualization contract (`manifests/visualization_contract.json`): every model lineage runs construct → V0 schematic → V1 initial 1 s raster → scientific work → V2 final raster → V3 atlas. V0 and V1 come before any interpretation or tuning; V2 and V3 before the lineage is declared complete. The record's `visualization` block names all four paths and the acceptance report repeats them. A lineage that builds no model declares the manifest's exemption with a reason. Reason: a scalar gate can be blind to structure the trajectories plainly show — WS-PROP-1's rate-count observable read exactly 0.000000 at the directly stimulated area while 12 of its groups differed.
 
 ## Optimization & Epistemic Discipline
 - Priority: correctness > evidence > clarity > speed.

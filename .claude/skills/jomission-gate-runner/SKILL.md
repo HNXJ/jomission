@@ -23,22 +23,34 @@ Order is fixed. A failed step is a STOP, not a workaround.
    thresholds come from `manifests/gates/*.json` via `jomission.harness.gates`
    (profile `prospective_v2` for new runs). Input schedules pass
    `jomission.harness.drive.check_additive_schedule`.
-5. **Execute** exactly the declared runs (tier 3 test named by the TODO), one
+5. **Visualize before work** (VISUALIZATION_CONTRACT,
+   `manifests/visualization_contract.json`). Render V0
+   `jaxfne_network_hspice.png` from the construction, then V1
+   `raster_initial_1000ms.png` of the native regime, via
+   `scripts/render_visualization_contract.py`. Look at both before
+   interpreting anything. A lineage that builds no model declares the
+   manifest's exemption with a reason instead.
+6. **Execute** exactly the declared runs (tier 3 test named by the TODO), one
    process at a time. Record configured, realized, executed, and effective
    values for any new mechanism.
-6. **Classify.** Evaluate gates through the harness; write `checks`, profile,
+7. **Classify.** Evaluate gates through the harness; write `checks`, profile,
    estimator metadata, and the `verdict` label into the result
    JSON (field `gate_blob` = `git hash-object` of the gate file). A failure matching `manifests/harness/environment_failures.json` is
    ENVIRONMENT, not a verdict.
-7. **Test.** Tier 0 plus the lineage's own tests. The battery test passes when
+8. **Test.** Tier 0 plus the lineage's own tests. The battery test passes when
    the procedure ran; a scientific FAIL keeps pytest green.
-8. **Seal.** Commit results separately from the spec. Add the lineage record
+9. **Seal.** Commit results separately from the spec. Add the lineage record
    ([references/lineage_record.md](references/lineage_record.md)), register
    sealed outputs in `manifests/sealed_artifacts.json`, set the status in
    `manifests/current_state.json` from `verdict`, update `manifests/todo.json`,
    run `python -m jomission.harness.handoff`, then `project_check`.
-9. **Stop.** Report the verdict with receipts and wait for review. Do not
-   open the downstream item.
+10. **Visualize after work.** Render V2 `raster_final.png` with the same
+    ordering and window as V1, then the V3 atlas. The lineage is not
+    complete until all four exist and the record's `visualization`
+    block names them.
+11. **Stop.** Report the verdict with receipts and wait for review. Do not
+    open the downstream item. The acceptance report must list all four
+    contract artifact paths.
 
 Window summary layout for `gates.evaluate`:
 [references/window_schema.md](references/window_schema.md).

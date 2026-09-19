@@ -167,6 +167,40 @@ def validate_estimator(stat: dict) -> list[str]:
             if est.get(f) in (None, "")]
 
 
+def visualization_contract() -> dict:
+    return load("manifests/visualization_contract.json")
+
+
+def validate_visualization(rec: dict, contract: dict | None = None) -> list[str]:
+    """VISUALIZATION_CONTRACT: construct -> schematic -> initial raster -> work -> final raster -> atlas.
+
+    Additive. Lineages listed as grandfathered ran before the contract and are never reopened.
+    """
+    contract = contract or visualization_contract()
+    lid = rec.get("lineage_id", "?")
+    if lid in contract["enforcement"]["grandfathered"] or not rec.get("executed"):
+        return []
+    field = contract["lineage_field"]
+    viz = rec.get(field)
+    if viz is None:
+        return [f"{lid}: missing {field}; see manifests/visualization_contract.json"]
+    if isinstance(viz, dict) and viz.get("exempt"):
+        if viz["exempt"] != contract["exemption"]["shape"]["exempt"]:
+            return [f"{lid}: unknown {field} exemption {viz['exempt']!r}"]
+        return [] if viz.get("reason") else [f"{lid}: {field} exemption without a reason"]
+    if not isinstance(viz, dict):
+        return [f"{lid}: {field} must be an object of stage -> path"]
+    err = []
+    for stage in contract["order"]:
+        path = viz.get(stage)
+        if not path:
+            err.append(f"{lid}: {field} missing stage {stage} "
+                       f"({contract['stages'][stage]['artifact']})")
+        elif not artifact_exists(f"{rec['commit']}:{path}"):
+            err.append(f"{lid}: {field}.{stage} {path} absent at {rec['commit']}")
+    return err
+
+
 def validate_lineage(rec: dict) -> list[str]:
     classes, labels = vocabulary()
     lid = rec.get("lineage_id", "?")
@@ -203,6 +237,7 @@ def validate_lineage(rec: dict) -> list[str]:
         err.append(f"{lid}: executed mechanism lineage without configured/realized/executed/effective qualification")
     if q is not None:
         err += [f"{lid}: qualification missing stage {s}" for s in QUALIFICATION_STAGES if s not in q]
+    err += validate_visualization(rec)
     return err
 
 

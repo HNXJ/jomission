@@ -1,0 +1,99 @@
+{
+ "schema": "jomission.visualization_contract.v1",
+ "invariant": "VISUALIZATION_CONTRACT",
+ "authority": "reviewer 2026-09-19: make this a permanent visualization contract for every model lineage, not an optional afterthought. The first two artifacts occur before interpretation or tuning; the final two before declaring the lineage complete.",
+ "rationale": "WS-PROP-1 showed a scalar gate can be blind to timing structure while the underlying trajectories visibly diverge. Its rate-count observable returned exactly 0.000000 at V1_1, the directly stimulated area, in a regime where the two-window spike count per E cell is conserved at exactly 21.000000. The trajectories were not identical: 12 V1_1 groups differed. A human looking at a raster would have seen in one glance both that the model was globally periodic and that the stimulus moved timing rather than count. Human-readable dynamics are therefore required early, not at the end.",
+ "order": ["V0", "V1", "V2", "V3"],
+ "invariant_chain": "construct -> HSPICE schematic -> initial 1 s raster -> scientific work -> final raster -> atlas",
+ "stages": {
+  "V0": {
+   "name": "construction",
+   "artifact": "jaxfne_network_hspice.png",
+   "purpose": "verify what circuit was actually constructed",
+   "timing": "immediately after construction, before simulation",
+   "before_interpretation": true,
+   "required_content": [
+    "x on the far left and y on the far right",
+    "every area or object",
+    "layers within each area",
+    "E, PV, SST and VIP populations where present",
+    "O connections between objects",
+    "X lateral and cross connections",
+    "FF against FB direction",
+    "excitatory against inhibitory projection sign",
+    "connection authority g, or realized w where relevant"
+   ],
+   "must_not_contain": ["individual neurons"],
+   "note": "HSPICE/PSpice-style block schematic. This is the construction receipt humans inspect."
+  },
+  "V1": {
+   "name": "initial state",
+   "artifact": "raster_initial_1000ms.png",
+   "purpose": "see the untreated native dynamical regime before any scientific modification",
+   "timing": "first 1000 ms diagnostic, before interpretation or tuning",
+   "before_interpretation": true,
+   "required_content": [
+    "unit rows ordered area -> layer -> cell type",
+    "1000 ms window",
+    "the ordering and visual conventions reused verbatim by V2"
+   ],
+   "note": "the visual baseline. Do not wait until the experiment is finished to discover the starting model is globally periodic, silent, saturated or otherwise unexpected."
+  },
+  "V2": {
+   "name": "final state",
+   "artifact": "raster_final.png",
+   "purpose": "direct before and after comparison against V1",
+   "timing": "after the authorized work completes",
+   "before_interpretation": false,
+   "required_content": [
+    "the same ordering and visual conventions as V1",
+    "the same duration and window as V1 wherever possible"
+   ]
+  },
+  "V3": {
+   "name": "final inspection",
+   "artifact": "atlas/index.html",
+   "purpose": "deep human inspection of dynamics, state, connectivity and plasticity",
+   "timing": "at lineage completion",
+   "before_interpretation": false,
+   "required_content": [
+    "network schematic or 3D",
+    "connectivity",
+    "raster",
+    "membrane dynamics",
+    "rates",
+    "I_net",
+    "H",
+    "A",
+    "m(H)",
+    "effective or plastic weights",
+    "field or lfp_proxy ONLY when appropriately qualified",
+    "the lineage's own diagnostics"
+   ]
+  }
+ },
+ "path_convention": "results/viz/<lineage_id>/<artifact>",
+ "lineage_field": "visualization",
+ "lineage_field_shape": "an object with keys V0, V1, V2, V3, each a repository path that resolves at the lineage record's own commit",
+ "report_requirement": "the acceptance report of every lineage must list all four artifact paths",
+ "enforcement": {
+  "validator": "jomission.harness.validate.validate_lineage",
+  "test": "tests/test_visualization_contract.py",
+  "rule": "every executed lineage record not listed in grandfathered must carry the lineage_field with all four stages, and each path must resolve at the record's own commit",
+  "grandfathered_reason": "the contract is additive and is not applied retroactively. Sealed artifacts never change, and no earlier lineage is reopened to satisfy a rule written after it ran.",
+  "grandfathered": [
+   "V2.1", "H0-H5", "V2.1b", "V2.1b-ISI", "V2.1c-design", "V2.1c-boundary",
+   "V2.1-bkg-pv-calibration", "V2.1-coupled-background", "V2.1-pv-stationarity",
+   "V2.1-pv-predecessor-instrumented", "V2.1-pv-microstate",
+   "V2.1-pv-m0-state-decomposition", "V2.1-pv-m0-state-decomposition-r2",
+   "V2.1-pv-m1-transplant", "V2.1-pv-m2-pair-transplant",
+   "WS-REALIZE-R1R4", "WS-REALIZE-R4C", "WS-DIAG-1", "WS-DIAG-2", "WS-DIAG-3",
+   "WS-REALIZE-R4-PARAM", "WS-O-AUTHORITY-1", "WS-AUTH-1", "WS-AUTH-2", "WS-PROP-1"
+  ]
+ },
+ "exemption": {
+  "rule": "a lineage that constructs no model and runs no simulation may set visualization to the string NOT_A_MODEL_LINEAGE with a reason, and the validator accepts it.",
+  "shape": {"exempt": "NOT_A_MODEL_LINEAGE", "reason": "<why this lineage builds no model>"},
+  "note": "a pure harness-repair lineage is the intended case. It is an exemption from the artifacts, never from declaring why."
+ }
+}

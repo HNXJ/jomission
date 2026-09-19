@@ -1,0 +1,217 @@
+{
+ "schema": "jomission.preexecution_spec.v1",
+ "lineage_id": "SCI-WS-OSC-1",
+ "parent": "WS-AUTH-2",
+ "parent_commit": "d5e8205",
+ "authority": "reviewer 2026-09-19: stop describing this as a global oscillator, it is parallel local oscillators with nearly identical frequency. The problem has moved from O and X back inside the definition of CTX[jomission_v0], and that must be answered before changing HDP, tonic drive, delays or any inter-area parameter. Authorized in manifests/todo.json as SCI-WS-OSC-1, next_authorized_task at seal time",
+ "question": "x : CTX : y -- does the burst mode require local E->E recurrence?",
+ "arms": {
+  "SINGLE_AREA": {
+   "ee_cut": false,
+   "g": 0.0,
+   "meaning": "the intact control, identical to the WS-AUTH-2 g = 0 construction"
+  },
+  "EE_CUT": {
+   "ee_cut": true,
+   "g": 0.0,
+   "meaning": "every within-area E->E weight set to exactly 0.0, nothing else changed"
+  }
+ },
+ "principal_delta": "local E->E weight set to 0.0 in the EE_CUT arm. E->I, I->E, I->I, the retinal interface, the long-range edges and every other array are the intact arm's. No recurrence beyond local E->E is ablated",
+ "shared_regime": {
+  "g": 0.0,
+  "why": "both arms run fully disconnected, the condition WS-AUTH-2 sealed, so the six cortical objects are independent and no inter-area path can carry a mode between them. This makes the E->E cut the single principal delta rather than one of two. It is an interpretive choice made before execution and declared here: at g > 0 a surviving mode could be imported from a neighbouring area, and the arms would differ in two ways",
+  "consequence": "the verdict is scoped to the disconnected regime. It does not establish what the coupled system does, and must not be read as if it did"
+ },
+ "estimator": {
+  "module": "jomission.harness.oscillation",
+  "function": "measure",
+  "status": "NEW. No sealed period estimator existed in this project before this lineage",
+  "finding_that_required_it": "WS-AUTH-2's OBSERVED claim that the pooled E burst period is 190 ms, 5.26 Hz, with autocorrelation 0.895 cites results/whole_system_authority_g000.json. That file's top-level keys contain no period, frequency or autocorrelation field, and no module in this repository computed one. The 190 ms figure therefore has no receipt. This lineage does not inherit it: the SINGLE_AREA arm re-measures the mode it compares against",
+  "definition": "peak_autocorr is the largest autocorrelation of the mean-removed population rate at a lag beyond the first zero crossing; period_ms is that lag. A mode is present when peak_autocorr exceeds the null threshold",
+  "null": "the 95th percentile of the same statistic over Poisson surrogates matched to the signal's own mean rate and cell count, so the floor is computed rather than chosen",
+  "validated_by": "tests/test_oscillation.py, which recovers planted 95, 190 and 250 ms periods",
+  "signal": "per-area E population rate in Hz, 1 ms bins, spike-count weighted across that area's E layers -- the same series the gates read. Reported per area because WS-AUTH-2 established these are parallel local oscillators, not one global one. The pooled series is recorded alongside and is not the primary observable"
+ },
+ "oscillation": {
+  "window_ms": 1000.0,
+  "max_lag_ms": 500.0,
+  "n_surrogate": 200,
+  "window_meaning": "the final 1000 ms of the 13000 ms run, which is 1000 ms after the stimulus ends, so the measured mode is the resting mode",
+  "max_lag_meaning": "500 ms admits any period from 2 Hz upward inside a 1000 ms window"
+ },
+ "predeclared_outcomes": {
+  "rule": "jomission.harness.oscillation.compare, period_tolerance 0.10",
+  "CONTROL_HAS_NO_MODE": "the intact arm shows no mode above its own null. The lineage then says nothing about recurrence and the result is about the estimator or the control",
+  "MODE_REQUIRES_ABLATED_CONNECTION": "the mode is present intact and falls into the null when E->E is cut",
+  "MODE_INDEPENDENT_OF_ABLATED_CONNECTION": "the mode survives at the same period within 10 percent, which points at intrinsic single-cell dynamics",
+  "MODE_DEPENDS_QUANTITATIVELY": "the mode survives but its period moves by more than 10 percent",
+  "committed": "no outcome is preferred. The interval is reported and no winner is selected"
+ },
+ "frozen": {
+  "inherits": "everything results/whole_system_authority_bracket_spec.json froze, including architecture, realizer, tonic drive, dt, seed, weight, probability and mechanism taus",
+  "tonic": {
+   "E": 5.0,
+   "PV": 3.0,
+   "SST": 3.5,
+   "VIP": 3.0,
+   "Retina": 0.0
+  },
+  "dt_ms": 0.1,
+  "seed": 0,
+  "prng_key": 0,
+  "delay": "DELAY_UNQUALIFIED_FROZEN, uniform 0 steps",
+  "kernel": "baseline, hdp false",
+  "stimulus": "on, the sealed retinal spot, identical in both arms",
+  "duration": {
+   "settle_ms": 10000.0,
+   "stimulus_ms": 1000.0,
+   "post_stimulus_ms": 2000.0,
+   "total_ms": 13000.0,
+   "dt_ms": 0.1,
+   "steps": 130000,
+   "chunk_ms": 500.0,
+   "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed",
+   "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+   "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+  },
+  "gates": "the same six-check whole-system gate in the same order, unchanged"
+ },
+ "driver": {
+  "path": "scripts/whole_system_oscillator_arm.py",
+  "forked_from": "scripts/whole_system_causal_arm.py (sealed, blob 06f4a2a5, sealed_in 2a2f4d8)",
+  "why_forked": "a sealed artifact is not edited. The fork is additive and the source is unchanged",
+  "additive_changes": [
+   "--ee-cut, which zeroes every within-area E->E weight after enforcement and after EQUAL_G realization and before compilation, and records what it zeroed",
+   "a rec['oscillation'] block holding the estimator's output per area and pooled",
+   "output filenames keyed by arm"
+  ]
+ },
+ "runs": [
+  {
+   "arm": "SINGLE_AREA",
+   "command": "python scripts/whole_system_oscillator_arm.py --spec results/whole_system_oscillator_spec.json --g 0.0 --stimulus on --seed 0 --out results/whole_system_oscillator_single_area.json --out-y results/whole_system_oscillator_single_area_y.npz",
+   "out": "results/whole_system_oscillator_single_area.json"
+  },
+  {
+   "arm": "EE_CUT",
+   "command": "python scripts/whole_system_oscillator_arm.py --spec results/whole_system_oscillator_spec.json --g 0.0 --stimulus on --seed 0 --ee-cut --out results/whole_system_oscillator_ee_cut.json --out-y results/whole_system_oscillator_ee_cut_y.npz",
+   "out": "results/whole_system_oscillator_ee_cut.json"
+  }
+ ],
+ "execution": "one process at a time, in the order listed",
+ "acceptance": "both arms complete with the whole-system gate evaluated, the EE_CUT arm reports weight_sum_after 0.0 over 113436 targeted edges with every other edge untouched, and the period is measured in each arm by the same estimator against its own null",
+ "stop_condition": "two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, and no ablation of any recurrence beyond local E->E. No retuning after results",
+ "visualization_contract": {
+  "V0": "results/viz/SCI-WS-OSC-1/jaxfne_network_hspice.png",
+  "V1": "results/viz/SCI-WS-OSC-1/raster_initial_1000ms.png",
+  "V2": "results/viz/SCI-WS-OSC-1/raster_final.png",
+  "V3": "results/viz/SCI-WS-OSC-1/atlas/index.html",
+  "rule": "V0 and V1 are rendered and looked at before any interpretation. V1's ordering and window are reused verbatim by V2 so the comparison is one figure twice"
+ },
+ "artifacts_expected": [
+  "results/whole_system_oscillator_spec.json",
+  "results/whole_system_oscillator_single_area.json",
+  "results/whole_system_oscillator_ee_cut.json",
+  "results/viz/SCI-WS-OSC-1/jaxfne_network_hspice.png",
+  "results/viz/SCI-WS-OSC-1/raster_initial_1000ms.png",
+  "results/viz/SCI-WS-OSC-1/raster_final.png",
+  "results/viz/SCI-WS-OSC-1/atlas/index.html"
+ ],
+ "inspection_findings_declared_before_execution": [
+  {
+   "id": "GATE-BOOKKEEPING",
+   "finding": "manifests/current_state.json carries current_gate = V2_LOCAL_OPERATION = FAIL. That is correct and is preserved: it is the highest formally qualified substrate gate. It does not describe the active workstream, because no whole-system lineage has ever used it. All ten WS lineages are judged by an inline six-check gate implemented inside the WS drivers, with no manifest file, no profile and no gate_blob. manifests/gates/v2_local_operation.json has never been read by a WS lineage",
+   "action": "PRESERVED, unchanged. Reported to the reviewer, not resolved by the Actor"
+  },
+  {
+   "id": "PERIOD-UNRECEIPTED",
+   "finding": "the ~190 ms period has no sealed estimator and no field in the receipt WS-AUTH-2 cites",
+   "action": "this lineage measures the period itself in both arms. It does not cite, compare to, or depend on the 190 ms figure. No historical number is altered"
+  }
+ ],
+ "relation_to_parent": "WS-AUTH-2 established that six fully disconnected areas keep the mode, moving the question inside one cortical object. This lineage asks whether the mode inside that object requires local E->E recurrence",
+ "sealed_before_execution": "this file is committed and pushed before either arm runs",
+ "runtime_blocks_copied_verbatim_from_parent": "duration, kernel, gates and frozen.tonic are copied byte-for-byte from results/whole_system_authority_bracket_spec.json so this driver reads one sealed file. tests assert the copy is identical to the parent block",
+ "duration": {
+  "settle_ms": 10000.0,
+  "stimulus_ms": 1000.0,
+  "post_stimulus_ms": 2000.0,
+  "total_ms": 13000.0,
+  "dt_ms": 0.1,
+  "steps": 130000,
+  "chunk_ms": 500.0,
+  "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed",
+  "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+  "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+ },
+ "kernel": {
+  "kernel": "baseline",
+  "hdp": false,
+  "authority": "reviewer 2026-09-18, chosen over jomission_sat_ee_v0",
+  "reason": "the qualified scientific lineage (V2.1 and the whole PV chain) executed kernel=baseline. jomission_sat_ee_v0 was qualified on star-column geometry and never on a multi-area composition, so running it here would confound the architecture with an unqualified rule transplanted to a new topology",
+  "H_recording": "H, Theta and w_eff are recorded as realized. Under the baseline kernel they are expected static; a static trace is reported as static and is not evidence of stabilization",
+  "hdp_off_reason": "HDP is OFF so that long-range authority is the single principal delta. Reviewer 2026-09-18: after locating the operating regime, then turn the repaired H-homeostasis back on and ask whether HDP extends and stabilizes the viable coupling range. That is a later lineage."
+ },
+ "gates": {
+  "order": [
+   "execution",
+   "collapse",
+   "runaway",
+   "synchrony",
+   "drift",
+   "propagation"
+  ],
+  "rule": "report the earliest load-bearing failure in this order; a later gate is not evaluated as the primary verdict once an earlier one fails",
+  "execution": {
+   "criterion": "every recorded v, u and current is finite for every step",
+   "fail": "WHOLE_SYSTEM_EXECUTION_FAIL"
+  },
+  "collapse": {
+   "criterion": "in the final 1000 ms, every area's E population rate is at least 0.1 Hz",
+   "fail": "WHOLE_SYSTEM_COLLAPSE"
+  },
+  "runaway": {
+   "criterion": "no class population rate exceeds 200 Hz sustained for 100 ms, and f_active does not reach 1.0 sustained for 100 ms",
+   "fail": "WHOLE_SYSTEM_RUNAWAY"
+  },
+  "synchrony": {
+   "criterion": "for every area's E population, std/mean of the 1 ms-binned population rate over the final 1000 ms is at most 3.0",
+   "estimator": "coefficient of variation of the 1 ms population rate; predeclared before execution",
+   "fail": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "drift": {
+   "criterion": "over the final 1500 ms of the post-stimulus interval, the least-squares slope of each area's E population rate in 100 ms bins satisfies |slope| <= 0.5 Hz/s, OR the slope is not sustained",
+   "sustained_rule": "a slope counts as drift only if the first and second halves of that window both exceed the tolerance with the same sign. A slow transient that is decaying fails the sustained test and is not drift",
+   "tolerance_hz_per_s": 0.5,
+   "predeclared": "estimator and tolerance fixed before execution and not adjustable afterwards",
+   "fail": "WHOLE_SYSTEM_DRIFT"
+  },
+  "propagation": {
+   "criterion": "the stimulus changes the E population rate at every hierarchical level: V1.1, at least one V4, and at least one of FEF/PFC. A change counts when the stimulus-window rate differs from the settle baseline by more than max(1 Hz, 10% of baseline)",
+   "band_authority": "the sealed V2.1 band convention max(1 Hz, 10%), reused unchanged",
+   "lateral_probe": "the spot lies entirely in the left hemifield, so any V1.2 change is transfer through X[lat] or the V4 level, and is reported separately rather than counted toward propagation",
+   "fail": "WHOLE_SYSTEM_PROPAGATION_FAIL"
+  }
+ },
+ "frozen_full": {
+  "architecture": "results/whole_system_realization_r2.json (WHOLE_SYSTEM_REALIZATION_PASS)",
+  "definition": "CTX[jomission_v0] with R := R_JaxFNE 0.4.24",
+  "realizer": "jomission/tfne/realize.py, unchanged",
+  "tonic": {
+   "E": 5.0,
+   "PV": 3.0,
+   "SST": 3.5,
+   "VIP": 3.0,
+   "Retina": 0.0
+  },
+  "dt_ms": 0.1,
+  "seed": 0,
+  "prng_key": 0,
+  "weight": 0.5,
+  "probability": 1.0,
+  "mechanism_tau_ms": {
+   "AMPA": 2.0
+  }
+ }
+}

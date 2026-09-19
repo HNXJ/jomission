@@ -1698,7 +1698,102 @@
    ],
    "tests": [],
    "blocks": "the burst-onset experiment. Per the reviewer's order: weight semantics, then the parameter-realization receipt, then a corrected baseline, before any full-resolution burst analysis. The current burst phenotype remains sealed as a negative control",
-   "commit": "7996113"
+   "commit": "7996113",
+   "qualification_marks": {
+    "O.weight": {
+     "status": "UNQUALIFIED",
+     "reviewer": "2026-09-18",
+     "reason": "the realized per-edge 0.5 was never compared against a stated intent, and it makes long-range authority exceed local by 11.5x to 40.4x per receiving neuron. The intended g_FF, g_FB and g_X are undefined"
+    },
+    "O.delay": {
+     "status": "UNQUALIFIED",
+     "reviewer": "2026-09-18",
+     "reason": "delay_storage is uniform at 0 steps, so A_i(t) reaches A_j(t) within the same integration step regardless of anatomical separation. That erases the distinction between local recurrence and inter-area communication. jaxfne supports delay_storage 'per_edge', so this needs no engine change"
+    },
+    "status_note": "marked on the O relation, not on the lineage. The lineage verdict stays UNRESOLVED / PARAMETER_REALIZATION_UNQUALIFIED. UNQUALIFIED was deliberately NOT added to manifests/vocabulary.json status_labels: reviewer 2026-09-18 said not to introduce it globally for this case"
+   }
+  },
+  {
+   "lineage_id": "WS-O-AUTHORITY-1",
+   "parent": "WS-REALIZE-R4-PARAM",
+   "principal_delta": "the analytic inverse of the parameter audit. Same realized model, no simulation, no model change: given a transfer authority g defined per receiving neuron, tabulate the per-edge weight w_p = g*K_local/N_afferents,p that each O and X channel would need",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "scripts/o_authority_parameterization.py",
+    "commit": "8a6ff02",
+    "note": "the construction code, committed before the table it produced"
+   },
+   "authority": "reviewer 2026-09-18: 'I would not simulate yet. Use the existing local K = 0.866 and analytically construct candidate O parameterizations in normalized units, g_FF, g_FB, g_X < 1. Then inspect what actual per-edge weights those imply given each projection's convergence.' g is defined per receiving neuron, not population-diluted; FF, FB and X stay distinct channels",
+   "inputs": [
+    "results/parameter_realization_audit.json"
+   ],
+   "frozen": [
+    "the realized model is constructed exactly as WS-REALIZE-R4C constructed it",
+    "no weight, probability, tau, delay or connectivity is modified",
+    "no g value is chosen and nothing is fitted to the observed oscillator"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "K_local, the summed local excitatory afferent weight per E cell, is 0.8660. The six layer-wise means span 0.8649 to 0.8683, a spread of 0.0022",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/o_authority_parameterization.json"
+    },
+    {
+     "claim": "long-range afferents per receiving neuron, counted over all source areas: ff onto L4.E is 35 at V4_1 and V4_2 and 70 at FEF and PFC, over 56 target cells; fb onto L1.E is 28 at V1_1 and V1_2 and 56 at V4_1 and V4_2, over 40 target cells; lat onto L3.E is 20 at all six areas, over 120 target cells",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/o_authority_parameterization.json"
+    },
+    {
+     "claim": "at the frozen w = 0.5 the realized authorities are g_ff 20.21 and 40.41, g_fb 16.17 and 32.33, g_lat 11.55",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/o_authority_parameterization.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "long-range convergence is not uniform across the hierarchy. Counted per receiving neuron over all source areas: ff onto L4.E is 35 afferents at V4_1 and V4_2 but 70 at FEF and PFC; fb onto L1.E is 28 at V1_1 and V1_2 but 56 at V4_1 and V4_2; lat onto L3.E is 20 everywhere. A single per-edge weight therefore gives a frontal cell exactly twice the long-range authority of a sensory cell, from fan-in alone and not from any stated design intent",
+     "evidence_class": "DERIVED",
+     "receipt": "results/o_authority_parameterization.json"
+    },
+    {
+     "claim": "K_local is layer-independent: the six layer-wise means of summed local excitatory afferent weight per E cell span 0.8649 to 0.8683, a spread of 0.0022. One reference value 0.8660 is therefore adequate for every target population, and the per-receiving-neuron definition of g does not require a per-layer denominator",
+     "evidence_class": "DERIVED",
+     "receipt": "results/o_authority_parameterization.json"
+    },
+    {
+     "claim": "two independent artifacts inflate authority. Fan-in: a 28-afferent fb projection and a 35-afferent ff projection carry the same per-edge weight, so their authorities differ by that ratio alone. Hierarchy: a target reached by two upstream areas gets exactly twice the afferents of one reached by a single upstream area. Neither follows from a stated design intent",
+     "evidence_class": "DERIVED",
+     "receipt": "results/o_authority_parameterization.json"
+    },
+    {
+     "claim": "to reach g = 0.2 with K_long < K_local, per-edge weights fall to 0.00495 (ff at 35 afferents), 0.00247 (ff at 70), 0.00619 (fb at 28), 0.00309 (fb at 56) and 0.00866 (lat). These land in the same range as the engine-assigned intra-area weights, whose mean magnitude is 0.006321, rather than two orders above them",
+     "evidence_class": "DERIVED",
+     "receipt": "results/o_authority_parameterization.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "EQUAL_G and EQUAL_W are not interchangeable design choices. EQUAL_W preserves the hierarchical doubling and so makes frontal areas structurally more driven by their afferents; EQUAL_G removes it and makes every cortical object equally locally authoritative at initialization. Which matches the intended TFNE semantics was not determined here and is not inferable from the measurement",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "O_AUTHORITY_PARAMETERIZED_UNCHOSEN",
+    "status": "UNRESOLVED",
+    "status_note": "the construction is complete and the decision is not taken. g_FF, g_FB and g_X remain model-definition decisions"
+   },
+   "acceptance": "none. This lineage constructs and does not gate. Its stop condition is that no g is chosen and no simulation is run",
+   "fail_boundary": "not applicable",
+   "relation_to_parent": "extends WS-REALIZE-R4-PARAM's measurement with its inverse. The parent's verdict and WS-REALIZE-R4C's PASS are both untouched",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/o_authority_parameterization.json"
+   ],
+   "tests": [],
+   "commit": "d38e6cb",
+   "blocks": "the burst-onset experiment and any corrected baseline, until g_FF, g_FB, g_X and the delay policy are decided by the reviewer"
   }
  ]
 }

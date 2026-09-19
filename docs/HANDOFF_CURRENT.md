@@ -58,12 +58,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- WS-DIAG-2: execution was finite throughout all 130000 steps, and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities unchanged — `0e76900:results/whole_system_diagnostic_2.json`
-- WS-DIAG-2: synchrony still fails and four areas now exceed the 3.0 tolerance: V4.1 3.1642, V4.2 3.1636, PFC 3.0409, V1.2 3.0168, with FEF 2.9425 and V1.1 2.9782 below — `0e76900:results/whole_system_diagnostic_2.json`
-- WS-DIAG-2: area E rate slopes over the final 1500 ms are -1.90 to -2.03 Hz/s, and none satisfied the predeclared sustained rule — `0e76900:results/whole_system_diagnostic_2.json`
-- WS-DIAG-2: every area moved +0.41 to +0.64 Hz from baseline to stimulus, all within their bands; the targeted V1_1 delta of +0.478 is no larger than the untargeted V1_2 at +0.493 or FEF at +0.594 — `0e76900:results/whole_system_diagnostic_2.json`
-- WS-DIAG-2: the lit retinal units again fired at 11.0 Hz and no unlit unit fired — `0e76900:results/whole_system_diagnostic_2.json`
-- WS-DIAG-2: w and theta_S were bitwise unchanged across all 26 chunk boundaries — `0e76900:results/whole_system_diagnostic_2.json`
 - WS-DIAG-3: execution was finite throughout all 130000 steps and interface enforcement reproduced exactly: 1047552 intra-retinal edges removed, 246844 edges after, retinal tonic 0.0, 1024 retinal edges, 24 cortical identities with no missing and no extra — `d4c9d17:results/whole_system_diagnostic_3.json`
 - WS-DIAG-3: synchrony CV over the final 1000 ms fell in five of six areas: FEF 2.9425 -> 2.9705, PFC 3.0409 -> 3.0372, V1_1 2.9782 -> 2.8731, V1_2 3.0168 -> 2.7107, V4_1 3.1642 -> 2.7376, V4_2 3.1636 -> 2.8356. Areas over the 3.0 tolerance fell from four to one — `d4c9d17:results/whole_system_diagnostic_3.json`
 - WS-DIAG-3: H reached neither bound: final min 0.3626 and max 7.4324 against clamps 0.1 and 10.0, with H_frac_above_5 0.1214 and 270 of 2224 neurons being PV or VIP — `d4c9d17:results/whole_system_diagnostic_3.json`
@@ -77,6 +71,9 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-REALIZE-R4-PARAM: the local reference K for an E cell from intra-area excitation is 0.8660, from intra-area inhibition 0.3921. No long-range projection targets PV, SST or VIP: their long_ff, long_fb and long_lat are all exactly 0.0 — `7996113:results/parameter_realization_audit.json`
 - WS-REALIZE-R4-PARAM: tau and delay are not stored per edge. tau_storage is sign_from_receptor, so tau is 2.0 ms for every receptor-0 edge and 5.0 ms for every receptor-1 edge, local and long-range alike; uniform_delay_steps is 0 for the whole edge list — `7996113:results/parameter_realization_audit.json`
 - WS-REALIZE-R4-PARAM: the string 'weight' does not appear in results/whole_system_realization_r2.json, so no gate in the realization chain compared a realized weight against the spec — `7996113:results/whole_system_realization_r2.json`
+- WS-O-AUTHORITY-1: K_local, the summed local excitatory afferent weight per E cell, is 0.8660. The six layer-wise means span 0.8649 to 0.8683, a spread of 0.0022 — `d38e6cb:results/o_authority_parameterization.json`
+- WS-O-AUTHORITY-1: long-range afferents per receiving neuron, counted over all source areas: ff onto L4.E is 35 at V4_1 and V4_2 and 70 at FEF and PFC, over 56 target cells; fb onto L1.E is 28 at V1_1 and V1_2 and 56 at V4_1 and V4_2, over 40 target cells; lat onto L3.E is 20 at all six areas, over 120 target cells — `d38e6cb:results/o_authority_parameterization.json`
+- WS-O-AUTHORITY-1: at the frozen w = 0.5 the realized authorities are g_ff 20.21 and 40.41, g_fb 16.17 and 32.33, g_lat 11.55 — `d38e6cb:results/o_authority_parameterization.json`
 
 ### Next authorized task
 

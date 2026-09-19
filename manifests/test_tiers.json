@@ -22,7 +22,8 @@
     "tests/test_seal_write_guard.py",
     "tests/test_tfne_v2_spec.py",
     "tests/test_whole_system_realization.py",
-    "tests/test_whole_system_diagnostic.py"
+    "tests/test_whole_system_diagnostic.py",
+    "tests/test_o_authority.py"
    ]
   },
   "1": {

@@ -1,0 +1,403 @@
+{
+ "schema": "jomission.diagnostic_spec.v1",
+ "lineage_id": "WS-AUTH-1",
+ "parent": "WS-DIAG-2",
+ "authority": "reviewer 2026-09-18, settling the three open decisions of WS-O-AUTHORITY-1: EQUAL_G for the hierarchical doubling; channel-level pooled authority for g_FF; delay kept UNQUALIFIED and not chosen. Authorized bracket g_FF = g_FB = g_X = g in {0.05, 0.1, 0.2, 0.5}, EQUAL_G realization, all other architecture and baseline dynamics frozen.",
+ "objective": "locate the regime transition in dimensionless authority space, not to select a best g: globally welded oscillator -> locally autonomous but communicating cortical objects -> disconnected hierarchy. The curve across the bracket is the result; no single arm is.",
+ "expression": "x : {V1^2 X[lat]} O[fffb] {V4^2 X[lat]} O[fffb] {FEF X[lat] PFC} : y",
+ "y": "FEF.L6.E.v(t), retained population-resolved as v_i(t), never only the mean",
+ "retina_definition_status": "RETINA_DEFINITION_REQUIRED, drafted as RETINA[jomission_v0], pending approval",
+ "retina": {
+  "definition": "RETINA[jomission_v0]",
+  "draft": "pending reviewer approval; no execution may consume this until approved",
+  "N": 1024,
+  "grid": {
+   "rows": 32,
+   "cols": 32
+  },
+  "indexing": "unit = row * 32 + col",
+  "area": "Retina",
+  "layer": "L4",
+  "cell_type": "E",
+  "hemifield_split_col": 16,
+  "targets": {
+   "left": "V1.1.L4.E",
+   "right": "V1.2.L4.E"
+  },
+  "units_per_hemifield": {
+   "left": 512,
+   "right": 512
+  },
+  "receptive_field_sizes": {
+   "left": [
+    36,
+    37
+   ],
+   "right": [
+    36,
+    37
+   ]
+  },
+  "mechanism": "AMPA",
+  "peak_efficacy_x_tonic": 1.0,
+  "edge_weight": {
+   "left": [
+    0.13513514,
+    0.13888889
+   ],
+   "right": [
+    0.13513514,
+    0.13888889
+   ],
+   "tonic_e": 5.0
+  },
+  "stimulus": {
+   "kind": "static localized spot, deterministic",
+   "row0": 12,
+   "row1": 20,
+   "col0": 4,
+   "col1": 12,
+   "n_lit": 64,
+   "drive": 5.0,
+   "hemifields_lit": [
+    "left"
+   ],
+   "note": "the spot lies entirely in the left hemifield, so V1.2 is reached only through X[lat] and the V4 level"
+  },
+  "tonic": 0.0,
+  "enforced_after_construction": [
+   "intra-retinal edges removed: Retina^1024 declares no connectivity",
+   "retinal tonic zeroed: the retina is silent absent stimulus"
+  ],
+  "provenance": {
+   "N": "DEFINITION_CHOICE: the checkpoint architecture declares Retina^1024",
+   "GRID": "DEFINITION_CHOICE: G[Retina] = 32 x 32, from the sealed architecture",
+   "indexing": "DEFINITION_CHOICE: row-major, unit = row * 32 + col; deterministic, no RNG",
+   "hemifield": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: columns 0-15 to V1.1 and 16-31 to V1.2, so the two V1 instances are not redundant",
+   "targets": "DERIVED: in({V1^2 X[lat]}) = V1.1.L4.E, V1.2.L4.E, as qualified in R4",
+   "receptive_fields": "DEFINITION_CHOICE: contiguous equal-sized blocks in hemifield raster order, one block per target cell, assigned by floor(u * n_cells / n_units). Deterministic, non-overlapping, and exhaustive",
+   "efficacy": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: summed afferent weight per target cell equals 1.0x the E tonic",
+   "mechanism": "DERIVED: AMPA, the only mechanism the architecture declares",
+   "stimulus": "DEFINITION_CHOICE approved by the reviewer 2026-09-18: a static deterministic spot, no stochastic activation, so propagation is attributable to the stimulus",
+   "stimulus_drive": "DEFINITION_CHOICE: 5.0, equal to the cortical E tonic. Realized retinal firing rate is recorded as an observation, not asserted here",
+   "tonic": "DEFINITION_CHOICE: retinal tonic is zeroed, so the retina is silent absent stimulus and the drive additivity invariant reads I_executed = 0 + I_schedule on these units",
+   "no_intra_retinal_edges": "DERIVED: TFNE/2 gives A^n n instances and no connectivity, and Retina is not a CTX instance, so it inherits no D4d local connectivity"
+  }
+ },
+ "kernel": {
+  "kernel": "baseline",
+  "hdp": false,
+  "authority": "reviewer 2026-09-18, chosen over jomission_sat_ee_v0",
+  "reason": "the qualified scientific lineage (V2.1 and the whole PV chain) executed kernel=baseline. jomission_sat_ee_v0 was qualified on star-column geometry and never on a multi-area composition, so running it here would confound the architecture with an unqualified rule transplanted to a new topology",
+  "H_recording": "H, Theta and w_eff are recorded as realized. Under the baseline kernel they are expected static; a static trace is reported as static and is not evidence of stabilization",
+  "hdp_off_reason": "HDP is OFF so that long-range authority is the single principal delta. Reviewer 2026-09-18: after locating the operating regime, then turn the repaired H-homeostasis back on and ask whether HDP extends and stabilizes the viable coupling range. That is a later lineage."
+ },
+ "frozen": {
+  "architecture": "results/whole_system_realization_r2.json (WHOLE_SYSTEM_REALIZATION_PASS)",
+  "definition": "CTX[jomission_v0] with R := R_JaxFNE 0.4.24",
+  "realizer": "jomission/tfne/realize.py, unchanged",
+  "tonic": {
+   "E": 5.0,
+   "PV": 3.0,
+   "SST": 3.5,
+   "VIP": 3.0,
+   "Retina": 0.0
+  },
+  "dt_ms": 0.1,
+  "seed": 0,
+  "prng_key": 0,
+  "weight": 0.5,
+  "probability": 1.0,
+  "mechanism_tau_ms": {
+   "AMPA": 2.0
+  }
+ },
+ "drive": {
+  "invariant": "I_executed = I_emitter + I_schedule",
+  "schedule": "zero everywhere except lit retinal units during the stimulation interval, where it is 5.0. Cortical neurons receive no schedule at all, so their executed input is their emitter tonic alone and no tonic is duplicated",
+  "guard": "jomission.harness.drive.check_additive_schedule, run before execution",
+  "rationale": "the smallest stimulus sufficient to probe propagation; this is a diagnostic input, not an omission paradigm"
+ },
+ "duration": {
+  "settle_ms": 10000.0,
+  "stimulus_ms": 1000.0,
+  "post_stimulus_ms": 2000.0,
+  "total_ms": 13000.0,
+  "dt_ms": 0.1,
+  "steps": 130000,
+  "chunk_ms": 500.0,
+  "derivation": "the baseline kernel enables no HDP, so the slowest enabled relevant state is the Izhikevich recovery variable u at a = 0.02, tau approximately 50 ms; AMPA is 2 ms and GABA_A 5 ms. Settle is 40x the slowest enabled time constant. The post-stimulus interval is twice the stimulus so offset transients, runaway and drift each have room to appear after the drive is removed. Settle is extended to 10 s on the WS-DIAG-1 observation that the network had not stopped evolving at 5 s; this is a horizon correction, not a parameter tuning, and no mechanism, weight or drive is changed",
+  "not_chosen_for_reassurance": "no interval is longer than the failure class it must expose",
+  "unchanged": "stimulus 1000 ms and post-stimulus 2000 ms are exactly as sealed in WS-DIAG-1"
+ },
+ "record": {
+  "per_group_per_ms": [
+   "rate_hz",
+   "f_active",
+   "v_mean",
+   "v_std",
+   "u_mean",
+   "u_std",
+   "synaptic_current_mean",
+   "H_mean",
+   "theta_mean",
+   "w_eff_mean"
+  ],
+  "groups": "every populated area x layer x class, including Retina",
+  "y_full_resolution": "FEF.L6.E v_i(t) for all 28 neurons at dt = 0.1 ms, so distribution and mean are both derivable",
+  "spikes": "per-group spike counts per 1 ms bin, for the synchrony estimator",
+  "note": "population summaries are binned at 1 ms; y is not binned"
+ },
+ "gates": {
+  "order": [
+   "execution",
+   "collapse",
+   "runaway",
+   "synchrony",
+   "drift",
+   "propagation"
+  ],
+  "rule": "report the earliest load-bearing failure in this order; a later gate is not evaluated as the primary verdict once an earlier one fails",
+  "execution": {
+   "criterion": "every recorded v, u and current is finite for every step",
+   "fail": "WHOLE_SYSTEM_EXECUTION_FAIL"
+  },
+  "collapse": {
+   "criterion": "in the final 1000 ms, every area's E population rate is at least 0.1 Hz",
+   "fail": "WHOLE_SYSTEM_COLLAPSE"
+  },
+  "runaway": {
+   "criterion": "no class population rate exceeds 200 Hz sustained for 100 ms, and f_active does not reach 1.0 sustained for 100 ms",
+   "fail": "WHOLE_SYSTEM_RUNAWAY"
+  },
+  "synchrony": {
+   "criterion": "for every area's E population, std/mean of the 1 ms-binned population rate over the final 1000 ms is at most 3.0",
+   "estimator": "coefficient of variation of the 1 ms population rate; predeclared before execution",
+   "fail": "WHOLE_SYSTEM_SYNCHRONY_FAIL"
+  },
+  "drift": {
+   "criterion": "over the final 1500 ms of the post-stimulus interval, the least-squares slope of each area's E population rate in 100 ms bins satisfies |slope| <= 0.5 Hz/s, OR the slope is not sustained",
+   "sustained_rule": "a slope counts as drift only if the first and second halves of that window both exceed the tolerance with the same sign. A slow transient that is decaying fails the sustained test and is not drift",
+   "tolerance_hz_per_s": 0.5,
+   "predeclared": "estimator and tolerance fixed before execution and not adjustable afterwards",
+   "fail": "WHOLE_SYSTEM_DRIFT"
+  },
+  "propagation": {
+   "criterion": "the stimulus changes the E population rate at every hierarchical level: V1.1, at least one V4, and at least one of FEF/PFC. A change counts when the stimulus-window rate differs from the settle baseline by more than max(1 Hz, 10% of baseline)",
+   "band_authority": "the sealed V2.1 band convention max(1 Hz, 10%), reused unchanged",
+   "lateral_probe": "the spot lies entirely in the left hemifield, so any V1.2 change is transfer through X[lat] or the V4 level, and is reported separately rather than counted toward propagation",
+   "fail": "WHOLE_SYSTEM_PROPAGATION_FAIL"
+  }
+ },
+ "acceptance": "exactly one primary verdict: WHOLE_SYSTEM_DIAGNOSTIC_PASS if every gate passes, else the earliest load-bearing failure in the declared order, else UNRESOLVED",
+ "pass_means": "no material failure was detected under these sealed first-diagnostic conditions. It does not mean the system is globally stable for arbitrary input",
+ "stop_condition": "observe the curve, report it, STOP. No tuning, no selection of a best g, no HDP, no delay change, and no adjustment of any coefficient after seeing a result.",
+ "artifacts_expected": [
+  "results/whole_system_authority_g050.json",
+  "results/whole_system_authority_g100.json",
+  "results/whole_system_authority_g200.json",
+  "results/whole_system_authority_g500.json",
+  "results/whole_system_authority_g050_y.npz",
+  "results/whole_system_authority_g100_y.npz",
+  "results/whole_system_authority_g200_y.npz",
+  "results/whole_system_authority_g500_y.npz"
+ ],
+ "enforced_after_construction": [
+  "intra-retinal edges removed and the count verified zero",
+  "retinal tonic zeroed and verified",
+  "the 24 cortical projection identities re-verified unchanged against the R4 receipt"
+ ],
+ "observability_limit": "configured tau = 2 ms; per-edge realized tau observability = unavailable",
+ "principal_delta": "long-range cortical coupling is specified as dimensionless transfer authority g and the per-edge weight is derived from it, replacing the inherited uniform weight 0.5. One delta: g_FF = g_FB = g_X = g, held equal so the bracket probes a single axis.",
+ "settle_adequacy": "the pre-stimulus slope over the final 1500 ms of the settle interval is reported so the adequacy of the 10 s settle is itself observable, using the same estimator and tolerance as the drift gate. It is reported, not gated.",
+ "relation_to_parent": "WS-DIAG-2 and WS-DIAG-3 are immutable evidence and are not rewritten. The burst phenotype stays sealed as a negative control. This lineage adds arms; it supersedes nothing.",
+ "coupling": {
+  "policy": "EQUAL_G",
+  "specification": "g_p,i = K_p,i / K_local,i, per receiving neuron",
+  "realization": "w_p,i = g_p * K_local,i / N_afferents,p,i",
+  "module": "jomission/tfne/o_authority.py",
+  "channels": "g_FF = g_FB = g_X = g; FF, FB and X stay distinct relations but share one value here",
+  "g_bracket": [
+   0.05,
+   0.1,
+   0.2,
+   0.5
+  ],
+  "g_meaning": "5, 10, 20 and 50 percent of local recurrent excitatory authority per long-range channel",
+  "ff_is_channel_level": "g_FF names the pooled L2.E->L4.E and L3.E->L4.E input a cell receives. The existing relative contribution of the two motifs is preserved rather than made a new degree of freedom; because both start at the same per-edge weight, preserving it means one weight per (channel, target).",
+  "why_not_per_edge_weight": "per-edge weight is the wrong primitive when convergence differs. At the inherited w = 0.5, ff onto L4.E was 35 afferents at V4_1/V4_2 but 70 at FEF/PFC, and fb onto L1.E was 28 at V1_1/V1_2 but 56 at V4_1/V4_2, so frontal cells carried exactly twice the authority of sensory cells from fan-in alone. EQUAL_G removes that.",
+  "derived_weights": {
+   "note": "w = g * K_local / N, with K_local = 0.8660. Predeclared so the realized values are checkable",
+   "ff_35": {
+    "0.05": 0.001237189304775329,
+    "0.1": 0.002474378609550658,
+    "0.2": 0.004948757219101316,
+    "0.5": 0.01237189304775329
+   },
+   "ff_70": {
+    "0.05": 0.0006185946523876645,
+    "0.1": 0.001237189304775329,
+    "0.2": 0.002474378609550658,
+    "0.5": 0.006185946523876645
+   },
+   "fb_28": {
+    "0.05": 0.0015464866309691614,
+    "0.1": 0.0030929732619383228,
+    "0.2": 0.0061859465238766455,
+    "0.5": 0.015464866309691612
+   },
+   "fb_56": {
+    "0.05": 0.0007732433154845807,
+    "0.1": 0.0015464866309691614,
+    "0.2": 0.0030929732619383228,
+    "0.5": 0.007732433154845806
+   },
+   "lat_20": {
+    "0.05": 0.002165081283356826,
+    "0.1": 0.004330162566713652,
+    "0.2": 0.008660325133427304,
+    "0.5": 0.021650812833568255
+   }
+  },
+  "realized_before": {
+   "ff": {
+    "post_layers": [
+     "L4"
+    ],
+    "source_motifs": [
+     "L2.E -> L4.E",
+     "L3.E -> L4.E"
+    ],
+    "w_realized": 0.5,
+    "n_target_cells": 56,
+    "convergence_uniform": false,
+    "convergence_classes": {
+     "35": {
+      "N_afferents": 35,
+      "n_target_cells": 28,
+      "target_areas": [
+       "V4_1",
+       "V4_2"
+      ],
+      "K_realized": 17.5,
+      "g_realized": 20.207093533305276
+     },
+     "70": {
+      "N_afferents": 70,
+      "n_target_cells": 28,
+      "target_areas": [
+       "FEF",
+       "PFC"
+      ],
+      "K_realized": 35.0,
+      "g_realized": 40.41418706661055
+     }
+    }
+   },
+   "fb": {
+    "post_layers": [
+     "L1"
+    ],
+    "source_motifs": [
+     "L6.E -> L1.E"
+    ],
+    "w_realized": 0.5,
+    "n_target_cells": 40,
+    "convergence_uniform": false,
+    "convergence_classes": {
+     "28": {
+      "N_afferents": 28,
+      "n_target_cells": 20,
+      "target_areas": [
+       "V1_1",
+       "V1_2"
+      ],
+      "K_realized": 14.0,
+      "g_realized": 16.16567482664422
+     },
+     "56": {
+      "N_afferents": 56,
+      "n_target_cells": 20,
+      "target_areas": [
+       "V4_1",
+       "V4_2"
+      ],
+      "K_realized": 28.0,
+      "g_realized": 32.33134965328844
+     }
+    }
+   },
+   "lat": {
+    "post_layers": [
+     "L3"
+    ],
+    "source_motifs": [
+     "L3.E -> L3.E"
+    ],
+    "w_realized": 0.5,
+    "n_target_cells": 120,
+    "convergence_uniform": true,
+    "convergence_classes": {
+     "20": {
+      "N_afferents": 20,
+      "n_target_cells": 120,
+      "target_areas": [
+       "FEF",
+       "PFC",
+       "V1_1",
+       "V1_2",
+       "V4_1",
+       "V4_2"
+      ],
+      "K_realized": 10.0,
+      "g_realized": 11.546910590460158
+     }
+    }
+   }
+  }
+ },
+ "preexecution_acceptance": {
+  "rule": "max_i |K_long,i / K_local,i - g| < eps",
+  "eps": 1e-06,
+  "evaluated": "before any simulation, on the float32 weights as stored, over every cell receiving long-range input",
+  "on_failure": "the arm raises and does not run. A wrong realization must not produce a result file",
+  "invariants_asserted": [
+   "exactly 7020 edges reweighted, the cross-area cortical count; 239824 untouched",
+   "every untouched weight bit-identical to the inherited edge list",
+   "delay, tau, receptor index, connectivity, drive and retinal edges unchanged"
+  ]
+ },
+ "delay": {
+  "status": "DELAY_UNQUALIFIED_FROZEN",
+  "value": "uniform 0 steps, inherited",
+  "reason": "delay is independently realizable (jaxfne supports delay_storage 'per_edge') but current evidence provides no justified value. It is frozen as an inherited baseline, NOT qualified as a biological value, so that coupling gain g and temporal coupling d are not calibrated on the same lineage. Reviewer 2026-09-18: do not invent one to repair the oscillator."
+ },
+ "predeclared_expectations": {
+  "note": "stated before execution so the bracket cannot be read as confirming whatever it produces",
+  "baseline_to_beat": "WS-DIAG-2, the matched HDP-off arm at the inherited weights, returned WHOLE_SYSTEM_SYNCHRONY_FAIL with four of six areas over the 3.0 CV tolerance and E rates pinned at integer values, the signature of a globally periodic burst.",
+  "if_authority_was_the_cause": "synchrony CV falls monotonically as g falls, and the integer-locked E rates break.",
+  "if_it_was_not": "synchrony persists at g = 0.05, where long-range input is 5 percent of local. That would exonerate coupling strength and point at local recurrence or intrinsic dynamics.",
+  "expected_far_end": "at small enough g the areas decouple and inter-area propagation fails for the opposite reason: no transmission rather than global welding. Both failures are informative and neither is repaired within this lineage.",
+  "no_best_g": "no arm is selected as correct here. Selecting one is a later decision informed by the curve."
+ },
+ "measure": [
+  "global synchrony",
+  "local rates",
+  "retinal attribution V1_1 versus V1_2",
+  "hierarchical propagation",
+  "finite / collapse / runaway",
+  "burst structure"
+ ],
+ "frozen_note": "identical to WS-DIAG-2 except the long-range weights, which this lineage specifies through g. Architecture, retina, stimulus, drive, seed, dt, durations, gates and tolerances are unchanged, and the four arms differ from each other only in g.",
+ "driver": {
+  "path": "scripts/whole_system_authority_arm.py",
+  "forked_from": "scripts/whole_system_diagnostic_3.py, a sealed artifact of WS-DIAG-3, rather than edited in place",
+  "additive_changes": [
+   "EQUAL_G realization between enforcement and compilation",
+   "pre-execution acceptance that raises instead of running",
+   "arm-tagged outputs so the four arms are separate artifacts",
+   "elapsed wall time"
+  ],
+  "one_process_per_arm": "the four arms run as four separate processes, one at a time"
+ }
+}

@@ -490,7 +490,14 @@ def main(g_auth, stimulus='on', seed=0, out=None, out_y=None, spec_name=DEFAULT_
      "population_rate_baseline_hz": round(float(window(rg["rate_hz"], SETTLE_MS - 1000.0, SETTLE_MS).mean()), 4),
      "population_rate_stimulus_hz": round(float(window(rg["rate_hz"], SETTLE_MS, SETTLE_MS + STIM_MS).mean()), 4),
      "population_rate_post_hz": round(float(window(rg["rate_hz"], SETTLE_MS + STIM_MS, TOTAL_MS).mean()), 4),
-     "implied_lit_unit_rate_hz": round(float(window(rg["rate_hz"], SETTLE_MS, SETTLE_MS + STIM_MS).mean()) / lit_share, 3),
+     # Undefined when nothing is lit: it divides the population rate by the lit share, and an OFF
+     # run lights nothing. Reported as absent rather than as a number, and never as zero.
+     "implied_lit_unit_rate_hz": (
+      round(float(window(rg["rate_hz"], SETTLE_MS, SETTLE_MS + STIM_MS).mean()) / lit_share, 3)
+      if lit_share > 0 else None),
+     "implied_lit_unit_rate_note": (
+      None if lit_share > 0 else
+      "undefined: no unit is lit in an OFF run, so there is no lit-unit rate to imply"),
      "note": ("the retina is silent absent stimulus by construction, so the whole population rate during "
               "stimulation is carried by the lit units alone")}
 

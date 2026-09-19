@@ -411,7 +411,14 @@
    "the legacy propagation field carries a NON_IDENTIFYING qualification inline, numbers unchanged",
    "outputs tagged by coupling, stimulus and seed so no cell can overwrite another"
   ],
-  "verified_before_sealing": "AST walk confirms none of g_auth, stimulus or seed is rebound inside main"
+  "verified_before_sealing": "AST walk confirms none of g_auth, stimulus or seed is rebound inside main",
+  "preexecution_repair": {
+   "what": "implied_lit_unit_rate_hz divided the retinal population rate by the lit-unit share, which is zero in an OFF run, so all three OFF cells raised ZeroDivisionError and wrote zero-byte files",
+   "when": "discovered on the first execution attempt, before any cell of this design produced a usable result",
+   "fix": "the field is reported as absent when nothing is lit, with a note saying it is undefined. It is never reported as zero",
+   "scope": "the ON code path is numerically identical: lit_share is positive there and the expression is unchanged",
+   "disposition": "all six cells are re-run under the repaired driver so no cell of the design executed different code from another. The three ON results from the failed attempt are discarded, not reused"
+  }
  },
  "serialization": {
   "decision": "reviewer 2026-09-19: series to the gitignored .npz",

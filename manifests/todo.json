@@ -1142,7 +1142,61 @@
    ],
    "downstream_unlock": [],
    "downstream_note": "blocks nothing and unlocks nothing; it prevents a repeat of the nonzero exit"
+  },
+  {
+   "id": "HD-PROPAGATION-OBSERVABLE",
+   "status": "BLOCKED",
+   "trigger": "WS-PROP-1 built the authorized causal estimator and it returned exactly 0.0 in all six areas, including V1_1 which the retina drives directly. The two-window spike count per E cell is exactly 21.000000 in every area, coupling, seed and stimulus condition, so a window-mean rate observable cannot see the stimulus at all",
+   "goal": "an observable for the propagation gate that is sensitive to the stimulus at V1_1",
+   "parent_authority": "BLOCKED on the reviewer. Selecting an observable after seeing that the declared one is degenerate is retuning, and NO_RETUNE_AFTER_RESULTS forbids the actor from choosing it",
+   "principal_delta": "the observable only. The contrast R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)] and the six matched cells stay exactly as sealed",
+   "required_inputs": [
+    "results/whole_system_causal_propagation.json",
+    "jomission/harness/propagation.py"
+   ],
+   "frozen": [
+    "jomission/harness/propagation.py is a sealed artifact (blob 19a0746b, sealed_in a447c63)",
+    "scripts/whole_system_causal_arm.py is sealed (blob 06f4a2a5, sealed_in 2a2f4d8)",
+    "the six WS-PROP-1 cells and their recorded numbers",
+    "no model parameter, drive, delay, HDP state or architecture value may change"
+   ],
+   "procedure": "the reviewer names the observable. The actor then computes it from the six already-recorded cells if the recorded series suffices, or seals a spec for a re-run if it does not, and reports R and the held-out floor on it without choosing any threshold",
+   "acceptance": "the paired ON minus OFF difference at V1_1 is non-zero at g = 0, and the held-out g = 0 replicate yields a non-degenerate floor. Without both, the gate is still not identifying",
+   "stop_condition": "one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment",
+   "artifacts_expected": [
+    "a successor to results/whole_system_causal_propagation.json"
+   ],
+   "downstream_unlock": [],
+   "downstream_note": "blocks any propagation claim about the hierarchy. It does not block the oscillator discriminator, which asks a different question"
+  },
+  {
+   "id": "SCI-WS-OSC-1",
+   "status": "OPEN",
+   "trigger": "WS-AUTH-2 showed six fully disconnected areas keep the same 190 ms period and the same correlation as the coupled system, so the period is generated inside one cortical object. The remaining candidates are local recurrent dynamics and intrinsic single-cell dynamics",
+   "goal": "answer x:CTX:y, does the 190 ms mode require local E-to-E recurrence, with two arms: SINGLE_AREA intact, and EE_CUT with local E-to-E weights set to zero and nothing else changed",
+   "parent_authority": "reviewer 2026-09-19: stop describing this as a global oscillator, it is parallel local oscillators with nearly identical frequency. The problem has moved from O and X back inside the definition of CTX[jomission_v0], and that must be answered before changing HDP, tonic drive, delays or any inter-area parameter",
+   "principal_delta": "local E-to-E weight set to zero in the EE_CUT arm. E-to-E is the minimal high-information intervention; all recurrence is NOT ablated",
+   "required_inputs": [
+    "results/whole_system_authority_g000.json",
+    "manifests/lineage_registry.json"
+   ],
+   "frozen": [
+    "tonic drive, cell parameters, E-I connectivity, HDP state and RNG semantics",
+    "delay at DELAY_UNQUALIFIED_FROZEN, uniform 0 steps",
+    "the retinal interface and the stimulus definition",
+    "everything WS-AUTH-2 froze"
+   ],
+   "procedure": "seal a pre-execution spec naming both arms, then run SINGLE_AREA and EE_CUT one process each, and report the burst period and its presence or absence in each. Report the interval, do not select a winner and do not tune",
+   "acceptance": "both arms complete and the period is measured in each by the same sealed estimator. The informative outcomes are stated before execution: the mode survives EE_CUT, which points at intrinsic single-cell dynamics; it does not survive, which points at local E-to-E recurrence; or it changes frequency, which is a quantitative dependence on recurrence",
+   "stop_condition": "two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, and no ablation of any recurrence beyond local E-to-E",
+   "artifacts_expected": [
+    "results/whole_system_oscillator_spec.json",
+    "results/whole_system_oscillator_single_area.json",
+    "results/whole_system_oscillator_ee_cut.json"
+   ],
+   "downstream_unlock": [],
+   "downstream_note": "unlocks nothing automatically. Its result determines where the next question is asked, inside the cell or inside the local circuit"
   }
  ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "SCI-WS-OSC-1"
 }

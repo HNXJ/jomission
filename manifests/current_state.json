@@ -1,6 +1,6 @@
 {
  "schema": "jomission.current_state.v1",
- "updated": "2026-09-18",
+ "updated": "2026-09-19",
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
@@ -125,11 +125,31 @@
    "claim": "transplanting the donor v and u pair into the low-PV base state is sufficient to recover the active-PV fate under the matched future stochastic stream (A_vu 15.055 Hz against a donor control of 15.110 Hz); neither v nor u alone is sufficient (A_v 0.303 Hz, A_u 0.107 Hz, base 0.707 Hz)",
    "not_established": "necessity and mechanism. The converse transplant was not run, and sufficiency of a joint configuration is not a mechanism",
    "authority": "reviewer 2026-09-18 disposition of SCI-V21-PV-M2"
+  },
+  "WHOLE_SYSTEM_PROPAGATION": {
+   "status": "UNRESOLVED",
+   "evidence": "results/whole_system_causal_propagation.json",
+   "scope": "gate",
+   "evidence_class": "OBSERVED",
+   "claim": "the causal estimator R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)] returns exactly 0.000000 in all six areas at g = 0.5, and its held-out null floor is also exactly 0.0 and degenerate. The ON minus OFF difference is exactly zero at V1_1 too, which the retina drives directly, so the observable has no sensitivity at the point of injection",
+   "established": "the observable, not the contrast, is the defect. The observable is a 1 s window mean of rate_hz, which equals spikes per E cell per second, and across all 36 area-cells the baseline plus stimulus total is exactly 21.000000. The 1 s count is quantized by the 190 ms burst cycle and invariant to the stimulus, which moves timing and not count",
+   "not_established": "whether the hierarchy transmits. Propagation at g = 0.5 is neither confirmed nor denied. A zero-threshold presence diagnostic shows the ON and OFF runs differ only inside V1_1 at g = 0 and in every area at g = 0.5, but no magnitude, latency or verdict is claimed from it",
+   "fail_boundary": "this lineage's own acceptance. The adversarial null is UNMET because a degenerate floor licenses no tolerance",
+   "authority": "reviewer 2026-09-19: harness repair first"
+  },
+  "WHOLE_SYSTEM_PROPAGATION_HISTORICAL": {
+   "status": "QUARANTINED",
+   "evidence": "results/whole_system_causal_propagation.json",
+   "scope": "component",
+   "component_of": "WHOLE_SYSTEM_PROPAGATION",
+   "claim": "the propagation field of all eight earlier whole-system results is NON_IDENTIFYING. Its recorded numbers are correct as measurements of what they measured and are NOT rewritten, and no verdict is retracted; what changes is what may be concluded from them",
+   "established": "the field measures how a conserved 21 spikes per E cell splits across a window boundary in a 190 ms burst cycle, which is why it took the same values in areas no signal could reach",
+   "authority": "reviewer 2026-09-19: add a qualification, do not alter historical result numbers"
   }
  },
  "open_scientific_question": "whole-system realization. The PV question is closed for now at PV_INTRINSIC_VU_PAIR_SUFFICIENT: the fate is carried by the joint intrinsic (v, u) configuration, with necessity and mechanism unestablished and no further PV experiment required before the whole-system checkpoint",
- "stopped_because": "WS-DIAG-3 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL with the intended HDP mechanism ON (jomission_authority_v3), matched to the WS-DIAG-2 baseline in every other respect. Every predeclared equilibrium was met and neither H bound was touched, so the verdict is readable as evidence about the architecture. Synchrony improved but did not clear: areas over the 3.0 tolerance fell from four to one, PFC 3.0372. Efficacy redistribution acted almost only on inhibition, because E sits at H = 1 where m(H) = 1 is neutral while silent PV and VIP reach m(7.43) = 1.76. Propagation still unattributable, now with the opposite sign: every area falls about 1 Hz during the stimulus, four of them exactly 11.0 -> 10.0, the signature of a globally periodic burst regime. Observe, localize, STOP: no stabilization or retuning in this lineage. Awaiting reviewer direction.",
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
+ "stopped_because": "WS-PROP-1 sealed PROPAGATION_OBSERVABLE_INSENSITIVE, status UNRESOLVED. The authorized causal estimator was built, tested against eight known-answer cases and run over six matched cells. It removes the confound WS-AUTH-2 exposed, but it returns exactly zero everywhere including V1_1, the directly driven area, because the observable it was specified over is a 1 s spike count that this architecture conserves at exactly 21 per E cell in every area and condition. The held-out null floor is likewise exactly zero, so no tolerance can be licensed and the lineage's adversarial acceptance is UNMET. The propagation field of all eight earlier whole-system results is qualified NON_IDENTIFYING additively, with no sealed artifact edited and no verdict retracted. An identifying observable must be sensitive to spike timing rather than to count in a window; choosing one after seeing the declared one is degenerate would be retuning, so none was chosen. Two things now await the reviewer: that observable choice, and whether the oscillator discriminator proceeds first as sequenced.",
+ "next_authorized_task": "SCI-WS-OSC-1",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

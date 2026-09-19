@@ -2013,6 +2013,152 @@
      "also": "arm_tag's docstring corrected, and the per-group series moved from the result JSON to the gitignored .npz per the reviewer's 2026-09-19 decision. The result file is 30 KB against 16.5 MB for each WS-AUTH-1 arm; the series values are unchanged"
     }
    ]
+  },
+  {
+   "lineage_id": "WS-PROP-1",
+   "parent": "WS-AUTH-2",
+   "principal_delta": "the propagation estimator. R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)] over four matched runs replaces the within-run window difference computed inside one run. No architecture, weight, drive, stimulus definition, duration or kernel changed. This lineage repairs a measuring instrument and asks no question about the model.",
+   "introduces_mechanism": false,
+   "preexecution_spec": {
+    "path": "results/whole_system_causal_spec.json",
+    "commit": "2a2f4d8"
+   },
+   "authority": "reviewer 2026-09-19: harness repair first. A disconnected FEF and PFC show the same apparent response, so the current estimator cannot identify transmission. Authorized paired ON/OFF runs at matched initial state and RNG, contrasted against the g = 0 control, with the adversarial invariant that g = 0 implies R_FEF = R_PFC = 0 within a declared tolerance.",
+   "inputs": [
+    "results/whole_system_authority_g000.json",
+    "results/whole_system_authority_g500.json"
+   ],
+   "frozen": [
+    "everything frozen in WS-AUTH-2. Architecture, tonic drive, cell parameters, connectivity, HDP off, DELAY_UNQUALIFIED_FROZEN at uniform 0 steps, retinal interface, 13 s duration",
+    "the stimulus definition. OFF lights no retinal unit and changes nothing else",
+    "ON and OFF of a pair share a seed and an initial state"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "all six cells ran one process each, 152.9 to 153.2 s, and each wrote a complete result with verdict WHOLE_SYSTEM_SYNCHRONY_FAIL as predeclared",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "the held-out null floor over V4_1, V4_2, FEF and PFC is max_abs 0.0 and rms 0.0 with is_degenerate true, and evaluate refused with ValueError rather than substituting a default tolerance",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "across all 36 area-cells the baseline plus stimulus window total is exactly 21.000000 spikes per E cell: six areas by six cells, both couplings, both seeds, ON and OFF, with no exception",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "the stimulus does act. At g = 0 the retinal receipt is 64 lit units, population 0.6875 Hz and an implied 11.0 Hz per lit unit against 0, 0.0 and undefined for OFF, and V1_1's synchrony CV moves 2.896 to 2.9326 and its drift slope -1.8038 to -1.7754 while its window counts do not move at all",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "zero-threshold presence diagnostic: at g = 0 the ON and OFF runs differ in 12 V1_1 groups and in no group of any other area, all 133 groups compared. At g = 0.5 they differ in every area",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "R = 0 is the true value of the declared estimator on these runs rather than a plumbing fault. The contrast is correct and its eight known-answer tests pass; the observable it was specified over is what fails",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "the observable is a 1000 ms window mean of rate_hz, and since rate_hz is spikes_in_bin / (n_cells * 1e-3) that mean in Hz is the spike count per E cell per second. The network is count-locked: the 1 s count is quantized by the 190 ms burst cycle and invariant to the stimulus, which moves spike timing and not spike count, so any window-mean rate estimator differences to zero",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "WS-AUTH-2's hypothesis that the legacy delta was burst-count sampling is confirmed and sharpened. The two-window count is not merely noisy, it is exactly conserved at 21 spikes per cell, so the legacy delta is entirely where the window boundary falls within the burst cycle and carries no stimulus information at all",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    },
+    {
+     "claim": "floating-point nondeterminism is excluded as the source of the g = 0.5 divergence. The same machinery at g = 0 produces bit-identical series in all 133 groups of the four unreachable areas, so a difference there at g = 0.5 requires the cut path",
+     "evidence_class": "DERIVED",
+     "receipt": "results/whole_system_causal_propagation.json"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "an identifying observable for this architecture must be sensitive to spike timing rather than to spike count in a window, because the count is conserved. Which observable to adopt is a reviewer decision: selecting one after seeing that the declared one is degenerate would be retuning, so none is adopted here",
+     "evidence_class": "INFERRED"
+    },
+    {
+     "claim": "the count-locking may itself be the same phenomenon as the synchrony failure, since a hard limit cycle firing a fixed number of spikes per cell per second would produce both. Nothing in this lineage tests that",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "PROPAGATION_OBSERVABLE_INSENSITIVE",
+    "status": "UNRESOLVED",
+    "status_note": "the causal contrast is built and tested and removes the confound WS-AUTH-2 exposed, but the observable it was specified over is invariant to the stimulus even in the directly driven area, so the repaired gate is still not identifying. This lineage's acceptance is UNMET. Propagation at g = 0.5 is neither confirmed nor denied"
+   },
+   "acceptance": "results/whole_system_causal_spec.json. The plumbing check is satisfied and was predeclared as a tautology. The adversarial null, the acceptance that carried the weight, is UNMET: the held-out floor is exactly 0.0 and degenerate, so no tolerance can be licensed from it. The old gate's numbers are preserved unchanged in every cell",
+   "fail_boundary": "the observable, not the contrast. The estimator would report transmission correctly on any observable that moves with the stimulus, which its known-answer tests demonstrate on synthetic rates. On this architecture's 1 s spike counts nothing moves",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_causal_spec.json",
+    "results/whole_system_causal_propagation.json",
+    "results/whole_system_causal_g500_on_s0.json",
+    "results/whole_system_causal_g500_off_s0.json",
+    "results/whole_system_causal_g000_on_s0.json",
+    "results/whole_system_causal_g000_off_s0.json",
+    "results/whole_system_causal_g000_on_s1.json",
+    "results/whole_system_causal_g000_off_s1.json"
+   ],
+   "artifact_note": "artifacts resolve against this record's own commit, so plain repository paths are correct here and must not be prefixed with a commit",
+   "tests": [
+    "tests/test_propagation_causal.py"
+   ],
+   "commit": "9e2372b",
+   "qualifies": [
+    {
+     "target": "the propagation field of every whole-system result predating this lineage",
+     "affected": [
+      "results/whole_system_diagnostic.json",
+      "results/whole_system_diagnostic_2.json",
+      "results/whole_system_diagnostic_3.json",
+      "results/whole_system_authority_g000.json",
+      "results/whole_system_authority_g050.json",
+      "results/whole_system_authority_g100.json",
+      "results/whole_system_authority_g200.json",
+      "results/whole_system_authority_g500.json"
+     ],
+     "label": "NON_IDENTIFYING",
+     "statement": "the within-run baseline-to-stimulus delta recorded in those files does not measure propagation. It is the split of a conserved 21 spikes per E cell across a window boundary in a 190 ms burst cycle, and it takes the same values in areas no signal can reach. Their recorded numbers are correct as measurements of what they measured and are NOT rewritten; what changes is what may be concluded from them",
+     "does_not_retract": "no verdict is retracted. Every affected lineage's verdict was led by the synchrony gate, and the propagation field was not the first load-bearing failure in any of them",
+     "method": "additive. No sealed artifact is edited",
+     "evidence": "results/whole_system_authority_g000.json reports FEF +0.7971 and PFC +0.8406 Hz at g = 0, where every long-range weight is exactly 0.0; results/whole_system_causal_propagation.json establishes the mechanism"
+    }
+   ],
+   "harness_changes": [
+    {
+     "what": "jomission/harness/propagation.py, the causal estimator",
+     "why": "the previous estimator compared two windows of one run, so anything common to those windows entered it unopposed. This one differences a matched ON/OFF pair and then differences that against the g = 0 pair. Eight known-answer tests on synthetic rates show it removes a planted common drift exactly and recovers a planted 0.35 Hz transmission only in the reached areas",
+     "also": "evaluate refuses a non-positive tolerance rather than defaulting, and noise_floor reports is_degenerate when it measured nothing. Both fired on this lineage's own data, which is how the degeneracy surfaced instead of being reported as a result"
+    },
+    {
+     "what": "scripts/whole_system_causal_arm.py, forked from the sealed v2 arm driver",
+     "why": "adds --stimulus off, which lights no retinal unit while every other input stays identical, and --seed, pinned at 0 in v2, so a held-out null replicate exists. Outputs are tagged by coupling, stimulus and seed so no cell can overwrite another",
+     "also": "the legacy within-run field still runs with its numbers unchanged and carries a NON_IDENTIFYING qualification inline. A pre-execution repair at 2a2f4d8 fixed a ZeroDivisionError in the implied lit-unit rate, which is undefined in an OFF run; all six cells were re-run under the repaired driver so no cell executed different code from another"
+    }
+   ]
   }
  ]
 }

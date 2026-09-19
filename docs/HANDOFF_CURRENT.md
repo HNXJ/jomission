@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: WS-DIAG-3 sealed WHOLE_SYSTEM_SYNCHRONY_FAIL with the intended HDP mechanism ON (jomission_authority_v3), matched to the WS-DIAG-2 baseline in every other respect. Every predeclared equilibrium was met and neither H bound was touched, so the verdict is readable as evidence about the architecture. Synchrony improved but did not clear: areas over the 3.0 tolerance fell from four to one, PFC 3.0372. Efficacy redistribution acted almost only on inhibition, because E sits at H = 1 where m(H) = 1 is neutral while silent PV and VIP reach m(7.43) = 1.76. Propagation still unattributable, now with the opposite sign: every area falls about 1 Hz during the stimulus, four of them exactly 11.0 -> 10.0, the signature of a globally periodic burst regime. Observe, localize, STOP: no stabilization or retuning in this lineage. Awaiting reviewer direction.
+- stopped because: WS-PROP-1 sealed PROPAGATION_OBSERVABLE_INSENSITIVE, status UNRESOLVED. The authorized causal estimator was built, tested against eight known-answer cases and run over six matched cells. It removes the confound WS-AUTH-2 exposed, but it returns exactly zero everywhere including V1_1, the directly driven area, because the observable it was specified over is a 1 s spike count that this architecture conserves at exactly 21 per E cell in every area and condition. The held-out null floor is likewise exactly zero, so no tolerance can be licensed and the lineage's adversarial acceptance is UNMET. The propagation field of all eight earlier whole-system results is qualified NON_IDENTIFYING additively, with no sealed artifact edited and no verdict retracted. An identifying observable must be sensitive to spike timing rather than to count in a window; choosing one after seeing the declared one is degenerate would be retuning, so none was chosen. Two things now await the reviewer: that observable choice, and whether the oscillator discriminator proceeds first as sequenced.
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -55,12 +55,11 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - V2.1_PV_M1_TRANSPLANT: **FAIL** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m1.json`
 - V2.1_PV_M2_PAIR_TRANSPLANT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
 - PV_INTRINSIC_VU_PAIR_SUFFICIENT: **PASS** (component of V2.1_COUPLED_BACKGROUND) — `results/v21_pv_m2.json`
+- WHOLE_SYSTEM_PROPAGATION: **UNRESOLVED** — `results/whole_system_causal_propagation.json`
+- WHOLE_SYSTEM_PROPAGATION_HISTORICAL: **QUARANTINED** (component of WHOLE_SYSTEM_PROPAGATION) — `results/whole_system_causal_propagation.json`
 
 ### Latest evidence (observed, with receipts)
 
-- WS-O-AUTHORITY-1: K_local, the summed local excitatory afferent weight per E cell, is 0.8660. The six layer-wise means span 0.8649 to 0.8683, a spread of 0.0022 — `d38e6cb:results/o_authority_parameterization.json`
-- WS-O-AUTHORITY-1: long-range afferents per receiving neuron, counted over all source areas: ff onto L4.E is 35 at V4_1 and V4_2 and 70 at FEF and PFC, over 56 target cells; fb onto L1.E is 28 at V1_1 and V1_2 and 56 at V4_1 and V4_2, over 40 target cells; lat onto L3.E is 20 at all six areas, over 120 target cells — `d38e6cb:results/o_authority_parameterization.json`
-- WS-O-AUTHORITY-1: at the frozen w = 0.5 the realized authorities are g_ff 20.21 and 40.41, g_fb 16.17 and 32.33, g_lat 11.55 — `d38e6cb:results/o_authority_parameterization.json`
 - WS-AUTH-1: every arm passed the pre-execution realization acceptance in-run: 216 cells checked, being 56 ff, 40 fb and 120 lat targets; max relative error of K_long over K_local minus g was 5.14e-08 at g = 0.05, 0.1 and 0.2 and 5.90e-08 at g = 0.5, measured on the stored float32 weights. 7020 edges reweighted, every other weight bit-identical — `9172036:results/whole_system_authority_bracket.json`
 - WS-AUTH-1: all four arms returned WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed in every arm; synchrony and propagation failed in every arm — `9172036:results/whole_system_authority_bracket.json`
 - WS-AUTH-1: mean synchrony CV over the final 1000 ms was 2.9375, 2.9487, 2.9513 and 2.9784 at g = 0.05, 0.1, 0.2 and 0.5, against 3.0510 at the inherited weights in WS-DIAG-2. Areas over the 3.0 tolerance fell from four to one at the three lower g and to two at g = 0.5 — `9172036:results/whole_system_authority_bracket.json`
@@ -73,11 +72,18 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WS-AUTH-2: mean synchrony CV over the final 1000 ms is 2.9161 with one area over the 3.0 tolerance, against 2.9375 and one area at g = 0.05. The verdict is WHOLE_SYSTEM_SYNCHRONY_FAIL. Execution, collapse, runaway and drift passed — `d5e8205:results/whole_system_authority_g000.json`
 - WS-AUTH-2: the propagation gate reports every area rising during the stimulus window, including FEF at +0.7971 Hz and PFC at +0.8406 Hz, although at g = 0 no current can reach them from V1 at all — `d5e8205:results/whole_system_authority_g000.json`
 - WS-AUTH-2: the retinal interface still works and is unaffected: lit units fire at 11.0 Hz and the population rate goes 0.0 to 0.6875 Hz, as in every previous arm — `d5e8205:results/whole_system_authority_g000.json`
+- WS-PROP-1: all six cells ran one process each, 152.9 to 153.2 s, and each wrote a complete result with verdict WHOLE_SYSTEM_SYNCHRONY_FAIL as predeclared — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1 — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: the held-out null floor over V4_1, V4_2, FEF and PFC is max_abs 0.0 and rms 0.0 with is_degenerate true, and evaluate refused with ValueError rather than substituting a default tolerance — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: across all 36 area-cells the baseline plus stimulus window total is exactly 21.000000 spikes per E cell: six areas by six cells, both couplings, both seeds, ON and OFF, with no exception — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: the stimulus does act. At g = 0 the retinal receipt is 64 lit units, population 0.6875 Hz and an implied 11.0 Hz per lit unit against 0, 0.0 and undefined for OFF, and V1_1's synchrony CV moves 2.896 to 2.9326 and its drift slope -1.8038 to -1.7754 while its window counts do not move at all — `9e2372b:results/whole_system_causal_propagation.json`
+- WS-PROP-1: zero-threshold presence diagnostic: at g = 0 the ON and OFF runs differ in 12 V1_1 groups and in no group of any other area, all 133 groups compared. At g = 0.5 they differ in every area — `9e2372b:results/whole_system_causal_propagation.json`
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `SCI-WS-OSC-1` (OPEN): answer x:CTX:y, does the 190 ms mode require local E-to-E recurrence, with two arms: SINGLE_AREA intact, and EE_CUT with local E-to-E weights set to zero and nothing else changed
+- stop: two arms, then STOP. No HDP change, no tonic change, no delay change, no inter-area parameter change, and no ablation of any recurrence beyond local E-to-E
 
 ### Locked gates
 

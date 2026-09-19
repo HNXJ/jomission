@@ -1756,6 +1756,26 @@
    "path": "results/whole_system_authority_g000.json",
    "blob": "be47bb1672e1115cca0bbd5d2a7362d42ed07ebd",
    "sealed_in": "d5e8205"
+  },
+  {
+   "path": "jomission/harness/propagation.py",
+   "blob": "19a0746b4f1a0764993bfd553dddf5a0c70fdcc1",
+   "sealed_in": "a447c63"
+  },
+  {
+   "path": "scripts/whole_system_causal_arm.py",
+   "blob": "06f4a2a543f0a74b861248ab9953e4adefabeb41",
+   "sealed_in": "2a2f4d8"
+  },
+  {
+   "path": "results/whole_system_causal_spec.json",
+   "blob": "9ecf8e685285550b7f3f711080730a67a79fea1b",
+   "sealed_in": "2a2f4d8"
+  },
+  {
+   "path": "results/whole_system_causal_propagation.json",
+   "blob": "39cbf1c6534770aec900e1b7173c2a70974e7b45",
+   "sealed_in": "dee0606"
   }
  ]
 }

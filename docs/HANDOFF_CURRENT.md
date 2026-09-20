@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19 and assessed CODE-JAX-OVERHAUL complete. Sequence: Tier-2 (foreground, owner-present; interruption is UNRUN), then SCI-EI-REGIME-1 exactly as declared, then the propagation lineage. The owner chose the trajectory-divergence observable (matched ON/OFF spike-time divergence with the g=0 causal null; V1.1 detectable, no downstream detection at g=0; no velocity predeclared). No other spec is written
+- stopped because: SCI-EI-REGIME-1 sealed EI_REGIME_UNRESOLVED_MULTIPLE and its stop_condition is reached: one arm, then STOP. Exact 1 ms rates are E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz; the predeclared rule fired on weak E->I weights jointly with non-canonical SST adaptation, and the weight-vs-adaptation interaction is unmeasured. Two reviewer questions are open: whether that interaction is worth its own lineage, and whether AGSDR calibration proceeds on this diagnosis. Next in the owner order is the propagation lineage with the chosen trajectory-divergence observable. No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -67,13 +67,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- WS-PROP-1: all six cells ran one process each, 152.9 to 153.2 s, and each wrote a complete result with verdict WHOLE_SYSTEM_SYNCHRONY_FAIL as predeclared — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1 — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: the held-out null floor over V4_1, V4_2, FEF and PFC is max_abs 0.0 and rms 0.0 with is_degenerate true, and evaluate refused with ValueError rather than substituting a default tolerance — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: across all 36 area-cells the baseline plus stimulus window total is exactly 21.000000 spikes per E cell: six areas by six cells, both couplings, both seeds, ON and OFF, with no exception — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: the stimulus does act. At g = 0 the retinal receipt is 64 lit units, population 0.6875 Hz and an implied 11.0 Hz per lit unit against 0, 0.0 and undefined for OFF, and V1_1's synchrony CV moves 2.896 to 2.9326 and its drift slope -1.8038 to -1.7754 while its window counts do not move at all — `9e2372b:results/whole_system_causal_propagation.json`
-- WS-PROP-1: zero-threshold presence diagnostic: at g = 0 the ON and OFF runs differ in 12 V1_1 groups and in no group of any other area, all 133 groups compared. At g = 0.5 they differ in every area — `9e2372b:results/whole_system_causal_propagation.json`
 - SCI-WS-OSC-1: the SINGLE_AREA arm ran one process, 156 s, and wrote a complete result with the whole-system gate evaluated in the sealed order, verdict WHOLE_SYSTEM_SYNCHRONY_FAIL from V4_2 at CV 3.0129 against a 3.0 threshold with the other five areas at 2.83 to 2.95 — `3b239c9:results/whole_system_oscillator_single_area.json`
 - SCI-WS-OSC-1: the EE_CUT arm ran one process, 157 s, and wrote a complete result with the same gate in the same order. Synchrony passes and the first load-bearing failure is propagation, the field WS-PROP-1 qualified NON_IDENTIFYING — `3b239c9:results/whole_system_oscillator_ee_cut.json`
 - SCI-WS-OSC-1: the EE_CUT arm realized the cut as specified: 113436 edges targeted, weight sum 526.727051 before and 0.0 after, max_abs_after 0.0, and 133408 edges untouched with weight sum 34.78334 — `3b239c9:results/whole_system_oscillator_ee_cut.json`
@@ -90,11 +83,22 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-WS-OSC-2: the population-rate estimator applied to the single cell reported a period of 378.0 ms, exactly four times its 94.5 ms interval, with peak autocorrelation 0.268523 against a null threshold of 0.220528 — `8f3ab6d:results/whole_system_isolated_1.json`
 - SCI-WS-OSC-2: the population rate of ISOLATED_POP did not flatten. The estimator still found a mode in all six areas at 93 to 95 ms with peak autocorrelation 0.580 to 0.663 against nulls near 0.102 — `8f3ab6d:results/whole_system_isolated_pop.json`
 - SCI-WS-OSC-2: the isolated final-window raster shows a smooth 0 to 33 Hz rate wave at about 95 ms with no discrete bursts, the same waveform SCI-WS-OSC-1's EE_CUT arm produced — `8f3ab6d:results/viz/SCI-WS-OSC-2/raster_final.png`
+- SCI-EI-REGIME-1: one intact arm completed 13000 ms at g = 0 in a single process; run-health gates execution, collapse and runaway pass; verdict EI_REGIME_UNRESOLVED_MULTIPLE in 155 s of execution — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: E full-run rate 10.6154 Hz at exact 1 ms bins against B1 band 5 to 8 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: PV full-run rate 0.0621 Hz at exact 1 ms bins against B1 band 12 to 25 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: SST full-run rate 50.1991 Hz at exact 1 ms bins against B1 band 6 to 12 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: VIP full-run rate 0.0466 Hz at exact 1 ms bins against B1 band 8 to 15 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: exact spike totals over the run: E 114264, PV 126, SST 66564, VIP 69 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: B1 comparison: all four classes out of band and the required E < PV ordering inverted — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: C2 readings: mean realized E->E 0.005488 exceeds E->PV 0.004644 and E->VIP 0.004638 — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: C3 readings: PV (a,b) exactly canonical fast-spiking, SST (a,b) 0.05/0.25 against canonical low-threshold 0.02/0.25, VIP reported with no canonical type — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: C4 readings: SST 50.2 Hz above the B1 top with early dominance, but the SST to PV/VIP weight sums do not both clear zero and PV/VIP net currents read +2.99 Hz-equivalent with positive tonic — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-EI-REGIME-1: V0 schematic and V1 initial raster rendered from this lineage's construction and viewed before the run; V2 final raster reuses V1's ordering and window; V3 atlas built with 5 of 6 panels (plasticity correctly UNAVAILABLE with no HDP run) — `28af326:results/whole_system_ei_regime_diagnosis.json`
 
 ### Next authorized task
 
-- `SCI-EI-REGIME-1` (OPEN): diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP
-- stop: diagnosis only. No parameter is changed and no rate is calibrated
+- `HD-PROPAGATION-OBSERVABLE` (OPEN): an observable for the propagation gate that is sensitive to the stimulus at V1_1
+- stop: one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment
 
 ### Locked gates
 

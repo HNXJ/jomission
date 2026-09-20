@@ -1388,9 +1388,9 @@
     "summary": "both arms, 0.16 and 0.53 percent from the intact 94.0 ms period with every synapse zeroed. Cross-check passed"
    }
   },
-  {
+   {
     "id": "SCI-EI-REGIME-1",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "while scoping the reviewer's AGSDR calibration question, the intact whole-system model was measured per class: E 10.93 Hz, PV 0.433 Hz, SST 51.28 Hz, VIP 0.446 Hz against B1 targets of 5-8, 12-25, 6-12 and 8-15. PV and VIP are 30 to 60 times below target, SST is 5 to 8 times above, and the required E < PV ordering is inverted",
     "goal": "diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP",
     "parent_authority": "owner 2026-09-19: diagnosis authorized with B1_CLASS_TARGETS ratified as project truth and the driver fork authorized under the HD-ARM-DRIVER-SHADOWED-G pattern (fork the sealed driver; the sealed original is never edited)",
@@ -1411,7 +1411,23 @@
     ],
     "downstream_unlock": [],
     "authorization": "owner 2026-09-19 in the closeout program: run after the harness closeout items; B1 ratification recorded in B1-CLASS-TARGETS-RATIFIED",
-    "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it"
+    "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it",
+    "delivered": {
+     "verdict": "EI_REGIME_UNRESOLVED_MULTIPLE",
+     "result": "results/whole_system_ei_regime_diagnosis.json",
+     "spec_commit": "2aea20e",
+     "result_commit": "28af326",
+     "summary": "per-class rates re-measured at exact 1 ms-binned spike counts: E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz with exact totals E 114264, PV 126, SST 66564, VIP 69. The full-resolution numbers move PV/VIP down ~7-10x from the decimated reading (0.433/0.446), confirming the subsampling caveat mattered for precision but not for the regime finding: all four classes remain out of band with E < PV inverted. The predeclared first-passing rule fired on two candidates: weak realized E->I weights (E->PV 0.004644 and E->VIP 0.004638 below E->E 0.005488) and non-canonical SST adaptation (a 0.05 against LTS 0.02; PV exactly canonical fast-spiking). Tonic reads negative because realized PV drive 5.99 clears the fresh PV rheobase 4.0. SST suppression reads negative on the anatomical path and the inhibition sign (PV/VIP net currents +2.99 with positive tonic), though SST is early-dominant. No single named cause: STOP for review. Correction to the pre-execution record: the noted realized E tonic 2.2354 was a retinal-inclusion artifact of the inspection snippet (1024 zero-drive retinal units carry cell_type E; 828 cortical E at 5.0 give exactly the noted mean); the run's cortical-only 5.0 is authoritative",
+     "receipts": [
+      "python scripts/whole_system_ei_regime_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus on --seed 0  (155 s, verdict EI_REGIME_UNRESOLVED_MULTIPLE)",
+      "V0/V1 rendered from the lineage construction and viewed before the run; V2 reuses V1 ordering/window; V3 atlas 5/6 panels",
+      "manifests/lineage_registry.json SCI-EI-REGIME-1 record with per-observation value checks"
+     ],
+     "reviewer_decisions_required": [
+      "whether the weight-vs-adaptation interaction the boundary names is worth its own lineage",
+      "whether the AGSDR calibration question proceeds on this UNRESOLVED diagnosis, and with which target regime"
+     ]
+    }
    },
    {
     "id": "B1-CLASS-TARGETS-RATIFIED",
@@ -1580,5 +1596,5 @@
      }
     }
   ],
- "next_authorized_task": "SCI-EI-REGIME-1"
+ "next_authorized_task": "HD-PROPAGATION-OBSERVABLE"
 }

@@ -1040,29 +1040,44 @@
    ],
    "executed": true,
    "observations": [
-     {
-      "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/v21_pv_m2.json",
-      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_CTRL/late_pv_hz", "expected": 0.707, "tol": 0.001}
-     },
-     {
-      "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/v21_pv_m2.json"
-     },
-     {
-      "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/v21_pv_m2.json",
-      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_vu/late_pv_hz", "expected": 15.055, "tol": 0.001}
-     },
-     {
-      "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/v21_pv_m2.json",
-      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_vs/late_pv_hz", "expected": 0.162, "tol": 0.001}
-     },
+    {
+     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json",
+     "check": {
+      "path": "results/v21_pv_m2.json",
+      "json_pointer": "/arms/A_CTRL/late_pv_hz",
+      "expected": 0.707,
+      "tol": 0.001
+     }
+    },
+    {
+     "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json"
+    },
+    {
+     "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json",
+     "check": {
+      "path": "results/v21_pv_m2.json",
+      "json_pointer": "/arms/A_vu/late_pv_hz",
+      "expected": 15.055,
+      "tol": 0.001
+     }
+    },
+    {
+     "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/v21_pv_m2.json",
+     "check": {
+      "path": "results/v21_pv_m2.json",
+      "json_pointer": "/arms/A_vs/late_pv_hz",
+      "expected": 0.162,
+      "tol": 0.001
+     }
+    },
     {
      "claim": "in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz",
      "evidence_class": "OBSERVED",
@@ -2043,18 +2058,28 @@
      "evidence_class": "OBSERVED",
      "receipt": "results/whole_system_causal_propagation.json"
     },
-     {
-      "claim": "R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/whole_system_causal_propagation.json",
-      "check": {"path": "results/whole_system_causal_propagation.json", "json_pointer": "/declared_estimator/R_hz/V1_1", "expected": 0.0, "tol": 0.0}
-     },
-     {
-      "claim": "the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/whole_system_causal_propagation.json",
-      "check": {"path": "results/whole_system_causal_propagation.json", "json_pointer": "/why_R_is_identically_zero/per_cell_windows/g500_on_s0/V1_1/two_window_total", "expected": 21.0, "tol": 0.0}
-     },
+    {
+     "claim": "R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json",
+     "check": {
+      "path": "results/whole_system_causal_propagation.json",
+      "json_pointer": "/declared_estimator/R_hz/V1_1",
+      "expected": 0.0,
+      "tol": 0.0
+     }
+    },
+    {
+     "claim": "the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_causal_propagation.json",
+     "check": {
+      "path": "results/whole_system_causal_propagation.json",
+      "json_pointer": "/why_R_is_identically_zero/per_cell_windows/g500_on_s0/V1_1/two_window_total",
+      "expected": 21.0,
+      "tol": 0.0
+     }
+    },
     {
      "claim": "the held-out null floor over V4_1, V4_2, FEF and PFC is max_abs 0.0 and rms 0.0 with is_degenerate true, and evaluate refused with ValueError rather than substituting a default tolerance",
      "evidence_class": "OBSERVED",
@@ -2384,12 +2409,17 @@
      "evidence_class": "OBSERVED",
      "receipt": "results/whole_system_isolated_pop.json"
     },
-     {
-      "claim": "the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone",
-      "evidence_class": "OBSERVED",
-      "receipt": "results/whole_system_isolated_pop.json",
-      "check": {"path": "results/whole_system_isolated_pop.json", "json_pointer": "/isi/final_window/pooled/mean_ms", "expected": 94.15, "tol": 0.05}
-     },
+    {
+     "claim": "the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_isolated_pop.json",
+     "check": {
+      "path": "results/whole_system_isolated_pop.json",
+      "json_pointer": "/isi/final_window/pooled/mean_ms",
+      "expected": 94.15,
+      "tol": 0.05
+     }
+    },
     {
      "claim": "the ISOLATED_1 arm compiled one neuron and zero edges at V1_1.L5.E with a 0.02, b 0.2, c -65, d 8, u0 -13, v0 -6.738214 and drive 5.0, each sliced from the intact construction, and its pooled interval over the final 1000 ms is 94.5 ms with standard deviation 1.2042 ms, CV 0.012742, implying 10.582 Hz",
      "evidence_class": "OBSERVED",
@@ -2496,6 +2526,184 @@
      "id": "HAZARD-DID-NOT-MATERIALIZE",
      "finding": "the population-rate flattening the spec predeclared did not occur. Per-cell periods agree to about 0.7 percent and stayed near-locked across 13000 ms, so the estimator still found the mode in every area",
      "action": "recorded as declared-and-did-not-bite, not as a correct prediction"
+    }
+   ]
+  },
+  {
+   "lineage_id": "SCI-EI-REGIME-1",
+   "parent": "SCI-WS-OSC-1",
+   "principal_delta": "none. A diagnosis, not an intervention: the intact SINGLE_AREA construction re-run with full 1 ms retention instead of decimated group means",
+   "preexecution_spec": {
+    "path": "results/whole_system_ei_regime_spec.json",
+    "commit": "2aea20e"
+   },
+   "authority": "owner 2026-09-19: SCI-EI-REGIME-1 authorized with B1_CLASS_TARGETS ratified as project truth and the driver fork authorized under the HD-ARM-DRIVER-SHADOWED-G pattern; prerequisite for the AGSDR per-class calibration question",
+   "inputs": [
+    "results/whole_system_oscillator_single_area.json",
+    "jomission/qualification/b1_targets.py",
+    "manifests/agsdr_local_objectives.json",
+    "results/battery_b1.json"
+   ],
+   "frozen": [
+    "the SCI-WS-OSC-1 SINGLE_AREA construction in every array: architecture, realizer, tonic drive, dt 0.1 ms, seed 0, kernel baseline with HDP off, 13000 ms duration, uniform 0-step delay, sealed retinal spot",
+    "no parameter changed and no rate calibrated"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "one intact arm completed 13000 ms at g = 0 in a single process; run-health gates execution, collapse and runaway pass; verdict EI_REGIME_UNRESOLVED_MULTIPLE in 155 s of execution",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json"
+    },
+    {
+     "claim": "E full-run rate 10.6154 Hz at exact 1 ms bins against B1 band 5 to 8",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/rates_full_resolution/E/full",
+      "expected": 10.6154,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "PV full-run rate 0.0621 Hz at exact 1 ms bins against B1 band 12 to 25",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/rates_full_resolution/PV/full",
+      "expected": 0.0621,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "SST full-run rate 50.1991 Hz at exact 1 ms bins against B1 band 6 to 12",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/rates_full_resolution/SST/full",
+      "expected": 50.1991,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "VIP full-run rate 0.0466 Hz at exact 1 ms bins against B1 band 8 to 15",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/rates_full_resolution/VIP/full",
+      "expected": 0.0466,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "exact spike totals over the run: E 114264, PV 126, SST 66564, VIP 69",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/exact_spike_totals/E",
+      "expected": 114264,
+      "tol": 0
+     }
+    },
+    {
+     "claim": "B1 comparison: all four classes out of band and the required E < PV ordering inverted",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json"
+    },
+    {
+     "claim": "C2 readings: mean realized E->E 0.005488 exceeds E->PV 0.004644 and E->VIP 0.004638",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/C2_weights/mean_E_to_E",
+      "expected": 0.005488,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "C3 readings: PV (a,b) exactly canonical fast-spiking, SST (a,b) 0.05/0.25 against canonical low-threshold 0.02/0.25, VIP reported with no canonical type",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json"
+    },
+    {
+     "claim": "C4 readings: SST 50.2 Hz above the B1 top with early dominance, but the SST to PV/VIP weight sums do not both clear zero and PV/VIP net currents read +2.99 Hz-equivalent with positive tonic",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json",
+     "check": {
+      "path": "results/whole_system_ei_regime_diagnosis.json",
+      "json_pointer": "/ei_regime/C4_suppression/pv_net_current",
+      "expected": 2.9938,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "V0 schematic and V1 initial raster rendered from this lineage's construction and viewed before the run; V2 final raster reuses V1's ordering and window; V3 atlas built with 5 of 6 panels (plasticity correctly UNAVAILABLE with no HDP run)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_regime_diagnosis.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the pre-execution construction note of realized E tonic 2.2354 was a retinal-inclusion artifact of the inspection snippet (1024 zero-drive retinal units carry cell_type E in the neuron table, 828 cortical E at 5.0 give exactly the noted mean); the run's cortical-only 5.0 over 828 cells is authoritative and the note is superseded, not deleted",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "EI_REGIME_UNRESOLVED_MULTIPLE",
+    "status": "UNRESOLVED",
+    "status_note": "the predeclared first-passing rule fired on two candidates: weak realized E->I weights (C2) and non-canonical SST adaptation (C3, a 0.05 against LTS 0.02). Tonic (C1) reads negative because realized PV drive 5.99 clears the fresh PV rheobase 4.0; SST suppression (C4) reads negative on the anatomical path and the inhibition sign. No mechanism is claimed; the deficit is attributed to no single named cause"
+   },
+   "acceptance": "results/whole_system_ei_regime_spec.json. Met. One arm completed with run-health passing; per-class rates measured at exact 1 ms-binned counts with totals; the predeclared rule classified C2+C3 supported and C1+C4 negative, which is the UNRESOLVED_MULTIPLE outcome the spec provides",
+   "fail_boundary": "several supported: C2 weak E->I authority jointly with C3 non-canonical SST (a,b); the boundary between them (whether weak drive and slow adaptation interact) is unmeasured by this diagnosis",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_ei_regime_spec.json",
+    "results/whole_system_ei_regime_diagnosis.json",
+    "results/viz/SCI-EI-REGIME-1/jaxfne_network_hspice.png",
+    "results/viz/SCI-EI-REGIME-1/raster_initial_1000ms.png",
+    "results/viz/SCI-EI-REGIME-1/raster_final.png",
+    "results/viz/SCI-EI-REGIME-1/atlas/index.html"
+   ],
+   "tests": [],
+   "commit": "28af326",
+   "visualization": {
+    "V0": "results/viz/SCI-EI-REGIME-1/jaxfne_network_hspice.png",
+    "V1": "results/viz/SCI-EI-REGIME-1/raster_initial_1000ms.png",
+    "V2": "results/viz/SCI-EI-REGIME-1/raster_final.png",
+    "V3": "results/viz/SCI-EI-REGIME-1/atlas/index.html"
+   },
+   "driver_provenance": {
+    "path": "scripts/whole_system_ei_regime_arm.py",
+    "blob_that_ran": "e6b804e",
+    "commit_that_ran": "c98c85d",
+    "blob_sealed_here": "424832f",
+    "difference": "kernel config read from the sealed spec frozen block instead of a top-level kernel block the spec does not carry, plus the copied 5 s scope text corrected to the 13 s diagnosis scope. No behavior change against the spec intent; construction, regime, retention and record identical"
+   },
+   "harness_changes": [
+    {
+     "what": "scripts/render_visualization_contract.py TITLE single-sourced to jomission.visualization.contract.TFNE_TITLE",
+     "why": "the renderer carried its own copy of the TFNE title with two deviations from the architecture labels (superscript 2 for ^2, bare FEF X PFC for FEF X[lat] PFC); the EI V0 was regenerated with the canonical title over the identical construction"
+    },
+    {
+     "what": "jomission.visualization.contract.TFNE_TITLE set to the architecture.py:6 expression",
+     "why": "same deviation at the source; the title now matches the realized labels exactly, verified against tests/test_whole_system_realization.py:47"
+    }
+   ],
+   "artifact_note": "the per-group 1 ms series lives in the gitignored .npz beside the result (39.8 MB), as from WS-AUTH-2 onward. V1 and V2 rasters come from --probe-ms runs of the sealed oscillator driver's identical construction (initial 1000 ms stimulus-off, final 1000 ms stimulus-on tail), because arm drivers record summaries rather than per-neuron spikes",
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "EI-REGIME-DIAGNOSIS",
+     "finding": "UNRESOLVED_MULTIPLE (C2+C3) is delivered as the verdict with the boundary stated; it routes the next question (weight-vs-adaptation interaction) without opening it"
     }
    ]
   }

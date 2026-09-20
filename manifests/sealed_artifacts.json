@@ -1856,6 +1856,21 @@
    "path": "results/whole_system_ei_regime_spec.json",
    "blob": "cb69faa5a1b7516ef2c0f266734e59387477f388",
    "sealed_in": "2aea20e"
+  },
+  {
+   "path": "results/whole_system_ei_regime_diagnosis.json",
+   "blob": "bec0ac208161a4a5a3cc1012296ac6181a7fa884",
+   "sealed_in": "28af326"
+  },
+  {
+   "path": "scripts/whole_system_ei_regime_arm.py",
+   "blob": "e6b804e9055734fa2a6b3b240b7dce1f4fd7bd30",
+   "sealed_in": "c98c85d"
+  },
+  {
+   "path": "results/viz/SCI-EI-REGIME-1/atlas/manifest.json",
+   "blob": "858250217880ff69e275d077648bc75eb757468a",
+   "sealed_in": "28af326"
   }
  ]
 }

@@ -229,7 +229,7 @@
  },
  "open_scientific_question": "what the local E-I circuit does, now that it is excluded as the generator of the 94 ms mode. That question is blocked in practice by INTERNEURON_RATE_REGIME: PV and VIP are near-silent at 0.43 and 0.45 Hz and SST is hyperactive at 51.28 Hz, so the E-I circuit is not in a regime where its contribution can be measured. Separately open and unmeasured: what makes the bursts discrete, which local E->E clearly shapes",
  "stopped_because": "SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The reviewer has raised an AGSDR-based per-class rate calibration; two of its prerequisites are open decisions for the reviewer, the ratification of the B1 targets and whether to break the one-spike-per-cycle regime, so no spec is written",
- "next_authorized_task": "HARNESS-SKILL-DOGFOOD",
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT",
  "locked_gates": [
   "V2.2_RECURRENCE",
   "V2_ACTIVE_BASIN",

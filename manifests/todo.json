@@ -570,7 +570,7 @@
   },
   {
    "id": "HARNESS-SKILL-DOGFOOD",
-   "status": "OPEN",
+   "status": "DONE",
    "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
    "goal": "Next scientific lineage uses jomission-gate-runner; improve the skill only from observed friction",
    "parent_authority": "reviewer: do not add more skills now",
@@ -587,7 +587,17 @@
    "artifacts_expected": [
     "manifests/harness/lessons.json"
    ],
-   "downstream_unlock": []
+   "downstream_unlock": [],
+   "delivered": {
+    "verdict": "PASS",
+    "result": "manifests/harness/lessons.json dogfood block",
+    "summary": "the acceptance artifact exists: the dogfood block logs per-step friction for SCI-V21C-BOUNDARY, 7 entries from inspect-authority through seal to startup, each naming the observed effect and its proposal. Receipts held up mechanically: the tier-guard gap the step-3 entry reports is closed (tests/test_v21c_intrinsic_design.py is tier 3 in manifests/test_tiers.json), and the skill carries the L1-derived repair (step 1 names the domain skills to load). Three entries propose skill wording (unmerged-parent handling, criteria source when no gate file applies, the three-commit pattern); the three-commit pattern is already step 9 of the skill, and the other two remain recorded in the block as proposals for reviewer disposition, since the task's stop condition reserves skill edits to logged friction and the reviewer decides persistence. The pointer returns to HARNESS-LINEAGE-RECEIPT, first in the checkpoint-1 unresolved-defect order and the item the step-4 entry's proposal names as the destination of its receipt requirement",
+    "receipts": [
+     "manifests/harness/lessons.json dogfood.block: 7 friction entries, lineage SCI-V21C-BOUNDARY",
+     "manifests/test_tiers.json: tests/test_v21c_intrinsic_design.py listed under tier 3",
+     "python scripts/project_check.py  (todo, current_state, skills and sealed-write-guard checks pass; tier-0 green)"
+    ]
+   }
   },
   {
    "id": "HD-WIN-FILELOCK",
@@ -1275,5 +1285,5 @@
    "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it"
   }
  ],
- "next_authorized_task": "HARNESS-SKILL-DOGFOOD"
+ "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

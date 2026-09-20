@@ -28,7 +28,7 @@ from jomission.harness import validate as V  # noqa: E402
 from jomission.visualization import contract as VC  # noqa: E402
 
 DEFAULT_DRIVER = "scripts/whole_system_causal_arm.py"
-TITLE = "x : {V1²X[lat]} O[fffb] {V4²X[lat]} O[fffb] {FEF X PFC} : y"
+TITLE = VC.TFNE_TITLE
 
 
 def load_driver(path: str):

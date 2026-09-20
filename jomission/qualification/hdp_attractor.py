@@ -27,6 +27,7 @@ import jax.numpy as jnp
 import numpy as np
 
 import jaxfne as jtfne
+from jomission.harness.drive import check_additive_schedule
 
 # --------------------------------------------------------------------------
 # MODEL_ASSUMPTION constants (initial values; provenance-tagged, not biology)
@@ -169,8 +170,35 @@ def class_rates(spikes, dt_ms, members):
     return out
 
 
-def run_segment(step_fn, state, drive):
-    """One continuation segment; returns (state, spikes, v)."""
+def _cls_array(members, n):
+    """Class-label array (n,) from members {class: indices}."""
+    cls = np.full(n, "?", dtype=object)
+    for c, idx in members.items():
+        ii = np.asarray(list(idx), dtype=int)
+        ii = ii[(ii >= 0) & (ii < n)]
+        cls[ii] = c
+    return cls
+
+
+def _guard_ctx(model, members, drive):
+    """Drive-guard context: executing tonic plus class labels for a schedule."""
+    em = model.params["emitter"]
+    return {
+        "emitter_drive": np.asarray(em.drive, dtype=float),
+        "cls": _cls_array(members, int(np.shape(drive)[-1])),
+    }
+
+
+def maybe_check_drive(emitter_drive, drive, cls):
+    """Drive-additivity guard for non-zero 2D schedules; zero drives pass through."""
+    sched = np.asarray(drive)
+    if sched.ndim == 2 and bool((sched != 0).any()):
+        check_additive_schedule(emitter_drive, sched, cls)
+
+
+def guarded_run_segment(step_fn, state, drive, *, emitter_drive, cls):
+    """run_segment with the drive-additivity guard on non-zero schedules."""
+    maybe_check_drive(emitter_drive, drive, cls)
     state, out = jtfne.run_continuation(step_fn, state, drive)
     jax.block_until_ready(out[0])
     return state, np.asarray(out[1]), np.asarray(out[0])
@@ -191,7 +219,9 @@ def reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, memb
     drive = jnp.full(
         (n_settle + n_meas, n_neurons), float(drive_amp), dtype=gm.params["emitter"].v0.dtype
     )
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     tail = spikes[n_settle:]
     rates = class_rates(tail, dt_ms, members)
     return rates["E"], rates["I"], rates, state
@@ -243,7 +273,9 @@ def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0, dt_ms
     hist = {"rE": [], "rI": [], "V": [], "V_rate": [], "e_B": [], "theta": [], "sub": []}
     reject = None
     for _ in range(n_seg):
-        state, spikes, v = run_segment(step_fn, state, drive)
+        state, spikes, v = guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
             reject = "nonfinite_state"
             break
@@ -409,7 +441,9 @@ def reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members,
     drive = jnp.full(
         (n_settle + n_meas, n_neurons), float(drive_amp), dtype=gm.params["emitter"].v0.dtype
     )
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     y = y_observables(spikes[n_settle:], members, wsums, dt_ms)
     return y, state
 
@@ -606,7 +640,9 @@ def closed_loop6(
     for s in range(n_seg):
         amp = float(drive_base + (drive_step if s in step_segs else 0.0))
         drive = jnp.full((n_steps, n_neurons), amp, dtype=dtype)
-        state, spikes, v = run_segment(step_fn, state, drive)
+        state, spikes, v = guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
             reject = "NUMERICAL"
             break
@@ -801,7 +837,9 @@ def closed_loop6_consol(
     for s in range(n_seg):
         amp = float(drive_base + sched[s])
         drive = jnp.full((n_steps, n_neurons), amp, dtype=dtype)
-        state, spikes, v = run_segment(step_fn, state, drive)
+        state, spikes, v = guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
             reject = "NUMERICAL"
             break
@@ -1017,10 +1055,11 @@ def eligibility_assay(
     def run_seg(extra):
         nonlocal state, step_fn, step
         drive = jnp.asarray(extra, dtype=dtype)
-        st, spikes, v = run_segment(
+        st, spikes, v = guarded_run_segment(
             step_fn,
             state,
             drive.reshape(1, -1).repeat(n_steps, axis=0) if extra.ndim == 1 else drive,
+            **_guard_ctx(gm, family_masks(gm)[1], drive),
         )
         step += 1
         return st, spikes, v
@@ -1206,7 +1245,9 @@ def consolidation_allocation_assay(
     def seg_run(extra):
         nonlocal state, step_fn
         drive = jnp.asarray(extra, dtype=dtype).reshape(1, -1).repeat(n_steps, axis=0)
-        return run_segment(step_fn, state, drive)
+        return guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
 
     def rebuild():
         nonlocal step_fn
@@ -1599,7 +1640,9 @@ def module_impulse_response(
             np.tile(extra, (n_settle + n_steps_pulse + n_tail, 1)),
             dtype=gm.params["emitter"].v0.dtype,
         )
-        state, spikes, _ = run_segment(step_fn, state, drive)
+        state, spikes, _ = guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
         outs[tag] = np.asarray(spikes, dtype=float)
     win = slice(n_settle, n_settle + 1000)  # first 100ms of pulse
     dR = (outs["pulse"][win].mean(axis=0) - outs["base"][win].mean(axis=0)) * (1000.0 / dt_ms)
@@ -1975,7 +2018,9 @@ def settle_rates(
     state = initial_state(gm, seed)
     nN = int(gm.params["emitter"].n_neurons)
     drive = jnp.full((n_settle + n_meas, nN), float(drive_amp), dtype=gm.params["emitter"].v0.dtype)
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     tail = np.asarray(spikes)[n_settle:]
     rates = class_rates(tail, dt_ms, members)
     return rates, tail, state
@@ -2029,7 +2074,9 @@ def probe_response(
             jnp.zeros((n_tail, nN), dtype=dt),
         ]
     )
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     sp = np.asarray(spikes, dtype=float)
     b = int(round(bin_ms / dt_ms))
     base = sp[n_set - 2000 : n_set].mean() * (1000.0 / dt_ms)
@@ -2090,7 +2137,9 @@ def continuation_point(
     state = initial_state(gm, seed)
     nN = int(gm.params["emitter"].n_neurons)
     drive = jnp.zeros((n_settle + n_meas, nN), dtype=gm.params["emitter"].v0.dtype)
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     sp = np.asarray(spikes)
     tail = sp[n_settle:]
     rates = class_rates(tail, dt_ms, members)
@@ -2188,7 +2237,9 @@ def kick_release_map(
         drive = jnp.concatenate(
             [jnp.full((n_pre, nN), float(amp), dtype=dtype), jnp.zeros((n_rel, nN), dtype=dtype)]
         )
-        state, spikes, _ = run_segment(step_fn, state, drive)
+        state, spikes, _ = guarded_run_segment(
+            step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+        )
         sp = np.asarray(spikes, dtype=float)
         r_pre = sp[n_pre - n_win : n_pre].mean(axis=0) * (1000.0 / dt_ms)
         r_post = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
@@ -2229,7 +2280,9 @@ def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0, win_ms=200.
     n_pre = int(round(float(pre_ms) / float(dt_ms)))
     n_win = int(round(float(win_ms) / float(dt_ms)))
     drive = jnp.full((n_pre, nN), float(amp), dtype=dtype)
-    state, spikes, _ = run_segment(step_fn, state, drive)
+    state, spikes, _ = guarded_run_segment(
+        step_fn, state, drive, **_guard_ctx(gm, family_masks(gm)[1], drive)
+    )
     sp = np.asarray(spikes, dtype=float)
     masks, members = family_masks(gm)
     E_idx = np.asarray(members["E"])
@@ -2262,7 +2315,13 @@ def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT, win_m
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
     n_win = int(round(float(win_ms) / float(dt_ms)))
     drive = jnp.zeros((n_rel, nN), dtype=dtype)
-    state, spikes, _ = run_segment(step_fn, prep["state"], drive)
+    guard_model = prep["model"] if model_variant is None else model_variant
+    state, spikes, _ = guarded_run_segment(
+        step_fn,
+        prep["state"],
+        drive,
+        **_guard_ctx(guard_model, family_masks(guard_model)[1], drive),
+    )
     sp = np.asarray(spikes, dtype=float)
     E_idx = np.asarray(members["E"])
     I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
@@ -2301,6 +2360,7 @@ def release_audit(
     drive = jnp.concatenate(
         [jnp.full((n_pre, nN), float(amp), dtype=dtype), jnp.zeros((n_rel, nN), dtype=dtype)]
     )
+    maybe_check_drive(drive=drive, **_guard_ctx(gm, family_masks(gm)[1], drive))
     state, out = jtfne.run_continuation(step_fn, state, drive)
     import jax
 
@@ -2375,7 +2435,9 @@ def u_replace_fork(
     n_win = int(round(200.0 / float(dt_ms)))
     state = initial_state(gm, seed)
     pre_drive = jnp.full((n_pre, nN), float(amp), dtype=dtype)
-    state, _, _ = run_segment(step_fn, state, pre_drive)
+    state, _, _ = guarded_run_segment(
+        step_fn, state, pre_drive, **_guard_ctx(gm, family_masks(gm)[1], pre_drive)
+    )
     # release microstate captured; fork two continuations
     results = {}
     for tag in ("orig", "replaced"):
@@ -2392,7 +2454,12 @@ def u_replace_fork(
             st = st._replace(
                 dynamic=st.dynamic._replace(u=jnp.asarray(u, dtype=st.dynamic.u.dtype))
             )
-        st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
+        st, sp, _ = guarded_run_segment(
+            step_fn,
+            st,
+            jnp.zeros((n_rel, nN), dtype=dtype),
+            **_guard_ctx(gm, family_masks(gm)[1], jnp.zeros((n_rel, nN), dtype=dtype)),
+        )
         sp = np.asarray(sp, dtype=float)
         results[tag] = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
     results["dR_E"] = results["replaced"] - results["orig"]
@@ -2413,7 +2480,12 @@ def release_prep(model_q0, amp=6.0, pre_ms=500.0, dt_ms=DT_MS_DEFAULT, seed=0):
     nN = int(gm.params["emitter"].n_neurons)
     dtype = gm.params["emitter"].v0.dtype
     n_pre = int(round(float(pre_ms) / float(dt_ms)))
-    state, sp_pre, _ = run_segment(step_fn, state, jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    state, sp_pre, _ = guarded_run_segment(
+        step_fn,
+        state,
+        jnp.full((n_pre, nN), float(amp), dtype=dtype),
+        **_guard_ctx(gm, family_masks(gm)[1], jnp.full((n_pre, nN), float(amp), dtype=dtype)),
+    )
     masks, members = family_masks(gm)
     E_idx = np.asarray(members["E"])
     I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
@@ -2456,7 +2528,12 @@ def clamp_curve(
         extra = np.zeros(nN)
         extra[tgt] = float(I)
         drive = jnp.asarray(np.tile(extra, (n_rel, 1)), dtype=dtype)
-        _, sp, _ = run_segment(prep["step_fn"], prep["state"], drive)
+        _, sp, _ = guarded_run_segment(
+            prep["step_fn"],
+            prep["state"],
+            drive,
+            **_guard_ctx(prep["model"], family_masks(prep["model"])[1], drive),
+        )
         sp = np.asarray(sp, dtype=float)
         r_end = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
         rows.append({"I": float(I), "rE_end": r_end})
@@ -2506,7 +2583,14 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
     n_win = int(round(float(win_ms) / float(dt_ms)))
     # A: reference release, record spikes for waveform extraction
-    _, spA, _ = run_segment(prep["step_fn"], prep["state"], jnp.zeros((n_rel, nN), dtype=dtype))
+    _, spA, _ = guarded_run_segment(
+        prep["step_fn"],
+        prep["state"],
+        jnp.zeros((n_rel, nN), dtype=dtype),
+        **_guard_ctx(
+            prep["model"], family_masks(prep["model"])[1], jnp.zeros((n_rel, nN), dtype=dtype)
+        ),
+    )
     spA = np.asarray(spA, dtype=float)
     Irec = per_neuron_Irec(spA, gm, dt_ms)
     # C: REC_OFF model, inject recorded waveforms as drive
@@ -2526,7 +2610,12 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
         },
     )
     step_off, _ = _compile_step_fn(gm_off, dt_ms)
-    _, spC, _ = run_segment(step_off, prep["state"], jnp.asarray(Irec[:n_rel], dtype=dtype))
+    _, spC, _ = guarded_run_segment(
+        step_off,
+        prep["state"],
+        jnp.asarray(Irec[:n_rel], dtype=dtype),
+        **_guard_ctx(gm_off, family_masks(gm_off)[1], jnp.asarray(Irec[:n_rel], dtype=dtype)),
+    )
     spC = np.asarray(spC, dtype=float)
     b = max(1, n_rel // 20)
     rA = spA[:, E_idx].mean(axis=1).reshape(-1) * (1000.0 / dt_ms)
@@ -2635,6 +2724,7 @@ def kernel_map(
             d = np.zeros(nN)
             d[0] = float(dv)
             drive = jnp.asarray(np.tile(d, (n_steps, 1)), dtype=dtype)
+            maybe_check_drive(drive=drive, **_guard_ctx(mg, family_masks(mg)[1], drive))
             state, out = jtfne.run_continuation(step_fn, state, drive)
             import jax
 
@@ -2726,7 +2816,12 @@ def intrinsic_forks(
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
     n_win = int(round(200.0 / float(dt_ms)))
     state = initial_state(gm, seed)
-    state, _, _ = run_segment(step_fn, state, jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    state, _, _ = guarded_run_segment(
+        step_fn,
+        state,
+        jnp.full((n_pre, nN), float(amp), dtype=dtype),
+        **_guard_ctx(gm, family_masks(gm)[1], jnp.full((n_pre, nN), float(amp), dtype=dtype)),
+    )
     e = gm.params["emitter"]
     out = {}
     for tag in variants:
@@ -2762,7 +2857,12 @@ def intrinsic_forks(
             )
         elif tag != "full":
             raise ValueError(tag)
-        st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
+        st, sp, _ = guarded_run_segment(
+            step_fn,
+            st,
+            jnp.zeros((n_rel, nN), dtype=dtype),
+            **_guard_ctx(gm, family_masks(gm)[1], jnp.zeros((n_rel, nN), dtype=dtype)),
+        )
         sp = np.asarray(sp, dtype=float)
         tail = sp[-n_win:]
         out[tag] = {

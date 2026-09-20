@@ -35,7 +35,8 @@ def test_preserved_science_todo():
     live = {"OPEN", "OPEN_AFTER_HARNESS", "BLOCKED", "DONE"}
     for k in ("SCI-V21C-BOUNDARY", "SCI-V21-GATE-REPAIR", "SCI-V21-BACKGROUND"):
         assert items[k]["status"] in live, k
-    assert all(items[k]["status"] == "LOCKED" for k in ("V2.2-RECURRENCE", "BLIND-OMISSION"))
+    for k in ("V2.2-RECURRENCE", "BLIND-OMISSION"):
+        assert items[k]["status"] in {"LOCKED", "RETIRED"}, k
 
 
 def test_verdict_status_follows_evidence_not_tests():

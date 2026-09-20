@@ -1,0 +1,82 @@
+{
+  "suite": "jaxfne_suite_atlas.v1",
+  "title": "SCI-EI-REGIME-1 V3 atlas \u2014 intact E-I regime construction (g = 0)",
+  "out_dir": "E:\\repos\\jomission\\results\\viz\\SCI-EI-REGIME-1\\atlas",
+  "n_neurons": 2224,
+  "n_edges": 246844,
+  "areas": [
+    "FEF",
+    "PFC",
+    "Retina",
+    "V1_1",
+    "V1_2",
+    "V4_1",
+    "V4_2"
+  ],
+  "layers": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6"
+  ],
+  "classes": [
+    "E",
+    "PV",
+    "SST",
+    "VIP"
+  ],
+  "dt_ms": 0.1,
+  "seed": 0,
+  "panels": [
+    {
+      "file": "network_3d.html",
+      "key": "network_3d",
+      "panel": "Network 3D",
+      "evidence": "OBSERVED",
+      "status": "AVAILABLE",
+      "bytes": 408480
+    },
+    {
+      "file": "raster.html",
+      "key": "raster",
+      "panel": "Raster & population rate",
+      "evidence": "OBSERVED",
+      "status": "AVAILABLE",
+      "bytes": 198060
+    },
+    {
+      "file": "membrane.html",
+      "key": "membrane",
+      "panel": "Membrane potential",
+      "evidence": "OBSERVED",
+      "status": "AVAILABLE",
+      "bytes": 1761351
+    },
+    {
+      "file": "field.html",
+      "key": "field",
+      "panel": "LFP & CSD",
+      "evidence": "DERIVED",
+      "status": "AVAILABLE",
+      "bytes": 3324497
+    },
+    {
+      "file": "connectivity.html",
+      "key": "connectivity",
+      "panel": "Connectivity",
+      "evidence": "OBSERVED",
+      "status": "AVAILABLE",
+      "bytes": 12709
+    },
+    {
+      "file": "plasticity.html",
+      "key": "plasticity",
+      "panel": "Plasticity",
+      "evidence": "OBSERVED",
+      "status": "UNAVAILABLE",
+      "bytes": 8434
+    }
+  ]
+}

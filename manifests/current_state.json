@@ -229,7 +229,7 @@
  },
  "open_scientific_question": "whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime: the 2x2 factorial W_EI {current, parity-with-EE} by SST_a {current 0.05, canonical 0.02}, measuring r_E/PV/SST/VIP plus synchrony and the 94-95 ms mode, decomposed into ΔW, ΔA and ΔWxA",
  "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. No spec beyond the interaction lineage is written",
- "next_authorized_task": "HD-PROPAGATION-OBSERVABLE",
+ "next_authorized_task": "SCI-EI-INTERACTION-1",
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

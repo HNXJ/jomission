@@ -314,9 +314,9 @@
     "analytic_regeneration": "results/v21_background_design_r2.json (BKG_DESIGN_UNRESOLVED)"
    }
   },
-  {
-   "id": "SCI-V21-COUPLED-BACKGROUND",
-   "status": "BLOCKED",
+   {
+    "id": "SCI-V21-COUPLED-BACKGROUND",
+    "status": "RETIRED",
    "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
    "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
    "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
@@ -359,12 +359,17 @@
      "successor": "SCI-V21-PV-STATIONARITY"
     },
     "final_disposition": {
-     "date": "2026-09-17",
-     "status": "UNRESOLVED",
-     "blocked_by": "PV history dependence at lambda 0.65625 (SCI-V21-PV-STATIONARITY: PV_NONSTATIONARY)"
+      "date": "2026-09-17",
+      "status": "UNRESOLVED",
+      "blocked_by": "PV history dependence at lambda 0.65625 (SCI-V21-PV-STATIONARITY: PV_NONSTATIONARY)"
+     },
+    "lift_and_retirement": {
+     "date": "2026-09-19",
+     "lift": "the recorded lift condition is met: the M0/M1/M2 transplant line explains the mechanism producing PV state dependence (results/v21_pv_m0_r2.json: only v, u, syn_state differ between the fate-carrying initial states; results/v21_pv_m1.json and results/v21_pv_m2.json: the fate is carried by the joint (v,u) intrinsic configuration, single blocks and the PV-incoming synaptic state insufficient). The block reason PV_NONSTATIONARY is therefore attributed, not open",
+     "retired_by": "owner 2026-09-19 (closeout program): with the block lifted and the V2 background chain retired, the coupled-background question closes by attribution; no interior-lambda qualification is run"
     }
-   }
-  },
+    }
+   },
   {
    "id": "SCI-V21-PV-STATIONARITY",
    "status": "DONE",
@@ -639,137 +644,144 @@
    "artifacts_expected": [],
    "downstream_unlock": []
   },
-  {
-   "id": "V2.2-RECURRENCE",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "functional local recurrence (REC ON vs matched REC OFF)",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "recurrence architecture",
-   "required_inputs": [
-    "V2_LOCAL_OPERATION PASS"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec acceptance_sketches.recurrence",
-   "stop_condition": "locked until V2_LOCAL_OPERATION PASS and review",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2-ACTIVE-BASIN"
-   ]
-  },
-  {
-   "id": "V2-ACTIVE-BASIN",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "zero-tonic active basin",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "V2.2-RECURRENCE DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec acceptance_sketches.basin",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2-PROPAGATION"
-   ]
-  },
-  {
-   "id": "V2-PROPAGATION",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "propagation requalification",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "V2-ACTIVE-BASIN DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec acceptance_sketches.communication",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2-RESPONSE-TIMESCALE"
-   ]
-  },
-  {
-   "id": "V2-RESPONSE-TIMESCALE",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "recurrent response timescale T_R",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "V2-PROPAGATION DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2-HIERARCHY"
-   ]
-  },
-  {
-   "id": "V2-HIERARCHY",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "functional hierarchy",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "V2-RESPONSE-TIMESCALE DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "GEN2-FREEZE"
-   ]
-  },
-  {
-   "id": "GEN2-FREEZE",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "Gen-2 substrate freeze",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "V2-HIERARCHY DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "BLIND-OMISSION"
-   ]
-  },
-  {
-   "id": "BLIND-OMISSION",
-   "status": "LOCKED",
-   "trigger": "V2 sequence",
-   "goal": "blind omission test on frozen Gen-2 (omission firewall)",
-   "parent_authority": "results/generic_substrate_v2_spec.json",
-   "principal_delta": "none yet",
-   "required_inputs": [
-    "GEN2-FREEZE DONE"
-   ],
-   "frozen": [],
-   "procedure": "not authorized",
-   "acceptance": "spec",
-   "stop_condition": "locked",
-   "artifacts_expected": [],
-   "downstream_unlock": []
-  },
+   {
+    "id": "V2.2-RECURRENCE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "functional local recurrence (REC ON vs matched REC OFF)",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "recurrence architecture",
+    "required_inputs": [
+     "V2_LOCAL_OPERATION PASS"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.recurrence",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-ACTIVE-BASIN"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19: the chain's prerequisite gate V2_LOCAL_OPERATION is sealed FAIL (results/v21_lineage.json, results/v21b_lineage.json) and the questions this chain would have asked moved to the whole-system program (WS-AUTH/WS-PROP/WS-OSC lineages). A revived Gen-2 program would be a new reviewer-authorized lineage, not this item"
+   },
+   {
+    "id": "V2-ACTIVE-BASIN",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "zero-tonic active basin",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2.2-RECURRENCE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.basin",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-PROPAGATION"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2.2-RECURRENCE; see that item's reason"
+   },
+   {
+    "id": "V2-PROPAGATION",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "propagation requalification",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-ACTIVE-BASIN DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.communication",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-RESPONSE-TIMESCALE"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-ACTIVE-BASIN; the propagation question lives on as HD-PROPAGATION-OBSERVABLE, not as this requalification"
+   },
+   {
+    "id": "V2-RESPONSE-TIMESCALE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "recurrent response timescale T_R",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-PROPAGATION DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-HIERARCHY"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-PROPAGATION; see that item's reason"
+   },
+   {
+    "id": "V2-HIERARCHY",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "functional hierarchy",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-RESPONSE-TIMESCALE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "GEN2-FREEZE"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-RESPONSE-TIMESCALE; see that item's reason"
+   },
+   {
+    "id": "GEN2-FREEZE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "Gen-2 substrate freeze",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-HIERARCHY DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "BLIND-OMISSION"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-HIERARCHY; no Gen-2 freeze happens under this program"
+   },
+   {
+    "id": "BLIND-OMISSION",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "blind omission test on frozen Gen-2 (omission firewall)",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "GEN2-FREEZE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [],
+    "retired_because": "owner closeout directive 2026-09-19: the omission firewall's precondition (a frozen Gen-2 substrate) will not be built under this program. No sealed result is weakened by this retirement; any future blind omission test is a new reviewer-authorized lineage with its own freeze"
+   },
   {
    "id": "SCI-V21",
    "status": "DONE",
@@ -1176,9 +1188,33 @@
    "artifacts_expected": [
     "a successor to results/whole_system_causal_propagation.json"
    ],
-   "downstream_unlock": [],
-   "downstream_note": "blocks any propagation claim about the hierarchy. It does not block the oscillator discriminator, which asks a different question"
-  },
+    "downstream_unlock": [],
+    "downstream_note": "blocks any propagation claim about the hierarchy. It does not block the oscillator discriminator, which asks a different question",
+    "proposals": {
+     "date": "2026-09-19",
+     "by": "actor, for the reviewer to pick exactly one; the actor may not choose",
+     "candidates": [
+      {
+       "id": "OBS-FIRST-SPIKE-LATENCY",
+       "definition": "per matched cell, the first-spike time after retinal stimulus onset; contrast R_A(g) = [lat_on(g) - lat_off(g)] - [lat_on(0) - lat_off(0)]",
+       "sensitivity": "spike-timing-based; insensitive to the exactly conserved 21-spike window count; the classical propagation signature",
+       "data": "needs per-cell spike times around onset; recorded-series sufficiency checked at execution, otherwise a sealed re-run spec"
+      },
+      {
+       "id": "OBS-SPIKE-TIMING-XCORR",
+       "definition": "peak lag of the stimulus-locked spike-timing cross-correlogram between the driving channel and V1_1; contrast on the lag shift, ON vs OFF against g = 0",
+       "sensitivity": "captures sub-window timing structure including the 94 ms carrier; more estimators than OBS-FIRST-SPIKE-LATENCY",
+       "data": "needs per-cell spike series for the driving channel and V1_1; same sufficiency check"
+      },
+      {
+       "id": "OBS-CARRIER-PHASE",
+       "definition": "mean phase of post-onset spikes at V1_1 relative to the sealed 94 ms intrinsic cycle (SCI-WS-OSC-2); contrast on phase, ON vs OFF",
+       "sensitivity": "uses the confirmed intrinsic generator as the carrier, so it reads how the stimulus perturbs the oscillator rather than raw timing",
+       "data": "needs per-cell spike series; the carrier period is already sealed"
+      }
+     ]
+    }
+   },
   {
    "id": "SCI-WS-OSC-1",
    "status": "DONE",
@@ -1260,30 +1296,158 @@
    }
   },
   {
-   "id": "SCI-EI-REGIME-1",
-   "status": "BLOCKED",
-   "trigger": "while scoping the reviewer's AGSDR calibration question, the intact whole-system model was measured per class: E 10.93 Hz, PV 0.433 Hz, SST 51.28 Hz, VIP 0.446 Hz against B1 targets of 5-8, 12-25, 6-12 and 8-15. PV and VIP are 30 to 60 times below target, SST is 5 to 8 times above, and the required E < PV ordering is inverted",
-   "goal": "diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP",
-   "parent_authority": "none yet. Raised by the Actor as a finding. The reviewer's AGSDR question of 2026-09-19 is the context, but no lineage is authorized",
-   "principal_delta": "none. A diagnosis, not an intervention",
-   "required_inputs": [
-    "results/whole_system_oscillator_single_area.json",
-    "jomission/qualification/b1_targets.py",
-    "manifests/agsdr_local_objectives.json"
-   ],
-   "frozen": [
-    "everything. Nothing is changed by a diagnosis"
-   ],
-   "procedure": "re-measure per-class rates at full 1 ms resolution rather than from the series decimated by 10, then attribute the deficit",
-   "acceptance": "per-class rates re-measured at full resolution with the subsampling caveat removed, and the PV and VIP deficit attributed to a named mechanism rather than left as an observation",
-   "stop_condition": "diagnosis only. No parameter is changed and no rate is calibrated",
-   "artifacts_expected": [
-    "results/ei_regime_diagnosis.json"
-   ],
-   "downstream_unlock": [],
-   "blocked_by": "reviewer authorization. Also blocked on the ratification of B1_CLASS_TARGETS, which jomission/qualification/b1_targets.py marks MODEL_ASSUMPTION and ratification-pending, and which state that they must not be tuned post-hoc",
-   "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it"
-  }
- ],
+    "id": "SCI-EI-REGIME-1",
+    "status": "OPEN",
+    "trigger": "while scoping the reviewer's AGSDR calibration question, the intact whole-system model was measured per class: E 10.93 Hz, PV 0.433 Hz, SST 51.28 Hz, VIP 0.446 Hz against B1 targets of 5-8, 12-25, 6-12 and 8-15. PV and VIP are 30 to 60 times below target, SST is 5 to 8 times above, and the required E < PV ordering is inverted",
+    "goal": "diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP",
+    "parent_authority": "owner 2026-09-19: diagnosis authorized with B1_CLASS_TARGETS ratified as project truth and the driver fork authorized under the HD-ARM-DRIVER-SHADOWED-G pattern (fork the sealed driver; the sealed original is never edited)",
+    "principal_delta": "none. A diagnosis, not an intervention",
+    "required_inputs": [
+     "results/whole_system_oscillator_single_area.json",
+     "jomission/qualification/b1_targets.py",
+     "manifests/agsdr_local_objectives.json"
+    ],
+    "frozen": [
+     "everything. Nothing is changed by a diagnosis"
+    ],
+    "procedure": "re-measure per-class rates at full 1 ms resolution rather than from the series decimated by 10, then attribute the deficit. B1_CLASS_TARGETS is ratified as the reference (B1-CLASS-TARGETS-RATIFIED); ratification is a status change, not a tuning of the values",
+    "acceptance": "per-class rates re-measured at full resolution with the subsampling caveat removed, and the PV and VIP deficit attributed to a named mechanism rather than left as an observation",
+    "stop_condition": "diagnosis only. No parameter is changed and no rate is calibrated",
+    "artifacts_expected": [
+     "results/ei_regime_diagnosis.json"
+    ],
+    "downstream_unlock": [],
+    "authorization": "owner 2026-09-19 in the closeout program: run after the harness closeout items; B1 ratification recorded in B1-CLASS-TARGETS-RATIFIED",
+    "downstream_note": "this is a prerequisite for any AGSDR per-class calibration. Calibrating toward in vivo rates while three of four classes are in a pathological regime would tune around a defect rather than fix it"
+   },
+   {
+    "id": "B1-CLASS-TARGETS-RATIFIED",
+    "status": "DONE",
+    "trigger": "the E-I regime finding named B1_CLASS_TARGETS as MODEL_ASSUMPTION and ratification-pending (jomission/qualification/b1_targets.py)",
+    "goal": "ratify or retire the B1 per-class rate targets as project truth",
+    "parent_authority": "owner 2026-09-19: ratified as project truth (closeout program, question to owner, answer 'Authorize + ratify B1')",
+    "principal_delta": "a status decision only. The values are untouched and remain untunable post-hoc",
+    "required_inputs": [
+     "jomission/qualification/b1_targets.py"
+    ],
+    "frozen": [
+     "the target values themselves; they must not be tuned post-hoc"
+    ],
+    "procedure": "record the owner decision; update the ratification-pending marker in jomission/qualification/b1_targets.py to RATIFIED with the decision date; change no numeric value",
+    "acceptance": "b1_targets.py carries the ratified status with the owner decision date; no numeric value changed",
+    "stop_condition": "status record only; no calibration follows from ratification itself",
+    "artifacts_expected": [],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "jomission/qualification/b1_targets.py ratification marker",
+     "summary": "B1_CLASS_TARGETS ratified by the owner 2026-09-19. The marker changes from MODEL_ASSUMPTION/ratification-pending to RATIFIED; the values are frozen as project truth and remain off-limits to post-hoc tuning",
+     "receipts": [
+      "owner decision 2026-09-19 recorded in the sealing commit of the closeout plan",
+      "python scripts/project_check.py  (green after the marker edit)"
+     ]
+    }
+   },
+   {
+    "id": "HARNESS-CHECKPOINT-CLOSURE",
+    "status": "OPEN",
+    "trigger": "owner closeout directive 2026-09-19: the todo and problem stacks must end empty, including the checkpoint-1 defects that have no TODO item of their own",
+    "goal": "close the three checkpoint-1 defects without an owning task: the threshold-literal scan not covering site-src HTML, the tier-1/tier-2 classification gaps, and the AGENTS/CLAUDE generic-block overlap",
+    "parent_authority": "owner closeout directive 2026-09-19 + manifests/harness/checkpoint_1.json unresolved_defects",
+    "principal_delta": "harness and docs only: scan extension, tier classification completion, one tier-2 execution, AGENTS.md simplification with its test updated",
+    "required_inputs": [
+     "manifests/harness/checkpoint_1.json",
+     "manifests/test_tiers.json"
+    ],
+    "frozen": [
+     "sealed artifacts; gate thresholds (the scan extension is detection-only, no threshold moves)",
+     "scientific outputs"
+    ],
+    "procedure": "extend the threshold-literal single-source scan to site-src HTML; classify the remaining subsystem test files into tiers mechanically; execute the tier-2 command once and record its receipts; simplify AGENTS.md's generic block and update tests/test_agents_policy.py to assert the simplified content; record each closure in an additive dispositions block on checkpoint_1.json",
+    "acceptance": "each of the three defects has a closure receipt in checkpoint_1.json dispositions; tier-0 green; the tier-2 execution receipt exists",
+    "stop_condition": "harness only; no scientific artifact touched",
+    "artifacts_expected": [
+     "manifests/harness/checkpoint_1.json",
+     "manifests/test_tiers.json",
+     "AGENTS.md",
+     "tests/test_agents_policy.py"
+    ],
+    "downstream_unlock": []
+   },
+   {
+    "id": "SKILLS-OVERHAUL",
+    "status": "OPEN",
+    "trigger": "owner closeout directive 2026-09-19 (goal 1: all context and skills low-verbosity, simple and smooth) plus the two dogfood proposals awaiting disposition in manifests/harness/lessons.json",
+    "goal": "bring every skill file to low-verbosity, well-structured prose; apply the two recorded gate-runner wording proposals; keep all contract fields valid",
+    "parent_authority": "owner closeout directive 2026-09-19 (goal 1); the standing reviewer rule 'no new skills' is untouched",
+    "principal_delta": "skill prose and the two recorded wordings only",
+    "required_inputs": [
+     ".claude/skills/jomission-gate-runner/SKILL.md",
+     "manifests/harness/lessons.json"
+    ],
+    "frozen": [
+     "skill names and the front-matter contracts that jomission.harness.validate_skills checks",
+     "no new skills"
+    ],
+    "procedure": "per skill: cut padding, keep every step and contract intact; apply the step-2 proposal (unmerged-parent handling) and the step-4 proposal (criteria source when no gate file applies) or decline with reason; tier-0 green",
+    "acceptance": "validate_skills passes; the two proposals are applied or explicitly declined with reason; no skill carries padding blocks",
+    "stop_condition": "skill edits come only from logged friction or this owner directive",
+    "artifacts_expected": [
+     ".claude/skills/jomission-gate-runner/SKILL.md"
+    ],
+    "downstream_unlock": []
+   },
+   {
+    "id": "PAGES-THEME-OVERHAUL",
+    "status": "OPEN",
+    "trigger": "owner closeout directive 2026-09-19 (goal 1): all context low-verbosity, clearly formatted with tables, lists, paragraphs and HTML figures, theme-matched, TFNE grammar consistent, terms consistent, well-organized left menu",
+    "goal": "rebuild site-src to that standard as one coherent site",
+    "parent_authority": "owner closeout directive 2026-09-19 (goal 1)",
+    "principal_delta": "site-src pages, templates, style.css and scripts/build_pages.py structure; PUB-EVIDENCE-LABELS and PUB-V21B-PAGES are executed as part of this rebuild",
+    "required_inputs": [
+     "site-src/manifest.json",
+     "scripts/build_pages.py",
+     "manifests/vocabulary.json",
+     "docs/tfne/TFNE_V2_SPEC.md"
+    ],
+    "frozen": [
+     "sealed evidence content; no results/*.json edited",
+     "no gate threshold literal is invented or moved"
+    ],
+    "procedure": "restructure the left menu by topic; render each page as paragraphs, tables and lists with figures where a viz artifact exists; separate evidence class from status using manifests/vocabulary.json (PUB-EVIDENCE-LABELS); add the V2.1b and class-resolved ISI entries from allowlisted sealed artifacts (PUB-V21B-PAGES); keep the TFNE notation and every term consistent with docs/tfne/TFNE_V2_SPEC.md",
+    "acceptance": "tests/test_pages_build.py passes with the check that both fields come from vocabulary; the site builds; no evidence or status label outside vocabulary; the left menu is organized by topic",
+    "stop_condition": "presentation only; no scientific claim is created, strengthened or weakened. A label with no vocabulary home stops the work: surface, do not invent",
+    "artifacts_expected": [
+     "site-src/manifest.json",
+     "site-src/pages",
+     "scripts/build_pages.py",
+     "tests/test_pages_build.py"
+    ],
+    "downstream_unlock": []
+   },
+   {
+    "id": "CODE-JAX-OVERHAUL",
+    "status": "OPEN",
+    "trigger": "owner closeout directive 2026-09-19 (goal 2): all code low-complexity, optimal computational order, best ideal flattening and usage of jax",
+    "goal": "bring the jomission package and scripts to that standard module by module",
+    "parent_authority": "owner closeout directive 2026-09-19 (goal 2)",
+    "principal_delta": "code structure and computation order only; no model parameter, no gate threshold, no sealed artifact, no scientific output recomputed",
+    "required_inputs": [
+     "manifests/sealed_artifacts.json",
+     "manifests/test_tiers.json"
+    ],
+    "frozen": [
+     "jaxfne: the execution authority, identity-frozen at 0.4.24, installed outside this repo; excluded",
+     "sealed artifacts: jomission/harness/oscillation.py, jomission/harness/propagation.py, the sealed arm drivers; excluded, additive corrections only",
+     "every sealed result file; nothing is rerun or overwritten",
+     "gate thresholds and model defaults"
+    ],
+    "procedure": "module by module (dynamics, qualification, analysis, visualization, harness, then scripts/): enumerate callers and covering tests first; load the numerical-computing skill; flatten and vectorize to the optimal order; if a reordering changes a floating-point result a test asserts, justify it in the commit or keep the original order; run tier-0 plus the covering tier per module; fix every newly detected problem in scope rather than queueing it",
+    "acceptance": "per-module receipts: covering tiers green, no sealed artifact hash changed, no result file touched; one full-suite run green at the end",
+    "stop_condition": "no scientific verdict is rerun, reinterpreted or re-tuned; a change that would alter a sealed number is not made",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   }
+  ],
  "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
 }

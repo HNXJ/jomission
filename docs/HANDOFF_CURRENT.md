@@ -33,12 +33,12 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 - scientific head: main `be0db96`
 - execution: jaxfne 0.4.24 (`results/jaxfne_0424_migration.json`)
-- program: Generic Substrate V2 (results/generic_substrate_v2_spec.json rev2 + amendment 1; amendment 2 in results/generic_substrate_v2_amendment_2.json)
+- program: Closeout program (owner 2026-09-19): empty the todo and problem stacks — harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons
 
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The reviewer has raised an AGSDR-based per-class rate calibration; two of its prerequisites are open decisions for the reviewer, the ratification of the B1 targets and whether to break the one-spike-per-cycle regime, so no spec is written
+- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19: empty the todo and problem stacks (harness closeout, context/pages overhaul, code overhaul); scientific execution is limited to the authorized SCI-EI-REGIME-1 diagnosis and the one propagation observable the owner picks from the recorded proposals. No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -98,7 +98,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Locked gates
 
-- `V2.2_RECURRENCE`, `V2_ACTIVE_BASIN`, `V2_PROPAGATION`, `V2_RESPONSE_TIMESCALE`, `V2_HIERARCHY`, `GEN2_FREEZE`, `BLIND_OMISSION`
+- 
 
 ### Critical invariants
 
@@ -112,7 +112,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - silent E cells escape the ISI gate but raise E rate-CV → SCI-V21-GATE-REPAIR
 - VIP->E pathway (8400 edges) omitted from the V2.1 battery's recorded currents → record only
 - PV single-cell threshold lies between F-table grid points at I=2.8; tonic derivation uses exact assays → record only
-- HDP re-entry point unspecified beyond 'after the basin gate' → V2-ACTIVE-BASIN
+- HDP re-entry point unspecified beyond 'after the basin gate'; V2-ACTIVE-BASIN retired 2026-09-19, so the route is closed → record only
 - shot parameters outside the sealed 9-cell family untested (no new brackets authorized) → SHOT_NOISE_BRACKETS retired
 - whether SST-c/VIP-c single-cell bursting entrains E irregularity (secondary hypothesis) → record only
 - cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact) → record only

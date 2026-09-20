@@ -17,6 +17,7 @@ jomission/qualification/gen2_gates.py:247 check_h_terminology.
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import replace
 from typing import Any, Mapping, Sequence, Optional
 
@@ -88,7 +89,9 @@ MOTIF_GAIN: dict[tuple[str, str], float] = {
 }
 # Alias for provenance audit
 DESIRED_MOTIF_GAIN: dict[tuple[str, str], float] = dict(MOTIF_GAIN)
-DESIRED_MOTIF_GAIN_V0: dict[str, float] = {f"{k[0]}->{k[1]}": float(v) for k, v in MOTIF_GAIN.items()}
+DESIRED_MOTIF_GAIN_V0: dict[str, float] = {
+    f"{k[0]}->{k[1]}": float(v) for k, v in MOTIF_GAIN.items()
+}
 PSEUDOGENOME_VERSION: str = "v0"
 PSEUDOGENOME_PROVENANCE: str = "MODEL_ASSUMPTION (magnitudes) / LITERATURE_PRIOR direction Pfeffer2013 etc (DOI pending, builder.py:78) / ENGINE_DEFAULT seam / DERIVED per-motif mean"
 PSEUDOGENOME_SEAM: str = "post-construct EdgeList weight scaling _apply_motif_gains builder.py:623 (preferred, hash-visible) vs declarative Configuration.connections (not suitable for VIP→SST due to E-only source filter _config.py:1079)"
@@ -102,9 +105,15 @@ MOTIF_GAIN_REASON: str = "typed W[a,l_s,c_s,l_t,c_t] Rule compliance via pseudog
 # Default JaxFNE pairs were L2/3->L4 (FF) and L6->L1 / L6->L5 (FB) implicit when layer_to_layer_map=None (_construct_connectivity.py:61-64)
 # Now made explicit so config_hash reflects laminar routing and delays hash-visible.
 FF_LAYER_MAP: dict[str, str] = {"L2/3": "L4"}
-FB_LAYER_MAPS: list[dict[str, str]] = [{"L6": "L1"}, {"L6": "L5"}]  # two specs per FB direction (dict key uniqueness)
+FB_LAYER_MAPS: list[dict[str, str]] = [
+    {"L6": "L1"},
+    {"L6": "L5"},
+]  # two specs per FB direction (dict key uniqueness)
 # For hash-visible metadata, store fb as combined dict with suffix to avoid key collision
-FB_LAYER_MAP_COMBINED: dict[str, str] = {"L6->L1": "L1", "L6->L5": "L5"}  # convenience, actual specs are separate
+FB_LAYER_MAP_COMBINED: dict[str, str] = {
+    "L6->L1": "L1",
+    "L6->L5": "L5",
+}  # convenience, actual specs are separate
 # GEN2_C009 VIP intrinsic correction — sole negative b -0.10 → +0.05
 # GEN2_C017 VIP intrinsic recruitment — b 0.05→0.20 single delta (I_rh>15→4, operating VIP μ2.19 σ0.943 μ+2σ≈4.07 — b0.20 I_rh4 8at4 near μ+1.92σ)
 # Provenance: MODEL_ASSUMPTION (0.20 magnitude) / LITERATURE_PRIOR direction b≥0 Izhikevich2003 / ENGINE_DEFAULT emitter seam / DERIVED f-I
@@ -152,7 +161,9 @@ LOGNORMAL_CV: float = 1.5
 LOGNORMAL_SIGMA: float = 1.085658784490618  # sqrt(ln(1+1.5^2)); approx 1.08566 (not 0.97)
 LOGNORMAL_MU: float = -0.5893274981708232  # -sigma^2/2; approx -0.58933
 LOGNORMAL_SIGMA_APPROX_NOTE: str = "0.97 approx gives CV~1.25 not 1.5 — use 1.08566"
-LOGNORMAL_PROVENANCE: str = "MODEL_ASSUMPTION (CV=1.5 magnitude) / LITERATURE_PRIOR direction Song et al. 2005 lognormal"
+LOGNORMAL_PROVENANCE: str = (
+    "MODEL_ASSUMPTION (CV=1.5 magnitude) / LITERATURE_PRIOR direction Song et al. 2005 lognormal"
+)
 LOGNORMAL_SEAM: str = "post-construct EdgeList weight scaling W·L L~LN(μ,σ) per-motif mean-preserving (existing Model params, not new kernel)"
 
 # GEN2_C011 tonic drive reduction (B2 operating-point, single-knob causal test)
@@ -236,7 +247,9 @@ VERTICAL_MOTIF_GAIN: dict[tuple[str, str, str, str], float] = {
     ("L2/3", "E", "L5", "SST"): 0.7,
     ("L2/3", "E", "L5", "VIP"): 1.0,
 }
-VERTICAL_MOTIF_GAIN_V0: dict[str, float] = {f"{k[0]}:{k[1]}->{k[2]}:{k[3]}": float(v) for k, v in VERTICAL_MOTIF_GAIN.items()}
+VERTICAL_MOTIF_GAIN_V0: dict[str, float] = {
+    f"{k[0]}:{k[1]}->{k[2]}:{k[3]}": float(v) for k, v in VERTICAL_MOTIF_GAIN.items()
+}
 VERTICAL_MOTIF_GAIN_PROVENANCE: str = "MODEL_ASSUMPTION (magnitudes 2.0/1.5/0.7/1.8/1.4) / LITERATURE_PRIOR direction L4→2/3 Douglas & Martin canonical, L2/3→5 strong, E→PV feedforward inhibition Pouille, E→SST weak-moderate / ENGINE_DEFAULT seam _apply_vertical_motif_gains / DERIVED E/I cancellation reduction"
 VERTICAL_MOTIF_GAIN_SEAM: str = "post-construct EdgeList weight scaling _apply_vertical_motif_gains builder.py (laminar × motif product, existing Model params, not new kernel) for vertical edges only, orthogonal to _apply_motif_gains global 12-gain; hash-visible via cfg.metadata vertical_motif_gain"
 VERTICAL_MOTIF_GAIN_REASON: str = "typed vertical W[a,l_s,c_s,l_t,c_t] via laminar×motif product: L4_E→L2/3_E ×2.0 strong (Douglas Martin) vs E→SST ×0.7 weak-moderate, L2/3_E→L5_E ×1.8 second strongest, E→PV ×1.4 moderate-strong, to reduce 6× cancellation (W_net 0.00163 vs W_exc 0.00716) and make vertical excitation dominate net while preserving local topology σ0.08 max25 and pseudogenome v0"
@@ -287,6 +300,7 @@ def _apply_per_neuron_jitter(
     # drive / sign handling: emitter may store drive and/or separate arrays
     has_drive = hasattr(em, "drive") and em.drive is not None
     drive_np = np.asarray(em.drive, dtype=np.float64) if has_drive else None
+
     # uniform ±sigma for a,b,d,drive ; c ±3mV scaled by sigma/0.1
     def jitter(arr: np.ndarray, lo: float, hi: float, is_c: bool = False) -> np.ndarray:
         scale = float(sigma) if not is_c else float(sigma) * 30.0  # 3mV at sigma 0.1
@@ -297,13 +311,13 @@ def _apply_per_neuron_jitter(
             # for b near -0.02 etc, use relative jitter but keep sign
         out = arr + delta
         return np.clip(out, lo, hi)
+
     a_j = jitter(a_np, 0.005, 0.20)
     b_j = jitter(b_np, -0.20, 0.35)
     c_j = jitter(c_np, -75.0, -45.0, is_c=True)
     d_j = jitter(d_np, 0.5, 10.0)
     drive_j = jitter(drive_np, 1.0, 8.0) if drive_np is not None else None
     # preserve PV > E ordering check: already bounded, ledger verified
-    from jaxfne.emitters import IzhikevichParams  # type: ignore
     # rebuild emitter preserving other fields (v0, u0 etc.)
     kwargs = dict(
         a=jnp.asarray(a_j, dtype=jnp.float32),
@@ -423,6 +437,7 @@ def build_jomission_network(
 
     # Global fallback cell fractions (used if per-area table missing)
     from jomission.network.populations import FLAT_CELL_TYPE_FRACTIONS
+
     cfg = cfg.cell_types(FLAT_CELL_TYPE_FRACTIONS)
     for area in areas:
         per_layer = AREA_LAYER_CELL_TYPES.get(area)
@@ -550,7 +565,11 @@ def build_jomission_network(
     # Provenance MODEL_ASSUMPTION (3.5 magnitude) / DERIVED (scale 0.7) / ENGINE_DEFAULT drive seam
     # Seam post-jitter drive·s (existing Model params, no new kernel) before delays
     try:
-        tonic_scale = float(tonic_drive_scale) if tonic_drive_scale is not None else float(TONIC_DRIVE_SCALE_DEFAULT)
+        tonic_scale = (
+            float(tonic_drive_scale)
+            if tonic_drive_scale is not None
+            else float(TONIC_DRIVE_SCALE_DEFAULT)
+        )
     except Exception:
         tonic_scale = float(TONIC_DRIVE_SCALE_DEFAULT)
     # clamp to sign-preserving positive range
@@ -574,7 +593,11 @@ def build_jomission_network(
     # Bounded SST->* x0.5 uniform sign-preserving, post-EdgeList seam like C006/C010
     # Provenance MODEL_ASSUMPTION (alpha 0.5 bounded) / LITERATURE_PRIOR direction / ENGINE_DEFAULT seam
     try:
-        sst_alpha = float(sst_output_gain_alpha) if sst_output_gain_alpha is not None else float(SST_OUTPUT_GAIN_ALPHA_DEFAULT)
+        sst_alpha = (
+            float(sst_output_gain_alpha)
+            if sst_output_gain_alpha is not None
+            else float(SST_OUTPUT_GAIN_ALPHA_DEFAULT)
+        )
     except Exception:
         sst_alpha = float(SST_OUTPUT_GAIN_ALPHA_DEFAULT)
     if sst_alpha < 0.05:
@@ -594,7 +617,9 @@ def build_jomission_network(
     # Provenance MODEL_ASSUMPTION (1.7 magnitude to reach rheobase) / LITERATURE_PRIOR direction fast PV recruitment / ENGINE_DEFAULT drive seam
     # Seam _apply_pv_drive_boost post-jitter after tonic scale before laminar delays (existing Model params, not new kernel)
     try:
-        pv_scale = float(pv_drive_scale) if pv_drive_scale is not None else float(PV_DRIVE_SCALE_DEFAULT)
+        pv_scale = (
+            float(pv_drive_scale) if pv_drive_scale is not None else float(PV_DRIVE_SCALE_DEFAULT)
+        )
     except Exception:
         pv_scale = float(PV_DRIVE_SCALE_DEFAULT)
     if pv_scale < 0.05:
@@ -666,14 +691,24 @@ def build_jomission_network(
     # GEN2_C007 background Poisson — hash-visible when enabled; baseline (0 Hz) keeps existing hash
     # so tests for canonical 4a8908e remain green. Only non-zero rate adds keys → distinct hash.
     try:
-        poisson_rate = float(background_poisson_rate_hz) if background_poisson_rate_hz is not None else 0.0
+        poisson_rate = (
+            float(background_poisson_rate_hz) if background_poisson_rate_hz is not None else 0.0
+        )
     except Exception:
         poisson_rate = 0.0
     try:
-        poisson_amp = float(background_poisson_amplitude) if background_poisson_amplitude is not None else float(BACKGROUND_POISSON_AMPLITUDE_DEFAULT)
+        poisson_amp = (
+            float(background_poisson_amplitude)
+            if background_poisson_amplitude is not None
+            else float(BACKGROUND_POISSON_AMPLITUDE_DEFAULT)
+        )
     except Exception:
         poisson_amp = float(BACKGROUND_POISSON_AMPLITUDE_DEFAULT)
-    poisson_target = str(background_poisson_target) if background_poisson_target else str(BACKGROUND_POISSON_TARGET_DEFAULT)
+    poisson_target = (
+        str(background_poisson_target)
+        if background_poisson_target
+        else str(BACKGROUND_POISSON_TARGET_DEFAULT)
+    )
     if poisson_rate > 1e-9:
         cfg = cfg.update_metadata(
             background_poisson_rate_hz=float(poisson_rate),
@@ -734,17 +769,23 @@ def _apply_spatial_locality(
     n = pos.shape[0]
     # Build per-post list of edge indices grouped
     # between edges: area[pre]!=area[post] -> keep all
-    between_mask = np.array([area_labels[int(pre_np[i])] != area_labels[int(post_np[i])] for i in range(len(pre_np))], dtype=bool)
+    between_mask = np.array(
+        [area_labels[int(pre_np[i])] != area_labels[int(post_np[i])] for i in range(len(pre_np))],
+        dtype=bool,
+    )
     keep_idx: list[int] = list(np.where(between_mask)[0])
     # within edges grouped by post
     within_idx = np.where(~between_mask)[0]
     # group within indices by post id
     from collections import defaultdict
+
     post_to_idxs: dict[int, list[int]] = defaultdict(list)
     for idx in within_idx:
         post_to_idxs[int(post_np[idx])].append(int(idx))
     # per-post weighted sampling
     base_seed = int(seed) & 0x7FFFFFFF
+    # Gaussian kernel width (same as jaxfne/connectivity.py:292); loop-invariant
+    sigma = max(float(spatial_sigma), 1e-9)
     for post_id, idxs in post_to_idxs.items():
         if not idxs:
             continue
@@ -754,8 +795,6 @@ def _apply_spatial_locality(
         cand_pos = pos[np.array(cand_pres)]
         post_pos = pos[post_id]
         dist_sq = np.sum((cand_pos - post_pos) ** 2, axis=1)
-        # Gaussian kernel (same as jaxfne/connectivity.py:292)
-        sigma = max(float(spatial_sigma), 1e-9)
         raw_w = np.exp(-dist_sq / (2.0 * sigma * sigma))
         mass = raw_w.sum()
         if mass <= 0:
@@ -764,7 +803,6 @@ def _apply_spatial_locality(
         n_take = min(int(max_in_degree), len(idxs))
         # deterministic per-post RNG: seed = base ^ post_id
         # use stable fold via sha256 like jaxfne?
-        import hashlib
         h = hashlib.sha256(str(base_seed ^ (post_id * 1009)).encode()).hexdigest()
         pseed = int(h[:8], 16) & 0x7FFFFFFF
         rng = np.random.default_rng(pseed)
@@ -779,6 +817,7 @@ def _apply_spatial_locality(
         return model
     # rebuild edge_list
     from jaxfne.emitters import EdgeList
+
     jdtype = el.weight.dtype
     # preserve delay_steps if present (GEN2_C008)
     try:
@@ -972,10 +1011,11 @@ def _apply_vip_b_correction(
         for i in vip_idx:
             b_np[i] = float(corrected_b)
         # rebuild emitter with corrected b
-        from jaxfne.emitters import IzhikevichParams  # type: ignore
 
         # carry over other fields, update b and u0
-        v0_np = np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        v0_np = (
+            np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        )
         kwargs: dict[str, Any] = dict(b=jnp.asarray(b_np, dtype=jnp.float32))
         if v0_np is not None:
             try:
@@ -1048,9 +1088,10 @@ def _apply_sst_b_correction(
         for i in sst_idx:
             b_np[i] = float(corrected_b)
         # rebuild emitter with corrected b
-        from jaxfne.emitters import IzhikevichParams  # type: ignore
 
-        v0_np = np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        v0_np = (
+            np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        )
         kwargs: dict[str, Any] = dict(b=jnp.asarray(b_np, dtype=jnp.float32))
         if v0_np is not None:
             try:
@@ -1135,8 +1176,22 @@ def _apply_typed_E_phenotypes(
     if n_rs + n_ch > n_e:
         # scale down proportionally
         total = n_rs + n_ch
-        n_rs = int(round(n_e * float(E_MIXTURE_RS_FRAC) / (float(E_MIXTURE_RS_FRAC) + float(E_MIXTURE_CH_FRAC)) * 0.90))
-        n_ch = int(round(n_e * float(E_MIXTURE_CH_FRAC) / (float(E_MIXTURE_RS_FRAC) + float(E_MIXTURE_CH_FRAC)) * 0.90))
+        n_rs = int(
+            round(
+                n_e
+                * float(E_MIXTURE_RS_FRAC)
+                / (float(E_MIXTURE_RS_FRAC) + float(E_MIXTURE_CH_FRAC))
+                * 0.90
+            )
+        )
+        n_ch = int(
+            round(
+                n_e
+                * float(E_MIXTURE_CH_FRAC)
+                / (float(E_MIXTURE_RS_FRAC) + float(E_MIXTURE_CH_FRAC))
+                * 0.90
+            )
+        )
     n_efs = n_e - n_rs - n_ch
     if n_efs < 0:
         n_efs = 0
@@ -1144,8 +1199,8 @@ def _apply_typed_E_phenotypes(
         n_ch = n_e - n_rs
     # Assign: first n_rs -> RS, next n_ch -> CH, rest -> E_FS
     rs_idx = set(int(x) for x in perm[:n_rs].tolist()) if n_rs > 0 else set()
-    ch_idx = set(int(x) for x in perm[n_rs:n_rs + n_ch].tolist()) if n_ch > 0 else set()
-    efs_idx = set(int(x) for x in perm[n_rs + n_ch:].tolist()) if n_efs > 0 else set()
+    ch_idx = set(int(x) for x in perm[n_rs : n_rs + n_ch].tolist()) if n_ch > 0 else set()
+    efs_idx = set(int(x) for x in perm[n_rs + n_ch :].tolist()) if n_efs > 0 else set()
     try:
         a_np = np.asarray(em.a, dtype=np.float64).copy()
         b_np = np.asarray(em.b, dtype=np.float64).copy()
@@ -1174,9 +1229,10 @@ def _apply_typed_E_phenotypes(
         b_np = np.clip(b_np, -0.20, 0.35)
         c_np = np.clip(c_np, -75.0, -45.0)
         d_np = np.clip(d_np, 0.5, 10.0)
-        from jaxfne.emitters import IzhikevichParams  # type: ignore
 
-        v0_np = np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        v0_np = (
+            np.asarray(em.v0, dtype=np.float64) if hasattr(em, "v0") and em.v0 is not None else None
+        )
         kwargs: dict[str, Any] = dict(
             a=jnp.asarray(a_np, dtype=jnp.float32),
             b=jnp.asarray(b_np, dtype=jnp.float32),
@@ -1243,6 +1299,7 @@ def _apply_lognormal_weights(
     n_edges = int(pre_np.shape[0])
     # Build motif -> edge indices map for per-motif RNG
     from collections import defaultdict
+
     motif_to_idxs: dict[tuple[str, str], list[int]] = defaultdict(list)
     for ei in range(n_edges):
         try:
@@ -1252,7 +1309,6 @@ def _apply_lognormal_weights(
             pc, qc = "E", "E"
         motif_to_idxs[(pc, qc)].append(ei)
     # Per-motif lognormal generation
-    import hashlib
 
     w_scaled = w_np.copy()
     for (pc, qc), idxs in motif_to_idxs.items():
@@ -1499,6 +1555,7 @@ def _apply_sst_output_gain(
                     # scale columns (pre)
                     W_scaled[:, sst_idx] = W_scaled[:, sst_idx] * a
                     from dataclasses import replace as _replace
+
                     try:
                         new_em = _replace(em, W=jnp.asarray(W_scaled, dtype=em.W.dtype))  # type: ignore
                         new_params["emitter"] = new_em
@@ -1564,12 +1621,17 @@ def _apply_vertical_topology(
     # For weight generation of new edges, need sign per pre and within_gain
     try:
         em = model.params.get("emitter")
-        sign_np = np.asarray(em.sign, dtype=np.float64) if hasattr(em, "sign") and em.sign is not None else np.ones(len(area_labels))
+        sign_np = (
+            np.asarray(em.sign, dtype=np.float64)
+            if hasattr(em, "sign") and em.sign is not None
+            else np.ones(len(area_labels))
+        )
     except Exception:
         sign_np = np.ones(len(area_labels))
     # within_gain from cfg metadata or default
     try:
         from jomission.network.connectivity import WITHIN_GAIN_DEFAULT
+
         base_gain = float(WITHIN_GAIN_DEFAULT)
     except Exception:
         base_gain = 0.35
@@ -1586,17 +1648,29 @@ def _apply_vertical_topology(
     new_w: list[float] = []
     new_r: list[int] = []
     new_tau: list[float] = []
-    import hashlib
+
     for area in areas:
         for src_layer, tgt_layer, k_target in vertical_pairs:
             # Identify source and target indices for this area
-            src_ids = [i for i, (a, l) in enumerate(zip(area_labels, layer_labels)) if a == area and l == src_layer]
-            tgt_ids = [i for i, (a, l) in enumerate(zip(area_labels, layer_labels)) if a == area and l == tgt_layer]
+            src_ids = [
+                i
+                for i, (a, l) in enumerate(zip(area_labels, layer_labels))
+                if a == area and l == src_layer
+            ]
+            tgt_ids = [
+                i
+                for i, (a, l) in enumerate(zip(area_labels, layer_labels))
+                if a == area and l == tgt_layer
+            ]
             if not src_ids or not tgt_ids:
                 continue
             Nt = len(tgt_ids)
             # Current Ne for this laminar pair (any cell type, within area)
-            cur_ne = sum(1 for p, q in zip(pre_np.tolist(), post_np.tolist()) if p in src_ids and q in tgt_ids)
+            cur_ne = sum(
+                1
+                for p, q in zip(pre_np.tolist(), post_np.tolist())
+                if p in src_ids and q in tgt_ids
+            )
             target_ne = int(round(float(k_target) * Nt))
             # For L4→L2/3, current already >=target, skip augmentation (but keep minimal if below)
             # For L2/3→L5, current is sparse (16 V1) so we add
@@ -1620,12 +1694,14 @@ def _apply_vertical_topology(
                     except Exception:
                         d = 0.3
                     sigma = max(float(vertical_sigma), 1e-9)
-                    raw_dist = float(np.exp(- (d * d) / (2.0 * sigma * sigma)))
+                    raw_dist = float(np.exp(-(d * d) / (2.0 * sigma * sigma)))
                     # Typed P_vertical bias: E→E 2.0 vs E→SST 0.7 etc., orthogonal to distance
                     try:
                         pre_ct = ct_labels[int(pre_id)]
                         post_ct = ct_labels[int(post_id)]
-                        p_gain = float(VERTICAL_MOTIF_GAIN.get((src_layer, pre_ct, tgt_layer, post_ct), 1.0))
+                        p_gain = float(
+                            VERTICAL_MOTIF_GAIN.get((src_layer, pre_ct, tgt_layer, post_ct), 1.0)
+                        )
                     except Exception:
                         p_gain = 1.0
                     raw = raw_dist * float(p_gain)
@@ -1681,6 +1757,7 @@ def _apply_vertical_topology(
     else:
         all_delay = None
     from jaxfne.emitters import EdgeList
+
     jdtype = el.weight.dtype
     kwargs_el: dict[str, Any] = dict(
         pre=jnp.asarray(all_pre, dtype=jnp.int32),
@@ -1757,6 +1834,7 @@ def _apply_vertical_motif_gains(
         return model
     w_scaled = w_np * gains
     from jaxfne.emitters import EdgeList
+
     jdtype = el.weight.dtype
     try:
         delay = getattr(el, "delay_steps", None)
@@ -1834,20 +1912,29 @@ def build_jomission_model(
     mid = conn.get("max_in_degree")
     if sigma is not None and mid is not None:
         try:
-            model = _apply_spatial_locality(model, spatial_sigma=float(sigma), max_in_degree=int(mid), seed=int(seed))
+            model = _apply_spatial_locality(
+                model, spatial_sigma=float(sigma), max_in_degree=int(mid), seed=int(seed)
+            )
         except Exception:
             pass
     # GEN2_C020 typed vertical microcircuit v1 — vertical-specific topology augmentation for M_vertical only
     # Supplemental edges for L4→L2/3 (k~5) and L2/3→L5 (k2.0 Ne55) with σ0.12 vs local σ0.08 intact
     # After base spatial pruning so new edges are on top of 10000 local, deterministic per seed, orthogonal to FF/FB 287/303
     try:
-        vert_sigma = float(cfg.metadata.get("vertical_spatial_sigma", VERTICAL_SPATIAL_SIGMA_DEFAULT))
+        vert_sigma = float(
+            cfg.metadata.get("vertical_spatial_sigma", VERTICAL_SPATIAL_SIGMA_DEFAULT)
+        )
         vert_max = int(cfg.metadata.get("vertical_max_in_degree", VERTICAL_MAX_IN_DEGREE_DEFAULT))
     except Exception:
-        vert_sigma, vert_max = float(VERTICAL_SPATIAL_SIGMA_DEFAULT), int(VERTICAL_MAX_IN_DEGREE_DEFAULT)
+        vert_sigma, vert_max = (
+            float(VERTICAL_SPATIAL_SIGMA_DEFAULT),
+            int(VERTICAL_MAX_IN_DEGREE_DEFAULT),
+        )
     if vert_sigma > 1e-9:
         try:
-            model = _apply_vertical_topology(model, seed=int(seed), vertical_sigma=float(vert_sigma), vertical_max=int(vert_max))
+            model = _apply_vertical_topology(
+                model, seed=int(seed), vertical_sigma=float(vert_sigma), vertical_max=int(vert_max)
+            )
         except Exception:
             pass
     # GEN2_C009 VIP b correction BEFORE jitter (intrinsic #1, W2.4)
@@ -1878,7 +1965,9 @@ def build_jomission_model(
         pass
     # Apply per-neuron jitter if declared (GEN2_C002) — after pruning so emitter stays
     try:
-        sigma_eff = float(cfg.metadata.get("heterogeneity_jitter", HETEROGENEITY_JITTER_SIGMA_DEFAULT))
+        sigma_eff = float(
+            cfg.metadata.get("heterogeneity_jitter", HETEROGENEITY_JITTER_SIGMA_DEFAULT)
+        )
     except Exception:
         sigma_eff = float(HETEROGENEITY_JITTER_SIGMA_DEFAULT)
     if sigma_eff > 1e-12:
@@ -1901,13 +1990,20 @@ def build_jomission_model(
         cv, sigma_ln, mu_ln = float(LOGNORMAL_CV), float(LOGNORMAL_SIGMA), float(LOGNORMAL_MU)
     if cv > 1e-12:
         try:
-            model = _apply_lognormal_weights(model, seed=int(seed), cv=float(cv), sigma=float(sigma_ln), mu=float(mu_ln))
+            model = _apply_lognormal_weights(
+                model, seed=int(seed), cv=float(cv), sigma=float(sigma_ln), mu=float(mu_ln)
+            )
         except Exception:
             pass
     # GEN2_C013 SST-output gain W_{SST->*}' = alpha W_{SST->*} alpha=0.5 bounded — after lognormal+motif before delays (W3.3)
     # Uniform scaling sign-preserving across SST->E / SST->PV / SST->VIP, deterministic (seed not needed), preserves E->PV 1.5x and lognormal CV1.94 topology 10590 delays [20,80,120]
     try:
-        sst_alpha = float(cfg.metadata.get("sst_output_gain", cfg.metadata.get("sst_output_gain_alpha", SST_OUTPUT_GAIN_ALPHA_DEFAULT)))
+        sst_alpha = float(
+            cfg.metadata.get(
+                "sst_output_gain",
+                cfg.metadata.get("sst_output_gain_alpha", SST_OUTPUT_GAIN_ALPHA_DEFAULT),
+            )
+        )
     except Exception:
         sst_alpha = float(SST_OUTPUT_GAIN_ALPHA_DEFAULT)
     if abs(float(sst_alpha) - 1.0) > 1e-12:
@@ -1929,7 +2025,11 @@ def build_jomission_model(
     # GEN2_C016 PV recruitment — PV-specific drive boost 1.77->3.01 scale1.7 — after jitter/tonic before delays (CL1-B)
     # Hash-visible via pv_drive_scale (builder.py per-class drive seam, not uniform tonic scale); E/SST/VIP unchanged
     try:
-        pv_scale_eff = float(cfg.metadata.get("pv_drive_scale", cfg.metadata.get("pv_drive_boost", PV_DRIVE_SCALE_DEFAULT)))
+        pv_scale_eff = float(
+            cfg.metadata.get(
+                "pv_drive_scale", cfg.metadata.get("pv_drive_boost", PV_DRIVE_SCALE_DEFAULT)
+            )
+        )
     except Exception:
         pv_scale_eff = float(PV_DRIVE_SCALE_DEFAULT)
     if abs(float(pv_scale_eff) - 1.0) > 1e-12:
@@ -1971,7 +2071,14 @@ def background_poisson_drive_spec(
     if rate <= 1e-9:
         return None
     try:
-        amp = float(cfg.metadata.get("background_poisson_amplitude", cfg.metadata.get("background_poisson_amplitude", BACKGROUND_POISSON_AMPLITUDE_DEFAULT)))
+        amp = float(
+            cfg.metadata.get(
+                "background_poisson_amplitude",
+                cfg.metadata.get(
+                    "background_poisson_amplitude", BACKGROUND_POISSON_AMPLITUDE_DEFAULT
+                ),
+            )
+        )
     except Exception:
         amp = float(BACKGROUND_POISSON_AMPLITUDE_DEFAULT)
     target = str(cfg.metadata.get("background_poisson_target", BACKGROUND_POISSON_TARGET_DEFAULT))
@@ -1979,8 +2086,17 @@ def background_poisson_drive_spec(
         base_seed = int(cfg.metadata.get("seed", 0))
     except Exception:
         base_seed = 0
-    seed = int(seed_override) if seed_override is not None else int(cfg.metadata.get("background_poisson_seed", base_seed + 7919))
-    return {"rate_hz": float(rate), "amplitude": float(amp), "target": str(target), "seed": int(seed)}
+    seed = (
+        int(seed_override)
+        if seed_override is not None
+        else int(cfg.metadata.get("background_poisson_seed", base_seed + 7919))
+    )
+    return {
+        "rate_hz": float(rate),
+        "amplitude": float(amp),
+        "target": str(target),
+        "seed": int(seed),
+    }
 
 
 def simulation_with_background_poisson(
@@ -1995,14 +2111,30 @@ def simulation_with_background_poisson(
     """Build jaxfne.Simulation with Poisson drive from cfg if enabled (GEN2_C007)."""
     from jaxfne import Simulation
 
-    spec = background_poisson_drive_spec(cfg, seed_override=int(seed) + 7919 if background_poisson_drive_spec(cfg) is not None else None)
+    spec = background_poisson_drive_spec(
+        cfg,
+        seed_override=int(seed) + 7919 if background_poisson_drive_spec(cfg) is not None else None,
+    )
     # If cfg has no poisson, spec is None → plain Simulation
     if spec is not None:
         # Override seed to simulation seed folded
         spec = dict(spec)
         spec["seed"] = int(seed) + 7919
-        return Simulation(duration_ms=float(duration_ms), dt_ms=float(dt_ms), seed=int(seed), plasticity=float(plasticity), runtime=runtime, poisson_drive=spec)
-    return Simulation(duration_ms=float(duration_ms), dt_ms=float(dt_ms), seed=int(seed), plasticity=float(plasticity), runtime=runtime)
+        return Simulation(
+            duration_ms=float(duration_ms),
+            dt_ms=float(dt_ms),
+            seed=int(seed),
+            plasticity=float(plasticity),
+            runtime=runtime,
+            poisson_drive=spec,
+        )
+    return Simulation(
+        duration_ms=float(duration_ms),
+        dt_ms=float(dt_ms),
+        seed=int(seed),
+        plasticity=float(plasticity),
+        runtime=runtime,
+    )
 
 
 # Convenience for tests
@@ -2019,5 +2151,5 @@ def validate_network(n_per_area: int = 100) -> dict[str, Any]:
         issues.append(f"column names {names} != {list(JOMISSION_AREAS)}")
     total = sum(c["n"] for c in cols)
     if total != n_per_area * 4:
-        issues.append(f"total n {total} != {n_per_area*4}")
+        issues.append(f"total n {total} != {n_per_area * 4}")
     return {"valid": not issues, "issues": issues, "columns": names, "total_n": total}

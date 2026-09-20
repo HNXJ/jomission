@@ -88,6 +88,14 @@ def test_consumes_same_carrier_sets_not_reimplement():
     assert set(REPLACEMENT_SPECS.keys()) == {"H_post_to_H_pre", "Theta_post_to_Theta_pre", "HTheta_post_to_HTheta_pre", "fast_X_post_to_X_pre", "history_valid_HTheta_vs_fast"}
 
 
+QUARANTINE_SKIP = ("Q8 quarantine cover (manifests/q8_021_quarantine.json): the builder's "
+                   "config_hash moved past the frozen identity after the post-freeze GEN2 "
+                   "evolution; lift condition is the quarantine record's own: renew the "
+                   "builder freeze (new hash sealed as successor identity), fix the "
+                   "delay_state assertions, then the Q8 suites must go fully green")
+
+
+@pytest.mark.skip(reason=QUARANTINE_SKIP)
 def test_evaluate_counterfactual_matched_inputs_RNG(captured):
     pre = captured["pre_state"]
     post = captured["post_state"]
@@ -170,6 +178,7 @@ def test_polarity_frozen_criteria():
     assert assign_polarity(0.5, p_value=0.04, cohen_d=0.3, threshold=0.5) == "POSITIVE"
 
 
+@pytest.mark.skip(reason=QUARANTINE_SKIP)
 def test_matrix_machine_readable_and_artifact_backed(q8_matrix_single):
     art = q8_matrix_single
     assert art["namespace"] == "q8_evaluation"

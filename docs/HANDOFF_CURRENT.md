@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HD-STALE-EXPECTATIONS` (OPEN): Owner repair of stale bounds / quarantine cover as classified
-- stop: no silent bound loosening
+- `HARNESS-CHECKPOINT-CLOSURE` (OPEN): close the three checkpoint-1 defects without an owning task: the threshold-literal scan not covering site-src HTML, the tier-1/tier-2 classification gaps, and the AGENTS/CLAUDE generic-block overlap
+- stop: harness only; no scientific artifact touched
 
 ### Locked gates
 

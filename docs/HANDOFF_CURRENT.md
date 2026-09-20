@@ -92,8 +92,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HD-PROPAGATION-OBSERVABLE` (DONE): an observable for the propagation gate that is sensitive to the stimulus at V1_1
-- stop: one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment
+- `SCI-EI-INTERACTION-1` (OPEN): determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial
+- stop: four cells, then STOP. No tuning after seeing the four cells; viability is classification against ratified bands, never a tuning target
 
 ### Locked gates
 

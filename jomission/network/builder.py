@@ -843,6 +843,103 @@ def _apply_spatial_locality(
     return replace(model, params=new_params)
 
 
+def _sst_mask(cell_types: list, pre_np: np.ndarray) -> np.ndarray:
+    """Bool mask over edges whose pre neuron is SST.
+
+    cell_types: list of str, one per neuron. pre_np: (E,) int64 edge sources.
+    Out-of-range indices map to False; negative indices wrap like list indexing
+    (the old per-edge try/except semantics).
+    """
+    arr = np.array(cell_types, dtype=object)
+    valid = (pre_np >= -len(arr)) & (pre_np < len(arr))
+    is_sst = np.zeros(int(pre_np.shape[0]), dtype=bool)
+    is_sst[valid] = arr[pre_np[valid]] == "SST"
+    return is_sst
+
+
+def _motif_gains(
+    cell_types: list,
+    pre_np: np.ndarray,
+    post_np: np.ndarray,
+    gain_map: Mapping[tuple[str, str], float],
+) -> np.ndarray:
+    """Per-edge gain from gain_map[(pre_cell_type, post_cell_type)], default 1.0.
+
+    Same failed-lookup semantics as _sst_mask. gain_map values are
+    float-convertible (checked by callers' all-gains-1.0 fast path).
+    """
+    arr = np.array(cell_types, dtype=object)
+    n = len(arr)
+    valid = (pre_np >= -n) & (pre_np < n) & (post_np >= -n) & (post_np < n)
+    gains = np.ones(int(pre_np.shape[0]), dtype=np.float64)
+    if valid.any():
+        pc = arr[pre_np[valid]]
+        qc = arr[post_np[valid]]
+        gv = np.ones(valid.sum(), dtype=np.float64)
+        for (c1, c2), g in gain_map.items():
+            gv[(pc == c1) & (qc == c2)] = float(g)
+        gains[valid] = gv
+    return gains
+
+
+def _laminar_delay_ms(
+    area_labels: list, layer_labels: list, pre_np: np.ndarray, post_np: np.ndarray
+) -> np.ndarray:
+    """Per-edge axonal delay in ms: within-area, FF (post L4), or FB.
+
+    Same failed-lookup fallback (DELAY_WITHIN_MS) and negative-wrap semantics
+    as the helpers above.
+    """
+    area_c = np.array(area_labels, dtype=object)
+    layer_c = np.array(layer_labels, dtype=object)
+    n = len(area_c)
+    valid = (pre_np >= -n) & (pre_np < n) & (post_np >= -n) & (post_np < n)
+    delay_ms = np.full(int(pre_np.shape[0]), float(DELAY_WITHIN_MS), dtype=np.float64)
+    vp, vq = pre_np[valid], post_np[valid]
+    same = area_c[vp] == area_c[vq]
+    delay_ms[valid] = np.where(
+        same,
+        float(DELAY_WITHIN_MS),
+        np.where(layer_c[vq] == "L4", float(DELAY_FF_MS), float(DELAY_FB_MS)),
+    )
+    return delay_ms
+
+
+def _vertical_motif_gains(
+    area_labels: list,
+    layer_labels: list,
+    cell_types: list,
+    pre_np: np.ndarray,
+    post_np: np.ndarray,
+    gain_map: Mapping[tuple[str, str, str, str], float],
+) -> np.ndarray:
+    """Per-edge gain for vertical laminar pairs, default 1.0.
+
+    Applies only where area_pre == area_post and the (pre_layer, post_layer)
+    pair is (L4, L2/3) or (L2/3, L5); the gain key is
+    (pre_layer, pre_cell_type, post_layer, post_cell_type). Same lookup
+    semantics as the helpers above.
+    """
+    area_c = np.array(area_labels, dtype=object)
+    layer_c = np.array(layer_labels, dtype=object)
+    ct_c = np.array(cell_types, dtype=object)
+    n = len(area_c)
+    valid = (pre_np >= -n) & (pre_np < n) & (post_np >= -n) & (post_np < n)
+    gains = np.ones(int(pre_np.shape[0]), dtype=np.float64)
+    if valid.any():
+        vp, vq = pre_np[valid], post_np[valid]
+        pl, ql = layer_c[vp], layer_c[vq]
+        pc, qc = ct_c[vp], ct_c[vq]
+        cand = (area_c[vp] == area_c[vq]) & (
+            ((pl == "L4") & (ql == "L2/3")) | ((pl == "L2/3") & (ql == "L5"))
+        )
+        gv = np.ones(valid.sum(), dtype=np.float64)
+        for (l1, c1, l2, c2), g in gain_map.items():
+            gv[cand & (pl == l1) & (pc == c1) & (ql == l2) & (qc == c2)] = float(g)
+        gains[valid] = gv
+    return gains
+
+
 def _apply_motif_gains(
     model: jtfne.Model,
     gain_map: Mapping[tuple[str, str], float] | None = None,
@@ -873,16 +970,9 @@ def _apply_motif_gains(
         w_np = np.asarray(el.weight, dtype=np.float64)
     except Exception:
         return model
-    # lookup per edge; use table indexing
-    gains = np.ones_like(w_np, dtype=np.float64)
-    for i in range(len(pre_np)):
-        try:
-            pc = cell_types[int(pre_np[i])]
-            qc = cell_types[int(post_np[i])]
-            g = gain_map.get((pc, qc), 1.0)
-            gains[i] = float(g)
-        except Exception:
-            gains[i] = 1.0
+    # lookup per edge via the gain map; vectorized with the old per-edge
+    # try/except semantics (failed lookups keep gain 1.0; negatives wrap).
+    gains = _motif_gains(cell_types, pre_np, post_np, gain_map)
     # only where gain !=1 need scaling
     if np.all(gains == 1.0):
         return model
@@ -938,20 +1028,9 @@ def _apply_laminar_delays(
     pre_np = np.asarray(el.pre, dtype=np.int64)
     post_np = np.asarray(el.post, dtype=np.int64)
     n_edges = int(pre_np.shape[0])
-    delay_ms = np.zeros(n_edges, dtype=np.float64)
-    for k in range(n_edges):
-        try:
-            a_pre = area_labels[int(pre_np[k])]
-            a_post = area_labels[int(post_np[k])]
-            if a_pre == a_post:
-                delay_ms[k] = float(DELAY_WITHIN_MS)
-            else:
-                # FF vs FB by realized post layer (FF targets L4)
-                post_layer = layer_labels[int(post_np[k])]
-                is_ff = post_layer == "L4"
-                delay_ms[k] = float(DELAY_FF_MS) if is_ff else float(DELAY_FB_MS)
-        except Exception:
-            delay_ms[k] = float(DELAY_WITHIN_MS)
+    # Vectorized with the old per-edge try/except semantics: any failed
+    # lookup falls back to DELAY_WITHIN_MS; negative indices wrap.
+    delay_ms = _laminar_delay_ms(area_labels, layer_labels, pre_np, post_np)
     # Validate grid alignment (8/0.1=80 etc)
     try:
         from jaxfne.emitters import edge_list_with_delay_ms
@@ -1509,14 +1588,8 @@ def _apply_sst_output_gain(
     except Exception:
         return model
     n_edges = int(pre_np.shape[0])
-    # mask pre == SST
-    is_sst = np.zeros(n_edges, dtype=bool)
-    for i in range(n_edges):
-        try:
-            if cell_types[int(pre_np[i])] == "SST":
-                is_sst[i] = True
-        except Exception:
-            pass
+    # mask pre == SST, with the old per-edge try/except semantics.
+    is_sst = _sst_mask(cell_types, pre_np)
     if not np.any(is_sst):
         return model
     w_scaled = w_np.copy()
@@ -1811,25 +1884,9 @@ def _apply_vertical_motif_gains(
         return model
     n_edges = int(pre_np.shape[0])
     gains = np.ones(n_edges, dtype=np.float64)
-    # Build vertical mask: area same and laminar pair vertical
-    vertical_pairs = {("L4", "L2/3"), ("L2/3", "L5")}
-    for i in range(n_edges):
-        try:
-            pre_id = int(pre_np[i])
-            post_id = int(post_np[i])
-            if area_labels[pre_id] != area_labels[post_id]:
-                continue
-            pre_l = layer_labels[pre_id]
-            post_l = layer_labels[post_id]
-            if (pre_l, post_l) not in vertical_pairs:
-                continue
-            pre_ct = cell_types[pre_id]
-            post_ct = cell_types[post_id]
-            key = (pre_l, pre_ct, post_l, post_ct)
-            g = gain_map.get(key, 1.0)
-            gains[i] = float(g)
-        except Exception:
-            gains[i] = 1.0
+    # Vertical mask plus gain lookup, with the old per-edge try/except
+    # semantics (failed lookups keep gain 1.0; negatives wrap).
+    gains = _vertical_motif_gains(area_labels, layer_labels, cell_types, pre_np, post_np, gain_map)
     if np.all(gains == 1.0):
         return model
     w_scaled = w_np * gains

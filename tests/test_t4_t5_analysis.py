@@ -289,6 +289,7 @@ def test_t4_t5_run_generates_artifact_arrays():
         assert "t5_per_trial_bandpower" in npz
         assert npz["t4_per_trial_position_power"].shape == (24, 4, 5, 3)
         assert npz["t5_per_trial_bandpower"].shape == (24, 4, 5)
+        npz.close()  # release the zip handle before TemporaryDirectory cleanup (win32 file lock)
         # NPY generated-owner arrays
         diff_arr = np.load(result["artifacts"]["t4_diff_npy"])
         assert diff_arr.shape == (4, 5, 3), f"diff shape {diff_arr.shape}"

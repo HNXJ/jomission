@@ -325,6 +325,7 @@ def test_t7_generated_arrays_artifact_backed():
         assert "per_trial_position_lag" in npz
         assert npz["per_trial_position_lag"].shape == (24, 6, 3)
         assert "trial_conditions" in npz
+        npz.close()  # release the zip handle before TemporaryDirectory cleanup (win32 file lock)
         # NPY matrices
         mean_mat = np.load(art["mean_lag_npy"])
         assert mean_mat.shape == (6, 3), f"mean mat shape {mean_mat.shape}"

@@ -622,9 +622,9 @@
     ]
    }
   },
-  {
-   "id": "HD-WIN-FILELOCK",
-   "status": "OPEN",
+   {
+    "id": "HD-WIN-FILELOCK",
+    "status": "DONE",
    "trigger": "results/harness_debt_classification.json: WinError 32 on TemporaryDirectory cleanup of memmapped npz",
    "goal": "Close memmaps before temp cleanup in t4_t5 and t7 artifact tests",
    "parent_authority": "manifests/harness/environment_failures.json",
@@ -636,12 +636,21 @@
    "frozen": [
     "scientific outputs"
    ],
-   "procedure": "owner repair per classification; serial rerun to confirm signature",
-   "acceptance": "both tests pass on win32 without PermissionError",
-   "stop_condition": "do not quarantine",
-   "artifacts_expected": [],
-   "downstream_unlock": []
-  },
+    "procedure": "owner repair per classification; serial rerun to confirm signature",
+    "acceptance": "both tests pass on win32 without PermissionError",
+    "stop_condition": "do not quarantine",
+    "artifacts_expected": [],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "tests/test_t4_t5_analysis.py, tests/test_t7_lag.py",
+     "summary": "the lock was the tests' own unclosed NpzFile: np.load of an npz keeps the zip handle open on win32, so TemporaryDirectory cleanup hit WinError 32. No mmap exists in the analysis modules. Each test now closes the NpzFile before the temp context exits; no quarantine, no scientific output touched. The classification's 'memmapped npz' wording is corrected to 'unclosed NpzFile handle' by this record",
+     "receipts": [
+      "python -m pytest tests/test_t4_t5_analysis.py::test_t4_t5_run_generates_artifact_arrays  (1 passed, 31.39s, serial)",
+      "python -m pytest tests/test_t7_lag.py::test_t7_generated_arrays_artifact_backed  (1 passed, 26.70s, serial)"
+     ]
+    }
+   },
   {
    "id": "HD-STALE-EXPECTATIONS",
    "status": "OPEN",
@@ -1467,5 +1476,5 @@
     "downstream_unlock": []
    }
   ],
- "next_authorized_task": "HD-WIN-FILELOCK"
+ "next_authorized_task": "HD-STALE-EXPECTATIONS"
 }

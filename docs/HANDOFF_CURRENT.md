@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HD-WIN-FILELOCK` (OPEN): Close memmaps before temp cleanup in t4_t5 and t7 artifact tests
-- stop: do not quarantine
+- `HD-STALE-EXPECTATIONS` (OPEN): Owner repair of stale bounds / quarantine cover as classified
+- stop: no silent bound loosening
 
 ### Locked gates
 

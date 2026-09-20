@@ -13,9 +13,9 @@ record, and the TODO item. Each check yields a finding with a receipt, or
 |---|---|---|
 | criterion weakening | Are the applied thresholds, windows, and estimators those sealed in the spec and gate file? | diff spec at the pre-execution commit against what the analysis used; gate-file blob recorded in the result equals the blob at the spec commit |
 | retuning | Did any parameter, bracket, seed, or rule change after outputs existed? | `git log` on spec and parameter files between spec and result commits must be empty |
-| stale evidence | Is every cited artifact the current version, from the current engine and plant? | receipts resolve at the result commit; engine version in the result equals `current_state.jaxfne_version`; no cited file is marked superseded |
+| stale evidence | Is every cited artifact the current version, from the current engine and model? | receipts resolve at the result commit; engine version in the result equals `current_state.jaxfne_version`; no cited file is marked superseded |
 | unsealed parameter choice | Is any value in the result absent from the spec? | list numeric parameters in the result config; each appears in the spec or a frozen parent artifact |
-| cross-lineage contamination | Did code, data, or state from another unmerged lineage enter? | `git log --first-parent` of the branch touches only its own paths; inputs list no other branch |
+| cross-lineage contamination | Did code, data, or state from another unmerged lineage enter? | `git diff --stat main...BR` touches only its own paths; inputs list no other branch |
 | unsupported PASS | Does the evidence scope match the claim scope? | PASS requires every gate check true on every declared window and cell; component readings are not gate verdicts; OBSERVED claims have receipts; INFERRED stays INFERRED |
 
 Also check:

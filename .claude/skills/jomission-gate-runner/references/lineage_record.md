@@ -18,6 +18,8 @@ Validated by `jomission.harness.validate.validate_lineage`.
 | `derived` | `[{claim, evidence_class: DERIVED, ...}]` |
 | `inferred` | `[{claim, evidence_class: INFERRED}]` |
 | `verdict` | `{label, status}`; status from `manifests/vocabulary.json` `status_labels` |
+| `visualization` | `{V0, V1, V2, V3}` stage -> path; required for executed non-grandfathered lineages (validator rejects a missing block); exemption shape is `{"exempt": "NOT_A_MODEL_LINEAGE", "reason": "..."}` |
+| `qualification` | `{configured, realized, executed, effective}` evidence strings; required when `introduces_mechanism` is true and the lineage executed |
 | `acceptance` | gate profile or criteria reference |
 | `fail_boundary` | where the failure sits |
 | `supersedes`, `retired` | ids |
@@ -36,5 +38,7 @@ Skeleton:
  "preexecution_spec": {"path": "", "commit": ""}, "authority": "", "inputs": [], "frozen": [],
  "executed": true, "observations": [], "derived": [], "inferred": [],
  "verdict": {"label": "", "status": ""}, "acceptance": "", "fail_boundary": "",
- "supersedes": [], "retired": [], "artifacts": [], "tests": [], "commit": ""}
+ "supersedes": [], "retired": [], "artifacts": [], "tests": [], "commit": "",
+ "visualization": {"V0": "", "V1": "", "V2": "", "V3": ""},
+ "qualification": {"configured": "", "realized": "", "executed": "", "effective": ""}}
 ```

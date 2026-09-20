@@ -1,8 +1,8 @@
 <h1>Network Atlas</h1>
 <p>Canonical areas V1, V4, FEF, PFC; layers L1-L6; cell classes E, PV, SST, VIP. Explicit feedforward and feedback motifs with finite delays. Structural connectivity and delays alone do not establish functional hierarchy - see the Propagation Atlas for the cut-controlled verdicts.</p>
 <h2>TFNE expression</h2>
-<p>The model is a cortical system in TFNE/2, the sealed specification language: systems read <code>x : CTX : y</code>, with areas as cortical-unit instances (<code>V1 := CTX[v1]</code>) composed by connection rules (<code>O[ff]</code> feedforward, <code>X[lat]</code> lateral). The whole-system construction renders as:</p>
-<p><code>x : {V1²X[lat]} O[fffb] {V4²X[lat]} O[fffb] {FEF X PFC} : y</code></p>
+<p>The model is a cortical system in TFNE/2, the sealed specification language: cortical units compose as instances (<code>V1 := CTX[v1]</code>) under declared connection rules (<code>O[fffb]</code> feedforward with feedback, <code>X[lat]</code> lateral). The whole-system construction renders as:</p>
+<p><code>x : {V1^2 X[lat]} O[fffb] {V4^2 X[lat]} O[fffb] {FEF X[lat] PFC} : y</code></p>
 <p><code>CTX[IZH]</code> and <code>CTX[HH]</code> are alternative realizations of one cortical definition, never different architectures. TFNE is a specification language, not evidence: it names what was built, while the verdicts live in the results.</p>
 <div class="panel-slot" data-panel="network-3d"></div>
 <div class="panel-slot" data-panel="visual-field"></div>

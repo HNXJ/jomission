@@ -1,6 +1,6 @@
 {
  "schema": "jomission.sealed_artifacts.v1",
- "rule": "entries are append-only; a changed file or blob fails tier 0 (tests/test_sealed_artifacts.py). Slow batteries rewrite results/*.json when run: rerun only under an authorized lineage.",
+ "rule": "entries are append-only; a changed file or blob fails tier 0 (tests/test_harness_guards.py::test_sealed_artifacts_unchanged, tests/test_seal_write_guard.py). Slow batteries rewrite results/*.json when run: rerun only under an authorized lineage.",
  "scope": "every results/*.json tracked at main a488348 (historical evidence) plus frozen executed batteries and assay code; files on unmerged branches are sealed by their branch commit and registered on merge",
  "artifacts": [
   {
@@ -1851,6 +1851,11 @@
    "path": "results/viz/SCI-WS-OSC-2/atlas/manifest.json",
    "blob": "0c7d5687b53d784b81f1909020ef1e9937a5e2fe",
    "sealed_in": "8f3ab6d"
+  },
+  {
+   "path": "results/whole_system_ei_regime_spec.json",
+   "blob": "cb69faa5a1b7516ef2c0f266734e59387477f388",
+   "sealed_in": "2aea20e"
   }
  ]
 }

@@ -1,7 +1,7 @@
-"""N0-N1 native trajectory geometry: frozen plant, boundary trajectories,
+"""N0-N1 native trajectory geometry: frozen model, boundary trajectories,
 full-state observables with spike/reset structure preserved.
 
-N0 freeze: s_E in {50,54,57,61} selective plants unchanged (rule, gains,
+N0 freeze: s_E in {50,54,57,61} selective models unchanged (rule, gains,
 cells, inhibition, convergence, tonic=0, HDP detached-history state).
 Only intervention: uniform E-drive prep amplitude (already-qualified
 steering) to traverse silence<->sync.

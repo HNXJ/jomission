@@ -51,7 +51,7 @@ Validator checks presence and order via `^##\s+(\d+)\.\s+(.+)\s*$`.
 
 **§2 Goal** — MUST state: research question (one sentence), acceptance predicate (pass/fail threshold BEFORE results), out-of-scope / non-goals.
 
-**§3 Starting authoritative state** — MUST tag each claim with exactly one of `OBSERVED` / `DERIVED` / `INFERRED` / `MODEL_ASSUMPTION` / `LITERATURE_PRIOR` / `UNRESOLVED`. Each claim cites authority (manifest, ledger, commit, paper).
+**§3 Starting authoritative state** — MUST tag each claim with exactly one of `OBSERVED` / `DERIVED` / `INFERRED` / `MODEL_ASSUMPTION` / `LITERATURE_PRIOR` / `UNRESOLVED`. Each claim cites authority (manifest, ledger, commit, paper). Scope: these are session-report provenance tags, a different axis from `manifests/vocabulary.json` (claim-knowledge classes plus gate status labels). `MODEL_ASSUMPTION`/`LITERATURE_PRIOR` live on the ASSUMED side; `UNRESOLVED` matches the status label of the same name.
 
 **§4 Work performed** — Table `Worker | Assignment | Action | Artifact | Result` with ≥1 row if work occurred. Text MUST note execution ≠ verification where applicable.
 

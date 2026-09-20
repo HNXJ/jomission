@@ -280,11 +280,14 @@
   "results/v21_bkg_pv_calibration.json",
   "results/v21_coupled_background_spec.json",
   "results/v21_coupled_background.json",
-  "results/v21_pv_stationarity_spec.json",
-  "results/v21_pv_stationarity.json",
-  "manifests/visualization_contract.json",
-  "manifests/dropin_packets.json"
- ],
+   "results/v21_pv_stationarity_spec.json",
+   "results/v21_pv_stationarity.json",
+   "results/whole_system_oscillator_single_area.json",
+   "jomission/qualification/b1_targets.py",
+   "manifests/agsdr_local_objectives.json",
+   "manifests/visualization_contract.json",
+   "manifests/dropin_packets.json"
+  ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [
   {
@@ -332,9 +335,9 @@
    "route": "PUB-V21B-PAGES"
   }
  ],
- "startup": [
-  "read AGENTS.md",
-  "python scripts/project_check.py",
+  "startup": [
+   "read AGENTS.md",
+   "python scripts/project_check.py (full pass needs network plus tier-0; --offline --no-tests is the quick contract)",
   "read manifests/current_state.json",
   "read manifests/todo.json (next item)",
   "read only that item's referenced artifacts",

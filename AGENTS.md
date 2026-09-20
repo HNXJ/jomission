@@ -7,8 +7,8 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 ---
 
 ## Project Rules (read first)
-- Start: `python scripts/project_check.py` must end `PROJECT_CHECK_PASS`; read `manifests/current_state.json`, the next item in `manifests/todo.json`, and only the artifacts it names; then follow `.claude/skills/jomission-gate-runner`. Reconstruct history only when a contradiction appears.
-- Authority over actions, highest first: current explicit reviewer order > sealed results and pre-execution specs > `manifests/` (state, TODO, gates, registries) > `docs/project-sources/` > handoff > sessions and prose. Conflict at any level → STOP and surface both.
+- Start: `python scripts/project_check.py` must end `PROJECT_CHECK_PASS` (full pass needs network plus tier-0; the quick contract is `--offline --no-tests`); read `manifests/current_state.json`, the next item in `manifests/todo.json`, and only the artifacts it names; then follow `.claude/skills/jomission-gate-runner`. Reconstruct history only when a contradiction appears.
+- Authority over actions, highest first: current explicit owner order > current explicit reviewer order > sealed results and pre-execution specs > `manifests/` (state, TODO, gates, registries) > `docs/project-sources/` > handoff > sessions and prose. Conflict at any level → STOP and surface both.
 - Scope: execute only `next_authorized_task` in `manifests/todo.json` or a task the reviewer names. One principal delta per lineage edge; everything else frozen and listed.
 - Seal before running: brackets, rules, criteria, and stop states are committed and pushed before the execution that uses them.
 - Do not retune after results: sealed negatives stay negative; a changed criterion or parameter is a new lineage.
@@ -16,9 +16,9 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 - Evidence class (`OBSERVED`/`DERIVED`/`INFERRED`/`ASSUMED`/`UNKNOWN`) and status (`PASS`/`FAIL`/...) are separate fields; a status comes from the result's `verdict`, never from a green test run.
 - Provenance: work only in `E:\repos\jomission`; `jomission` must import from this checkout and JaxFNE must equal the execution authority.
 - Omission firewall: no omission outcome informs substrate construction or appears in Pages before blind omission.
-- Artifacts: files in `manifests/sealed_artifacts.json` never change; corrections are additive records. Gate thresholds come only from `jomission.harness.gates`. Stage exact paths; push over SSH.
+- Artifacts: files in `manifests/sealed_artifacts.json` never change; corrections are additive records. Gate thresholds come from `jomission.harness.gates`, except frozen executed batteries listed in the gate file. Stage exact paths; push to origin (the check reports divergence only).
 - Tests: lowest covering tier in `manifests/test_tiers.json`; tier 3 runs only inside an authorizing TODO.
-- Visualization contract (`manifests/visualization_contract.json`): every model lineage runs construct → V0 schematic → V1 initial 1 s raster → scientific work → V2 final raster → V3 atlas. V0 and V1 come before any interpretation or tuning; V2 and V3 before the lineage is declared complete. The record's `visualization` block names all four paths and the acceptance report repeats them. A lineage that builds no model declares the manifest's exemption with a reason. Reason: a scalar gate can be blind to structure the trajectories plainly show — WS-PROP-1's rate-count observable read exactly 0.000000 at the directly stimulated area while 12 of its groups differed.
+- Visualization contract (`manifests/visualization_contract.json`): every non-grandfathered model lineage runs construct → V0 schematic → V1 initial 1 s raster → scientific work → V2 final raster → V3 atlas. V0 and V1 come before any interpretation or tuning; V2 and V3 before the lineage is declared complete. The record's `visualization` block names all four paths and the acceptance report repeats them. A lineage that builds no model declares the manifest's exemption with a reason. Reason: a scalar gate can be blind to structure the trajectories plainly show — WS-PROP-1's rate-count observable read exactly 0.000000 at the directly stimulated area while 12 of its groups differed at g=0 (11 at g=0.5).
 
 ## Agent Operating Contract (owner, 2026-09-19)
 

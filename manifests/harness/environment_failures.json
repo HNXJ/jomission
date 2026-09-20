@@ -21,15 +21,15 @@
   },
   {
    "id": "ENV-WIN-FILELOCK",
-   "signature": "PermissionError / WinError 32 on TemporaryDirectory cleanup of memmapped .npz",
-   "cause": "open np.load memmap handles at directory removal (Windows forbids deleting open files)",
+   "signature": "PermissionError / WinError 32 on TemporaryDirectory cleanup with an unclosed NpzFile (no mmap involved)",
+   "cause": "the tests' own np.load of an npz keeps the zip handle open at directory removal (Windows forbids deleting open files)",
    "tests": [
     "tests/test_t4_t5_analysis.py::test_t4_t5_run_generates_artifact_arrays",
     "tests/test_t7_lag.py::test_t7_generated_arrays_artifact_backed"
    ],
    "evidence": "results/harness_debt_classification.json",
-   "repair": "close memmaps before cleanup (TODO HD-WIN-FILELOCK)",
-   "status": "OPEN",
+   "repair": "close the NpzFile before cleanup (TODO HD-WIN-FILELOCK, DONE: close() added in both tests)",
+   "status": "REPAIRED",
    "match": "WinError 32|PermissionError: \\[WinError 32\\]|being used by another process"
   },
   {

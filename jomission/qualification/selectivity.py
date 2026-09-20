@@ -1,6 +1,6 @@
 """S1-S5 inverse pathway-selectivity analysis: predeclared operating model + solver.
 
-Parent authority: fe79fd2 (plant frozen: JaxFNE 0.4.24, jomission_sat_ee_v0
+Parent authority: fe79fd2 (model frozen: JaxFNE 0.4.24, jomission_sat_ee_v0
 shape, measured F/K/rheobases, zero tonic, C-min architecture, no
 homeostatic HDP, all retired axes stand). No simulation, no new rule.
 
@@ -97,8 +97,12 @@ def load_measured():
 
     def curve(rows, key):
         xs = np.array([r["driver_rate"] for r in rows])
-        ys = np.array([r["classes"][key]["I"] if key in r["classes"]
-                       else r["classes"]["E"]["I"] for r in rows])
+        ys = np.array(
+            [
+                r["classes"][key]["I"] if key in r["classes"] else r["classes"]["E"]["I"]
+                for r in rows
+            ]
+        )
         o = np.argsort(xs)
         return xs[o], ys[o]
 
@@ -119,26 +123,38 @@ def load_measured():
         for cpre in ("E", "PV", "SST"):
             sel = (cls[post] == cpost) & (cls[pre] == cpre)
             K[(cpre, cpost)] = float(sel.sum() / max((cls == cpost).sum(), 1))
-    return {"F": F, "GEO": dict(GEO_BANDS), "K": K,
-            "curves": {"ee": (x_ee, i_ee), "epv": (x_epv, i_epv),
-                       "esst": (x_esst, i_esst), "pve": (x_pve, i_pve),
-                       "sste": (x_sste, i_sste)}}
+    return {
+        "F": F,
+        "GEO": dict(GEO_BANDS),
+        "K": K,
+        "curves": {
+            "ee": (x_ee, i_ee),
+            "epv": (x_epv, i_epv),
+            "esst": (x_esst, i_esst),
+            "pve": (x_pve, i_pve),
+            "sste": (x_sste, i_sste),
+        },
+    }
 
 
 def driver_domains(M):
     """Measured driver-rate support maxima (no-extrapolation boundary)."""
     C = M["curves"]
-    return {"ee": float(C["ee"][0].max()),
-            "pve": float(C["pve"][0].max()),
-            "sste": float(C["sste"][0].max())}
+    return {
+        "ee": float(C["ee"][0].max()),
+        "pve": float(C["pve"][0].max()),
+        "sste": float(C["sste"][0].max()),
+    }
 
 
 def in_domain(M, rE, rPV, rSST):
     """Strict interior of all three measured driver domains."""
     D = driver_domains(M)
-    return (rE < D["ee"] - DOMAIN_MARGIN["ee"]
-            and rPV < D["pve"] - DOMAIN_MARGIN["pve"]
-            and rSST < D["sste"] - DOMAIN_MARGIN["sste"])
+    return (
+        rE < D["ee"] - DOMAIN_MARGIN["ee"]
+        and rPV < D["pve"] - DOMAIN_MARGIN["pve"]
+        and rSST < D["sste"] - DOMAIN_MARGIN["sste"]
+    )
 
 
 def make_residual(M, pert=(0.0, 0, 1.0)):
@@ -161,14 +177,16 @@ def make_residual(M, pert=(0.0, 0, 1.0)):
         rSST = F_of("SST", K[("E", "SST")] * s_esst * iESST)
         iPVE = float(np.interp(min(rPV, C["pve"][0].max()), *C["pve"]))
         iSSTE = float(np.interp(min(rSST, C["sste"][0].max()), *C["sste"]))
-        Ie = (K[("E", "E")] * s_ee * iEE + K[("PV", "E")] * iPVE
-              + K[("SST", "E")] * iSSTE)
+        Ie = K[("E", "E")] * s_ee * iEE + K[("PV", "E")] * iPVE + K[("SST", "E")] * iSSTE
         return F_of("E", Ie) - rE, rPV, rSST, Ie
 
     def cortical(rE, rPV, rSST):
-        return (GEO["rE_lo"] <= rE <= GEO["rE_hi"]
-                and rPV >= GEO["rPV_min"] and rSST >= GEO["rSST_min"]
-                and max(rE, rPV, rSST) < GEO["sat_max"])
+        return (
+            GEO["rE_lo"] <= rE <= GEO["rE_hi"]
+            and rPV >= GEO["rPV_min"]
+            and rSST >= GEO["rSST_min"]
+            and max(rE, rPV, rSST) < GEO["sat_max"]
+        )
 
     return eval_point, cortical
 
@@ -184,8 +202,7 @@ def find_roots_s(eval_point, s_ee, s_epv, s_esst):
         if ra == 0.0:
             roots.append(float(a))
         elif ra * rb < 0.0:
-            roots.append(float(brentq(
-                lambda x: eval_point(x, s_ee, s_epv, s_esst)[0], a, b)))
+            roots.append(float(brentq(lambda x: eval_point(x, s_ee, s_epv, s_esst)[0], a, b)))
     detail = []
     for rt in sorted(set(round(x, 3) for x in roots)):
         _, rpv, rsst, Ie = eval_point(rt, s_ee, s_epv, s_esst)
@@ -194,12 +211,16 @@ def find_roots_s(eval_point, s_ee, s_epv, s_esst):
 
 
 def cortical_roots(eval_point, cortical, s_ee, s_epv, s_esst):
-    return [d for d in find_roots_s(eval_point, s_ee, s_epv, s_esst)
-            if cortical(d["rE"], d["rPV"], d["rSST"])]
+    return [
+        d
+        for d in find_roots_s(eval_point, s_ee, s_epv, s_esst)
+        if cortical(d["rE"], d["rPV"], d["rSST"])
+    ]
 
 
-def polish(eval_point, cortical, init_s, fix=None, r_seeds=(5.0, 10.0, 20.0, 30.0),
-             in_domain_fn=None):
+def polish(
+    eval_point, cortical, init_s, fix=None, r_seeds=(5.0, 10.0, 20.0, 30.0), in_domain_fn=None
+):
     """SLSQP: min ||log s||^2 s.t. R(rE;s)=0 + cortical membership.
 
     fix maps axis index -> value (H0/H1 reductions). Acceptance is by
@@ -247,6 +268,7 @@ def polish(eval_point, cortical, init_s, fix=None, r_seeds=(5.0, 10.0, 20.0, 30.
             if kind == "sst":
                 return rsst - 1.0
             return 79.0 - max(rE, rpv, rsst)
+
         return g
 
     for kind in ("lo", "hi", "pv", "sst", "sat"):
@@ -255,8 +277,14 @@ def polish(eval_point, cortical, init_s, fix=None, r_seeds=(5.0, 10.0, 20.0, 30.
     best = None
     for r0 in r_seeds:
         x0 = x0_base + [float(r0)]
-        r = minimize(obj, x0, method="SLSQP", bounds=bounds, constraints=cons,
-                     options={"maxiter": 2000, "ftol": 1e-12})
+        r = minimize(
+            obj,
+            x0,
+            method="SLSQP",
+            bounds=bounds,
+            constraints=cons,
+            options={"maxiter": 2000, "ftol": 1e-12},
+        )
         s, rE = unpack(r.x)
         if abs(eval_point(rE, *s)[0]) > 1e-6:
             continue

@@ -1403,7 +1403,7 @@
     "frozen": [
      "everything. Nothing is changed by a diagnosis"
     ],
-    "procedure": "re-measure per-class rates at full 1 ms resolution rather than from the series decimated by 10, then attribute the deficit. B1_CLASS_TARGETS is ratified as the reference (B1-CLASS-TARGETS-RATIFIED); ratification is a status change, not a tuning of the values",
+    "procedure": "re-measure per-class rates at full 1 ms resolution rather than from the series decimated by 10, then attribute the deficit. B1_CLASS_TARGETS is ratified as the reference (B1-CLASS-TARGETS-RATIFIED); ratification is a status change, not a tuning of the values. Execution is the sealed driver run named in results/whole_system_ei_regime_spec.json, not a pytest battery, so no tier-3 test is named; tier-3 lists pytest batteries only",
     "acceptance": "per-class rates re-measured at full resolution with the subsampling caveat removed, and the PV and VIP deficit attributed to a named mechanism rather than left as an observation",
     "stop_condition": "diagnosis only. No parameter is changed and no rate is calibrated",
     "artifacts_expected": [

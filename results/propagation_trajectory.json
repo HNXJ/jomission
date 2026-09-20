@@ -1,0 +1,44 @@
+{
+ "spec": "results/propagation_trajectory_spec.json",
+ "lineage": "SCI-PROP-TRAJECTORY",
+ "estimator": {
+  "bin_ms": 10,
+  "d": "per area, mean over its groups of the absolute ON minus OFF difference of the 10 ms-binned group rate series (L1 over groups); the retained resolution, not a choice",
+  "null": "the held-out g=0 replicate pair (g000_on_s1 vs g000_off_s1); the same-seed matched design makes g=0 downstream trajectories bit-identical, so any positive divergence there is signal",
+  "onset": "first 10 ms bin where d exceeds the threshold for 5 consecutive bins (50 ms sustained, not a single-bin spike)",
+  "series": "series_rate_hz per group from each cell's sealed npz (133 groups, 1300 bins of 10 ms)",
+  "threshold": "the maximum downstream per-bin divergence of the held-out g=0 replicate pair plus a 1e-12 float-noise floor"
+ },
+ "threshold": 1e-12,
+ "v1_1_peak": 72.3198371367021,
+ "null_ok": true,
+ "downstream": {
+  "V1_2": {
+   "peak": 90.90909160267223,
+   "detects": true,
+   "onset_ms": 11100.0
+  },
+  "V4_1": {
+   "peak": 106.06060652299361,
+   "detects": true,
+   "onset_ms": 11360.0
+  },
+  "V4_2": {
+   "peak": 83.33333379572088,
+   "detects": true,
+   "onset_ms": 12020.0
+  },
+  "FEF": {
+   "peak": 68.18181818181819,
+   "detects": true,
+   "onset_ms": null
+  },
+  "PFC": {
+   "peak": 68.1818188753995,
+   "detects": true,
+   "onset_ms": 12700.0
+  }
+ },
+ "verdict": "PROPAGATION_DETECTED_ORDERED",
+ "fail_boundary": "onset order (ms, area): V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700"
+}

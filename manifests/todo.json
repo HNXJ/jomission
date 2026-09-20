@@ -1411,6 +1411,7 @@
      "summary": "B1_CLASS_TARGETS ratified by the owner 2026-09-19. The marker changes from MODEL_ASSUMPTION/ratification-pending to RATIFIED; the values are frozen as project truth and remain off-limits to post-hoc tuning",
      "receipts": [
       "owner decision 2026-09-19 recorded in the sealing commit of the closeout plan",
+      "correction 2026-09-19: the b1_targets.py marker edit named above landed one commit later (checkpoint-closure batch) with project_check green; the delivered claim was ahead of its evidence and is now matched",
       "python scripts/project_check.py  (green after the marker edit)"
      ]
     }

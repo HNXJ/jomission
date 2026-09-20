@@ -83,9 +83,21 @@
   "WinError 32 file-lock failures classified, not repaired (HD-WIN-FILELOCK)",
   "Skills not yet exercised on a real lineage"
  ],
- "science_restored": {
-  "next": "SCI-V21C-BOUNDARY (OPEN_AFTER_HARNESS, not started)",
-  "question": "order of w_CV=0.3 and w_spontaneous for E b-dispersion, single-cell open-loop",
-  "review_note": "manifests/todo.json SCI-V21C-BOUNDARY.review_note: first-cell definition already ordered SPONTANEOUS_BEFORE_CV by sealed grid; fraction definition decided by f_sp outside (0.0633, 0.1367]"
- }
+  "science_restored": {
+   "next": "SCI-V21C-BOUNDARY (OPEN_AFTER_HARNESS, not started)",
+   "question": "order of w_CV=0.3 and w_spontaneous for E b-dispersion, single-cell open-loop",
+   "review_note": "manifests/todo.json SCI-V21C-BOUNDARY.review_note: first-cell definition already ordered SPONTANEOUS_BEFORE_CV by sealed grid; fraction definition decided by f_sp outside (0.0633, 0.1367]"
+  },
+  "dispositions_2026-09-19": {
+   "authority": "owner closeout program (todo HARNESS-CHECKPOINT-CLOSURE); additive record, the unresolved_defects list above is retained verbatim",
+   "defect_1_lineage_content_check": "closed by HARNESS-LINEAGE-RECEIPT (commit 178ba87): validate_lineage evaluates per-observation check {path, json_pointer, expected, tol} with six live checks",
+   "defect_2_registry_coverage": "closed by HARNESS-REGISTRY-COVERAGE (commit 7adb08a): results_coverage gate plus four additive seal registrations, no result edited",
+   "defect_3_html_scan": "closed 2026-09-19: tests/test_gates_single_source.py test_no_duplicate_gate_implementations now scans site-src HTML for gate check names; no hits today",
+   "defect_4_tier_classification": "closed 2026-09-19: manifests/test_tiers.json by_subsystem now classifies all 26 remaining files (4 numpy-only tier-1 groups; 21 simulating-no-writes covered by tier 2; none writes results)",
+   "defect_5_tier2_execution": "PENDING: the tier-2 command was launched twice and aborted by the owner mid-run; a detached relaunch was killed by the harness. Recorded as lesson L6-NO-DETACHED-RUNS. Rerun in the foreground with the owner present",
+   "defect_6_agents_overlap": "closed 2026-09-19: AGENTS.md is a thin router (project rules kept verbatim) plus the owner's Agent Operating Contract and the H1-H4 evidence rules; tests/test_agents_policy.py asserts that content instead of the retired generic block",
+   "defect_7_evidence_labels": "open as PUB-EVIDENCE-LABELS, executed inside PAGES-THEME-OVERHAUL",
+   "defect_8_win_filelock": "closed by HD-WIN-FILELOCK (commit 9aa6283): unclosed NpzFile handles, not memmapped npz; serial reruns clean",
+   "defect_9_skills_unexercised": "closed by HARNESS-SKILL-DOGFOOD: the SCI-V21C-BOUNDARY dogfood log lives in manifests/harness/lessons.json"
+  }
 }

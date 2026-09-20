@@ -3,12 +3,11 @@
 Source: scratch/gen2_qualification_skeleton_A.md B1 candidate_metric +
         scratch/gen2_qualification_skeleton_A.json B1.candidate_metric
 Spec version: BIOPHYSICAL_QUALIFICATION_v0.1
-Provenance: MODEL_ASSUMPTION / ratification-pending LITERATURE_PRIOR.
+Provenance: RATIFIED MODEL_ASSUMPTION / LITERATURE_PRIOR. Ratified as project
+truth by the owner on 2026-09-19 (todo B1-CLASS-TARGETS-RATIFIED); the values
+are frozen and remain untunable post-hoc. Any change requires a Ledger entry
+and B0 re-audit.
 These are qualification targets (Gen-2 model property), NOT empirical constants.
-Do not tune post-hoc; any change requires a Ledger entry and B0 re-audit.
-
-NOTE: B1 per-class numbers need PI ratification before B1 seal (see skeleton A ambiguities).
-Freeze these values before B1 measurement; they are priors for evidence grading.
 """
 
 from __future__ import annotations
@@ -29,28 +28,28 @@ B1_CLASS_TARGETS: dict[str, dict] = {
             "FEF_E": (3.0, 6.0),
             "PFC_E": (3.0, 6.0),
         },
-        "provenance": "MODEL_ASSUMPTION — ratification-pending",
+        "provenance": "RATIFIED MODEL_ASSUMPTION (owner 2026-09-19, B1-CLASS-TARGETS-RATIFIED)",
         "note": "5-10 Hz as distribution, not universal clamp; E<PV mean required",
     },
     "PV": {
         "label": "parvalbumin",
         "global_target_Hz": (12.0, 25.0),
         "per_layer_target_Hz": {},
-        "provenance": "MODEL_ASSUMPTION — ratification-pending",
+        "provenance": "RATIFIED MODEL_ASSUMPTION (owner 2026-09-19, B1-CLASS-TARGETS-RATIFIED)",
         "note": "fast-spiking inhibitory; must exceed E mean",
     },
     "SST": {
         "label": "somatostatin",
         "global_target_Hz": (6.0, 12.0),
         "per_layer_target_Hz": {},
-        "provenance": "MODEL_ASSUMPTION — ratification-pending",
+        "provenance": "RATIFIED MODEL_ASSUMPTION (owner 2026-09-19, B1-CLASS-TARGETS-RATIFIED)",
         "note": "intermediate rate",
     },
     "VIP": {
         "label": "vasoactive intestinal peptide",
         "global_target_Hz": (8.0, 15.0),
         "per_layer_target_Hz": {},
-        "provenance": "MODEL_ASSUMPTION — ratification-pending",
+        "provenance": "RATIFIED MODEL_ASSUMPTION (owner 2026-09-19, B1-CLASS-TARGETS-RATIFIED)",
         "note": "intermediate-high, disinhibitory role",
     },
 }

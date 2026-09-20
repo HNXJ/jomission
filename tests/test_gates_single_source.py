@@ -6,6 +6,8 @@
    amendment 2 (active fraction per class, which that cell passes).
 3. Outside the frozen executed batteries, any Python file naming these checks
    imports jomission.harness.gates instead of carrying its own thresholds.
+4. site-src HTML names no gate check at all: a page that carried the semantics
+   would be a second source of gate truth.
 """
 
 import json
@@ -60,6 +62,10 @@ def test_no_duplicate_gate_implementations():
             text = f.read_text(encoding="utf-8", errors="ignore")
             if pat.search(text) and "jomission.harness" not in text:
                 offenders.append(rel)
+    for f in (ROOT / "site-src").rglob("*.html"):
+        rel = f.relative_to(ROOT).as_posix()
+        if pat.search(f.read_text(encoding="utf-8", errors="ignore")):
+            offenders.append(rel)
     assert offenders == [], offenders
 
 

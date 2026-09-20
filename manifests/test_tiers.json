@@ -19,8 +19,9 @@
     "tests/test_o_authority.py",
     "tests/test_oscillation.py",
     "tests/test_oscillator_spec.py",
-    "tests/test_pages_build.py",
-    "tests/test_propagation_causal.py",
+     "tests/test_pages_build.py",
+     "tests/test_project_memory.py",
+     "tests/test_propagation_causal.py",
     "tests/test_seal_write_guard.py",
     "tests/test_tfne_v2_spec.py",
     "tests/test_v21_background_design.py",
@@ -44,12 +45,46 @@
      "tests/test_v21b_operation.py::test_v21b_seal_consistent",
      "tests/test_v21b_isi_classes.py::test_isi_rule_sealed"
     ],
-    "unclassified subsystems": "classify cost and writes on first use; add here",
     "V2.1c intrinsic design numerics": [
      "tests/test_v21c_intrinsic_design.py::test_deterministic_numerics_match_h1_assay",
      "tests/test_v21c_intrinsic_design.py::test_dispersion_zero_mean_exact_width",
      "tests/test_v21c_intrinsic_design.py::test_protocol_matches_code"
-    ]
+    ],
+    "analysis and matrix authorities (numpy, no simulation)": [
+     "tests/test_factor_isolation.py",
+     "tests/test_namespaces.py",
+     "tests/test_targets_and_ablations.py"
+    ],
+    "rate-factorial regression (numpy, no simulation)": [
+     "tests/test_rf_rate_factorial.py"
+    ],
+    "substrate gate (skipped until a zero-tonic plant exists)": [
+     "tests/test_substrate_gate.py"
+    ],
+    "simulating, no results writes (tier 2 covers; cost outside tier-1 budget)": [
+     "tests/test_area_local_field.py",
+     "tests/test_atlas_suite.py",
+     "tests/test_atomic_save.py",
+     "tests/test_checkpoint_restart.py",
+     "tests/test_cmin_single_cortex.py",
+     "tests/test_hdp_attractor.py",
+     "tests/test_hdp_integration.py",
+     "tests/test_heartbeat.py",
+     "tests/test_l1_audit.py",
+     "tests/test_network.py",
+     "tests/test_paradigm_exact.py",
+     "tests/test_plasticity_trajectory.py",
+     "tests/test_propagation.py",
+     "tests/test_q8_phenotype.py",
+     "tests/test_rf.py",
+     "tests/test_runtime_regression.py",
+     "tests/test_t2_readiness.py",
+     "tests/test_t4_t5_analysis.py",
+     "tests/test_t7_lag.py",
+     "tests/test_trajectory_and_recording.py",
+     "tests/test_v21_provenance.py"
+    ],
+    "unclassified subsystems": "classify cost and writes on first use; add here"
    }
   },
   "2": {

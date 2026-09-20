@@ -1,23 +1,40 @@
-"""Deterministic harness test for Jomission Agent Reliability Policy (AGENTS.md)."""
+"""Deterministic harness test for Jomission Agent Reliability Policy (AGENTS.md).
+
+AGENTS.md is a thin router: project rules plus the owner's Agent Operating
+Contract and the project evidence rules. The generic block that duplicated the
+global CLAUDE.md was retired with checkpoint closure (2026-09-19); this test
+asserts durable content, not current statuses.
+"""
 
 import pathlib
 import pytest
 
-REQUIRED_HEADINGS = [
-    "Optimization & Epistemic Discipline",
-    "Action & Scope Discipline",
-    "Execution Grammar: W = P(RG)^N S",
-    "Context Discipline",
-    "Harness Adaptation & Maintenance",
-    "Communication & Delivery",
-    "Review & Evidence Discipline",
+PROJECT_RULE_KEYS = [
+    "python scripts/project_check.py",
+    "next_authorized_task",
+    "Seal before running",
+    "Do not retune after results",
+    "Evidence class",
+    "sealed_artifacts.json",
+    "Omission firewall",
+    "Visualization contract",
+]
+
+CONTRACT_HEADINGS = [
+    "## 0. AIM",
+    "## 1. MODEL",
+    "## 2. TRUTH + ACTION",
+    "## 3. PRGS",
+    "## 4. SIMPLICITY + CAPABILITY",
+    "## 5. HARNESS",
+    "## 6. NEVER",
+    "## 7. OUTPUT",
 ]
 
 CRITICAL_RULES = [
-    "Priority: correctness > evidence > clarity > speed",
-    "claim ∈ {observed, derived, inferred, assumed, unknown}",
-    "execution ≠ verification",
-    "PASS requires observed empirical receipts matching claim scope",
+    "correctness > evidence > clarity > speed",
+    "Classify material claims: observed | derived | inferred | assumed | unknown",
+    "execution != verification",
     "H1 External review is hypothesis generation, not authority",
     "H2 Hard-gate claims require receipts",
     "H3 Reconcile arithmetic before Seal",
@@ -41,9 +58,13 @@ def test_agents_policy_headings_and_rules():
     assert "Jomission Agent Reliability Policy" in content, "Missing title in AGENTS.md"
     assert "Authority: Project-level harness policy" in content, "Missing authority statement"
 
-    # Verify required headings
-    for heading in REQUIRED_HEADINGS:
-        assert f"## {heading}" in content, f"Missing required heading: ## {heading}"
+    # Verify project rules
+    for key in PROJECT_RULE_KEYS:
+        assert key in content, f"Missing project rule: {key}"
+
+    # Verify the owner operating contract sections
+    for heading in CONTRACT_HEADINGS:
+        assert heading in content, f"Missing contract heading: {heading}"
 
     # Verify critical rules
     for rule in CRITICAL_RULES:

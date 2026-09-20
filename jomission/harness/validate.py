@@ -201,6 +201,50 @@ def validate_visualization(rec: dict, contract: dict | None = None) -> list[str]
     return err
 
 
+def _json_pointer(doc, pointer: str):
+    cur = doc
+    for tok in pointer.lstrip("/").split("/"):
+        tok = tok.replace("~1", "/").replace("~0", "~")
+        if isinstance(cur, list):
+            cur = cur[int(tok)]
+        else:
+            cur = cur[tok]
+    return cur
+
+
+def _observation_check(rec: dict, o: dict) -> list[str]:
+    """Optional per-observation `check` {path, json_pointer, expected, tol}: the receipt
+    value at the pointer, read at the record's commit, must equal expected within tol."""
+    chk = o.get("check")
+    if not chk:
+        return []
+    lid = rec.get("lineage_id", "?")
+    keys = ("path", "json_pointer", "expected", "tol")
+    missing = [k for k in keys if k not in chk]
+    if missing:
+        return [f"{lid}: check missing {missing}"]
+    if not isinstance(chk, dict) or set(chk) - set(keys):
+        return [f"{lid}: check has unknown keys {sorted(set(chk) - set(keys))}"]
+    if isinstance(chk["expected"], bool) or not isinstance(chk["expected"], (int, float)):
+        return [f"{lid}: check expected must be a number"]
+    if isinstance(chk["tol"], bool) or not isinstance(chk["tol"], (int, float)) or chk["tol"] < 0:
+        return [f"{lid}: check tol must be a non-negative number"]
+    ref = f"{rec['commit']}:{chk['path']}"
+    try:
+        doc = json.loads(read_artifact(ref))
+    except (json.JSONDecodeError, OSError):
+        return [f"{lid}: check path {chk['path']} unreadable or not JSON at {rec['commit']}"]
+    try:
+        got = _json_pointer(doc, chk["json_pointer"])
+    except (KeyError, IndexError, ValueError, TypeError):
+        return [f"{lid}: check pointer {chk['json_pointer']} does not resolve in {chk['path']}"]
+    if isinstance(got, bool) or not isinstance(got, (int, float)):
+        return [f"{lid}: check pointer {chk['json_pointer']} is not numeric"]
+    if abs(got - chk["expected"]) > chk["tol"]:
+        return [f"{lid}: check {chk['json_pointer']} = {got} contradicts expected {chk['expected']} (tol {chk['tol']})"]
+    return []
+
+
 def validate_lineage(rec: dict) -> list[str]:
     classes, labels = vocabulary()
     lid = rec.get("lineage_id", "?")
@@ -230,6 +274,7 @@ def validate_lineage(rec: dict) -> list[str]:
                 err.append(f"{lid}: OBSERVED claim without resolvable receipt: {o.get('claim')}")
             if o.get("kind") == "transient":
                 err += [f"{lid}: {e}" for e in validate_estimator(o)]
+            err += _observation_check(rec, o)
     if rec["verdict"].get("status") not in labels:
         err.append(f"{lid}: verdict status {rec['verdict'].get('status')} not in vocabulary")
     q = rec.get("qualification")

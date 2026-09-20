@@ -527,9 +527,9 @@
    ],
    "downstream_unlock": []
   },
-  {
-   "id": "HARNESS-LINEAGE-RECEIPT",
-   "status": "OPEN",
+   {
+    "id": "HARNESS-LINEAGE-RECEIPT",
+    "status": "DONE",
    "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
    "goal": "Check declared lineage claims against selected receipt values, not only receipt existence",
    "parent_authority": "manifests/harness/checkpoint_1.json unresolved_defects",
@@ -541,16 +541,25 @@
    "frozen": [
     "results/*.json"
    ],
-   "procedure": "add check support; attach checks to existing numeric observations; negative test",
-   "acceptance": "tier 0 passes; a planted wrong value fails",
-   "stop_condition": "no rewriting of sealed results",
-   "artifacts_expected": [
-    "jomission/harness/validate.py",
-    "manifests/lineage_registry.json",
-    "tests/test_harness_guards.py"
-   ],
-   "downstream_unlock": []
-  },
+    "procedure": "add check support; attach checks to existing numeric observations; negative test",
+    "acceptance": "tier 0 passes; a planted wrong value fails",
+    "stop_condition": "no rewriting of sealed results",
+    "artifacts_expected": [
+     "jomission/harness/validate.py",
+     "manifests/lineage_registry.json",
+     "tests/test_harness_guards.py"
+    ],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "jomission/harness/validate.py _observation_check",
+     "summary": "validate_lineage now evaluates an optional per-observation check {path, json_pointer, expected, tol}: the receipt value at the pointer is read at the record's commit and must equal expected within tol; unreadable path, unresolvable pointer, non-numeric value, wrong shape and a value outside tol all fail. Six checks attached to existing numeric observations: the WS-PROP-1 zero R_A(g=0.5) and the 21.0 count-locked total at V1_1, three M2 late-PV rates (A_CTRL 0.707, A_vu 15.055, A_vs 0.162) and the ISOLATED_POP pooled mean 94.15 ms. No sealed result was read with write intent or edited",
+     "receipts": [
+      "python -m pytest tests/test_harness_guards.py  (10 passed, including the planted-wrong-value negative)",
+      "python scripts/project_check.py  (tier-0 green with the six checks live)"
+     ]
+    }
+   },
   {
    "id": "HARNESS-REGISTRY-COVERAGE",
    "status": "OPEN",
@@ -1449,5 +1458,5 @@
     "downstream_unlock": []
    }
   ],
- "next_authorized_task": "HARNESS-LINEAGE-RECEIPT"
+ "next_authorized_task": "HARNESS-REGISTRY-COVERAGE"
 }

@@ -90,6 +90,27 @@ def test_lineage_validator_rejects_defects():
     assert any("without pre-execution spec" in e for e in v.validate_lineage(rec2))
 
 
+def test_lineage_observation_checks_value_match():
+    rec = next(r for r in v.load("manifests/lineage_registry.json")["lineages"]
+               if r["lineage_id"] == "SCI-WS-OSC-2")
+    obs = next(o for o in rec["observations"] if "check" in o)
+    assert v._observation_check(rec, obs) == []
+
+    planted = copy.deepcopy(obs)
+    planted["check"] = dict(obs["check"], expected=obs["check"]["expected"] + 1.0)
+    assert any("contradicts expected" in e for e in v._observation_check(rec, planted))
+
+    bad_ptr = dict(obs["check"], json_pointer="/no/such/path")
+    assert any("does not resolve" in e for e in v._observation_check(rec, {"check": bad_ptr}))
+
+    unreadable = dict(obs["check"], path="results/does_not_exist.json")
+    assert any("unreadable" in e for e in v._observation_check(rec, {"check": unreadable}))
+
+    assert v._observation_check(rec, {"claim": "x"}) == []
+    incomplete = {"check": {"path": "a", "json_pointer": "/b", "expected": 1.0}}
+    assert any("check missing" in e for e in v._observation_check(rec, incomplete))
+
+
 def test_project_skills_valid(tmp_path):
     assert v.validate_skills() == []
     sk = tmp_path / "bad-skill"

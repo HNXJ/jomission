@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-LINEAGE-RECEIPT` (OPEN): Check declared lineage claims against selected receipt values, not only receipt existence
-- stop: no rewriting of sealed results
+- `HARNESS-REGISTRY-COVERAGE` (OPEN): Detect new scientific result artifacts that lack lineage and seal registration
+- stop: no retroactive edits to results
 
 ### Locked gates
 

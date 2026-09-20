@@ -1040,26 +1040,29 @@
    ],
    "executed": true,
    "observations": [
-    {
-     "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/v21_pv_m2.json"
-    },
-    {
-     "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/v21_pv_m2.json"
-    },
-    {
-     "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/v21_pv_m2.json"
-    },
-    {
-     "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/v21_pv_m2.json"
-    },
+     {
+      "claim": "A_CTRL reproduces sealed run A with max difference 0.0 Hz and ends at 0.707 Hz; B_CTRL ends at 15.110 Hz",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/v21_pv_m2.json",
+      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_CTRL/late_pv_hz", "expected": 0.707, "tol": 0.001}
+     },
+     {
+      "claim": "each arm moved exactly its two named blocks: both took the donor value bitwise and every other DynamicState leaf equalled the base",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/v21_pv_m2.json"
+     },
+     {
+      "claim": "A_vu ends at 15.055 Hz, inside the active band and within 0.06 Hz of the donor control",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/v21_pv_m2.json",
+      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_vu/late_pv_hz", "expected": 15.055, "tol": 0.001}
+     },
+     {
+      "claim": "A_vs ends at 0.162 Hz and A_us at 0.000 Hz, both low",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/v21_pv_m2.json",
+      "check": {"path": "results/v21_pv_m2.json", "json_pointer": "/arms/A_vs/late_pv_hz", "expected": 0.162, "tol": 0.001}
+     },
     {
      "claim": "in M1 the same blocks alone gave A_v 0.303 Hz and A_u 0.107 Hz, below the untouched base of 0.707 Hz",
      "evidence_class": "OBSERVED",
@@ -2040,16 +2043,18 @@
      "evidence_class": "OBSERVED",
      "receipt": "results/whole_system_causal_propagation.json"
     },
-    {
-     "claim": "R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/whole_system_causal_propagation.json"
-    },
-    {
-     "claim": "the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/whole_system_causal_propagation.json"
-    },
+     {
+      "claim": "R_A(g = 0.5) is 0.000000 in all six areas, and the ON minus OFF paired difference is exactly 0.0 in every area of all three pairs: the g = 0.5 test pair, the g = 0 control pair and the g = 0 replicate at seed 1",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/whole_system_causal_propagation.json",
+      "check": {"path": "results/whole_system_causal_propagation.json", "json_pointer": "/declared_estimator/R_hz/V1_1", "expected": 0.0, "tol": 0.0}
+     },
+     {
+      "claim": "the paired difference is exactly 0.0 at V1_1 as well, the area the retina drives directly, so the observable has no sensitivity at the point of injection",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/whole_system_causal_propagation.json",
+      "check": {"path": "results/whole_system_causal_propagation.json", "json_pointer": "/why_R_is_identically_zero/per_cell_windows/g500_on_s0/V1_1/two_window_total", "expected": 21.0, "tol": 0.0}
+     },
     {
      "claim": "the held-out null floor over V4_1, V4_2, FEF and PFC is max_abs 0.0 and rms 0.0 with is_degenerate true, and evaluate refused with ValueError rather than substituting a default tolerance",
      "evidence_class": "OBSERVED",
@@ -2379,11 +2384,12 @@
      "evidence_class": "OBSERVED",
      "receipt": "results/whole_system_isolated_pop.json"
     },
-    {
-     "claim": "the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone",
-     "evidence_class": "OBSERVED",
-     "receipt": "results/whole_system_isolated_pop.json"
-    },
+     {
+      "claim": "the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone",
+      "evidence_class": "OBSERVED",
+      "receipt": "results/whole_system_isolated_pop.json",
+      "check": {"path": "results/whole_system_isolated_pop.json", "json_pointer": "/isi/final_window/pooled/mean_ms", "expected": 94.15, "tol": 0.05}
+     },
     {
      "claim": "the ISOLATED_1 arm compiled one neuron and zero edges at V1_1.L5.E with a 0.02, b 0.2, c -65, d 8, u0 -13, v0 -6.738214 and drive 5.0, each sliced from the intact construction, and its pooled interval over the final 1000 ms is 94.5 ms with standard deviation 1.2042 ms, CV 0.012742, implying 10.582 Hz",
      "evidence_class": "OBSERVED",

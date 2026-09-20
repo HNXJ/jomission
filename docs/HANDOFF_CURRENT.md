@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19: empty the todo and problem stacks (harness closeout, context/pages overhaul, code overhaul); scientific execution is limited to the authorized SCI-EI-REGIME-1 diagnosis and the one propagation observable the owner picks from the recorded proposals. No other spec is written
+- stopped because: SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19 and assessed CODE-JAX-OVERHAUL complete. Sequence: Tier-2 (foreground, owner-present; interruption is UNRUN), then SCI-EI-REGIME-1 exactly as declared, then the propagation lineage. The owner chose the trajectory-divergence observable (matched ON/OFF spike-time divergence with the g=0 causal null; V1.1 detectable, no downstream detection at g=0; no velocity predeclared). No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

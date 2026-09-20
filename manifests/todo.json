@@ -1250,31 +1250,39 @@
    "downstream_unlock": [],
    "downstream_note": "blocks nothing and unlocks nothing; it prevents a repeat of the nonzero exit"
   },
-  {
-   "id": "HD-PROPAGATION-OBSERVABLE",
-   "status": "BLOCKED",
-   "trigger": "WS-PROP-1 built the authorized causal estimator and it returned exactly 0.0 in all six areas, including V1_1 which the retina drives directly. The two-window spike count per E cell is exactly 21.000000 in every area, coupling, seed and stimulus condition, so a window-mean rate observable cannot see the stimulus at all",
-   "goal": "an observable for the propagation gate that is sensitive to the stimulus at V1_1",
-   "parent_authority": "BLOCKED on the reviewer. Selecting an observable after seeing that the declared one is degenerate is retuning, and NO_RETUNE_AFTER_RESULTS forbids the actor from choosing it",
-   "principal_delta": "the observable only. The contrast R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)] and the six matched cells stay exactly as sealed",
-   "required_inputs": [
-    "results/whole_system_causal_propagation.json",
-    "jomission/harness/propagation.py"
-   ],
-   "frozen": [
-    "jomission/harness/propagation.py is a sealed artifact (blob 19a0746b, sealed_in a447c63)",
-    "scripts/whole_system_causal_arm.py is sealed (blob 06f4a2a5, sealed_in 2a2f4d8)",
-    "the six WS-PROP-1 cells and their recorded numbers",
-    "no model parameter, drive, delay, HDP state or architecture value may change"
-   ],
-   "procedure": "the reviewer names the observable. The actor then computes it from the six already-recorded cells if the recorded series suffices, or seals a spec for a re-run if it does not, and reports R and the held-out floor on it without choosing any threshold",
-   "acceptance": "the paired ON minus OFF difference at V1_1 is non-zero at g = 0, and the held-out g = 0 replicate yields a non-degenerate floor. Without both, the gate is still not identifying",
-   "stop_condition": "one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment",
-   "artifacts_expected": [
-    "a successor to results/whole_system_causal_propagation.json"
-   ],
+   {
+    "id": "HD-PROPAGATION-OBSERVABLE",
+    "status": "OPEN",
+    "trigger": "WS-PROP-1 built the authorized causal estimator and it returned exactly 0.0 in all six areas, including V1_1 which the retina drives directly. The two-window spike count per E cell is exactly 21.000000 in every area, coupling, seed and stimulus condition, so a window-mean rate observable cannot see the stimulus at all",
+    "goal": "an observable for the propagation gate that is sensitive to the stimulus at V1_1",
+    "parent_authority": "owner 2026-09-19 P9: the trajectory-divergence observable is chosen; BLOCKED is lifted",
+    "principal_delta": "the observable only. The contrast R_A(g) = [r_on(g) - r_off(g)] - [r_on(0) - r_off(0)] and the six matched cells stay exactly as sealed",
+    "required_inputs": [
+     "results/whole_system_causal_propagation.json",
+     "jomission/harness/propagation.py"
+    ],
+    "frozen": [
+     "jomission/harness/propagation.py is a sealed artifact (blob 19a0746b, sealed_in a447c63)",
+     "scripts/whole_system_causal_arm.py is sealed (blob 06f4a2a5, sealed_in 2a2f4d8)",
+     "the six WS-PROP-1 cells and their recorded numbers",
+     "no model parameter, drive, delay, HDP state or architecture value may change"
+    ],
+    "reviewer_decision": {
+     "date": "2026-09-19",
+     "observable": "timing-sensitive trajectory divergence: for each population A, D_A(t) = d(z_A^ON(t), z_A^OFF(t)) on matched stimulus ON/OFF trajectories, first implementation on the spike-time/binned-spike trajectory, never a 1 s count",
+     "null": "disconnected g=0 as the causal null: D_A^prop(t;g) = D_A(t;g) - D_A(t;0), conceptually; a null-derived threshold may replace literal subtraction if statistically cleaner",
+     "adversarial": "g=0 yields no downstream propagation detection while direct V1.1 stimulation is detectable; only then may downstream onset ordering be interpreted",
+     "forbidden": "no predeclared propagation velocity; no monotonic rate amplification demanded; the stimulus moves timing without changing spike count"
+    },
+    "procedure": "compute D_A(t) from the six already-recorded cells if the recorded series suffices, or seal a spec for a re-run if it does not; establish the g=0 null and the V1.1 detectability control before any downstream reading; report R and the held-out floor without choosing any threshold",
+    "acceptance": "direct V1.1 stimulation shows detectable ON/OFF trajectory divergence, and g=0 yields no downstream propagation detection. Without both, the gate is still not identifying",
+    "stop_condition": "one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment",
+    "artifacts_expected": [
+     "a successor to results/whole_system_causal_propagation.json"
+    ],
     "downstream_unlock": [],
     "downstream_note": "blocks any propagation claim about the hierarchy. It does not block the oscillator discriminator, which asks a different question",
+    "sequence": "owner 2026-09-19: Tier-2, then SCI-EI-REGIME-1, then this lineage; it does not displace the ordered science task",
     "proposals": {
      "date": "2026-09-19",
      "by": "actor, for the reviewer to pick exactly one; the actor may not choose",

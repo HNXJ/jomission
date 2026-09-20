@@ -18,9 +18,41 @@
    "repair": "test now asserts durable invariants only (items exist in a live status; LOCKED gates stay LOCKED); statuses validated against evidence by validate_current_state",
    "evidence": "pytest output 2026-09-16: assert 'OPEN' == 'OPEN_AFTER_HARNESS'",
    "scope": "project tests: never encode current state in a test",
-   "recurrence": "2026-09-16 V2.1c-boundary seal: test_verdict_status_follows_evidence_not_tests read the live V2.1c review_override; repaired to build overrides on copies of the sealed V2.1b entry. Remaining tier-0 tests read only sealed evidence or copies."
-  }
- ],
+    "recurrence": "2026-09-16 V2.1c-boundary seal: test_verdict_status_follows_evidence_not_tests read the live V2.1c review_override; repaired to build overrides on copies of the sealed V2.1b entry. Remaining tier-0 tests read only sealed evidence or copies."
+   },
+   {
+    "id": "L3-STATUS-PIN-RECURRENCE",
+    "trigger": "owner retired the V2 chain 2026-09-19 and tier-0 failed on test_preserved_science_todo asserting V2.2-RECURRENCE and BLIND-OMISSION are LOCKED",
+    "cause": "the test still encoded a current status despite its own durable-invariants comment; the L2 repair did not cover the chain assertion",
+    "repair": "the chain assertion now accepts the durable set {LOCKED, RETIRED}; a retired chain can never become executable without a new authorization",
+    "evidence": "commit acfc138; tier-0 green after",
+    "scope": "project tests: status assertions must name the full terminal set, not the current value"
+   },
+   {
+    "id": "L4-NPZFILE-CLOSE-BEFORE-TEMP-CLEANUP",
+    "trigger": "WinError 32 on TemporaryDirectory cleanup in the t4_t5 and t7 artifact tests",
+    "cause": "the tests' own np.load of an npz keeps the zip handle open on win32; no mmap exists in the analysis modules",
+    "repair": "close the NpzFile before the temp context exits; test-harness only, no quarantine",
+    "evidence": "commit 9aa6283; serial reruns 31.39s and 26.70s with no PermissionError",
+    "scope": "windows test hygiene: every npz load in a temp dir"
+   },
+   {
+    "id": "L5-DYNAMICSTATE-REPLACE-NOT-CONSTRUCT",
+    "trigger": "five Q8 tests failed with TypeError: DynamicState.__new__() missing theta_S, aux, b after the 0.4.24 migration",
+    "cause": "state_replacement.py constructed the state from a hardcoded six-field list that predates the engine's NamedTuple",
+    "repair": "rebuild through the namedtuple's own _replace (undeclared fields preserved by construction) and derive hash/shape/verify field lists from DynamicState._fields",
+    "evidence": "commit 8a0450f; tests/test_q8_phenotype.py 10 passed, 2 skipped",
+    "scope": "any code that builds engine state: replace, never reconstruct"
+   },
+   {
+    "id": "L6-NO-DETACHED-RUNS",
+    "trigger": "tier-2 foreground run aborted twice by the owner; the detached relaunch was killed by the harness (ChildProcess.kill on the spawning shell)",
+    "cause": "this environment has no background execution: long foreground runs get aborted and detached processes are reaped",
+    "repair": "run long batteries only in the foreground with the owner present, or split them; do not relaunch detached",
+    "evidence": "2026-09-19 session: two owner aborts, one harness kill, zero output",
+    "scope": "this environment: scheduling of minute-plus runs"
+   }
+  ],
  "dogfood": {
   "lineage": "SCI-V21C-BOUNDARY",
   "skill": "jomission-gate-runner",

@@ -51,6 +51,14 @@
     "repair": "run long batteries only in the foreground with the owner present, or split them; do not relaunch detached",
     "evidence": "2026-09-19 session: two owner aborts, one harness kill, zero output",
     "scope": "this environment: scheduling of minute-plus runs"
+   },
+   {
+    "id": "L7-PY-EDIT-REFORMATS-FILE",
+    "trigger": "editing jomission/*.py produced whole-file normalization (trailing-space strip plus line rewrap) on top of the intended change, three times: t4_t5_analysis.py 293+/93-, builder.py 181+/49-, hdp_attractor.py 1045+/554-",
+    "cause": "unverified: suspected edit-time formatter (global opencode formatter:true is set); tests/*.py edits did not balloon, so the trigger condition is unknown",
+    "repair": "treat large .py diffs as suspect: confirm the semantic hunks are only the intended ones, then rely on the covering tests as the behavior arbiter; never assume a small edit means a small diff",
+    "evidence": "commits 78ab111, b9a6443, f8e1809 diff stats vs intended-change sizes",
+    "scope": "this environment: reviewing .py diffs"
    }
   ],
  "dogfood": {

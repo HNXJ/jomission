@@ -99,6 +99,17 @@ def grad_r_objective(rE, rI):
 # --------------------------------------------------------------------------
 # Engine plumbing (public surface only)
 # --------------------------------------------------------------------------
+def _compile_step_fn(model, dt_ms, **kw):
+    """This module's single compile shape: baseline kernel, no weight trace.
+
+    Extra keywords pass through (record_u_trace, record_edge_current).
+    Identical inputs reach jtfne.compile_step_fn, so compilation is unchanged.
+    """
+    return jtfne.compile_step_fn(
+        model, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False, **kw
+    )
+
+
 def family_masks(model):
     """Boolean edge masks per (src_EI, tgt_EI) family + class member indices."""
     tbl = model.neuron_table()
@@ -173,9 +184,7 @@ def reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, memb
     """
     gm = apply_theta(model, theta)
     n_neurons = int(gm.params["emitter"].n_neurons)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -226,9 +235,7 @@ def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0, dt_ms
     n_steps = int(round(seg_ms / dt_ms))
     theta = np.asarray(theta0, float)
     gm = apply_theta(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     n_neurons = int(gm.params["emitter"].n_neurons)
     dtype = gm.params["emitter"].v0.dtype
     state = initial_state(gm, seed)
@@ -258,9 +265,7 @@ def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0, dt_ms
             reject = "nonfinite_theta"
             break
         gm = apply_theta(model, theta)  # admissibility by construction (clip)
-        step_fn, _ = jtfne.compile_step_fn(
-            gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-        )
+        step_fn, _ = _compile_step_fn(gm, dt_ms)
     rec = {k: (np.array(v) if k != "sub" else v) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -319,9 +324,8 @@ def apply_theta6(model, theta):
     tbl = gm.neuron_table()
     base = np.asarray(e.drive, dtype=float)
     gdE, gdI = theta_to_gains(theta[4:6])
-    out = base.copy()
-    for i, row in enumerate(tbl):
-        out[i] = base[i] * (gdE if str(row["cell_type"]) == "E" else gdI)
+    is_E = np.array([str(row["cell_type"]) == "E" for row in tbl])
+    out = np.where(is_E, base * gdE, base * gdI)
     return gm.with_emitter_parameters(drive_per_neuron=jnp.asarray(out, dtype=e.drive.dtype))
 
 
@@ -398,9 +402,7 @@ def reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members,
     """y* at fixed 6-Theta under constant drive (cold-start matched)."""
     gm = apply_theta6(model, theta)
     n_neurons = int(gm.params["emitter"].n_neurons)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -585,9 +587,7 @@ def closed_loop6(
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     Pker = np.eye(6) - Sp @ np.asarray(S2, float)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     state = initial_state(gm, seed)
     hist = {
         "rE": [],
@@ -645,9 +645,7 @@ def closed_loop6(
                 reject = "NUMERICAL"
                 break
             gm = apply_theta6(model, theta)
-            step_fn, _ = jtfne.compile_step_fn(
-                gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-            )
+            step_fn, _ = _compile_step_fn(gm, dt_ms)
     rec = {k: (np.array(v) if k != "theta" else np.array(v)) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -783,9 +781,7 @@ def closed_loop6_consol(
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     Pker = np.eye(6) - Sp @ np.asarray(S2, float)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     state = initial_state(gm, seed)
     sched = [0.0] * n_seg if drive_schedule is None else list(drive_schedule)
     hist = {
@@ -846,9 +842,7 @@ def closed_loop6_consol(
                 reject = "NUMERICAL"
                 break
             gm = apply_theta6(model, theta)
-            step_fn, _ = jtfne.compile_step_fn(
-                gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-            )
+            step_fn, _ = _compile_step_fn(gm, dt_ms)
     rec = {k: np.array(v) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -861,16 +855,15 @@ def tau_eff_series(theta_hist, theta0, comp=5):
 
     tau_eff,k = -d_k / (d_{k+1} - d_k), d = theta - theta0. Returns arrays
     (tau_eff, |d|) over valid steps (denominator nonzero, same sign).
+
+    theta_hist: float[T] (or [T, 1]); theta0 broadcastable. Empty or
+    single-step histories yield empty arrays.
     """
     th = np.asarray(theta_hist, dtype=float)
     d = th[:, comp] - float(np.asarray(theta0, float)[comp])
-    taus, mags = [], []
-    for k in range(len(d) - 1):
-        dd = d[k + 1] - d[k]
-        if dd != 0 and d[k] != 0 and np.sign(dd) != np.sign(d[k]):
-            taus.append(-d[k] / dd)
-            mags.append(abs(d[k]))
-    return np.array(taus), np.array(mags)
+    dd = d[1:] - d[:-1]
+    valid = (dd != 0) & (d[:-1] != 0) & (np.sign(dd) != np.sign(d[:-1]))
+    return -d[:-1][valid] / dd[valid], np.abs(d[:-1][valid])
 
 
 def recovery_assay(
@@ -917,24 +910,26 @@ def update_H(H, rates_hz, tau_H=TAU_H_SEGS_DFLT):
 
 
 def susceptibility(H, members, h_c, p=P_ELIG_DFLT, m_min=M_MIN_DFLT, m_max=M_MAX_DFLT):
-    """Bounded m(H) in [m_min, m_max]; h_c per class (dict or scalar)."""
+    """Bounded m(H) in [m_min, m_max]; h_c per class (dict or scalar).
+
+    H: float[N] per-neuron history. members: class -> indices. Neurons in no
+    mapped class default to E. H <= 0 (including nan) yields f = 0.
+    """
     H = np.asarray(H, dtype=float)
-    m = np.empty_like(H)
-    cls_of = {}
+    n = len(H)
+    labels = np.full(n, "E", dtype=object)
     for c, idx in members.items():
-        cls_of.update(
-            {
-                int(i): c
-                for c in (["E"] if c == "E" else [c])
-                for i in (idx if c in ("E",) + I_CLASSES else [])
-            }
-        )
-    for i in range(len(H)):
-        c = cls_of.get(i, "E")
-        hc = h_c[c] if isinstance(h_c, dict) else float(h_c)
-        f = (H[i] ** p) / (hc**p + H[i] ** p) if H[i] > 0 else 0.0
-        m[i] = m_min + (m_max - m_min) * f
-    return m
+        if c == "E" or c in I_CLASSES:
+            ii = np.asarray(list(idx), dtype=int)
+            ii = ii[(ii >= 0) & (ii < n)]
+            labels[ii] = c
+    if isinstance(h_c, dict):
+        hc = np.array([h_c[c] for c in labels], dtype=float)
+        f = np.where(H > 0, (H**p) / (hc**p + H**p), 0.0)
+    else:
+        hc = float(h_c)
+        f = np.where(H > 0, (H**p) / (hc**p + H**p), 0.0)
+    return m_min + (m_max - m_min) * f
 
 
 def allocate_drive_delta(m, members, u_E, u_I, eta=4.0):
@@ -1000,9 +995,7 @@ def eligibility_assay(
     H = np.zeros(n_neurons)
     theta_syn = np.zeros(4)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     state = initial_state(gm, seed)
     hist = {
         "phase": [],
@@ -1086,7 +1079,7 @@ def eligibility_assay(
         theta6 = np.concatenate([theta_syn, [0.0, 0.0]])
         theta6 = (
             theta6
-            - 4.0 * (Sp @ g)
+            - 4.0 * u
             - pullback_step(
                 theta6,
                 np.zeros(6),
@@ -1101,9 +1094,7 @@ def eligibility_assay(
         gm_cur = gm_cur.with_emitter_parameters(
             drive_per_neuron=jnp.asarray(base_drive * np.exp(logG), dtype=e.drive.dtype)
         )
-        step_fn, _ = jtfne.compile_step_fn(
-            gm_cur, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-        )
+        step_fn, _ = _compile_step_fn(gm_cur, dt_ms)
         if seg == 0:
             probe_deltas, probe_H = dth[E_idx].copy(), H[E_idx].copy()
         obj = objective_restricted(
@@ -1193,9 +1184,7 @@ def consolidation_allocation_assay(
     H = np.zeros(n_neurons)
     theta_syn = np.zeros(4)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     state = initial_state(gm, seed)
     hist = {
         "phase": [],
@@ -1225,9 +1214,7 @@ def consolidation_allocation_assay(
         gm2 = apply_theta(model, theta_syn).with_emitter_parameters(
             drive_per_neuron=jnp.asarray(base_drive * np.exp(logG), dtype=e.drive.dtype)
         )
-        step_fn, _ = jtfne.compile_step_fn(
-            gm2, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-        )
+        step_fn, _ = _compile_step_fn(gm2, dt_ms)
 
     def observe(spikes, v, phase):
         rates = class_rates(spikes, dt_ms, members)
@@ -1287,9 +1274,7 @@ def consolidation_allocation_assay(
         dth = allocate_drive_delta(m, members, u[4], u[5])
         theta6 = np.concatenate([theta_syn, [0.0, 0.0]])
         theta6 = (
-            theta6
-            - 4.0 * (Sp @ g)
-            - pullback_step(theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+            theta6 - 4.0 * u - pullback_step(theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
         )
         theta_syn = theta6[:4]
         logG = (
@@ -1330,7 +1315,7 @@ def consolidation_allocation_assay(
             else:
                 theta6 = (
                     theta6
-                    - 4.0 * (Sp @ g)
+                    - 4.0 * u
                     - pullback_step(theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
                 )
             theta_syn = theta6[:4]
@@ -1354,11 +1339,16 @@ def consolidation_allocation_assay(
     n_tot = n_hist + n_probe + n_hdecay + n_retain
     ret_start = n_hist + n_probe + n_hdecay
     series = np.array(hist["logG_E"][ret_start:])
+    # Per-neuron tau from retain-phase logG series (median over valid steps).
+    # Vectorized over columns: identical values to per-column tau_eff_series
+    # followed by median, since median is order-invariant.
+    d = np.asarray(series, dtype=float)
+    dd = d[1:] - d[:-1]
+    valid = (dd != 0) & (d[:-1] != 0) & (np.sign(dd) != np.sign(d[:-1]))
+    ok = valid.any(axis=0)
+    te = np.where(valid, -d[:-1] / np.where(valid, dd, 1.0), np.nan)
     taus = np.full(len(E_idx), np.nan)
-    for i in range(len(E_idx)):
-        te, _ = tau_eff_series(series[:, i][:, None], np.zeros(1), comp=0)
-        if len(te):
-            taus[i] = float(np.median(te))
+    taus[ok] = np.nanmedian(te[:, ok], axis=0)
     out["tau_eff"] = taus
     if H_write is not None:
         d_write = np.abs(logG_write)
@@ -1595,9 +1585,7 @@ def module_impulse_response(
         mod = assign_modules(model_g, M)
     cls = np.array([r["cell_type"] for r in tbl])
     gm = apply_theta6(model_g, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     E_t = np.flatnonzero((mod == int(target_mod)) & (cls == "E"))
@@ -1981,9 +1969,7 @@ def settle_rates(
     """Open-loop settled rates + spikes tail (matched-state A_R reader)."""
     masks, members = family_masks(model)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2027,9 +2013,7 @@ def probe_response(
     theta = np.zeros(6) if theta is None else np.asarray(theta, float)
     masks, members = family_masks(model_g)
     gm = apply_theta6(model_g, theta)
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2100,9 +2084,7 @@ def continuation_point(
     masks, members = family_masks(mq)
     wsums = edge_weight_sums(mq)
     gm = apply_theta6(mq, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2192,9 +2174,7 @@ def kick_release_map(
     """
     masks, members = family_masks(model)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     nN = int(gm.params["emitter"].n_neurons)
@@ -2240,9 +2220,7 @@ def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0, win_ms=200.
     (X, syn, H, w, RNG) for forking.
     """
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2278,9 +2256,7 @@ def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT, win_m
     if model_variant is None:
         step_fn = prep["step_fn"]
     else:
-        step_fn, _ = jtfne.compile_step_fn(
-            model_variant, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-        )
+        step_fn, _ = _compile_step_fn(model_variant, dt_ms)
     nN = int(prep["model"].params["emitter"].n_neurons)
     dtype = prep["model"].params["emitter"].v0.dtype
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
@@ -2314,9 +2290,7 @@ def release_audit(
     per-bin E rate. All currents in dv units (directly comparable).
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False, record_u_trace=True
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms, record_u_trace=True)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2389,9 +2363,7 @@ def u_replace_fork(
     Causal u-authority test over the funnel.
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     masks, members = family_masks(gm)
@@ -2434,9 +2406,7 @@ def u_replace_fork(
 def release_prep(model_q0, amp=6.0, pre_ms=500.0, dt_ms=DT_MS_DEFAULT, seed=0):
     """Shared release microstate + base step_fn. Returns dict."""
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -2555,9 +2525,7 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
             ),
         },
     )
-    step_off, _ = jtfne.compile_step_fn(
-        gm_off, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_off, _ = _compile_step_fn(gm_off, dt_ms)
     _, spC, _ = run_segment(step_off, prep["state"], jnp.asarray(Irec[:n_rel], dtype=dtype))
     spC = np.asarray(spC, dtype=float)
     b = max(1, n_rel // 20)
@@ -2657,11 +2625,9 @@ def kernel_map(
             source_calibration_status=el0.source_calibration_status,
         )
         mg = replace(model, params={**model.params, "edge_list": el})
-        step_fn, _ = jtfne.compile_step_fn(
+        step_fn, _ = _compile_step_fn(
             mg,
-            dt_ms=float(dt_ms),
-            kernel="baseline",
-            record_weight_trace=False,
+            dt_ms,
             record_edge_current=True,
         )
         for dv in drives:
@@ -2749,9 +2715,7 @@ def intrinsic_forks(
     Returns {variant: E-tail rate + full per-class tails}.
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(
-        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
-    )
+    step_fn, _ = _compile_step_fn(gm, dt_ms)
     from jomission.qualification.cmin import initial_state
 
     masks, members = family_masks(gm)

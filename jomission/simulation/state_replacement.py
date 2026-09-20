@@ -10,13 +10,15 @@ Frozen authorities (do not alter T1-T7):
 - Require artifact-backed evidence, generated-owner.
 
 Mapping to JaxFNE ContinuationState:
-  C_t = DynamicState(v,u,prev_spikes,syn_state,H,w) + prng_key + step_index + delay_state
+  C_t = DynamicState(v,u,prev_spikes,syn_state,H,w,theta_S,aux,b) + prng_key + step_index + delay_state
   X = (v,u,prev_spikes,syn_state)   fast electrical/synaptic
   H = H                             history (per-neuron trace, scalar d_H=1)
   Θ = w                             adaptive weights (per-edge Theta)
   D = delay_state                   finite-delay ring buffer (None when delays zero)
   RNG = prng_key
   cursor = step_index  (global step offset) + external StimulusSchedule onset
+  theta_S/aux/b are engine state fields beyond the declared Q8 carriers: always
+  preserved (declared carriers are the only leaves that move).
 
 Replacements (technically valid = same config_hash/hp_hash/dt, same shapes/dtypes,
 source is real trajectory state from canonical lifecycle):
@@ -95,6 +97,9 @@ FAST_REPLACEMENTS = ["fast_X_post_to_X_pre"]
 HISTORY_REPLACEMENTS = ["H_post_to_H_pre", "Theta_post_to_Theta_pre", "HTheta_post_to_HTheta_pre"]
 
 
+DYNAMIC_FIELDS = tuple(DynamicState._fields)
+
+
 def _hash_array(arr) -> str:
     """SHA256 of array bytes + shape/dtype; deterministic."""
     a = np.asarray(arr)
@@ -106,14 +111,7 @@ def _hash_array(arr) -> str:
 
 
 def _hash_dynamic(d: DynamicState) -> dict[str, str]:
-    return {
-        "v": _hash_array(d.v),
-        "u": _hash_array(d.u),
-        "prev_spikes": _hash_array(d.prev_spikes),
-        "syn_state": _hash_array(d.syn_state),
-        "H": _hash_array(d.H),
-        "w": _hash_array(d.w),
-    }
+    return {f: _hash_array(getattr(d, f)) for f in DYNAMIC_FIELDS}
 
 
 def _hash_state(s: ContinuationState) -> dict[str, str]:
@@ -181,7 +179,7 @@ def verify_technical_validity(
     if not cfg_info["valid"]:
         issues.append(f"config mismatch {cfg_info}")
     # shapes
-    for field in ["v", "u", "prev_spikes", "syn_state", "H", "w"]:
+    for field in DYNAMIC_FIELDS:
         a = getattr(post.dynamic, field)
         b = getattr(pre.dynamic, field)
         if a.shape != b.shape:
@@ -203,12 +201,13 @@ def verify_technical_validity(
 def _apply_replacement(
     post: ContinuationState, pre: ContinuationState, *, replaced: list[str]
 ) -> ContinuationState:
-    """Core replacement: build new DynamicState with selected fields from pre."""
-    # Build kwargs for DynamicState
-    dyn_kwargs = {}
-    for f in ["v", "u", "prev_spikes", "syn_state", "H", "w"]:
-        dyn_kwargs[f] = getattr(pre.dynamic, f) if f in replaced else getattr(post.dynamic, f)
-    new_dynamic = DynamicState(**dyn_kwargs)
+    """Core replacement: rebuild the dynamic state with selected fields from pre.
+
+    The engine state is a NamedTuple: _replace keeps every field beyond the
+    declared carriers (theta_S, aux, b, ...) exactly as post holds them.
+    """
+    carrier = [f for f in replaced if f in DYNAMIC_FIELDS]
+    new_dynamic = post.dynamic._replace(**{f: getattr(pre.dynamic, f) for f in carrier})
     # Preserve RNG/cursor/D unless explicitly in replaced (not used currently)
     new_prng = pre.prng_key if "prng_key" in replaced else post.prng_key
     new_step = int(pre.step_index) if "step_index" in replaced else int(post.step_index)
@@ -260,7 +259,7 @@ def verify_only_declared_changed(
     issues: list[str] = []
     checks: dict[str, bool] = {}
     # For each field, check expectation
-    for field in ["v", "u", "prev_spikes", "syn_state", "H", "w", "prng_key", "step_index", "delay_state"]:
+    for field in list(DYNAMIC_FIELDS) + ["prng_key", "step_index", "delay_state"]:
         is_declared = field in declared_replaced
         # Determine expected: if declared, rep should equal pre; else rep should equal post
         if is_declared:

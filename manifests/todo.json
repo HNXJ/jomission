@@ -682,7 +682,7 @@
    },
    {
     "id": "HD-STATE-REPLACEMENT-0424",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "HD-STALE-EXPECTATIONS execution surfaced a root split: five tests in tests/test_q8_phenotype.py fail with TypeError at jomission/simulation/state_replacement.py:211 — DynamicState.__new__() missing 3 required positional arguments: theta_S, aux, and b — a construction path that predates the jaxfne 0.4.24 DynamicState fields",
     "goal": "repair the state-replacement machinery to construct a valid 0.4.24 DynamicState, so the Q8 carrier machinery runs against the current engine",
     "parent_authority": "owner closeout directive 2026-09-19 (goal 3: problems detected before the final action are fixed, not queued away); root split recorded in manifests/q8_021_quarantine.json extension_2026-09-19",
@@ -700,7 +700,16 @@
     "stop_condition": "no silent weakening of the state-replacement carrier semantics; a defect beyond the constructor is surfaced, not patched around",
     "artifacts_expected": [],
     "downstream_unlock": [],
-    "downstream_note": "this repairs the machinery, not the quarantine: lifting q8_021_quarantine still requires its own recorded renewal condition"
+    "downstream_note": "this repairs the machinery, not the quarantine: lifting q8_021_quarantine still requires its own recorded renewal condition",
+    "delivered": {
+     "verdict": "PASS",
+     "result": "jomission/simulation/state_replacement.py",
+     "summary": "DynamicState in 0.4.24 is a NamedTuple with three fields beyond the Q8 carriers (theta_S, aux, b); the constructor hardcoded the old six and crashed. The replacement now uses the namedtuple's own _replace, so every field beyond the declared carriers is preserved from post by construction, and the hash, shape/dtype and verify field lists are derived mechanically from DynamicState._fields instead of the hardcoded set. No carrier semantics changed and no frozen identity was touched: the two classified Q8 tests remain quarantined on the stale-identity root. The five TypeError tests did not re-classify to the stale identity — they were purely the constructor defect and now pass",
+     "receipts": [
+      "python -m pytest tests/test_q8_phenotype.py  (10 passed, 2 skipped)",
+      "sealed registry: jomission/simulation/state_replacement.py is not sealed"
+     ]
+    }
    },
    {
     "id": "V2.2-RECURRENCE",

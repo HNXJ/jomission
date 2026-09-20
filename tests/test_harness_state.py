@@ -44,39 +44,61 @@ def test_verdict_status_follows_evidence_not_tests():
     state, todo = v.load("manifests/current_state.json"), v.load("manifests/todo.json")
     bad = copy.deepcopy(state)
     bad["latest_verdict"]["V2.1b"]["status"] = "PASS"  # e.g. copied from a green pytest run
-    assert any("contradicts evidence verdict V2_LOCAL_OPERATION_FAIL" in e for e in v.validate_current_state(bad, todo))
+    assert any(
+        "contradicts evidence verdict V2_LOCAL_OPERATION_FAIL" in e
+        for e in v.validate_current_state(bad, todo)
+    )
     held = copy.deepcopy(state)
     held["latest_verdict"]["V2.1b"]["status"] = "UNRESOLVED"
     held["latest_verdict"]["V2.1b"]["review_override"] = {
-        "evidence_reads": "V2_LOCAL_OPERATION_FAIL", "held_status": "UNRESOLVED", "reason": "probe",
-        "authority": "probe", "lift": "probe"}
+        "evidence_reads": "V2_LOCAL_OPERATION_FAIL",
+        "held_status": "UNRESOLVED",
+        "reason": "probe",
+        "authority": "probe",
+        "lift": "probe",
+    }
     assert not [e for e in v.validate_current_state(held, todo) if "V2.1b" in e]
     wrong = copy.deepcopy(held)
     wrong["latest_verdict"]["V2.1b"]["review_override"]["authority"] = ""
     assert any("review_override missing" in e for e in v.validate_current_state(wrong, todo))
     wrong = copy.deepcopy(held)
-    wrong["latest_verdict"]["V2.1b"]["review_override"]["evidence_reads"] = "V2_LOCAL_OPERATION_PASS"
+    wrong["latest_verdict"]["V2.1b"]["review_override"]["evidence_reads"] = (
+        "V2_LOCAL_OPERATION_PASS"
+    )
     assert any("!= evidence verdict" in e for e in v.validate_current_state(wrong, todo))
 
 
 def test_test_tiers_consistent():
     import re
     from pathlib import Path
+
     root = Path(v.ROOT)
     tiers = v.load("manifests/test_tiers.json")["tiers"]
     t3 = set(tiers["3"]["tests"])
-    t1 = {x.split("::")[0] for xs in tiers["1"]["by_subsystem"].values() if isinstance(xs, list) for x in xs}
+    t1 = {
+        x.split("::")[0]
+        for xs in tiers["1"]["by_subsystem"].values()
+        if isinstance(xs, list)
+        for x in xs
+    }
     for t in set(tiers["0"]["tests"]) | t1 | t3:
         assert (root / t).exists(), t
     assert not t3 & set(tiers["0"]["tests"])
+    ignored = set(re.findall(r"--ignore=(\S+)", tiers["2"]["command"]))
+    assert t3 <= ignored, f"tier-2 command would execute tier-3 batteries: {sorted(t3 - ignored)}"
     writes = re.compile(r"json\.dump|np\.savez|open\([^)]*[\"']w[\"']")
     for f in sorted((root / "tests").glob("test_*.py")):
         text = f.read_text(encoding="utf-8", errors="ignore")
         rel = f.relative_to(root).as_posix()
-        if re.search(r"[\"']results[/\"']|RESULTS", text) and writes.search(text) and rel not in ("tests/test_harness_guards.py", "tests/test_seal_write_guard.py"):
+        if (
+            re.search(r"[\"']results[/\"']|RESULTS", text)
+            and writes.search(text)
+            and rel not in ("tests/test_harness_guards.py", "tests/test_seal_write_guard.py")
+        ):
             assert rel in t3, f"{rel} writes results but is not tier 3"
 
 
 def test_handoff_state_block_current():
     from jomission.harness import handoff
+
     assert handoff.is_current(), "run: python -m jomission.harness.handoff"

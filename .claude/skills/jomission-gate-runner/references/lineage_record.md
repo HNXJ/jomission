@@ -14,7 +14,7 @@ Validated by `jomission.harness.validate.validate_lineage`.
 | `frozen` | everything held fixed |
 | `executed` | bool |
 | `qualification` | `{configured, realized, executed, effective}` evidence strings |
-| `observations` | `[{claim, evidence_class: OBSERVED, receipt, kind?, estimator?}]`; `kind: transient` requires estimator bin_width_ms, aggregation, baseline, sign |
+| `observations` | `[{claim, evidence_class: OBSERVED, receipt, kind?, estimator?, check?}]`; `kind: transient` requires estimator bin_width_ms, aggregation, baseline, sign; `check` is `{path, json_pointer, expected, tol}` pinning the receipt value |
 | `derived` | `[{claim, evidence_class: DERIVED, ...}]` |
 | `inferred` | `[{claim, evidence_class: INFERRED}]` |
 | `verdict` | `{label, status}`; status from `manifests/vocabulary.json` `status_labels` |

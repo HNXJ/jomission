@@ -1444,7 +1444,7 @@
    },
    {
     "id": "SKILLS-OVERHAUL",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 1: all context and skills low-verbosity, simple and smooth) plus the two dogfood proposals awaiting disposition in manifests/harness/lessons.json",
     "goal": "bring every skill file to low-verbosity, well-structured prose; apply the two recorded gate-runner wording proposals; keep all contract fields valid",
     "parent_authority": "owner closeout directive 2026-09-19 (goal 1); the standing reviewer rule 'no new skills' is untouched",
@@ -1463,7 +1463,15 @@
     "artifacts_expected": [
      ".claude/skills/jomission-gate-runner/SKILL.md"
     ],
-    "downstream_unlock": []
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": ".claude/skills/jomission-gate-runner/SKILL.md",
+     "summary": "both recorded proposals applied to the gate-runner skill (unmerged-parent handling in step 2; spec criteria when no gate file applies in step 4). The low-verbosity pass found no padding: both SKILL.md files and all three references are dense tables, lists and commands. One consistency repair: the lineage_record reference now documents the check field that HARNESS-LINEAGE-RECEIPT added. No skill name, front-matter contract or description changed; no new skill",
+     "receipts": [
+      "python scripts/project_check.py  (skills check green; tier-0 green)"
+     ]
+    }
    },
    {
     "id": "PAGES-THEME-OVERHAUL",
@@ -1517,5 +1525,5 @@
     "downstream_unlock": []
    }
   ],
- "next_authorized_task": "SKILLS-OVERHAUL"
+ "next_authorized_task": "PAGES-THEME-OVERHAUL"
 }

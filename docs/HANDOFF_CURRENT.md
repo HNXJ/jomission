@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SKILLS-OVERHAUL` (OPEN): bring every skill file to low-verbosity, well-structured prose; apply the two recorded gate-runner wording proposals; keep all contract fields valid
-- stop: skill edits come only from logged friction or this owner directive
+- `PAGES-THEME-OVERHAUL` (OPEN): rebuild site-src to that standard as one coherent site
+- stop: presentation only; no scientific claim is created, strengthened or weakened. A label with no vocabulary home stops the work: surface, do not invent
 
 ### Locked gates
 

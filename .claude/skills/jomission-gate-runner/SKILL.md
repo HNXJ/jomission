@@ -14,14 +14,17 @@ Order is fixed. A failed step is a STOP, not a workaround.
    units: `biophysical-modeling`; numerics, precision, seeds: `numerical-computing`).
 2. **Verify parent.** The parent lineage's result commit is an ancestor of HEAD
    (`git merge-base --is-ancestor`), and its sealed files are unchanged
-   (tier 0 `test_sealed_artifacts_unchanged`).
+   (tier 0 `test_sealed_artifacts_unchanged`). When the parent is unmerged,
+   branch from the parent result commit, merge main, and pin parent blobs in
+   the spec.
 3. **Verify frozen variables.** Each `frozen` entry maps to a file, blob, seed,
    or constant you can name. Anything you would have to choose now is not
    frozen: add it to the spec in step 4, before running.
 4. **Verify the pre-execution seal.** Bracket, rule, criteria, gate profile,
    and stop states are in a committed spec pushed before execution. Gate
    thresholds come from `manifests/gates/*.json` via `jomission.harness.gates`
-   (profile `prospective_v2` for new runs). Input schedules pass
+   (profile `prospective_v2` for new runs), or from the lineage spec's own
+   criteria when no gate file applies. Input schedules pass
    `jomission.harness.drive.check_additive_schedule`.
 5. **Visualize before work** (VISUALIZATION_CONTRACT,
    `manifests/visualization_contract.json`). Render V0

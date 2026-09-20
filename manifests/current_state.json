@@ -229,7 +229,7 @@
  },
  "open_scientific_question": "what the local E-I circuit does, now that it is excluded as the generator of the 94 ms mode. That question is blocked in practice by INTERNEURON_RATE_REGIME: PV and VIP are near-silent at 0.43 and 0.45 Hz and SST is hyperactive at 51.28 Hz, so the E-I circuit is not in a regime where its contribution can be measured. Separately open and unmeasured: what makes the bursts discrete, which local E->E clearly shapes",
  "stopped_because": "SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19: empty the todo and problem stacks (harness closeout, context/pages overhaul, code overhaul); scientific execution is limited to the authorized SCI-EI-REGIME-1 diagnosis and the one propagation observable the owner picks from the recorded proposals. No other spec is written",
- "next_authorized_task": "SKILLS-OVERHAUL",
+ "next_authorized_task": "PAGES-THEME-OVERHAUL",
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

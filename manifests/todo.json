@@ -1530,7 +1530,7 @@
    },
    {
     "id": "CODE-JAX-OVERHAUL",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 2): all code low-complexity, optimal computational order, best ideal flattening and usage of jax",
     "goal": "bring the jomission package and scripts to that standard module by module",
     "parent_authority": "owner closeout directive 2026-09-19 (goal 2)",
@@ -1547,10 +1547,20 @@
     ],
     "procedure": "module by module (dynamics, qualification, analysis, visualization, harness, then scripts/): enumerate callers and covering tests first; load the numerical-computing skill; flatten and vectorize to the optimal order; if a reordering changes a floating-point result a test asserts, justify it in the commit or keep the original order; run tier-0 plus the covering tier per module; fix every newly detected problem in scope rather than queueing it",
     "acceptance": "per-module receipts: covering tiers green, no sealed artifact hash changed, no result file touched; one full-suite run green at the end",
-    "stop_condition": "no scientific verdict is rerun, reinterpreted or re-tuned; a change that would alter a sealed number is not made",
-    "artifacts_expected": [],
-    "downstream_unlock": []
-   }
+     "stop_condition": "no scientific verdict is rerun, reinterpreted or re-tuned; a change that would alter a sealed number is not made",
+     "artifacts_expected": [],
+     "downstream_unlock": [],
+     "delivered": {
+      "verdict": "PASS",
+      "result": "jomission/analysis/t4_t5_analysis.py, jomission/analysis/t7_lag.py, jomission/network/builder.py, jomission/qualification/hdp_attractor.py, jomission/analysis/q8_phenotype.py, jomission/visualize/run.py, jomission/visualization/sampling_utils.py, scripts/render_visualization_contract.py",
+      "summary": "FASTER (measured before/after on identical inputs): t4_t5 bandpower FFT path 1.18ms to 0.09ms per contact-window (~10x, five FFTs to one); susceptibility N=400 0.376ms to 0.135ms (2.8x); tau_eff_series T=60 0.071ms to 0.012ms (6.2x); builder masks at E=12000: SST 4.1x, motif 4.2x, laminar 5.9x, vertical 1.5x (map loop dominates); hoists eliminating recompute (windows, condition sets, Sp@g x3, sigma, hashlib). EQUIVALENT (proof): t4_t5/t7 full files green (7+10); four hdp scalar-reference equivalence tests across asymmetric/boundary/empty/small cases plus recovery/closed-loop/theta6/S tests green; five builder boxed scalar-reference tests including out-of-range/negative/empty indices plus heartbeat/cmin/rf green (9, then 22); q8 full file green (10+2skip); visualize/run, sampling, render-contract imports plus visualization_contract green; tier-0 202 and tier-1 exact nodes (18) green at seal. apply_theta6 is 2.17ms to 2.48ms (no gain: dominated by apply_theta/emitter rebuild; complexity-only win, reported not hidden). No sealed artifact hash changed; no result file touched (results/ clean at every seal). DECLINED AND RETAINED with reasons: float32 storage (accumulation already float64-or-better); frozen estimator signatures and NaN-gate semantics (t7); cross-function FFT sharing (ms-scale, structural); estimate_S batching and per-segment recompile (structural+RNG); q8 bandpower unification and viz/q8 estimator internals (frozen semantics); the run.py 531.0 invention (would change behavior); vertical-topology scan and spatial-locality RNG loop (retained per the RNG rule: order-coupled draws, negligible gain). BOUNDARY: hdp controller internals, builder topology samplers, viz estimators and remaining scripts were surveyed for light defects only, not rewritten; no defect evidence found there beyond what was fixed. The .py edit-time formatter normalized touched files (lesson L7); every seal verified git diff -w shows only intended semantic hunks plus null formatting",
+      "receipts": [
+       "before/after bench harnesses in session temp (bench_hdp.py, bench_builder.py): numbers above",
+       "tests/test_hdp_vectorization.py (4 passed) and tests/test_builder_vectorization.py (5 passed): scalar-reference equivalence",
+       "python scripts/project_check.py  (tier-0 green, sealed registry green, tree clean)"
+      ]
+     }
+    }
   ],
- "next_authorized_task": "CODE-JAX-OVERHAUL"
+ "next_authorized_task": "HARNESS-CHECKPOINT-CLOSURE"
 }

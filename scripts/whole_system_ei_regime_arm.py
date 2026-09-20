@@ -261,12 +261,13 @@ def main(
         ),
         "o_authority": authority,
         "lineage": SPEC.get("lineage_id", "WS-DIAG-1"),
-        "kernel": SPEC["kernel"]["kernel"],
-        "hdp": bool(SPEC["kernel"].get("hdp")),
-        "kernel_config": SPEC["kernel"],
+        "kernel": "baseline",
+        "hdp": False,
+        "kernel_config": "frozen block of results/whole_system_ei_regime_spec.json (kernel baseline, hdp false)",
         "scope": (
-            "this verdict is scoped to the sealed 5 s horizon. A 5 s diagnostic can establish an "
-            "immediate failure; it cannot establish long-term stability"
+            "this diagnosis is scoped to the sealed 13 s horizon at g = 0 with the intact "
+            "construction. It attributes the observed E-I rate regime; it does not establish "
+            "what the coupled system does"
         ),
         "enforcement": enforcement,
         "retina": retina.declaration(tonic_e=tonic_e),
@@ -304,7 +305,10 @@ def main(
 
     members = {g: np.arange(index[g][0], index[g][1]) for g in groups_of(index)}
 
-    kspec = SPEC["kernel"]
+    # Kernel config comes from the sealed spec's frozen block (kernel baseline,
+    # hdp false), which carries no top-level kernel block. Values below are that
+    # block restated, not new choices.
+    kspec = {"kernel": "baseline"}
     kkw = dict(kspec.get("hdp_params", {}))
     rule_params = dict(kspec.get("hdp_rule_params", {}))
     if kspec.get("hdp_rule_module"):

@@ -479,9 +479,9 @@
    ],
    "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
   },
-  {
-   "id": "PUB-V21B-PAGES",
-   "status": "OPEN",
+   {
+    "id": "PUB-V21B-PAGES",
+    "status": "DONE",
    "trigger": "reviewer: add V2.1b and class-resolved ISI to Pages when convenient",
    "goal": "Pages entries for V2.1b FAIL and class-resolved ISI from allowlisted sealed artifacts",
    "parent_authority": "site-src/manifest.json",
@@ -493,17 +493,26 @@
    "frozen": [
     "all results"
    ],
-   "procedure": "allowlist artifacts, add lineage edges, render; build_pages.py never simulates",
-   "acceptance": "tests/test_pages_build.py passes",
-   "stop_condition": "publication is not a gate",
-   "artifacts_expected": [
-    "site-src/manifest.json"
-   ],
-   "downstream_unlock": []
-  },
-  {
-   "id": "PUB-EVIDENCE-LABELS",
-   "status": "OPEN",
+    "procedure": "allowlist artifacts, add lineage edges, render; build_pages.py never simulates",
+    "acceptance": "tests/test_pages_build.py passes",
+    "stop_condition": "publication is not a gate",
+    "artifacts_expected": [
+     "site-src/manifest.json"
+    ],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "site-src/manifest.json",
+     "summary": "results/v21b_lineage.json (OBSERVED/FAIL), results/v21b_isi_classes.json (OBSERVED/PARTIAL) and, for the routed uncertainty, results/v21c_boundary.json (DERIVED/INFEASIBLE) allowlisted with three activity-page panels and three lineage edges at the sealed lineage commits c01913a, 3f7aa5f and d3a0c3c. Publication only; no result touched and the builder never simulates",
+     "receipts": [
+      "python scripts/build_pages.py --out <tmp>  (the three panels render with sealed values)",
+      "python -m pytest tests/test_pages_build.py  (10 passed)"
+     ]
+    }
+   },
+   {
+    "id": "PUB-EVIDENCE-LABELS",
+    "status": "DONE",
    "trigger": "harness checkpoint 1 inventory: site-src/manifest.json `evidence` mixes evidence classes with status labels",
    "goal": "Publish evidence class and status as separate fields, matching manifests/vocabulary.json",
    "parent_authority": "manifests/vocabulary.json evidence_vs_status",
@@ -517,16 +526,25 @@
     "all results/*.json",
     "Pages firewall prohibited_strings"
    ],
-   "procedure": "split each allowlist entry into evidence_class (vocabulary evidence_classes) and status (vocabulary status_labels); update build and tests",
-   "acceptance": "tests/test_pages_build.py passes with a check that both fields come from vocabulary",
-   "stop_condition": "a label with no vocabulary home -> surface, do not invent",
-   "artifacts_expected": [
-    "site-src/manifest.json",
-    "scripts/build_pages.py",
-    "tests/test_pages_build.py"
-   ],
-   "downstream_unlock": []
-  },
+    "procedure": "split each allowlist entry into evidence_class (vocabulary evidence_classes) and status (vocabulary status_labels); update build and tests",
+    "acceptance": "tests/test_pages_build.py passes with a check that both fields come from vocabulary",
+    "stop_condition": "a label with no vocabulary home -> surface, do not invent",
+    "artifacts_expected": [
+     "site-src/manifest.json",
+     "scripts/build_pages.py",
+     "tests/test_pages_build.py"
+    ],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "site-src/manifest.json, scripts/build_pages.py, tests/test_pages_build.py",
+     "summary": "every panel and allowlist entry carries evidence_class (vocabulary evidence_classes) and status (vocabulary status_labels) as separate fields; the build raises on any label without a vocabulary home and the pages test asserts the same. Mappings with reasons: sealed negatives to OBSERVED/FAIL; RETRACTED to DERIVED/VOID with Corrected/Retracted titles kept; POLICY seal and specification records to DERIVED with no status; superseded content to OBSERVED/SUPERSEDED. Dropped free-text statuses, surfaced here: program seal scope-bounded, COARSE_FIXED_POINT_OFF_NATIVE_MANIFOLD, NONE_IDENTIFIED with modulatory findings, NATIVE_GEOMETRY_NO_INTERMEDIATE with tested domain, the EI-geometry, stability, basin, selective-native, selectivity-design and V2.1 pass/fail qualifiers (kept as the matching vocabulary status with the qualifier moved to a note where it carries meaning), the coarse-fixed-point design-authority qualifier, SEALED, and the tested-domain and modulatory qualifiers (moved to notes). No gate threshold literal invented or moved; no result edited",
+     "receipts": [
+      "python scripts/build_pages.py --out <tmp>  (builds; unknown labels raise)",
+      "python -m pytest tests/test_pages_build.py  (10 passed, including the vocabulary test)"
+     ]
+    }
+   },
    {
     "id": "HARNESS-LINEAGE-RECEIPT",
     "status": "DONE",
@@ -1475,7 +1493,7 @@
    },
    {
     "id": "PAGES-THEME-OVERHAUL",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 1): all context low-verbosity, clearly formatted with tables, lists, paragraphs and HTML figures, theme-matched, TFNE grammar consistent, terms consistent, well-organized left menu",
     "goal": "rebuild site-src to that standard as one coherent site",
     "parent_authority": "owner closeout directive 2026-09-19 (goal 1)",
@@ -1499,7 +1517,16 @@
      "scripts/build_pages.py",
      "tests/test_pages_build.py"
     ],
-    "downstream_unlock": []
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "site-src/, scripts/build_pages.py, tests/test_pages_build.py",
+     "summary": "goal-1 rebuild as one coherent site: the flat link row is a topic-grouped left sidebar (6 groups from manifest nav); pages rewritten as paragraphs, tables, lists and figure slots with the evidence class and status split in every heading; plant replaced by model throughout per the vocabulary operating_regime rule; the network page states the TFNE/2 expression from the sealed language and the renderer's title string, nothing invented; the activity page carries the V2.1b and V2.1c sections. Two machinery defects found by strengthening the tests: panels rendered with empty ids (the manifest keys them but never stamped the id, so the evidence test matched nothing) and the evidence test's fixed 4000-char window cut off before long panels' footers (now bounded by section end). Presentation only: no sealed number touched, no claim created or weakened",
+     "receipts": [
+      "python scripts/build_pages.py --out <tmp>  (builds)",
+      "python -m pytest tests/test_pages_build.py  (10 passed: vocabulary, nav sidebar, non-vacuous evidence machinery)"
+     ]
+    }
    },
    {
     "id": "CODE-JAX-OVERHAUL",
@@ -1525,5 +1552,5 @@
     "downstream_unlock": []
    }
   ],
- "next_authorized_task": "PAGES-THEME-OVERHAUL"
+ "next_authorized_task": "CODE-JAX-OVERHAUL"
 }

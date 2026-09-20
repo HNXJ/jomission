@@ -1,12 +1,19 @@
 <h1>Overview</h1>
 <p>Jomission is a JaxFNE-native computational neurophysiology project for a continuous multi-area laminar visual omission paradigm. The scientific objective is not to manufacture omission responses: it is to determine whether a generically qualified cortical substrate, after structured exposure, develops omission-linked phenotypes, and what mechanisms causally support them.</p>
 <h2>Gen-1 vs Gen-2</h2>
-<p>Gen-1 (sealed, immutable) completed canonical exposure and produced predominantly sensory-drive-removal phenotypes. Gen-2 must qualify a generic cortical substrate — persistence, communication, cortical operation, observability — before freeze, and only then ask whether omission physiology emerges. Omission-success outcomes are forbidden calibration targets before freeze.</p>
+<p>Gen-1 (sealed, immutable) completed canonical exposure and produced predominantly sensory-drive-removal phenotypes. Gen-2 must qualify a generic cortical substrate - persistence, communication, cortical operation, observability - before freeze, and only then ask whether omission physiology emerges. Omission-success outcomes are forbidden calibration targets before freeze.</p>
 <h2>Gate graph</h2>
 <p>Statuses below come from the explicit state specification, never from file existence. History (superseded engine blocker) is shown separately and is never the current blocker.</p>
 <div class="panel-slot" data-panel="gate-graph"></div>
 <h2>Current seal</h2>
 <div class="panel-slot" data-panel="gen2-seal"></div>
 <div class="panel-slot" data-panel="migration-table"></div>
-<h2>Evidence classes</h2>
-<p>OBSERVED: direct executed outputs. DERIVED: computed from observed under stated methods. INFERRED: interpretations, labeled as such. NEGATIVE: sealed negative results (evidence, not failure to execute). RETRACTED / VOID: preserved errors and void lineages, visually distinct, never reused. QUARANTINED: sealed-off machinery (Q8 identity, Gen-1 B-cell figures). SUPERSEDED: true for an earlier state only. LOCKED / POLICY: gates and governance.</p>
+<h2>Evidence classes and statuses</h2>
+<p>Every panel carries two separate labels. The evidence class says how its content is known; the status says what was concluded. Both come from the project vocabulary, never invented per page.</p>
+<ul>
+<li>OBSERVED: direct executed outputs.</li>
+<li>DERIVED: computed from observed content under stated methods.</li>
+<li>INFERRED: interpretations, labeled as such.</li>
+<li>ASSUMED / UNKNOWN: explicit assumptions and unknowns.</li>
+</ul>
+<p>Statuses include PASS, FAIL, PARTIAL, UNRESOLVED, INFEASIBLE, FEASIBLE, VOID, QUARANTINED, SUPERSEDED, and LOCKED. A sealed negative is class OBSERVED with status FAIL: evidence, not a failure to execute. Retracted and void content is class DERIVED or OBSERVED with status VOID: preserved so errors are not repeated, never reused.</p>

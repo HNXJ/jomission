@@ -41,8 +41,9 @@ def tree_hash():
 
 def run_build(out, commit="testcommit0"):
     env = dict(os.environ, JOMISSION_PAGES_COMMIT=commit)
-    r = subprocess.run([sys.executable, BUILD, "--out", out], cwd=REPO,
-                       capture_output=True, text=True, env=env)
+    r = subprocess.run(
+        [sys.executable, BUILD, "--out", out], cwd=REPO, capture_output=True, text=True, env=env
+    )
     assert r.returncode == 0, r.stderr[-3000:]
     return out
 
@@ -78,6 +79,7 @@ def test_build_deterministic(site_a):
 
 def test_manifest_valid():
     import sys
+
     sys.path.insert(0, os.path.join(REPO, "scripts"))
     man = json.load(open(os.path.join(REPO, "site-src", "manifest.json")))
     for fn in man["results_allowlist"]:
@@ -85,8 +87,9 @@ def test_manifest_valid():
     for fn in man["results_manifests_allowlist"]:
         json.load(open(os.path.join(REPO, "manifests", fn)))
     import build_pages as bp
+
     for pid, p in man.get("panels", {}).items():
-        assert p.get("evidence"), pid
+        assert p.get("evidence_class"), pid
         assert p.get("source") or p.get("note"), pid
         if p.get("type", "figure") == "figure":
             assert p.get("renderer") in bp.RENDERERS, pid
@@ -98,10 +101,39 @@ def test_manifest_valid():
         assert g["status"] in ("PASS", "FAIL", "LOCKED"), g
 
 
+def test_vocabulary_labels():
+    man = json.load(open(os.path.join(REPO, "site-src", "manifest.json")))
+    vocab = json.load(open(os.path.join(REPO, "manifests", "vocabulary.json")))
+    classes, labels = set(vocab["evidence_classes"]), set(vocab["status_labels"])
+    assert man["evidence_classes"] == vocab["evidence_classes"]
+    for pid, p in man.get("panels", {}).items():
+        assert p.get("evidence_class") in classes, pid
+        assert "status" not in p or p["status"] in labels, pid
+    for section in ("results_allowlist", "results_manifests_allowlist", "plotly_allowlist"):
+        for fn, e in man.get(section, {}).items():
+            assert e.get("evidence_class") in classes, (section, fn)
+            assert "status" not in e or e.get("status") in labels, (section, fn)
+    for g in man.get("gates", []) + man.get("gates_historical", []):
+        assert g.get("status") in labels, g.get("id")
+
+
+def test_nav_sidebar_grouped(site_a):
+    man = json.load(open(os.path.join(REPO, "site-src", "manifest.json")))
+    groups = man.get("nav", [])
+    assert groups, "manifest nav groups missing"
+    assert sorted(sum([g["pages"] for g in groups], [])) == sorted(man["pages"])
+    index = open(os.path.join(site_a, "index.html"), encoding="utf-8").read()
+    assert '<aside class="sidebar">' in index
+    for g in groups:
+        assert g["group"] in index, g["group"]
+
+
 def test_renderers_deterministic_and_labeled():
     import sys
+
     sys.path.insert(0, os.path.join(REPO, "scripts"))
     import build_pages as bp
+
     man = json.load(open(os.path.join(REPO, "site-src", "manifest.json")))
     ctx = {"manifest": man, "commit": "unittest", "_out": TMP}
     a = bp.render_gate_graph(ctx)[1]
@@ -131,14 +163,18 @@ def test_values_equal_sources(site_a):
 
 def test_evidence_machinery(site_a):
     # Every rendered panel section carries evidence badge + source footer.
+    found = 0
     for base, _, files in os.walk(site_a):
         for fn in files:
             if fn.endswith(".html") and "/assets/plotly/" not in base:
                 t = open(os.path.join(base, fn), encoding="utf-8").read()
                 for m in re.finditer(r'<section class="panel" id="([^"]+)">', t):
-                    seg = t[m.start():m.start() + 4000]
+                    found += 1
+                    end = t.find("</section>", m.start())
+                    seg = t[m.start() : end if end != -1 else m.start() + 4000]
                     assert "badge-" in seg, m.group(1)
                     assert "Source:" in seg, m.group(1)
+    assert found > 0, "no rendered panels found; the check above is vacuous"
 
 
 def test_firewall_and_quarantine(site_a):
@@ -147,8 +183,7 @@ def test_firewall_and_quarantine(site_a):
     for base, _, files in os.walk(site_a):
         for fn in files:
             if fn.endswith((".html", ".svg", ".json")):
-                blob += open(os.path.join(base, fn), encoding="utf-8",
-                             errors="ignore").read()
+                blob += open(os.path.join(base, fn), encoding="utf-8", errors="ignore").read()
     for bad in man.get("prohibited_strings", []):
         assert bad not in blob, bad
     assert "QUARANTINED" in blob or "quarantine" in blob.lower()

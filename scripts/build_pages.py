@@ -24,11 +24,13 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(REPO, "site-src")
 
 STATUS_COLOR = {
-    "PASS": "#4ade80", "FAIL": "#f43f5e", "LOCKED": "#8b949e",
+    "PASS": "#4ade80",
+    "FAIL": "#f43f5e",
+    "LOCKED": "#8b949e",
     "SUPERSEDED": "#94a3b8",
 }
 
-EVIDENCE_BADGE = ("<span class=\"badge badge-{e}\">{e}</span>")
+EVIDENCE_BADGE = '<span class="badge badge-{e}">{e}</span>'
 
 
 def esc(x):
@@ -46,8 +48,12 @@ def repo_commit():
         return override
     try:
         return subprocess.run(
-            ["git", "rev-parse", "--short", "HEAD"], cwd=REPO,
-            capture_output=True, text=True, check=True).stdout.strip()
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=REPO,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
     except Exception:
         return "not recorded"
 
@@ -69,8 +75,7 @@ def svg_open(w, h, title):
     )
 
 
-def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="",
-                   xlog=False, colors=None):
+def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="", xlog=False, colors=None):
     """series: list of (label, xs, ys). Hand-rolled deterministic SVG."""
     colors = colors or ["#38bdf8", "#4ade80", "#fb923c", "#c084fc", "#f43f5e"]
     pad_l, pad_r, pad_t, pad_b = 64, 16, 14, 40
@@ -80,6 +85,7 @@ def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="",
     if not allx or not ally:
         return svg_open(w, h, title) + "</svg>"
     import math
+
     if xlog:
         allx = [max(x, 1e-12) for x in allx]
         lx0, lx1 = math.log10(min(allx)), math.log10(max(allx))
@@ -93,6 +99,7 @@ def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="",
 
         def sx(x):
             return pad_l + (x - x0) / span * iw
+
     y0, y1 = min(0.0, min(ally)), max(ally)
     yspan = (y1 - y0) or 1.0
 
@@ -102,7 +109,8 @@ def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="",
     s = [svg_open(w, h, title)]
     desc = "; ".join(
         f"{label}: " + ",".join(f"({x:.4g},{y:.4g})" for x, y in zip(xs, ys))
-        for label, xs, ys in series)
+        for label, xs, ys in series
+    )
     s.append(f"<desc>source values: {esc(desc)}</desc>")
     s.append(f'<text x="{pad_l}" y="{h - 8}" fill="#8b949e" font-size="12">{esc(xlabel)}</text>')
     s.append(f'<text x="10" y="{pad_t + 10}" fill="#8b949e" font-size="12">{esc(ylabel)}</text>')
@@ -110,12 +118,16 @@ def svg_line_chart(series, w=560, h=300, title="", xlabel="", ylabel="",
         pts = " ".join(f"{sx(x):.1f},{sy(y):.1f}" for x, y in zip(xs, ys))
         s.append(f'<polyline points="{pts}" fill="none" stroke="{c}" stroke-width="2"/>')
         for x, y in zip(xs, ys):
-            s.append(f'<circle cx="{sx(x):.1f}" cy="{sy(y):.1f}" r="3" fill="{c}" '
-                     f'data-x="{x:.4g}" data-y="{y:.4g}"/>')
+            s.append(
+                f'<circle cx="{sx(x):.1f}" cy="{sy(y):.1f}" r="3" fill="{c}" '
+                f'data-x="{x:.4g}" data-y="{y:.4g}"/>'
+            )
     lx = pad_l
     for (label, _, _), c in zip(series, colors):
-        s.append(f'<circle cx="{lx}" cy="18" r="4" fill="{c}"/>'
-                 f'<text x="{lx + 8}" y="22" fill="#c9d1d9" font-size="12">{esc(label)}</text>')
+        s.append(
+            f'<circle cx="{lx}" cy="18" r="4" fill="{c}"/>'
+            f'<text x="{lx + 8}" y="22" fill="#c9d1d9" font-size="12">{esc(label)}</text>'
+        )
         lx += 8 + len(label) * 7 + 18
     return "".join(s) + "</svg>"
 
@@ -128,18 +140,26 @@ def svg_gate_graph(gates, historical, w=900, h=None):
     x = pad
     for g in gates:
         color = STATUS_COLOR.get(g["status"], "#8b949e")
-        s.append(f'<rect x="{x}" y="{pad}" width="{bw}" height="{bh}" rx="6" '
-                 f'fill="#161b22" stroke="{color}" stroke-width="2"/>')
-        s.append(f'<text x="{x + bw / 2}" y="{pad + 22}" fill="#c9d1d9" font-size="11" '
-                 f'text-anchor="middle">{esc(g["label"])}</text>')
-        s.append(f'<text x="{x + bw / 2}" y="{pad + 42}" fill="{color}" font-size="12" '
-                 f'text-anchor="middle" font-weight="bold">{esc(g["status"])}</text>')
+        s.append(
+            f'<rect x="{x}" y="{pad}" width="{bw}" height="{bh}" rx="6" '
+            f'fill="#161b22" stroke="{color}" stroke-width="2"/>'
+        )
+        s.append(
+            f'<text x="{x + bw / 2}" y="{pad + 22}" fill="#c9d1d9" font-size="11" '
+            f'text-anchor="middle">{esc(g["label"])}</text>'
+        )
+        s.append(
+            f'<text x="{x + bw / 2}" y="{pad + 42}" fill="{color}" font-size="12" '
+            f'text-anchor="middle" font-weight="bold">{esc(g["status"])}</text>'
+        )
         x += bw + gap
     if historical:
         gh = historical[0]
         y0 = pad + bh + 24
-        s.append(f'<text x="{pad}" y="{y0}" fill="#94a3b8" font-size="12">Historical (not current): '
-                 f'{esc(gh["label"])} — {esc(gh["status"])}. {esc(gh.get("note", ""))}</text>')
+        s.append(
+            f'<text x="{pad}" y="{y0}" fill="#94a3b8" font-size="12">Historical (not current): '
+            f"{esc(gh['label'])} — {esc(gh['status'])}. {esc(gh.get('note', ''))}</text>"
+        )
     return "".join(s) + "</svg>"
 
 
@@ -163,8 +183,12 @@ def render_g_curve(ctx):
     rows = _probe_rows(nt)
     xs = [r["rate"] for _, r in rows]
     ws = [r["w"] for _, r in rows]
-    svg = svg_line_chart([("w_EE(rate)", xs, ws)], title="native EE efficacy vs rate",
-                         xlabel="driver rate (Hz)", ylabel="w_EE (native units)")
+    svg = svg_line_chart(
+        [("w_EE(rate)", xs, ws)],
+        title="native EE efficacy vs rate",
+        xlabel="driver rate (Hz)",
+        ylabel="w_EE (native units)",
+    )
     return "assets/svg/g_curve.svg", svg
 
 
@@ -173,9 +197,13 @@ def render_i_curve(ctx):
     rows = _probe_rows(nt)
     xs = [r["rate"] for _, r in rows]
     cur = [r["I_exact"] for _, r in rows]
-    svg = svg_line_chart([("I_EE(rate)", xs, cur)], title="realized EE current vs rate",
-                         xlabel="driver rate (Hz)", ylabel="I_EE (exact offline, a.u.)",
-                         colors=["#4ade80"])
+    svg = svg_line_chart(
+        [("I_EE(rate)", xs, cur)],
+        title="realized EE current vs rate",
+        xlabel="driver rate (Hz)",
+        ylabel="I_EE (exact offline, a.u.)",
+        colors=["#4ade80"],
+    )
     return "assets/svg/i_curve.svg", svg
 
 
@@ -185,8 +213,12 @@ def render_f_curves(ctx):
     for c in ("E", "PV", "SST", "VIP"):
         f = b1["F"][c]
         series.append((c, f["I"], f["r"]))
-    svg = svg_line_chart(series, title="single-cell F-I per class (fresh)",
-                         xlabel="input current (a.u.)", ylabel="rate (Hz)")
+    svg = svg_line_chart(
+        series,
+        title="single-cell F-I per class (fresh)",
+        xlabel="input current (a.u.)",
+        ylabel="rate (Hz)",
+    )
     return "assets/svg/f_curves.svg", svg
 
 
@@ -195,9 +227,13 @@ def render_susceptibility(ctx):
     curve = su["curve"]
     xs = sorted(float(k) for k in curve)
     ys = [curve[str(x) if str(x) in curve else x] for x in xs]
-    svg = svg_line_chart([("V4 rate", xs, ys)], title="V4 dose-response (direct current)",
-                         xlabel="added current (units)", ylabel="V4 rate (Hz)",
-                         colors=["#fb923c"])
+    svg = svg_line_chart(
+        [("V4 rate", xs, ys)],
+        title="V4 dose-response (direct current)",
+        xlabel="added current (units)",
+        ylabel="V4 rate (Hz)",
+        colors=["#fb923c"],
+    )
     return "assets/svg/susceptibility.svg", svg
 
 
@@ -214,18 +250,28 @@ def render_attractor_diagram(ctx):
     s = [svg_open(w, h, "reduced attractor schematic (derived diagram)")]
     s.append(f'<text x="{pad}" y="{h - 12}" fill="#8b949e" font-size="12">rE (Hz)</text>')
     for lo, hi, label in [(2, 4, "lower separatrix"), (25, 35, "upper separatrix")]:
-        s.append(f'<rect x="{sx(lo):.1f}" y="30" width="{sx(hi) - sx(lo):.1f}" height="{h - 80}" '
-                 f'fill="#fb923c" opacity="0.18"/>')
-        s.append(f'<text x="{(sx(lo) + sx(hi)) / 2:.1f}" y="24" fill="#fb923c" font-size="11" '
-                 f'text-anchor="middle">{label}</text>')
+        s.append(
+            f'<rect x="{sx(lo):.1f}" y="30" width="{sx(hi) - sx(lo):.1f}" height="{h - 80}" '
+            f'fill="#fb923c" opacity="0.18"/>'
+        )
+        s.append(
+            f'<text x="{(sx(lo) + sx(hi)) / 2:.1f}" y="24" fill="#fb923c" font-size="11" '
+            f'text-anchor="middle">{label}</text>'
+        )
     s.append(f'<circle cx="{sx(0):.1f}" cy="{h - 60:.1f}" r="6" fill="#8b949e"/>')
-    s.append(f'<text x="{sx(0):.1f}" y="{h - 44:.1f}" fill="#8b949e" font-size="11" '
-             f'text-anchor="middle">silent co-attractor</text>')
+    s.append(
+        f'<text x="{sx(0):.1f}" y="{h - 44:.1f}" fill="#8b949e" font-size="11" '
+        f'text-anchor="middle">silent co-attractor</text>'
+    )
     s.append(f'<circle cx="{sx(fp[0]):.1f}" cy="120" r="7" fill="#4ade80"/>')
-    s.append(f'<text x="{sx(fp[0]):.1f}" y="104" fill="#4ade80" font-size="12" '
-             f'text-anchor="middle">active fp ({fp[0]}, {fp[1]})</text>')
-    s.append(f'<text x="{sx(fp[0]):.1f}" y="140" fill="#8b949e" font-size="11" '
-             f'text-anchor="middle">maxRe {at["solution"]["maxRe"]}, capture {at["solution"]["capture"]}</text>')
+    s.append(
+        f'<text x="{sx(fp[0]):.1f}" y="104" fill="#4ade80" font-size="12" '
+        f'text-anchor="middle">active fp ({fp[0]}, {fp[1]})</text>'
+    )
+    s.append(
+        f'<text x="{sx(fp[0]):.1f}" y="140" fill="#8b949e" font-size="11" '
+        f'text-anchor="middle">maxRe {at["solution"]["maxRe"]}, capture {at["solution"]["capture"]}</text>'
+    )
     return "assets/svg/attractor.svg", "".join(s) + "</svg>"
 
 
@@ -240,8 +286,12 @@ def render_prep_transition(ctx):
         xs = [r["amp"] for r in scan]
         ys = [r["rate"] for r in scan]
         series.append((f"s_E={s}", xs, ys))
-    svg = svg_line_chart(series, title="prep steering: settled E rate vs drive amp",
-                         xlabel="prep drive amp (E cells)", ylabel="settled E rate (Hz)")
+    svg = svg_line_chart(
+        series,
+        title="prep steering: settled E rate vs drive amp",
+        xlabel="prep drive amp (E cells)",
+        ylabel="settled E rate (Hz)",
+    )
     return "assets/svg/prep_transition.svg", svg
 
 
@@ -251,15 +301,18 @@ def render_ladder_outcome(ctx):
         xs, ys = [], []
         for T in (0.5, 1.0, 2.0, 4.0, 8.0):
             try:
-                d = load_json(os.path.join(
-                    REPO, "results", f"b_ladder_{tag}_{T}.json"))
+                d = load_json(os.path.join(REPO, "results", f"b_ladder_{tag}_{T}.json"))
             except FileNotFoundError:
                 continue
             xs.append(T)
             ys.append(d.get("rE_release", 0.0))
         series.append((f"s_E={s}", xs, ys))
-    svg = svg_line_chart(series, title="duration ladder: release E rate vs drive duration",
-                         xlabel="prep duration T (s)", ylabel="release E rate (Hz)")
+    svg = svg_line_chart(
+        series,
+        title="duration ladder: release E rate vs drive duration",
+        xlabel="prep duration T (s)",
+        ylabel="release E rate (Hz)",
+    )
     return "assets/svg/ladder_outcome.svg", svg
 
 
@@ -276,17 +329,19 @@ RENDERERS = {
 
 
 def panel_html(panel, inner, commit):
-    ev = panel.get("evidence", "not recorded")
+    ev = panel.get("evidence_class", "not recorded")
     src = panel.get("source") or "manifest state specification"
     status = panel.get("status")
     badge = EVIDENCE_BADGE.format(e=esc(ev))
     title = esc(panel.get("title", panel.get("id", "panel")))
-    foot = f"Evidence: {esc(ev)} · Source: <code>{esc(src)}</code> · commit <code>{esc(commit)}</code>"
+    foot = f"Evidence class: {esc(ev)} · Source: <code>{esc(src)}</code> · commit <code>{esc(commit)}</code>"
     if status:
         foot += f" · Status: {esc(status)}"
-    return (f'<section class="panel" id="{esc(panel.get("id", ""))}">'
-            f"<h3>{badge}{title}</h3>{inner}"
-            f'<footer class="panel-foot">{foot}</footer></section>')
+    return (
+        f'<section class="panel" id="{esc(panel.get("id", ""))}">'
+        f"<h3>{badge}{title}</h3>{inner}"
+        f'<footer class="panel-foot">{foot}</footer></section>'
+    )
 
 
 def render_table(panel, ctx):
@@ -301,10 +356,11 @@ def render_table(panel, ctx):
         if isinstance(v, list) and v and all(isinstance(r, dict) for r in v):
             cols = sorted({c for r in v for c in r})
             th = "".join(f"<th>{esc(c)}</th>" for c in cols)
-            trs = "".join("<tr>" + "".join(
-                f"<td>{esc(str(r.get(c, '')))}</td>" for c in cols) + "</tr>" for r in v)
-            return (f'<table class="data"><thead><tr>{th}</tr></thead>'
-                    f"<tbody>{trs}</tbody></table>")
+            trs = "".join(
+                "<tr>" + "".join(f"<td>{esc(str(r.get(c, '')))}</td>" for c in cols) + "</tr>"
+                for r in v
+            )
+            return f'<table class="data"><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table>'
     rows = []
     for k in keys:
         v = data
@@ -315,7 +371,8 @@ def render_table(panel, ctx):
         rows.append((k, v))
     trs = "".join(
         f"<tr><td><code>{esc(k)}</code></td><td>{fmt(v) if not isinstance(v, (dict, list)) else esc(json.dumps(v, sort_keys=True))}</td></tr>"
-        for k, v in rows)
+        for k, v in rows
+    )
     return f'<table class="data"><thead><tr><th>quantity</th><th>value</th></tr></thead><tbody>{trs}</tbody></table>'
 
 
@@ -324,27 +381,59 @@ def render_lineage(ctx):
     rows = []
     for e in edges:
         c = e["commit"]
-        r = subprocess.run(["git", "cat-file", "-e", c], cwd=REPO,
-                           capture_output=True)
+        r = subprocess.run(["git", "cat-file", "-e", c], cwd=REPO, capture_output=True)
         if r.returncode != 0:
             raise ValueError(f"lineage edge references unknown commit {c!r}")
         subject = subprocess.run(
-            ["git", "log", "-1", "--format=%s", c], cwd=REPO,
-            capture_output=True, text=True, check=True).stdout.strip()
-        rows.append((c, subject, e.get("gate", ""), e.get("verdict", ""),
-                     e.get("evidence", "")))
+            ["git", "log", "-1", "--format=%s", c],
+            cwd=REPO,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        rows.append((c, subject, e.get("gate", ""), e.get("verdict", ""), e.get("evidence", "")))
     trs = "".join(
         f"<tr><td><code>{esc(c)}</code></td><td>{esc(s)}</td>"
         f"<td>{esc(g)}</td><td>{esc(v)}</td><td><code>{esc(e)}</code></td></tr>"
-        for c, s, g, v, e in rows)
-    return (f'<table class="data"><thead><tr><th>commit</th><th>subject</th>'
-            f"<th>gate</th><th>verdict</th><th>evidence</th></tr></thead>"
-            f"<tbody>{trs}</tbody></table>")
+        for c, s, g, v, e in rows
+    )
+    return (
+        f'<table class="data"><thead><tr><th>commit</th><th>subject</th>'
+        f"<th>gate</th><th>verdict</th><th>evidence</th></tr></thead>"
+        f"<tbody>{trs}</tbody></table>"
+    )
+
+
+def check_vocabulary(manifest):
+    """Every published evidence class and status comes from manifests/vocabulary.json.
+
+    A label with no vocabulary home fails the build (surfaced, never invented).
+    """
+    vocab = load_json(os.path.join(REPO, "manifests", "vocabulary.json"))
+    classes, labels = set(vocab["evidence_classes"]), set(vocab["status_labels"])
+
+    def check(where, ec, st):
+        if ec not in classes:
+            raise ValueError(f"{where}: evidence_class {ec!r} not in manifests/vocabulary.json")
+        if st is not None and st not in labels:
+            raise ValueError(f"{where}: status {st!r} not in manifests/vocabulary.json")
+
+    for pid, panel in manifest.get("panels", {}).items():
+        check(f"panel {pid}", panel.get("evidence_class"), panel.get("status"))
+    for section in ("results_allowlist", "results_manifests_allowlist", "plotly_allowlist"):
+        for fn, e in manifest.get(section, {}).items():
+            check(f"{section} {fn}", e.get("evidence_class"), e.get("status"))
+    for g in manifest.get("gates", []) + manifest.get("gates_historical", []):
+        if g.get("status") not in labels:
+            raise ValueError(
+                f"gate {g.get('id')}: status {g.get('status')!r} not in manifests/vocabulary.json"
+            )
 
 
 def build(out_dir, commit=None):
     commit = commit or repo_commit()
     manifest = load_json(os.path.join(SRC, "manifest.json"))
+    check_vocabulary(manifest)
     # Verify allowlisted artifacts exist and parse.
     for fn in manifest["results_allowlist"]:
         load_json(os.path.join(REPO, "results", fn))
@@ -380,7 +469,7 @@ def build(out_dir, commit=None):
         with open(os.path.join(SRC, "pages", p + ".html"), encoding="utf-8") as f:
             frag = f.read()
         m = re.search(r"<h1>(.*?)</h1>", frag, re.S)
-        titles[p] = (m.group(1).strip() if m else p)
+        titles[p] = m.group(1).strip() if m else p
     ctx = {"manifest": manifest, "commit": commit, "_out": out_dir}
     rendered_panels = set()
     for p in pages:
@@ -395,15 +484,33 @@ def build(out_dir, commit=None):
             if panel.get("page", p) != p:
                 raise ValueError(f"panel {pid!r} registered to different page")
             rendered_panels.add(pid)
-            return render_panel(panel, ctx)
+            return render_panel({**panel, "id": pid}, ctx)
 
         frag2, n = re.subn(r'<div class="panel-slot" data-panel="([\w\-]+)"></div>', slot, frag)
-        page_nav = "".join(
-            f'<a href="{q}.html"{">" if q != p else " class=\"active\">"}{esc(titles[q])}</a> '
-            for q in pages)
-        page = shell.replace("{{title}}", esc(titles[p])).replace(
-            "{{root}}", "").replace("{{nav}}", page_nav).replace(
-            "{{content}}", frag2).replace("{{commit}}", esc(commit))
+        nav_groups = manifest.get("nav")
+        if nav_groups:
+            parts = []
+            for g in nav_groups:
+                links = "".join(
+                    f'<a href="{q}.html"{">" if q != p else ' class="active">'}{esc(titles[q])}</a>'
+                    for q in g["pages"]
+                )
+                parts.append(
+                    f'<div class="nav-group"><span class="nav-group-title">{esc(g["group"])}</span>{links}</div>'
+                )
+            page_nav = "".join(parts)
+        else:
+            page_nav = "".join(
+                f'<a href="{q}.html"{">" if q != p else ' class="active">'}{esc(titles[q])}</a> '
+                for q in pages
+            )
+        page = (
+            shell.replace("{{title}}", esc(titles[p]))
+            .replace("{{root}}", "")
+            .replace("{{nav}}", page_nav)
+            .replace("{{content}}", frag2)
+            .replace("{{commit}}", esc(commit))
+        )
         check_output(page, manifest, out_dir)
         with open(os.path.join(out_dir, p + ".html"), "w", encoding="utf-8") as f:
             f.write(page)
@@ -424,7 +531,7 @@ def render_panel(panel, ctx):
         rel, svg = renderer(ctx)
         with open(os.path.join(out, rel), "w", encoding="utf-8") as f:
             f.write(svg)
-        inner = f"<figure><img src=\"{rel}\" alt=\"{esc(panel.get('title', ''))}\"></figure>"
+        inner = f'<figure><img src="{rel}" alt="{esc(panel.get("title", ""))}"></figure>'
         if panel.get("note"):
             inner += f'<div class="status-note">{esc(panel["note"])}</div>'
         return panel_html(panel, inner, ctx["commit"])
@@ -438,8 +545,9 @@ def render_panel(panel, ctx):
             raise ValueError(f"embed {fn} not allowlisted")
         rel = ctx["manifest"]["build"]["plotly_subdir"] + "/" + fn
         note = panel.get("note", "")
-        inner = (f'<iframe src="{rel}" loading="lazy"></iframe>'
-                 + (f'<div class="status-note">{esc(note)}</div>' if note else ""))
+        inner = f'<iframe src="{rel}" loading="lazy"></iframe>' + (
+            f'<div class="status-note">{esc(note)}</div>' if note else ""
+        )
         return panel_html(panel, inner, ctx["commit"])
     raise ValueError(f"panel {panel.get('id')}: unknown type {ptype!r}")
 
@@ -453,7 +561,7 @@ def check_output(page, manifest, out_dir):
             raise ValueError(f"prohibited pre-freeze string in output: {bad!r}")
     if ABS_PATH_RE.search(page):
         m = ABS_PATH_RE.search(page)
-        raise ValueError(f"absolute path leak in output near: {page[m.start():m.start()+80]!r}")
+        raise ValueError(f"absolute path leak in output near: {page[m.start() : m.start() + 80]!r}")
 
 
 def main():

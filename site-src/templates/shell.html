@@ -10,14 +10,18 @@
 <header class="site-header">
 <div class="wrap">
 <span class="site-name">Jomission Scientific Atlas</span>
-<nav class="site-nav">{{nav}}</nav>
 </div>
 </header>
-<main class="wrap">
+<div class="wrap layout">
+<aside class="sidebar">
+<nav class="site-nav">{{nav}}</nav>
+</aside>
+<main>
 {{content}}
 <footer class="provenance">
 <p>Authority: Jomission <code>{{commit}}</code> · JaxFNE v0.4.24 (published wheel) · Every scientific number resolves to an allowlisted artifact under <code>data/</code>. Missing provenance renders as <em>not recorded</em>, never guessed.</p>
 </footer>
 </main>
+</div>
 </body>
 </html>

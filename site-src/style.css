@@ -24,15 +24,36 @@ body {
   top: 0;
 }
 .site-name { font-weight: 700; font-size: 17px; margin-right: 24px; }
-.site-nav { display: inline; }
+.layout { display: flex; gap: 28px; align-items: flex-start; }
+.sidebar {
+  width: 210px;
+  flex: none;
+  position: sticky;
+  top: 64px;
+  padding-top: 24px;
+}
+.sidebar .site-nav { display: block; }
+.nav-group { margin-bottom: 16px; }
+.nav-group-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
 .site-nav a {
+  display: block;
   color: var(--muted);
   text-decoration: none;
-  margin-right: 14px;
   font-size: 14px;
+  padding: 3px 0 3px 10px;
+  border-left: 2px solid transparent;
 }
 .site-nav a:hover { color: var(--accent); }
-.site-nav a.active { color: var(--text); font-weight: 600; }
+.site-nav a.active { color: var(--text); font-weight: 600; border-left-color: var(--accent); }
+main { flex: 1; min-width: 0; }
 main.wrap { padding-top: 24px; padding-bottom: 48px; }
 h1 { font-size: 30px; margin: 0.4em 0; }
 h2 { font-size: 22px; margin-top: 2em; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
@@ -61,11 +82,8 @@ h2 { font-size: 22px; margin-top: 2em; border-bottom: 1px solid var(--border); p
 .badge-OBSERVED { color: #4ade80; border-color: #4ade80; }
 .badge-DERIVED { color: #38bdf8; border-color: #38bdf8; }
 .badge-INFERRED { color: #eab308; border-color: #eab308; }
-.badge-NEGATIVE { color: #fb923c; border-color: #fb923c; }
-.badge-RETRACTED, .badge-VOID { color: #f43f5e; border-color: #f43f5e; text-decoration: line-through; }
-.badge-QUARANTINED { color: #c084fc; border-color: #c084fc; }
-.badge-SUPERSEDED { color: #94a3b8; border-color: #94a3b8; }
-.badge-LOCKED, .badge-POLICY { color: #8b949e; border-color: #8b949e; }
+.badge-ASSUMED { color: #fb923c; border-color: #fb923c; }
+.badge-UNKNOWN { color: #8b949e; border-color: #8b949e; border-style: dashed; }
 .status-note {
   border-left: 3px solid #c084fc;
   padding: 8px 12px;

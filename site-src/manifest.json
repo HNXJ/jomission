@@ -10,13 +10,8 @@
     "OBSERVED",
     "DERIVED",
     "INFERRED",
-    "NEGATIVE",
-    "RETRACTED",
-    "VOID",
-    "QUARANTINED",
-    "SUPERSEDED",
-    "LOCKED",
-    "POLICY"
+    "ASSUMED",
+    "UNKNOWN"
   ],
   "gates": [
     {
@@ -185,6 +180,24 @@
       "evidence": "results/v21_lineage.json",
       "gate": "V2.1 local cortical operation",
       "verdict": "V2_LOCAL_OPERATION_FAIL"
+    },
+    {
+      "commit": "c01913a",
+      "evidence": "results/v21b_lineage.json",
+      "gate": "V2.1b local operation with private shot noise",
+      "verdict": "V2_LOCAL_OPERATION_FAIL"
+    },
+    {
+      "commit": "3f7aa5f",
+      "evidence": "results/v21b_isi_classes.json",
+      "gate": "V2.1b class-resolved ISI",
+      "verdict": "E_TEMPORAL_IRREGULARITY_PARTIAL (component reading, not a gate verdict)"
+    },
+    {
+      "commit": "d3a0c3c",
+      "evidence": "results/v21c_boundary.json",
+      "gate": "V2.1c intrinsic-heterogeneity boundary",
+      "verdict": "INTRINSIC_HETEROGENEITY_INFEASIBLE"
     }
   ],
   "owner": "generated",
@@ -201,7 +214,7 @@
   ],
   "panels": {
     "attractor-diagram": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "note": "Positions from sealed numbers; a diagram, not measured data.",
       "page": "dynamics",
       "renderer": "attractor_diagram",
@@ -210,7 +223,7 @@
       "type": "figure"
     },
     "audit-table": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "keys": [
         "verdict"
       ],
@@ -220,7 +233,7 @@
       "type": "table"
     },
     "axis-delay": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict"
       ],
@@ -230,7 +243,7 @@
       "type": "table"
     },
     "axis-modular": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict"
       ],
@@ -240,7 +253,7 @@
       "type": "table"
     },
     "axis-motif": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "classification"
       ],
@@ -250,7 +263,7 @@
       "type": "table"
     },
     "axis-scalar": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "assessment"
       ],
@@ -260,7 +273,7 @@
       "type": "table"
     },
     "axis-scale": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "mechanism"
@@ -271,7 +284,7 @@
       "type": "table"
     },
     "axis-scale-bracket": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "per_scale"
       ],
@@ -281,7 +294,7 @@
       "type": "table"
     },
     "axis-slow-exc": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict"
       ],
@@ -291,7 +304,7 @@
       "type": "table"
     },
     "axis-slow-inh": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict"
       ],
@@ -301,7 +314,7 @@
       "type": "table"
     },
     "axis-tonic-transfer": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict"
       ],
@@ -311,19 +324,19 @@
       "type": "table"
     },
     "b-access": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "detail"
       ],
       "page": "hdp",
       "source": "results/b_lineage.json",
-      "status": "OBSERVED (coarse FP superseded as design authority, not retracted)",
       "title": "Basin accessibility: bypass verdict",
-      "type": "table"
+      "type": "table",
+      "note": "coarse fixed point superseded as design authority, not retracted"
     },
     "clamp-table": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "i_sustain",
         "verdict"
@@ -334,7 +347,7 @@
       "type": "table"
     },
     "convergence-table": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "method",
         "verdict"
@@ -345,7 +358,7 @@
       "type": "table"
     },
     "ei-boundary": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "boundary"
@@ -356,7 +369,7 @@
       "type": "table"
     },
     "f-curves": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "hdp",
       "renderer": "f_curves",
       "source": "results/battery_b1.json",
@@ -364,7 +377,7 @@
       "type": "figure"
     },
     "family-seal": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "keys": [
         "verdict",
         "seal",
@@ -372,12 +385,11 @@
       ],
       "page": "hdp",
       "source": "results/cmin_family_seal.json",
-      "status": "SEALED",
       "title": "Program seal: C-min family stood down (scope-bounded)",
       "type": "table"
     },
     "ff-table": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "method",
         "classification"
@@ -388,7 +400,7 @@
       "type": "table"
     },
     "g-curve": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "hdp",
       "renderer": "g_curve",
       "source": "results/native_transformation.json",
@@ -396,7 +408,7 @@
       "type": "figure"
     },
     "gate-graph": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "note": "Statuses come from this manifest, not from file existence.",
       "page": "index",
       "renderer": "gate_graph",
@@ -405,7 +417,7 @@
       "type": "figure"
     },
     "gen2-seal": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "keys": [],
       "page": "index",
       "source": "results/gen2_seal.json",
@@ -413,7 +425,7 @@
       "type": "table"
     },
     "hdp-trajectory": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "note": "Gen-1 exposure context; not Gen-2 substrate evidence.",
       "page": "hdp",
       "plotly": "plasticity_trajectory.html",
@@ -422,7 +434,7 @@
       "type": "embed"
     },
     "i-curve": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "hdp",
       "renderer": "i_curve",
       "source": "results/native_transformation.json",
@@ -430,7 +442,7 @@
       "type": "figure"
     },
     "ladder_outcome": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "note": "Release E rate vs prep duration at first-sync amp: T=0.5 s collapses, T>=1 s goes globally synchronous. No capture at any duration.",
       "page": "hdp",
       "renderer": "ladder_outcome",
@@ -439,14 +451,14 @@
       "type": "figure"
     },
     "lineage-table": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "page": "lineage",
       "source": "git history (this tree)",
       "title": "Gate commits",
       "type": "lineage"
     },
     "migration-table": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "keys": [
         "verdict",
         "delta_science"
@@ -457,31 +469,31 @@
       "type": "table"
     },
     "n-geometry": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "detail"
       ],
       "page": "hdp",
       "source": "results/n_lineage.json",
-      "status": "OBSERVED (tested domain)",
       "title": "Native geometry: no intermediate, coarse non-Markovian",
-      "type": "table"
+      "type": "table",
+      "note": "tested domain"
     },
     "n5-decomp": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "detail"
       ],
       "page": "hdp",
       "source": "results/n5_verdict.json",
-      "status": "OBSERVED (KW0 MODULATORY, UCLAMP LATENCY_MODULATORY, SYNHALF VOID)",
       "title": "Microstate decomposition: no owner, two modulatory findings",
-      "type": "table"
+      "type": "table",
+      "note": "KW0 MODULATORY, UCLAMP LATENCY_MODULATORY, SYNHALF VOID"
     },
     "network-3d": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "network",
       "plotly": "network_3d.html",
       "source": "docs/_static/plotly/network_3d.html",
@@ -489,7 +501,7 @@
       "type": "embed"
     },
     "prep-transition": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "note": "Settled E rate vs uniform E-drive amp: 0 Hz at amp<=2, 5000 Hz synchronous at amp>=4, no intermediate. The desired active state is never reached by steering.",
       "page": "hdp",
       "renderer": "prep_transition",
@@ -498,7 +510,7 @@
       "type": "figure"
     },
     "prop-table": {
-      "evidence": "NEGATIVE",
+      "evidence_class": "OBSERVED",
       "keys": [
         "endpoint",
         "first_failed_transformation"
@@ -510,7 +522,7 @@
       "type": "table"
     },
     "raster": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "activity",
       "plotly": "raster_population.html",
       "source": "docs/_static/plotly/raster_population.html",
@@ -518,7 +530,7 @@
       "type": "embed"
     },
     "retract-kmap": {
-      "evidence": "RETRACTED",
+      "evidence_class": "DERIVED",
       "keys": [
         "retraction_note",
         "unit_correction"
@@ -529,7 +541,7 @@
       "type": "table"
     },
     "retract-loop": {
-      "evidence": "RETRACTED",
+      "evidence_class": "DERIVED",
       "keys": [
         "CORRECTION_binary"
       ],
@@ -540,7 +552,7 @@
       "type": "table"
     },
     "retract-nullcline": {
-      "evidence": "RETRACTED",
+      "evidence_class": "DERIVED",
       "keys": [
         "RETRACTION"
       ],
@@ -551,7 +563,7 @@
       "type": "table"
     },
     "rule-table": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "rule",
         "verdict"
@@ -562,7 +574,7 @@
       "type": "table"
     },
     "s7-geometry": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "passing_subset",
@@ -571,12 +583,12 @@
       ],
       "page": "hdp",
       "source": "results/s7_lineage.json",
-      "status": "OBSERVED/PASS (no stable-attractor claim)",
+      "status": "PASS",
       "title": "Fresh E/I geometry: passing subset 50/54/57/61",
       "type": "table"
     },
     "s8-stability": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "keys": [
         "verdict",
         "passing_subset",
@@ -584,48 +596,49 @@
       ],
       "page": "hdp",
       "source": "results/s8_lineage.json",
-      "status": "DERIVED/PASS (not nonlinear basin evidence)",
+      "status": "PASS",
       "title": "Full-state stability: 14-state closure PASS x4",
       "type": "table"
     },
     "s9-basin": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "mechanism"
       ],
       "page": "hdp",
       "source": "results/s9_lineage.json",
-      "status": "OBSERVED/FAIL (local stability unrefuted)",
+      "status": "FAIL",
       "title": "Nonlinear basin: no finite active capture",
       "type": "table"
     },
     "selective-native": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "transfer"
       ],
       "page": "hdp",
       "source": "results/selective_lineage.json",
-      "status": "OBSERVED/PASS (geometry+stability+basin unexecuted)",
+      "status": "PASS",
       "title": "Selective native transformation: transfer PASS",
-      "type": "table"
+      "type": "table",
+      "note": "geometry, stability and basin unexecuted"
     },
     "selectivity-design": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "keys": [
         "verdict",
         "detail"
       ],
       "page": "hdp",
       "source": "results/selectivity_lineage.json",
-      "status": "DESIGN_FEASIBLE (not a substrate PASS)",
+      "status": "FEASIBLE",
       "title": "Inverse selectivity: E-out design feasible",
       "type": "table"
     },
     "source-table": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "source_verdict",
         "branch_verdict"
@@ -636,7 +649,7 @@
       "type": "table"
     },
     "spectral": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "page": "activity",
       "plotly": "spectral_response.html",
       "source": "docs/_static/plotly/spectral_response.html",
@@ -644,7 +657,7 @@
       "type": "embed"
     },
     "substrate-gate": {
-      "evidence": "POLICY",
+      "evidence_class": "DERIVED",
       "keys": [
         "program_verdict"
       ],
@@ -654,7 +667,7 @@
       "type": "table"
     },
     "superseded-blocker": {
-      "evidence": "SUPERSEDED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "classified_as"
       ],
@@ -665,7 +678,7 @@
       "type": "table"
     },
     "susceptibility": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "page": "propagation",
       "renderer": "susceptibility",
       "source": "results/susceptibility.json",
@@ -673,7 +686,7 @@
       "type": "figure"
     },
     "t1t7-table": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "table"
       ],
@@ -683,7 +696,7 @@
       "type": "table"
     },
     "timescale-duel": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "classification",
         "design_consequence"
@@ -694,7 +707,7 @@
       "type": "table"
     },
     "v21-operation": {
-      "evidence": "OBSERVED",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "passing_subset",
@@ -702,12 +715,13 @@
       ],
       "page": "activity",
       "source": "results/v21_lineage.json",
-      "status": "OBSERVED/FAIL (INSUFFICIENT_SYMMETRY_BREAKING, not noise deficit)",
+      "status": "FAIL",
       "title": "V2.1 local operation: no passing regime",
-      "type": "table"
+      "type": "table",
+      "note": "INSUFFICIENT_SYMMETRY_BREAKING, not noise deficit"
     },
     "visual-field": {
-      "evidence": "DERIVED",
+      "evidence_class": "DERIVED",
       "page": "network",
       "plotly": "visual_field_mapping.html",
       "source": "docs/_static/plotly/visual_field_mapping.html",
@@ -715,7 +729,7 @@
       "type": "embed"
     },
     "void-duration": {
-      "evidence": "VOID",
+      "evidence_class": "OBSERVED",
       "keys": [
         "verdict",
         "correction"
@@ -725,27 +739,66 @@
       "source": "results/duration_postmortem.json",
       "title": "Void: tonic-contaminated sustained-drive scratch",
       "type": "table"
+    },
+    "v21b-operation": {
+      "evidence_class": "OBSERVED",
+      "status": "FAIL",
+      "keys": [
+        "verdict",
+        "passing_subset",
+        "selection"
+      ],
+      "page": "activity",
+      "source": "results/v21b_lineage.json",
+      "title": "V2.1b local operation with private shot noise: no passing regime",
+      "type": "table"
+    },
+    "v21b-isi": {
+      "evidence_class": "OBSERVED",
+      "status": "PARTIAL",
+      "keys": [
+        "reading",
+        "scope",
+        "E_frac_in"
+      ],
+      "page": "activity",
+      "source": "results/v21b_isi_classes.json",
+      "title": "V2.1b class-resolved ISI: E irregularity partial",
+      "type": "table"
+    },
+    "v21c-boundary": {
+      "evidence_class": "DERIVED",
+      "status": "INFEASIBLE",
+      "keys": [
+        "verdict",
+        "ordering",
+        "residual_assumption"
+      ],
+      "page": "activity",
+      "source": "results/v21c_boundary.json",
+      "title": "V2.1c intrinsic-heterogeneity boundary: infeasible",
+      "type": "table"
     }
   },
   "plotly_allowlist": {
     "b1_b2_b3_dashboard.html": {
-      "evidence": "QUARANTINED",
-      "status": "Gen-1 B-cell era; retained for provenance, not current evidence"
+      "evidence_class": "OBSERVED",
+      "status": "QUARANTINED"
     },
     "network_3d.html": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "plasticity_trajectory.html": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "raster_population.html": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "spectral_response.html": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     },
     "visual_field_mapping.html": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     }
   },
   "prohibited_strings": [
@@ -757,179 +810,227 @@
   ],
   "results_allowlist": {
     "attractor_solve.json": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     },
     "b_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "COARSE_FIXED_POINT_OFF_NATIVE_MANIFOLD"
+      "evidence_class": "OBSERVED"
     },
     "battery_b1.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "battery_b2.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "battery_b3.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "beta_transfer.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: tonic-to-recurrent transfer fails"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "clamp_fork.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "cmin_family_seal.json": {
-      "evidence": "POLICY",
-      "status": "program seal, scope-bounded"
+      "evidence_class": "DERIVED"
     },
     "convergence.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: convergence to x16 insufficient"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "delay_ramp.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: delay axis"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "duration_postmortem.json": {
-      "evidence": "VOID",
-      "status": "tonic-contaminated scratch lineage retracted"
+      "evidence_class": "OBSERVED",
+      "status": "VOID"
     },
     "ei_geometry_native.json": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     },
     "feasibility.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: selective-motif axis (corrected analysis)"
+      "evidence_class": "DERIVED",
+      "status": "FAIL"
     },
     "ff_coupling.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "ff_trace.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "fs_ramp.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: slow-excitation axis"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "gen2_seal.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     },
     "hdp_definition_correction.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     },
     "hdp_expressivity_audit.json": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     },
     "hdp_scale_lineage.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative lineage: global efficacy scale (SCALE_INSUFFICIENT)"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "jaxfne_0422_migration.json": {
-      "evidence": "SUPERSEDED",
-      "status": "superseded by 0.4.24 migration PASS"
+      "evidence_class": "DERIVED",
+      "status": "SUPERSEDED"
     },
     "jaxfne_0424_migration.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     },
     "kernel_calibration.json": {
-      "evidence": "DERIVED"
+      "evidence_class": "DERIVED"
     },
     "loop_closure.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "modular.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: modular-topology axis"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "n5_verdict.json": {
-      "evidence": "OBSERVED",
-      "status": "NONE_IDENTIFIED (modulatory findings preserved)"
+      "evidence_class": "OBSERVED"
     },
     "n_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "NATIVE_GEOMETRY_NO_INTERMEDIATE (tested domain)"
+      "evidence_class": "OBSERVED"
     },
     "native_transformation.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "nullcline_design.json": {
-      "evidence": "RETRACTED",
-      "status": "candidate invalid (S->W conversion); retained for provenance"
+      "evidence_class": "DERIVED",
+      "status": "VOID"
     },
     "propagation.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative (old plant): STRUCTURAL_ONLY"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "ramp_summary.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: scalar-gain axis"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "s7_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "EI_GEOMETRY_PASS (stability/basin unexecuted)"
+      "evidence_class": "OBSERVED",
+      "status": "PASS"
     },
     "s8_lineage.json": {
-      "evidence": "DERIVED",
-      "status": "FULL_STATE_STABILITY_PASS (basin unexecuted)"
+      "evidence_class": "DERIVED",
+      "status": "PASS"
     },
     "s9_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "ACTIVE_BASIN_FAIL (S8 local stability stands)"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "selective_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "SELECTIVE_NATIVE_TRANSFORMATION_PASS (not substrate qualification)"
+      "evidence_class": "OBSERVED",
+      "status": "PASS"
     },
     "selectivity_lineage.json": {
-      "evidence": "DERIVED",
-      "status": "DESIGN_FEASIBLE: inverse selectivity, no implementation yet"
+      "evidence_class": "DERIVED",
+      "status": "FEASIBLE"
     },
     "source.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "substrate_gate.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     },
     "susceptibility.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "tau_ramp.json": {
-      "evidence": "NEGATIVE",
-      "status": "sealed negative: slow-inhibition axis"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "timescale_duel.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "true_blocker.json": {
-      "evidence": "SUPERSEDED",
-      "status": "pre-0.4.24 engine state only"
+      "evidence_class": "OBSERVED",
+      "status": "SUPERSEDED"
     },
     "v21_lineage.json": {
-      "evidence": "OBSERVED",
-      "status": "V2_LOCAL_OPERATION_FAIL (symmetry defect)"
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
     },
     "volley_authority.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
+    },
+    "v21b_lineage.json": {
+      "evidence_class": "OBSERVED",
+      "status": "FAIL"
+    },
+    "v21b_isi_classes.json": {
+      "evidence_class": "OBSERVED",
+      "status": "PARTIAL"
+    },
+    "v21c_boundary.json": {
+      "evidence_class": "DERIVED",
+      "status": "INFEASIBLE"
     }
   },
   "results_manifests_allowlist": {
     "canonical_full_exposure_seal.json": {
-      "evidence": "OBSERVED"
+      "evidence_class": "OBSERVED"
     },
     "project_truth_ledger.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     },
     "q8_021_quarantine.json": {
-      "evidence": "QUARANTINED"
+      "evidence_class": "OBSERVED"
     },
     "t1_t7_final_corrected.json": {
-      "evidence": "OBSERVED",
-      "status": "immutable Gen-1 history"
+      "evidence_class": "OBSERVED"
     },
     "vocabulary.json": {
-      "evidence": "POLICY"
+      "evidence_class": "DERIVED"
     }
   },
-  "site_title": "Jomission Scientific Atlas"
+  "site_title": "Jomission Scientific Atlas",
+  "nav": [
+    {
+      "group": "Overview",
+      "pages": [
+        "index",
+        "lineage"
+      ]
+    },
+    {
+      "group": "Substrate",
+      "pages": [
+        "network",
+        "activity",
+        "dynamics"
+      ]
+    },
+    {
+      "group": "Plasticity",
+      "pages": [
+        "hdp"
+      ]
+    },
+    {
+      "group": "Transmission",
+      "pages": [
+        "propagation"
+      ]
+    },
+    {
+      "group": "Omission program",
+      "pages": [
+        "omission"
+      ]
+    },
+    {
+      "group": "Negative results",
+      "pages": [
+        "failure-atlas"
+      ]
+    }
+  ]
 }

@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `PAGES-THEME-OVERHAUL` (OPEN): rebuild site-src to that standard as one coherent site
-- stop: presentation only; no scientific claim is created, strengthened or weakened. A label with no vocabulary home stops the work: surface, do not invent
+- `CODE-JAX-OVERHAUL` (OPEN): bring the jomission package and scripts to that standard module by module
+- stop: no scientific verdict is rerun, reinterpreted or re-tuned; a change that would alter a sealed number is not made
 
 ### Locked gates
 

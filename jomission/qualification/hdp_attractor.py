@@ -60,8 +60,10 @@ def rate_penalty(r, lo, hi, s=SOFT_S):
 def d_rate_penalty(r, lo, hi, s=SOFT_S):
     sig_lo = 1.0 / (1.0 + np.exp(-(lo - r) / s))
     sig_hi = 1.0 / (1.0 + np.exp(-(r - hi) / s))
-    return float(2 * _softplus((lo - r) / s) * sig_lo * (-1.0 / s)
-                 + 2 * _softplus((r - hi) / s) * sig_hi * (1.0 / s))
+    return float(
+        2 * _softplus((lo - r) / s) * sig_lo * (-1.0 / s)
+        + 2 * _softplus((r - hi) / s) * sig_hi * (1.0 / s)
+    )
 
 
 def objective(rE, rI, theta, theta0=None):
@@ -70,21 +72,28 @@ def objective(rE, rI, theta, theta0=None):
     t0 = np.zeros(4) if theta0 is None else np.asarray(theta0, dtype=float)
     v_rate = rate_penalty(rE, R_E_LO, R_E_HI) + rate_penalty(rI, R_I_LO, R_I_HI)
     e_b = float(np.log((rE + EPS) / (rI + EPS)) - np.log(RHO_STAR))
-    v_b = 0.5 * e_b ** 2
+    v_b = 0.5 * e_b**2
     d = theta - t0
     v_th = 0.5 * float(np.sum(np.asarray(R_DIAG) * d * d))
     v = v_rate + LAM_B * v_b + LAM_TH * v_th
-    return {"V": float(v), "V_rate": float(v_rate), "e_B": e_b, "V_B": float(v_b),
-            "V_Theta": float(v_th)}
+    return {
+        "V": float(v),
+        "V_rate": float(v_rate),
+        "e_B": e_b,
+        "V_B": float(v_b),
+        "V_Theta": float(v_th),
+    }
 
 
 def grad_r_objective(rE, rI):
     """Analytic grad of V w.r.t. (rE, rI) at fixed Theta."""
     e_b = float(np.log((rE + EPS) / (rI + EPS)) - np.log(RHO_STAR))
-    return np.array([
-        d_rate_penalty(rE, R_E_LO, R_E_HI) + LAM_B * e_b / (rE + EPS),
-        d_rate_penalty(rI, R_I_LO, R_I_HI) - LAM_B * e_b / (rI + EPS),
-    ])
+    return np.array(
+        [
+            d_rate_penalty(rE, R_E_LO, R_E_HI) + LAM_B * e_b / (rE + EPS),
+            d_rate_penalty(rI, R_I_LO, R_I_HI) - LAM_B * e_b / (rI + EPS),
+        ]
+    )
 
 
 # --------------------------------------------------------------------------
@@ -98,7 +107,7 @@ def family_masks(model):
     pre = np.asarray(el.pre, dtype=np.int64)
     post = np.asarray(el.post, dtype=np.int64)
     masks = {}
-    for (s, t) in FAMILIES:
+    for s, t in FAMILIES:
         sm = np.array([c == s or (s == "I" and c in I_CLASSES) for c in cls])
         tm = np.array([c == t or (t == "I" and c in I_CLASSES) for c in cls])
         masks[(s, t)] = sm[pre] & tm[post]
@@ -127,12 +136,15 @@ def apply_theta(model, theta):
     scale = np.ones_like(w)
     for j, fam in enumerate(FAMILIES):
         scale[masks[fam]] = gains[j]
-    new_el = EdgeList(pre=el.pre, post=el.post,
-                      weight=jnp.asarray(w * scale, dtype=el.weight.dtype),
-                      receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                      source_calibration_status=el.source_calibration_status,
-                      **({"delay_steps": el.delay_steps}
-                         if getattr(el, "delay_steps", None) is not None else {}))
+    new_el = EdgeList(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w * scale, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+        **({"delay_steps": el.delay_steps} if getattr(el, "delay_steps", None) is not None else {}),
+    )
     return replace(model, params={**model.params, "edge_list": new_el})
 
 
@@ -153,8 +165,7 @@ def run_segment(step_fn, state, drive):
     return state, np.asarray(out[1]), np.asarray(out[0])
 
 
-def reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed,
-                    members, masks=None):
+def reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members, masks=None):
     """r* at fixed Theta under constant drive. Fresh cold start (comparable S).
 
     Returns (rE, rI, per-class dict, end_state). Cold start per branch keeps
@@ -162,33 +173,33 @@ def reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed,
     """
     gm = apply_theta(model, theta)
     n_neurons = int(gm.params["emitter"].n_neurons)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
-    drive = jnp.full((n_settle + n_meas, n_neurons),
-                     float(drive_amp), dtype=gm.params["emitter"].v0.dtype)
+    drive = jnp.full(
+        (n_settle + n_meas, n_neurons), float(drive_amp), dtype=gm.params["emitter"].v0.dtype
+    )
     state, spikes, _ = run_segment(step_fn, state, drive)
     tail = spikes[n_settle:]
     rates = class_rates(tail, dt_ms, members)
     return rates["E"], rates["I"], rates, state
 
 
-def estimate_S(model, theta, drive_amp, dtheta=0.1, n_settle=2000, n_meas=3000,
-               dt_ms=0.1, seed=0):
+def estimate_S(model, theta, drive_amp, dtheta=0.1, n_settle=2000, n_meas=3000, dt_ms=0.1, seed=0):
     """Central-difference S in R^{2x4} around active regime. 8 branches + ref."""
     masks, members = family_masks(model)
-    r0 = reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed,
-                         members)[:2]
+    r0 = reference_rates(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members)[:2]
     S = np.zeros((2, 4))
     for j in range(4):
-        dp = np.asarray(theta, float).copy(); dp[j] += dtheta
-        dm = np.asarray(theta, float).copy(); dm[j] -= dtheta
-        rp = reference_rates(model, dp, drive_amp, n_settle, n_meas, dt_ms, seed,
-                             members)[:2]
-        rm = reference_rates(model, dm, drive_amp, n_settle, n_meas, dt_ms, seed,
-                             members)[:2]
+        dp = np.asarray(theta, float).copy()
+        dp[j] += dtheta
+        dm = np.asarray(theta, float).copy()
+        dm[j] -= dtheta
+        rp = reference_rates(model, dp, drive_amp, n_settle, n_meas, dt_ms, seed, members)[:2]
+        rm = reference_rates(model, dm, drive_amp, n_settle, n_meas, dt_ms, seed, members)[:2]
         S[:, j] = (np.array(rp) - np.array(rm)) / (2 * dtheta)
     return {"S": S, "r0": np.array(r0), "members": members, "masks": masks}
 
@@ -197,13 +208,13 @@ def controller_step(theta, grad_r, S, eta, theta0=None):
     """Discrete reviewed rule: dTheta = -eta D (S^T g + lamTh R (Th-Th0))."""
     theta = np.asarray(theta, float)
     t0 = np.zeros(4) if theta0 is None else np.asarray(theta0, float)
-    d = np.asarray(D_NORM) * (S.T @ np.asarray(grad_r, float)
-                              + LAM_TH * np.asarray(R_DIAG) * (theta - t0))
+    d = np.asarray(D_NORM) * (
+        S.T @ np.asarray(grad_r, float) + LAM_TH * np.asarray(R_DIAG) * (theta - t0)
+    )
     return theta - float(eta) * d
 
 
-def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0,
-                dt_ms=0.1, seed=0):
+def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0, dt_ms=0.1, seed=0):
     """Run closed loop with CONTINUED state (history matters here).
 
     Per segment: measure rates -> V -> Theta update -> re-apply gains.
@@ -215,35 +226,41 @@ def closed_loop(model, theta0, S, drive_amp, eta, n_seg=10, seg_ms=1000.0,
     n_steps = int(round(seg_ms / dt_ms))
     theta = np.asarray(theta0, float)
     gm = apply_theta(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     n_neurons = int(gm.params["emitter"].n_neurons)
     dtype = gm.params["emitter"].v0.dtype
     state = initial_state(gm, seed)
     drive = jnp.full((n_steps, n_neurons), float(drive_amp), dtype=dtype)
-    hist = {"rE": [], "rI": [], "V": [], "V_rate": [], "e_B": [],
-            "theta": [], "sub": []}
+    hist = {"rE": [], "rI": [], "V": [], "V_rate": [], "e_B": [], "theta": [], "sub": []}
     reject = None
     for _ in range(n_seg):
         state, spikes, v = run_segment(step_fn, state, drive)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            reject = "nonfinite_state"; break
+            reject = "nonfinite_state"
+            break
         rates = class_rates(spikes, dt_ms, members)
         if rates["E"] > RUNAWAY_HZ or rates["I"] > RUNAWAY_HZ:
-            reject = "runaway_firing"; break
+            reject = "runaway_firing"
+            break
         obj = objective(rates["E"], rates["I"], theta, theta0)
-        hist["rE"].append(rates["E"]); hist["rI"].append(rates["I"])
-        hist["V"].append(obj["V"]); hist["V_rate"].append(obj["V_rate"])
-        hist["e_B"].append(obj["e_B"]); hist["theta"].append(theta.copy())
+        hist["rE"].append(rates["E"])
+        hist["rI"].append(rates["I"])
+        hist["V"].append(obj["V"])
+        hist["V_rate"].append(obj["V_rate"])
+        hist["e_B"].append(obj["e_B"])
+        hist["theta"].append(theta.copy())
         hist["sub"].append({c: rates[c] for c in I_CLASSES})
         g = grad_r_objective(rates["E"], rates["I"])
         theta = controller_step(theta, g, S, eta, theta0)
         if not np.all(np.isfinite(theta)):
-            reject = "nonfinite_theta"; break
+            reject = "nonfinite_theta"
+            break
         gm = apply_theta(model, theta)  # admissibility by construction (clip)
-        step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms),
-                                           kernel="baseline",
-                                           record_weight_trace=False)
+        step_fn, _ = jtfne.compile_step_fn(
+            gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+        )
     rec = {k: (np.array(v) if k != "sub" else v) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -260,16 +277,25 @@ def acceptance(rec, sub_lo=SUBCLASS_LO, sub_hi=SUBCLASS_HI):
     out["v_rate_down"] = bool(n >= 2 and rec["V_rate"][-1] < rec["V_rate"][0])
     out["eb_down"] = bool(n >= 2 and abs(rec["e_B"][-1]) < abs(rec["e_B"][0]))
     th = np.asarray(rec["theta"]) if n else np.zeros((0, 4))
-    out["theta_settles"] = bool(n >= 3 and np.linalg.norm(th[-1] - th[-2])
-                                < np.linalg.norm(th[1] - th[0]))
+    out["theta_settles"] = bool(
+        n >= 3 and np.linalg.norm(th[-1] - th[-2]) < np.linalg.norm(th[1] - th[0])
+    )
     sub_ok = True
     for snap in rec["sub"]:
         for c in I_CLASSES:
             if not (sub_lo <= snap[c] <= sub_hi):
                 sub_ok = False
     out["subclass_healthy"] = bool(sub_ok) and n > 0
-    out["all"] = all([out["finite"], out["admissible"], out["v_rate_down"],
-                      out["eb_down"], out["theta_settles"], out["subclass_healthy"]])
+    out["all"] = all(
+        [
+            out["finite"],
+            out["admissible"],
+            out["v_rate_down"],
+            out["eb_down"],
+            out["theta_settles"],
+            out["subclass_healthy"],
+        ]
+    )
     return out
 
 
@@ -296,8 +322,7 @@ def apply_theta6(model, theta):
     out = base.copy()
     for i, row in enumerate(tbl):
         out[i] = base[i] * (gdE if str(row["cell_type"]) == "E" else gdI)
-    return gm.with_emitter_parameters(
-        drive_per_neuron=jnp.asarray(out, dtype=e.drive.dtype))
+    return gm.with_emitter_parameters(drive_per_neuron=jnp.asarray(out, dtype=e.drive.dtype))
 
 
 def edge_weight_sums(model):
@@ -344,7 +369,7 @@ def realized_currents_E(spikes, wsums, dt_ms=DT_MS_DEFAULT, stride=1):
     spikes [T, N] bool; returns per-step (Iexc_E, Iinh_E) summed over E
     targets (population totals), then caller windows/means them.
     """
-    sp = np.asarray(spikes, dtype=float)[::int(stride)]
+    sp = np.asarray(spikes, dtype=float)[:: int(stride)]
     dt = float(dt_ms) * int(stride)
     f_exc = _exp_filter(sp, wsums["tau_exc"], dt) * (wsums["tau_exc"] / dt)
     f_inh = _exp_filter(sp, wsums["tau_inh"], dt) * (wsums["tau_inh"] / dt)
@@ -359,62 +384,79 @@ def y_observables(spikes, members, wsums, dt_ms=DT_MS_DEFAULT, eps=EPS):
     Iexc, Iinh = realized_currents_E(spikes, wsums, dt_ms)
     half = len(Iexc) // 2  # settled half only
     b_E = float(np.log(Iexc[half:].mean() + eps) - np.log(Iinh[half:].mean() + eps))
-    return {"rE": rates["E"], "rI": rates["I"], "b_E": b_E,
-            "Iexc_mean": float(Iexc[half:].mean()),
-            "Iinh_mean": float(Iinh[half:].mean()), "sub": rates}
+    return {
+        "rE": rates["E"],
+        "rI": rates["I"],
+        "b_E": b_E,
+        "Iexc_mean": float(Iexc[half:].mean()),
+        "Iinh_mean": float(Iinh[half:].mean()),
+        "sub": rates,
+    }
 
 
-def reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed,
-                members, wsums):
+def reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members, wsums):
     """y* at fixed 6-Theta under constant drive (cold-start matched)."""
     gm = apply_theta6(model, theta)
     n_neurons = int(gm.params["emitter"].n_neurons)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
-    drive = jnp.full((n_settle + n_meas, n_neurons),
-                     float(drive_amp), dtype=gm.params["emitter"].v0.dtype)
+    drive = jnp.full(
+        (n_settle + n_meas, n_neurons), float(drive_amp), dtype=gm.params["emitter"].v0.dtype
+    )
     state, spikes, _ = run_segment(step_fn, state, drive)
     y = y_observables(spikes[n_settle:], members, wsums, dt_ms)
     return y, state
 
 
-def estimate_Sy(model, theta, drive_amp, dtheta=0.2, ddrive=0.2,
-                n_settle=15000, n_meas=15000, dt_ms=DT_MS_DEFAULT, seed=0):
+def estimate_Sy(
+    model,
+    theta,
+    drive_amp,
+    dtheta=0.2,
+    ddrive=0.2,
+    n_settle=15000,
+    n_meas=15000,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+):
     """Central-difference S_y in R^{3x6}. Synaptic step dtheta, drive step
     ddrive (separate scales: different physical meaning). 12 branches + ref,
     same protocol as S_syn for direct comparability.
     """
     masks, members = family_masks(model)
     wsums = edge_weight_sums(model)
-    y0 = reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed,
-                     members, wsums)[0]
+    y0 = reference_y(model, theta, drive_amp, n_settle, n_meas, dt_ms, seed, members, wsums)[0]
     y0v = np.array([y0["rE"], y0["rI"], y0["b_E"]])
     Sy = np.zeros((3, N_THETA6))
     branch_sub = []
     for j in range(N_THETA6):
         h = ddrive if j >= 4 else dtheta
-        dp = np.asarray(theta, float).copy(); dp[j] += h
-        dm = np.asarray(theta, float).copy(); dm[j] -= h
-        yp, _ = reference_y(model, dp, drive_amp, n_settle, n_meas, dt_ms,
-                            seed, members, wsums)
-        ym, _ = reference_y(model, dm, drive_amp, n_settle, n_meas, dt_ms,
-                            seed, members, wsums)
-        Sy[:, j] = (np.array([yp["rE"], yp["rI"], yp["b_E"]])
-                    - np.array([ym["rE"], ym["rI"], ym["b_E"]])) / (2 * h)
+        dp = np.asarray(theta, float).copy()
+        dp[j] += h
+        dm = np.asarray(theta, float).copy()
+        dm[j] -= h
+        yp, _ = reference_y(model, dp, drive_amp, n_settle, n_meas, dt_ms, seed, members, wsums)
+        ym, _ = reference_y(model, dm, drive_amp, n_settle, n_meas, dt_ms, seed, members, wsums)
+        Sy[:, j] = (
+            np.array([yp["rE"], yp["rI"], yp["b_E"]]) - np.array([ym["rE"], ym["rI"], ym["b_E"]])
+        ) / (2 * h)
         branch_sub.append((yp["sub"], ym["sub"]))
-    return {"Sy": Sy, "y0": y0v, "y0full": y0, "members": members,
-            "branch_sub": branch_sub}
+    return {"Sy": Sy, "y0": y0v, "y0full": y0, "members": members, "branch_sub": branch_sub}
 
 
 def svd_report(S):
     """rank (tol 1e-6 relative), singular values, condition number."""
     s = np.linalg.svd(S, compute_uv=False)
     tol = 1e-6 * (s[0] if len(s) and s[0] > 0 else 1.0)
-    return {"sigma": s, "rank": int((s > tol).sum()),
-            "kappa": float(s[0] / s[-1]) if s[-1] > 0 else float("inf")}
+    return {
+        "sigma": s,
+        "rank": int((s > tol).sum()),
+        "kappa": float(s[0] / s[-1]) if s[-1] > 0 else float("inf"),
+    }
 
 
 def actuator_authority(S, R_diag=None):
@@ -444,8 +486,7 @@ def pinv_weighted(S, lam=1e-2, R_diag=None):
     return Ri @ S.T @ np.linalg.inv(A)
 
 
-def controller_step_w(theta, grad_y, Sy, eta, lam=1e-2, R_diag=None,
-                      gamma=0.0, theta0=None):
+def controller_step_w(theta, grad_y, Sy, eta, lam=1e-2, R_diag=None, gamma=0.0, theta0=None):
     """Minimum-change law: dTh = -eta S^dagger grad - gamma P_ker (Th-Th0).
 
     P_ker = I - S^dagger S projects drift pullback onto ker S so
@@ -455,8 +496,9 @@ def controller_step_w(theta, grad_y, Sy, eta, lam=1e-2, R_diag=None,
     t0 = np.zeros_like(theta) if theta0 is None else np.asarray(theta0, float)
     Sp = pinv_weighted(Sy, lam, R_diag)
     Pker = np.eye(len(theta)) - Sp @ np.asarray(Sy, float)
-    return theta - float(eta) * (Sp @ np.asarray(grad_y, float)) \
-        - float(gamma) * (Pker @ (theta - t0))
+    return (
+        theta - float(eta) * (Sp @ np.asarray(grad_y, float)) - float(gamma) * (Pker @ (theta - t0))
+    )
 
 
 # --------------------------------------------------------------------------
@@ -480,14 +522,12 @@ def objective_restricted(rE, rI, theta, theta0=None):
     v_rate = rate_penalty(rE, R_E_LO, R_E_HI) + rate_penalty(rI, R_I_LO, R_I_HI)
     d = theta - t0
     v_th = 0.5 * float(np.sum(np.asarray(R_DEFAULT) * d * d))
-    return {"V": float(v_rate + LAM_TH * v_th), "V_rate": float(v_rate),
-            "V_Theta": float(v_th)}
+    return {"V": float(v_rate + LAM_TH * v_th), "V_rate": float(v_rate), "V_Theta": float(v_th)}
 
 
 def grad_r_restricted(rE, rI):
     """grad of restricted V w.r.t. (rE, rI) at fixed Theta."""
-    return np.array([d_rate_penalty(rE, R_E_LO, R_E_HI),
-                     d_rate_penalty(rI, R_I_LO, R_I_HI)])
+    return np.array([d_rate_penalty(rE, R_E_LO, R_E_HI), d_rate_penalty(rI, R_I_LO, R_I_HI)])
 
 
 def check_guards(y, sub):
@@ -510,10 +550,23 @@ def oscillation_flag(V_hist):
     return flips >= OSC_FLIP_MIN, flips
 
 
-def closed_loop6(model, S2, theta0, eta, drive_base=0.0, drive_step=0.0,
-                 step_segs=(3, 4, 5, 6), n_seg=10, seg_ms=1000.0,
-                 dt_ms=DT_MS_DEFAULT, seed=0, lam=LAM_DEFAULT,
-                 R_diag=R_DEFAULT, gamma=0.0, freeze_theta=False):
+def closed_loop6(
+    model,
+    S2,
+    theta0,
+    eta,
+    drive_base=0.0,
+    drive_step=0.0,
+    step_segs=(3, 4, 5, 6),
+    n_seg=10,
+    seg_ms=1000.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    lam=LAM_DEFAULT,
+    R_diag=R_DEFAULT,
+    gamma=0.0,
+    freeze_theta=False,
+):
     """Restricted 6-theta closed loop with built-in drive-step assay.
 
     Segments in step_segs run at drive_base + drive_step (perturbation),
@@ -532,43 +585,69 @@ def closed_loop6(model, S2, theta0, eta, drive_base=0.0, drive_step=0.0,
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     Pker = np.eye(6) - Sp @ np.asarray(S2, float)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     state = initial_state(gm, seed)
-    hist = {"rE": [], "rI": [], "b_E": [], "V": [], "V_rate": [],
-            "theta": [], "subE": [], "subPV": [], "subSST": [], "subVIP": [],
-            "drive": []}
+    hist = {
+        "rE": [],
+        "rI": [],
+        "b_E": [],
+        "V": [],
+        "V_rate": [],
+        "theta": [],
+        "subE": [],
+        "subPV": [],
+        "subSST": [],
+        "subVIP": [],
+        "drive": [],
+    }
     reject = None
     for s in range(n_seg):
         amp = float(drive_base + (drive_step if s in step_segs else 0.0))
         drive = jnp.full((n_steps, n_neurons), amp, dtype=dtype)
         state, spikes, v = run_segment(step_fn, state, drive)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            reject = "NUMERICAL"; break
+            reject = "NUMERICAL"
+            break
         rates = class_rates(spikes, dt_ms, members)
         if rates["E"] > RUNAWAY_HZ or rates["I"] > RUNAWAY_HZ:
-            reject = "RATE"; break
+            reject = "RATE"
+            break
         y = y_observables(spikes, members, wsums, dt_ms)
         ok, bad = check_guards(y, rates)
         if not ok:
-            reject = f"GUARD:{'+'.join(bad)}"; break
+            reject = f"GUARD:{'+'.join(bad)}"
+            break
         obj = objective_restricted(rates["E"], rates["I"], theta, theta0)
-        for k, val in (("rE", rates["E"]), ("rI", rates["I"]), ("b_E", y["b_E"]),
-                       ("V", obj["V"]), ("V_rate", obj["V_rate"]),
-                       ("subE", rates["E"]), ("subPV", rates["PV"]),
-                       ("subSST", rates["SST"]), ("subVIP", rates["VIP"]),
-                       ("drive", amp)):
+        for k, val in (
+            ("rE", rates["E"]),
+            ("rI", rates["I"]),
+            ("b_E", y["b_E"]),
+            ("V", obj["V"]),
+            ("V_rate", obj["V_rate"]),
+            ("subE", rates["E"]),
+            ("subPV", rates["PV"]),
+            ("subSST", rates["SST"]),
+            ("subVIP", rates["VIP"]),
+            ("drive", amp),
+        ):
             hist[k].append(val)
         hist["theta"].append(theta.copy())
         if not freeze_theta:
             g = grad_r_restricted(rates["E"], rates["I"])
-            theta = theta - float(eta) * (Sp @ g) - float(gamma) * (Pker @ (theta - np.asarray(theta0, float)))
+            theta = (
+                theta
+                - float(eta) * (Sp @ g)
+                - float(gamma) * (Pker @ (theta - np.asarray(theta0, float)))
+            )
             if not np.all(np.isfinite(theta)):
-                reject = "NUMERICAL"; break
+                reject = "NUMERICAL"
+                break
             gm = apply_theta6(model, theta)
-            step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms),
-                                               kernel="baseline",
-                                               record_weight_trace=False)
+            step_fn, _ = jtfne.compile_step_fn(
+                gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+            )
     rec = {k: (np.array(v) if k != "theta" else np.array(v)) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -582,17 +661,22 @@ def classify_run(rec):
     m["n_seg"] = n
     if rec["reject"] is not None:
         kind = rec["reject"].split(":")[0]
-        m["class"] = {"NUMERICAL": "NUMERICAL FAILURE", "RATE": "RATE FAILURE"}.get(kind, "GUARD FAILURE")
+        m["class"] = {"NUMERICAL": "NUMERICAL FAILURE", "RATE": "RATE FAILURE"}.get(
+            kind, "GUARD FAILURE"
+        )
         return m
     if n < 3:
-        m["class"] = "NUMERICAL FAILURE"; return m
+        m["class"] = "NUMERICAL FAILURE"
+        return m
     osc, flips = oscillation_flag(rec["V_rate"])
     m["osc_flips"] = flips
     if osc:
-        m["class"] = "OSCILLATORY"; return m
+        m["class"] = "OSCILLATORY"
+        return m
     m["class"] = "PASS"
     vr = np.asarray(rec["V_rate"])
-    m["V_rate_max"] = float(vr.max()); m["V_rate_final"] = float(vr[-1])
+    m["V_rate_max"] = float(vr.max())
+    m["V_rate_final"] = float(vr[-1])
     settle = int(np.argmax(vr <= max(0.1, 1.2 * vr.min())))
     m["T_settle_seg"] = settle
     th = np.asarray(rec["theta"])
@@ -600,7 +684,8 @@ def classify_run(rec):
     m["max_dbE"] = float(np.abs(np.asarray(rec["b_E"]) - rec["b_E"][0]).max())
     for c in ("subE", "subPV", "subSST", "subVIP"):
         a = np.asarray(rec[c])
-        m[f"{c}_min"] = float(a.min()); m[f"{c}_max"] = float(a.max())
+        m[f"{c}_min"] = float(a.min())
+        m[f"{c}_max"] = float(a.max())
     return m
 
 
@@ -631,16 +716,16 @@ THETA_C_DFLT = 0.06
 Q_DFLT = 2.0
 
 
-def tau_theta(dtheta, tau_S=TAU_S_DFLT, tau_L=TAU_L_DFLT,
-              theta_c=THETA_C_DFLT, q=Q_DFLT):
+def tau_theta(dtheta, tau_S=TAU_S_DFLT, tau_L=TAU_L_DFLT, theta_c=THETA_C_DFLT, q=Q_DFLT):
     """Bounded consolidation law: tau_S <= tau <= tau_L guaranteed."""
     a = np.abs(np.asarray(dtheta, dtype=float))
-    f = (a ** q) / (theta_c ** q + a ** q)
+    f = (a**q) / (theta_c**q + a**q)
     return tau_S + (tau_L - tau_S) * f
 
 
-def pullback_step(theta, theta0, mode="none", tau_S=TAU_S_DFLT,
-                  tau_L=TAU_L_DFLT, theta_c=THETA_C_DFLT, q=Q_DFLT):
+def pullback_step(
+    theta, theta0, mode="none", tau_S=TAU_S_DFLT, tau_L=TAU_L_DFLT, theta_c=THETA_C_DFLT, q=Q_DFLT
+):
     """Per-component pullback increment (Euler, segment units).
 
     modes: 'none' (reference controller), 'const' (matched constant-tau
@@ -657,12 +742,28 @@ def pullback_step(theta, theta0, mode="none", tau_S=TAU_S_DFLT,
     raise ValueError(f"unknown pullback mode {mode!r}")
 
 
-def closed_loop6_consol(model, S2, theta0, eta=4.0, drive_base=0.0,
-                        drive_schedule=None, n_seg=10, seg_ms=1000.0,
-                        dt_ms=DT_MS_DEFAULT, seed=0, lam=LAM_DEFAULT,
-                        R_diag=R_DEFAULT, gamma=0.0, freeze_theta=False,
-                        pullback="none", tau_S=TAU_S_DFLT, tau_L=TAU_L_DFLT,
-                        theta_c=THETA_C_DFLT, q=Q_DFLT, ref=None):
+def closed_loop6_consol(
+    model,
+    S2,
+    theta0,
+    eta=4.0,
+    drive_base=0.0,
+    drive_schedule=None,
+    n_seg=10,
+    seg_ms=1000.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    lam=LAM_DEFAULT,
+    R_diag=R_DEFAULT,
+    gamma=0.0,
+    freeze_theta=False,
+    pullback="none",
+    tau_S=TAU_S_DFLT,
+    tau_L=TAU_L_DFLT,
+    theta_c=THETA_C_DFLT,
+    q=Q_DFLT,
+    ref=None,
+):
     """closed_loop6 with selectable pullback. drive_schedule: list of per-seg
     additive drives (None = zeros). Default args reproduce closed_loop6.
 
@@ -682,47 +783,72 @@ def closed_loop6_consol(model, S2, theta0, eta=4.0, drive_base=0.0,
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     Pker = np.eye(6) - Sp @ np.asarray(S2, float)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     state = initial_state(gm, seed)
     sched = [0.0] * n_seg if drive_schedule is None else list(drive_schedule)
-    hist = {"rE": [], "rI": [], "b_E": [], "V": [], "V_rate": [],
-            "theta": [], "subE": [], "subPV": [], "subSST": [], "subVIP": [],
-            "drive": []}
+    hist = {
+        "rE": [],
+        "rI": [],
+        "b_E": [],
+        "V": [],
+        "V_rate": [],
+        "theta": [],
+        "subE": [],
+        "subPV": [],
+        "subSST": [],
+        "subVIP": [],
+        "drive": [],
+    }
     reject = None
     for s in range(n_seg):
         amp = float(drive_base + sched[s])
         drive = jnp.full((n_steps, n_neurons), amp, dtype=dtype)
         state, spikes, v = run_segment(step_fn, state, drive)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            reject = "NUMERICAL"; break
+            reject = "NUMERICAL"
+            break
         rates = class_rates(spikes, dt_ms, members)
         if rates["E"] > RUNAWAY_HZ or rates["I"] > RUNAWAY_HZ:
-            reject = "RATE"; break
+            reject = "RATE"
+            break
         y = y_observables(spikes, members, wsums, dt_ms)
         ok, bad = check_guards(y, rates)
         if not ok:
-            reject = f"GUARD:{'+'.join(bad)}"; break
+            reject = f"GUARD:{'+'.join(bad)}"
+            break
         obj = objective_restricted(rates["E"], rates["I"], theta, ref)
-        for k, val in (("rE", rates["E"]), ("rI", rates["I"]), ("b_E", y["b_E"]),
-                       ("V", obj["V"]), ("V_rate", obj["V_rate"]),
-                       ("subE", rates["E"]), ("subPV", rates["PV"]),
-                       ("subSST", rates["SST"]), ("subVIP", rates["VIP"]),
-                       ("drive", amp)):
+        for k, val in (
+            ("rE", rates["E"]),
+            ("rI", rates["I"]),
+            ("b_E", y["b_E"]),
+            ("V", obj["V"]),
+            ("V_rate", obj["V_rate"]),
+            ("subE", rates["E"]),
+            ("subPV", rates["PV"]),
+            ("subSST", rates["SST"]),
+            ("subVIP", rates["VIP"]),
+            ("drive", amp),
+        ):
             hist[k].append(val)
         hist["theta"].append(theta.copy())
         if not freeze_theta:
             g = grad_r_restricted(rates["E"], rates["I"])
             step = Sp @ g
-            theta = (theta - float(eta) * step
-                     - float(gamma) * (Pker @ (theta - ref))
-                     - pullback_step(theta, ref, pullback, tau_S, tau_L, theta_c, q))
+            theta = (
+                theta
+                - float(eta) * step
+                - float(gamma) * (Pker @ (theta - ref))
+                - pullback_step(theta, ref, pullback, tau_S, tau_L, theta_c, q)
+            )
             if not np.all(np.isfinite(theta)):
-                reject = "NUMERICAL"; break
+                reject = "NUMERICAL"
+                break
             gm = apply_theta6(model, theta)
-            step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms),
-                                               kernel="baseline",
-                                               record_weight_trace=False)
+            step_fn, _ = jtfne.compile_step_fn(
+                gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+            )
     rec = {k: np.array(v) for k, v in hist.items()}
     rec["reject"] = reject
     rec["theta_final"] = theta
@@ -747,24 +873,23 @@ def tau_eff_series(theta_hist, theta0, comp=5):
     return np.array(taus), np.array(mags)
 
 
-def recovery_assay(model, S2, theta0, pattern, n_recovery=8, drive_step=2.0,
-                   seed=0, seg_ms=1000.0, **kw):
+def recovery_assay(
+    model, S2, theta0, pattern, n_recovery=8, drive_step=2.0, seed=0, seg_ms=1000.0, **kw
+):
     """Run exposure pattern then clean recovery. pattern: list of 0/1 per
     exposure seg (1 = drive_step on). Returns rec incl. exposure+recovery."""
     sched = [float(drive_step) if p else 0.0 for p in pattern] + [0.0] * n_recovery
-    return closed_loop6_consol(model, S2, theta0, drive_base=0.0,
-                               drive_schedule=sched, n_seg=len(sched),
-                               seg_ms=seg_ms, seed=seed, **kw)
-
-
-def recovery_assay(model, S2, theta0, pattern, n_recovery=8, drive_step=2.0,
-                   seed=0, seg_ms=1000.0, **kw):
-    """Run exposure pattern then clean recovery. pattern: list of 0/1 per
-    exposure seg (1 = drive_step on). Returns rec incl. exposure+recovery."""
-    sched = [float(drive_step) if p else 0.0 for p in pattern] + [0.0] * n_recovery
-    return closed_loop6_consol(model, S2, theta0, drive_base=0.0,
-                               drive_schedule=sched, n_seg=len(sched),
-                               seg_ms=seg_ms, seed=seed, **kw)
+    return closed_loop6_consol(
+        model,
+        S2,
+        theta0,
+        drive_base=0.0,
+        drive_schedule=sched,
+        n_seg=len(sched),
+        seg_ms=seg_ms,
+        seed=seed,
+        **kw,
+    )
 
 
 # --------------------------------------------------------------------------
@@ -791,20 +916,23 @@ def update_H(H, rates_hz, tau_H=TAU_H_SEGS_DFLT):
     return H + (A - H) / float(tau_H)
 
 
-def susceptibility(H, members, h_c, p=P_ELIG_DFLT, m_min=M_MIN_DFLT,
-                   m_max=M_MAX_DFLT):
+def susceptibility(H, members, h_c, p=P_ELIG_DFLT, m_min=M_MIN_DFLT, m_max=M_MAX_DFLT):
     """Bounded m(H) in [m_min, m_max]; h_c per class (dict or scalar)."""
     H = np.asarray(H, dtype=float)
     m = np.empty_like(H)
     cls_of = {}
     for c, idx in members.items():
-        cls_of.update({int(i): c for c in
-                       (["E"] if c == "E" else [c]) for i in
-                       (idx if c in ("E",) + I_CLASSES else [])})
+        cls_of.update(
+            {
+                int(i): c
+                for c in (["E"] if c == "E" else [c])
+                for i in (idx if c in ("E",) + I_CLASSES else [])
+            }
+        )
     for i in range(len(H)):
         c = cls_of.get(i, "E")
         hc = h_c[c] if isinstance(h_c, dict) else float(h_c)
-        f = (H[i] ** p) / (hc ** p + H[i] ** p) if H[i] > 0 else 0.0
+        f = (H[i] ** p) / (hc**p + H[i] ** p) if H[i] > 0 else 0.0
         m[i] = m_min + (m_max - m_min) * f
     return m
 
@@ -829,11 +957,25 @@ def check_envelope(m, eta=4.0):
     return bool((float(eta) * np.asarray(m)).max() <= ETA_SAFE)
 
 
-def eligibility_assay(model, S2, n_E_sub=30, hist_boost=3.0, n_hist=4,
-                      probe_step=2.0, n_probe=2, seed=0, seg_ms=1000.0,
-                      dt_ms=DT_MS_DEFAULT, lam=LAM_DEFAULT, R_diag=R_DEFAULT,
-                      tau_H=TAU_H_SEGS_DFLT, h_c=None, p=P_ELIG_DFLT,
-                      pullback="none", **consol_kw):
+def eligibility_assay(
+    model,
+    S2,
+    n_E_sub=30,
+    hist_boost=3.0,
+    n_hist=4,
+    probe_step=2.0,
+    n_probe=2,
+    seed=0,
+    seg_ms=1000.0,
+    dt_ms=DT_MS_DEFAULT,
+    lam=LAM_DEFAULT,
+    R_diag=R_DEFAULT,
+    tau_H=TAU_H_SEGS_DFLT,
+    h_c=None,
+    p=P_ELIG_DFLT,
+    pullback="none",
+    **consol_kw,
+):
     """Differential-history allocation assay.
 
     Phase 1: E subset S1 gets +hist_boost drive for n_hist segs (S2 rest).
@@ -851,19 +993,30 @@ def eligibility_assay(model, S2, n_E_sub=30, hist_boost=3.0, n_hist=4,
     n_steps = int(round(float(seg_ms) / float(dt_ms)))
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     E_idx = np.asarray(members["E"])
-    S1 = E_idx[:int(n_E_sub)]
+    S1 = E_idx[: int(n_E_sub)]
     base_drive = np.asarray(model.params["emitter"].drive, dtype=float)
     # per-neuron drive-gain state (log space) + eligibility
     logG = np.zeros(n_neurons)
     H = np.zeros(n_neurons)
     theta_syn = np.zeros(4)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     state = initial_state(gm, seed)
-    hist = {"phase": [], "rE": [], "rI": [], "V_rate": [], "corr": [],
-            "mean_dth_E": [], "b_E": [], "subPV": [], "subSST": [],
-            "subVIP": [], "reject": None}
+    hist = {
+        "phase": [],
+        "rE": [],
+        "rI": [],
+        "V_rate": [],
+        "corr": [],
+        "mean_dth_E": [],
+        "b_E": [],
+        "subPV": [],
+        "subSST": [],
+        "subVIP": [],
+        "reject": None,
+    }
     hc = h_c
     probe_deltas, probe_H = None, None
     step = 0
@@ -871,9 +1024,11 @@ def eligibility_assay(model, S2, n_E_sub=30, hist_boost=3.0, n_hist=4,
     def run_seg(extra):
         nonlocal state, step_fn, step
         drive = jnp.asarray(extra, dtype=dtype)
-        st, spikes, v = run_segment(step_fn, state,
-                                    drive.reshape(1, -1).repeat(n_steps, axis=0)
-                                    if extra.ndim == 1 else drive)
+        st, spikes, v = run_segment(
+            step_fn,
+            state,
+            drive.reshape(1, -1).repeat(n_steps, axis=0) if extra.ndim == 1 else drive,
+        )
         step += 1
         return st, spikes, v
 
@@ -883,36 +1038,45 @@ def eligibility_assay(model, S2, n_E_sub=30, hist_boost=3.0, n_hist=4,
         extra[S1] = hist_boost
         state, spikes, v = run_seg(extra)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            hist["reject"] = "NUMERICAL"; break
+            hist["reject"] = "NUMERICAL"
+            break
         hz = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
         H = update_H(H, hz, tau_H)
         rates = class_rates(spikes, dt_ms, members)
         y = y_observables(spikes, members, wsums, dt_ms)
-        hist["phase"].append("hist"); hist["rE"].append(rates["E"])
-        hist["rI"].append(rates["I"]); hist["corr"].append(float("nan"))
+        hist["phase"].append("hist")
+        hist["rE"].append(rates["E"])
+        hist["rI"].append(rates["I"])
+        hist["corr"].append(float("nan"))
         hist["mean_dth_E"].append(0.0)
-        hist["b_E"].append(y["b_E"]); hist["subPV"].append(rates["PV"])
-        hist["subSST"].append(rates["SST"]); hist["subVIP"].append(rates["VIP"])
-        obj = objective_restricted(rates["E"], rates["I"],
-                                   np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6))
+        hist["b_E"].append(y["b_E"])
+        hist["subPV"].append(rates["PV"])
+        hist["subSST"].append(rates["SST"])
+        hist["subVIP"].append(rates["VIP"])
+        obj = objective_restricted(
+            rates["E"], rates["I"], np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6)
+        )
         hist["V_rate"].append(obj["V_rate"])
     if hc is None:
         # data-driven half-max: class mean rates at end of history phase
         hz_last = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
-        hc = {c: max(float(hz_last[np.asarray(members[c])].mean()), 1.0)
-              for c in ("E",) + I_CLASSES}
+        hc = {
+            c: max(float(hz_last[np.asarray(members[c])].mean()), 1.0) for c in ("E",) + I_CLASSES
+        }
     for seg in range(n_probe):
         extra = np.full(nH, probe_step)
         state, spikes, v = run_seg(extra)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            hist["reject"] = "NUMERICAL"; break
+            hist["reject"] = "NUMERICAL"
+            break
         hz = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
         H = update_H(H, hz, tau_H)
         rates = class_rates(spikes, dt_ms, members)
         y = y_observables(spikes, members, wsums, dt_ms)
         ok, bad = check_guards(y, rates)
         if not ok:
-            hist["reject"] = f"GUARD:{'+'.join(bad)}"; break
+            hist["reject"] = f"GUARD:{'+'.join(bad)}"
+            break
         m = susceptibility(H, members, hc, p)
         assert check_envelope(m), "eta*m envelope violated"
         g = grad_r_restricted(rates["E"], rates["I"])
@@ -920,53 +1084,85 @@ def eligibility_assay(model, S2, n_E_sub=30, hist_boost=3.0, n_hist=4,
         dth = allocate_drive_delta(m, members, u[4], u[5])
         # synaptic thetas: uniform reference law
         theta6 = np.concatenate([theta_syn, [0.0, 0.0]])
-        theta6 = theta6 - 4.0 * (Sp @ g) - pullback_step(
-            theta6, np.zeros(6), pullback, **{k: consol_kw[k] for k in
-                                              ("tau_S", "tau_L", "theta_c", "q")
-                                              if k in consol_kw})
+        theta6 = (
+            theta6
+            - 4.0 * (Sp @ g)
+            - pullback_step(
+                theta6,
+                np.zeros(6),
+                pullback,
+                **{k: consol_kw[k] for k in ("tau_S", "tau_L", "theta_c", "q") if k in consol_kw},
+            )
+        )
         theta_syn = theta6[:4]
         logG = logG + dth  # per-neuron drive allocation (log space)
         gm_cur = apply_theta(model, theta_syn)
         e = gm_cur.params["emitter"]
         gm_cur = gm_cur.with_emitter_parameters(
-            drive_per_neuron=jnp.asarray(base_drive * np.exp(logG),
-                                         dtype=e.drive.dtype))
-        step_fn, _ = jtfne.compile_step_fn(gm_cur, dt_ms=float(dt_ms),
-                                           kernel="baseline",
-                                           record_weight_trace=False)
+            drive_per_neuron=jnp.asarray(base_drive * np.exp(logG), dtype=e.drive.dtype)
+        )
+        step_fn, _ = jtfne.compile_step_fn(
+            gm_cur, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+        )
         if seg == 0:
             probe_deltas, probe_H = dth[E_idx].copy(), H[E_idx].copy()
-        obj = objective_restricted(rates["E"], rates["I"],
-                                   np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6))
-        hist["phase"].append("probe"); hist["rE"].append(rates["E"])
-        hist["rI"].append(rates["I"]); hist["V_rate"].append(obj["V_rate"])
+        obj = objective_restricted(
+            rates["E"], rates["I"], np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6)
+        )
+        hist["phase"].append("probe")
+        hist["rE"].append(rates["E"])
+        hist["rI"].append(rates["I"])
+        hist["V_rate"].append(obj["V_rate"])
         hist["mean_dth_E"].append(float(dth[E_idx].mean()))
         hist["corr"].append(float("nan"))
-        hist["b_E"].append(y["b_E"]); hist["subPV"].append(rates["PV"])
-        hist["subSST"].append(rates["SST"]); hist["subVIP"].append(rates["VIP"])
-    corr = float(np.corrcoef(probe_H, np.abs(probe_deltas))[0, 1]) \
-        if probe_deltas is not None else float("nan")
+        hist["b_E"].append(y["b_E"])
+        hist["subPV"].append(rates["PV"])
+        hist["subSST"].append(rates["SST"])
+        hist["subVIP"].append(rates["VIP"])
+    corr = (
+        float(np.corrcoef(probe_H, np.abs(probe_deltas))[0, 1])
+        if probe_deltas is not None
+        else float("nan")
+    )
     hist["corr"][-1] = corr
-    return {"hist": hist, "corr": corr, "H_E": H[E_idx] if probe_H is not None else None,
-            "dth_E": probe_deltas, "h_c": hc, "reject": hist["reject"],
-            "logG": logG, "theta_syn": theta_syn}
-
-
-    corr = float(np.corrcoef(probe_H, np.abs(probe_deltas))[0, 1]) \
-        if probe_deltas is not None else float("nan")
-    hist["corr"][-1] = corr
-    return {"hist": hist, "corr": corr, "H_E": H[E_idx] if probe_H is not None else None,
-            "dth_E": probe_deltas, "h_c": hc, "reject": hist["reject"],
-            "logG": logG, "theta_syn": theta_syn}
+    return {
+        "hist": hist,
+        "corr": corr,
+        "H_E": H[E_idx] if probe_H is not None else None,
+        "dth_E": probe_deltas,
+        "h_c": hc,
+        "reject": hist["reject"],
+        "logG": logG,
+        "theta_syn": theta_syn,
+    }
 
 
 def consolidation_allocation_assay(
-        model, S2, n_E_sub=30, hist_boost=5.0, n_hist=5, probe_step=2.0,
-        n_probe=6, n_hdecay=6, n_retain=10, seed=0, seg_ms=1000.0,
-        dt_ms=DT_MS_DEFAULT, lam=LAM_DEFAULT, R_diag=R_DEFAULT,
-        tau_H=TAU_H_SEGS_DFLT, h_c=None, p=P_ELIG_DFLT, use_m=True,
-        theta_c_n=THETA_C_NEURON_DFLT, q=Q_DFLT, tau_S=TAU_S_DFLT,
-        tau_L=TAU_L_DFLT, theta_c=THETA_C_DFLT, hold_control=False):
+    model,
+    S2,
+    n_E_sub=30,
+    hist_boost=5.0,
+    n_hist=5,
+    probe_step=2.0,
+    n_probe=6,
+    n_hdecay=6,
+    n_retain=10,
+    seed=0,
+    seg_ms=1000.0,
+    dt_ms=DT_MS_DEFAULT,
+    lam=LAM_DEFAULT,
+    R_diag=R_DEFAULT,
+    tau_H=TAU_H_SEGS_DFLT,
+    h_c=None,
+    p=P_ELIG_DFLT,
+    use_m=True,
+    theta_c_n=THETA_C_NEURON_DFLT,
+    q=Q_DFLT,
+    tau_S=TAU_S_DFLT,
+    tau_L=TAU_L_DFLT,
+    theta_c=THETA_C_DFLT,
+    hold_control=False,
+):
     """Integrated edge: m(H) write + per-neuron consolidation pullback.
 
     Phases (continuous state throughout):
@@ -991,18 +1187,30 @@ def consolidation_allocation_assay(
     n_steps = int(round(float(seg_ms) / float(dt_ms)))
     Sp = pinv_weighted(np.asarray(S2, float), lam, R_diag)
     E_idx = np.asarray(members["E"])
-    S1 = E_idx[:int(n_E_sub)]
+    S1 = E_idx[: int(n_E_sub)]
     base_drive = np.asarray(model.params["emitter"].drive, dtype=float)
     logG = np.zeros(n_neurons)
     H = np.zeros(n_neurons)
     theta_syn = np.zeros(4)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     state = initial_state(gm, seed)
-    hist = {"phase": [], "rE": [], "rI": [], "V_rate": [], "b_E": [],
-            "subPV": [], "subSST": [], "subVIP": [], "reject": None,
-            "H_contrast": [], "theta": [], "logG_E": []}
+    hist = {
+        "phase": [],
+        "rE": [],
+        "rI": [],
+        "V_rate": [],
+        "b_E": [],
+        "subPV": [],
+        "subSST": [],
+        "subVIP": [],
+        "reject": None,
+        "H_contrast": [],
+        "theta": [],
+        "logG_E": [],
+    }
     hc = h_c
     H_write, logG_write = None, None
 
@@ -1015,22 +1223,27 @@ def consolidation_allocation_assay(
         nonlocal step_fn
         e = model.params["emitter"]
         gm2 = apply_theta(model, theta_syn).with_emitter_parameters(
-            drive_per_neuron=jnp.asarray(base_drive * np.exp(logG),
-                                         dtype=e.drive.dtype))
-        step_fn, _ = jtfne.compile_step_fn(gm2, dt_ms=float(dt_ms),
-                                           kernel="baseline",
-                                           record_weight_trace=False)
+            drive_per_neuron=jnp.asarray(base_drive * np.exp(logG), dtype=e.drive.dtype)
+        )
+        step_fn, _ = jtfne.compile_step_fn(
+            gm2, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+        )
 
     def observe(spikes, v, phase):
         rates = class_rates(spikes, dt_ms, members)
         y = y_observables(spikes, members, wsums, dt_ms)
         ok, bad = check_guards(y, rates)
-        obj = objective_restricted(rates["E"], rates["I"],
-                                   np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6))
-        hist["phase"].append(phase); hist["rE"].append(rates["E"])
-        hist["rI"].append(rates["I"]); hist["V_rate"].append(obj["V_rate"])
-        hist["b_E"].append(y["b_E"]); hist["subPV"].append(rates["PV"])
-        hist["subSST"].append(rates["SST"]); hist["subVIP"].append(rates["VIP"])
+        obj = objective_restricted(
+            rates["E"], rates["I"], np.concatenate([theta_syn, [0.0, 0.0]]), np.zeros(6)
+        )
+        hist["phase"].append(phase)
+        hist["rE"].append(rates["E"])
+        hist["rI"].append(rates["I"])
+        hist["V_rate"].append(obj["V_rate"])
+        hist["b_E"].append(y["b_E"])
+        hist["subPV"].append(rates["PV"])
+        hist["subSST"].append(rates["SST"])
+        hist["subVIP"].append(rates["VIP"])
         s1h = H[S1].mean() if len(S1) else float("nan")
         s2h = H[np.setdiff1d(E_idx, S1)][:30].mean()
         hist["H_contrast"].append(float(s1h - s2h))
@@ -1039,40 +1252,51 @@ def consolidation_allocation_assay(
         return rates, y, ok, bad
 
     for _ in range(n_hist):
-        extra = np.zeros(n_neurons); extra[S1] = hist_boost
+        extra = np.zeros(n_neurons)
+        extra[S1] = hist_boost
         state, spikes, v = seg_run(extra)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            hist["reject"] = "NUMERICAL"; break
+            hist["reject"] = "NUMERICAL"
+            break
         hz = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
         H = update_H(H, hz, tau_H)
         observe(spikes, v, "hist")
     if hc is None:
         hz_last = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
-        hc = {c: max(float(hz_last[np.asarray(members[c])].mean()), 1.0)
-              for c in ("E",) + I_CLASSES}
+        hc = {
+            c: max(float(hz_last[np.asarray(members[c])].mean()), 1.0) for c in ("E",) + I_CLASSES
+        }
     for _ in range(n_probe):
         if hist["reject"] is not None:
             break
         extra = np.full(n_neurons, probe_step)
         state, spikes, v = seg_run(extra)
         if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-            hist["reject"] = "NUMERICAL"; break
+            hist["reject"] = "NUMERICAL"
+            break
         hz = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
         H = update_H(H, hz, tau_H)
         rates, y, ok, bad = observe(spikes, v, "write")
         if not ok:
-            hist["reject"] = f"GUARD:{'+'.join(bad)}"; break
+            hist["reject"] = f"GUARD:{'+'.join(bad)}"
+            break
         m = susceptibility(H, members, hc, p) if use_m else np.ones(n_neurons)
         assert check_envelope(m), "eta*m envelope violated"
         g = grad_r_restricted(rates["E"], rates["I"])
         u = Sp @ g
         dth = allocate_drive_delta(m, members, u[4], u[5])
         theta6 = np.concatenate([theta_syn, [0.0, 0.0]])
-        theta6 = theta6 - 4.0 * (Sp @ g) - pullback_step(
-            theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+        theta6 = (
+            theta6
+            - 4.0 * (Sp @ g)
+            - pullback_step(theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+        )
         theta_syn = theta6[:4]
-        logG = logG + dth - pullback_step(logG, np.zeros(n_neurons), "state",
-                                          tau_S, tau_L, theta_c_n, q)
+        logG = (
+            logG
+            + dth
+            - pullback_step(logG, np.zeros(n_neurons), "state", tau_S, tau_L, theta_c_n, q)
+        )
         rebuild()
     H_write, logG_write = H[E_idx].copy(), logG[E_idx].copy()
     for ph, nseg in (("hdecay", n_hdecay), ("retain", n_retain)):
@@ -1081,12 +1305,14 @@ def consolidation_allocation_assay(
                 break
             state, spikes, v = seg_run(np.zeros(n_neurons))
             if not (np.isfinite(spikes).all() and np.isfinite(v).all()):
-                hist["reject"] = "NUMERICAL"; break
+                hist["reject"] = "NUMERICAL"
+                break
             hz = np.asarray(spikes, dtype=float).mean(axis=0) * (1000.0 / dt_ms)
             H = update_H(H, hz, tau_H)
             rates, y, ok, bad = observe(spikes, v, ph)
             if not ok:
-                hist["reject"] = f"GUARD:{'+'.join(bad)}"; break
+                hist["reject"] = f"GUARD:{'+'.join(bad)}"
+                break
             # retention: pullback always; consensus corrections only when
             # not held (hold isolates the law from H-asymmetric writes)
             g = grad_r_restricted(rates["E"], rates["I"])
@@ -1099,17 +1325,30 @@ def consolidation_allocation_assay(
             theta6 = np.concatenate([theta_syn, [0.0, 0.0]])
             if hold_control:
                 theta6 = theta6 - pullback_step(
-                    theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+                    theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q
+                )
             else:
-                theta6 = theta6 - 4.0 * (Sp @ g) - pullback_step(
-                    theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+                theta6 = (
+                    theta6
+                    - 4.0 * (Sp @ g)
+                    - pullback_step(theta6, np.zeros(6), "state", tau_S, tau_L, theta_c, q)
+                )
             theta_syn = theta6[:4]
-            logG = logG + dth - pullback_step(logG, np.zeros(n_neurons), "state",
-                                              tau_S, tau_L, theta_c_n, q)
+            logG = (
+                logG
+                + dth
+                - pullback_step(logG, np.zeros(n_neurons), "state", tau_S, tau_L, theta_c_n, q)
+            )
             rebuild()
-    out = {"hist": hist, "reject": hist["reject"], "h_c": hc,
-           "H_write": H_write, "logG_write": logG_write,
-           "logG_final": logG[E_idx].copy(), "H_final": H[E_idx].copy()}
+    out = {
+        "hist": hist,
+        "reject": hist["reject"],
+        "h_c": hc,
+        "H_write": H_write,
+        "logG_write": logG_write,
+        "logG_final": logG[E_idx].copy(),
+        "H_final": H[E_idx].copy(),
+    }
     # triple corr on E neurons, post-H-decay retention; per-neuron tau from
     # retain-phase logG series (median over valid steps)
     n_tot = n_hist + n_probe + n_hdecay + n_retain
@@ -1123,13 +1362,20 @@ def consolidation_allocation_assay(
     out["tau_eff"] = taus
     if H_write is not None:
         d_write = np.abs(logG_write)
-        out["corr_H_dth"] = float(np.corrcoef(H_write, d_write)[0, 1]) \
-            if d_write.max() > 0 else float("nan")
+        out["corr_H_dth"] = (
+            float(np.corrcoef(H_write, d_write)[0, 1]) if d_write.max() > 0 else float("nan")
+        )
         valid = np.isfinite(taus)
-        out["corr_dth_tau"] = float(np.corrcoef(d_write[valid], taus[valid])[0, 1]) \
-            if valid.sum() > 5 and d_write[valid].max() > 0 else float("nan")
-        out["corr_H_tau"] = float(np.corrcoef(H_write[valid], taus[valid])[0, 1]) \
-            if valid.sum() > 5 else float("nan")
+        out["corr_dth_tau"] = (
+            float(np.corrcoef(d_write[valid], taus[valid])[0, 1])
+            if valid.sum() > 5 and d_write[valid].max() > 0
+            else float("nan")
+        )
+        out["corr_H_tau"] = (
+            float(np.corrcoef(H_write[valid], taus[valid])[0, 1])
+            if valid.sum() > 5
+            else float("nan")
+        )
         out["n_tau_valid"] = int(valid.sum())
     return out
 
@@ -1145,14 +1391,17 @@ def scale_recurrence(model, g):
     from jaxfne.emitters import EdgeList
 
     el = model.params["edge_list"]
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=el.weight * float(g),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=el.weight * float(g),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model, params={**model.params,
-                                  "edge_list": EdgeList(**kwargs)})
+    return replace(model, params={**model.params, "edge_list": EdgeList(**kwargs)})
 
 
 def zero_recurrence(model):
@@ -1169,7 +1418,8 @@ def scale_tonic(model, q):
     e = model.params["emitter"]
     base = np.asarray(e.drive, dtype=float)
     return model.with_emitter_parameters(
-        drive_per_neuron=jnp.asarray(base * float(q), dtype=e.drive.dtype))
+        drive_per_neuron=jnp.asarray(base * float(q), dtype=e.drive.dtype)
+    )
 
 
 def current_decomposition(spikes, model, tonic, dt_ms=DT_MS_DEFAULT):
@@ -1198,14 +1448,12 @@ def current_decomposition(spikes, model, tonic, dt_ms=DT_MS_DEFAULT):
         sel = ri == r
         tau_r = float(np.unique(tau[sel])[0]) if sel.any() else t
         f = _exp_filter(sp, tau_r, dt_ms) * (tau_r / dt_ms)
-        for (sname, smask) in (("E", cls[pre] == "E"),
-                               ("I", cls[pre] != "E")):
+        for sname, smask in (("E", cls[pre] == "E"), ("I", cls[pre] != "E")):
             m = sel & smask
             if not m.any():
                 continue
             acc = np.zeros_like(f)
-            np.add.at(acc, (slice(None), post[m]),
-                      (f[:, pre[m]] * w[m][None, :]))
+            np.add.at(acc, (slice(None), post[m]), (f[:, pre[m]] * w[m][None, :]))
             Irec += acc
             comps[f"{sname}->{r}"] = acc
     ton = np.asarray(tonic, dtype=float)
@@ -1296,24 +1544,45 @@ def build_modular(model, M=4, budget=None, chi=0.0, seed=0):
         pool = sorted(pool, key=lambda i: indeg[i])[:32]
         q = pool[int(rng.integers(len(pool)))]
         indeg[q] += 1
-        new_pre.append(p); new_post.append(q)
-        new_w.append(w[e]); new_ri.append(int(ri[e])); new_tau.append(float(tau[e]))
-    new_el = EdgeList(pre=jnp.asarray(np.array(new_pre, dtype=np.int64)),
-                      post=jnp.asarray(np.array(new_post, dtype=np.int64)),
-                      weight=jnp.asarray(np.array(new_w, dtype=np.float32)),
-                      receptor_index=jnp.asarray(np.array(new_ri, dtype=np.int32)),
-                      tau_ms=jnp.asarray(np.array(new_tau, dtype=np.float32)),
-                      source_calibration_status=el.source_calibration_status)
+        new_pre.append(p)
+        new_post.append(q)
+        new_w.append(w[e])
+        new_ri.append(int(ri[e]))
+        new_tau.append(float(tau[e]))
+    new_el = EdgeList(
+        pre=jnp.asarray(np.array(new_pre, dtype=np.int64)),
+        post=jnp.asarray(np.array(new_post, dtype=np.int64)),
+        weight=jnp.asarray(np.array(new_w, dtype=np.float32)),
+        receptor_index=jnp.asarray(np.array(new_ri, dtype=np.int32)),
+        tau_ms=jnp.asarray(np.array(new_tau, dtype=np.float32)),
+        source_calibration_status=el.source_calibration_status,
+    )
     m2 = replace(model, params={**model.params, "edge_list": new_el})
     within = float(np.mean(mod[np.array(new_pre)] == mod[np.array(new_post)]))
-    info = {"M": int(M), "B": B, "chi": float(chi), "within_frac": within,
-            "max_indeg": int(indeg.max()), "seed": int(seed), "mod": mod}
+    info = {
+        "M": int(M),
+        "B": B,
+        "chi": float(chi),
+        "within_frac": within,
+        "max_indeg": int(indeg.max()),
+        "seed": int(seed),
+        "mod": mod,
+    }
     return m2, info
 
 
-def module_impulse_response(model_g, target_mod=0, n_steps_pulse=2000,
-                            pulse_amp=3.0, n_settle=10000, n_tail=5000,
-                            dt_ms=DT_MS_DEFAULT, seed=0, mod=None, M=4):
+def module_impulse_response(
+    model_g,
+    target_mod=0,
+    n_steps_pulse=2000,
+    pulse_amp=3.0,
+    n_settle=10000,
+    n_tail=5000,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    mod=None,
+    M=4,
+):
     """Stimulate E neurons of one module; A_module = dR_target/dR_others.
 
     Early-window (first 100ms post-onset) mean-rate contrast vs matched
@@ -1326,8 +1595,9 @@ def module_impulse_response(model_g, target_mod=0, n_steps_pulse=2000,
         mod = assign_modules(model_g, M)
     cls = np.array([r["cell_type"] for r in tbl])
     gm = apply_theta6(model_g, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     E_t = np.flatnonzero((mod == int(target_mod)) & (cls == "E"))
@@ -1335,17 +1605,19 @@ def module_impulse_response(model_g, target_mod=0, n_steps_pulse=2000,
     for tag, boost in (("pulse", pulse_amp), ("base", 0.0)):
         state = initial_state(gm, seed)
         nN = n
-        extra = np.zeros(nN); extra[E_t] = boost
-        drive = jnp.asarray(np.tile(extra, (n_settle + n_steps_pulse + n_tail, 1)),
-                            dtype=gm.params["emitter"].v0.dtype)
+        extra = np.zeros(nN)
+        extra[E_t] = boost
+        drive = jnp.asarray(
+            np.tile(extra, (n_settle + n_steps_pulse + n_tail, 1)),
+            dtype=gm.params["emitter"].v0.dtype,
+        )
         state, spikes, _ = run_segment(step_fn, state, drive)
         outs[tag] = np.asarray(spikes, dtype=float)
     win = slice(n_settle, n_settle + 1000)  # first 100ms of pulse
     dR = (outs["pulse"][win].mean(axis=0) - outs["base"][win].mean(axis=0)) * (1000.0 / dt_ms)
     tgt = float(dR[(mod == int(target_mod))].mean())
     oth = float(dR[(mod != int(target_mod))].mean())
-    return {"A_module": float(tgt / max(oth, 1e-9)), "dR_target": tgt,
-            "dR_others": oth, "mod": mod}
+    return {"A_module": float(tgt / max(oth, 1e-9)), "dR_target": tgt, "dR_others": oth, "mod": mod}
 
 
 def ablate_loop(model_g, target_mod=0, mod=None, M=4):
@@ -1361,17 +1633,26 @@ def ablate_loop(model_g, target_mod=0, mod=None, M=4):
     pre = np.asarray(el.pre, dtype=np.int64)
     post = np.asarray(el.post, dtype=np.int64)
     w = np.asarray(el.weight, dtype=float)
-    loop = ((masks[("E", "I")] | masks[("I", "E")])
-            & (mod[pre] == int(target_mod)) & (mod[post] == int(target_mod)))
+    loop = (
+        (masks[("E", "I")] | masks[("I", "E")])
+        & (mod[pre] == int(target_mod))
+        & (mod[post] == int(target_mod))
+    )
     w2 = w.copy()
     w2[loop] = 0.0
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(loop.sum())
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(
+        loop.sum()
+    )
 
 
 def module_tail_select(pr, mod, target_mod, bin_ms=10.0):
@@ -1386,11 +1667,11 @@ def module_tail_select(pr, mod, target_mod, bin_ms=10.0):
     dt = float(pr["dt_ms"]) * 10.0
     n_set = 10000 // 10
     n_pulse = 2000 // 10
-    post = sp[n_set + n_pulse:]
+    post = sp[n_set + n_pulse :]
     sel = np.asarray(mod) == int(target_mod)
     b = int(round(bin_ms / dt))
     nb = post.shape[0] // b
-    r = post[:nb * b, :][:, sel].reshape(nb, b, -1).mean(axis=(1, 2)) * (1000.0 / dt)
+    r = post[: nb * b, :][:, sel].reshape(nb, b, -1).mean(axis=(1, 2)) * (1000.0 / dt)
     t = np.arange(nb) * float(bin_ms)
     return select_tail_model(t, r)
 
@@ -1412,13 +1693,19 @@ def ablate_cross_matched(model_g, n_cut, target_mod=0, seed=0, mod=None, M=4):
     cut = rng.choice(cross, size=min(int(n_cut), len(cross)), replace=False)
     w2 = w.copy()
     w2[cut] = 0.0
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(len(cut))
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(
+        len(cut)
+    )
 
 
 def set_loop_delay(model, D_ms, dt_ms=DT_MS_DEFAULT, families=(("E", "I"), ("I", "E"))):
@@ -1461,23 +1748,30 @@ def split_excitatory_kernel(model, f_S, tau_S, seed=0, receptor_exc=0):
     tau = np.asarray(el.tau_ms, dtype=float)
     w = np.asarray(el.weight, dtype=float)
     exc = np.where(ri == int(receptor_exc))[0]
-    assert (exc.size > 0) and np.unique(tau[exc]).tolist() == [float(tau[exc][0])], \
+    assert (exc.size > 0) and np.unique(tau[exc]).tolist() == [float(tau[exc][0])], (
         "exc channel must have a single fast tau"
+    )
     tau_F = float(tau[exc][0])
     rng = np.random.default_rng(int(seed))
     n_slow = int(round(float(f_S) * exc.size))
-    slow = np.sort(rng.choice(exc, size=n_slow, replace=False)) if n_slow else np.array([], dtype=np.int64)
+    slow = (
+        np.sort(rng.choice(exc, size=n_slow, replace=False))
+        if n_slow
+        else np.array([], dtype=np.int64)
+    )
     tau2 = tau.copy()
     w2 = w.copy()
     tau2[slow] = float(tau_S)
     w2[slow] = w[slow] * (tau_F / float(tau_S))
-    new_el = EdgeList(pre=el.pre, post=el.post,
-                      weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                      receptor_index=el.receptor_index,
-                      tau_ms=jnp.asarray(tau2, dtype=el.tau_ms.dtype),
-                      source_calibration_status=el.source_calibration_status,
-                      **({"delay_steps": el.delay_steps}
-                         if getattr(el, "delay_steps", None) is not None else {}))
+    new_el = EdgeList(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=jnp.asarray(tau2, dtype=el.tau_ms.dtype),
+        source_calibration_status=el.source_calibration_status,
+        **({"delay_steps": el.delay_steps} if getattr(el, "delay_steps", None) is not None else {}),
+    )
     return replace(model, params={**model.params, "edge_list": new_el})
 
 
@@ -1508,14 +1802,17 @@ def scale_tau(model, receptor, mult):
     tau = np.asarray(el.tau_ms, dtype=float)
     t2 = tau.copy()
     t2[ri == int(receptor)] = tau[ri == int(receptor)] * float(mult)
-    kwargs = dict(pre=el.pre, post=el.post, weight=el.weight,
-                  receptor_index=el.receptor_index,
-                  tau_ms=jnp.asarray(t2, dtype=el.tau_ms.dtype),
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=el.weight,
+        receptor_index=el.receptor_index,
+        tau_ms=jnp.asarray(t2, dtype=el.tau_ms.dtype),
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model, params={**model.params,
-                                  "edge_list": EdgeList(**kwargs)})
+    return replace(model, params={**model.params, "edge_list": EdgeList(**kwargs)})
 
 
 def select_tail_model(t, y, amp_floor=0.02):
@@ -1539,16 +1836,28 @@ def select_tail_model(t, y, amp_floor=0.02):
     tf, yf, tp, yp = t[:k], y[:k], t[k:], y[k:]
     span = float(yf.max() - yf.min())
     if span <= 0:
-        return {"model": "M0", "T_R": float("nan"), "A": 0.0,
-                "omega": 0.0, "r2_oos": float("nan"), "bic": float("inf")}
-    c0 = float(yf[-len(yf) // 4:].mean())
+        return {
+            "model": "M0",
+            "T_R": float("nan"),
+            "A": 0.0,
+            "omega": 0.0,
+            "r2_oos": float("nan"),
+            "bic": float("inf"),
+        }
+    c0 = float(yf[-len(yf) // 4 :].mean())
     a0 = float(yf.max() - c0)
-    out = {"model": "M0", "T_R": float("nan"), "A": 0.0, "omega": 0.0,
-           "r2_oos": float("nan"), "bic": float("inf")}
+    out = {
+        "model": "M0",
+        "T_R": float("nan"),
+        "A": 0.0,
+        "omega": 0.0,
+        "r2_oos": float("nan"),
+        "bic": float("inf"),
+    }
 
     def passes_null(fit_pred, oos_pred):
         resid = yf - fit_pred
-        sig = float(np.sqrt((resid ** 2).mean()))
+        sig = float(np.sqrt((resid**2).mean()))
         oos_rmse = float(np.sqrt(((yp - oos_pred) ** 2).mean()))
         return oos_rmse < 5.0 * max(sig, 1e-9)
 
@@ -1576,8 +1885,16 @@ def select_tail_model(t, y, amp_floor=0.02):
                 rss = float(((yf - fit1) ** 2).sum())
                 bic1 = bic_of(rss, 3)
                 if bic1 < out["bic"] and passes_null(fit1, pred):
-                    out.update({"model": "M1", "T_R": T1, "A": A1, "omega": 0.0,
-                                "r2_oos": oos_r2(pred), "bic": bic1})
+                    out.update(
+                        {
+                            "model": "M1",
+                            "T_R": T1,
+                            "A": A1,
+                            "omega": 0.0,
+                            "r2_oos": oos_r2(pred),
+                            "bic": bic1,
+                        }
+                    )
     except Exception:
         pass
     # M2: FFT init for omega, then damped-cosine fit
@@ -1586,11 +1903,14 @@ def select_tail_model(t, y, amp_floor=0.02):
         fr = np.fft.rfftfreq(len(tf), d=float(tf[1] - tf[0]) if len(tf) > 1 else 1.0)
         pw = np.abs(np.fft.rfft(yc - yc.mean()))
         w0 = 2 * np.pi * float(fr[1 + int(np.argmax(pw[1:]))]) if len(pw) > 2 else 0.0
-        Tguess = out["T_R"] if out["model"] == "M1" and np.isfinite(out["T_R"]) else float(t[-1] - t[0])
+        Tguess = (
+            out["T_R"] if out["model"] == "M1" and np.isfinite(out["T_R"]) else float(t[-1] - t[0])
+        )
+
         def m2(tt, A, T, w, p, c):
             return A * np.exp(-tt / T) * np.cos(w * tt + p) + c
-        po, _ = curve_fit(m2, tf, yf, p0=[a0, Tguess, w0, 0.0, c0],
-                          maxfev=20000)
+
+        po, _ = curve_fit(m2, tf, yf, p0=[a0, Tguess, w0, 0.0, c0], maxfev=20000)
         A2, T2, w2, _, c2 = (float(v) for v in po)
         if T2 > 0 and abs(A2) >= amp_floor * span and abs(w2) > 0:
             fit2 = m2(tf, *po)
@@ -1598,16 +1918,31 @@ def select_tail_model(t, y, amp_floor=0.02):
             rss = float(((yf - fit2) ** 2).sum())
             bic2 = bic_of(rss, 5)
             if bic2 < out["bic"] and passes_null(fit2, pred):
-                out.update({"model": "M2", "T_R": T2, "A": A2, "omega": abs(w2),
-                            "r2_oos": oos_r2(pred), "bic": bic2})
+                out.update(
+                    {
+                        "model": "M2",
+                        "T_R": T2,
+                        "A": A2,
+                        "omega": abs(w2),
+                        "r2_oos": oos_r2(pred),
+                        "bic": bic2,
+                    }
+                )
     except Exception:
         pass
     if out["model"] != "M0":
         out["A"] = float(out["A"])  # residue kept explicit for acceptance
         if not (np.isfinite(out["T_R"]) and out["T_R"] < window / 2.0):
-            out.update({"model": "M0", "T_R": float("nan"), "A": 0.0,
-                        "omega": 0.0, "r2_oos": float("nan"),
-                        "bic": out["bic_null"]})
+            out.update(
+                {
+                    "model": "M0",
+                    "T_R": float("nan"),
+                    "A": 0.0,
+                    "omega": 0.0,
+                    "r2_oos": float("nan"),
+                    "bic": out["bic_null"],
+                }
+            )
     return out
 
 
@@ -1627,29 +1962,33 @@ def scale_family(model, family, mult):
     sel = np.asarray(masks[family])
     w2 = w.copy()
     w2[sel] = w[sel] * float(mult)
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model, params={**model.params,
-                                  "edge_list": EdgeList(**kwargs)})
+    return replace(model, params={**model.params, "edge_list": EdgeList(**kwargs)})
 
 
-def settle_rates(model, theta, drive_amp=0.0, n_settle=10000, n_meas=5000,
-                 dt_ms=DT_MS_DEFAULT, seed=0):
+def settle_rates(
+    model, theta, drive_amp=0.0, n_settle=10000, n_meas=5000, dt_ms=DT_MS_DEFAULT, seed=0
+):
     """Open-loop settled rates + spikes tail (matched-state A_R reader)."""
     masks, members = family_masks(model)
     gm = apply_theta6(model, theta)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
     nN = int(gm.params["emitter"].n_neurons)
-    drive = jnp.full((n_settle + n_meas, nN), float(drive_amp),
-                     dtype=gm.params["emitter"].v0.dtype)
+    drive = jnp.full((n_settle + n_meas, nN), float(drive_amp), dtype=gm.params["emitter"].v0.dtype)
     state, spikes, _ = run_segment(step_fn, state, drive)
     tail = np.asarray(spikes)[n_settle:]
     rates = class_rates(tail, dt_ms, members)
@@ -1661,13 +2000,24 @@ def recurrence_authority(model_g, theta=None, **kw):
     theta = np.zeros(6) if theta is None else np.asarray(theta, float)
     r_full, _, _ = settle_rates(model_g, theta, **kw)
     r_off, _, _ = settle_rates(zero_recurrence(model_g), theta, **kw)
-    return {"r_full": r_full, "r_off": r_off,
-            "dE": float(r_full["E"] - r_off["E"]),
-            "dI": float(r_full["I"] - r_off["I"])}
+    return {
+        "r_full": r_full,
+        "r_off": r_off,
+        "dE": float(r_full["E"] - r_off["E"]),
+        "dI": float(r_full["I"] - r_off["I"]),
+    }
 
 
-def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
-                   tail_ms=800.0, dt_ms=DT_MS_DEFAULT, seed=0, bin_ms=10.0):
+def probe_response(
+    model_g,
+    theta=None,
+    pulse_amp=2.0,
+    pulse_ms=200.0,
+    tail_ms=800.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    bin_ms=10.0,
+):
     """Ensemble rate perturbation: settle, pulse, release; fit decay.
 
     Returns G_R (peak |dR|/dI, population rate) and T_R (exp envelope fit
@@ -1677,8 +2027,9 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
     theta = np.zeros(6) if theta is None else np.asarray(theta, float)
     masks, members = family_masks(model_g)
     gm = apply_theta6(model_g, theta)
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -1687,19 +2038,22 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
     n_set = 10000
     n_pulse = int(round(pulse_ms / dt_ms))
     n_tail = int(round(tail_ms / dt_ms))
-    drive = jnp.concatenate([
-        jnp.zeros((n_set, nN), dtype=dt),
-        jnp.full((n_pulse, nN), float(pulse_amp), dtype=dt),
-        jnp.zeros((n_tail, nN), dtype=dt)])
+    drive = jnp.concatenate(
+        [
+            jnp.zeros((n_set, nN), dtype=dt),
+            jnp.full((n_pulse, nN), float(pulse_amp), dtype=dt),
+            jnp.zeros((n_tail, nN), dtype=dt),
+        ]
+    )
     state, spikes, _ = run_segment(step_fn, state, drive)
     sp = np.asarray(spikes, dtype=float)
     b = int(round(bin_ms / dt_ms))
-    base = sp[n_set - 2000:n_set].mean() * (1000.0 / dt_ms)
-    post = sp[n_set + n_pulse:]
+    base = sp[n_set - 2000 : n_set].mean() * (1000.0 / dt_ms)
+    post = sp[n_set + n_pulse :]
     nb = len(post) // b
-    r = post[:nb * b].reshape(nb, b, nN).mean(axis=(1, 2)) * (1000.0 / dt_ms)
+    r = post[: nb * b].reshape(nb, b, nN).mean(axis=(1, 2)) * (1000.0 / dt_ms)
     e = np.abs(r - base)
-    peak = int(np.argmax(e[:nb // 2]))
+    peak = int(np.argmax(e[: nb // 2]))
     G_R = float(e[peak] / pulse_amp)
     tail = e[peak:]
     flips = int((((np.diff(tail)[:-1]) * (np.diff(tail)[1:])) < 0).sum())
@@ -1711,22 +2065,32 @@ def probe_response(model_g, theta=None, pulse_amp=2.0, pulse_ms=200.0,
         coef, res, _, _ = np.linalg.lstsq(A, np.log(use), rcond=None)
         T_R = float(-1.0 / coef[0]) if coef[0] < 0 else float("inf")
         ss = float(((np.log(use) - A @ coef) ** 2).sum())
-        slope_r2 = float(1 - ss / (np.log(use).var() * len(use))) \
-            if np.log(use).var() > 0 else float("nan")
-    return {"G_R": G_R, "T_R": T_R, "r2": slope_r2, "flips": flips,
-            "r_base": float(base), "r_peak": float(r[peak]),
-            "t_ms": (np.arange(nb) * float(bin_ms)).tolist(),
-            "envelope": r.tolist(),
-            "spikes_ds": sp[::10].tolist(),
-            "dt_ms": float(dt_ms)}
+        slope_r2 = (
+            float(1 - ss / (np.log(use).var() * len(use)))
+            if np.log(use).var() > 0
+            else float("nan")
+        )
+    return {
+        "G_R": G_R,
+        "T_R": T_R,
+        "r2": slope_r2,
+        "flips": flips,
+        "r_base": float(base),
+        "r_peak": float(r[peak]),
+        "t_ms": (np.arange(nb) * float(bin_ms)).tolist(),
+        "envelope": r.tolist(),
+        "spikes_ds": sp[::10].tolist(),
+        "dt_ms": float(dt_ms),
+    }
 
 
 # --------------------------------------------------------------------------
 # Tonic continuation + kick/release empirical vector field (no bridging).
 # HDP OFF throughout. Tonic fraction q scales CURRENT emitter drive.
 # --------------------------------------------------------------------------
-def continuation_point(model, q, n_settle=15000, n_meas=10000,
-                       dt_ms=DT_MS_DEFAULT, seed=0, with_S=True, dtheta=0.2):
+def continuation_point(
+    model, q, n_settle=15000, n_meas=10000, dt_ms=DT_MS_DEFAULT, seed=0, with_S=True, dtheta=0.2
+):
     """One tonic-continuation point: settled r(q), currents, S(q).
 
     S(q) via central differences (8 branches + ref, same protocol as S_syn
@@ -1736,8 +2100,9 @@ def continuation_point(model, q, n_settle=15000, n_meas=10000,
     masks, members = family_masks(mq)
     wsums = edge_weight_sums(mq)
     gm = apply_theta6(mq, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -1749,19 +2114,42 @@ def continuation_point(model, q, n_settle=15000, n_meas=10000,
     rates = class_rates(tail, dt_ms, members)
     ton = np.asarray(gm.params["emitter"].drive, dtype=float)
     dec = current_decomposition(tail, gm, ton, dt_ms)
-    out = {"q": float(q), "rE": rates["E"], "rI": rates["I"], "sub": rates,
-           "Gamma_R": dec["Gamma_R"], "Gamma_E": dec["Gamma_E"],
-           "I_EE": dec["I_EE"], "I_IE": dec["I_IE"],
-           "I_EI": dec["I_EI"], "I_II": dec["I_II"]}
+    out = {
+        "q": float(q),
+        "rE": rates["E"],
+        "rI": rates["I"],
+        "sub": rates,
+        "Gamma_R": dec["Gamma_R"],
+        "Gamma_E": dec["Gamma_E"],
+        "I_EE": dec["I_EE"],
+        "I_IE": dec["I_IE"],
+        "I_EI": dec["I_EI"],
+        "I_II": dec["I_II"],
+    }
     if with_S:
-        est = estimate_S(mq, np.zeros(4), 0.0, dtheta=dtheta,
-                         n_settle=n_settle, n_meas=n_meas, dt_ms=dt_ms, seed=seed)
+        est = estimate_S(
+            mq,
+            np.zeros(4),
+            0.0,
+            dtheta=dtheta,
+            n_settle=n_settle,
+            n_meas=n_meas,
+            dt_ms=dt_ms,
+            seed=seed,
+        )
         out["S"] = est["S"]
     return out
 
 
-def linearity_probe(model, q, dths=(0.1, 0.25, 0.5, -0.25), n_settle=15000,
-                    n_meas=10000, dt_ms=DT_MS_DEFAULT, seed=0):
+def linearity_probe(
+    model,
+    q,
+    dths=(0.1, 0.25, 0.5, -0.25),
+    n_settle=15000,
+    n_meas=10000,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+):
     """Forward EE-theta steps at fixed q: Delta rE vs S_EE(q) * dtheta.
 
     Returns per-step (dtheta, drE, linear_pred, rel_err). Tests where the
@@ -1769,26 +2157,33 @@ def linearity_probe(model, q, dths=(0.1, 0.25, 0.5, -0.25), n_settle=15000,
     """
     mq = scale_tonic(model, q)
     masks, members = family_masks(mq)
-    base = reference_rates(mq, np.zeros(4), 0.0, n_settle, n_meas, dt_ms,
-                           seed, members)[:2]
+    base = reference_rates(mq, np.zeros(4), 0.0, n_settle, n_meas, dt_ms, seed, members)[:2]
     ref = np.array(base, float)
-    S = estimate_S(mq, np.zeros(4), 0.0, dtheta=0.1, n_settle=n_settle,
-                   n_meas=n_meas, dt_ms=dt_ms, seed=seed)["S"]
+    S = estimate_S(
+        mq, np.zeros(4), 0.0, dtheta=0.1, n_settle=n_settle, n_meas=n_meas, dt_ms=dt_ms, seed=seed
+    )["S"]
     rows = []
     for h in dths:
         th = np.zeros(4)
         th[0] = h
-        r = np.array(reference_rates(mq, th, 0.0, n_settle, n_meas, dt_ms,
-                                     seed, members)[:2], float)
+        r = np.array(
+            reference_rates(mq, th, 0.0, n_settle, n_meas, dt_ms, seed, members)[:2], float
+        )
         pred = S[0, 0] * h
-        rows.append({"dtheta": float(h), "drE": float(r[0] - ref[0]),
-                     "pred": float(pred),
-                     "rel_err": float(abs(r[0] - ref[0] - pred) / max(abs(pred), 1e-9))})
+        rows.append(
+            {
+                "dtheta": float(h),
+                "drE": float(r[0] - ref[0]),
+                "pred": float(pred),
+                "rel_err": float(abs(r[0] - ref[0] - pred) / max(abs(pred), 1e-9)),
+            }
+        )
     return {"q": float(q), "S_EE": float(S[0, 0]), "rows": rows}
 
 
-def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
-                     rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, seed=0):
+def kick_release_map(
+    model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, seed=0
+):
     """Zero-tonic kick/release: pre-drive at amp, release, measure flow.
 
     Model must already carry zero tonic (caller scales q=0). Cold start per
@@ -1797,8 +2192,9 @@ def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
     """
     masks, members = family_masks(model)
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     nN = int(gm.params["emitter"].n_neurons)
@@ -1809,19 +2205,24 @@ def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
     rows = []
     for amp in amps:
         state = initial_state(gm, seed)
-        drive = jnp.concatenate([jnp.full((n_pre, nN), float(amp), dtype=dtype),
-                                 jnp.zeros((n_rel, nN), dtype=dtype)])
+        drive = jnp.concatenate(
+            [jnp.full((n_pre, nN), float(amp), dtype=dtype), jnp.zeros((n_rel, nN), dtype=dtype)]
+        )
         state, spikes, _ = run_segment(step_fn, state, drive)
         sp = np.asarray(spikes, dtype=float)
-        r_pre = sp[n_pre - n_win:n_pre].mean(axis=0) * (1000.0 / dt_ms)
+        r_pre = sp[n_pre - n_win : n_pre].mean(axis=0) * (1000.0 / dt_ms)
         r_post = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
         E_idx = np.asarray(members["E"])
         I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
-        rows.append({"amp": float(amp),
-                     "rE_pre": float(r_pre[E_idx].mean()),
-                     "rI_pre": float(r_pre[I_idx].mean()),
-                     "rE_post": float(r_post[E_idx].mean()),
-                     "rI_post": float(r_post[I_idx].mean())})
+        rows.append(
+            {
+                "amp": float(amp),
+                "rE_pre": float(r_pre[E_idx].mean()),
+                "rI_pre": float(r_pre[I_idx].mean()),
+                "rE_post": float(r_post[E_idx].mean()),
+                "rI_post": float(r_post[I_idx].mean()),
+            }
+        )
     for r in rows:
         r["R_E"] = r["rE_post"] - r["rE_pre"]
         r["R_I"] = r["rI_post"] - r["rI_pre"]
@@ -1832,16 +2233,16 @@ def kick_release_map(model, amps=(2.0, 4.0, 6.0, 9.0), pre_ms=500.0,
 # Fork-flow machinery: same microstate, different params (D_p inverse
 # problem) + Markov/closure test of the (rE, rI) reduction.
 # --------------------------------------------------------------------------
-def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0,
-                    win_ms=200.0):
+def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0, win_ms=200.0):
     """Run pre-drive history; return (end_state, r_rel, step_fn_base).
 
     r_rel measured over last win_ms of drive. State carries full microstate
     (X, syn, H, w, RNG) for forking.
     """
     gm = apply_theta6(model, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -1855,13 +2256,17 @@ def prepare_release(model, amp, pre_ms, dt_ms=DT_MS_DEFAULT, seed=0,
     masks, members = family_masks(gm)
     E_idx = np.asarray(members["E"])
     I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
-    r_rel = (sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms))
-    return {"state": state, "step_fn": step_fn, "model": gm,
-            "rE": float(r_rel[E_idx].mean()), "rI": float(r_rel[I_idx].mean())}
+    r_rel = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
+    return {
+        "state": state,
+        "step_fn": step_fn,
+        "model": gm,
+        "rE": float(r_rel[E_idx].mean()),
+        "rI": float(r_rel[I_idx].mean()),
+    }
 
 
-def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT,
-              win_ms=200.0):
+def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
     """Continue prep['state'] under variant (or base) params, zero drive.
 
     Returns (r_end, R) with R = r_end - r_rel over win_ms windows.
@@ -1873,9 +2278,9 @@ def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT,
     if model_variant is None:
         step_fn = prep["step_fn"]
     else:
-        step_fn, _ = jtfne.compile_step_fn(model_variant, dt_ms=float(dt_ms),
-                                           kernel="baseline",
-                                           record_weight_trace=False)
+        step_fn, _ = jtfne.compile_step_fn(
+            model_variant, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+        )
     nN = int(prep["model"].params["emitter"].n_neurons)
     dtype = prep["model"].params["emitter"].v0.dtype
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
@@ -1886,17 +2291,21 @@ def fork_flow(prep, model_variant=None, rel_ms=500.0, dt_ms=DT_MS_DEFAULT,
     E_idx = np.asarray(members["E"])
     I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
     r_end = sp[-n_win:].mean(axis=0) * (1000.0 / dt_ms)
-    return {"rE": float(r_end[E_idx].mean()), "rI": float(r_end[I_idx].mean()),
-            "R_E": float(r_end[E_idx].mean()) - prep["rE"],
-            "R_I": float(r_end[I_idx].mean()) - prep["rI"]}
+    return {
+        "rE": float(r_end[E_idx].mean()),
+        "rI": float(r_end[I_idx].mean()),
+        "R_E": float(r_end[E_idx].mean()) - prep["rE"],
+        "R_I": float(r_end[I_idx].mean()) - prep["rI"],
+    }
 
 
 # --------------------------------------------------------------------------
 # Funnel ownership: release-state audit (v/u/currents, matched dv units)
 # + u-replacement fork. No parameter optimization.
 # --------------------------------------------------------------------------
-def release_audit(model_q0, amp, pre_ms=500.0, rel_ms=500.0,
-                  dt_ms=DT_MS_DEFAULT, seed=0, bin_ms=50.0):
+def release_audit(
+    model_q0, amp, pre_ms=500.0, rel_ms=500.0, dt_ms=DT_MS_DEFAULT, seed=0, bin_ms=50.0
+):
     """Run pre-drive then zero release with u_trace (no edge recording;
     currents reconstructed offline via validated path).
 
@@ -1905,9 +2314,9 @@ def release_audit(model_q0, amp, pre_ms=500.0, rel_ms=500.0,
     per-bin E rate. All currents in dv units (directly comparable).
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False,
-                                       record_u_trace=True)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False, record_u_trace=True
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
@@ -1915,27 +2324,31 @@ def release_audit(model_q0, amp, pre_ms=500.0, rel_ms=500.0,
     dtype = gm.params["emitter"].v0.dtype
     n_pre = int(round(float(pre_ms) / float(dt_ms)))
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
-    drive = jnp.concatenate([jnp.full((n_pre, nN), float(amp), dtype=dtype),
-                             jnp.zeros((n_rel, nN), dtype=dtype)])
+    drive = jnp.concatenate(
+        [jnp.full((n_pre, nN), float(amp), dtype=dtype), jnp.zeros((n_rel, nN), dtype=dtype)]
+    )
     state, out = jtfne.run_continuation(step_fn, state, drive)
     import jax
 
     jax.block_until_ready(out[0])
-    v, sp, u = (np.asarray(out[0]), np.asarray(out[1], dtype=float),
-                np.asarray(out[4]))
+    v, sp, u = (np.asarray(out[0]), np.asarray(out[1], dtype=float), np.asarray(out[4]))
     masks, members = family_masks(gm)
     E_idx = np.asarray(members["E"])
     wsums = edge_weight_sums(gm)
     rel = n_pre
     out_d = {
-        "vE_rel": {"mean": float(v[rel, E_idx].mean()),
-                   "std": float(v[rel, E_idx].std()),
-                   "min": float(v[rel, E_idx].min()),
-                   "max": float(v[rel, E_idx].max())},
-        "uE_rel": {"mean": float(u[rel, E_idx].mean()),
-                   "std": float(u[rel, E_idx].std()),
-                   "min": float(u[rel, E_idx].min()),
-                   "max": float(u[rel, E_idx].max())},
+        "vE_rel": {
+            "mean": float(v[rel, E_idx].mean()),
+            "std": float(v[rel, E_idx].std()),
+            "min": float(v[rel, E_idx].min()),
+            "max": float(v[rel, E_idx].max()),
+        },
+        "uE_rel": {
+            "mean": float(u[rel, E_idx].mean()),
+            "std": float(u[rel, E_idx].std()),
+            "min": float(u[rel, E_idx].min()),
+            "max": float(u[rel, E_idx].max()),
+        },
     }
     Iexc_full, Iinh_full = realized_currents_E(sp, wsums, dt_ms)
     b = int(round(float(bin_ms) / float(dt_ms)))
@@ -1944,20 +2357,30 @@ def release_audit(model_q0, amp, pre_ms=500.0, rel_ms=500.0,
     series = []
     for k in range(nb):
         sl = slice(rel + k * b, rel + (k + 1) * b)
-        series.append({
-            "t_ms": float((rel + k * b) * dt_ms),
-            "uE": float(u[sl][:, E_idx].mean()),
-            "Iexc_E": float(Iexc_full[sl].mean()),
-            "Iinh_E": float(Iinh_full[sl].mean()),
-            "rE": float(sp[sl][:, E_idx].mean() * (1000.0 / dt_ms)),
-        })
+        series.append(
+            {
+                "t_ms": float((rel + k * b) * dt_ms),
+                "uE": float(u[sl][:, E_idx].mean()),
+                "Iexc_E": float(Iexc_full[sl].mean()),
+                "Iinh_E": float(Iinh_full[sl].mean()),
+                "rE": float(sp[sl][:, E_idx].mean() * (1000.0 / dt_ms)),
+            }
+        )
     out_d["series"] = series
     out_d["end_state"] = state
     return out_d
 
 
-def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
-                   dt_ms=DT_MS_DEFAULT, seed=0, amp=6.0, pre_ms=500.0):
+def u_replace_fork(
+    model_q0,
+    u_mode="rest",
+    u_ref=None,
+    rel_ms=500.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    amp=6.0,
+    pre_ms=500.0,
+):
     """Pre-drive, replace u_E at release with reference, continue at zero.
 
     u_mode 'rest': u = b*v per neuron (resting recovery).
@@ -1966,8 +2389,9 @@ def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
     Causal u-authority test over the funnel.
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     masks, members = family_masks(gm)
@@ -1993,8 +2417,9 @@ def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
                 u[E_idx] = b[E_idx] * v[E_idx]
             else:
                 u[E_idx] = float(u_ref)
-            st = st._replace(dynamic=st.dynamic._replace(
-                u=jnp.asarray(u, dtype=st.dynamic.u.dtype)))
+            st = st._replace(
+                dynamic=st.dynamic._replace(u=jnp.asarray(u, dtype=st.dynamic.u.dtype))
+            )
         st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
         sp = np.asarray(sp, dtype=float)
         results[tag] = float(sp[-n_win:][:, E_idx].mean() * (1000.0 / dt_ms))
@@ -2009,28 +2434,39 @@ def u_replace_fork(model_q0, u_mode="rest", u_ref=None, rel_ms=500.0,
 def release_prep(model_q0, amp=6.0, pre_ms=500.0, dt_ms=DT_MS_DEFAULT, seed=0):
     """Shared release microstate + base step_fn. Returns dict."""
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     state = initial_state(gm, seed)
     nN = int(gm.params["emitter"].n_neurons)
     dtype = gm.params["emitter"].v0.dtype
     n_pre = int(round(float(pre_ms) / float(dt_ms)))
-    state, sp_pre, _ = run_segment(step_fn, state,
-                               jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    state, sp_pre, _ = run_segment(step_fn, state, jnp.full((n_pre, nN), float(amp), dtype=dtype))
     masks, members = family_masks(gm)
     E_idx = np.asarray(members["E"])
     I_idx = np.concatenate([np.asarray(members[c]) for c in I_CLASSES])
     r_rel = np.asarray(sp_pre, dtype=float)[-2000:].mean(axis=0) * (1000.0 / dt_ms)
-    return {"state": state, "step_fn": step_fn, "model": gm,
-            "members": members, "masks": masks,
-            "rE": float(r_rel[E_idx].mean()), "rI": float(r_rel[I_idx].mean())}
+    return {
+        "state": state,
+        "step_fn": step_fn,
+        "model": gm,
+        "members": members,
+        "masks": masks,
+        "rE": float(r_rel[E_idx].mean()),
+        "rI": float(r_rel[I_idx].mean()),
+    }
 
 
-def clamp_curve(prep, currents=(0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 12.0),
-                rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0,
-                target="E"):
+def clamp_curve(
+    prep,
+    currents=(0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 12.0),
+    rel_ms=1000.0,
+    dt_ms=DT_MS_DEFAULT,
+    win_ms=200.0,
+    target="E",
+):
     """Constant additive current to target class post-release.
 
     Returns list of (I, r_end, R) with R vs the recorded release rate.
@@ -2100,29 +2536,40 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
     n_win = int(round(float(win_ms) / float(dt_ms)))
     # A: reference release, record spikes for waveform extraction
-    _, spA, _ = run_segment(prep["step_fn"], prep["state"],
-                            jnp.zeros((n_rel, nN), dtype=dtype))
+    _, spA, _ = run_segment(prep["step_fn"], prep["state"], jnp.zeros((n_rel, nN), dtype=dtype))
     spA = np.asarray(spA, dtype=float)
     Irec = per_neuron_Irec(spA, gm, dt_ms)
     # C: REC_OFF model, inject recorded waveforms as drive
     el = gm.params["edge_list"]
-    gm_off = replace(gm, params={**gm.params, "edge_list": EdgeList(
-        pre=el.pre, post=el.post, weight=jnp.zeros_like(el.weight),
-        receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-        source_calibration_status=el.source_calibration_status)})
-    step_off, _ = jtfne.compile_step_fn(gm_off, dt_ms=float(dt_ms),
-                                        kernel="baseline",
-                                        record_weight_trace=False)
-    _, spC, _ = run_segment(step_off, prep["state"],
-                            jnp.asarray(Irec[:n_rel], dtype=dtype))
+    gm_off = replace(
+        gm,
+        params={
+            **gm.params,
+            "edge_list": EdgeList(
+                pre=el.pre,
+                post=el.post,
+                weight=jnp.zeros_like(el.weight),
+                receptor_index=el.receptor_index,
+                tau_ms=el.tau_ms,
+                source_calibration_status=el.source_calibration_status,
+            ),
+        },
+    )
+    step_off, _ = jtfne.compile_step_fn(
+        gm_off, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
+    _, spC, _ = run_segment(step_off, prep["state"], jnp.asarray(Irec[:n_rel], dtype=dtype))
     spC = np.asarray(spC, dtype=float)
     b = max(1, n_rel // 20)
     rA = spA[:, E_idx].mean(axis=1).reshape(-1) * (1000.0 / dt_ms)
     rC = spC[:, E_idx].mean(axis=1).reshape(-1) * (1000.0 / dt_ms)
-    return {"rA_end": float(rA[-n_win:].mean()), "rC_end": float(rC[-n_win:].mean()),
-            "max_div": float(np.abs(rA - rC).max()),
-            "corr": float(np.corrcoef(rA, rC)[0, 1]) if rA.std() > 0 and rC.std() > 0 else float("nan"),
-            "Irec_mean": float(np.abs(Irec).mean())}
+    return {
+        "rA_end": float(rA[-n_win:].mean()),
+        "rC_end": float(rC[-n_win:].mean()),
+        "max_div": float(np.abs(rA - rC).max()),
+        "corr": float(np.corrcoef(rA, rC)[0, 1]) if rA.std() > 0 and rC.std() > 0 else float("nan"),
+        "Irec_mean": float(np.abs(Irec).mean()),
+    }
 
 
 # --------------------------------------------------------------------------
@@ -2132,8 +2579,7 @@ def waveform_replay(prep, rel_ms=1000.0, dt_ms=DT_MS_DEFAULT, win_ms=200.0):
 # No closed substrate, no HDP. Posts passive (zero drive); edge currents
 # are presynaptic-driven so post spiking is irrelevant to K.
 # --------------------------------------------------------------------------
-def calibration_star(n_post=50, seed=0, w_base=0.014, tau_ms=2.0,
-                     layers=("L2/3",), fractions=None):
+def calibration_star(n_post=50, seed=0, w_base=0.014, tau_ms=2.0, layers=("L2/3",), fractions=None):
     """Single E driver + passive E targets, star edges driver->targets.
 
     Returns (model, w_base). All-E column; caller sets drives/weights.
@@ -2142,14 +2588,20 @@ def calibration_star(n_post=50, seed=0, w_base=0.014, tau_ms=2.0,
 
     fr = {"E": 1.0} if fractions is None else dict(fractions)
     cfg = jtfne.build_laminar_column(
-        "CAL", n=int(n_post) + 1, layers=list(layers),
-        cell_type_fractions=fr, ei_profile="flat", geometry="laminar",
-        edge_seed=int(seed))
-    cfg = (cfg.runtime(seed=int(seed), duration_ms=1000.0, dt_ms=0.1, dtype="float32")
-           .set_emitter("izhikevich", "cortical_eig")
-           .probes(["spikes", "V_m", "source", "LFP", "CSD"], n_contacts=4)
-           .field(domain="laminar_column", conductivity="proxy",
-                  boundary="mean_zero_neumann"))
+        "CAL",
+        n=int(n_post) + 1,
+        layers=list(layers),
+        cell_type_fractions=fr,
+        ei_profile="flat",
+        geometry="laminar",
+        edge_seed=int(seed),
+    )
+    cfg = (
+        cfg.runtime(seed=int(seed), duration_ms=1000.0, dt_ms=0.1, dtype="float32")
+        .set_emitter("izhikevich", "cortical_eig")
+        .probes(["spikes", "V_m", "source", "LFP", "CSD"], n_contacts=4)
+        .field(domain="laminar_column", conductivity="proxy", boundary="mean_zero_neumann")
+    )
     model = jtfne.construct(cfg)
     el = model.params["edge_list"]
     n = int(n_post) + 1
@@ -2159,20 +2611,26 @@ def calibration_star(n_post=50, seed=0, w_base=0.014, tau_ms=2.0,
 
     from jaxfne.emitters import EdgeList
 
-    new_el = EdgeList(pre=jnp.asarray(pre), post=jnp.asarray(post),
-                      weight=jnp.asarray(np.full(n_post, float(w_base),
-                                                 dtype=np.float32)),
-                      receptor_index=jnp.asarray(np.zeros(n_post, dtype=np.int32)),
-                      tau_ms=jnp.asarray(np.full(n_post, float(tau_ms),
-                                                 dtype=np.float32)),
-                      source_calibration_status=el.source_calibration_status)
-    return (replace(model, params={**model.params, "edge_list": new_el}),
-            float(w_base))
+    new_el = EdgeList(
+        pre=jnp.asarray(pre),
+        post=jnp.asarray(post),
+        weight=jnp.asarray(np.full(n_post, float(w_base), dtype=np.float32)),
+        receptor_index=jnp.asarray(np.zeros(n_post, dtype=np.int32)),
+        tau_ms=jnp.asarray(np.full(n_post, float(tau_ms), dtype=np.float32)),
+        source_calibration_status=el.source_calibration_status,
+    )
+    return (replace(model, params={**model.params, "edge_list": new_el}), float(w_base))
 
 
-def kernel_map(model, w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
-               drives=(3.0, 4.5, 6.0, 8.0, 12.0), dur_ms=2000.0,
-               dt_ms=DT_MS_DEFAULT, seed=0, skip_ms=1000.0):
+def kernel_map(
+    model,
+    w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
+    drives=(3.0, 4.5, 6.0, 8.0, 12.0),
+    dur_ms=2000.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    skip_ms=1000.0,
+):
     """K_EE(w, r_pre): per-edge mean |current| + RMS + quantiles, r measured.
 
     Drive applied to neuron 0 only; targets passive. Returns rows with
@@ -2190,14 +2648,22 @@ def kernel_map(model, w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
     n_steps = int(round(float(dur_ms) / float(dt_ms)))
     n_skip = int(round(float(skip_ms) / float(dt_ms)))
     for wm in w_mults:
-        el = el0.__class__(pre=el0.pre, post=el0.post,
-                           weight=jnp.asarray(w0 * float(wm), dtype=el0.weight.dtype),
-                           receptor_index=el0.receptor_index, tau_ms=el0.tau_ms,
-                           source_calibration_status=el0.source_calibration_status)
+        el = el0.__class__(
+            pre=el0.pre,
+            post=el0.post,
+            weight=jnp.asarray(w0 * float(wm), dtype=el0.weight.dtype),
+            receptor_index=el0.receptor_index,
+            tau_ms=el0.tau_ms,
+            source_calibration_status=el0.source_calibration_status,
+        )
         mg = replace(model, params={**model.params, "edge_list": el})
-        step_fn, _ = jtfne.compile_step_fn(mg, dt_ms=float(dt_ms), kernel="baseline",
-                                           record_weight_trace=False,
-                                           record_edge_current=True)
+        step_fn, _ = jtfne.compile_step_fn(
+            mg,
+            dt_ms=float(dt_ms),
+            kernel="baseline",
+            record_weight_trace=False,
+            record_edge_current=True,
+        )
         for dv in drives:
             state = initial_state(mg, seed)
             d = np.zeros(nN)
@@ -2211,13 +2677,18 @@ def kernel_map(model, w_mults=(1.0, 4.0, 16.0, 64.0, 256.0),
             ec = np.asarray(out[4], dtype=float)[n_skip:]
             r_pre = float(sp[:, 0].mean() * (1000.0 / dt_ms))
             per_edge = np.abs(ec).mean(axis=0)
-            rows.append({"w_mult": float(wm), "drive": float(dv),
-                         "r_pre": round(r_pre, 2),
-                         "Imean": float(per_edge.mean()),
-                         "Irms": float(np.sqrt((per_edge ** 2).mean())),
-                         "q10": float(np.quantile(per_edge, 0.1)),
-                         "q50": float(np.quantile(per_edge, 0.5)),
-                         "q90": float(np.quantile(per_edge, 0.9))})
+            rows.append(
+                {
+                    "w_mult": float(wm),
+                    "drive": float(dv),
+                    "r_pre": round(r_pre, 2),
+                    "Imean": float(per_edge.mean()),
+                    "Irms": float(np.sqrt((per_edge**2).mean())),
+                    "q10": float(np.quantile(per_edge, 0.1)),
+                    "q50": float(np.quantile(per_edge, 0.5)),
+                    "q90": float(np.quantile(per_edge, 0.9)),
+                }
+            )
     return rows
 
 
@@ -2240,13 +2711,19 @@ def ablate_src_to_E(model_g, src_class):
     cut = (cls[pre] == str(src_class)) & (cls[post] == "E")
     w2 = w.copy()
     w2[cut] = 0.0
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(cut.sum())
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(
+        cut.sum()
+    )
 
 
 # --------------------------------------------------------------------------
@@ -2254,9 +2731,16 @@ def ablate_src_to_E(model_g, src_class):
 # Same release microstate; DynamicState fields replaced one at a time.
 # No parameter changes. HDP OFF.
 # --------------------------------------------------------------------------
-def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"),
-                    amp=12.0, pre_ms=500.0, rel_ms=2000.0, dt_ms=DT_MS_DEFAULT,
-                    seed=0, vdep_mv=-50.0):
+def intrinsic_forks(
+    model_q0,
+    variants=("full", "syn0", "vdep", "urest", "prev0"),
+    amp=12.0,
+    pre_ms=500.0,
+    rel_ms=2000.0,
+    dt_ms=DT_MS_DEFAULT,
+    seed=0,
+    vdep_mv=-50.0,
+):
     """Fork release microstate with single-field replacements (plus rebirth
     conjunction: v+u+syn+prev reset jointly).
     full: unmodified control. syn0: syn_state -> 0 (kill network history).
@@ -2265,8 +2749,9 @@ def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"
     Returns {variant: E-tail rate + full per-class tails}.
     """
     gm = apply_theta6(model_q0, np.zeros(6))
-    step_fn, _ = jtfne.compile_step_fn(gm, dt_ms=float(dt_ms), kernel="baseline",
-                                       record_weight_trace=False)
+    step_fn, _ = jtfne.compile_step_fn(
+        gm, dt_ms=float(dt_ms), kernel="baseline", record_weight_trace=False
+    )
     from jomission.qualification.cmin import initial_state
 
     masks, members = family_masks(gm)
@@ -2277,8 +2762,7 @@ def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"
     n_rel = int(round(float(rel_ms) / float(dt_ms)))
     n_win = int(round(200.0 / float(dt_ms)))
     state = initial_state(gm, seed)
-    state, _, _ = run_segment(step_fn, state,
-                              jnp.full((n_pre, nN), float(amp), dtype=dtype))
+    state, _, _ = run_segment(step_fn, state, jnp.full((n_pre, nN), float(amp), dtype=dtype))
     e = gm.params["emitter"]
     out = {}
     for tag in variants:
@@ -2288,38 +2772,39 @@ def intrinsic_forks(model_q0, variants=("full", "syn0", "vdep", "urest", "prev0"
         u = np.asarray(dyn.u, dtype=float)
         b = np.asarray(e.b, dtype=float)
         if tag == "syn0":
-            st = st._replace(dynamic=dyn._replace(
-                syn_state=jnp.zeros_like(dyn.syn_state)))
+            st = st._replace(dynamic=dyn._replace(syn_state=jnp.zeros_like(dyn.syn_state)))
         elif tag == "vdep":
             v = v.copy()
             v[E_idx] = float(vdep_mv)
-            st = st._replace(dynamic=dyn._replace(
-                v=jnp.asarray(v, dtype=dyn.v.dtype)))
+            st = st._replace(dynamic=dyn._replace(v=jnp.asarray(v, dtype=dyn.v.dtype)))
         elif tag == "urest":
             u = u.copy()
             u[E_idx] = b[E_idx] * v[E_idx]
-            st = st._replace(dynamic=dyn._replace(
-                u=jnp.asarray(u, dtype=dyn.u.dtype)))
+            st = st._replace(dynamic=dyn._replace(u=jnp.asarray(u, dtype=dyn.u.dtype)))
         elif tag == "prev0":
-            st = st._replace(dynamic=dyn._replace(
-                prev_spikes=jnp.zeros_like(dyn.prev_spikes)))
+            st = st._replace(dynamic=dyn._replace(prev_spikes=jnp.zeros_like(dyn.prev_spikes)))
         elif tag == "rebirth":
             v = v.copy()
             v[E_idx] = float(vdep_mv)
             u = u.copy()
             u[E_idx] = b[E_idx] * v[E_idx]
-            st = st._replace(dynamic=dyn._replace(
-                v=jnp.asarray(v, dtype=dyn.v.dtype),
-                u=jnp.asarray(u, dtype=dyn.u.dtype),
-                syn_state=jnp.zeros_like(dyn.syn_state),
-                prev_spikes=jnp.zeros_like(dyn.prev_spikes)))
+            st = st._replace(
+                dynamic=dyn._replace(
+                    v=jnp.asarray(v, dtype=dyn.v.dtype),
+                    u=jnp.asarray(u, dtype=dyn.u.dtype),
+                    syn_state=jnp.zeros_like(dyn.syn_state),
+                    prev_spikes=jnp.zeros_like(dyn.prev_spikes),
+                )
+            )
         elif tag != "full":
             raise ValueError(tag)
         st, sp, _ = run_segment(step_fn, st, jnp.zeros((n_rel, nN), dtype=dtype))
         sp = np.asarray(sp, dtype=float)
         tail = sp[-n_win:]
-        out[tag] = {c: float(tail[:, np.asarray(members[c])].mean() * (1000.0 / dt_ms))
-                    for c in ("E", "PV", "SST", "VIP")}
+        out[tag] = {
+            c: float(tail[:, np.asarray(members[c])].mean() * (1000.0 / dt_ms))
+            for c in ("E", "PV", "SST", "VIP")
+        }
         # synaptic magnitude at release (first bin) for accounting
         if tag == "full":
             out["syn_rel_mean"] = float(np.abs(np.asarray(dyn.syn_state, dtype=float)).mean())
@@ -2346,10 +2831,16 @@ def scale_pair(model_g, src_class, tgt_class, mult):
     sel = (cls[pre] == str(src_class)) & (cls[post] == str(tgt_class))
     w2 = w.copy()
     w2[sel] = w[sel] * float(mult)
-    kwargs = dict(pre=el.pre, post=el.post,
-                  weight=jnp.asarray(w2, dtype=el.weight.dtype),
-                  receptor_index=el.receptor_index, tau_ms=el.tau_ms,
-                  source_calibration_status=el.source_calibration_status)
+    kwargs = dict(
+        pre=el.pre,
+        post=el.post,
+        weight=jnp.asarray(w2, dtype=el.weight.dtype),
+        receptor_index=el.receptor_index,
+        tau_ms=el.tau_ms,
+        source_calibration_status=el.source_calibration_status,
+    )
     if getattr(el, "delay_steps", None) is not None:
         kwargs["delay_steps"] = el.delay_steps
-    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(sel.sum())
+    return replace(model_g, params={**model_g.params, "edge_list": EdgeList(**kwargs)}), int(
+        sel.sum()
+    )

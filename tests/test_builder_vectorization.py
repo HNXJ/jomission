@@ -7,11 +7,13 @@ cases. No simulation; no model needed.
 """
 
 import numpy as np
+import pytest
 
 from jomission.network.builder import (
     DELAY_FB_MS,
     DELAY_FF_MS,
     DELAY_WITHIN_MS,
+    _between_mask,
     _laminar_delay_ms,
     _motif_gains,
     _sst_mask,
@@ -105,6 +107,32 @@ def edge_cases(n):
     if n == 0:
         return [np.array([], dtype=np.int64)]
     return base
+
+
+def ref_between_mask(area_labels, pre_np, post_np):
+    return np.array(
+        [area_labels[int(pre_np[i])] != area_labels[int(post_np[i])] for i in range(len(pre_np))],
+        dtype=bool,
+    )
+
+
+def test_between_mask_matches_scalar():
+    for n in (0, 1, 5):
+        a = LABELS["area"][: max(n, 1)]
+        for pre in edge_cases(n):
+            for post in edge_cases(n):
+                if n == 0:
+                    np.testing.assert_array_equal(
+                        _between_mask(a, pre, post), ref_between_mask(a, pre, post)
+                    )
+                    continue
+                try:
+                    expected = ref_between_mask(a, pre, post)
+                except IndexError:
+                    with pytest.raises(IndexError):
+                        _between_mask(a, pre, post)
+                    continue
+                np.testing.assert_array_equal(_between_mask(a, pre, post), expected)
 
 
 def test_sst_mask_matches_scalar():

@@ -769,10 +769,7 @@ def _apply_spatial_locality(
     n = pos.shape[0]
     # Build per-post list of edge indices grouped
     # between edges: area[pre]!=area[post] -> keep all
-    between_mask = np.array(
-        [area_labels[int(pre_np[i])] != area_labels[int(post_np[i])] for i in range(len(pre_np))],
-        dtype=bool,
-    )
+    between_mask = _between_mask(area_labels, pre_np, post_np)
     keep_idx: list[int] = list(np.where(between_mask)[0])
     # within edges grouped by post
     within_idx = np.where(~between_mask)[0]
@@ -841,6 +838,16 @@ def _apply_spatial_locality(
     new_params["edge_list"] = new_el
     # keep W placeholder as is (edge_list backend authoritative)
     return replace(model, params=new_params)
+
+
+def _between_mask(area_labels: list, pre_np: np.ndarray, post_np: np.ndarray) -> np.ndarray:
+    """Bool mask over edges crossing areas (area[pre] != area[post]).
+
+    Negative indices wrap like list indexing; out-of-range indices raise,
+    matching the scalar loop this replaces.
+    """
+    area_c = np.array(area_labels, dtype=object)
+    return area_c[pre_np] != area_c[post_np]
 
 
 def _sst_mask(cell_types: list, pre_np: np.ndarray) -> np.ndarray:

@@ -66,8 +66,17 @@ def safe_log_tau(tau, eps: float = 1e-9):
 
 def scaling_for_metric(metric: str) -> str:
     mk = str(metric).lower()
-    if mk in ("weight", "w", "meanw", "realized_current", "weight_lognormal", "tau", "tau_h", "h_tau"):
+    if mk in (
+        "weight",
+        "w",
+        "meanw",
+        "realized_current",
+        "weight_lognormal",
+        "tau",
+        "tau_h",
+        "h_tau",
+    ):
         return "log"
     if mk in ("cv", "cv_isi", "fano", "rho"):
         return "linear"
-    return "linear" if mk in ("probability", "p", "delay_ms", "rate") else "linear"
+    return "linear"

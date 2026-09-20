@@ -50,6 +50,10 @@
      "tests/test_v21c_intrinsic_design.py::test_dispersion_zero_mean_exact_width",
      "tests/test_v21c_intrinsic_design.py::test_protocol_matches_code"
     ],
+    "vectorization equivalence (numpy + tiny model build, no simulation)": [
+     "tests/test_hdp_vectorization.py",
+     "tests/test_builder_vectorization.py"
+    ],
     "analysis and matrix authorities (numpy, no simulation)": [
      "tests/test_factor_isolation.py",
      "tests/test_namespaces.py",

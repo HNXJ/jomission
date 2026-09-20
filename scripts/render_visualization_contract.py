@@ -47,6 +47,7 @@ def build_from_driver(path: str, *, g=None, ee_cut=False, isolate=False):
     """
     drv = load_driver(path)
     from jomission.tfne import o_authority, realize
+
     model, _normal, rf_decl, _tonic = drv.build()
     index, (area, layer, cls) = realize.index_map(model)
     model, enforcement = drv.enforce(model, index)
@@ -77,12 +78,19 @@ def main() -> int:
     ap.add_argument("--subtitle", default="")
     ap.add_argument("--theme", default="light", choices=["light", "dark"])
     ap.add_argument("--out", help="override the contract path")
-    ap.add_argument("--g", type=float, default=None,
-                    help="realize EQUAL_G at this authority before rendering")
-    ap.add_argument("--ee-cut", action="store_true",
-                    help="apply the driver's local E->E ablation before rendering")
-    ap.add_argument("--isolate", action="store_true",
-                    help="apply the driver's complete synaptic isolation before rendering")
+    ap.add_argument(
+        "--g", type=float, default=None, help="realize EQUAL_G at this authority before rendering"
+    )
+    ap.add_argument(
+        "--ee-cut",
+        action="store_true",
+        help="apply the driver's local E->E ablation before rendering",
+    )
+    ap.add_argument(
+        "--isolate",
+        action="store_true",
+        help="apply the driver's complete synaptic isolation before rendering",
+    )
     ap.add_argument("--arm", default="", help="arm name, appended to the title")
     args = ap.parse_args()
 
@@ -92,22 +100,25 @@ def main() -> int:
 
     if args.stage == "V0":
         model, index, rf_decl, enforcement, _ = build_from_driver(
-            args.driver, g=args.g, ee_cut=args.ee_cut, isolate=args.isolate)
+            args.driver, g=args.g, ee_cut=args.ee_cut, isolate=args.isolate
+        )
         n_units = sum(v["n_units"] for v in rf_decl.values())
         # The x arrow is structural decoration in the portable renderer and stays solid
         # whatever the weights are, so the realized retinal weight goes in the label. Without
         # it an isolated construction shows a live input path it does not have.
-        import numpy as _np
         _el = model.params["edge_list"]
-        _w = _np.asarray(_el.weight)
-        _pre = _np.asarray(_el.pre)
+        _w = np.asarray(_el.weight)
+        _pre = np.asarray(_el.pre)
         _r0 = index["Retina.L4.E"][0] if "Retina.L4.E" in index else None
         _ret = _w[_pre >= _r0].sum() if _r0 is not None else float("nan")
         info = VC.schematic(
-            model, out, title=TITLE + (f"   —   {args.arm}" if args.arm else ""),
+            model,
+            out,
+            title=TITLE + (f"   —   {args.arm}" if args.arm else ""),
             theme=args.theme,
             x_label=f"Retina\n{len(rf_decl)} RFs / {n_units} edges",
-            y_label="FEF.L6.E\nv(t)")
+            y_label="FEF.L6.E\nv(t)",
+        )
         info["driver"] = args.driver
         info["enforcement"] = enforcement
     else:
@@ -118,10 +129,16 @@ def main() -> int:
         model, _index, _rf, _enf, _drv = build_from_driver(args.driver)
         stage = contract["stages"][args.stage]
         info = VC.raster(
-            model, spikes, out, dt_ms=args.dt_ms, t0_ms=args.t0_ms,
-            window_ms=args.window_ms, theme=args.theme,
+            model,
+            spikes,
+            out,
+            dt_ms=args.dt_ms,
+            t0_ms=args.t0_ms,
+            window_ms=args.window_ms,
+            theme=args.theme,
             title=f"{args.lineage} — {stage['name']} — {stage['artifact']}",
-            subtitle=args.subtitle or stage["purpose"])
+            subtitle=args.subtitle or stage["purpose"],
+        )
 
     info["stage"] = args.stage
     info["lineage_id"] = args.lineage

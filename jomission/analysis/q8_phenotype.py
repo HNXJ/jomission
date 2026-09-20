@@ -165,6 +165,7 @@ TRIAL_MS = 4624.0
 # Helpers: validation, windows, polarity
 # ---------------------------------------------------------------------------
 
+
 def _validate_t1_t7_intact() -> Dict[str, Any]:
     """Prove T1-T7 not altered (frozen)."""
     ids = [t.id for t in FALSIFICATION_TARGETS]
@@ -172,6 +173,7 @@ def _validate_t1_t7_intact() -> Dict[str, Any]:
     assert COMPARISON_MATRIX["matrix_version"] == "jomission_comparison_matrix.v0.1.0"
     assert len(COMPARISON_MATRIX["targets"]) == 7
     return {"valid": True, "ids": ids, "matrix_version": COMPARISON_MATRIX["matrix_version"]}
+
 
 def _window_for_position(
     position: str,
@@ -188,6 +190,7 @@ def _window_for_position(
     i1 = int(round(hi_abs / dt_ms))
     return i0, i1
 
+
 def _cohens_d(a: np.ndarray, b: np.ndarray) -> float:
     if len(a) < 2 or len(b) < 2:
         return float("nan")
@@ -197,6 +200,7 @@ def _cohens_d(a: np.ndarray, b: np.ndarray) -> float:
     if pooled == 0:
         return 0.0
     return (ma - mb) / pooled
+
 
 def assign_polarity(
     effect: float,
@@ -252,9 +256,11 @@ def assign_polarity(
             # Keep NEGATIVE as effect size dominates
             return "NEGATIVE"
 
+
 # ---------------------------------------------------------------------------
 # Rate phenotype
 # ---------------------------------------------------------------------------
+
 
 def evaluate_rate_phenotype(
     signals_post: List[Any],
@@ -348,24 +354,30 @@ def evaluate_rate_phenotype(
             # Paired t-test if same trials (matched), otherwise ind
             # Since matched RNG/inputs, paired is appropriate
             try:
-                t_stat, p_val = st.ttest_rel(rep_f, post_f, nan_policy='omit') if n_fin >= 2 else (float("nan"), float("nan"))
+                t_stat, p_val = (
+                    st.ttest_rel(rep_f, post_f, nan_policy="omit")
+                    if n_fin >= 2
+                    else (float("nan"), float("nan"))
+                )
                 t_stat = float(t_stat) if np.isfinite(t_stat) else float("nan")
                 p_val = float(p_val) if np.isfinite(p_val) else float("nan")
             except Exception:
                 t_stat, p_val = float("nan"), float("nan")
             d = _cohens_d(rep_f, post_f)
             # Also compute simple mean diff for polarity threshold
-            polarity = assign_polarity(effect, p_value=p_val, cohen_d=d, threshold=threshold, n=n_fin)
+            polarity = assign_polarity(
+                effect, p_value=p_val, cohen_d=d, threshold=threshold, n=n_fin
+            )
         else:
             effect = float("nan")
             t_stat, p_val, d, polarity = float("nan"), float("nan"), float("nan"), "UNRESOLVED"
             diffs = np.array([])
         return {
             "effect_rep_minus_post_hz": effect,
-            "mean_post_hz": float(post_f.mean()) if len(post_f)>0 else float("nan"),
-            "mean_rep_hz": float(rep_f.mean()) if len(rep_f)>0 else float("nan"),
-            "sd_post": float(post_f.std(ddof=1)) if len(post_f)>1 else float("nan"),
-            "sd_rep": float(rep_f.std(ddof=1)) if len(rep_f)>1 else float("nan"),
+            "mean_post_hz": float(post_f.mean()) if len(post_f) > 0 else float("nan"),
+            "mean_rep_hz": float(rep_f.mean()) if len(rep_f) > 0 else float("nan"),
+            "sd_post": float(post_f.std(ddof=1)) if len(post_f) > 1 else float("nan"),
+            "sd_rep": float(rep_f.std(ddof=1)) if len(rep_f) > 1 else float("nan"),
             "n": n_fin,
             "t_stat": t_stat,
             "p_value": p_val,
@@ -373,7 +385,7 @@ def evaluate_rate_phenotype(
             "polarity": polarity,
             "per_trial_post": arr_post.tolist() if a_rep is arr_rep else a_rep.tolist(),
             "per_trial_rep": arr_rep.tolist() if a_rep is arr_rep else a_rep.tolist(),
-            "per_trial_diff": (a_rep - a_post).tolist() if n_fin>0 else [],
+            "per_trial_diff": (a_rep - a_post).tolist() if n_fin > 0 else [],
         }
 
     # Area-resolved
@@ -392,13 +404,15 @@ def evaluate_rate_phenotype(
                 area_rep.append(float(sr * (1000.0 / dt_ms)))
             ap = np.array(area_post)
             ar = np.array(area_rep)
-            area_results[area] = _stats(ar, ap, threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"])
+            area_results[area] = _stats(
+                ar, ap, threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"]
+            )
 
     overall = _stats(arr_rep, arr_post, threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"])
     slot = _stats(slot_rep, slot_post, threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"])
     rec = _stats(rec_rep, rec_post, threshold=Q8_FROZEN_CRITERIA["recovery"]["effect_threshold_hz"])
     # Check technical limitation: short duration (<531+1000)
-    duration_ms = signals_post[0].spikes.shape[0] * dt_ms if len(signals_post)>0 else 0
+    duration_ms = signals_post[0].spikes.shape[0] * dt_ms if len(signals_post) > 0 else 0
     limitation = None
     if duration_ms < 1000:
         limitation = f"short_duration {duration_ms}ms <1000ms; slot/recovery estimates underpowered"
@@ -420,9 +434,11 @@ def evaluate_rate_phenotype(
         "physical_amplitude_calibrated": False,
     }
 
+
 # ---------------------------------------------------------------------------
 # Field phenotype
 # ---------------------------------------------------------------------------
+
 
 def _bandpower_periodogram(sig: np.ndarray, fs_hz: float, band: Tuple[float, float]) -> float:
     n = sig.shape[0]
@@ -437,14 +453,20 @@ def _bandpower_periodogram(sig: np.ndarray, fs_hz: float, band: Tuple[float, flo
         return 0.0
     return float(psd[mask].sum())
 
-def _bandpower_multicontact(window_ct: np.ndarray, fs_hz: float, band: Tuple[float, float]) -> float:
+
+def _bandpower_multicontact(
+    window_ct: np.ndarray, fs_hz: float, band: Tuple[float, float]
+) -> float:
     # window_ct [C, Tw]
     if window_ct.shape[1] < 10:
         return float("nan")
-    per_contact = np.array([_bandpower_periodogram(window_ct[c], fs_hz, band) for c in range(window_ct.shape[0])])
+    per_contact = np.array(
+        [_bandpower_periodogram(window_ct[c], fs_hz, band) for c in range(window_ct.shape[0])]
+    )
     # Filter nan
     per_contact = per_contact[np.isfinite(per_contact)]
-    return float(per_contact.mean()) if len(per_contact)>0 else float("nan")
+    return float(per_contact.mean()) if len(per_contact) > 0 else float("nan")
+
 
 def evaluate_field_phenotype(
     signals_post: List[Any],
@@ -480,15 +502,16 @@ def evaluate_field_phenotype(
             "limitation": limitation,
             "polarity": "UNRESOLVED",
             "per_band": {},
-            " Provenance": {"field_claim_level": "proxy_readout", "physical_amplitude_calibrated": False},
+            " Provenance": {
+                "field_claim_level": "proxy_readout",
+                "physical_amplitude_calibrated": False,
+            },
         }
     # Infer layout time dim
     # field_post shape [T,A,C,T]
     assert field_post.shape[0] == n_trials
     n_areas = field_post.shape[1]
-    n_contacts = field_post.shape[2]
     n_time = field_post.shape[3]
-    layout_post = "trial_A_C_T"
     # Check duration sufficient
     duration_ms = n_time * dt_ms
     if duration_ms < Q8_FROZEN_CRITERIA["field"]["min_window_ms"]:
@@ -548,7 +571,7 @@ def evaluate_field_phenotype(
                 # also diff mean
                 diff = float((vr - vp).mean())
                 try:
-                    t_stat, p_val = st.ttest_rel(vr, vp, nan_policy='omit')
+                    t_stat, p_val = st.ttest_rel(vr, vp, nan_policy="omit")
                     t_stat = float(t_stat) if np.isfinite(t_stat) else float("nan")
                     p_val = float(p_val) if np.isfinite(p_val) else float("nan")
                 except Exception:
@@ -567,12 +590,12 @@ def evaluate_field_phenotype(
                 overall_effects.append(abs(effect))
             per_band_area[bname][area] = {
                 "n": n_fin,
-                "mean_post": float(vp.mean()) if n_fin>0 else float("nan"),
-                "mean_rep": float(vr.mean()) if n_fin>0 else float("nan"),
+                "mean_post": float(vp.mean()) if n_fin > 0 else float("nan"),
+                "mean_rep": float(vr.mean()) if n_fin > 0 else float("nan"),
                 "log_ratio_rep_over_post": effect,
                 "t_stat": t_stat,
                 "p_value": p_val,
-                "cohens_d": float(d) if 'd' in locals() and np.isfinite(d) else float("nan"),
+                "cohens_d": float(d) if "d" in locals() and np.isfinite(d) else float("nan"),
                 "polarity": polarity,
                 "limitation": limitation,
             }
@@ -589,11 +612,29 @@ def evaluate_field_phenotype(
                     frontal_vals.append(lr)
         v1_lr = per_band_area[low_gamma].get("V1", {}).get("log_ratio_rep_over_post", float("nan"))
         frontal_mean = float(np.mean(frontal_vals)) if frontal_vals else float("nan")
-        contrast = frontal_mean - v1_lr if np.isfinite(frontal_mean) and np.isfinite(v1_lr) else float("nan")
+        contrast = (
+            frontal_mean - v1_lr
+            if np.isfinite(frontal_mean) and np.isfinite(v1_lr)
+            else float("nan")
+        )
         # Polarity for low gamma overall: if any area POSITIVE
-        any_positive = any(per_band_area[low_gamma][a]["polarity"] == "POSITIVE" for a in AREAS_CANONICAL if a in per_band_area[low_gamma])
-        low_gamma_polarity = "POSITIVE" if any_positive else (
-            "NEGATIVE" if all(per_band_area[low_gamma][a]["polarity"] == "NEGATIVE" for a in AREAS_CANONICAL if a in per_band_area[low_gamma]) else "UNRESOLVED"
+        any_positive = any(
+            per_band_area[low_gamma][a]["polarity"] == "POSITIVE"
+            for a in AREAS_CANONICAL
+            if a in per_band_area[low_gamma]
+        )
+        low_gamma_polarity = (
+            "POSITIVE"
+            if any_positive
+            else (
+                "NEGATIVE"
+                if all(
+                    per_band_area[low_gamma][a]["polarity"] == "NEGATIVE"
+                    for a in AREAS_CANONICAL
+                    if a in per_band_area[low_gamma]
+                )
+                else "UNRESOLVED"
+            )
         )
         if limitation is not None:
             low_gamma_polarity = "UNRESOLVED"
@@ -603,14 +644,29 @@ def evaluate_field_phenotype(
 
     # Broadband overall polarity: majority vote
     # If >30% bands POSITIVE -> POSITIVE, else if all NEGATIVE -> NEGATIVE else UNRESOLVED
-    total_pos = sum(1 for b in band_names for a in AREAS_CANONICAL if per_band_area.get(b, {}).get(a, {}).get("polarity") == "POSITIVE")
-    total_neg = sum(1 for b in band_names for a in AREAS_CANONICAL if per_band_area.get(b, {}).get(a, {}).get("polarity") == "NEGATIVE")
-    total_cells = sum(1 for b in band_names for a in AREAS_CANONICAL if b in per_band_area and a in per_band_area[b])
+    total_pos = sum(
+        1
+        for b in band_names
+        for a in AREAS_CANONICAL
+        if per_band_area.get(b, {}).get(a, {}).get("polarity") == "POSITIVE"
+    )
+    total_neg = sum(
+        1
+        for b in band_names
+        for a in AREAS_CANONICAL
+        if per_band_area.get(b, {}).get(a, {}).get("polarity") == "NEGATIVE"
+    )
+    total_cells = sum(
+        1
+        for b in band_names
+        for a in AREAS_CANONICAL
+        if b in per_band_area and a in per_band_area[b]
+    )
     if limitation is not None:
         overall_polarity = "UNRESOLVED"
     elif total_pos > 0:
         overall_polarity = "POSITIVE"
-    elif total_neg == total_cells and total_cells>0:
+    elif total_neg == total_cells and total_cells > 0:
         overall_polarity = "NEGATIVE"
     else:
         overall_polarity = "UNRESOLVED"
@@ -640,9 +696,11 @@ def evaluate_field_phenotype(
         },
     }
 
+
 # ---------------------------------------------------------------------------
 # Recovery trajectory
 # ---------------------------------------------------------------------------
+
 
 def evaluate_recovery_trajectory(
     signals_post: List[Any],
@@ -662,7 +720,9 @@ def evaluate_recovery_trajectory(
         fs_hz = 1000.0 / dt_ms
     bin_ms = 100.0
     # Bins relative to omission onset
-    edges = np.arange(OMISSION_LOCAL[0], OMISSION_LOCAL[1] + bin_ms, bin_ms)  # -1000 to 1000 step 100
+    edges = np.arange(
+        OMISSION_LOCAL[0], OMISSION_LOCAL[1] + bin_ms, bin_ms
+    )  # -1000 to 1000 step 100
     n_bins = len(edges) - 1
     n_trials = len(signals_post)
     # Need to find a representative omission trial (AXAB at p2)
@@ -711,10 +771,12 @@ def evaluate_recovery_trajectory(
         # Accumulate diff per bin
         for b in range(n_bins):
             if np.isfinite(binned_post[b]) and np.isfinite(binned_rep[b]):
-                diff_per_bin[b] += (binned_rep[b] - binned_post[b])
+                diff_per_bin[b] += binned_rep[b] - binned_post[b]
                 counts[b] += 1
     # Average diff per bin
-    avg_diff = np.array([diff_per_bin[b] / counts[b] if counts[b] > 0 else float("nan") for b in range(n_bins)])
+    avg_diff = np.array(
+        [diff_per_bin[b] / counts[b] if counts[b] > 0 else float("nan") for b in range(n_bins)]
+    )
     # Recovery window is 531-1000 (bins covering that)
     # Find indices for 531-1000
     rec_mask = (edges[:-1] >= 531) & (edges[:-1] < 1000)
@@ -734,10 +796,6 @@ def evaluate_recovery_trajectory(
         effect = float(rec_diffs.mean())
         # Test if recovery diff significantly non-zero via one-sample t on rec_diffs bins?
         # Instead test across trials: per trial recovery mean
-        per_trial_rec_diff = []
-        for b_idx, post_arr, rep_arr in zip(range(len(post_binned_all)), post_binned_all, rep_binned_all):
-            # Actually need per trial rec mean
-            pass
         # Compute per trial recovery mean diff
         per_trial_rec_diffs = []
         for pi in range(len(p2_om_trials)):
@@ -747,7 +805,9 @@ def evaluate_recovery_trajectory(
             rec_vals_rep = rep_bins[rec_mask]
             mask = np.isfinite(rec_vals_post) & np.isfinite(rec_vals_rep)
             if mask.sum() > 0:
-                per_trial_rec_diffs.append(float(rec_vals_rep[mask].mean() - rec_vals_post[mask].mean()))
+                per_trial_rec_diffs.append(
+                    float(rec_vals_rep[mask].mean() - rec_vals_post[mask].mean())
+                )
         per_trial_rec_diffs = np.array(per_trial_rec_diffs)
         if len(per_trial_rec_diffs) >= 2:
             try:
@@ -756,7 +816,13 @@ def evaluate_recovery_trajectory(
             except Exception:
                 p_val = float("nan")
             d = _cohens_d(per_trial_rec_diffs, np.zeros_like(per_trial_rec_diffs))
-            polarity = assign_polarity(effect, p_value=p_val, cohen_d=d, threshold=Q8_FROZEN_CRITERIA["recovery"]["effect_threshold_hz"], n=len(per_trial_rec_diffs))
+            polarity = assign_polarity(
+                effect,
+                p_value=p_val,
+                cohen_d=d,
+                threshold=Q8_FROZEN_CRITERIA["recovery"]["effect_threshold_hz"],
+                n=len(per_trial_rec_diffs),
+            )
         else:
             p_val = float("nan")
             d = float("nan")
@@ -773,8 +839,8 @@ def evaluate_recovery_trajectory(
         "per_bin_counts": counts.tolist(),
         "recovery_effect_hz": float(effect) if np.isfinite(effect) else float("nan"),
         "recovery_polarity": polarity,
-        "p_value": float(p_val) if 'p_val' in locals() and np.isfinite(p_val) else float("nan"),
-        "cohens_d": float(d) if 'd' in locals() and np.isfinite(d) else float("nan"),
+        "p_value": float(p_val) if "p_val" in locals() and np.isfinite(p_val) else float("nan"),
+        "cohens_d": float(d) if "d" in locals() and np.isfinite(d) else float("nan"),
         "n_p2_trials": len(p2_om_trials),
         "limitation": limitation,
         "per_trial_post_binned": post_binned_all,
@@ -782,9 +848,11 @@ def evaluate_recovery_trajectory(
         "polarity": polarity,
     }
 
+
 # ---------------------------------------------------------------------------
 # T1-T7 relevant deltas (lightweight, not re-implementing full T1-T7)
 # ---------------------------------------------------------------------------
+
 
 def evaluate_t1t7_relevant(
     signals_post: List[Any],
@@ -813,7 +881,12 @@ def evaluate_t1t7_relevant(
     slot_rates_post = []
     slot_rates_rep = []
     intact_mask = np.array([c in OMISSION_POSITIONS["intact"] for c in trial_conditions])
-    omission_mask = np.array([c in OMISSION_POSITIONS["p2"] + OMISSION_POSITIONS["p3"] + OMISSION_POSITIONS["p4"] for c in trial_conditions])
+    omission_mask = np.array(
+        [
+            c in OMISSION_POSITIONS["p2"] + OMISSION_POSITIONS["p3"] + OMISSION_POSITIONS["p4"]
+            for c in trial_conditions
+        ]
+    )
     for idx, cond in enumerate(trial_conditions):
         pos = COND_TO_POS.get(cond)
         eval_pos = pos if pos is not None else "p2"
@@ -830,20 +903,26 @@ def evaluate_t1t7_relevant(
             slot_rates_rep.append(float(sr))
     sr_post = np.array(slot_rates_post)
     sr_rep = np.array(slot_rates_rep)
+
     # Omission effect per state
     def _omission_effect(arr: np.ndarray) -> float:
         om = arr[omission_mask]
         intact = arr[intact_mask]
         om = om[np.isfinite(om)]
         intact = intact[np.isfinite(intact)]
-        if len(om)==0 or len(intact)==0:
+        if len(om) == 0 or len(intact) == 0:
             return float("nan")
         return float(om.mean() - intact.mean())
+
     eff_post = _omission_effect(sr_post)
     eff_rep = _omission_effect(sr_rep)
-    delta_t1 = eff_rep - eff_post if np.isfinite(eff_post) and np.isfinite(eff_rep) else float("nan")
+    delta_t1 = (
+        eff_rep - eff_post if np.isfinite(eff_post) and np.isfinite(eff_rep) else float("nan")
+    )
     # Polarity for T1-relevant delta: if replacement changes omission effect by >0.5 Hz, POSITIVE
-    pol_t1 = assign_polarity(delta_t1, threshold=0.5, n=int(omission_mask.sum() + intact_mask.sum()))
+    pol_t1 = assign_polarity(
+        delta_t1, threshold=0.5, n=int(omission_mask.sum() + intact_mask.sum())
+    )
     # T3: V1 specific
     # Need area resolved; get V1 idx
     meta0 = signals_post[0].metadata if hasattr(signals_post[0], "metadata") else {}
@@ -853,7 +932,7 @@ def evaluate_t1t7_relevant(
     area_to_idx = {}
     if neuron_meta:
         for pos, row in enumerate(neuron_meta):
-            a = str(row.get("area",""))
+            a = str(row.get("area", ""))
             if a in AREAS_CANONICAL:
                 area_to_idx.setdefault(a, []).append(pos)
     if "V1" in area_to_idx:
@@ -878,8 +957,14 @@ def evaluate_t1t7_relevant(
         v1_rep = np.array(v1_rep)
         eff_post_v1 = _omission_effect(v1_post)
         eff_rep_v1 = _omission_effect(v1_rep)
-        delta_t3 = eff_rep_v1 - eff_post_v1 if np.isfinite(eff_post_v1) and np.isfinite(eff_rep_v1) else float("nan")
-        pol_t3 = assign_polarity(delta_t3, threshold=0.5, n=int(omission_mask.sum() + intact_mask.sum()))
+        delta_t3 = (
+            eff_rep_v1 - eff_post_v1
+            if np.isfinite(eff_post_v1) and np.isfinite(eff_rep_v1)
+            else float("nan")
+        )
+        pol_t3 = assign_polarity(
+            delta_t3, threshold=0.5, n=int(omission_mask.sum() + intact_mask.sum())
+        )
     else:
         delta_t3 = float("nan")
         pol_t3 = "UNRESOLVED"
@@ -889,17 +974,23 @@ def evaluate_t1t7_relevant(
         "t1_omission_effect_rep_hz": float(eff_rep) if np.isfinite(eff_rep) else float("nan"),
         "t1_delta_rep_minus_post_hz": float(delta_t1) if np.isfinite(delta_t1) else float("nan"),
         "t1_polarity": pol_t1,
-        "t3_v1_omission_effect_post_hz": float(eff_post_v1) if 'eff_post_v1' in locals() and np.isfinite(eff_post_v1) else float("nan"),
-        "t3_v1_omission_effect_rep_hz": float(eff_rep_v1) if 'eff_rep_v1' in locals() and np.isfinite(eff_rep_v1) else float("nan"),
+        "t3_v1_omission_effect_post_hz": float(eff_post_v1)
+        if "eff_post_v1" in locals() and np.isfinite(eff_post_v1)
+        else float("nan"),
+        "t3_v1_omission_effect_rep_hz": float(eff_rep_v1)
+        if "eff_rep_v1" in locals() and np.isfinite(eff_rep_v1)
+        else float("nan"),
         "t3_delta_hz": float(delta_t3) if np.isfinite(delta_t3) else float("nan"),
         "t3_polarity": pol_t3,
         "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
         "limitation": None,
     }
 
+
 # ---------------------------------------------------------------------------
 # Counterfactual evaluation (single replacement)
 # ---------------------------------------------------------------------------
+
 
 def _collect_probe_signals(
     post_state: Any,
@@ -918,7 +1009,12 @@ def _collect_probe_signals(
     for idx, cond_name in enumerate(trial_conditions):
         cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == cond_name][0]
         sched = condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0)
-        sim = Simulation(duration_ms=float(duration_ms), dt_ms=float(dt_ms), seed=int(seed_base + idx), runtime=runtime)
+        sim = Simulation(
+            duration_ms=float(duration_ms),
+            dt_ms=float(dt_ms),
+            seed=int(seed_base + idx),
+            runtime=runtime,
+        )
         sig_post = jtfne.simulate(model, sim, paradigm=sched, continuation=post_state)
         sig_rep = jtfne.simulate(model, sim, paradigm=sched, continuation=replaced_state)
         sig_post.metadata["condition"] = cond_name
@@ -926,6 +1022,7 @@ def _collect_probe_signals(
         signals_post.append(sig_post)
         signals_rep.append(sig_rep)
     return signals_post, signals_rep
+
 
 def evaluate_counterfactual(
     *,
@@ -949,9 +1046,13 @@ def evaluate_counterfactual(
     # Apply replacement
     replaced_state = apply_replacement_by_name(post_state, pre_state, replacement_name)
     # Verify
-    ver = verify_only_declared_changed(post_state, replaced_state, pre_state, declared_replaced=spec["replaced"])
+    ver = verify_only_declared_changed(
+        post_state, replaced_state, pre_state, declared_replaced=spec["replaced"]
+    )
     tech = verify_technical_validity(post_state, pre_state, model=model)
-    matched_rng_preserved = get_state_hashes(replaced_state)["prng_key"] == get_state_hashes(post_state)["prng_key"]
+    matched_rng_preserved = (
+        get_state_hashes(replaced_state)["prng_key"] == get_state_hashes(post_state)["prng_key"]
+    )
     # Also verify replacement source hash
     replaced_hashes = get_state_hashes(replaced_state)
     post_hashes = get_state_hashes(post_state)
@@ -959,24 +1060,49 @@ def evaluate_counterfactual(
 
     # Default trial battery: balanced 12 conditions
     if trial_conditions is None:
-        trial_conditions = ["AAAB", "AXAB", "AAXB", "AAAX", "BBBA", "BXBA", "BBXA", "BBBX", "RRRR", "RXRR", "RRXR", "RRRX"]
+        trial_conditions = [
+            "AAAB",
+            "AXAB",
+            "AAXB",
+            "AAAX",
+            "BBBA",
+            "BXBA",
+            "BBXA",
+            "BBBX",
+            "RRRR",
+            "RXRR",
+            "RRXR",
+            "RRRX",
+        ]
 
     hp = hdp.v1_pfc_aaab_hdp_params()
     runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=True, hdp_params=hp)
     fs_hz = 1000.0 / dt_ms
 
     signals_post, signals_rep = _collect_probe_signals(
-        post_state, replaced_state, model,
+        post_state,
+        replaced_state,
+        model,
         trial_conditions=trial_conditions,
-        dt_ms=dt_ms, duration_ms=duration_ms,
-        seed_base=seed_base, runtime=runtime,
+        dt_ms=dt_ms,
+        duration_ms=duration_ms,
+        seed_base=seed_base,
+        runtime=runtime,
     )
 
     # Phenotypes
-    rate_ph = evaluate_rate_phenotype(signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, model=model)
-    field_ph = evaluate_field_phenotype(signals_post, signals_rep, trial_conditions, fs_hz=fs_hz, dt_ms=dt_ms, model=model)
-    recovery_ph = evaluate_recovery_trajectory(signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, fs_hz=fs_hz)
-    t1t7_ph = evaluate_t1t7_relevant(signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, fs_hz=fs_hz, model=model)
+    rate_ph = evaluate_rate_phenotype(
+        signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, model=model
+    )
+    field_ph = evaluate_field_phenotype(
+        signals_post, signals_rep, trial_conditions, fs_hz=fs_hz, dt_ms=dt_ms, model=model
+    )
+    recovery_ph = evaluate_recovery_trajectory(
+        signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, fs_hz=fs_hz
+    )
+    t1t7_ph = evaluate_t1t7_relevant(
+        signals_post, signals_rep, trial_conditions, dt_ms=dt_ms, fs_hz=fs_hz, model=model
+    )
 
     # Aggregate overall polarity per frozen overall_rule
     # Primary: rate omission slot or field low gamma or recovery POSITIVE -> POSITIVE
@@ -995,7 +1121,10 @@ def evaluate_counterfactual(
         # If rate slot POSITIVE and field UNRESOLVED due to limitation, overall POSITIVE (rate carries)
         if rate_ph["omission_slot_rate"]["polarity"] == "POSITIVE":
             overall = "POSITIVE"
-        elif rate_ph["omission_slot_rate"]["polarity"] == "NEGATIVE" and field_ph.get("limitation") is not None:
+        elif (
+            rate_ph["omission_slot_rate"]["polarity"] == "NEGATIVE"
+            and field_ph.get("limitation") is not None
+        ):
             overall = "NEGATIVE"  # rate NEGATIVE dominates when field unavailable
         else:
             overall = "UNRESOLVED"
@@ -1009,7 +1138,9 @@ def evaluate_counterfactual(
     if recovery_ph.get("limitation"):
         limitations.append(recovery_ph["limitation"])
     if duration_ms < 531 + 1000:
-        limitations.append(f"duration {duration_ms}ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)")
+        limitations.append(
+            f"duration {duration_ms}ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)"
+        )
     if len(trial_conditions) < 4:
         limitations.append(f"n_trials {len(trial_conditions)} <4 underpowered")
     if dt_ms != FROZEN_DT_MS:
@@ -1021,7 +1152,12 @@ def evaluate_counterfactual(
         "verification": ver,
         "technical_validity": tech,
         "matched_RNG_preserved": bool(matched_rng_preserved),
-        "matched_inputs": {"trial_conditions": list(trial_conditions), "dt_ms": float(dt_ms), "duration_ms": float(duration_ms), "seed_base": int(seed_base)},
+        "matched_inputs": {
+            "trial_conditions": list(trial_conditions),
+            "dt_ms": float(dt_ms),
+            "duration_ms": float(duration_ms),
+            "seed_base": int(seed_base),
+        },
         "hashes": {"post": post_hashes, "pre": pre_hashes, "replaced": replaced_hashes},
         "rate_phenotype": rate_ph,
         "field_phenotype": field_ph,
@@ -1034,9 +1170,11 @@ def evaluate_counterfactual(
         "physical_amplitude_calibrated": False,
     }
 
+
 # ---------------------------------------------------------------------------
 # Matrix evaluation (all replacements)
 # ---------------------------------------------------------------------------
+
 
 def evaluate_q8_matrix(
     *,
@@ -1055,7 +1193,13 @@ def evaluate_q8_matrix(
     per frozen criteria, saves generated-owner artifacts.
     """
     _validate_t1_t7_intact()
-    cap = capture_pre_post_states(seed=seed, dt_ms=dt_ms, n_pre_trials=n_pre_trials, n_exposure_trials=n_exposure_trials, duration_ms=min(duration_ms, 100.0 if dt_ms>0.5 else duration_ms))
+    cap = capture_pre_post_states(
+        seed=seed,
+        dt_ms=dt_ms,
+        n_pre_trials=n_pre_trials,
+        n_exposure_trials=n_exposure_trials,
+        duration_ms=min(duration_ms, 100.0 if dt_ms > 0.5 else duration_ms),
+    )
     # Note: capture uses short duration for speed; probe battery uses full duration_ms
     # But for consistency we already captured post_state; probe duration is independent
     model = cap["model"]
@@ -1063,14 +1207,32 @@ def evaluate_q8_matrix(
     post_state = cap["post_state"]
 
     if trial_conditions is None:
-        trial_conditions = ["AAAB", "AXAB", "AAXB", "AAAX", "BBBA", "BXBA", "BBXA", "BBBX", "RRRR", "RXRR", "RRXR", "RRRX"]
+        trial_conditions = [
+            "AAAB",
+            "AXAB",
+            "AAXB",
+            "AAAX",
+            "BBBA",
+            "BXBA",
+            "BBXA",
+            "BBBX",
+            "RRRR",
+            "RXRR",
+            "RRXR",
+            "RRRX",
+        ]
 
     results: Dict[str, Any] = {}
     for name in REPLACEMENT_SPECS:
         res = evaluate_counterfactual(
-            post_state=post_state, pre_state=pre_state, model=model,
-            replacement_name=name, dt_ms=dt_ms, duration_ms=duration_ms,
-            trial_conditions=trial_conditions, seed_base=seed + 999 + hash(name) % 1000,
+            post_state=post_state,
+            pre_state=pre_state,
+            model=model,
+            replacement_name=name,
+            dt_ms=dt_ms,
+            duration_ms=duration_ms,
+            trial_conditions=trial_conditions,
+            seed_base=seed + 999 + hash(name) % 1000,
         )
         results[name] = res
 
@@ -1087,34 +1249,55 @@ def evaluate_q8_matrix(
         rec_pol = res["recovery_trajectory"].get("polarity", "UNRESOLVED")
         t1d = res["t1t7_relevant"].get("t1_delta_rep_minus_post_hz", float("nan"))
         t1p = res["t1t7_relevant"].get("t1_polarity", "UNRESOLVED")
-        matrix_rows.append({
-            "counterfactual": name,
-            "carrier": res["spec"]["carrier"],
-            "replaced": res["spec"]["replaced"],
-            "rate_omission_slot_effect_hz": float(rate_eff) if np.isfinite(rate_eff) else float("nan"),
-            "rate_omission_slot_polarity": rate_pol,
-            "rate_overall_effect_hz": float(res["rate_phenotype"]["overall_rate"]["effect_rep_minus_post_hz"]),
-            "rate_overall_polarity": res["rate_phenotype"]["overall_rate"]["polarity"],
-            "field_low_gamma_log_ratio": float(field_eff) if np.isfinite(field_eff) else float("nan"),
-            "field_low_gamma_polarity": field_pol,
-            "field_overall_polarity": res["field_phenotype"].get("overall_field_polarity", "UNRESOLVED"),
-            "recovery_effect_hz": float(rec_eff) if np.isfinite(rec_eff) else float("nan"),
-            "recovery_polarity": rec_pol,
-            "t1_delta_hz": float(t1d) if np.isfinite(t1d) else float("nan"),
-            "t1_polarity": t1p,
-            "overall_polarity": res["overall_polarity"],
-            "matched_RNG_preserved": res["matched_RNG_preserved"],
-            "technical_valid": res["technical_validity"]["valid"],
-            "verification_valid": res["verification"]["valid"],
-            "n_trials": len(trial_conditions),
-            "dt_ms": float(dt_ms),
-            "duration_ms": float(duration_ms),
-            "limitations": "; ".join(res["technical_limitations"]) if res["technical_limitations"] else "none",
-        })
+        matrix_rows.append(
+            {
+                "counterfactual": name,
+                "carrier": res["spec"]["carrier"],
+                "replaced": res["spec"]["replaced"],
+                "rate_omission_slot_effect_hz": float(rate_eff)
+                if np.isfinite(rate_eff)
+                else float("nan"),
+                "rate_omission_slot_polarity": rate_pol,
+                "rate_overall_effect_hz": float(
+                    res["rate_phenotype"]["overall_rate"]["effect_rep_minus_post_hz"]
+                ),
+                "rate_overall_polarity": res["rate_phenotype"]["overall_rate"]["polarity"],
+                "field_low_gamma_log_ratio": float(field_eff)
+                if np.isfinite(field_eff)
+                else float("nan"),
+                "field_low_gamma_polarity": field_pol,
+                "field_overall_polarity": res["field_phenotype"].get(
+                    "overall_field_polarity", "UNRESOLVED"
+                ),
+                "recovery_effect_hz": float(rec_eff) if np.isfinite(rec_eff) else float("nan"),
+                "recovery_polarity": rec_pol,
+                "t1_delta_hz": float(t1d) if np.isfinite(t1d) else float("nan"),
+                "t1_polarity": t1p,
+                "overall_polarity": res["overall_polarity"],
+                "matched_RNG_preserved": res["matched_RNG_preserved"],
+                "technical_valid": res["technical_validity"]["valid"],
+                "verification_valid": res["verification"]["valid"],
+                "n_trials": len(trial_conditions),
+                "dt_ms": float(dt_ms),
+                "duration_ms": float(duration_ms),
+                "limitations": "; ".join(res["technical_limitations"])
+                if res["technical_limitations"]
+                else "none",
+            }
+        )
 
     # Sort rows by carrier priority: H, Theta, H+Theta, fast, history_valid
-    order = ["H_post_to_H_pre", "Theta_post_to_Theta_pre", "HTheta_post_to_HTheta_pre", "fast_X_post_to_X_pre", "history_valid_HTheta_vs_fast"]
-    matrix_rows_sorted = sorted(matrix_rows, key=lambda r: order.index(r["counterfactual"]) if r["counterfactual"] in order else 999)
+    order = [
+        "H_post_to_H_pre",
+        "Theta_post_to_Theta_pre",
+        "HTheta_post_to_HTheta_pre",
+        "fast_X_post_to_X_pre",
+        "history_valid_HTheta_vs_fast",
+    ]
+    matrix_rows_sorted = sorted(
+        matrix_rows,
+        key=lambda r: order.index(r["counterfactual"]) if r["counterfactual"] in order else 999,
+    )
 
     artifact: Dict[str, Any] = {
         "namespace": "q8_evaluation",
@@ -1182,7 +1365,8 @@ def evaluate_q8_matrix(
     if results_dir is not None:
         rd = pathlib.Path(results_dir)
         rd.mkdir(parents=True, exist_ok=True)
-        json_path = rd / f"q8_evaluation_seed{seed}_dt{str(dt_ms).replace('.','p')}.json"
+        json_path = rd / f"q8_evaluation_seed{seed}_dt{str(dt_ms).replace('.', 'p')}.json"
+
         # Make JSON safe (handle numpy)
         def _json_safe(o):
             if isinstance(o, np.ndarray):
@@ -1192,40 +1376,50 @@ def evaluate_q8_matrix(
             if isinstance(o, (np.bool_)):
                 return bool(o)
             raise TypeError(f"not json serializable {type(o)}")
+
         with open(json_path, "w") as f:
             json.dump(artifact, f, indent=2, default=_json_safe)
         artifact["artifact_path"] = str(json_path)
         # NPZ with per-trial arrays
-        npz_path = rd / f"q8_evaluation_seed{seed}_dt{str(dt_ms).replace('.','p')}_arrays.npz"
+        npz_path = rd / f"q8_evaluation_seed{seed}_dt{str(dt_ms).replace('.', 'p')}_arrays.npz"
         # Collect arrays
         npz_dict = {}
         for name, res in results.items():
             prefix = name
             # rate per trial diffs
             try:
-                npz_dict[f"{prefix}_rate_post"] = np.asarray(res["rate_phenotype"]["overall_rate"]["per_trial_post"], dtype=np.float64)
+                npz_dict[f"{prefix}_rate_post"] = np.asarray(
+                    res["rate_phenotype"]["overall_rate"]["per_trial_post"], dtype=np.float64
+                )
             except Exception:
                 npz_dict[f"{prefix}_rate_post"] = np.array([float("nan")])
             try:
-                npz_dict[f"{prefix}_rate_rep"] = np.asarray(res["rate_phenotype"]["overall_rate"]["per_trial_rep"], dtype=np.float64)
+                npz_dict[f"{prefix}_rate_rep"] = np.asarray(
+                    res["rate_phenotype"]["overall_rate"]["per_trial_rep"], dtype=np.float64
+                )
             except Exception:
                 npz_dict[f"{prefix}_rate_rep"] = np.array([float("nan")])
             try:
-                npz_dict[f"{prefix}_slot_post"] = np.asarray(res["rate_phenotype"]["omission_slot_rate"]["per_trial_post"], dtype=np.float64)
+                npz_dict[f"{prefix}_slot_post"] = np.asarray(
+                    res["rate_phenotype"]["omission_slot_rate"]["per_trial_post"], dtype=np.float64
+                )
             except Exception:
                 npz_dict[f"{prefix}_slot_post"] = np.array([float("nan")])
             # recovery diff: may be missing if no p2 trials
             rec = res["recovery_trajectory"].get("avg_diff_rep_minus_post_hz", [])
             try:
-                npz_dict[f"{prefix}_recovery_diff"] = np.asarray(rec, dtype=np.float64) if len(rec)>0 else np.array([float("nan")])
+                npz_dict[f"{prefix}_recovery_diff"] = (
+                    np.asarray(rec, dtype=np.float64) if len(rec) > 0 else np.array([float("nan")])
+                )
             except Exception:
                 npz_dict[f"{prefix}_recovery_diff"] = np.array([float("nan")])
         # Also save matrix as structured array
         np.savez_compressed(npz_path, **npz_dict)
         artifact["npz_path"] = str(npz_path)
         # CSV-like matrix for machine-readable
-        csv_path = rd / f"q8_matrix_seed{seed}_dt{str(dt_ms).replace('.','p')}.csv"
+        csv_path = rd / f"q8_matrix_seed{seed}_dt{str(dt_ms).replace('.', 'p')}.csv"
         import csv
+
         with open(csv_path, "w", newline="") as csvfile:
             fieldnames = list(matrix_rows_sorted[0].keys()) if matrix_rows_sorted else []
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -1236,6 +1430,7 @@ def evaluate_q8_matrix(
         artifact["csv_path"] = str(csv_path)
 
     return artifact
+
 
 def evaluate_q8_from_state_replacement_artifact(
     artifact_path: str | pathlib.Path,
@@ -1275,9 +1470,20 @@ def evaluate_q8_from_state_replacement_artifact(
         # p and d unknown -> UNRESOLVED unless effect large? To be conservative, mark UNRESOLVED if n<3
         # However we can still indicate POSITIVE* if effect exceeds threshold, with limitation note
         # We'll use assign_polarity with n=1 -> UNRESOLVED, but also provide magnitude-based hint
-        polarity = assign_polarity(rate_delta, p_value=float("nan"), cohen_d=float("nan"), threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"], n=n, limitation="single_trial n=1 UNRESOLVED per frozen n<3")
+        polarity = assign_polarity(
+            rate_delta,
+            p_value=float("nan"),
+            cohen_d=float("nan"),
+            threshold=Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"],
+            n=n,
+            limitation="single_trial n=1 UNRESOLVED per frozen n<3",
+        )
         # Also provide magnitude hint for interpretation
-        magnitude_hint = "POSITIVE_hint" if abs(rate_delta) >= Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"] else "NEGATIVE_hint"
+        magnitude_hint = (
+            "POSITIVE_hint"
+            if abs(rate_delta) >= Q8_FROZEN_CRITERIA["rate"]["effect_threshold_hz"]
+            else "NEGATIVE_hint"
+        )
         per_counterfactual[name] = {
             "rate_delta_hz": rate_delta,
             "rate_polarity_frozen": polarity,
@@ -1289,29 +1495,42 @@ def evaluate_q8_from_state_replacement_artifact(
             "matched_RNG_preserved": r.get("matched_RNG", {}).get("preserved", True),
         }
         # Build row with field/recovery UNRESOLVED pending
-        matrix_rows.append({
-            "counterfactual": name,
-            "carrier": spec.get("carrier", ""),
-            "replaced": spec.get("replaced", []),
-            "rate_delta_hz_single_probe": rate_delta,
-            "rate_polarity_frozen_n1": polarity,
-            "magnitude_hint": magnitude_hint,
-            "field_low_gamma_polarity": "UNRESOLVED",
-            "field_overall_polarity": "UNRESOLVED",
-            "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
-            "recovery_polarity": "UNRESOLVED",
-            "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
-            "overall_polarity": polarity,  # same as rate frozen (field pending)
-            "matched_RNG_preserved": r.get("matched_RNG", {}).get("preserved", True),
-            "verification_valid": r.get("verification", {}).get("valid", True),
-            "technical_valid": r.get("technical_validity", {}).get("valid", True),
-            "n_trials_this_artifact": 1,
-            "dt_ms": frozen.get("dt_ms", float("nan")),
-            "duration_ms": capture.get("duration_ms", float("nan")) if isinstance(capture, dict) else float("nan"),
-            "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1",
-        })
-    order = ["H_post_to_H_pre", "Theta_post_to_Theta_pre", "HTheta_post_to_HTheta_pre", "fast_X_post_to_X_pre", "history_valid_HTheta_vs_fast"]
-    matrix_rows_sorted = sorted(matrix_rows, key=lambda r: order.index(r["counterfactual"]) if r["counterfactual"] in order else 999)
+        matrix_rows.append(
+            {
+                "counterfactual": name,
+                "carrier": spec.get("carrier", ""),
+                "replaced": spec.get("replaced", []),
+                "rate_delta_hz_single_probe": rate_delta,
+                "rate_polarity_frozen_n1": polarity,
+                "magnitude_hint": magnitude_hint,
+                "field_low_gamma_polarity": "UNRESOLVED",
+                "field_overall_polarity": "UNRESOLVED",
+                "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+                "recovery_polarity": "UNRESOLVED",
+                "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+                "overall_polarity": polarity,  # same as rate frozen (field pending)
+                "matched_RNG_preserved": r.get("matched_RNG", {}).get("preserved", True),
+                "verification_valid": r.get("verification", {}).get("valid", True),
+                "technical_valid": r.get("technical_validity", {}).get("valid", True),
+                "n_trials_this_artifact": 1,
+                "dt_ms": frozen.get("dt_ms", float("nan")),
+                "duration_ms": capture.get("duration_ms", float("nan"))
+                if isinstance(capture, dict)
+                else float("nan"),
+                "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1",
+            }
+        )
+    order = [
+        "H_post_to_H_pre",
+        "Theta_post_to_Theta_pre",
+        "HTheta_post_to_HTheta_pre",
+        "fast_X_post_to_X_pre",
+        "history_valid_HTheta_vs_fast",
+    ]
+    matrix_rows_sorted = sorted(
+        matrix_rows,
+        key=lambda r: order.index(r["counterfactual"]) if r["counterfactual"] in order else 999,
+    )
     artifact = {
         "namespace": "q8_evaluation",
         "owner": "generated",
@@ -1330,7 +1549,8 @@ def evaluate_q8_from_state_replacement_artifact(
                 "field_polarity": "UNRESOLVED",
                 "recovery_polarity": "UNRESOLVED",
                 "matched_RNG_preserved": per_counterfactual[name]["matched_RNG_preserved"],
-            } for name in per_counterfactual
+            }
+            for name in per_counterfactual
         },
         "provenance": {
             "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_from_state_replacement_artifact",
@@ -1349,6 +1569,7 @@ def evaluate_q8_from_state_replacement_artifact(
         rd = pathlib.Path(results_dir)
         rd.mkdir(parents=True, exist_ok=True)
         json_path = rd / f"q8_matrix_from_artifact_{p.stem}.json"
+
         def _json_safe(o):
             if isinstance(o, np.ndarray):
                 return o.tolist()
@@ -1357,11 +1578,13 @@ def evaluate_q8_from_state_replacement_artifact(
             if isinstance(o, np.bool_):
                 return bool(o)
             raise TypeError(str(type(o)))
+
         with open(json_path, "w") as f:
             json.dump(artifact, f, indent=2, default=_json_safe)
         artifact["artifact_path"] = str(json_path)
         csv_path = rd / f"q8_matrix_from_artifact_{p.stem}.csv"
         import csv
+
         with open(csv_path, "w", newline="") as csvfile:
             fieldnames = list(matrix_rows_sorted[0].keys()) if matrix_rows_sorted else []
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -1384,18 +1607,34 @@ def run_q8_evaluation(
 ) -> Dict[str, Any]:
     """Thin alias for evaluate_q8_matrix (CLI-friendly)."""
     return evaluate_q8_matrix(
-        seed=seed, dt_ms=dt_ms, duration_ms=duration_ms,
-        n_pre_trials=n_pre_trials, n_exposure_trials=n_exposure_trials,
-        trial_conditions=trial_conditions, results_dir=results_dir,
+        seed=seed,
+        dt_ms=dt_ms,
+        duration_ms=duration_ms,
+        n_pre_trials=n_pre_trials,
+        n_exposure_trials=n_exposure_trials,
+        trial_conditions=trial_conditions,
+        results_dir=results_dir,
     )
+
 
 if __name__ == "__main__":
     import argparse
+
     p = argparse.ArgumentParser()
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--dt", type=float, default=1.0)
     p.add_argument("--duration", type=float, default=1000.0)
     p.add_argument("--out", type=str, default="results/q8_evaluation")
     args = p.parse_args()
-    art = run_q8_evaluation(seed=args.seed, dt_ms=args.dt, duration_ms=args.duration, results_dir=args.out)
-    print(json.dumps({k: art[k] for k in ("namespace","q8_matrix_version","verification_summary","artifact_path")}, indent=2))
+    art = run_q8_evaluation(
+        seed=args.seed, dt_ms=args.dt, duration_ms=args.duration, results_dir=args.out
+    )
+    print(
+        json.dumps(
+            {
+                k: art[k]
+                for k in ("namespace", "q8_matrix_version", "verification_summary", "artifact_path")
+            },
+            indent=2,
+        )
+    )

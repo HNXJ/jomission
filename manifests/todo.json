@@ -1252,7 +1252,7 @@
   },
    {
     "id": "HD-PROPAGATION-OBSERVABLE",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "WS-PROP-1 built the authorized causal estimator and it returned exactly 0.0 in all six areas, including V1_1 which the retina drives directly. The two-window spike count per E cell is exactly 21.000000 in every area, coupling, seed and stimulus condition, so a window-mean rate observable cannot see the stimulus at all",
     "goal": "an observable for the propagation gate that is sensitive to the stimulus at V1_1",
     "parent_authority": "owner 2026-09-19 P9: the trajectory-divergence observable is chosen; BLOCKED is lifted",
@@ -1283,7 +1283,22 @@
     "downstream_unlock": [],
     "downstream_note": "blocks any propagation claim about the hierarchy. It does not block the oscillator discriminator, which asks a different question",
     "sequence": "owner 2026-09-19: Tier-2, then SCI-EI-REGIME-1, then this lineage; it does not displace the ordered science task",
-    "proposals": {
+    "delivered": {
+     "verdict": "PROPAGATION_DETECTED_ORDERED",
+     "result": "results/propagation_trajectory.json",
+     "spec_commit": "5b49ac5",
+     "result_commit": "be18f0d",
+     "summary": "the recorded 10 ms group-rate series sufficed: no re-run. V1_1 detects in the test pair (peak 72.32 over the null-derived threshold 1e-12); every downstream g=0 null reads exactly 0.0 in both the test-null and the held-out replicate pair, so the matched-seed determinism the design relies on holds; four downstream areas detect at g=0.5 with sustained onsets V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms (FEF detects by peak without a sustained onset and is unordered). The 1 s count contrast that read 0.000000 everywhere is superseded for propagation use; it stands as sealed and is not retracted. STOP for review; interpretation of the ordering belongs to the reviewer",
+     "receipts": [
+      "python -m pytest tests/test_propagation_trajectory.py  (1 passed; verdict from predeclared rules only)",
+      "manifests/lineage_registry.json SCI-PROP-TRAJECTORY record with per-observation value checks"
+     ],
+      "reviewer_decisions_required": [
+       "interpretation of the onset ordering (reported, not interpreted here)",
+       "whether the propagation question is now closed or needs a coupled-regime successor"
+      ]
+     },
+     "proposals": {
      "date": "2026-09-19",
      "by": "actor, for the reviewer to pick exactly one; the actor may not choose",
      "candidates": [

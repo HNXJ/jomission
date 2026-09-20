@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-EI-REGIME-1 sealed EI_REGIME_UNRESOLVED_MULTIPLE and its stop_condition is reached: one arm, then STOP. Exact 1 ms rates are E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz; the predeclared rule fired on weak E->I weights jointly with non-canonical SST adaptation, and the weight-vs-adaptation interaction is unmeasured. Two reviewer questions are open: whether that interaction is worth its own lineage, and whether AGSDR calibration proceeds on this diagnosis. Next in the owner order is the propagation lineage with the chosen trajectory-divergence observable. No other spec is written
+- stopped because: SCI-PROP-TRAJECTORY sealed PROPAGATION_DETECTED_ORDERED and its stop_condition is reached: one evaluation, then STOP. Matched ON/OFF trajectory divergence on the recorded 10 ms series detects at V1_1 and orders V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms with the g=0 null exact; interpretation of the ordering and whether the propagation question needs a coupled-regime successor are open reviewer questions. The todo and problem stacks are empty except those reviewer decisions. No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -67,15 +67,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-WS-OSC-1: the SINGLE_AREA arm ran one process, 156 s, and wrote a complete result with the whole-system gate evaluated in the sealed order, verdict WHOLE_SYSTEM_SYNCHRONY_FAIL from V4_2 at CV 3.0129 against a 3.0 threshold with the other five areas at 2.83 to 2.95 — `3b239c9:results/whole_system_oscillator_single_area.json`
-- SCI-WS-OSC-1: the EE_CUT arm ran one process, 157 s, and wrote a complete result with the same gate in the same order. Synchrony passes and the first load-bearing failure is propagation, the field WS-PROP-1 qualified NON_IDENTIFYING — `3b239c9:results/whole_system_oscillator_ee_cut.json`
-- SCI-WS-OSC-1: the EE_CUT arm realized the cut as specified: 113436 edges targeted, weight sum 526.727051 before and 0.0 after, max_abs_after 0.0, and 133408 edges untouched with weight sum 34.78334 — `3b239c9:results/whole_system_oscillator_ee_cut.json`
-- SCI-WS-OSC-1: a periodic mode is present in all six areas of both arms, above each area's own Poisson null of about 0.104 to 0.107 — `3b239c9:results/whole_system_oscillator_comparison.json`
-- SCI-WS-OSC-1: the period is 94 to 95 ms in the intact arm and 94 to 95 ms in the cut arm. The intact pooled measurement is 94.0 ms, 10.6383 Hz, peak autocorrelation 0.885737 — `3b239c9:results/whole_system_oscillator_comparison.json`
-- SCI-WS-OSC-1: peak autocorrelation falls in every area when E->E is cut, to between 0.64 and 0.74 of its intact value: V1_1 0.832 to 0.612, V1_2 0.848 to 0.593, V4_1 0.849 to 0.584, V4_2 0.850 to 0.574, FEF 0.855 to 0.544, PFC 0.834 to 0.550 — `3b239c9:results/whole_system_oscillator_comparison.json`
-- SCI-WS-OSC-1: the intact arm's final 1000 ms is discrete synchronous bursts reaching about 100 Hz with near silence between them — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final.png`
-- SCI-WS-OSC-1: the cut arm's final 1000 ms over the same window, ordering and conventions shows no discrete bursts: the population rate is a smooth 3 to 30 Hz wave at the same period — `3b239c9:results/viz/SCI-WS-OSC-1/raster_final_ee_cut.png`
-- SCI-WS-OSC-1: results/whole_system_authority_g000.json contains no period, frequency or autocorrelation field anywhere in its structure, and before this lineage no module in the repository computed one. The 190 ms figure quoted in prose has no receipt — `3b239c9:results/whole_system_authority_g000.json`
 - SCI-WS-OSC-2: the ISOLATED_POP arm ran one process, 162 s, with all 246844 edge weights zeroed, weight sum 561.510437 to 0.0, max_abs_after 0.0 and n_nonzero_after 0 — `8f3ab6d:results/whole_system_isolated_pop.json`
 - SCI-WS-OSC-2: all 828 cortical E cells fire with every synapse zeroed. None is silent, and the pooled interspike interval over the final 1000 ms is 94.1505 ms with standard deviation 1.3292 ms, CV 0.014118, implying 10.6213 Hz — `8f3ab6d:results/whole_system_isolated_pop.json`
 - SCI-WS-OSC-2: the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone — `8f3ab6d:results/whole_system_isolated_pop.json`
@@ -94,10 +85,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-EI-REGIME-1: C3 readings: PV (a,b) exactly canonical fast-spiking, SST (a,b) 0.05/0.25 against canonical low-threshold 0.02/0.25, VIP reported with no canonical type — `28af326:results/whole_system_ei_regime_diagnosis.json`
 - SCI-EI-REGIME-1: C4 readings: SST 50.2 Hz above the B1 top with early dominance, but the SST to PV/VIP weight sums do not both clear zero and PV/VIP net currents read +2.99 Hz-equivalent with positive tonic — `28af326:results/whole_system_ei_regime_diagnosis.json`
 - SCI-EI-REGIME-1: V0 schematic and V1 initial raster rendered from this lineage's construction and viewed before the run; V2 final raster reuses V1's ordering and window; V3 atlas built with 5 of 6 panels (plasticity correctly UNAVAILABLE with no HDP run) — `28af326:results/whole_system_ei_regime_diagnosis.json`
+- SCI-PROP-TRAJECTORY: V1_1 detects in the test pair with peak per-bin divergence 72.32 against the null-derived threshold 1e-12 — `be18f0d:results/propagation_trajectory.json`
+- SCI-PROP-TRAJECTORY: every downstream g=0 null reads at most the threshold in both the test-null and the held-out replicate pair — `be18f0d:results/propagation_trajectory.json`
+- SCI-PROP-TRAJECTORY: four downstream areas detect at g=0.5 with sustained onsets: V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered — `be18f0d:results/propagation_trajectory.json`
+- SCI-PROP-TRAJECTORY: the 1 s window-count contrast that read exactly 0.000000 everywhere, including the directly driven V1_1, is superseded for propagation use by the 10 ms trajectory divergence; the count finding stands as sealed and is not retracted — `be18f0d:results/propagation_trajectory.json`
 
 ### Next authorized task
 
-- `HD-PROPAGATION-OBSERVABLE` (OPEN): an observable for the propagation gate that is sensitive to the stimulus at V1_1
+- `HD-PROPAGATION-OBSERVABLE` (DONE): an observable for the propagation gate that is sensitive to the stimulus at V1_1
 - stop: one observable, evaluated once. No model change, no HDP, no delay, no oscillator experiment
 
 ### Locked gates

@@ -228,7 +228,7 @@
   }
  },
  "open_scientific_question": "what the local E-I circuit does, now that it is excluded as the generator of the 94 ms mode. That question is blocked in practice by INTERNEURON_RATE_REGIME: PV and VIP are near-silent at 0.43 and 0.45 Hz and SST is hyperactive at 51.28 Hz, so the E-I circuit is not in a regime where its contribution can be measured. Separately open and unmeasured: what makes the bursts discrete, which local E->E clearly shapes",
- "stopped_because": "SCI-EI-REGIME-1 sealed EI_REGIME_UNRESOLVED_MULTIPLE and its stop_condition is reached: one arm, then STOP. Exact 1 ms rates are E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz; the predeclared rule fired on weak E->I weights jointly with non-canonical SST adaptation, and the weight-vs-adaptation interaction is unmeasured. Two reviewer questions are open: whether that interaction is worth its own lineage, and whether AGSDR calibration proceeds on this diagnosis. Next in the owner order is the propagation lineage with the chosen trajectory-divergence observable. No other spec is written",
+ "stopped_because": "SCI-PROP-TRAJECTORY sealed PROPAGATION_DETECTED_ORDERED and its stop_condition is reached: one evaluation, then STOP. Matched ON/OFF trajectory divergence on the recorded 10 ms series detects at V1_1 and orders V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms with the g=0 null exact; interpretation of the ordering and whether the propagation question needs a coupled-regime successor are open reviewer questions. The todo and problem stacks are empty except those reviewer decisions. No other spec is written",
  "next_authorized_task": "HD-PROPAGATION-OBSERVABLE",
  "locked_gates": [],
  "retired_axes": [

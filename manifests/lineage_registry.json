@@ -2706,6 +2706,111 @@
      "finding": "UNRESOLVED_MULTIPLE (C2+C3) is delivered as the verdict with the boundary stated; it routes the next question (weight-vs-adaptation interaction) without opening it"
     }
    ]
+  },
+  {
+   "lineage_id": "SCI-PROP-TRAJECTORY",
+   "parent": "WS-PROP-1",
+   "principal_delta": "the observable only: matched ON/OFF trajectory divergence on 10 ms-binned group rates replaces the 1 s window-count contrast. Nothing re-run",
+   "preexecution_spec": {
+    "path": "results/propagation_trajectory_spec.json",
+    "commit": "5b49ac5"
+   },
+   "authority": "owner 2026-09-19 P9: timing-sensitive trajectory divergence with the g=0 causal null; no velocity predeclared, no monotonic amplification demanded",
+   "inputs": [
+    "results/whole_system_causal_propagation.json",
+    "results/whole_system_causal_g500_on_s0_y.npz",
+    "results/whole_system_causal_g500_off_s0_y.npz",
+    "results/whole_system_causal_g000_on_s0_y.npz",
+    "results/whole_system_causal_g000_off_s0_y.npz",
+    "results/whole_system_causal_g000_on_s1_y.npz",
+    "results/whole_system_causal_g000_off_s1_y.npz"
+   ],
+   "frozen": [
+    "the six sealed WS-PROP-1 cells with their recorded numbers",
+    "no model parameter, drive, delay, HDP state or architecture value may change (nothing re-ran)"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "V1_1 detects in the test pair with peak per-bin divergence 72.32 against the null-derived threshold 1e-12",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/propagation_trajectory.json",
+     "check": {
+      "path": "results/propagation_trajectory.json",
+      "json_pointer": "/v1_1_peak",
+      "expected": 72.3198371367021,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "every downstream g=0 null reads at most the threshold in both the test-null and the held-out replicate pair",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/propagation_trajectory.json",
+     "check": {
+      "path": "results/propagation_trajectory.json",
+      "json_pointer": "/threshold",
+      "expected": 1e-12,
+      "tol": 0
+     }
+    },
+    {
+     "claim": "four downstream areas detect at g=0.5 with sustained onsets: V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/propagation_trajectory.json",
+     "check": {
+      "path": "results/propagation_trajectory.json",
+      "json_pointer": "/downstream/V4_1/peak",
+      "expected": 106.06060652299361,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "the 1 s window-count contrast that read exactly 0.000000 everywhere, including the directly driven V1_1, is superseded for propagation use by the 10 ms trajectory divergence; the count finding stands as sealed and is not retracted",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/propagation_trajectory.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the recorded onset order is V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered; interpretation of the ordering belongs to review",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "PROPAGATION_DETECTED_ORDERED",
+    "status": "PASS",
+    "status_note": "both controls pass as predeclared (V1_1 detects; g=0 downstream null holds exactly) and four downstream areas detect with sustained onsets; no velocity or amplification claim is made"
+   },
+   "acceptance": "results/propagation_trajectory_spec.json. Met. The verdict is one of the four predeclared labels, computed by the sealed test with no threshold or rule chosen after seeing the verdict run",
+   "fail_boundary": "none for this lineage's question: the verdict carries the onset ordering as its boundary condition for any downstream interpretation",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/propagation_trajectory_spec.json",
+    "results/propagation_trajectory.json"
+   ],
+   "tests": [
+    "tests/test_propagation_trajectory.py"
+   ],
+   "commit": "be18f0d",
+   "visualization": {
+    "exempt": "NOT_A_MODEL_LINEAGE",
+    "reason": "read-only analysis of six sealed WS-PROP-1 cells; no construction built and no simulation run"
+   },
+   "driver_provenance": {
+    "path": "none: no driver runs in this lineage; the sealed test reads sealed artifacts only"
+   },
+   "harness_changes": [],
+   "artifact_note": "the six input npz files are sealed WS-PROP-1 retention, referenced by path, never rewritten",
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "PROPAGATION-TRAJECTORY",
+     "finding": "DETECTED_ORDERED is delivered as the verdict with onset ordering; interpretation of the ordering belongs to review, not to this record"
+    }
+   ]
   }
  ]
 }

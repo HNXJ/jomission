@@ -1871,6 +1871,16 @@
    "path": "results/viz/SCI-EI-REGIME-1/atlas/manifest.json",
    "blob": "858250217880ff69e275d077648bc75eb757468a",
    "sealed_in": "28af326"
+  },
+  {
+   "path": "results/propagation_trajectory_spec.json",
+   "blob": "7aa021e8a4f0c94498511c1e752b44981e8f67b9",
+   "sealed_in": "5b49ac5"
+  },
+  {
+   "path": "results/propagation_trajectory.json",
+   "blob": "a923351cfd02703cc0dc42655acc15fddb8c99ac",
+   "sealed_in": "be18f0d"
   }
  ]
 }

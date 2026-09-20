@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-CHECKPOINT-CLOSURE` (OPEN): close the three checkpoint-1 defects without an owning task: the threshold-literal scan not covering site-src HTML, the tier-1/tier-2 classification gaps, and the AGENTS/CLAUDE generic-block overlap
-- stop: harness only; no scientific artifact touched
+- `SCI-EI-REGIME-1` (OPEN): diagnose why PV and VIP are near-silent and SST is hyperactive, before any attempt to calibrate per-class rates. Candidates named and not yet distinguished: tonic too low for fast-spiking cells, E->I weights too weak, wrong Izhikevich parameters for the inhibitory classes, or SST hyperactivity suppressing PV and VIP
+- stop: diagnosis only. No parameter is changed and no rate is calibrated
 
 ### Locked gates
 

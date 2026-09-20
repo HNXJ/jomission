@@ -229,7 +229,7 @@
  },
  "open_scientific_question": "what the local E-I circuit does, now that it is excluded as the generator of the 94 ms mode. That question is blocked in practice by INTERNEURON_RATE_REGIME: PV and VIP are near-silent at 0.43 and 0.45 Hz and SST is hyperactive at 51.28 Hz, so the E-I circuit is not in a regime where its contribution can be measured. Separately open and unmeasured: what makes the bursts discrete, which local E->E clearly shapes",
  "stopped_because": "SCI-WS-OSC-2 sealed INTRINSIC_GENERATOR_CONFIRMED and its stop_condition is reached: two arms, then STOP. The owner set the closeout program 2026-09-19 and assessed CODE-JAX-OVERHAUL complete. Sequence: Tier-2 (foreground, owner-present; interruption is UNRUN), then SCI-EI-REGIME-1 exactly as declared, then the propagation lineage. The owner chose the trajectory-divergence observable (matched ON/OFF spike-time divergence with the g=0 causal null; V1.1 detectable, no downstream detection at g=0; no velocity predeclared). No other spec is written",
- "next_authorized_task": "HARNESS-CHECKPOINT-CLOSURE",
+ "next_authorized_task": "SCI-EI-REGIME-1",
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

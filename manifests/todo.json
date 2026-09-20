@@ -1444,7 +1444,7 @@
    },
    {
     "id": "HARNESS-CHECKPOINT-CLOSURE",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19: the todo and problem stacks must end empty, including the checkpoint-1 defects that have no TODO item of their own",
     "goal": "close the three checkpoint-1 defects without an owning task: the threshold-literal scan not covering site-src HTML, the tier-1/tier-2 classification gaps, and the AGENTS/CLAUDE generic-block overlap",
     "parent_authority": "owner closeout directive 2026-09-19 + manifests/harness/checkpoint_1.json unresolved_defects",
@@ -1457,17 +1457,27 @@
      "sealed artifacts; gate thresholds (the scan extension is detection-only, no threshold moves)",
      "scientific outputs"
     ],
-    "procedure": "extend the threshold-literal single-source scan to site-src HTML; classify the remaining subsystem test files into tiers mechanically; execute the tier-2 command once and record its receipts; simplify AGENTS.md's generic block and update tests/test_agents_policy.py to assert the simplified content; record each closure in an additive dispositions block on checkpoint_1.json",
-    "acceptance": "each of the three defects has a closure receipt in checkpoint_1.json dispositions; tier-0 green; the tier-2 execution receipt exists",
-    "stop_condition": "harness only; no scientific artifact touched",
-    "artifacts_expected": [
-     "manifests/harness/checkpoint_1.json",
-     "manifests/test_tiers.json",
-     "AGENTS.md",
-     "tests/test_agents_policy.py"
-    ],
-    "downstream_unlock": []
-   },
+     "procedure": "extend the threshold-literal single-source scan to site-src HTML; classify the remaining subsystem test files into tiers mechanically; execute the tier-2 command once and record its receipts; simplify AGENTS.md's generic block and update tests/test_agents_policy.py to assert the simplified content; record each closure in an additive dispositions block on checkpoint_1.json",
+     "acceptance": "each of the three defects has a closure receipt in checkpoint_1.json dispositions; tier-0 green; the tier-2 execution receipt exists",
+     "stop_condition": "harness only; no scientific artifact touched",
+     "artifacts_expected": [
+      "manifests/harness/checkpoint_1.json",
+      "manifests/test_tiers.json",
+      "AGENTS.md",
+      "tests/test_agents_policy.py"
+     ],
+     "downstream_unlock": [],
+     "delivered": {
+      "verdict": "PASS",
+      "result": "manifests/harness/checkpoint_1.json dispositions_2026-09-19",
+      "summary": "all three defects closed with receipts: the gate scan covers site-src HTML (no hits), all 26 remaining test files classified (4 numpy-only tier-1 groups, 21 simulating covered by tier-2, none writes), AGENTS.md is a thin router plus the owner contract with the test asserting that content. The tier-2 execution receipt exists: the command first repaired to ignore all 29 tier-3 batteries (nine were leaking in, which would have executed scientific batteries and hit the seal guard) with a tier-0 recurrence guard, then executed foreground post-code: 396 passed, 3 skipped, 0 failed in 474.91s. The 3 skips are exactly the two quarantined Q8 tests and the substrate-gate skip, verified by targeted rerun. No code or science changed during the run; results/ clean throughout",
+      "receipts": [
+       "tier-2 foreground run 2026-09-19: 396 passed, 3 skipped, returncode 0",
+       "skip-identity rerun (q8_phenotype + substrate_gate): 10 passed, 3 skipped with the quarantine and gate reasons",
+       "python scripts/project_check.py  (tier-0 green)"
+      ]
+     }
+    },
    {
     "id": "SKILLS-OVERHAUL",
     "status": "DONE",
@@ -1570,5 +1580,5 @@
      }
     }
   ],
- "next_authorized_task": "HARNESS-CHECKPOINT-CLOSURE"
+ "next_authorized_task": "SCI-EI-REGIME-1"
 }

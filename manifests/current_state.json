@@ -227,8 +227,8 @@
    "authority": "observed while scoping the reviewer's AGSDR calibration question, 2026-09-19. Recorded as a finding, not acted on"
   }
  },
- "open_scientific_question": "what the local E-I circuit does, now that it is excluded as the generator of the 94 ms mode. That question is blocked in practice by INTERNEURON_RATE_REGIME: PV and VIP are near-silent at 0.43 and 0.45 Hz and SST is hyperactive at 51.28 Hz, so the E-I circuit is not in a regime where its contribution can be measured. Separately open and unmeasured: what makes the bursts discrete, which local E->E clearly shapes",
- "stopped_because": "SCI-PROP-TRAJECTORY sealed PROPAGATION_DETECTED_ORDERED and its stop_condition is reached: one evaluation, then STOP. Matched ON/OFF trajectory divergence on the recorded 10 ms series detects at V1_1 and orders V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms with the g=0 null exact; interpretation of the ordering and whether the propagation question needs a coupled-regime successor are open reviewer questions. The todo and problem stacks are empty except those reviewer decisions. No other spec is written",
+ "open_scientific_question": "whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime: the 2x2 factorial W_EI {current, parity-with-EE} by SST_a {current 0.05, canonical 0.02}, measuring r_E/PV/SST/VIP plus synchrony and the 94-95 ms mode, decomposed into ΔW, ΔA and ΔWxA",
+ "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. No spec beyond the interaction lineage is written",
  "next_authorized_task": "HD-PROPAGATION-OBSERVABLE",
  "locked_gates": [],
  "retired_axes": [

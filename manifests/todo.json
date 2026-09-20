@@ -1609,7 +1609,81 @@
        "python scripts/project_check.py  (tier-0 green, sealed registry green, tree clean)"
       ]
      }
+    },
+    {
+     "id": "SCI-EI-INTERACTION-1",
+     "status": "OPEN",
+     "trigger": "owner assessment 2026-09-19: EI_REGIME_UNRESOLVED_MULTIPLE is the main mechanistic ambiguity in the local cortical object; open the weight-by-adaptation interaction lineage first, then AGSDR, then the propagation successor",
+     "goal": "determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial",
+     "parent_authority": "owner 2026-09-19 assessment: 2x2 factorial W_EI {current, repaired} x SST_a {current, canonical}; repaired values from independent authority, never rate-tuned; measure r_E, r_PV, r_SST, r_VIP plus synchrony and the 94-95 ms mode; decomposition into ΔW, ΔA, ΔWxA; five acceptance labels; no tuning after seeing the four cells",
+     "principal_delta": "two predeclared repairs, factorially combined: (1) mean realized E->PV and E->VIP weights to parity with mean realized E->E (0.005488, read from the EI diagnosis receipt, an internal reference never touched by rate targets); (2) SST adaptation a 0.05 to canonical LTS 0.02 (Izhikevich2003, b stays 0.25, c and d untouched). Nothing else changes: same g=0 intact construction, tonic, dt, seed, duration, kernel, stimulus",
+     "required_inputs": [
+      "results/whole_system_ei_regime_diagnosis.json",
+      "scripts/whole_system_ei_regime_arm.py",
+      "jomission/qualification/b1_targets.py",
+      "manifests/agsdr_local_objectives.json"
+     ],
+     "frozen": [
+      "everything except the two repaired quantities",
+      "B1 targets: reference for the viability mapping only, never tuned toward",
+      "gate thresholds; no calibration of any kind"
+     ],
+     "procedure": "build the four cells (exact baseline rebuild plus the three repaired variants with the predeclared values); seal a pre-execution spec naming cells, values, measurement windows and the verdict mapping; render V0 and V1 of the baseline construction and look before interpreting; run the four arms one process each with full 1 ms retention; compute ΔW, ΔA and ΔWxA as departures from additivity; classify per the mapping; render V2 and V3; STOP",
+     "acceptance": "the verdict is exactly one of WEIGHT_SUFFICIENT (weight-only arm viable, adaptation-only not), ADAPTATION_SUFFICIENT (the converse), JOINT_REQUIRED (only the both-repaired arm viable), MULTIPLE_SUFFICIENT (both single-repair arms viable), EI_REGIME_STILL_UNRESOLVED (no arm viable), where viable means PV in [12,25] and VIP in [8,15] and SST in [6,12] and E < PV (ratified B1). Synchrony and the 94-95 ms mode reported, not gating",
+     "stop_condition": "four cells, then STOP. No tuning after seeing the four cells; viability is classification against ratified bands, never a tuning target",
+     "artifacts_expected": [
+      "results/whole_system_ei_interaction_spec.json",
+      "results/whole_system_ei_interaction.json",
+      "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
+      "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
+      "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
+      "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
+     ],
+     "downstream_unlock": [
+      "SCI-AGSDR-CALIBRATION"
+     ]
+    },
+    {
+     "id": "SCI-AGSDR-CALIBRATION",
+     "status": "BLOCKED",
+     "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
+     "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
+     "parent_authority": "owner 2026-09-19 assessment (order position 2)",
+     "principal_delta": "none yet: the calibration design is written on unblock, not now",
+     "required_inputs": [
+      "manifests/agsdr_local_objectives.json",
+      "results/whole_system_ei_regime_diagnosis.json",
+      "jomission/qualification/b1_targets.py"
+     ],
+     "frozen": [
+      "no calibration is designed or executed by this item"
+     ],
+     "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
+     "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
+     "stop_condition": "BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization",
+     "artifacts_expected": [],
+     "downstream_unlock": [
+      "SCI-PROP-QUALIFIED-1"
+     ],
+     "blocked_by": "SCI-EI-INTERACTION-1 verdict plus reviewer authorization of the calibration design"
+    },
+    {
+     "id": "SCI-PROP-QUALIFIED-1",
+     "status": "LOCKED",
+     "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",
+     "goal": "test ordered trajectory propagation in the AGSDR-defined viable regime",
+     "parent_authority": "owner 2026-09-19 assessment (order position 3)",
+     "principal_delta": "none yet",
+     "required_inputs": [
+      "results/propagation_trajectory.json"
+     ],
+     "frozen": [],
+     "procedure": "not authorized",
+     "acceptance": "spec acceptance",
+     "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
+     "artifacts_expected": [],
+     "downstream_unlock": []
     }
-  ],
- "next_authorized_task": "HD-PROPAGATION-OBSERVABLE"
+   ],
+ "next_authorized_task": "SCI-EI-INTERACTION-1"
 }

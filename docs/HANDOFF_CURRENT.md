@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: SCI-PROP-TRAJECTORY sealed PROPAGATION_DETECTED_ORDERED and its stop_condition is reached: one evaluation, then STOP. Matched ON/OFF trajectory divergence on the recorded 10 ms series detects at V1_1 and orders V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms with the g=0 null exact; interpretation of the ordering and whether the propagation question needs a coupled-regime successor are open reviewer questions. The todo and problem stacks are empty except those reviewer decisions. No other spec is written
+- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. No spec beyond the interaction lineage is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`

@@ -330,10 +330,10 @@
    "item": "cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact)",
    "route": "record only"
   },
-  {
-   "item": "Pages has no V2.1b/V2.1c entry",
-   "route": "PUB-V21B-PAGES"
-  }
+   {
+    "item": "Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page)",
+    "route": "record only"
+   }
  ],
   "startup": [
    "read AGENTS.md",

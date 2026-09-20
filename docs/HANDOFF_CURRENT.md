@@ -115,7 +115,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - shot parameters outside the sealed 9-cell family untested (no new brackets authorized) → SHOT_NOISE_BRACKETS retired
 - whether SST-c/VIP-c single-cell bursting entrains E irregularity (secondary hypothesis) → record only
 - cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact) → record only
-- Pages has no V2.1b/V2.1c entry → PUB-V21B-PAGES
+- Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page) → record only
 
 <!-- generated:state:end -->
 

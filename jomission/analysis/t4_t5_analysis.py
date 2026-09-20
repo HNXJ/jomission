@@ -106,6 +106,7 @@ FIELD_SOLVER_STATUS: str = "linear_solver"
 # Helpers: spectral, windowing, validation
 # ---------------------------------------------------------------------------
 
+
 def _validate_field_rate(
     field: np.ndarray,
     rate: np.ndarray | None,
@@ -114,7 +115,9 @@ def _validate_field_rate(
     n_contacts: int | None = None,
 ) -> Dict[str, Any]:
     if field.ndim != 4:
-        raise ValueError(f"field must be 4D [trial,area,contact,time] or [trial,area,time,contact], got {field.shape}")
+        raise ValueError(
+            f"field must be 4D [trial,area,contact,time] or [trial,area,time,contact], got {field.shape}"
+        )
     n_trials = field.shape[0]
     if len(trial_conditions) != n_trials:
         raise ValueError(f"trial_conditions len {len(trial_conditions)} != n_trials {n_trials}")
@@ -154,7 +157,11 @@ def _field_slice(
     t1: int,
     layout: str,
 ) -> np.ndarray:
-    """Extract [n_contacts, window_time] for one trial/area."""
+    """Extract [n_contacts, window_time] float for one trial/area.
+
+    field: [trial, area, contact, time] (trial_A_C_T) or [trial, area, time, contact].
+    Returns [C, Tw] in the field's dtype.
+    """
     if layout == "trial_A_C_T":
         # field[trial, area, contact, time]
         return field[trial_idx, area_idx, :, t0:t1]  # [C, Tw]
@@ -179,7 +186,7 @@ def _bandpower_periodogram(
     fs_hz: float,
     band: Tuple[float, float],
 ) -> float:
-    """Periodogram band power for 1D signal sig [T]."""
+    """Periodogram band power for 1D signal sig [T], float64 in and out."""
     n = sig.shape[0]
     if n < 2:
         return 0.0
@@ -194,14 +201,63 @@ def _bandpower_periodogram(
     return float(psd[mask].sum())
 
 
+def _window_psd(
+    window_ct: np.ndarray,
+    fs_hz: float,
+) -> list:
+    """Window [C, Tw] float -> per-contact (freqs, psd), FFT computed once per contact.
+
+    Band powers below sum psd over the band mask: identical numbers to calling
+    _bandpower_periodogram per band, without re-running rfft per band.
+    """
+    out = []
+    for c in range(window_ct.shape[0]):
+        sig = window_ct[c]
+        n = sig.shape[0]
+        if n < 2:
+            out.append(None)
+            continue
+        x = sig - sig.mean()
+        freqs = np.fft.rfftfreq(n, d=1.0 / fs_hz)
+        psd = (np.abs(np.fft.rfft(x)) ** 2) / n
+        out.append((freqs, psd))
+    return out
+
+
+def _bandpower_from_psd(freqs, psd, band: Tuple[float, float]) -> float:
+    """Sum a precomputed psd over a band. Same arithmetic as _bandpower_periodogram."""
+    lo, hi = band
+    mask = (freqs >= lo) & (freqs < hi)
+    return float(psd[mask].sum())
+
+
+def _bandpower_multicontact_psd(
+    psd_list, band: Tuple[float, float], average_contacts: bool = True
+) -> float | np.ndarray:
+    """Band power from a precomputed per-contact psd list. Same values as _bandpower_multicontact."""
+    vals = []
+    for pair in psd_list:
+        if pair is None:
+            vals.append(0.0)
+        else:
+            freqs, psd = pair
+            vals.append(_bandpower_from_psd(freqs, psd, band))
+    per_contact = np.array(vals)
+    if average_contacts:
+        return float(per_contact.mean())
+    return per_contact
+
+
 def _bandpower_multicontact(
     window_ct: np.ndarray,
     fs_hz: float,
     band: Tuple[float, float],
     average_contacts: bool = True,
 ) -> float | np.ndarray:
-    """Window [C, Tw] -> band power per contact or mean over contacts."""
-    per_contact = np.array([_bandpower_periodogram(window_ct[c], fs_hz, band) for c in range(window_ct.shape[0])])
+    """Window [C, Tw] float -> band power per contact (float64 array) or mean over contacts (float)."""
+    per_contact = np.array(
+        [_bandpower_periodogram(window_ct[c], fs_hz, band) for c in range(window_ct.shape[0])]
+    )
     if average_contacts:
         return float(per_contact.mean())
     return per_contact
@@ -264,7 +320,7 @@ def _cohens_d(a: np.ndarray, b: np.ndarray) -> float:
         return float("nan")
     ma, mb = float(a.mean()), float(b.mean())
     sa, sb = float(a.std(ddof=1)), float(b.std(ddof=1))
-    pooled = math.sqrt(((len(a)-1)*sa*sa + (len(b)-1)*sb*sb) / (len(a)+len(b)-2))
+    pooled = math.sqrt(((len(a) - 1) * sa * sa + (len(b) - 1) * sb * sb) / (len(a) + len(b) - 2))
     if pooled == 0:
         return 0.0
     return (ma - mb) / pooled
@@ -276,13 +332,14 @@ def _mean_ci(a: np.ndarray, alpha: float = 0.05) -> Tuple[float, float]:
     m = float(a.mean())
     se = float(a.std(ddof=1) / math.sqrt(len(a)))
     # t critical
-    tcrit = st.t.ppf(1 - alpha/2, df=len(a)-1)
-    return (m - tcrit*se, m + tcrit*se)
+    tcrit = st.t.ppf(1 - alpha / 2, df=len(a) - 1)
+    return (m - tcrit * se, m + tcrit * se)
 
 
 # ---------------------------------------------------------------------------
 # Build field/rate arrays from Signals via area_local (fallback when field unavailable)
 # ---------------------------------------------------------------------------
+
 
 def build_field_rate_arrays(
     signals: List[Any],
@@ -293,7 +350,7 @@ def build_field_rate_arrays(
     layout: str = "trial_A_C_T",
 ) -> Tuple[np.ndarray, np.ndarray, List[str], float, Tuple[str, ...], Dict[str, Any]]:
     """Build field[trial,area,contact,time] and rate[trial,area,time] from Signals via area_local.
-    
+
     Parameters
     ----------
     signals: list of jaxfne Signals (one per trial)
@@ -301,7 +358,7 @@ def build_field_rate_arrays(
     dt_ms: sampling interval (0.1 canonical, 1.0 pilot)
     areas: area ordering
     layout: "trial_A_C_T" (default, contact second) or "trial_A_T_C"
-    
+
     Returns
     -------
     field: np.ndarray shape (n_trials, n_areas, n_contacts, n_time) if trial_A_C_T else (n_trials,n_areas,n_time,n_contacts)
@@ -388,6 +445,7 @@ def build_field_rate_arrays(
 # T4: five-band x four-area x p2/p3/p4 omission-related LFP-like band power
 # ---------------------------------------------------------------------------
 
+
 def compute_t4(
     field: np.ndarray,
     trial_conditions: List[str],
@@ -402,17 +460,17 @@ def compute_t4(
     baseline_normalization: str = "none",  # "none" or "ratio" or "difference"
 ) -> Dict[str, Any]:
     """T4: area x band x position omission vs intact band power.
-    
+
     Frozen estimand: LFP-like band power omission vs intact (proxy_readout).
     Expanded to 5 bands x 4 areas x 3 positions, preserving area and position.
-    
-    Contrast per area/band/position: 
+
+    Contrast per area/band/position:
         omission power (slot window) vs intact power (same absolute slot position)
         Statistic: difference (omission - intact), ratio, Cohen d, t-test.
-    
+
     Also computes slot_vs_baseline per trial (diagnostic) but primary contrast is
     omission vs intact at same position.
-    
+
     Parameters
     ----------
     field: [trial, area, contact, time] or [trial, area, time, contact]
@@ -425,7 +483,7 @@ def compute_t4(
     window_baseline: (-250,-50) for diagnostic ratio
     average_contacts: mean power over contacts before statistics (True) else keep per-contact
     baseline_normalization: if "ratio" compute slot/baseline per trial then compare
-    
+
     Returns
     -------
     dict with keys:
@@ -451,42 +509,67 @@ def compute_t4(
     band_names = list(bands.keys())
     n_bands = len(band_names)
 
-    # per_position_power[trial, area, band, pos_idx] 
-    per_trial_position_power = np.full((n_trials, n_areas, n_bands, len(positions)), np.nan, dtype=np.float64)
-    per_trial_baseline_power = np.full((n_trials, n_areas, n_bands, len(positions)), np.nan, dtype=np.float64)
+    # per_position_power[trial, area, band, pos_idx]
+    per_trial_position_power = np.full(
+        (n_trials, n_areas, n_bands, len(positions)), np.nan, dtype=np.float64
+    )
+    per_trial_baseline_power = np.full(
+        (n_trials, n_areas, n_bands, len(positions)), np.nan, dtype=np.float64
+    )
+
+    # Windows depend only on position (and fs/dt), not on trial or area:
+    # precompute the clipped (slot, baseline) index tuples once.
+    clipped = {}
+    for pos in positions:
+        i0, i1 = _window_for_position(pos, fs_hz, dt_ms, window_slot)
+        b0, b1 = _window_for_position(pos, fs_hz, dt_ms, window_baseline)
+        clipped[pos] = (
+            max(0, i0),
+            min(n_time, i1),
+            max(0, b0),
+            min(n_time, b1),
+        )
 
     for t_idx, cond in enumerate(trial_conditions):
         for a_idx, area in enumerate(areas):
             for pos_idx, pos in enumerate(positions):
-                i0, i1 = _window_for_position(pos, fs_hz, dt_ms, window_slot)
-                b0, b1 = _window_for_position(pos, fs_hz, dt_ms, window_baseline)
-                # Clip to valid range
-                i0c, i1c = max(0, i0), min(n_time, i1)
-                b0c, b1c = max(0, b0), min(n_time, b1)
+                i0c, i1c, b0c, b1c = clipped[pos]
                 if i1c <= i0c or b1c <= b0c:
                     continue
                 w_slot = _field_slice(field, t_idx, a_idx, i0c, i1c, layout)  # [C, Tw]
                 w_base = _field_slice(field, t_idx, a_idx, b0c, b1c, layout)
+                psd_slot = _window_psd(w_slot, fs_hz)
+                psd_base = _window_psd(w_base, fs_hz)
                 for b_idx, bname in enumerate(band_names):
                     band = bands[bname]
-                    p_slot = _bandpower_multicontact(w_slot, fs_hz, band, average_contacts=average_contacts)
-                    p_base = _bandpower_multicontact(w_base, fs_hz, band, average_contacts=average_contacts)
-                    per_trial_position_power[t_idx, a_idx, b_idx, pos_idx] = float(p_slot) if np.ndim(p_slot)==0 else float(np.asarray(p_slot).mean())
-                    per_trial_baseline_power[t_idx, a_idx, b_idx, pos_idx] = float(p_base) if np.ndim(p_base)==0 else float(np.asarray(p_base).mean())
+                    p_slot = _bandpower_multicontact_psd(
+                        psd_slot, band, average_contacts=average_contacts
+                    )
+                    p_base = _bandpower_multicontact_psd(
+                        psd_base, band, average_contacts=average_contacts
+                    )
+                    per_trial_position_power[t_idx, a_idx, b_idx, pos_idx] = (
+                        float(p_slot) if np.ndim(p_slot) == 0 else float(np.asarray(p_slot).mean())
+                    )
+                    per_trial_baseline_power[t_idx, a_idx, b_idx, pos_idx] = (
+                        float(p_base) if np.ndim(p_base) == 0 else float(np.asarray(p_base).mean())
+                    )
 
     # Also compute per-trial power at own position's slot vs baseline ratio diagnostic
     per_trial_slot_power_own = np.full((n_trials, n_areas, n_bands), np.nan)
     per_trial_baseline_power_own = np.full((n_trials, n_areas, n_bands), np.nan)
-    for t_idx, cond in enumerate(trial_conditions):
-        pos = COND_TO_POS.get(cond)
-        # For intact, no own position — leave nan; for omission, use its position
-        if pos is None:
-            continue
-        pos_idx = positions.index(pos)
-        for a_idx in range(n_areas):
-            for b_idx in range(n_bands):
-                per_trial_slot_power_own[t_idx, a_idx, b_idx] = per_trial_position_power[t_idx, a_idx, b_idx, pos_idx]
-                per_trial_baseline_power_own[t_idx, a_idx, b_idx] = per_trial_baseline_power[t_idx, a_idx, b_idx, pos_idx]
+    # Intact trials have no own position and stay nan; omission trials copy
+    # their position column. Fancy indexing replaces the per-scalar loop.
+    pos_of_trial = np.array(
+        [
+            positions.index(COND_TO_POS[cond]) if COND_TO_POS.get(cond) is not None else -1
+            for cond in trial_conditions
+        ]
+    )
+    om = pos_of_trial >= 0
+    t = np.arange(n_trials)[om]
+    per_trial_slot_power_own[t] = per_trial_position_power[t, :, :, pos_of_trial[t]]
+    per_trial_baseline_power_own[t] = per_trial_baseline_power[t, :, :, pos_of_trial[t]]
 
     # Build denominators and per-position contrasts omission vs intact
     # For each position, define omission conditions = OMISSION_POSITIONS[pos], intact = OMISSION_POSITIONS["intact"]
@@ -527,8 +610,16 @@ def compute_t4(
                     om_base = om_base[np.isfinite(om_base)]
                     int_base = int_base[np.isfinite(int_base)]
                     # ratio slot/baseline per trial
-                    om_vals_ratio = om_vals / np.maximum(om_base, 1e-12) if len(om_base)==len(om_vals) else om_vals
-                    intact_vals_ratio = intact_vals / np.maximum(int_base, 1e-12) if len(int_base)==len(intact_vals) else intact_vals
+                    om_vals_ratio = (
+                        om_vals / np.maximum(om_base, 1e-12)
+                        if len(om_base) == len(om_vals)
+                        else om_vals
+                    )
+                    intact_vals_ratio = (
+                        intact_vals / np.maximum(int_base, 1e-12)
+                        if len(int_base) == len(intact_vals)
+                        else intact_vals
+                    )
                     # use ratio values for contrast
                     om_use = om_vals_ratio
                     intact_use = intact_vals_ratio
@@ -537,34 +628,54 @@ def compute_t4(
                     intact_use = intact_vals
 
                 # Difference and ratio
-                mean_om = float(np.mean(om_use)) if len(om_use)>0 else float("nan")
-                mean_intact = float(np.mean(intact_use)) if len(intact_use)>0 else float("nan")
-                diff = mean_om - mean_intact if np.isfinite(mean_om) and np.isfinite(mean_intact) else float("nan")
-                ratio = mean_om / max(mean_intact, 1e-12) if np.isfinite(mean_om) and np.isfinite(mean_intact) and mean_intact!=0 else float("nan")
-                log_ratio = math.log(ratio) if np.isfinite(ratio) and ratio>0 else float("nan")
+                mean_om = float(np.mean(om_use)) if len(om_use) > 0 else float("nan")
+                mean_intact = float(np.mean(intact_use)) if len(intact_use) > 0 else float("nan")
+                diff = (
+                    mean_om - mean_intact
+                    if np.isfinite(mean_om) and np.isfinite(mean_intact)
+                    else float("nan")
+                )
+                ratio = (
+                    mean_om / max(mean_intact, 1e-12)
+                    if np.isfinite(mean_om) and np.isfinite(mean_intact) and mean_intact != 0
+                    else float("nan")
+                )
+                log_ratio = math.log(ratio) if np.isfinite(ratio) and ratio > 0 else float("nan")
                 # Variability
-                sd_om = float(np.std(om_use, ddof=1)) if len(om_use)>1 else 0.0
-                sd_intact = float(np.std(intact_use, ddof=1)) if len(intact_use)>1 else 0.0
-                se_om = sd_om / math.sqrt(len(om_use)) if len(om_use)>0 else float("nan")
-                se_intact = sd_intact / math.sqrt(len(intact_use)) if len(intact_use)>0 else float("nan")
-                sem_diff = math.sqrt(se_om**2 + se_intact**2) if np.isfinite(se_om) and np.isfinite(se_intact) else float("nan")
+                sd_om = float(np.std(om_use, ddof=1)) if len(om_use) > 1 else 0.0
+                sd_intact = float(np.std(intact_use, ddof=1)) if len(intact_use) > 1 else 0.0
+                se_om = sd_om / math.sqrt(len(om_use)) if len(om_use) > 0 else float("nan")
+                se_intact = (
+                    sd_intact / math.sqrt(len(intact_use)) if len(intact_use) > 0 else float("nan")
+                )
+                sem_diff = (
+                    math.sqrt(se_om**2 + se_intact**2)
+                    if np.isfinite(se_om) and np.isfinite(se_intact)
+                    else float("nan")
+                )
                 ci_om = _mean_ci(om_use)
                 ci_intact = _mean_ci(intact_use)
                 # Cohen d
                 d = _cohens_d(om_use, intact_use)
                 # t-test (two-sided, unequal var)
-                if len(om_use)>=2 and len(intact_use)>=2:
-                    tstat, pval = st.ttest_ind(om_use, intact_use, equal_var=False, nan_policy='omit')
+                if len(om_use) >= 2 and len(intact_use) >= 2:
+                    tstat, pval = st.ttest_ind(
+                        om_use, intact_use, equal_var=False, nan_policy="omit"
+                    )
                     tstat = float(tstat) if np.isfinite(tstat) else float("nan")
                     pval = float(pval) if np.isfinite(pval) else 1.0
                     # also permutation? For closure we provide t; permutation can be added later
                 else:
                     tstat, pval = float("nan"), float("nan")
                 # 95% CI for diff via t
-                if np.isfinite(diff) and np.isfinite(sem_diff) and len(om_use)+len(intact_use)>2:
+                if (
+                    np.isfinite(diff)
+                    and np.isfinite(sem_diff)
+                    and len(om_use) + len(intact_use) > 2
+                ):
                     # approximate using normal
-                    ci_diff_lo = diff - 1.96*sem_diff
-                    ci_diff_hi = diff + 1.96*sem_diff
+                    ci_diff_lo = diff - 1.96 * sem_diff
+                    ci_diff_hi = diff + 1.96 * sem_diff
                 else:
                     ci_diff_lo, ci_diff_hi = float("nan"), float("nan")
 
@@ -587,8 +698,12 @@ def compute_t4(
                     "t_stat": tstat,
                     "p_value_two_sided": pval,
                     # per-trial values for artifact
-                    "per_trial_omission_values": om_use.tolist() if len(om_use)<1000 else om_use[:1000].tolist(),
-                    "per_trial_intact_values": intact_use.tolist() if len(intact_use)<1000 else intact_use[:1000].tolist(),
+                    "per_trial_omission_values": om_use.tolist()
+                    if len(om_use) < 1000
+                    else om_use[:1000].tolist(),
+                    "per_trial_intact_values": intact_use.tolist()
+                    if len(intact_use) < 1000
+                    else intact_use[:1000].tolist(),
                     # also report frontal vs V1 contrast later aggregated
                 }
             # Add frontal vs V1 summary for this band/position
@@ -605,9 +720,15 @@ def compute_t4(
             diffs = {}
             for area in areas:
                 diffs[area] = per_position_stats[pos][bname][area]["diff_om_minus_intact"]
-            frontal_mean = float(np.mean([diffs[a] for a in ("FEF","PFC") if np.isfinite(diffs[a])]))
+            frontal_mean = float(
+                np.mean([diffs[a] for a in ("FEF", "PFC") if np.isfinite(diffs[a])])
+            )
             v1_diff = diffs["V1"]
-            contrast = frontal_mean - v1_diff if np.isfinite(frontal_mean) and np.isfinite(v1_diff) else float("nan")
+            contrast = (
+                frontal_mean - v1_diff
+                if np.isfinite(frontal_mean) and np.isfinite(v1_diff)
+                else float("nan")
+            )
             frontal_vs_v1[pos][bname] = {
                 "frontal_mean_diff": frontal_mean,
                 "v1_diff": float(v1_diff) if np.isfinite(v1_diff) else float("nan"),
@@ -627,17 +748,23 @@ def compute_t4(
             om_vals = om_vals[np.isfinite(om_vals)]
             # For intact, we need power averaged over positions? Compute mean over positions for each intact trial
             # For each intact trial, per_trial_position_power gives 3 positions; average them
-            intact_indices = np.where(np.array([c in set(OMISSION_POSITIONS["intact"]) for c in trial_conditions]))[0]
+            intact_indices = np.where(
+                np.array([c in set(OMISSION_POSITIONS["intact"]) for c in trial_conditions])
+            )[0]
             intact_vals = []
             for t_idx in intact_indices:
                 vals = per_trial_position_power[t_idx, a_idx, b_idx, :]
                 vals = vals[np.isfinite(vals)]
-                if len(vals)>0:
+                if len(vals) > 0:
                     intact_vals.append(float(vals.mean()))
             intact_vals = np.array(intact_vals)
-            mean_om = float(om_vals.mean()) if len(om_vals)>0 else float("nan")
-            mean_int = float(intact_vals.mean()) if len(intact_vals)>0 else float("nan")
-            diff = mean_om - mean_int if np.isfinite(mean_om) and np.isfinite(mean_int) else float("nan")
+            mean_om = float(om_vals.mean()) if len(om_vals) > 0 else float("nan")
+            mean_int = float(intact_vals.mean()) if len(intact_vals) > 0 else float("nan")
+            diff = (
+                mean_om - mean_int
+                if np.isfinite(mean_om) and np.isfinite(mean_int)
+                else float("nan")
+            )
             pooled[bname][area] = {
                 "n_omission_pooled": len(om_vals),
                 "n_intact_pooled": len(intact_vals),
@@ -656,7 +783,7 @@ def compute_t4(
         "areas": list(areas),
         "positions": list(positions),
         "n_trials": n_trials,
-        "n_contacts": field.shape[2] if layout=="trial_A_C_T" else field.shape[3],
+        "n_contacts": field.shape[2] if layout == "trial_A_C_T" else field.shape[3],
         "layout": layout,
         "fs_hz": float(fs_hz),
         "dt_ms": float(dt_ms),
@@ -690,6 +817,7 @@ def compute_t4(
 # T5: band-resolved gamma vs lower coupling
 # ---------------------------------------------------------------------------
 
+
 def _pearson_r(x: np.ndarray, y: np.ndarray) -> Tuple[float, float]:
     """Pearson r and two-sided p."""
     if len(x) < 3 or len(y) < 3:
@@ -697,8 +825,9 @@ def _pearson_r(x: np.ndarray, y: np.ndarray) -> Tuple[float, float]:
     x = np.asarray(x).ravel()
     y = np.asarray(y).ravel()
     mask = np.isfinite(x) & np.isfinite(y)
-    x = x[mask]; y = y[mask]
-    if len(x) < 3 or np.std(x)==0 or np.std(y)==0:
+    x = x[mask]
+    y = y[mask]
+    if len(x) < 3 or np.std(x) == 0 or np.std(y) == 0:
         return 0.0, 1.0
     r, p = st.pearsonr(x, y)
     return float(r), float(p)
@@ -710,12 +839,12 @@ def _fisher_ci(r: float, n: int, alpha: float = 0.05) -> Tuple[float, float]:
     # Fisher z
     z = 0.5 * math.log((1 + r) / (1 - r)) if abs(r) < 1 else math.copysign(10, r)
     se = 1.0 / math.sqrt(n - 3)
-    zcrit = st.norm.ppf(1 - alpha/2)
-    lo_z = z - zcrit*se
-    hi_z = z + zcrit*se
+    zcrit = st.norm.ppf(1 - alpha / 2)
+    lo_z = z - zcrit * se
+    hi_z = z + zcrit * se
     # inverse
-    lo = (math.exp(2*lo_z) - 1) / (math.exp(2*lo_z) + 1)
-    hi = (math.exp(2*hi_z) - 1) / (math.exp(2*hi_z) + 1)
+    lo = (math.exp(2 * lo_z) - 1) / (math.exp(2 * lo_z) + 1)
+    hi = (math.exp(2 * hi_z) - 1) / (math.exp(2 * hi_z) + 1)
     return (float(lo), float(hi))
 
 
@@ -764,19 +893,6 @@ def compute_t5(
     per_trial_rate = np.full((n_trials, n_areas), np.nan, dtype=np.float64)
 
     for t_idx, cond in enumerate(trial_conditions):
-        pos = COND_TO_POS.get(cond)
-        # For rate, window is same as field slot
-        if pos is not None:
-            i0, i1 = _window_for_position(pos, fs_hz, dt_ms, window_slot)
-        else:
-            # intact: average over positions for both field and rate? Let's compute mean over positions' windows
-            # We'll later average; for now compute mean across positions for this trial
-            # Instead compute power as mean over positions for intact
-            pass
-        # For intact handling below, we branch
-
-    # Actually loop with explicit handling
-    for t_idx, cond in enumerate(trial_conditions):
         for a_idx in range(n_areas):
             # Rate window: if omission, use its position slot; if intact, average over 3 positions
             pos = COND_TO_POS.get(cond)
@@ -785,11 +901,18 @@ def compute_t5(
                 i0c, i1c = max(0, i0), min(n_time, i1)
                 if i1c > i0c:
                     w_rate = _rate_slice(rate, t_idx, a_idx, i0c, i1c)
-                    per_trial_rate[t_idx, a_idx] = float(w_rate.mean()) if len(w_rate)>0 else float("nan")
+                    per_trial_rate[t_idx, a_idx] = (
+                        float(w_rate.mean()) if len(w_rate) > 0 else float("nan")
+                    )
                     w_field = _field_slice(field, t_idx, a_idx, i0c, i1c, layout)
+                    psd_field = _window_psd(w_field, fs_hz)
                     for b_idx, bname in enumerate(band_names):
-                        p = _bandpower_multicontact(w_field, fs_hz, bands[bname], average_contacts=average_contacts)
-                        per_trial_bandpower[t_idx, a_idx, b_idx] = float(p) if np.ndim(p)==0 else float(np.asarray(p).mean())
+                        p = _bandpower_multicontact_psd(
+                            psd_field, bands[bname], average_contacts=average_contacts
+                        )
+                        per_trial_bandpower[t_idx, a_idx, b_idx] = (
+                            float(p) if np.ndim(p) == 0 else float(np.asarray(p).mean())
+                        )
                 else:
                     per_trial_rate[t_idx, a_idx] = float("nan")
             else:
@@ -804,12 +927,21 @@ def compute_t5(
                     w_rate = _rate_slice(rate, t_idx, a_idx, i0c, i1c)
                     rates.append(float(w_rate.mean()))
                     w_field = _field_slice(field, t_idx, a_idx, i0c, i1c, layout)
+                    psd_field = _window_psd(w_field, fs_hz)
                     for b_idx, bname in enumerate(band_names):
-                        p = _bandpower_multicontact(w_field, fs_hz, bands[bname], average_contacts=average_contacts)
-                        powers[bname].append(float(p) if np.ndim(p)==0 else float(np.asarray(p).mean()))
-                per_trial_rate[t_idx, a_idx] = float(np.mean(rates)) if len(rates)>0 else float("nan")
+                        p = _bandpower_multicontact_psd(
+                            psd_field, bands[bname], average_contacts=average_contacts
+                        )
+                        powers[bname].append(
+                            float(p) if np.ndim(p) == 0 else float(np.asarray(p).mean())
+                        )
+                per_trial_rate[t_idx, a_idx] = (
+                    float(np.mean(rates)) if len(rates) > 0 else float("nan")
+                )
                 for b_idx, bname in enumerate(band_names):
-                    per_trial_bandpower[t_idx, a_idx, b_idx] = float(np.mean(powers[bname])) if len(powers[bname])>0 else float("nan")
+                    per_trial_bandpower[t_idx, a_idx, b_idx] = (
+                        float(np.mean(powers[bname])) if len(powers[bname]) > 0 else float("nan")
+                    )
 
     # Now per area per band correlation across trials
     per_area_band: Dict[str, Any] = {}
@@ -843,35 +975,67 @@ def compute_t5(
                 "spearman_r": rs,
                 "spearman_p": ps,
                 # per-trial values for artifact (capped)
-                "per_trial_bandpower": x.tolist() if n<1000 else x[:1000].tolist(),
-                "per_trial_rate": y.tolist() if len(y)<1000 else y[:1000].tolist(),
+                "per_trial_bandpower": x.tolist() if n < 1000 else x[:1000].tolist(),
+                "per_trial_rate": y.tolist() if len(y) < 1000 else y[:1000].tolist(),
             }
 
     # Gamma vs low contrast per area
     gamma_vs_low: Dict[str, Any] = {}
     for area in areas:
-        lower_rs = [per_area_band[area][b]["pearson_r"] for b in LOWER_BANDS if np.isfinite(per_area_band[area][b]["pearson_r"])]
-        gamma_rs = [per_area_band[area][b]["pearson_r"] for b in GAMMA_BANDS if np.isfinite(per_area_band[area][b]["pearson_r"])]
-        mean_lower = float(np.mean(lower_rs)) if len(lower_rs)>0 else float("nan")
-        mean_gamma = float(np.mean(gamma_rs)) if len(gamma_rs)>0 else float("nan")
-        diff_gamma_minus_lower = mean_gamma - mean_lower if np.isfinite(mean_gamma) and np.isfinite(mean_lower) else float("nan")
+        lower_rs = [
+            per_area_band[area][b]["pearson_r"]
+            for b in LOWER_BANDS
+            if np.isfinite(per_area_band[area][b]["pearson_r"])
+        ]
+        gamma_rs = [
+            per_area_band[area][b]["pearson_r"]
+            for b in GAMMA_BANDS
+            if np.isfinite(per_area_band[area][b]["pearson_r"])
+        ]
+        mean_lower = float(np.mean(lower_rs)) if len(lower_rs) > 0 else float("nan")
+        mean_gamma = float(np.mean(gamma_rs)) if len(gamma_rs) > 0 else float("nan")
+        diff_gamma_minus_lower = (
+            mean_gamma - mean_lower
+            if np.isfinite(mean_gamma) and np.isfinite(mean_lower)
+            else float("nan")
+        )
         # Also low_gamma alone vs lower, high_gamma alone vs lower
         low_g = per_area_band[area]["low_gamma"]["pearson_r"]
         high_g = per_area_band[area]["high_gamma"]["pearson_r"]
-        low_vs_lower = low_g - mean_lower if np.isfinite(low_g) and np.isfinite(mean_lower) else float("nan")
-        high_vs_lower = high_g - mean_lower if np.isfinite(high_g) and np.isfinite(mean_lower) else float("nan")
+        low_vs_lower = (
+            low_g - mean_lower if np.isfinite(low_g) and np.isfinite(mean_lower) else float("nan")
+        )
+        high_vs_lower = (
+            high_g - mean_lower if np.isfinite(high_g) and np.isfinite(mean_lower) else float("nan")
+        )
         # Statistical test: are gamma rs > lower? Use permutation or t? Simple: compare means via Fisher? Provide descriptive.
         # We can also do Steiger test for dependent correlations? But for now provide diff and note.
 
         gamma_vs_low[area] = {
             "mean_lower_r": float(mean_lower) if np.isfinite(mean_lower) else float("nan"),
             "mean_gamma_r": float(mean_gamma) if np.isfinite(mean_gamma) else float("nan"),
-            "gamma_minus_lower": float(diff_gamma_minus_lower) if np.isfinite(diff_gamma_minus_lower) else float("nan"),
+            "gamma_minus_lower": float(diff_gamma_minus_lower)
+            if np.isfinite(diff_gamma_minus_lower)
+            else float("nan"),
             "low_gamma_r": float(low_g) if np.isfinite(low_g) else float("nan"),
             "high_gamma_r": float(high_g) if np.isfinite(high_g) else float("nan"),
-            "low_gamma_minus_lower": float(low_vs_lower) if np.isfinite(low_vs_lower) else float("nan"),
-            "high_gamma_minus_lower": float(high_vs_lower) if np.isfinite(high_vs_lower) else float("nan"),
-            "n_trials": int(np.mean([per_area_band[area][b]["n"] for b in band_names if np.isfinite(per_area_band[area][b]["n"])] ) ) if band_names else 0,
+            "low_gamma_minus_lower": float(low_vs_lower)
+            if np.isfinite(low_vs_lower)
+            else float("nan"),
+            "high_gamma_minus_lower": float(high_vs_lower)
+            if np.isfinite(high_vs_lower)
+            else float("nan"),
+            "n_trials": int(
+                np.mean(
+                    [
+                        per_area_band[area][b]["n"]
+                        for b in band_names
+                        if np.isfinite(per_area_band[area][b]["n"])
+                    ]
+                )
+            )
+            if band_names
+            else 0,
             "interpretation": "positive if gamma coupling > lower; correlational, not causal field->spike",
         }
 
@@ -900,9 +1064,14 @@ def compute_t5(
                 w_rate = _rate_slice(rate, t_idx, a_idx, i0c, i1c)
                 pos_rate[t_idx, a_idx] = float(w_rate.mean())
                 w_field = _field_slice(field, t_idx, a_idx, i0c, i1c, layout)
+                psd_field = _window_psd(w_field, fs_hz)
                 for b_idx, bname in enumerate(band_names):
-                    p = _bandpower_multicontact(w_field, fs_hz, bands[bname], average_contacts=average_contacts)
-                    pos_bandpower[t_idx, a_idx, b_idx] = float(p) if np.ndim(p)==0 else float(np.asarray(p).mean())
+                    p = _bandpower_multicontact_psd(
+                        psd_field, bands[bname], average_contacts=average_contacts
+                    )
+                    pos_bandpower[t_idx, a_idx, b_idx] = (
+                        float(p) if np.ndim(p) == 0 else float(np.asarray(p).mean())
+                    )
         # Now compute per area per band correlation for this position's trial subset
         for a_idx, area in enumerate(areas):
             per_position[pos][area] = {}
@@ -919,13 +1088,24 @@ def compute_t5(
                 else:
                     r, p = float("nan"), float("nan")
                     ci = (float("nan"), float("nan"))
-                per_position[pos][area][bname] = {"n": n, "pearson_r": float(r) if np.isfinite(r) else float("nan"), "p": float(p) if np.isfinite(p) else float("nan"), "ci95": [float(ci[0]), float(ci[1])]}
+                per_position[pos][area][bname] = {
+                    "n": n,
+                    "pearson_r": float(r) if np.isfinite(r) else float("nan"),
+                    "p": float(p) if np.isfinite(p) else float("nan"),
+                    "ci95": [float(ci[0]), float(ci[1])],
+                }
 
+    om_sets = {pos: set(OMISSION_POSITIONS[pos]) for pos in positions}
+    intact_set = set(OMISSION_POSITIONS["intact"])
     denominators = {
         "n_trials_total": n_trials,
-        "n_per_condition": {c: int(np.sum(np.array(trial_conditions)==c)) for c in sorted(set(trial_conditions))},
-        "n_per_position": {pos: int(np.sum([c in set(OMISSION_POSITIONS[pos]) for c in trial_conditions])) for pos in positions},
-        "n_intact": int(np.sum([c in set(OMISSION_POSITIONS["intact"]) for c in trial_conditions])),
+        "n_per_condition": {
+            c: int(np.sum(np.array(trial_conditions) == c)) for c in sorted(set(trial_conditions))
+        },
+        "n_per_position": {
+            pos: int(np.sum([c in om_sets[pos] for c in trial_conditions])) for pos in positions
+        },
+        "n_intact": int(np.sum([c in intact_set for c in trial_conditions])),
         "areas": list(areas),
         "bands": list(band_names),
     }
@@ -968,6 +1148,7 @@ def compute_t5(
 # Orchestration + artifact saving
 # ---------------------------------------------------------------------------
 
+
 def run_t4_t5_analysis(
     field: np.ndarray,
     rate: np.ndarray,
@@ -980,7 +1161,7 @@ def run_t4_t5_analysis(
     save_arrays: bool = True,
 ) -> Dict[str, Any]:
     """Run both T4 and T5 and optionally save generated-owner arrays.
-    
+
     Returns dict with t4, t5, combined provenance and artifact paths.
     """
     if dt_ms is None:
@@ -1010,7 +1191,10 @@ def run_t4_t5_analysis(
         },
         "t5_summary": {
             "gamma_vs_low": t5["gamma_vs_low"],
-            "per_area_band_r": {area: {b: t5["per_area_band"][area][b]["pearson_r"] for b in t5["band_order"]} for area in areas},
+            "per_area_band_r": {
+                area: {b: t5["per_area_band"][area][b]["pearson_r"] for b in t5["band_order"]}
+                for area in areas
+            },
             "denominators": t5["denominators"],
             "provenance": t5["provenance"],
         },
@@ -1025,6 +1209,7 @@ def run_t4_t5_analysis(
         out.mkdir(parents=True, exist_ok=True)
         # JSON summary
         json_path = out / "t4_t5_summary.json"
+
         # Convert numpy types for JSON
         def _json_safe(o):
             if isinstance(o, np.ndarray):
@@ -1034,6 +1219,7 @@ def run_t4_t5_analysis(
             if isinstance(o, (np.bool_)):
                 return bool(o)
             raise TypeError(f"not json serializable {type(o)}")
+
         # Need to ensure combined is json serializable (per_position contains numpy)
         # Use json.dumps with default
         with open(json_path, "w") as f:
@@ -1065,7 +1251,9 @@ def run_t4_t5_analysis(
         for pi, pos in enumerate(positions):
             for bi, bname in enumerate(BANDS):
                 for ai, area in enumerate(areas):
-                    diff_arr[ai, bi, pi] = t4["per_position"][pos][bname][area]["diff_om_minus_intact"]
+                    diff_arr[ai, bi, pi] = t4["per_position"][pos][bname][area][
+                        "diff_om_minus_intact"
+                    ]
         np.save(out / "t4_diff_om_minus_intact__area_band_pos.npy", diff_arr)
         artifact_paths["t4_diff_npy"] = str(out / "t4_diff_om_minus_intact__area_band_pos.npy")
         # t5 r matrix [area, band]
@@ -1093,7 +1281,9 @@ def run_t4_t5_analysis(
             "areas": list(areas),
             "fs_hz": fs_hz,
             "dt_ms": dt_ms,
-            "hash": hashlib.sha256(json.dumps(combined["t4_summary"], sort_keys=True, default=str).encode()).hexdigest()[:12],
+            "hash": hashlib.sha256(
+                json.dumps(combined["t4_summary"], sort_keys=True, default=str).encode()
+            ).hexdigest()[:12],
         }
         with open(prov_path, "w") as f:
             json.dump(prov, f, indent=2)
@@ -1104,9 +1294,19 @@ def run_t4_t5_analysis(
 
 # Backwards-compat: expose build helper
 __all__ = [
-    "BANDS", "BAND_ORDER", "LOWER_BANDS", "GAMMA_BANDS",
-    "AREAS_CANONICAL", "SLOT_ONSET_MS",
-    "OMISSION_POSITIONS", "COND_TO_POS",
-    "FIELD_CLAIM_LEVEL", "PHYSICAL_AMPLITUDE_CALIBRATED", "FIELD_SOLVER_STATUS",
-    "build_field_rate_arrays", "compute_t4", "compute_t5", "run_t4_t5_analysis",
+    "BANDS",
+    "BAND_ORDER",
+    "LOWER_BANDS",
+    "GAMMA_BANDS",
+    "AREAS_CANONICAL",
+    "SLOT_ONSET_MS",
+    "OMISSION_POSITIONS",
+    "COND_TO_POS",
+    "FIELD_CLAIM_LEVEL",
+    "PHYSICAL_AMPLITUDE_CALIBRATED",
+    "FIELD_SOLVER_STATUS",
+    "build_field_rate_arrays",
+    "compute_t4",
+    "compute_t5",
+    "run_t4_t5_analysis",
 ]

@@ -54,6 +54,7 @@ import scipy.stats as st
 
 try:
     from scipy import signal as scipy_signal
+
     _HAS_SCIPY_SIGNAL = True
 except Exception:
     _HAS_SCIPY_SIGNAL = False
@@ -112,6 +113,7 @@ PHYSICAL_AMPLITUDE_CALIBRATED: bool = False
 # Helpers: validation, windowing
 # ---------------------------------------------------------------------------
 
+
 def _validate_rate(
     rate: np.ndarray,
     trial_conditions: List[str],
@@ -155,6 +157,7 @@ def _all_pairs(areas: Tuple[str, ...]) -> List[Tuple[str, str]]:
 # ---------------------------------------------------------------------------
 # Core lag estimator (single trial, single pair)
 # ---------------------------------------------------------------------------
+
 
 def estimate_lag_single(
     x: np.ndarray,
@@ -294,6 +297,7 @@ def estimate_lag_single(
 # Synthetic / controlled rate generators (for validation)
 # ---------------------------------------------------------------------------
 
+
 def _generate_autocorrelated_signal(
     n_time: int,
     *,
@@ -423,7 +427,9 @@ def synthesize_rate_multiarea(
             s0 = _generate_autocorrelated_signal(n_time, autocor=autocor, noise_std=0.6, rng=rng)
             s0_scaled = s0 * (modulation / (np.std(s0) + 1e-12))
             # Area 0
-            rate[t, 0, :] = np.maximum(baseline_rate + s0_scaled + rng.normal(0, noise_std, size=n_time), 0.0)
+            rate[t, 0, :] = np.maximum(
+                baseline_rate + s0_scaled + rng.normal(0, noise_std, size=n_time), 0.0
+            )
             for a in range(1, n_areas):
                 # Find lag for pair (0,a) if specified else 0
                 lag_ms = true_lags_ms.get((0, a), 0.0)
@@ -457,10 +463,16 @@ def synthesize_rate_null(
 ) -> np.ndarray:
     """Independent rates per area (no coupling, null)."""
     return synthesize_rate_multiarea(
-        n_trials, n_time, fs_hz,
-        true_lags_ms=None, chain_lag_ms=None, n_areas=n_areas,
-        noise_std=noise_std, autocor=autocor,
-        baseline_rate=baseline_rate, modulation=modulation,
+        n_trials,
+        n_time,
+        fs_hz,
+        true_lags_ms=None,
+        chain_lag_ms=None,
+        n_areas=n_areas,
+        noise_std=noise_std,
+        autocor=autocor,
+        baseline_rate=baseline_rate,
+        modulation=modulation,
         rng_seed=rng_seed,
     )
 
@@ -480,10 +492,15 @@ def synthesize_rate_nolag(
     """Synchronous rates per area (true lag 0, shared driver)."""
     # Use chain_lag 0
     return synthesize_rate_multiarea(
-        n_trials, n_time, fs_hz,
-        chain_lag_ms=0.0, n_areas=n_areas,
-        noise_std=noise_std, autocor=autocor,
-        baseline_rate=baseline_rate, modulation=modulation,
+        n_trials,
+        n_time,
+        fs_hz,
+        chain_lag_ms=0.0,
+        n_areas=n_areas,
+        noise_std=noise_std,
+        autocor=autocor,
+        baseline_rate=baseline_rate,
+        modulation=modulation,
         rng_seed=rng_seed,
     )
 
@@ -491,6 +508,7 @@ def synthesize_rate_nolag(
 # ---------------------------------------------------------------------------
 # Ensemble evaluation (positive / null control quantification)
 # ---------------------------------------------------------------------------
+
 
 def quantify_positive_control(
     peak_lags_ms: np.ndarray,
@@ -513,7 +531,7 @@ def quantify_positive_control(
     mean_est = float(lags.mean())
     median_est = float(np.median(lags))
     # Fractions within tolerance (ms)
-    frac_within_2 = float(np.mean(abs_errors <= 2.0)) if len(lags)>0 else float("nan")
+    frac_within_2 = float(np.mean(abs_errors <= 2.0)) if len(lags) > 0 else float("nan")
     frac_within_5 = float(np.mean(abs_errors <= 5.0))
     frac_within_10 = float(np.mean(abs_errors <= 10.0))
     # T-test vs zero (for positive lag should be non-zero)
@@ -551,7 +569,9 @@ def quantify_positive_control(
         "p_vs_true": p_true,
         "valid": True,
         "success": success,
-        "peak_corrs_mean": float(np.mean(peak_corrs[mask])) if peak_corrs is not None and len(peak_corrs[mask])>0 else float("nan"),
+        "peak_corrs_mean": float(np.mean(peak_corrs[mask]))
+        if peak_corrs is not None and len(peak_corrs[mask]) > 0
+        else float("nan"),
     }
 
 
@@ -598,8 +618,8 @@ def quantify_null_control(
         # Use peak_corr magnitude
         fp_per_trial = np.mean((np.abs(lags) > lag_threshold_ms) & (np.abs(corrs) > corr_threshold))
         fp_per_trial = float(fp_per_trial)
-        mean_abs_corr = float(np.mean(np.abs(corrs))) if len(corrs)>0 else float("nan")
-        max_corr = float(np.max(np.abs(corrs))) if len(corrs)>0 else float("nan")
+        mean_abs_corr = float(np.mean(np.abs(corrs))) if len(corrs) > 0 else float("nan")
+        max_corr = float(np.max(np.abs(corrs))) if len(corrs) > 0 else float("nan")
     else:
         fp_per_trial = float(np.mean(np.abs(lags) > lag_threshold_ms))
         mean_abs_corr = float("nan")
@@ -610,7 +630,9 @@ def quantify_null_control(
     prop_within_10 = float(np.mean(np.abs(lags) <= 10.0))
     prop_within_5 = float(np.mean(np.abs(lags) <= 5.0))
     # False positive at ensemble level: declaring significant fixed lag when p<0.05 and |mean|>threshold
-    ensemble_fp = bool(p_val < 0.05 and abs(mean_lag) > lag_threshold_ms) if np.isfinite(p_val) else False
+    ensemble_fp = (
+        bool(p_val < 0.05 and abs(mean_lag) > lag_threshold_ms) if np.isfinite(p_val) else False
+    )
     return {
         "n": int(len(lags)),
         "mean_lag_ms": mean_lag,
@@ -632,6 +654,7 @@ def quantify_null_control(
 # ---------------------------------------------------------------------------
 # Full T7 ensemble analysis (position-aware)
 # ---------------------------------------------------------------------------
+
 
 def _pearson_p(r: float, n: int) -> float:
     if not np.isfinite(r) or n < 3 or abs(r) >= 1:
@@ -694,7 +717,7 @@ def compute_t7(
     # Validate pairs
     for a, b in pairs:
         if a not in area_to_idx or b not in area_to_idx:
-            raise ValueError(f"pair {(a,b)} not in areas {areas}")
+            raise ValueError(f"pair {(a, b)} not in areas {areas}")
     positions = ("p2", "p3", "p4")
     band_note = "not spectral; T7 is cross-area lag (field/rate) — window_ms and max_lag_ms frozen"
 
@@ -749,7 +772,9 @@ def compute_t7(
                 else:
                     x = rate[t_idx, ai, i0c:i1c]
                     y = rate[t_idx, bj, i0c:i1c]
-                    res = estimate_lag_single(x, y, fs_hz, max_lag_ms=max_lag_ms, normalize=normalize)
+                    res = estimate_lag_single(
+                        x, y, fs_hz, max_lag_ms=max_lag_ms, normalize=normalize
+                    )
                     lag_ms = float(res["peak_lag_ms"]) if res["valid"] else float("nan")
                     corr = float(res["peak_corr"]) if res["valid"] else float("nan")
                     valid = bool(res["valid"])
@@ -794,20 +819,31 @@ def compute_t7(
                 except Exception:
                     t_stat, p_val = float("nan"), float("nan")
                 # IQR
-                q25, q75 = float(np.percentile(lags_finite, 25)), float(np.percentile(lags_finite, 75))
+                q25, q75 = (
+                    float(np.percentile(lags_finite, 25)),
+                    float(np.percentile(lags_finite, 75)),
+                )
                 iqr = q75 - q25
                 # Proportion within thresholds
                 prop_within_5 = float(np.mean(np.abs(lags_finite) <= 5.0))
                 prop_within_10 = float(np.mean(np.abs(lags_finite) <= 10.0))
                 prop_within_20 = float(np.mean(np.abs(lags_finite) <= 20.0))
                 # Robust dispersion vs max_lag
-                mean_abs_corr = float(np.mean(np.abs(corrs_finite))) if len(corrs_finite)>0 else float("nan")
-                max_abs_corr = float(np.max(np.abs(corrs_finite))) if len(corrs_finite)>0 else float("nan")
+                mean_abs_corr = (
+                    float(np.mean(np.abs(corrs_finite))) if len(corrs_finite) > 0 else float("nan")
+                )
+                max_abs_corr = (
+                    float(np.max(np.abs(corrs_finite))) if len(corrs_finite) > 0 else float("nan")
+                )
                 # Falsification: if strong fixed lag, p<0.05 and |mean|>threshold and std small
-                has_fixed_lag = bool(p_val < 0.05 and abs(mean_lag) > 5.0 and sd_lag < 30.0) if np.isfinite(p_val) else False
+                has_fixed_lag = (
+                    bool(p_val < 0.05 and abs(mean_lag) > 5.0 and sd_lag < 30.0)
+                    if np.isfinite(p_val)
+                    else False
+                )
             else:
-                mean_lag = float(np.mean(lags_finite)) if n_finite>0 else float("nan")
-                median_lag = float(np.median(lags_finite)) if n_finite>0 else float("nan")
+                mean_lag = float(np.mean(lags_finite)) if n_finite > 0 else float("nan")
+                median_lag = float(np.median(lags_finite)) if n_finite > 0 else float("nan")
                 sd_lag = float("nan")
                 se_lag = float("nan")
                 ci_lo, ci_hi = float("nan"), float("nan")
@@ -824,8 +860,18 @@ def compute_t7(
                 m = np.isfinite(arr)
                 a = arr[m]
                 if len(a) == 0:
-                    return {"mean": float("nan"), "median": float("nan"), "sd": float("nan"), "n": 0}
-                return {"mean": float(a.mean()), "median": float(np.median(a)), "sd": float(a.std(ddof=1)) if len(a)>1 else 0.0, "n": int(len(a))}
+                    return {
+                        "mean": float("nan"),
+                        "median": float("nan"),
+                        "sd": float("nan"),
+                        "n": 0,
+                    }
+                return {
+                    "mean": float(a.mean()),
+                    "median": float(np.median(a)),
+                    "sd": float(a.std(ddof=1)) if len(a) > 1 else 0.0,
+                    "n": int(len(a)),
+                }
 
             subset_om = _subset_stats(peak_lags_om)
             subset_intact = _subset_stats(peak_lags_intact)
@@ -846,11 +892,11 @@ def compute_t7(
                 "mean_lag_ms": mean_lag,
                 "median_lag_ms": median_lag,
                 "sd_lag_ms": sd_lag,
-                "se_lag_ms": se_lag if 'se_lag' in locals() else float("nan"),
+                "se_lag_ms": se_lag if "se_lag" in locals() else float("nan"),
                 "ci95_mean": [float(ci_lo), float(ci_hi)],
                 "q25_ms": q25,
                 "q75_ms": q75,
-                "iqr_ms": iqr if 'iqr' in locals() else float("nan"),
+                "iqr_ms": iqr if "iqr" in locals() else float("nan"),
                 "t_vs_zero": t_stat,
                 "p_vs_zero": p_val,
                 "prop_within_5ms": prop_within_5,
@@ -920,7 +966,7 @@ def compute_t7(
             except Exception:
                 t_stat, p_val = float("nan"), float("nan")
         else:
-            m = float(pf.mean()) if len(pf)>0 else float("nan")
+            m = float(pf.mean()) if len(pf) > 0 else float("nan")
             sd = float("nan")
             t_stat, p_val = float("nan"), float("nan")
         pooled_stats[pair_str] = {
@@ -936,12 +982,14 @@ def compute_t7(
 
     # Denominators
     denominators: Dict[str, Any] = {}
+    om_sets = {pos: set(OMISSION_POSITIONS[pos]) for pos in positions}
+    intact_set = set(OMISSION_POSITIONS["intact"])
     for pos in positions:
         denominators[pos] = {
             "omission_conditions": sorted(OMISSION_POSITIONS[pos]),
             "intact_conditions": sorted(OMISSION_POSITIONS["intact"]),
-            "n_omission_trials": int(np.sum([c in set(OMISSION_POSITIONS[pos]) for c in trial_conditions])),
-            "n_intact_trials": int(np.sum([c in set(OMISSION_POSITIONS["intact"]) for c in trial_conditions])),
+            "n_omission_trials": int(np.sum([c in om_sets[pos] for c in trial_conditions])),
+            "n_intact_trials": int(np.sum([c in intact_set for c in trial_conditions])),
         }
     denominators["total_trials"] = n_trials
     denominators["pairs"] = [list(p) for p in pairs]
@@ -988,6 +1036,7 @@ def compute_t7(
 # ---------------------------------------------------------------------------
 # Artifact orchestration
 # ---------------------------------------------------------------------------
+
 
 def build_rate_from_signals(
     signals: List[Any],
@@ -1072,10 +1121,14 @@ def run_t7_analysis(
     if dt_ms is None:
         dt_ms = 1000.0 / fs_hz if fs_hz else 1.0
     t7 = compute_t7(
-        rate, trial_conditions,
-        fs_hz=fs_hz, dt_ms=dt_ms,
-        areas=areas, window_ms=window_ms,
-        max_lag_ms=max_lag_ms, pairs=pairs,
+        rate,
+        trial_conditions,
+        fs_hz=fs_hz,
+        dt_ms=dt_ms,
+        areas=areas,
+        window_ms=window_ms,
+        max_lag_ms=max_lag_ms,
+        pairs=pairs,
     )
 
     # Build light JSON (without heavy per-trial 3D arrays full, but include summaries)
@@ -1118,6 +1171,7 @@ def run_t7_analysis(
         out.mkdir(parents=True, exist_ok=True)
         # JSON
         json_path = out / "t7_summary.json"
+
         def _json_safe(o):
             if isinstance(o, np.ndarray):
                 return o.tolist()
@@ -1126,6 +1180,7 @@ def run_t7_analysis(
             if isinstance(o, np.bool_):
                 return bool(o)
             raise TypeError(type(o))
+
         with open(json_path, "w") as f:
             json.dump(combined, f, indent=2, default=_json_safe)
         artifact_paths["json"] = str(json_path)
@@ -1139,7 +1194,9 @@ def run_t7_analysis(
             per_trial_position_valid=t7["per_trial_position_valid"],
             trial_conditions=np.array(trial_conditions, dtype=object),
             areas=np.array(list(areas), dtype=object),
-            pairs=np.array([f"{a}-{b}" for a, b in (pairs if pairs is not None else t7["pairs"])], dtype=object),
+            pairs=np.array(
+                [f"{a}-{b}" for a, b in (pairs if pairs is not None else t7["pairs"])], dtype=object
+            ),
             fs_hz=np.array(fs_hz),
             dt_ms=np.array(dt_ms),
             window_ms=np.array(window_ms),
@@ -1157,8 +1214,12 @@ def run_t7_analysis(
             pair_str = f"{pair[0]}-{pair[1]}"
             for pj, pos in enumerate(positions):
                 stats = t7["per_position"][pos]["pair_stats"][pair_str]
-                mean_lag_mat[pi, pj] = stats["mean_lag_ms"] if np.isfinite(stats["mean_lag_ms"]) else np.nan
-                sd_lag_mat[pi, pj] = stats["sd_lag_ms"] if np.isfinite(stats["sd_lag_ms"]) else np.nan
+                mean_lag_mat[pi, pj] = (
+                    stats["mean_lag_ms"] if np.isfinite(stats["mean_lag_ms"]) else np.nan
+                )
+                sd_lag_mat[pi, pj] = (
+                    stats["sd_lag_ms"] if np.isfinite(stats["sd_lag_ms"]) else np.nan
+                )
                 p_mat[pi, pj] = stats["p_vs_zero"] if np.isfinite(stats["p_vs_zero"]) else np.nan
         npy_mean = out / "t7_mean_lag_pair_x_position.npy"
         npy_sd = out / "t7_sd_lag_pair_x_position.npy"
@@ -1189,6 +1250,7 @@ def run_t7_analysis(
 # Controls orchestration for closure
 # ---------------------------------------------------------------------------
 
+
 def run_controls_validation(
     *,
     n_trials: int = 24,
@@ -1213,8 +1275,12 @@ def run_controls_validation(
     positive: Dict[str, Any] = {}
     for true_lag in true_lag_ms_list:
         rate_pair = synthesize_rate_pair(
-            n_trials=n_trials, n_time=n_time, fs_hz=fs_hz,
-            true_lag_ms=true_lag, noise_std=noise_std, autocor=0.92,
+            n_trials=n_trials,
+            n_time=n_time,
+            fs_hz=fs_hz,
+            true_lag_ms=true_lag,
+            noise_std=noise_std,
+            autocor=0.92,
             rng_seed=int(abs(true_lag * 10 + 7) % 10000),
         )
         # Use estimator on each trial's pair
@@ -1228,7 +1294,9 @@ def run_controls_validation(
             peak_corrs.append(float(res["peak_corr"]) if res["valid"] else float("nan"))
         peak_lags_arr = np.array(peak_lags)
         peak_corrs_arr = np.array(peak_corrs)
-        quant = quantify_positive_control(peak_lags_arr, true_lag_ms=true_lag, peak_corrs=peak_corrs_arr)
+        quant = quantify_positive_control(
+            peak_lags_arr, true_lag_ms=true_lag, peak_corrs=peak_corrs_arr
+        )
         positive[str(true_lag)] = {
             "true_lag_ms": true_lag,
             "peak_lags_ms": peak_lags,
@@ -1239,8 +1307,12 @@ def run_controls_validation(
 
     # No-lag control (true 0)
     rate_nolag = synthesize_rate_nolag(
-        n_trials=n_trials, n_time=n_time, fs_hz=fs_hz, n_areas=2,
-        noise_std=noise_std, rng_seed=123,
+        n_trials=n_trials,
+        n_time=n_time,
+        fs_hz=fs_hz,
+        n_areas=2,
+        noise_std=noise_std,
+        rng_seed=123,
     )
     lags_nolag: List[float] = []
     corrs_nolag: List[float] = []
@@ -1261,8 +1333,12 @@ def run_controls_validation(
 
     # Null control (independent)
     rate_null = synthesize_rate_null(
-        n_trials=n_trials, n_time=n_time, fs_hz=fs_hz, n_areas=2,
-        noise_std=noise_std, rng_seed=999,
+        n_trials=n_trials,
+        n_time=n_time,
+        fs_hz=fs_hz,
+        n_areas=2,
+        noise_std=noise_std,
+        rng_seed=999,
     )
     lags_null: List[float] = []
     corrs_null: List[float] = []
@@ -1282,13 +1358,13 @@ def run_controls_validation(
     }
 
     # Aggregate success criteria
-    positive_success = all(
-        positive[k]["quant"]["success"] is True for k in positive
-    )
+    positive_success = all(positive[k]["quant"]["success"] is True for k in positive)
     nolag_success = bool(quant_nolag["mae_ms"] <= 5.0 and quant_nolag["frac_within_5ms"] >= 0.6)
-    null_success = bool(
-        quant_null["p_vs_zero"] > 0.05 or quant_null["false_positive_per_trial"] < 0.2
-    ) if np.isfinite(quant_null["p_vs_zero"]) else bool(quant_null["false_positive_per_trial"] < 0.3)
+    null_success = (
+        bool(quant_null["p_vs_zero"] > 0.05 or quant_null["false_positive_per_trial"] < 0.2)
+        if np.isfinite(quant_null["p_vs_zero"])
+        else bool(quant_null["false_positive_per_trial"] < 0.3)
+    )
     # For null, also expect std large (>20ms) indicating no concentration, and mean near 0
     results["aggregate"] = {
         "positive_success": bool(positive_success),
@@ -1322,6 +1398,7 @@ def run_controls_validation(
         out.mkdir(parents=True, exist_ok=True)
         # Save JSON
         json_path = out / "t7_controls_validation.json"
+
         def _js(o):
             if isinstance(o, np.ndarray):
                 return o.tolist()
@@ -1332,6 +1409,7 @@ def run_controls_validation(
             if isinstance(o, np.generic):
                 return o.item()
             raise TypeError(type(o))
+
         with open(json_path, "w") as f:
             json.dump(results, f, indent=2, default=_js)
         artifact_paths["json"] = str(json_path)
@@ -1356,4 +1434,3 @@ def run_controls_validation(
         results["artifacts"] = artifact_paths
 
     return results
-

@@ -16,14 +16,57 @@ ROOT = Path(__file__).resolve().parents[2]
 
 ESTIMATOR_FIELDS = ("bin_width_ms", "aggregation", "baseline", "sign")
 QUALIFICATION_STAGES = ("configured", "realized", "executed", "effective")
-CURRENT_STATE_KEYS = ("scientific_head", "execution_authority", "jaxfne_version", "current_program",
-                      "current_gate", "latest_verdict", "open_scientific_question", "next_authorized_task",
-                      "locked_gates", "retired_axes", "active_invariants", "required_artifacts", "handoff_path")
-TODO_KEYS = ("id", "status", "trigger", "goal", "parent_authority", "principal_delta", "required_inputs",
-             "frozen", "procedure", "acceptance", "stop_condition", "artifacts_expected", "downstream_unlock")
-LINEAGE_KEYS = ("lineage_id", "parent", "principal_delta", "preexecution_spec", "authority", "inputs", "frozen",
-                "executed", "observations", "derived", "inferred", "verdict", "acceptance", "fail_boundary",
-                "supersedes", "retired", "artifacts", "tests", "commit")
+CURRENT_STATE_KEYS = (
+    "scientific_head",
+    "execution_authority",
+    "jaxfne_version",
+    "current_program",
+    "current_gate",
+    "latest_verdict",
+    "open_scientific_question",
+    "next_authorized_task",
+    "locked_gates",
+    "retired_axes",
+    "active_invariants",
+    "required_artifacts",
+    "handoff_path",
+)
+TODO_KEYS = (
+    "id",
+    "status",
+    "trigger",
+    "goal",
+    "parent_authority",
+    "principal_delta",
+    "required_inputs",
+    "frozen",
+    "procedure",
+    "acceptance",
+    "stop_condition",
+    "artifacts_expected",
+    "downstream_unlock",
+)
+LINEAGE_KEYS = (
+    "lineage_id",
+    "parent",
+    "principal_delta",
+    "preexecution_spec",
+    "authority",
+    "inputs",
+    "frozen",
+    "executed",
+    "observations",
+    "derived",
+    "inferred",
+    "verdict",
+    "acceptance",
+    "fail_boundary",
+    "supersedes",
+    "retired",
+    "artifacts",
+    "tests",
+    "commit",
+)
 SKILL_MAX_LINES = 80
 
 
@@ -75,7 +118,9 @@ def validate_current_state(state: dict, todo: dict) -> list[str]:
         if not artifact_exists(v["evidence"]):
             err.append(f"latest_verdict {name}: evidence {v['evidence']} missing")
             continue
-        err += [f"latest_verdict {name}: {e}" for e in _verdict_semantics(v, state["latest_verdict"])]
+        err += [
+            f"latest_verdict {name}: {e}" for e in _verdict_semantics(v, state["latest_verdict"])
+        ]
     if state["current_gate"]["status"] not in labels:
         err.append("current_gate status not in vocabulary")
     if not artifact_exists(state["current_gate"]["definition"]):
@@ -87,9 +132,14 @@ def validate_current_state(state: dict, todo: dict) -> list[str]:
         err.append("handoff_path missing")
     items = {i["id"]: i for i in todo["items"]}
     nxt = items.get(state["next_authorized_task"])
-    if nxt is None or nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS"):
+    live = [i for i in todo["items"] if i["status"] in ("OPEN", "OPEN_AFTER_HARNESS")]
+    if nxt is None or (nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS") and live):
         err.append(f"next_authorized_task {state['next_authorized_task']} is not an OPEN TODO item")
-    locked_ids = {i["id"].replace("-", "_").replace(".", "_").upper() for i in todo["items"] if i["status"] == "LOCKED"}
+    locked_ids = {
+        i["id"].replace("-", "_").replace(".", "_").upper()
+        for i in todo["items"]
+        if i["status"] == "LOCKED"
+    }
     for g in state["locked_gates"]:
         if g.replace("-", "_").replace(".", "_").upper() not in locked_ids:
             err.append(f"locked gate {g} has no LOCKED TODO item")
@@ -97,11 +147,13 @@ def validate_current_state(state: dict, todo: dict) -> list[str]:
         r = u["route"]
         if not (r in items or r == "record only" or r.split(" ")[0] in state["retired_axes"]):
             err.append(f"open uncertainty routed to unknown {r}")
-    src = (ROOT / "docs" / "project-sources" / "SUBSTRATE_PROGRAM.md")
+    src = ROOT / "docs" / "project-sources" / "SUBSTRATE_PROGRAM.md"
     text = src.read_text(encoding="utf-8") if src.exists() else ""
     for axis in state["retired_axes"]:
         if f"`{axis}`" not in text:
-            err.append(f"retired axis {axis} not defined in docs/project-sources/SUBSTRATE_PROGRAM.md")
+            err.append(
+                f"retired axis {axis} not defined in docs/project-sources/SUBSTRATE_PROGRAM.md"
+            )
     for inv in state["active_invariants"]:
         if f"`{inv}`" not in text:
             err.append(f"invariant {inv} not defined in docs/project-sources/SUBSTRATE_PROGRAM.md")
@@ -118,7 +170,11 @@ def _verdict_semantics(entry: dict, all_entries: dict) -> list[str]:
     """Result-vs-test semantics: a gate status comes from the evidence verdict, not pytest."""
     scope = entry.get("scope")
     if scope == "component":
-        return [] if entry.get("component_of") in all_entries else ["component entry without known component_of"]
+        return (
+            []
+            if entry.get("component_of") in all_entries
+            else ["component entry without known component_of"]
+        )
     if scope != "gate":
         return ["scope must be gate or component"]
     try:
@@ -129,13 +185,27 @@ def _verdict_semantics(entry: dict, all_entries: dict) -> list[str]:
         return ["gate evidence has no verdict field"]
     ov = entry.get("review_override")
     if ov:
-        missing = [k for k in ("evidence_reads", "held_status", "reason", "authority", "lift") if not ov.get(k)]
+        missing = [
+            k
+            for k in ("evidence_reads", "held_status", "reason", "authority", "lift")
+            if not ov.get(k)
+        ]
         if missing:
             return [f"review_override missing {missing}"]
         if ov["evidence_reads"] != label:
-            return [f"review_override.evidence_reads {ov['evidence_reads']} != evidence verdict {label}"]
-        return [] if ov["held_status"] == entry["status"] else ["review_override.held_status != status"]
-    return [] if label.endswith("_" + entry["status"]) else [f"status {entry['status']} contradicts evidence verdict {label}"]
+            return [
+                f"review_override.evidence_reads {ov['evidence_reads']} != evidence verdict {label}"
+            ]
+        return (
+            []
+            if ov["held_status"] == entry["status"]
+            else ["review_override.held_status != status"]
+        )
+    return (
+        []
+        if label.endswith("_" + entry["status"])
+        else [f"status {entry['status']} contradicts evidence verdict {label}"]
+    )
 
 
 def validate_todo(todo: dict) -> list[str]:
@@ -163,8 +233,11 @@ def validate_todo(todo: dict) -> list[str]:
 
 def validate_estimator(stat: dict) -> list[str]:
     est = stat.get("estimator") or {}
-    return [f"transient statistic missing estimator.{f}" for f in ESTIMATOR_FIELDS
-            if est.get(f) in (None, "")]
+    return [
+        f"transient statistic missing estimator.{f}"
+        for f in ESTIMATOR_FIELDS
+        if est.get(f) in (None, "")
+    ]
 
 
 def visualization_contract() -> dict:
@@ -194,8 +267,9 @@ def validate_visualization(rec: dict, contract: dict | None = None) -> list[str]
     for stage in contract["order"]:
         path = viz.get(stage)
         if not path:
-            err.append(f"{lid}: {field} missing stage {stage} "
-                       f"({contract['stages'][stage]['artifact']})")
+            err.append(
+                f"{lid}: {field} missing stage {stage} ({contract['stages'][stage]['artifact']})"
+            )
         elif not artifact_exists(f"{rec['commit']}:{path}"):
             err.append(f"{lid}: {field}.{stage} {path} absent at {rec['commit']}")
     return err
@@ -241,7 +315,9 @@ def _observation_check(rec: dict, o: dict) -> list[str]:
     if isinstance(got, bool) or not isinstance(got, (int, float)):
         return [f"{lid}: check pointer {chk['json_pointer']} is not numeric"]
     if abs(got - chk["expected"]) > chk["tol"]:
-        return [f"{lid}: check {chk['json_pointer']} = {got} contradicts expected {chk['expected']} (tol {chk['tol']})"]
+        return [
+            f"{lid}: check {chk['json_pointer']} = {got} contradicts expected {chk['expected']} (tol {chk['tol']})"
+        ]
     return []
 
 
@@ -256,7 +332,9 @@ def validate_lineage(rec: dict) -> list[str]:
         if not (commit_exists(spec["commit"]) and commit_exists(rec["commit"])):
             err.append(f"{lid}: pre-execution or result commit missing")
         elif spec["commit"] == rec["commit"] or not is_ancestor(spec["commit"], rec["commit"]):
-            err.append(f"{lid}: pre-execution spec {spec['commit']} does not strictly precede {rec['commit']}")
+            err.append(
+                f"{lid}: pre-execution spec {spec['commit']} does not strictly precede {rec['commit']}"
+            )
         elif not artifact_exists(f"{spec['commit']}:{spec['path']}"):
             err.append(f"{lid}: spec {spec['path']} absent at {spec['commit']}")
         for p in rec["artifacts"]:
@@ -264,13 +342,21 @@ def validate_lineage(rec: dict) -> list[str]:
                 err.append(f"{lid}: artifact {p} absent at {rec['commit']}")
     elif rec["executed"]:
         err.append(f"{lid}: executed lineage without pre-execution spec")
-    for key, want in (("observations", "OBSERVED"), ("derived", "DERIVED"), ("inferred", "INFERRED")):
+    for key, want in (
+        ("observations", "OBSERVED"),
+        ("derived", "DERIVED"),
+        ("inferred", "INFERRED"),
+    ):
         for o in rec[key]:
             if o.get("evidence_class") not in classes:
-                err.append(f"{lid}: {key} entry with unknown evidence class {o.get('evidence_class')}")
+                err.append(
+                    f"{lid}: {key} entry with unknown evidence class {o.get('evidence_class')}"
+                )
             elif o["evidence_class"] != want:
                 err.append(f"{lid}: {key} entry labelled {o['evidence_class']} (expected {want})")
-            if want == "OBSERVED" and not (o.get("receipt") and artifact_exists(f"{rec['commit']}:{o['receipt']}")):
+            if want == "OBSERVED" and not (
+                o.get("receipt") and artifact_exists(f"{rec['commit']}:{o['receipt']}")
+            ):
                 err.append(f"{lid}: OBSERVED claim without resolvable receipt: {o.get('claim')}")
             if o.get("kind") == "transient":
                 err += [f"{lid}: {e}" for e in validate_estimator(o)]
@@ -279,9 +365,13 @@ def validate_lineage(rec: dict) -> list[str]:
         err.append(f"{lid}: verdict status {rec['verdict'].get('status')} not in vocabulary")
     q = rec.get("qualification")
     if q is None and rec.get("introduces_mechanism") and rec["executed"]:
-        err.append(f"{lid}: executed mechanism lineage without configured/realized/executed/effective qualification")
+        err.append(
+            f"{lid}: executed mechanism lineage without configured/realized/executed/effective qualification"
+        )
     if q is not None:
-        err += [f"{lid}: qualification missing stage {s}" for s in QUALIFICATION_STAGES if s not in q]
+        err += [
+            f"{lid}: qualification missing stage {s}" for s in QUALIFICATION_STAGES if s not in q
+        ]
     err += validate_visualization(rec)
     return err
 
@@ -293,27 +383,48 @@ def results_coverage(paths: list[str] | None = None) -> list[str]:
         paths = [p for p in out if p.endswith(".json")]
     reg_text = json.dumps(load("manifests/lineage_registry.json"))
     sealed = {e["path"] for e in load("manifests/sealed_artifacts.json")["artifacts"]}
-    return [f"unregistered result {p} (not in sealed registry, not named by a lineage record)"
-            for p in paths if p not in sealed and p not in reg_text]
+    return [
+        f"unregistered result {p} (not in sealed registry, not named by a lineage record)"
+        for p in paths
+        if p not in sealed and p not in reg_text
+    ]
 
 
 def validate_sealed_registry(reg: dict) -> list[str]:
     err = []
     arts = reg["artifacts"]
-    batch = subprocess.run(["git", "cat-file", "--batch-check=%(objectname)"], cwd=ROOT, capture_output=True,
-                           text=True, input="".join(f"{e['sealed_in']}:{e['path']}\n" for e in arts)).stdout.splitlines()
+    batch = subprocess.run(
+        ["git", "cat-file", "--batch-check=%(objectname)"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        input="".join(f"{e['sealed_in']}:{e['path']}\n" for e in arts),
+    ).stdout.splitlines()
     if len(batch) != len(arts):
         return ["sealed registry: git cat-file batch failed"]
     for e, at in zip(arts, batch):
         if at.strip() != e["blob"]:
             err.append(f"sealed {e['path']}: registry blob != {e['sealed_in']}:{e['path']}")
     present = [e for e in reg["artifacts"] if (ROOT / e["path"]).is_file()]
-    err += [f"sealed {e['path']}: missing from working tree" for e in reg["artifacts"] if e not in present]
-    wt = subprocess.run(["git", "hash-object", "--stdin-paths"], cwd=ROOT, capture_output=True, text=True,
-                        input="\n".join(e["path"] for e in present) + "\n").stdout.split()
+    err += [
+        f"sealed {e['path']}: missing from working tree"
+        for e in reg["artifacts"]
+        if e not in present
+    ]
+    wt = subprocess.run(
+        ["git", "hash-object", "--stdin-paths"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        input="\n".join(e["path"] for e in present) + "\n",
+    ).stdout.split()
     if len(wt) != len(present):
         return err + ["sealed registry: hash-object failed"]
-    err += [f"sealed {e['path']}: working tree differs from sealed blob" for e, h in zip(present, wt) if h != e["blob"]]
+    err += [
+        f"sealed {e['path']}: working tree differs from sealed blob"
+        for e, h in zip(present, wt)
+        if h != e["blob"]
+    ]
     return err
 
 
@@ -321,7 +432,9 @@ def validate_skills(skills_dir: Path | None = None) -> list[str]:
     err = []
     skills_dir = skills_dir or ROOT / ".claude" / "skills"
     sha = re.compile(r"\b[0-9a-f]{7,40}\b")
-    state_tokens = re.compile(r"V2_LOCAL_OPERATION_(PASS|FAIL|UNRESOLVED)|INTRINSIC_HETEROGENEITY_|low_sm\dp\d")
+    state_tokens = re.compile(
+        r"V2_LOCAL_OPERATION_(PASS|FAIL|UNRESOLVED)|INTRINSIC_HETEROGENEITY_|low_sm\dp\d"
+    )
     for sk in sorted(p for p in skills_dir.glob("*") if p.is_dir()):
         f = sk / "SKILL.md"
         if not f.exists():

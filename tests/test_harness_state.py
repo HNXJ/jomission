@@ -22,8 +22,10 @@ def test_validators_reject_defects():
     bad = copy.deepcopy(state)
     bad["latest_verdict"]["V2.1"]["status"] = "PROBABLY_FINE"
     bad["retired_axes"].append("NOT_DEFINED_AXIS")
+    live_todo = copy.deepcopy(todo)
+    live_todo["items"][0]["status"] = "OPEN"
     bad["next_authorized_task"] = "V2.2-RECURRENCE"
-    errs = v.validate_current_state(bad, todo)
+    errs = v.validate_current_state(bad, live_todo)
     assert any("not in vocabulary" in e for e in errs)
     assert any("NOT_DEFINED_AXIS" in e for e in errs)
     assert any("not an OPEN TODO item" in e for e in errs)

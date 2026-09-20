@@ -13,7 +13,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = json.load(open(ROOT / "results" / "propagation_trajectory_spec.json"))
-BASE = "results/whole_system_causal_g"
+BASE = "results/whole_system_causal_"
 OUT = ROOT / "results" / "propagation_trajectory.json"
 
 AREAS = ("V1_1", "V1_2", "V4_1", "V4_2", "FEF", "PFC")

@@ -286,6 +286,17 @@ def validate_lineage(rec: dict) -> list[str]:
     return err
 
 
+def results_coverage(paths: list[str] | None = None) -> list[str]:
+    """Every tracked results/*.json is in the sealed registry or named by a lineage record."""
+    if paths is None:
+        out = _git("ls-files", "results/").stdout.split()
+        paths = [p for p in out if p.endswith(".json")]
+    reg_text = json.dumps(load("manifests/lineage_registry.json"))
+    sealed = {e["path"] for e in load("manifests/sealed_artifacts.json")["artifacts"]}
+    return [f"unregistered result {p} (not in sealed registry, not named by a lineage record)"
+            for p in paths if p not in sealed and p not in reg_text]
+
+
 def validate_sealed_registry(reg: dict) -> list[str]:
     err = []
     arts = reg["artifacts"]

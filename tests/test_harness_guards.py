@@ -111,6 +111,14 @@ def test_lineage_observation_checks_value_match():
     assert any("check missing" in e for e in v._observation_check(rec, incomplete))
 
 
+def test_results_coverage_registered():
+    assert v.results_coverage() == []
+    planted = ["results/planted_unregistered.json", "results/v21_pv_m2.json"]
+    errs = v.results_coverage(planted)
+    assert errs == ["unregistered result results/planted_unregistered.json "
+                    "(not in sealed registry, not named by a lineage record)"]
+
+
 def test_project_skills_valid(tmp_path):
     assert v.validate_skills() == []
     sk = tmp_path / "bad-skill"

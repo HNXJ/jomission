@@ -560,9 +560,9 @@
      ]
     }
    },
-  {
-   "id": "HARNESS-REGISTRY-COVERAGE",
-   "status": "OPEN",
+   {
+    "id": "HARNESS-REGISTRY-COVERAGE",
+    "status": "DONE",
    "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
    "goal": "Detect new scientific result artifacts that lack lineage and seal registration",
    "parent_authority": "manifests/harness/checkpoint_1.json unresolved_defects",
@@ -574,14 +574,23 @@
    "frozen": [
     "results/*.json"
    ],
-   "procedure": "add coverage test with negative probe",
-   "acceptance": "tier 0 passes; a planted unregistered result fails",
-   "stop_condition": "no retroactive edits to results",
-   "artifacts_expected": [
-    "tests/test_harness_guards.py"
-   ],
-   "downstream_unlock": []
-  },
+    "procedure": "add coverage test with negative probe",
+    "acceptance": "tier 0 passes; a planted unregistered result fails",
+    "stop_condition": "no retroactive edits to results",
+    "artifacts_expected": [
+     "tests/test_harness_guards.py"
+    ],
+    "downstream_unlock": [],
+    "delivered": {
+     "verdict": "PASS",
+     "result": "jomission/harness/validate.py results_coverage",
+     "summary": "validate.py gains results_coverage: every tracked results/*.json must be in manifests/sealed_artifacts.json or named by a lineage record; the tier-0 test asserts the live tree is empty and a planted path fails. The check's first run found four unregistered files, none of which was edited: results/v21_background_design.json (BKG_DESIGN_UNRESOLVED, superseded by its r2), results/v21_pv_state_predecessor.json (the read-only analysis that preceded the instrumented rerun) and the two atlas manifest.json files of SCI-WS-OSC-1/2, which the viz contract's artifact list did not name. All four are registered additively in the sealed registry with the blob verified equal at their sealed_in commits; no result file was touched",
+     "receipts": [
+      "python -m pytest tests/test_harness_guards.py  (11 passed, including the planted-path negative)",
+      "python scripts/project_check.py  (sealed registry + coverage green)"
+     ]
+    }
+   },
   {
    "id": "HARNESS-SKILL-DOGFOOD",
    "status": "DONE",
@@ -1458,5 +1467,5 @@
     "downstream_unlock": []
    }
   ],
- "next_authorized_task": "HARNESS-REGISTRY-COVERAGE"
+ "next_authorized_task": "HD-WIN-FILELOCK"
 }

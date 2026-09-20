@@ -93,8 +93,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `HARNESS-REGISTRY-COVERAGE` (OPEN): Detect new scientific result artifacts that lack lineage and seal registration
-- stop: no retroactive edits to results
+- `HD-WIN-FILELOCK` (OPEN): Close memmaps before temp cleanup in t4_t5 and t7 artifact tests
+- stop: do not quarantine
 
 ### Locked gates
 

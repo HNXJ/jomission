@@ -1,0 +1,113 @@
+{
+ "spec": "results/whole_system_ei_recruitment_spec.json",
+ "lineage": "SCI-EI-RECRUITMENT-1",
+ "classes": {
+  "E": {
+   "n_cells": 1852,
+   "tonic": 2.2354,
+   "k_E_in": 121480,
+   "w_E_sum_per_cell": 0.360004,
+   "I_E_mean": 0.0003,
+   "I_I_split": {
+    "PV": -0.0,
+    "SST": -0.0002,
+    "VIP": -0.0
+   },
+   "I_I_mean": -0.0002,
+   "I_syn_retained": 4.9939,
+   "I_syn_excess_over_tonic": 2.7585,
+   "reconstruction_residual": -2.7584,
+   "residual_ok": false,
+   "I_net": 4.9939,
+   "I_net_max": 5.2516,
+   "I_net_frac_above_rheobase": 1.0,
+   "rate_hz": 10.6154,
+   "v_mean": -67.396,
+   "u_mean": -9.24,
+   "rheobase": 4.0,
+   "F_expected_at_I_net": 9.982
+  },
+  "PV": {
+   "n_cells": 156,
+   "tonic": 3.0,
+   "k_E_in": 21528,
+   "w_E_sum_per_cell": 0.64085,
+   "I_E_mean": 0.0007,
+   "I_I_split": {
+    "PV": -0.0,
+    "SST": -0.0004,
+    "VIP": -0.0
+   },
+   "I_I_mean": -0.0004,
+   "I_syn_retained": 2.9939,
+   "I_syn_excess_over_tonic": -0.0061,
+   "reconstruction_residual": 0.0064,
+   "residual_ok": false,
+   "I_net": 2.9939,
+   "I_net_max": 3.1869,
+   "I_net_frac_above_rheobase": 0.0,
+   "rate_hz": 0.0596,
+   "v_mean": -65.009,
+   "u_mean": -13.001,
+   "rheobase": 4.0,
+   "F_expected_at_I_net": 12.424
+  },
+  "SST": {
+   "n_cells": 102,
+   "tonic": 3.5,
+   "k_E_in": 14076,
+   "w_E_sum_per_cell": 0.640125,
+   "I_E_mean": 0.0007,
+   "I_I_split": {
+    "PV": -0.0,
+    "SST": -0.0004,
+    "VIP": -0.0
+   },
+   "I_I_mean": -0.0004,
+   "I_syn_retained": 3.4952,
+   "I_syn_excess_over_tonic": -0.0048,
+   "reconstruction_residual": 0.0051,
+   "residual_ok": false,
+   "I_net": 3.4952,
+   "I_net_max": 3.678,
+   "I_net_frac_above_rheobase": 1.0,
+   "rate_hz": 50.198,
+   "v_mean": -60.194,
+   "u_mean": -13.045,
+   "rheobase": 2.0,
+   "F_expected_at_I_net": 49.7
+  },
+  "VIP": {
+   "n_cells": 114,
+   "tonic": 3.0,
+   "k_E_in": 15732,
+   "w_E_sum_per_cell": 0.640026,
+   "I_E_mean": 0.0007,
+   "I_I_split": {
+    "PV": -0.0,
+    "SST": -0.0004,
+    "VIP": -0.0
+   },
+   "I_I_mean": -0.0004,
+   "I_syn_retained": 2.9933,
+   "I_syn_excess_over_tonic": -0.0067,
+   "reconstruction_residual": 0.0069,
+   "residual_ok": false,
+   "I_net": 2.9933,
+   "I_net_max": 3.1905,
+   "I_net_frac_above_rheobase": 0.0,
+   "rate_hz": 0.0488,
+   "v_mean": -85.868,
+   "u_mean": 8.593,
+   "rheobase": 24.0,
+   "F_expected_at_I_net": 0.0
+  }
+ },
+ "causes": {
+  "PV": "EI_RECRUITMENT_UNRESOLVED",
+  "VIP": "EI_RECRUITMENT_UNRESOLVED"
+ },
+ "verdict": "EI_RECRUITMENT_UNRESOLVED",
+ "fail_boundary": "PV: EI_RECRUITMENT_UNRESOLVED; VIP: EI_RECRUITMENT_UNRESOLVED",
+ "atlas": "results/viz/SCI-EI-RECRUITMENT-1/current_budget_atlas.png"
+}

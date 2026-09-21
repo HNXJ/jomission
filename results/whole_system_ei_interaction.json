@@ -1,0 +1,72 @@
+{
+ "spec": "results/whole_system_ei_interaction_spec.json",
+ "lineage": "SCI-EI-INTERACTION-1",
+ "cells": {
+  "baseline": {
+   "rates_full": {
+    "E": 10.6154,
+    "PV": 0.0621,
+    "SST": 50.1991,
+    "VIP": 0.0466
+   },
+   "viable": false,
+   "mode_present": true,
+   "mode_period_ms": 94.0
+  },
+  "w_only": {
+   "rates_full": {
+    "E": 10.6154,
+    "PV": 0.0621,
+    "SST": 50.2112,
+    "VIP": 0.0466
+   },
+   "viable": false,
+   "mode_present": true,
+   "mode_period_ms": 94.0
+  },
+  "a_only": {
+   "rates_full": {
+    "E": 10.6625,
+    "PV": 0.0621,
+    "SST": 29.2496,
+    "VIP": 0.0466
+   },
+   "viable": false,
+   "mode_present": true,
+   "mode_period_ms": 94.0
+  },
+  "both": {
+   "rates_full": {
+    "E": 10.6615,
+    "PV": 0.0621,
+    "SST": 29.2504,
+    "VIP": 0.0466
+   },
+   "viable": false,
+   "mode_present": true,
+   "mode_period_ms": 94.0
+  }
+ },
+ "decomposition": {
+  "delta_W": {
+   "E": 0.0,
+   "PV": 0.0,
+   "SST": 0.0121,
+   "VIP": 0.0
+  },
+  "delta_A": {
+   "E": 0.0471,
+   "PV": 0.0,
+   "SST": -20.9495,
+   "VIP": 0.0
+  },
+  "delta_WxA": {
+   "E": -0.001,
+   "PV": 0.0,
+   "SST": -0.0113,
+   "VIP": 0.0
+  }
+ },
+ "verdict": "EI_REGIME_STILL_UNRESOLVED",
+ "fail_boundary": "viability pattern across the four cells: baseline not viable, w_only not viable, a_only not viable, both not viable"
+}

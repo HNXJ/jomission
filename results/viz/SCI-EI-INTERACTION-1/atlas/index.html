@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCI-EI-INTERACTION-1 V3 atlas — intact E-I regime construction (g = 0)</title>
+<style>
+  body { background:#0d1117; color:#c9d1d9; margin:0; padding:32px 24px;
+         font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { font-size:22px; margin:0 0 6px; color:#f0f6fc; }
+  .sub { color:#8b949e; font-size:13px; margin-bottom:28px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .card { display:block; background:#161b22; border:1px solid #30363d; border-radius:8px;
+           padding:16px 18px; text-decoration:none; color:#c9d1d9; transition:border-color .15s; }
+  .card:hover { border-color:#58a6ff; }
+  .card.err { border-color:#d29922; }
+  .row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .name { font-weight:600; font-size:14px; color:#f0f6fc; }
+  .badge { font-size:10px; font-weight:600; color:#fff; padding:2px 8px; border-radius:10px; }
+  .meta { color:#8b949e; font-size:12px; margin-top:8px; line-height:1.5; }
+  code { background:#0d1117; padding:1px 5px; border-radius:4px; font-size:11px; }
+  @media (max-width:520px) { body { padding:20px 16px; } }
+</style></head><body><div class="wrap">
+<h1>SCI-EI-INTERACTION-1 V3 atlas — intact E-I regime construction (g = 0)</h1><div class="sub">2224 units · 246,844 edges · 7 areas (FEF, PFC, Retina, V1_1, V1_2, V4_1, V4_2) · 6 layers · 4 classes · dt 0.1 ms</div>
+<div class="grid"><a class="card" href="network_3d.html">
+      <div class="row"><span class="name">Network 3D</span>
+        <span class="badge" style="background:#238636">OBSERVED</span></div>
+      <div class="meta">Every unit at its own coordinates from model.</div>
+    </a><a class="card" href="raster.html">
+      <div class="row"><span class="name">Raster & population rate</span>
+        <span class="badge" style="background:#238636">OBSERVED</span></div>
+      <div class="meta">Each dot is one spike.</div>
+    </a><a class="card" href="membrane.html">
+      <div class="row"><span class="name">Membrane potential</span>
+        <span class="badge" style="background:#238636">OBSERVED</span></div>
+      <div class="meta">Raw traces, not averages: a spike appears as the reset discontinuity the integrator actually produced.</div>
+    </a><a class="card" href="field.html">
+      <div class="row"><span class="name">LFP & CSD</span>
+        <span class="badge" style="background:#1f6feb">DERIVED</span></div>
+      <div class="meta">Both are the engine's _proxy fields, not recorded potentials: they are computed from unit sources through field.</div>
+    </a><a class="card" href="connectivity.html">
+      <div class="row"><span class="name">Connectivity</span>
+        <span class="badge" style="background:#238636">OBSERVED</span></div>
+      <div class="meta">Each cell is the <b>sum of signed weights</b> over every edge in that block, so it reports net drive rather than edge count: a block with many balanced excitatory and inhibitory edges reads near zero and is not the same as an absent projection.</div>
+    </a><a class="card err" href="plasticity.html">
+      <div class="row"><span class="name">Plasticity</span>
+        <span class="badge" style="background:#238636">OBSERVED</span></div>
+      <div class="meta">required input was not present</div>
+    </a></div>
+</div></body></html>

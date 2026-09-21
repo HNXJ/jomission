@@ -91,8 +91,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `SCI-EI-INTERACTION-1` (DONE): determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial
-- stop: four cells, then STOP. No tuning after seeing the four cells; viability is classification against ratified bands, never a tuning target
+- `SCI-EI-RECRUITMENT-1` (OPEN): determine why PV and VIP receive insufficient effective drive to cross their firing boundary while SST fires strongly, by native-resolution current-budget measurement without modifying anything
+- stop: measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed and nothing is calibrated
 
 ### Locked gates
 

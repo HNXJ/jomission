@@ -165,8 +165,7 @@ def test_ei_recruitment():
             ax.axhline(rheo, linestyle=":", label="rheobase")
         e_t = np.zeros_like(t)
         for g in [x for x in groups if x.split(".")[-1] == "E" and not x.startswith("Retina")]:
-            gi = groups.index(g)
-            m = np.isin(pre, members[g]) & (cls_arr == c)
+            m = np.isin(pre, members[g]) & (cls_arr[post] == c)
             e_t = e_t + float(w[m].sum()) * np.asarray(grate[g]) * dt_s
         n_c = out["classes"][c]["n_cells"]
         ax.plot(t, e_t / max(n_c, 1), label="I_E(t)")

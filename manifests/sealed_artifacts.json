@@ -1942,10 +1942,15 @@
     "blob": "eb109a94a8389e65b17e7578c850b74d2b0bea03",
     "sealed_in": "0ecd095"
    },
-  {
-   "path": "results/viz/SCI-EI-RECRUITMENT-1/current_budget_atlas.png",
-   "blob": "fccb393383fef0c00573befd22f375713550dad1",
-   "sealed_in": "dd8d6c4"
-  }
- ]
+   {
+    "path": "results/viz/SCI-EI-RECRUITMENT-1/current_budget_atlas.png",
+    "blob": "fccb393383fef0c00573befd22f375713550dad1",
+    "sealed_in": "dd8d6c4"
+   },
+   {
+    "path": "results/jaxfne_0425_migration.json",
+    "blob": "da5889a06872965090bb98c84e10b0a2f42ce40c",
+    "sealed_in": "acd4289"
+   }
+  ]
 }

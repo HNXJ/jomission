@@ -8,11 +8,11 @@
   "note": "last scientific merge on main (V2.1 background chain: design, coupled background, PV stationarity); harness/state commits may follow",
   "unmerged_scientific_branches": {}
  },
- "execution_authority": {
-  "engine": "jaxfne",
-  "evidence": "results/jaxfne_0424_migration.json"
- },
- "jaxfne_version": "0.4.24",
+  "execution_authority": {
+   "engine": "jaxfne",
+   "evidence": "results/jaxfne_0425_migration.json"
+  },
+  "jaxfne_version": "0.4.25",
  "current_program": "Closeout program (owner 2026-09-19): empty the todo and problem stacks — harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons",
  "current_gate": {
   "id": "V2_LOCAL_OPERATION",

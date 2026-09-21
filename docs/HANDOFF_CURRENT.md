@@ -32,7 +32,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Authority
 
 - scientific head: main `be0db96`
-- execution: jaxfne 0.4.24 (`results/jaxfne_0424_migration.json`)
+- execution: jaxfne 0.4.25 (`results/jaxfne_0425_migration.json`)
 - program: Closeout program (owner 2026-09-19): empty the todo and problem stacks — harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons
 
 ### Current state
@@ -85,7 +85,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `JAXFNE-0425-MIGRATION` (OPEN): move execution authority and installed engine 0.4.24 to 0.4.25 with migration evidence; no scientific result recomputed except under an authorizing lineage
+- `JAXFNE-0425-MIGRATION` (DONE): move execution authority and installed engine 0.4.24 to 0.4.25 with migration evidence; no scientific result recomputed except under an authorizing lineage
 - stop: no tier-3 replay without an authorizing lineage; no sealed result rewritten
 
 ### Locked gates

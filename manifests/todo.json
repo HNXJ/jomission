@@ -1748,7 +1748,7 @@
     },
     {
      "id": "JAXFNE-0425-MIGRATION",
-     "status": "BLOCKED",
+     "status": "OPEN",
      "trigger": "owner 2026-09-21: adopt latest jaxfne 0.4.25",
      "goal": "move execution authority and installed engine 0.4.24 to 0.4.25 with migration evidence; no scientific result recomputed except under an authorizing lineage",
      "parent_authority": "owner order 2026-09-21; manifests/test_tiers.json change_class JaxFNE upgrade or environment change",
@@ -1768,8 +1768,8 @@
       "results/jaxfne_0425_migration.json"
      ],
      "downstream_unlock": [],
-     "blocked_by": "package availability unverified: pip index unreachable from this environment on 2026-09-21 (DNS getaddrinfo failed), so 0.4.25 cannot be fetched or inspected here"
+     "availability": "verified 2026-09-21: jaxfne 0.4.25 on the package index (0.4.24 installed); wheel fetched to session temp (657166 bytes). Read-only delta on touched surfaces: +3 new modules, nothing removed; io.py, _pipeline.py and _signals.py identical (config_hash, run_continuation, compile_step_fn, DynamicState and the current equation unchanged); emitters.py delta is HDP-kernel-only with bit-exactness claims; _model_simulate.py +17 threads aux/b traces on the HDP diag path only. All sealed lineages ran kernel=baseline, so the changed paths are outside sealed evidence"
     }
    ],
- "next_authorized_task": "SCI-EI-RECRUITMENT-1"
+ "next_authorized_task": "JAXFNE-0425-MIGRATION"
 }

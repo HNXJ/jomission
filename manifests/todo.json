@@ -1684,23 +1684,52 @@
      ],
      "blocked_by": "SCI-EI-INTERACTION-1 verdict plus reviewer authorization of the calibration design"
     },
-    {
-     "id": "SCI-PROP-QUALIFIED-1",
-     "status": "LOCKED",
-     "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",
-     "goal": "test ordered trajectory propagation in the AGSDR-defined viable regime",
-     "parent_authority": "owner 2026-09-19 assessment (order position 3)",
-     "principal_delta": "none yet",
-     "required_inputs": [
-      "results/propagation_trajectory.json"
-     ],
-     "frozen": [],
-     "procedure": "not authorized",
-     "acceptance": "spec acceptance",
-     "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
-     "artifacts_expected": [],
-     "downstream_unlock": []
-    }
-   ],
- "next_authorized_task": "SCI-EI-INTERACTION-1"
+   {
+    "id": "SCI-PROP-QUALIFIED-1",
+    "status": "LOCKED",
+    "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",
+    "goal": "test ordered trajectory propagation in the AGSDR-defined viable regime",
+    "parent_authority": "owner 2026-09-19 assessment (order position 3)",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "results/propagation_trajectory.json"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance",
+    "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+   {
+    "id": "SCI-EI-RECRUITMENT-1",
+    "status": "OPEN",
+    "trigger": "owner assessment 2026-09-19: the factorial removes mean E->I weight scale (PV/VIP unmoved by +18%) and adaptation magnitude (SST halved, PV/VIP unmoved) as explanations; PV 0.062 and VIP 0.047 Hz are invariant across all four cells, so move upstream from parameter magnitude to realized input and recruitment",
+    "goal": "determine why PV and VIP receive insufficient effective drive to cross their firing boundary while SST fires strongly, by native-resolution current-budget measurement without modifying anything",
+    "parent_authority": "owner 2026-09-19 assessment: measurement-first lineage with the quantities table, the accounting identity, six predeclared classifications, and the current-budget atlas as the critical artifact; no tonic, connectivity, weight or parameter changes",
+    "principal_delta": "none: measurement only. Instrumentation by retention of outputs the engine already returns; attribution by read-only analysis",
+    "required_inputs": [
+     "results/whole_system_ei_regime_diagnosis.json",
+     "results/whole_system_ei_interaction.json",
+     "results/battery_b1.json",
+     "jomission/qualification/b1_targets.py",
+     "manifests/agsdr_local_objectives.json"
+    ],
+    "frozen": [
+     "tonic, connectivity, weights and intrinsic parameters: nothing is modified by this lineage",
+     "B1 targets: reference only"
+    ],
+    "procedure": "first check whether the retained EI data suffices for every quantity (tonic from emitter arrays; K counts and w distributions from construction; I_syn totals, v, u, r from the retained 1 ms group series; isolated F_c(I) from the sealed battery_b1 curves; I_E and I_I splits reconstructed read-only from weights and rate series, or from the engine sources slot if it carries them); seal a pre-execution spec naming the quantities, the accounting identity I_net = tonic + I_E + I_I + noise, the six classifications and the atlas; if retention is insufficient for any quantity, the spec seals a retention re-run instead; execute once (analysis or authorized re-run); classify; STOP",
+    "acceptance": "the verdict is exactly one of E_I_RECRUITMENT_DEFICIT (E excitation reaching PV/VIP structurally tiny), INHIBITORY_VETO (excitation exists but inhibition cancels it), INTRINSIC_EXCITABILITY_LIMIT (adequate positive current but the cell stays below its firing boundary), STATE_DEPENDENT_RECRUITMENT_FAIL (transient threshold crossing without sustained firing), MIXED_RECRUITMENT_CAUSES (different mechanisms for PV and VIP), EI_RECRUITMENT_UNRESOLVED (none discriminates), computed from the accounting identity and boundary comparisons; the current-budget atlas exists with aligned I_E, I_I, I_net, v, u, r traces around firing opportunities",
+    "stop_condition": "measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed and nothing is calibrated",
+    "artifacts_expected": [
+     "results/whole_system_ei_recruitment_spec.json",
+     "results/whole_system_ei_recruitment.json"
+    ],
+    "downstream_unlock": [
+     "SCI-AGSDR-CALIBRATION"
+    ]
+   }
+  ],
+ "next_authorized_task": "SCI-EI-RECRUITMENT-1"
 }

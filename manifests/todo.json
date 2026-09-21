@@ -1745,7 +1745,31 @@
        "whether AGSDR calibration waits indefinitely or the reviewer redirects it"
       ]
      }
+    },
+    {
+     "id": "JAXFNE-0425-MIGRATION",
+     "status": "BLOCKED",
+     "trigger": "owner 2026-09-21: adopt latest jaxfne 0.4.25",
+     "goal": "move execution authority and installed engine 0.4.24 to 0.4.25 with migration evidence; no scientific result recomputed except under an authorizing lineage",
+     "parent_authority": "owner order 2026-09-21; manifests/test_tiers.json change_class JaxFNE upgrade or environment change",
+     "principal_delta": "engine version only",
+     "required_inputs": [
+      "manifests/current_state.json",
+      "results/jaxfne_0424_migration.json",
+      "manifests/test_tiers.json"
+     ],
+     "frozen": [
+      "all scientific outputs; gate thresholds; no tier-3 replay without an authorizing lineage"
+     ],
+     "procedure": "first verify 0.4.25 availability (package index reachable, changelog delta read); only then install, run tier 0+1+2, seal results/jaxfne_0425_migration.json, and update the execution authority; tier-3 replay only inside an authorizing lineage",
+     "acceptance": "project_check passes with installed, authority and evidence at 0.4.25; migration evidence sealed; tier 0+1+2 green",
+     "stop_condition": "no tier-3 replay without an authorizing lineage; no sealed result rewritten",
+     "artifacts_expected": [
+      "results/jaxfne_0425_migration.json"
+     ],
+     "downstream_unlock": [],
+     "blocked_by": "package availability unverified: pip index unreachable from this environment on 2026-09-21 (DNS getaddrinfo failed), so 0.4.25 cannot be fetched or inspected here"
     }
-  ],
+   ],
  "next_authorized_task": "SCI-EI-RECRUITMENT-1"
 }

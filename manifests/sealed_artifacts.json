@@ -1926,6 +1926,26 @@
    "path": "results/viz/SCI-EI-INTERACTION-1/atlas/manifest.json",
    "blob": "91d8f18d9b78759e4985d769c7cd9eec37247096",
    "sealed_in": "d846eff"
+  },
+  {
+   "path": "results/whole_system_ei_recruitment_spec.json",
+   "blob": "4860d8cb6bbfb43eb5084437fda3a117ba36e76e",
+   "sealed_in": "0ecd095"
+  },
+  {
+   "path": "results/whole_system_ei_recruitment.json",
+   "blob": "a5799a7f7988c491ba208f84f573821bbc5a0bd8",
+   "sealed_in": "dd8d6c4"
+  },
+   {
+    "path": "tests/test_ei_recruitment.py",
+    "blob": "eb109a94a8389e65b17e7578c850b74d2b0bea03",
+    "sealed_in": "0ecd095"
+   },
+  {
+   "path": "results/viz/SCI-EI-RECRUITMENT-1/current_budget_atlas.png",
+   "blob": "fccb393383fef0c00573befd22f375713550dad1",
+   "sealed_in": "dd8d6c4"
   }
  ]
 }

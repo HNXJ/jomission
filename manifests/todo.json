@@ -1703,7 +1703,7 @@
    },
    {
     "id": "SCI-EI-RECRUITMENT-1",
-    "status": "OPEN",
+    "status": "DONE",
     "trigger": "owner assessment 2026-09-19: the factorial removes mean E->I weight scale (PV/VIP unmoved by +18%) and adaptation magnitude (SST halved, PV/VIP unmoved) as explanations; PV 0.062 and VIP 0.047 Hz are invariant across all four cells, so move upstream from parameter magnitude to realized input and recruitment",
     "goal": "determine why PV and VIP receive insufficient effective drive to cross their firing boundary while SST fires strongly, by native-resolution current-budget measurement without modifying anything",
     "parent_authority": "owner 2026-09-19 assessment: measurement-first lineage with the quantities table, the accounting identity, six predeclared classifications, and the current-budget atlas as the critical artifact; no tonic, connectivity, weight or parameter changes",
@@ -1722,14 +1722,30 @@
     "procedure": "first check whether the retained EI data suffices for every quantity (tonic from emitter arrays; K counts and w distributions from construction; I_syn totals, v, u, r from the retained 1 ms group series; isolated F_c(I) from the sealed battery_b1 curves; I_E and I_I splits reconstructed read-only from weights and rate series, or from the engine sources slot if it carries them); seal a pre-execution spec naming the quantities, the accounting identity I_net = tonic + I_E + I_I + noise, the six classifications and the atlas; if retention is insufficient for any quantity, the spec seals a retention re-run instead; execute once (analysis or authorized re-run); classify; STOP",
     "acceptance": "the verdict is exactly one of E_I_RECRUITMENT_DEFICIT (E excitation reaching PV/VIP structurally tiny), INHIBITORY_VETO (excitation exists but inhibition cancels it), INTRINSIC_EXCITABILITY_LIMIT (adequate positive current but the cell stays below its firing boundary), STATE_DEPENDENT_RECRUITMENT_FAIL (transient threshold crossing without sustained firing), MIXED_RECRUITMENT_CAUSES (different mechanisms for PV and VIP), EI_RECRUITMENT_UNRESOLVED (none discriminates), computed from the accounting identity and boundary comparisons; the current-budget atlas exists with aligned I_E, I_I, I_net, v, u, r traces around firing opportunities",
     "stop_condition": "measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed and nothing is calibrated",
-    "artifacts_expected": [
-     "results/whole_system_ei_recruitment_spec.json",
-     "results/whole_system_ei_recruitment.json"
-    ],
-    "downstream_unlock": [
-     "SCI-AGSDR-CALIBRATION"
-    ]
-   }
+     "artifacts_expected": [
+      "results/whole_system_ei_recruitment_spec.json",
+      "results/whole_system_ei_recruitment.json"
+     ],
+     "downstream_unlock": [
+      "SCI-AGSDR-CALIBRATION"
+     ],
+     "delivered": {
+      "verdict": "EI_RECRUITMENT_UNRESOLVED",
+      "result": "results/whole_system_ei_recruitment.json",
+      "spec_commit": "0ecd095",
+      "result_commit": "dd8d6c4",
+      "summary": "all quantities evaluable read-only: no re-run. PV 0.0596 and VIP 0.0488 Hz with total drive 2.99 against rheobases 4.0 and 24.0; neither crosses transiently (maxima 3.19); the mean-field split is withheld by its residual gate (sign-flipped vs retained-minus-tonic). Per the ordered tests both classes match no cause: UNRESOLVED for both, verdict EI_RECRUITMENT_UNRESOLVED. The engine equation fixes the current semantics (retained current already is total drive): this corrects the EI diagnosis double-count additively without touching the sealed file, and its UNRESOLVED_MULTIPLE verdict stands unchanged. The current-budget atlas aligns all traces. STOP for review",
+      "receipts": [
+       "python -m pytest tests/test_ei_recruitment.py  (1 passed; verdict from predeclared rules only)",
+       "engine equation receipt: current = drive + schedule + synaptic + noise (jaxfne/emitters.py)",
+       "manifests/lineage_registry.json SCI-EI-RECRUITMENT-1 record with per-observation value checks"
+      ],
+      "reviewer_decisions_required": [
+       "whether per-neuron spike-level evidence or a different causal hypothesis follows",
+       "whether AGSDR calibration waits indefinitely or the reviewer redirects it"
+      ]
+     }
+    }
   ],
  "next_authorized_task": "SCI-EI-RECRUITMENT-1"
 }

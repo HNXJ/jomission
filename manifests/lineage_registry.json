@@ -2905,18 +2905,18 @@
    "fail_boundary": "the STILL_UNRESOLVED boundary: PV/VIP silence persists across the full factorial; the next question (if any) needs a different causal hypothesis, not a re-tuned repair",
    "supersedes": [],
    "retired": [],
-    "artifacts": [
-     "results/whole_system_ei_interaction_spec.json",
-     "results/whole_system_ei_interaction_intact_g000_on_s0_baseline.json",
-     "results/whole_system_ei_interaction_intact_g000_on_s0_w_only.json",
-     "results/whole_system_ei_interaction_intact_g000_on_s0_a_only.json",
-     "results/whole_system_ei_interaction_intact_g000_on_s0_both.json",
-     "results/whole_system_ei_interaction.json",
-     "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
-     "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
-     "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
-     "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
-    ],
+   "artifacts": [
+    "results/whole_system_ei_interaction_spec.json",
+    "results/whole_system_ei_interaction_intact_g000_on_s0_baseline.json",
+    "results/whole_system_ei_interaction_intact_g000_on_s0_w_only.json",
+    "results/whole_system_ei_interaction_intact_g000_on_s0_a_only.json",
+    "results/whole_system_ei_interaction_intact_g000_on_s0_both.json",
+    "results/whole_system_ei_interaction.json",
+    "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
+    "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
+    "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
+    "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
+   ],
    "tests": [],
    "commit": "d846eff",
    "visualization": {
@@ -2940,6 +2940,121 @@
     {
      "id": "EI-INTERACTION",
      "finding": "STILL_UNRESOLVED is delivered as the verdict with the boundary stated; per the owner order this blocks AGSDR calibration until a viable regime is defined elsewhere or the reviewer redirects"
+    }
+   ]
+  },
+  {
+   "lineage_id": "SCI-EI-RECRUITMENT-1",
+   "parent": "SCI-EI-INTERACTION-1",
+   "principal_delta": "none: measurement only. Native-resolution current budget over retained EI series, static construction arrays, and sealed F-I curves",
+   "preexecution_spec": {
+    "path": "results/whole_system_ei_recruitment_spec.json",
+    "commit": "0ecd095"
+   },
+   "authority": "owner 2026-09-19 assessment: measurement-first lineage with the quantities table, the accounting identity, six predeclared classifications, and the current-budget atlas; no modifications",
+   "inputs": [
+    "results/whole_system_ei_regime_diagnosis.json",
+    "results/whole_system_ei_interaction.json",
+    "results/battery_b1.json",
+    "jomission/qualification/b1_targets.py",
+    "manifests/agsdr_local_objectives.json"
+   ],
+   "frozen": [
+    "tonic, connectivity, weights and intrinsic parameters: nothing modified",
+    "B1 targets as reference only"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_recruitment.json",
+     "check": {
+      "path": "results/whole_system_ei_recruitment.json",
+      "json_pointer": "/classes/PV/rate_hz",
+      "expected": 0.0596,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_recruitment.json",
+     "check": {
+      "path": "results/whole_system_ei_recruitment.json",
+      "json_pointer": "/classes/VIP/rate_hz",
+      "expected": 0.0488,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_recruitment.json",
+     "check": {
+      "path": "results/whole_system_ei_recruitment.json",
+      "json_pointer": "/classes/PV/I_net",
+      "expected": 2.9939,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "neither class crosses its rheobase transiently (PV max 3.1869, VIP max 3.1905), so no STATE pattern; both cause UNRESOLVED",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_recruitment.json",
+     "check": {
+      "path": "results/whole_system_ei_recruitment.json",
+      "json_pointer": "/classes/VIP/I_net_max",
+      "expected": 3.1905,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "the current-budget atlas aligns per-class rate, total current with tonic and rheobase references, reconstructed splits, and v/u state over the full run",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_recruitment.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the retained engine current already is the total drive (current = drive + schedule + synaptic + noise per the engine equation), tonic-dominated here; the EI diagnosis added tonic a second time, so its realized values read high by one tonic while its UNRESOLVED_MULTIPLE verdict stands unchanged",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "EI_RECRUITMENT_UNRESOLVED",
+    "status": "UNRESOLVED",
+    "status_note": "per the predeclared ordered tests, neither PV nor VIP matches DEFICIT (withheld), VETO (withheld), LIMIT (drive below rheobase) or STATE (no transient crossing); the silence mechanism is not any of the six predeclared patterns at 1 ms group resolution"
+   },
+   "acceptance": "results/whole_system_ei_recruitment_spec.json. Met. The verdict is exactly one of the six predeclared labels computed from the accounting identity and boundary comparisons",
+   "fail_boundary": "the UNRESOLVED boundary: PV/VIP silence persists with total drive sub-rheobase, transient maxima below boundary, and an unreliable mean-field split; the next question needs per-neuron spike-level evidence or a different causal hypothesis",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_ei_recruitment_spec.json",
+    "results/whole_system_ei_recruitment.json",
+    "results/viz/SCI-EI-RECRUITMENT-1/current_budget_atlas.png"
+   ],
+   "tests": [
+    "tests/test_ei_recruitment.py"
+   ],
+   "commit": "dd8d6c4",
+   "visualization": {
+    "exempt": "NOT_A_MODEL_LINEAGE",
+    "reason": "read-only analysis of sealed EI retention plus a read-only construction rebuild for static weights; no dynamics simulated"
+   },
+   "driver_provenance": {
+    "path": "none: no driver runs in this lineage; the sealed test reads sealed artifacts only"
+   },
+   "harness_changes": [],
+   "artifact_note": "the EI retention npz stays gitignored beside the diagnosis; the atlas PNG is the sealed figure",
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "EI-RECRUITMENT",
+     "finding": "UNRESOLVED is delivered as the verdict with the boundary stated; per the owner order AGSDR stays blocked"
     }
    ]
   }

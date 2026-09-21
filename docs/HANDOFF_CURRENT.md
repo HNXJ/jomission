@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. SCI-EI-INTERACTION-1 has since sealed EI_REGIME_STILL_UNRESOLVED: no cell viable across the factorial, so the silence mechanism lies outside mean weight scale and adaptation magnitude. Owner assessment 2026-09-19 orders measurement before repair: SCI-EI-RECRUITMENT-1 (authorized, next) asks why PV/VIP receive insufficient effective drive while SST fires, with six predeclared classifications and no modifications; AGSDR stays BLOCKED; SCI-PROP-QUALIFIED-1 stays LOCKED. No other spec is written
+- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. SCI-EI-INTERACTION-1 has since sealed EI_REGIME_STILL_UNRESOLVED: no cell viable across the factorial, so the silence mechanism lies outside mean weight scale and adaptation magnitude. Owner assessment 2026-09-19 orders measurement before repair: SCI-EI-RECRUITMENT-1 has since sealed EI_RECRUITMENT_UNRESOLVED (PV/VIP match no predeclared cause at 1 ms group resolution; mean-field split withheld by its residual gate); AGSDR stays BLOCKED; SCI-PROP-QUALIFIED-1 stays LOCKED. No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -67,17 +67,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-REGIME-1: one intact arm completed 13000 ms at g = 0 in a single process; run-health gates execution, collapse and runaway pass; verdict EI_REGIME_UNRESOLVED_MULTIPLE in 155 s of execution — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: E full-run rate 10.6154 Hz at exact 1 ms bins against B1 band 5 to 8 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: PV full-run rate 0.0621 Hz at exact 1 ms bins against B1 band 12 to 25 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: SST full-run rate 50.1991 Hz at exact 1 ms bins against B1 band 6 to 12 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: VIP full-run rate 0.0466 Hz at exact 1 ms bins against B1 band 8 to 15 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: exact spike totals over the run: E 114264, PV 126, SST 66564, VIP 69 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: B1 comparison: all four classes out of band and the required E < PV ordering inverted — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: C2 readings: mean realized E->E 0.005488 exceeds E->PV 0.004644 and E->VIP 0.004638 — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: C3 readings: PV (a,b) exactly canonical fast-spiking, SST (a,b) 0.05/0.25 against canonical low-threshold 0.02/0.25, VIP reported with no canonical type — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: C4 readings: SST 50.2 Hz above the B1 top with early dominance, but the SST to PV/VIP weight sums do not both clear zero and PV/VIP net currents read +2.99 Hz-equivalent with positive tonic — `28af326:results/whole_system_ei_regime_diagnosis.json`
-- SCI-EI-REGIME-1: V0 schematic and V1 initial raster rendered from this lineage's construction and viewed before the run; V2 final raster reuses V1's ordering and window; V3 atlas built with 5 of 6 panels (plasticity correctly UNAVAILABLE with no HDP run) — `28af326:results/whole_system_ei_regime_diagnosis.json`
 - SCI-PROP-TRAJECTORY: V1_1 detects in the test pair with peak per-bin divergence 72.32 against the null-derived threshold 1e-12 — `be18f0d:results/propagation_trajectory.json`
 - SCI-PROP-TRAJECTORY: every downstream g=0 null reads at most the threshold in both the test-null and the held-out replicate pair — `be18f0d:results/propagation_trajectory.json`
 - SCI-PROP-TRAJECTORY: four downstream areas detect at g=0.5 with sustained onsets: V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered — `be18f0d:results/propagation_trajectory.json`
@@ -88,10 +77,15 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-EI-INTERACTION-1: both-repaired cell reads PV 0.0621, VIP 0.0466, SST 29.2504 Hz: no cell viable, verdict EI_REGIME_STILL_UNRESOLVED — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-INTERACTION-1: departures from additivity per class are recorded in the decomposition block; synchrony and the 94-95 ms mode reported per cell, not gating — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-INTERACTION-1: V0 schematic and V1 initial raster of the baseline construction viewed before the runs; V2 reuses V1 ordering and window; V3 atlas 5 of 6 panels — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-RECRUITMENT-1: PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
+- SCI-EI-RECRUITMENT-1: VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
+- SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
+- SCI-EI-RECRUITMENT-1: neither class crosses its rheobase transiently (PV max 3.1869, VIP max 3.1905), so no STATE pattern; both cause UNRESOLVED — `dd8d6c4:results/whole_system_ei_recruitment.json`
+- SCI-EI-RECRUITMENT-1: the current-budget atlas aligns per-class rate, total current with tonic and rheobase references, reconstructed splits, and v/u state over the full run — `dd8d6c4:results/whole_system_ei_recruitment.json`
 
 ### Next authorized task
 
-- `SCI-EI-RECRUITMENT-1` (OPEN): determine why PV and VIP receive insufficient effective drive to cross their firing boundary while SST fires strongly, by native-resolution current-budget measurement without modifying anything
+- `SCI-EI-RECRUITMENT-1` (DONE): determine why PV and VIP receive insufficient effective drive to cross their firing boundary while SST fires strongly, by native-resolution current-budget measurement without modifying anything
 - stop: measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed and nothing is calibrated
 
 ### Locked gates

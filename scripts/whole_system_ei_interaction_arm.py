@@ -901,14 +901,18 @@ def main(
     pv_ab = (uniq_vals("a", "PV"), uniq_vals("b", "PV"))
     sst_ab = (uniq_vals("a", "SST"), uniq_vals("b", "SST"))
     vip_ab = (uniq_vals("a", "VIP"), uniq_vals("b", "VIP"))
+    # Canonical constants as stored (float32): identical configured constants
+    # compare bit-exact; float64 literals would never match and are not used.
+    fs_ab = ([float(np.float32(0.10))], [float(np.float32(0.20))])
+    lts_ab = ([float(np.float32(0.02))], [float(np.float32(0.25))])
     c3 = {
         "built_PV_ab": [pv_ab[0], pv_ab[1]],
         "built_SST_ab": [sst_ab[0], sst_ab[1]],
         "built_VIP_ab": [vip_ab[0], vip_ab[1]],
-        "canonical_FS_ab": [[0.10], [0.20]],
-        "canonical_LTS_ab": [[0.02], [0.25]],
-        "pv_matches_FS": bool(pv_ab == ([0.10], [0.20])),
-        "sst_matches_LTS": bool(sst_ab == ([0.02], [0.25])),
+        "canonical_FS_ab": [fs_ab[0], fs_ab[1]],
+        "canonical_LTS_ab": [lts_ab[0], lts_ab[1]],
+        "pv_matches_FS": bool(list(pv_ab[0]) == fs_ab[0] and list(pv_ab[1]) == fs_ab[1]),
+        "sst_matches_LTS": bool(list(sst_ab[0]) == lts_ab[0] and list(sst_ab[1]) == lts_ab[1]),
         "vip_note": "no canonical VIP type exists; built values reported without verdict contribution",
     }
     c3["supported"] = bool(not c3["pv_matches_FS"] or not c3["sst_matches_LTS"])

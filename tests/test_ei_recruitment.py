@@ -79,8 +79,13 @@ def test_ei_recruitment():
             parts[src] = tot / max(n_c, 1)
         i_i = float(sum(parts.values()))
         i_syn_ret = float(np.mean([gcurr[g] for g in cortical(c)], axis=0).mean())
-        i_net = float(tonic_c + i_syn_ret)
-        i_net_t = tonic_c + np.mean([gcurr[g] for g in cortical(c)], axis=0)
+        # Engine equation: retained current = drive + schedule + synaptic + noise,
+        # i.e. already the TOTAL drive (tonic-dominated here). Adding tonic again
+        # would double-count it. The reconstruction estimates the synaptic part,
+        # so its residual is measured against retained-minus-tonic.
+        i_net = float(i_syn_ret)
+        i_net_t = np.asarray(np.mean([gcurr[g] for g in cortical(c)], axis=0), dtype=float)
+        syn_excess = float(i_syn_ret - tonic_c)
         r = float(np.mean([grate[g] for g in cortical(c)], axis=0).mean())
         k_e = int(((cls_arr[pre] == "E") & is_c[post]).sum())
         w_e = w[(cls_arr[pre] == "E") & is_c[post]]
@@ -98,9 +103,10 @@ def test_ei_recruitment():
             "I_I_split": {k: round(v, 4) for k, v in parts.items()},
             "I_I_mean": round(i_i, 4),
             "I_syn_retained": round(i_syn_ret, 4),
-            "reconstruction_residual": round(float(i_e + i_i - i_syn_ret), 4),
+            "I_syn_excess_over_tonic": round(syn_excess, 4),
+            "reconstruction_residual": round(float(i_e + i_i - syn_excess), 4),
             "residual_ok": bool(
-                abs(float(i_e + i_i - i_syn_ret)) <= RESIDUAL_TOL * max(abs(i_syn_ret), 1e-9)
+                abs(float(i_e + i_i - syn_excess)) <= RESIDUAL_TOL * max(abs(syn_excess), 1e-9)
             ),
             "I_net": round(i_net, 4),
             "I_net_max": round(float(i_net_t.max()), 4),
@@ -158,7 +164,7 @@ def test_ei_recruitment():
         ax.set_title(f"{c} rate (Hz), mean {morate.mean():.3f}")
         ax = axes[i, 1]
         mocurr = np.mean([gcurr[g] for g in cortical(c)], axis=0)
-        ax.plot(t, mocurr, label="I_syn(t)")
+        ax.plot(t, mocurr, label="I_net(t) retained total")
         ax.axhline(out["classes"][c]["tonic"], linestyle="--", label="tonic")
         rheo = out["classes"][c]["rheobase"]
         if rheo is not None:

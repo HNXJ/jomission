@@ -1610,9 +1610,9 @@
       ]
      }
     },
-    {
-     "id": "SCI-EI-INTERACTION-1",
-     "status": "OPEN",
+   {
+    "id": "SCI-EI-INTERACTION-1",
+    "status": "DONE",
      "trigger": "owner assessment 2026-09-19: EI_REGIME_UNRESOLVED_MULTIPLE is the main mechanistic ambiguity in the local cortical object; open the weight-by-adaptation interaction lineage first, then AGSDR, then the propagation successor",
      "goal": "determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial",
      "parent_authority": "owner 2026-09-19 assessment: 2x2 factorial W_EI {current, repaired} x SST_a {current, canonical}; repaired values from independent authority, never rate-tuned; measure r_E, r_PV, r_SST, r_VIP plus synchrony and the 94-95 ms mode; decomposition into ΔW, ΔA, ΔWxA; five acceptance labels; no tuning after seeing the four cells",
@@ -1639,10 +1639,27 @@
       "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
       "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
      ],
-     "downstream_unlock": [
-      "SCI-AGSDR-CALIBRATION"
-     ]
-    },
+      "downstream_unlock": [
+       "SCI-AGSDR-CALIBRATION"
+      ],
+      "delivered": {
+       "verdict": "EI_REGIME_STILL_UNRESOLVED",
+       "result": "results/whole_system_ei_interaction.json",
+       "spec_commit": "a01315b",
+       "result_commit": "d846eff",
+       "summary": "baseline exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466). Weight-only repair leaves PV 0.0621 and VIP 0.0466 unchanged against 18 percent stronger E->I weights. Adaptation-only repair halves SST 50.2 to 29.2496 with PV/VIP unchanged. Both-repaired matches adaptation-only. No cell viable: PV and VIP stay two orders below band in every arm, so neither predeclared repair nor their joint application produces a viable regime. The silence mechanism lies outside mean E->I weight scale and SST adaptation magnitude as varied here. Per the owner order this blocks AGSDR calibration until a viable regime is defined elsewhere or the reviewer redirects; the weight-vs-adaptation interaction the EI diagnosis named is measured as additive-null on PV/VIP (both deltas ~0.0)",
+       "receipts": [
+        "four arms one process each, ~155 s each, all run-health gates passing",
+        "python scripts/whole_system_ei_interaction_compare.py  (verdict from the predeclared mapping only)",
+        "V0/V1 rendered from the baseline construction and viewed before the runs; V2 reuses V1 ordering/window; V3 atlas 5/6 panels",
+        "manifests/lineage_registry.json SCI-EI-INTERACTION-1 record with per-observation value checks"
+       ],
+       "reviewer_decisions_required": [
+        "whether a different causal hypothesis (beyond mean weight scale and adaptation magnitude) justifies another lineage",
+        "whether AGSDR calibration waits indefinitely or the reviewer redirects it"
+       ]
+      }
+     },
     {
      "id": "SCI-AGSDR-CALIBRATION",
      "status": "BLOCKED",

@@ -1881,6 +1881,51 @@
    "path": "results/propagation_trajectory.json",
    "blob": "a923351cfd02703cc0dc42655acc15fddb8c99ac",
    "sealed_in": "be18f0d"
+  },
+  {
+   "path": "results/whole_system_ei_interaction_spec.json",
+   "blob": "4fd8f578f06f6292715cda7debaafd2ff57ed508",
+   "sealed_in": "a01315b"
+  },
+  {
+   "path": "results/whole_system_ei_interaction_intact_g000_on_s0_baseline.json",
+   "blob": "3727950bfa2eeb151623ced4ea7a7b8e9bbfdb3a",
+   "sealed_in": "d846eff"
+  },
+  {
+   "path": "results/whole_system_ei_interaction_intact_g000_on_s0_w_only.json",
+   "blob": "a1d7b597d48afba8afd8b8bd0ac653f7581604ea",
+   "sealed_in": "d846eff"
+  },
+  {
+   "path": "results/whole_system_ei_interaction_intact_g000_on_s0_a_only.json",
+   "blob": "affe7f4822adbadc4bac6ca017fafdb3b206b25c",
+   "sealed_in": "d846eff"
+  },
+  {
+   "path": "results/whole_system_ei_interaction_intact_g000_on_s0_both.json",
+   "blob": "15ba54cb86cdbb0dfdc486b36fa13e0336962d7a",
+   "sealed_in": "d846eff"
+  },
+  {
+   "path": "results/whole_system_ei_interaction.json",
+   "blob": "46bb44629576ba8324f3d04660a48087fa8aba96",
+   "sealed_in": "d846eff"
+  },
+  {
+   "path": "scripts/whole_system_ei_interaction_arm.py",
+   "blob": "5110753f9077e09c035c2b6b85c43c156ce0d38b",
+   "sealed_in": "0934632"
+  },
+  {
+   "path": "scripts/whole_system_ei_interaction_compare.py",
+   "blob": "26eeff0602701c258b849f36b82dc4315212910e",
+   "sealed_in": "a01315b"
+  },
+  {
+   "path": "results/viz/SCI-EI-INTERACTION-1/atlas/manifest.json",
+   "blob": "91d8f18d9b78759e4985d769c7cd9eec37247096",
+   "sealed_in": "d846eff"
   }
  ]
 }

@@ -2811,6 +2811,137 @@
      "finding": "DETECTED_ORDERED is delivered as the verdict with onset ordering; interpretation of the ordering belongs to review, not to this record"
     }
    ]
+  },
+  {
+   "lineage_id": "SCI-EI-INTERACTION-1",
+   "parent": "SCI-EI-REGIME-1",
+   "principal_delta": "two predeclared repairs, factorially combined, on the sealed intact construction: E->I mean weights to E->E parity and SST adaptation a to canonical LTS",
+   "preexecution_spec": {
+    "path": "results/whole_system_ei_interaction_spec.json",
+    "commit": "a01315b"
+   },
+   "authority": "owner 2026-09-19 assessment: 2x2 factorial with repaired values from independent authority, five acceptance labels, no tuning after seeing the four cells",
+   "inputs": [
+    "results/whole_system_ei_regime_diagnosis.json",
+    "scripts/whole_system_ei_regime_arm.py",
+    "jomission/qualification/b1_targets.py",
+    "manifests/agsdr_local_objectives.json"
+   ],
+   "frozen": [
+    "the SCI-EI-REGIME-1 intact construction in every array except the two repaired quantities",
+    "B1 targets as classification reference only, never tuned toward",
+    "no calibration of any kind"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "baseline cell exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json",
+     "check": {
+      "path": "results/whole_system_ei_interaction.json",
+      "json_pointer": "/cells/baseline/rates_full/PV",
+      "expected": 0.0621,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "weight-only cell leaves PV 0.0621 and VIP 0.0466 Hz unchanged against 18 percent stronger E->I weights; SST 50.2112 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json",
+     "check": {
+      "path": "results/whole_system_ei_interaction.json",
+      "json_pointer": "/cells/w_only/rates_full/PV",
+      "expected": 0.0621,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "adaptation-only cell halves SST 50.2 to 29.2496 Hz with PV 0.0621 and VIP 0.0466 Hz unchanged",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json",
+     "check": {
+      "path": "results/whole_system_ei_interaction.json",
+      "json_pointer": "/cells/a_only/rates_full/SST",
+      "expected": 29.2496,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "both-repaired cell reads PV 0.0621, VIP 0.0466, SST 29.2504 Hz: no cell viable, verdict EI_REGIME_STILL_UNRESOLVED",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json",
+     "check": {
+      "path": "results/whole_system_ei_interaction.json",
+      "json_pointer": "/cells/both/rates_full/VIP",
+      "expected": 0.0466,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "departures from additivity per class are recorded in the decomposition block; synchrony and the 94-95 ms mode reported per cell, not gating",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json"
+    },
+    {
+     "claim": "V0 schematic and V1 initial raster of the baseline construction viewed before the runs; V2 reuses V1 ordering and window; V3 atlas 5 of 6 panels",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_interaction.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "neither predeclared repair moves PV or VIP firing: the silence mechanism lies outside mean E->I weight scale and SST adaptation magnitude as varied here",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "EI_REGIME_STILL_UNRESOLVED",
+    "status": "UNRESOLVED",
+    "status_note": "the predeclared viability mapping finds no viable cell: weight-only, adaptation-only and joint repairs all leave PV near 0.06 and VIP near 0.05 Hz against B1 bands 12-25 and 8-15. The E-I regime defect is not a mean-weight-scale or adaptation-magnitude effect at these predeclared values"
+   },
+   "acceptance": "results/whole_system_ei_interaction_spec.json. Met. Four cells completed with run-health passing; the verdict is exactly one of the five predeclared labels computed from the viability pattern",
+   "fail_boundary": "the STILL_UNRESOLVED boundary: PV/VIP silence persists across the full factorial; the next question (if any) needs a different causal hypothesis, not a re-tuned repair",
+   "supersedes": [],
+   "retired": [],
+    "artifacts": [
+     "results/whole_system_ei_interaction_spec.json",
+     "results/whole_system_ei_interaction_intact_g000_on_s0_baseline.json",
+     "results/whole_system_ei_interaction_intact_g000_on_s0_w_only.json",
+     "results/whole_system_ei_interaction_intact_g000_on_s0_a_only.json",
+     "results/whole_system_ei_interaction_intact_g000_on_s0_both.json",
+     "results/whole_system_ei_interaction.json",
+     "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
+     "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
+     "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
+     "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
+    ],
+   "tests": [],
+   "commit": "d846eff",
+   "visualization": {
+    "V0": "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
+    "V1": "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
+    "V2": "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
+    "V3": "results/viz/SCI-EI-INTERACTION-1/atlas/index.html"
+   },
+   "driver_provenance": {
+    "path": "scripts/whole_system_ei_interaction_arm.py",
+    "blob_that_ran": "5110753",
+    "commit_that_ran": "0934632",
+    "blob_sealed_here": "368a6a9",
+    "difference": "float32-exact canonical comparison for the C3 flags (float64 literals never match stored float32); implements the sealed rule, no rule change"
+   },
+   "harness_changes": [],
+   "artifact_note": "per-cell 1 ms series live in the gitignored npz beside each cell result. V1 and V2 rasters come from --probe-ms runs of the sealed oscillator driver's identical base construction",
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "EI-INTERACTION",
+     "finding": "STILL_UNRESOLVED is delivered as the verdict with the boundary stated; per the owner order this blocks AGSDR calibration until a viable regime is defined elsewhere or the reviewer redirects"
+    }
+   ]
   }
  ]
 }

@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. No spec beyond the interaction lineage is written
+- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program: SCI-EI-INTERACTION-1 (authorized 2x2 factorial, next), then SCI-AGSDR-CALIBRATION (blocked on a viable-regime verdict plus design authorization), then SCI-PROP-QUALIFIED-1 (locked until the plant is defined and the design is authorized). The propagation lineage stands closed as PROPAGATION_DETECTED_ORDERED with no stronger interpretation. SCI-EI-INTERACTION-1 has since sealed EI_REGIME_STILL_UNRESOLVED: no cell viable across the factorial, so the silence mechanism lies outside mean weight scale and adaptation magnitude. AGSDR stays BLOCKED and PROP-QUALIFIED-1 stays LOCKED. No other spec is written
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -67,13 +67,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-WS-OSC-2: the ISOLATED_POP arm ran one process, 162 s, with all 246844 edge weights zeroed, weight sum 561.510437 to 0.0, max_abs_after 0.0 and n_nonzero_after 0 — `8f3ab6d:results/whole_system_isolated_pop.json`
-- SCI-WS-OSC-2: all 828 cortical E cells fire with every synapse zeroed. None is silent, and the pooled interspike interval over the final 1000 ms is 94.1505 ms with standard deviation 1.3292 ms, CV 0.014118, implying 10.6213 Hz — `8f3ab6d:results/whole_system_isolated_pop.json`
-- SCI-WS-OSC-2: the per-cell mean interval spans 93.0 to 95.3 ms over the final window and 93.8043 to 94.4453 ms over the whole run, across cells whose parameters are identical, so that residual spread is v0 and the noise draw alone — `8f3ab6d:results/whole_system_isolated_pop.json`
-- SCI-WS-OSC-2: the ISOLATED_1 arm compiled one neuron and zero edges at V1_1.L5.E with a 0.02, b 0.2, c -65, d 8, u0 -13, v0 -6.738214 and drive 5.0, each sliced from the intact construction, and its pooled interval over the final 1000 ms is 94.5 ms with standard deviation 1.2042 ms, CV 0.012742, implying 10.582 Hz — `8f3ab6d:results/whole_system_isolated_1.json`
-- SCI-WS-OSC-2: the population-rate estimator applied to the single cell reported a period of 378.0 ms, exactly four times its 94.5 ms interval, with peak autocorrelation 0.268523 against a null threshold of 0.220528 — `8f3ab6d:results/whole_system_isolated_1.json`
-- SCI-WS-OSC-2: the population rate of ISOLATED_POP did not flatten. The estimator still found a mode in all six areas at 93 to 95 ms with peak autocorrelation 0.580 to 0.663 against nulls near 0.102 — `8f3ab6d:results/whole_system_isolated_pop.json`
-- SCI-WS-OSC-2: the isolated final-window raster shows a smooth 0 to 33 Hz rate wave at about 95 ms with no discrete bursts, the same waveform SCI-WS-OSC-1's EE_CUT arm produced — `8f3ab6d:results/viz/SCI-WS-OSC-2/raster_final.png`
 - SCI-EI-REGIME-1: one intact arm completed 13000 ms at g = 0 in a single process; run-health gates execution, collapse and runaway pass; verdict EI_REGIME_UNRESOLVED_MULTIPLE in 155 s of execution — `28af326:results/whole_system_ei_regime_diagnosis.json`
 - SCI-EI-REGIME-1: E full-run rate 10.6154 Hz at exact 1 ms bins against B1 band 5 to 8 — `28af326:results/whole_system_ei_regime_diagnosis.json`
 - SCI-EI-REGIME-1: PV full-run rate 0.0621 Hz at exact 1 ms bins against B1 band 12 to 25 — `28af326:results/whole_system_ei_regime_diagnosis.json`
@@ -89,10 +82,16 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-PROP-TRAJECTORY: every downstream g=0 null reads at most the threshold in both the test-null and the held-out replicate pair — `be18f0d:results/propagation_trajectory.json`
 - SCI-PROP-TRAJECTORY: four downstream areas detect at g=0.5 with sustained onsets: V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered — `be18f0d:results/propagation_trajectory.json`
 - SCI-PROP-TRAJECTORY: the 1 s window-count contrast that read exactly 0.000000 everywhere, including the directly driven V1_1, is superseded for propagation use by the 10 ms trajectory divergence; the count finding stands as sealed and is not retracted — `be18f0d:results/propagation_trajectory.json`
+- SCI-EI-INTERACTION-1: baseline cell exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz) — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-INTERACTION-1: weight-only cell leaves PV 0.0621 and VIP 0.0466 Hz unchanged against 18 percent stronger E->I weights; SST 50.2112 Hz — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-INTERACTION-1: adaptation-only cell halves SST 50.2 to 29.2496 Hz with PV 0.0621 and VIP 0.0466 Hz unchanged — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-INTERACTION-1: both-repaired cell reads PV 0.0621, VIP 0.0466, SST 29.2504 Hz: no cell viable, verdict EI_REGIME_STILL_UNRESOLVED — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-INTERACTION-1: departures from additivity per class are recorded in the decomposition block; synchrony and the 94-95 ms mode reported per cell, not gating — `d846eff:results/whole_system_ei_interaction.json`
+- SCI-EI-INTERACTION-1: V0 schematic and V1 initial raster of the baseline construction viewed before the runs; V2 reuses V1 ordering and window; V3 atlas 5 of 6 panels — `d846eff:results/whole_system_ei_interaction.json`
 
 ### Next authorized task
 
-- `SCI-EI-INTERACTION-1` (OPEN): determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial
+- `SCI-EI-INTERACTION-1` (DONE): determine whether repaired E->I weights, canonical SST adaptation, or only their joint application produce a viable cortical E-I regime, via the smallest causal factorial
 - stop: four cells, then STOP. No tuning after seeing the four cells; viability is classification against ratified bands, never a tuning target
 
 ### Locked gates

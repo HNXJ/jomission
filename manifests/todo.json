@@ -1776,11 +1776,40 @@
        "receipts": [
         "tier-0 under 0.4.25: 201 passed, identity pin only",
         "tier-1 exact nodes: 45 passed, 1 skipped (substrate-gate skip)",
-        "tier-2 foreground: 395 passed, 3 skipped, identity pin only, 516.20s",
-        "python scripts/project_check.py  (identity green after promotion)"
+         "tier-2 foreground: 395 passed, 3 skipped, identity pin only, 516.20s",
+         "python scripts/project_check.py  (identity green after promotion)"
+        ]
+       }
+      },
+      {
+       "id": "SCI-EI-NATIVE-STATE-1",
+       "status": "OPEN",
+       "trigger": "owner assessment 2026-09-21: recruitment stayed UNRESOLVED after exhausting mean parameters, factorial intervention and current accounting; move from parameter magnitude to native state geometry before manufacturing another repair axis",
+       "goal": "determine what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit, by native-resolution phase-plane measurement with no parameter changes",
+       "parent_authority": "owner 2026-09-21 assessment: record v(t), u(t), I_net(t), I_E(t), I_I(t) plus spikes for representative E/PV/SST/VIP cells; construct (v_i, u_i, I_net) trajectories around firing opportunities; test P(spike|v,u,I_net,class); five predeclared verdicts; no intervention follows automatically",
+       "principal_delta": "none: measurement only. Instrumentation by retention of outputs the engine already returns; attribution by read-only analysis",
+       "required_inputs": [
+        "results/whole_system_ei_recruitment.json",
+        "results/whole_system_ei_regime_diagnosis.json",
+        "results/battery_b1.json",
+        "jomission/qualification/b1_targets.py",
+        "manifests/agsdr_local_objectives.json"
+       ],
+       "frozen": [
+        "tonic, connectivity, weights and intrinsic parameters: nothing is modified by this lineage",
+        "B1 targets: reference only"
+       ],
+       "procedure": "first check whether retained per-neuron data suffices for representative cells of each class (group means cannot answer per-cell threshold distance); if insufficient, the pre-execution spec seals a retention re-run with no parameter change instead; then measure per class at native resolution: distance-to-threshold distribution, maximum v between resets, u at matched I_net, conditional spike probability versus I_net, trajectories preceding SST spikes, and PV/VIP trajectories at the same network phases; compare P(spike|v,u,I_net,class) across classes; classify; STOP",
+       "acceptance": "the verdict is exactly one of DYNAMIC_RECRUITMENT_DEFICIT (PV/VIP rarely receive threshold-capable current excursions), INTRINSIC_STATE_VETO (comparable excursions occur but u/v state prevents crossing), SST_STATE_ADVANTAGE (SST-specific state trajectory explains its high firing), MIXED_STATE_MECHANISM (more than one independently supported), NATIVE_STATE_UNRESOLVED (none), computed from the phase-plane measurements with no rule chosen after seeing them",
+       "stop_condition": "measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed, nothing is calibrated, and no repair axis is manufactured from the result",
+       "artifacts_expected": [
+        "results/whole_system_ei_native_state_spec.json",
+        "results/whole_system_ei_native_state.json"
+       ],
+       "downstream_unlock": [
+        "SCI-AGSDR-CALIBRATION"
        ]
       }
-     }
-   ],
- "next_authorized_task": "JAXFNE-0425-MIGRATION"
+     ],
+   "next_authorized_task": "SCI-EI-NATIVE-STATE-1"
 }

@@ -58,9 +58,17 @@
     "cause": "edit-time formatter normalization: single-to-double quote flips plus black-style rewrap and blank-line insertion, all semantically null by construction; fires once per file (first edit), later edits stay small",
     "repair": "treat the first .py diff per file as suspect: confirm with git diff -w that the non-whitespace hunks are only the intended ones, then rely on the covering tests as the behavior arbiter",
     "evidence": "commits 78ab111, b9a6443, f8e1809, 39e8c18 diff stats; quote-normalization tells in 39e8c18",
-    "scope": "this environment: reviewing .py diffs"
-   }
-  ],
+     "scope": "this environment: reviewing .py diffs"
+    },
+    {
+     "id": "L8-ENGINE-MIGRATION-PROCEDURE",
+     "trigger": "engine upgrade (jaxfne 0.4.24 to 0.4.25) with sealed results computed under the old engine",
+     "cause": "promotion without evidence would silently re-baseline every sealed execution receipt; the identity pin alone cannot distinguish a safe upgrade from a semantics change",
+     "repair": "read-only delta on touched surfaces first, then install, then tier 0+1+2, then seal the migration evidence and promote authority plus the pyproject pin together; no tier-3 replay without an authorizing lineage",
+     "evidence": "commits acd4289, 3640fd7, 12bb6e1; tier-2 395+3skip/516s under 0.4.25",
+     "scope": "environment changes: engine upgrades"
+    }
+   ],
  "dogfood": {
   "lineage": "SCI-V21C-BOUNDARY",
   "skill": "jomission-gate-runner",

@@ -387,34 +387,27 @@ def main(
         state, outputs = jtfne.run_continuation(step_fn, state, sched)
         # record_weight_trace=False drops the per-edge weight slot, so with the optional traces the
         # tuple is (v, spikes, sources, H, current, u). The hdp kernel ignores those two flags and
-        # returns arity 4; that is an observability difference between arms, recorded not assumed.
-        if len(outputs) == 6:
-            v, spikes, H, current, u = (
-                np.asarray(outputs[0]),
-                np.asarray(outputs[1]),
-                np.asarray(outputs[3]),
-                np.asarray(outputs[4]),
-                np.asarray(outputs[5]),
+        # SCI-EI-NATIVE-STATE-1 requires genuine per-neuron v, u, I_net, and spikes on a common native clock.
+        # Zero-filled fallback is strictly forbidden. Fail closed if observables are unavailable.
+        if len(outputs) != 6:
+            raise RuntimeError(
+                f"SCI-EI-NATIVE-STATE-1 requires genuine per-neuron outputs (expected arity 6, got {len(outputs)}). "
+                "Native u and current traces are unavailable; refusing to manufacture missing observables."
             )
-            assert np.allclose(u[-1], np.asarray(state.dynamic.u), atol=1e-4), "u trace is not u"
-        elif len(outputs) == 4:
-            v, spikes, H = np.asarray(outputs[0]), np.asarray(outputs[1]), np.asarray(outputs[3])
-            current = u = None
-        else:
-            raise ValueError(f"unexpected output arity {len(outputs)}")
+        v, spikes, H, current, u = (
+            np.asarray(outputs[0]),
+            np.asarray(outputs[1]),
+            np.asarray(outputs[3]),
+            np.asarray(outputs[4]),
+            np.asarray(outputs[5]),
+        )
+        assert u is not None and current is not None, "genuine u and current traces must be non-None"
+        assert np.allclose(u[-1], np.asarray(state.dynamic.u), atol=1e-4), "u trace is not u"
 
         # Accumulate native-resolution (dt 0.1 ms) state for representative cells
         rep_acc["v"].append(v[:, rep_idx])
-        rep_acc["u"].append(
-            u[:, rep_idx]
-            if u is not None
-            else np.zeros((chunk_steps, len(rep_idx)), dtype=v.dtype)
-        )
-        rep_acc["current"].append(
-            current[:, rep_idx]
-            if current is not None
-            else np.zeros((chunk_steps, len(rep_idx)), dtype=v.dtype)
-        )
+        rep_acc["u"].append(u[:, rep_idx])
+        rep_acc["current"].append(current[:, rep_idx])
         rep_acc["spikes"].append(spikes[:, rep_idx])
 
         # Full-population 1 ms spike trains: max over the STEPS_PER_MS steps of each 1 ms bin

@@ -159,3 +159,23 @@ def test_spec_parameters_and_timing_invariants():
     assert spec["duration"]["settle_ms"] == 10000.0
     assert spec["duration"]["stimulus_ms"] == 1000.0
     assert spec["duration"]["post_stimulus_ms"] == 2000.0
+
+
+def test_missing_observable_fails_closed():
+    """Verify driver fails closed with RuntimeError if continuation outputs lack genuine u/current."""
+    import pytest
+
+    arm.configure()
+
+    def mock_run_cont_arity_4(step_fn, state, sched):
+        chunk_steps = int(round(arm.CHUNK_MS / arm.DT))
+        n_neurons = 2224
+        v = np.tile(np.asarray(state.dynamic.v), (chunk_steps, 1))
+        spikes = np.zeros((chunk_steps, n_neurons), dtype=np.float32)
+        sources = np.zeros((chunk_steps, n_neurons), dtype=np.float32)
+        H = np.zeros((chunk_steps, n_neurons), dtype=np.float32)
+        return state, (v, spikes, sources, H)
+
+    with mock.patch("jaxfne.run_continuation", side_effect=mock_run_cont_arity_4):
+        with pytest.raises(RuntimeError, match="SCI-EI-NATIVE-STATE-1 requires genuine per-neuron outputs"):
+            arm.main(0.0, "on", 0)

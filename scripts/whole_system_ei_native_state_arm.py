@@ -376,6 +376,8 @@ def main(
     chunk_ms = int(round(CHUNK_MS))
     series = None
     y_trace = np.zeros((int(round(TOTAL_MS / DT)), y_n), dtype=np.float32)
+    rep_acc = {"v": [], "u": [], "current": [], "spikes": []}
+    spikes_1ms = []
     plastic = []
     nonfinite = {}
 
@@ -400,6 +402,25 @@ def main(
             current = u = None
         else:
             raise ValueError(f"unexpected output arity {len(outputs)}")
+
+        # Accumulate native-resolution (dt 0.1 ms) state for representative cells
+        rep_acc["v"].append(v[:, rep_idx])
+        rep_acc["u"].append(
+            u[:, rep_idx]
+            if u is not None
+            else np.zeros((chunk_steps, len(rep_idx)), dtype=v.dtype)
+        )
+        rep_acc["current"].append(
+            current[:, rep_idx]
+            if current is not None
+            else np.zeros((chunk_steps, len(rep_idx)), dtype=v.dtype)
+        )
+        rep_acc["spikes"].append(spikes[:, rep_idx])
+
+        # Full-population 1 ms spike trains: max over the STEPS_PER_MS steps of each 1 ms bin
+        spikes_1ms.append(
+            spikes.reshape(chunk_ms, STEPS_PER_MS, n_neurons).max(axis=1).astype(np.uint8)
+        )
         # A rule declaring h_shape=(k,) carries H as (T, N, k). Coordinate 0 is H itself; the rest
         # are its own state, recorded under their declared names rather than averaged into H.
         A = None
@@ -465,7 +486,8 @@ def main(
         )
 
     series = {g: {k: np.concatenate(v) for k, v in s.items()} for g, s in series.items()}
-    rep = {k: np.concatenate(v) for k, v in rep_acc.items()}
+    rep = {k: np.concatenate(v, axis=0) for k, v in rep_acc.items()}
+    full_spikes_1ms = np.concatenate(spikes_1ms, axis=0).astype(np.uint8)
     y_npz_kwargs = dict(
         v=y_trace,
         dt_ms=DT,
@@ -479,7 +501,7 @@ def main(
         rep_u=rep["u"].astype(np.float32),
         rep_current=rep["current"].astype(np.float32),
         rep_spikes=(rep["spikes"] > 0.5).astype(np.uint8),
-        spikes_1ms=np.concatenate(spikes_1ms).astype(np.uint8),
+        spikes_1ms=full_spikes_1ms,
     )
 
     # ---- gates, in the sealed order -------------------------------------------------
@@ -732,6 +754,17 @@ def main(
             "re-measures per-class rates from exact 1 ms-binned spike counts, removing "
             "the subsampling caveat rather than working around it. Reviewer 2026-09-19"
         ),
+    }
+    rec["retention"] = {
+        "rep_identities": {c: f"V1_1.L4.{c}" for c in ("E", "PV", "SST", "VIP")},
+        "rep_indices": {c: int(rep_cells[c]) for c in ("E", "PV", "SST", "VIP")},
+        "rep_v_shape": list(rep["v"].shape),
+        "rep_u_shape": list(rep["u"].shape),
+        "rep_current_shape": list(rep["current"].shape),
+        "rep_spikes_shape": list(rep["spikes"].shape),
+        "spikes_1ms_shape": list(full_spikes_1ms.shape),
+        "dt_ms": DT,
+        "sample_count_steps": int(rep["v"].shape[0]),
     }
 
     # ---- the lineage's own question: per-class rates at 1 ms, then attribution ----

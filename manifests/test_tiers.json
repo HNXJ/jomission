@@ -31,6 +31,7 @@
     "tests/test_v2_operation_prospective.py",
     "tests/test_visualization_contract.py",
     "tests/test_whole_system_diagnostic.py",
+    "tests/test_whole_system_ei_native_state.py",
     "tests/test_whole_system_realization.py"
    ]
   },

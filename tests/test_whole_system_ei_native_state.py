@@ -182,7 +182,9 @@ def test_missing_observable_fails_closed():
 
     with mock.patch("jaxfne.run_continuation", side_effect=mock_run_cont_arity_4):
         with pytest.raises(RuntimeError, match="SCI-EI-NATIVE-STATE-1 requires genuine per-neuron outputs"):
-            arm.main(0.0, "on", 0)
+            test_dir = ROOT / "scratch" / "_test_pipeline"
+            test_dir.mkdir(parents=True, exist_ok=True)
+            arm.main(0.0, "on", 0, out=test_dir / "arity4.json", out_y=test_dir / "arity4.npz")
 
 
 def test_native_state_executed_result_contract():

@@ -1,0 +1,496 @@
+{
+  "schema": "jomission.scientific_result.v1",
+  "lineage": "SCI-EI-NATIVE-STATE-1",
+  "lineage_id": "SCI-EI-NATIVE-STATE-1",
+  "parent": "SCI-EI-RECRUITMENT-1",
+  "spec": "results/whole_system_ei_native_state_spec.json",
+  "verdict": "MIXED_STATE_MECHANISM",
+  "status": "FAIL",
+  "fail_boundary": "Multi-mechanism resolution: PV silence is caused by DYNAMIC_RECRUITMENT_DEFICIT (synaptic drive 2.95 is below 4.0 rheobase at burst phases); VIP silence is caused by INTRINSIC_STATE_VETO (positive u=+8.58 hyperpolarizes cell to -86 mV despite current excursions); SST hyperactivity is caused by SST_STATE_ADVANTAGE (tonic drive 3.5 exceeds 1.02 rheobase).",
+  "clock": {
+    "total_steps": 130000,
+    "dt_ms": 0.1,
+    "total_ms": 13000.0
+  },
+  "classes": {
+    "E": {
+      "representative_index": 490,
+      "identity": "V1_1.L4.E",
+      "spikes_total_13s": 138,
+      "rate_hz": 10.62,
+      "distance_to_threshold": {
+        "min": 0.2358,
+        "q25": 94.5938,
+        "median": 98.2523,
+        "q75": 101.9915,
+        "max": 105.9671,
+        "mean": 97.3991,
+        "std": 7.467
+      },
+      "max_v_between_resets": {
+        "n_intervals": 139,
+        "mean": 18.5554,
+        "median": 18.6713,
+        "min": -63.9881,
+        "max": 29.7642,
+        "std": 9.1585
+      }
+    },
+    "PV": {
+      "representative_index": 504,
+      "identity": "V1_1.L4.PV",
+      "spikes_total_13s": 1,
+      "rate_hz": 0.08,
+      "distance_to_threshold": {
+        "min": 20.0087,
+        "q25": 94.8471,
+        "median": 95.0207,
+        "q75": 95.1859,
+        "max": 99.4336,
+        "mean": 95.0101,
+        "std": 0.4824
+      },
+      "max_v_between_resets": {
+        "n_intervals": 2,
+        "mean": -26.9488,
+        "median": -26.9488,
+        "min": -63.8889,
+        "max": 9.9913,
+        "std": 36.9401
+      },
+      "mechanism": "DYNAMIC_RECRUITMENT_DEFICIT",
+      "evidence": {
+        "supported": true,
+        "rheobase": 4.0,
+        "frac_time_above_rheobase": 0.0225,
+        "i_net_at_sst_burst_phase": 2.9547,
+        "finding": "PV is sub-rheobase 97.75% of the run and receives only 2.95 drive at the SST burst phase; fails to depolarize due to lack of threshold-capable current excursions."
+      }
+    },
+    "SST": {
+      "representative_index": 508,
+      "identity": "V1_1.L4.SST",
+      "spikes_total_13s": 653,
+      "rate_hz": 50.23,
+      "distance_to_threshold": {
+        "min": 0.0037,
+        "q25": 89.4164,
+        "median": 93.9329,
+        "q75": 95.9949,
+        "max": 97.3655,
+        "mean": 90.1962,
+        "std": 11.2395
+      },
+      "max_v_between_resets": {
+        "n_intervals": 654,
+        "mean": 18.7599,
+        "median": 18.192,
+        "min": -65.0385,
+        "max": 29.9963,
+        "std": 6.8126
+      },
+      "mechanism": "SST_STATE_ADVANTAGE",
+      "evidence": {
+        "supported": true,
+        "rheobase": 1.02,
+        "tonic_drive": 3.5,
+        "frac_time_above_rheobase": 1.0,
+        "finding": "SST tonic drive exceeds its 1.02 rheobase; it operates as an autonomous pacemaker firing at 50 Hz across all current bins."
+      }
+    },
+    "VIP": {
+      "representative_index": 509,
+      "identity": "V1_1.L4.VIP",
+      "spikes_total_13s": 0,
+      "rate_hz": 0.0,
+      "distance_to_threshold": {
+        "min": 86.6215,
+        "q25": 115.8066,
+        "median": 115.8671,
+        "q75": 115.9262,
+        "max": 116.267,
+        "mean": 115.8613,
+        "std": 0.2226
+      },
+      "max_v_between_resets": {
+        "n_intervals": 1,
+        "mean": -56.6215,
+        "median": -56.6215,
+        "min": -56.6215,
+        "max": -56.6215,
+        "std": 0.0
+      },
+      "mechanism": "INTRINSIC_STATE_VETO",
+      "evidence": {
+        "supported": true,
+        "u_mean": 8.5781,
+        "v_mean": -85.8613,
+        "v_max": -56.6215,
+        "distance_to_threshold_min": 86.6215,
+        "finding": "VIP receives comparable current excursions up to 5.27, but positive adaptation u (+8.58) and b=-0.10 intrinsically hold v below -56.6 mV (>86 mV from threshold)."
+      }
+    }
+  },
+  "matched_i_net": {
+    "[1.0, 2.0)": {
+      "E": {
+        "count": 0,
+        "u_mean": null,
+        "u_std": null,
+        "v_mean": null,
+        "v_std": null
+      },
+      "PV": {
+        "count": 3101,
+        "u_mean": -13.0009,
+        "u_std": 0.0382,
+        "v_mean": -65.1442,
+        "v_std": 0.2745
+      },
+      "SST": {
+        "count": 198,
+        "u_mean": -12.9549,
+        "u_std": 0.8308,
+        "v_mean": -60.9275,
+        "v_std": 9.7934
+      },
+      "VIP": {
+        "count": 3067,
+        "u_mean": 8.5767,
+        "u_std": 0.1069,
+        "v_mean": -85.9826,
+        "v_std": 0.0935
+      }
+    },
+    "[2.0, 3.0)": {
+      "E": {
+        "count": 2,
+        "u_mean": -9.8516,
+        "u_std": 0.3429,
+        "v_mean": -68.865,
+        "v_std": 0.8127
+      },
+      "PV": {
+        "count": 62485,
+        "u_mean": -13.0009,
+        "u_std": 0.0491,
+        "v_mean": -65.0529,
+        "v_std": 0.4042
+      },
+      "SST": {
+        "count": 20944,
+        "u_mean": -13.043,
+        "u_std": 0.7792,
+        "v_mean": -60.2957,
+        "v_std": 11.1738
+      },
+      "VIP": {
+        "count": 62485,
+        "u_mean": 8.5781,
+        "u_std": 0.0964,
+        "v_mean": -85.8986,
+        "v_std": 0.173
+      }
+    },
+    "[3.0, 4.0)": {
+      "E": {
+        "count": 3080,
+        "u_mean": -9.3766,
+        "u_std": 2.1858,
+        "v_mean": -67.6065,
+        "v_std": 6.9608
+      },
+      "PV": {
+        "count": 61487,
+        "u_mean": -13.0,
+        "u_std": 0.0583,
+        "v_mean": -64.9667,
+        "v_std": 0.5411
+      },
+      "SST": {
+        "count": 88494,
+        "u_mean": -13.0443,
+        "u_std": 0.773,
+        "v_mean": -60.1915,
+        "v_std": 11.2667
+      },
+      "VIP": {
+        "count": 61540,
+        "u_mean": 8.5781,
+        "u_std": 0.096,
+        "v_mean": -85.8232,
+        "v_std": 0.2632
+      }
+    },
+    "[4.0, 5.0)": {
+      "E": {
+        "count": 62623,
+        "u_mean": -9.2867,
+        "u_std": 2.2945,
+        "v_mean": -67.4975,
+        "v_std": 7.1564
+      },
+      "PV": {
+        "count": 2916,
+        "u_mean": -12.9989,
+        "u_std": 0.0632,
+        "v_mean": -64.8676,
+        "v_std": 0.7075
+      },
+      "SST": {
+        "count": 20172,
+        "u_mean": -13.0508,
+        "u_std": 0.7734,
+        "v_mean": -60.1063,
+        "v_std": 11.2006
+      },
+      "VIP": {
+        "count": 2900,
+        "u_mean": 8.5784,
+        "u_std": 0.0805,
+        "v_mean": -85.7411,
+        "v_std": 0.0864
+      }
+    },
+    "[5.0, 6.0)": {
+      "E": {
+        "count": 61428,
+        "u_mean": -9.1972,
+        "u_std": 2.3986,
+        "v_mean": -67.3011,
+        "v_std": 7.7223
+      },
+      "PV": {
+        "count": 7,
+        "u_mean": -12.996,
+        "u_std": 0.0313,
+        "v_mean": -64.8478,
+        "v_std": 0.1784
+      },
+      "SST": {
+        "count": 192,
+        "u_mean": -13.1053,
+        "u_std": 0.7202,
+        "v_mean": -60.2127,
+        "v_std": 11.1889
+      },
+      "VIP": {
+        "count": 5,
+        "u_mean": 8.5867,
+        "u_std": 0.0006,
+        "v_mean": -85.6288,
+        "v_std": 0.0977
+      }
+    }
+  },
+  "conditional_spike_probability": {
+    "[0.0, 1.0)": {
+      "E": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "PV": {
+        "n_steps": 4,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "VIP": {
+        "n_steps": 3,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[1.0, 2.0)": {
+      "E": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "PV": {
+        "n_steps": 3101,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 198,
+        "n_spikes": 1,
+        "p_spike": 0.005051
+      },
+      "VIP": {
+        "n_steps": 3067,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[2.0, 3.0)": {
+      "E": {
+        "n_steps": 2,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "PV": {
+        "n_steps": 62485,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 20944,
+        "n_spikes": 119,
+        "p_spike": 0.005682
+      },
+      "VIP": {
+        "n_steps": 62485,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[3.0, 4.0)": {
+      "E": {
+        "n_steps": 3080,
+        "n_spikes": 2,
+        "p_spike": 0.000649
+      },
+      "PV": {
+        "n_steps": 61487,
+        "n_spikes": 1,
+        "p_spike": 1.6e-05
+      },
+      "SST": {
+        "n_steps": 88494,
+        "n_spikes": 447,
+        "p_spike": 0.005051
+      },
+      "VIP": {
+        "n_steps": 61540,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[4.0, 5.0)": {
+      "E": {
+        "n_steps": 62623,
+        "n_spikes": 52,
+        "p_spike": 0.00083
+      },
+      "PV": {
+        "n_steps": 2916,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 20172,
+        "n_spikes": 85,
+        "p_spike": 0.004214
+      },
+      "VIP": {
+        "n_steps": 2900,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[5.0, 6.0)": {
+      "E": {
+        "n_steps": 61428,
+        "n_spikes": 78,
+        "p_spike": 0.00127
+      },
+      "PV": {
+        "n_steps": 7,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 192,
+        "n_spikes": 1,
+        "p_spike": 0.005208
+      },
+      "VIP": {
+        "n_steps": 5,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[6.0, 7.0)": {
+      "E": {
+        "n_steps": 2855,
+        "n_spikes": 6,
+        "p_spike": 0.002102
+      },
+      "PV": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "VIP": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    },
+    "[7.0, 8.0)": {
+      "E": {
+        "n_steps": 12,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "PV": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "SST": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      },
+      "VIP": {
+        "n_steps": 0,
+        "n_spikes": 0,
+        "p_spike": 0.0
+      }
+    }
+  },
+  "aligned_to_sst_spikes": {
+    "n_events": 652,
+    "summary_at_burst": {
+      "E": {
+        "v_at_t_0ms": -67.5894,
+        "u_at_t_0ms": -9.213,
+        "cur_at_t_0ms": 5.002
+      },
+      "PV": {
+        "v_at_t_0ms": -65.019,
+        "u_at_t_0ms": -13.0005,
+        "cur_at_t_0ms": 2.9547
+      },
+      "SST": {
+        "v_at_t_0ms": -65.0,
+        "u_at_t_0ms": -11.3027,
+        "cur_at_t_0ms": 3.4516
+      },
+      "VIP": {
+        "v_at_t_0ms": -85.8655,
+        "u_at_t_0ms": 8.5783,
+        "cur_at_t_0ms": 2.9845
+      }
+    }
+  },
+  "visualization": {
+    "V0": "results/viz/SCI-EI-NATIVE-STATE-1/jaxfne_network_hspice.png",
+    "V1": "results/viz/SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png",
+    "V2": "results/viz/SCI-EI-NATIVE-STATE-1/raster_final.png",
+    "V3": "results/viz/SCI-EI-NATIVE-STATE-1/atlas/index.html",
+    "diagnostic_plot": "results/viz/SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png"
+  }
+}

@@ -104,6 +104,10 @@ def test_accumulator_initialization_and_chunk_concatenation():
 def test_driver_execution_pipeline_with_mock_continuation():
     """Verify driver executes end-to-end with mock continuation, creating valid retention kwargs."""
     arm.configure()
+    test_dir = ROOT / "scratch" / "_test_pipeline"
+    test_dir.mkdir(parents=True, exist_ok=True)
+    out_json = test_dir / "test.json"
+    out_npz = test_dir / "test.npz"
 
     def mock_run_cont(step_fn, state, sched):
         chunk_steps = int(round(arm.CHUNK_MS / arm.DT))
@@ -119,7 +123,7 @@ def test_driver_execution_pipeline_with_mock_continuation():
     with mock.patch("jaxfne.run_continuation", side_effect=mock_run_cont):
         with mock.patch("numpy.savez_compressed") as mock_savez:
             with mock.patch("pathlib.Path.write_text") as mock_write:
-                arm.main(0.0, "on", 0)
+                arm.main(0.0, "on", 0, out=out_json, out_y=out_npz)
 
                 assert mock_savez.called, "numpy.savez_compressed must be called"
                 assert mock_write.called, "receipt JSON must be written"
@@ -179,3 +183,38 @@ def test_missing_observable_fails_closed():
     with mock.patch("jaxfne.run_continuation", side_effect=mock_run_cont_arity_4):
         with pytest.raises(RuntimeError, match="SCI-EI-NATIVE-STATE-1 requires genuine per-neuron outputs"):
             arm.main(0.0, "on", 0)
+
+
+def test_native_state_executed_result_contract():
+    """Verify executed result conforms to SCI-EI-NATIVE-STATE-1 pre-execution contract and verdicts."""
+    res_path = ROOT / "results" / "whole_system_ei_native_state.json"
+    assert res_path.exists(), "results/whole_system_ei_native_state.json must exist"
+    res = json.loads(res_path.read_text(encoding="utf-8"))
+
+    assert res["lineage"] == "SCI-EI-NATIVE-STATE-1"
+    predeclared = [
+        "DYNAMIC_RECRUITMENT_DEFICIT",
+        "INTRINSIC_STATE_VETO",
+        "SST_STATE_ADVANTAGE",
+        "MIXED_STATE_MECHANISM",
+        "NATIVE_STATE_UNRESOLVED",
+    ]
+    assert res["verdict"] in predeclared, f"Verdict {res['verdict']} not in predeclared {predeclared}"
+    assert res["verdict"] == "MIXED_STATE_MECHANISM"
+    assert res["clock"]["total_steps"] == 130000
+    assert res["clock"]["dt_ms"] == 0.1
+    assert res["clock"]["total_ms"] == 13000.0
+
+    # Verify per-class representative cells
+    for c in ("E", "PV", "SST", "VIP"):
+        assert c in res["classes"]
+        cls_data = res["classes"][c]
+        assert cls_data["spikes_total_13s"] >= 0
+        assert cls_data["rate_hz"] >= 0.0
+
+    # Contract visualization paths
+    viz = res["visualization"]
+    assert (ROOT / viz["V0"]).exists()
+    assert (ROOT / viz["V1"]).exists()
+    assert (ROOT / viz["V2"]).exists()
+    assert (ROOT / viz["V3"]).exists()

@@ -3057,6 +3057,103 @@
      "finding": "UNRESOLVED is delivered as the verdict with the boundary stated; per the owner order AGSDR stays blocked"
     }
    ]
+  },
+  {
+   "lineage_id": "SCI-EI-NATIVE-STATE-1",
+   "parent": "SCI-EI-RECRUITMENT-1",
+   "principal_delta": "none: native-resolution per-neuron state measurement of existing intact model; attribution by read-only phase-plane analysis",
+   "preexecution_spec": {
+    "path": "results/whole_system_ei_native_state_spec.json",
+    "commit": "dae9634"
+   },
+   "authority": "owner 2026-09-21: SCI-EI-NATIVE-STATE-1",
+   "inputs": [
+    "results/whole_system_ei_native_state_spec.json"
+   ],
+   "frozen": [
+    "tonic, connectivity, weights and intrinsic parameters: nothing is modified by this lineage",
+    "B1 targets: reference only"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_native_state.json",
+     "check": {
+      "path": "results/whole_system_ei_native_state.json",
+      "json_pointer": "/aligned_to_sst_spikes/summary_at_burst/PV/cur_at_t_0ms",
+      "expected": 2.9547,
+      "tol": 0.0001
+     }
+    },
+    {
+     "claim": "VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_native_state.json",
+     "check": {
+      "path": "results/whole_system_ei_native_state.json",
+      "json_pointer": "/aligned_to_sst_spikes/summary_at_burst/VIP/u_at_t_0ms",
+      "expected": 8.5783,
+      "tol": 0.0001
+     }
+    },
+    {
+     "claim": "SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/whole_system_ei_native_state.json",
+     "check": {
+      "path": "results/whole_system_ei_native_state.json",
+      "json_pointer": "/classes/SST/spikes_total_13s",
+      "expected": 653,
+      "tol": 0.0
+     }
+    }
+   ],
+   "derived": [
+    {
+     "claim": "interneuron firing divergence reflects mixed state-space mechanisms: PV dynamic recruitment deficit, VIP intrinsic state veto, SST intrinsic state advantage",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "MIXED_STATE_MECHANISM",
+    "status": "FAIL",
+    "status_note": "recruitment remains unqualified; silence and hyperactivity stem from class-specific state-space barriers"
+   },
+   "acceptance": "results/whole_system_ei_native_state_spec.json. Met: the verdict is exactly one of the five predeclared labels computed from phase-plane measurements with no rule chosen after seeing them.",
+   "fail_boundary": "the MIXED_STATE_MECHANISM boundary: PV silence is a recruitment deficit, VIP is an intrinsic veto, and SST has an intrinsic advantage; no single parameter retuning can resolve all classes.",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/whole_system_ei_native_state_spec.json",
+    "results/whole_system_ei_native_state.json",
+    "results/viz/SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png"
+   ],
+   "tests": [
+    "tests/test_whole_system_ei_native_state.py"
+   ],
+   "commit": "cc45eb0",
+   "visualization": {
+    "V0": "results/viz/SCI-EI-NATIVE-STATE-1/jaxfne_network_hspice.png",
+    "V1": "results/viz/SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png",
+    "V2": "results/viz/SCI-EI-NATIVE-STATE-1/raster_final.png",
+    "V3": "results/viz/SCI-EI-NATIVE-STATE-1/atlas/index.html"
+   },
+   "driver_provenance": {
+    "path": "scripts/whole_system_ei_native_state_arm.py"
+   },
+   "harness_changes": [],
+   "artifact_note": "retained native state npz stored locally; phase-plane diagnostics and V0-V3 viz artifacts sealed",
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "EI-NATIVE-STATE",
+     "finding": "MIXED_STATE_MECHANISM delivered. Interneuron firing discrepancies are driven by divergent phase-plane dynamics across cell classes under the intact model."
+    }
+   ]
   }
  ]
 }

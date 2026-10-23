@@ -8,12 +8,12 @@
   "note": "last scientific merge on main (V2.1 background chain: design, coupled background, PV stationarity); harness/state commits may follow",
   "unmerged_scientific_branches": {}
  },
-  "execution_authority": {
-   "engine": "jaxfne",
-   "evidence": "results/jaxfne_0425_migration.json"
-  },
-  "jaxfne_version": "0.4.25",
- "current_program": "Closeout program (owner 2026-09-19): empty the todo and problem stacks — harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons",
+ "execution_authority": {
+  "engine": "jaxfne",
+  "evidence": "results/jaxfne_0425_migration.json"
+ },
+ "jaxfne_version": "0.4.25",
+ "current_program": "Closeout program (owner 2026-09-19): empty the todo and problem stacks \u2014 harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons",
  "current_gate": {
   "id": "V2_LOCAL_OPERATION",
   "definition": "manifests/gates/v2_local_operation.json",
@@ -225,6 +225,16 @@
    "established": "the E < PV ordering that jomission/qualification/b1_targets.py requires is violated by a factor of about 25, and V4_1.L4.SST at 81.5 Hz breaches the 80 Hz hard-FAIL line in manifests/agsdr_local_objectives.json constraint H10. The local E-I circuit that the causal tree lists as the remaining open candidate is therefore largely not operating: the only active inhibition is SST",
    "not_established": "the cause. PV and VIP being 30 to 60 times below target is a construction or parameter defect, not a calibration offset, and nothing here diagnoses which. Measured from the 1 ms series decimated by 10, so these are subsampled means and should be re-measured at full resolution before any lineage depends on them",
    "authority": "observed while scoping the reviewer's AGSDR calibration question, 2026-09-19. Recorded as a finding, not acted on"
+  },
+  "EI_NATIVE_STATE": {
+   "status": "FAIL",
+   "evidence": "results/whole_system_ei_native_state.json",
+   "scope": "component",
+   "component_of": "INTERNEURON_RATE_REGIME",
+   "evidence_class": "OBSERVED",
+   "claim": "native 0.1 ms phase-plane diagnostics resolve distinct mechanisms per interneuron class: PV silence is a dynamic recruitment deficit (I_net during SST bursts is 2.95, sub-rheobase 4.0); VIP silence is an intrinsic state veto (hyperpolarization u=+8.58 locks v to -86 mV); SST hyperactivity is an intrinsic state advantage (tonic drive 3.5 exceeds rheobase 1.02); overall lineage verdict MIXED_STATE_MECHANISM",
+   "established": "interneuron silence and hyperactivity under the realized intact model are governed by mixed state-space mechanisms rather than a single parameter deficit or common veto",
+   "authority": "owner 2026-09-21: SCI-EI-NATIVE-STATE-1"
   }
  },
  "open_scientific_question": "what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit: native-resolution (v_i, u_i, I_net) trajectories around firing opportunities, testing P(spike|v,u,I_net,class) to separate input delivery from the state-dependent transfer function",
@@ -280,14 +290,14 @@
   "results/v21_bkg_pv_calibration.json",
   "results/v21_coupled_background_spec.json",
   "results/v21_coupled_background.json",
-   "results/v21_pv_stationarity_spec.json",
-   "results/v21_pv_stationarity.json",
-   "results/whole_system_oscillator_single_area.json",
-   "jomission/qualification/b1_targets.py",
-   "manifests/agsdr_local_objectives.json",
-   "manifests/visualization_contract.json",
-   "manifests/dropin_packets.json"
-  ],
+  "results/v21_pv_stationarity_spec.json",
+  "results/v21_pv_stationarity.json",
+  "results/whole_system_oscillator_single_area.json",
+  "jomission/qualification/b1_targets.py",
+  "manifests/agsdr_local_objectives.json",
+  "manifests/visualization_contract.json",
+  "manifests/dropin_packets.json"
+ ],
  "verdict_rule": "status of a gate-scope entry equals the suffix of its evidence artifact's `verdict` field unless review_override records evidence_reads, reason, authority, lift; component-scope entries are readings inside component_of and carry no verdict of their own; pytest outcome never sets a status",
  "open_uncertainties": [
   {
@@ -314,10 +324,10 @@
    "item": "PV single-cell threshold lies between F-table grid points at I=2.8; tonic derivation uses exact assays",
    "route": "record only"
   },
-   {
-    "item": "HDP re-entry point unspecified beyond 'after the basin gate'; V2-ACTIVE-BASIN retired 2026-09-19, so the route is closed",
-    "route": "record only"
-   },
+  {
+   "item": "HDP re-entry point unspecified beyond 'after the basin gate'; V2-ACTIVE-BASIN retired 2026-09-19, so the route is closed",
+   "route": "record only"
+  },
   {
    "item": "shot parameters outside the sealed 9-cell family untested (no new brackets authorized)",
    "route": "SHOT_NOISE_BRACKETS retired"
@@ -330,14 +340,14 @@
    "item": "cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact)",
    "route": "record only"
   },
-   {
-    "item": "Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page)",
-    "route": "record only"
-   }
+  {
+   "item": "Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page)",
+   "route": "record only"
+  }
  ],
-  "startup": [
-   "read AGENTS.md",
-   "python scripts/project_check.py (full pass needs network plus tier-0; --offline --no-tests is the quick contract)",
+ "startup": [
+  "read AGENTS.md",
+  "python scripts/project_check.py (full pass needs network plus tier-0; --offline --no-tests is the quick contract)",
   "read manifests/current_state.json",
   "read manifests/todo.json (next item)",
   "read only that item's referenced artifacts",

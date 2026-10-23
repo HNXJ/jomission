@@ -64,13 +64,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - WHOLE_SYSTEM_INTRINSIC_GENERATOR: **PASS** — `results/whole_system_isolated_comparison.json`
 - E_RATE_AND_PERIOD_ARE_ONE_DOF: **PASS** (component of WHOLE_SYSTEM_INTRINSIC_GENERATOR) — `results/whole_system_isolated_pop.json`
 - INTERNEURON_RATE_REGIME: **FAIL** (component of WHOLE_SYSTEM_INTRINSIC_GENERATOR) — `results/whole_system_oscillator_single_area.json`
+- EI_NATIVE_STATE: **FAIL** (component of INTERNEURON_RATE_REGIME) — `results/whole_system_ei_native_state.json`
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-PROP-TRAJECTORY: V1_1 detects in the test pair with peak per-bin divergence 72.32 against the null-derived threshold 1e-12 — `be18f0d:results/propagation_trajectory.json`
-- SCI-PROP-TRAJECTORY: every downstream g=0 null reads at most the threshold in both the test-null and the held-out replicate pair — `be18f0d:results/propagation_trajectory.json`
-- SCI-PROP-TRAJECTORY: four downstream areas detect at g=0.5 with sustained onsets: V1_2 11100, V4_1 11360, V4_2 12020, PFC 12700 ms; FEF detects by peak without a sustained onset and is unordered — `be18f0d:results/propagation_trajectory.json`
-- SCI-PROP-TRAJECTORY: the 1 s window-count contrast that read exactly 0.000000 everywhere, including the directly driven V1_1, is superseded for propagation use by the 10 ms trajectory divergence; the count finding stands as sealed and is not retracted — `be18f0d:results/propagation_trajectory.json`
 - SCI-EI-INTERACTION-1: baseline cell exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz) — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-INTERACTION-1: weight-only cell leaves PV 0.0621 and VIP 0.0466 Hz unchanged against 18 percent stronger E->I weights; SST 50.2112 Hz — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-INTERACTION-1: adaptation-only cell halves SST 50.2 to 29.2496 Hz with PV 0.0621 and VIP 0.0466 Hz unchanged — `d846eff:results/whole_system_ei_interaction.json`
@@ -82,10 +79,13 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: neither class crosses its rheobase transiently (PV max 3.1869, VIP max 3.1905), so no STATE pattern; both cause UNRESOLVED — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: the current-budget atlas aligns per-class rate, total current with tonic and rheobase references, reconstructed splits, and v/u state over the full run — `dd8d6c4:results/whole_system_ei_recruitment.json`
+- SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
+- SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
+- SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
 
 ### Next authorized task
 
-- `SCI-EI-NATIVE-STATE-1` (OPEN): determine what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit, by native-resolution phase-plane measurement with no parameter changes
+- `SCI-EI-NATIVE-STATE-1` (DONE): determine what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit, by native-resolution phase-plane measurement with no parameter changes
 - stop: measurement only. One evaluation (or one authorized retention run), then STOP; no parameter is changed, nothing is calibrated, and no repair axis is manufactured from the result
 
 ### Locked gates

@@ -1783,7 +1783,7 @@
       },
       {
        "id": "SCI-EI-NATIVE-STATE-1",
-       "status": "OPEN",
+       "status": "DONE",
        "trigger": "owner assessment 2026-09-21: recruitment stayed UNRESOLVED after exhausting mean parameters, factorial intervention and current accounting; move from parameter magnitude to native state geometry before manufacturing another repair axis",
        "goal": "determine what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit, by native-resolution phase-plane measurement with no parameter changes",
        "parent_authority": "owner 2026-09-21 assessment: record v(t), u(t), I_net(t), I_E(t), I_I(t) plus spikes for representative E/PV/SST/VIP cells; construct (v_i, u_i, I_net) trajectories around firing opportunities; test P(spike|v,u,I_net,class); five predeclared verdicts; no intervention follows automatically",
@@ -1808,7 +1808,21 @@
        ],
        "downstream_unlock": [
         "SCI-AGSDR-CALIBRATION"
-       ]
+       ],
+       "delivered": {
+        "verdict": "MIXED_STATE_MECHANISM",
+        "result": "results/whole_system_ei_native_state.json",
+        "summary": "Multi-mechanism resolution: PV silence is caused by DYNAMIC_RECRUITMENT_DEFICIT (synaptic drive 2.95 is below 4.0 rheobase at burst phases); VIP silence is caused by INTRINSIC_STATE_VETO (positive u=+8.58 hyperpolarizes cell to -86 mV despite current excursions); SST hyperactivity is caused by SST_STATE_ADVANTAGE (tonic drive 3.5 exceeds 1.02 rheobase).",
+        "receipts": [
+         "python scripts/whole_system_ei_native_state_arm.py --g 0.0 --stimulus on --seed 0",
+         "results/whole_system_ei_native_state_intact_g000_on_s0_y.npz (43 MB, 130000 steps, dt=0.1ms)",
+         "results/viz/SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png (V1)",
+         "results/viz/SCI-EI-NATIVE-STATE-1/raster_final.png (V2)",
+         "results/viz/SCI-EI-NATIVE-STATE-1/atlas/index.html (V3)",
+         "results/viz/SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png",
+         "tests/test_whole_system_ei_native_state.py (6 passed)"
+        ]
+       }
       }
      ],
    "next_authorized_task": "SCI-EI-NATIVE-STATE-1"

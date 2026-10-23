@@ -1,0 +1,60 @@
+{
+ "schema": "jomission.scientific_reconciliation.v1",
+ "lineage": "SCI-EI-NATIVE-STATE-1",
+ "sealed_result": "results/whole_system_ei_native_state.json",
+ "sealed_result_blob": "8527125785223aa5614a2ae94a232ef7b3b9e520",
+ "event_alignment_reconciliation": {
+  "finding": "Reconciliation of SST row at t=0 ms in prose report against aligned_to_sst_spikes.summary_at_burst.SST in sealed JSON",
+  "index_semantics": "In JaxFNE discrete-time engine execution at dt=0.1 ms, when a neuron crosses threshold (v >= 30.0 mV), the state recorded at the spike timestamp (spk=1) has already applied the reset boundary v <- -65.0 mV and adaptation increment u <- u + d. In scripts/analyze_ei_native_state.py, valid_sst indices correspond to spk=1 (offset 0), so array values at offset 0 are post-reset. At offset -1 (-0.1 ms), the cell is at its pre-reset depolarization peak.",
+  "sample_offsets": {
+   "t_minus_0p1ms": {
+    "offset": -1,
+    "sample_time_ms": -0.1,
+    "sst_v_mean_mv": 18.9,
+    "sst_v_nominal_threshold_mv": 30.0,
+    "sst_u_mean": -13.3933,
+    "sst_cur_mean": 3.516,
+    "pv_v_mean_mv": -65.02,
+    "pv_cur_mean": 2.951,
+    "vip_v_mean_mv": -85.86,
+    "vip_cur_mean": 2.9922,
+    "note": "Pre-reset peak depolarization step; matches report table values (v=30.00 nominal, I_net=3.52)."
+   },
+   "t_0ms": {
+    "offset": 0,
+    "sample_time_ms": 0.0,
+    "sst_v_mean_mv": -65.0,
+    "sst_u_mean": -11.3027,
+    "sst_cur_mean": 3.4516,
+    "pv_v_mean_mv": -65.02,
+    "pv_cur_mean": 2.9547,
+    "vip_v_mean_mv": -85.87,
+    "vip_cur_mean": 2.9845,
+    "note": "Spike event timestamp in array (spk=1); matches aligned_to_sst_spikes.summary_at_burst in sealed JSON."
+   }
+  },
+  "verdict_impact": "None. At both offsets, PV receives sub-rheobase net current (2.95 < 4.0) and VIP is deeply hyperpolarized (-85.87 mV with positive adaptation u=+8.58), independently confirming DYNAMIC_RECRUITMENT_DEFICIT for PV and INTRINSIC_STATE_VETO for VIP."
+ },
+ "numerical_reporting_reconciliations": {
+  "sst_rate_hz": {
+   "canonical_sealed_value": 50.23,
+   "exact_derivation": "653 spikes / 13.0 s = 50.230769... Hz (rounded to 50.23 Hz)",
+   "prose_report_citation": 50.2,
+   "resolution": "Prose citation of 50.20 Hz was a transcription of historical EI interaction SST rate (50.1991 Hz). Canonical sealed value is 50.23 Hz."
+  },
+  "e_conditional_spike_probability_bin_3_to_4": {
+   "canonical_sealed_value": 0.000649,
+   "exact_derivation": "2 spikes / 3080 steps = 0.00064935...",
+   "prose_report_citation": 0.00062,
+   "resolution": "Prose notation 6.2e-4 was a reporting typo; canonical sealed value is exactly 0.000649."
+  }
+ },
+ "lineage_and_gate_status": {
+  "lineage_id": "SCI-EI-NATIVE-STATE-1",
+  "lineage_verdict": "MIXED_STATE_MECHANISM",
+  "qualification_status": "FAIL",
+  "current_gate": "V2_LOCAL_OPERATION",
+  "current_gate_status": "FAIL",
+  "next_authorized_task": null
+ }
+}

@@ -131,10 +131,18 @@ def validate_current_state(state: dict, todo: dict) -> list[str]:
     if not artifact_exists(state["handoff_path"]):
         err.append("handoff_path missing")
     items = {i["id"]: i for i in todo["items"]}
-    nxt = items.get(state["next_authorized_task"])
     live = [i for i in todo["items"] if i["status"] in ("OPEN", "OPEN_AFTER_HARNESS")]
-    if nxt is None or (nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS") and live):
-        err.append(f"next_authorized_task {state['next_authorized_task']} is not an OPEN TODO item")
+    if live:
+        nxt = items.get(state["next_authorized_task"])
+        if nxt is None or nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS"):
+            err.append(
+                f"next_authorized_task {state['next_authorized_task']} is not an OPEN TODO item"
+            )
+    else:
+        if state["next_authorized_task"] is not None:
+            err.append(
+                f"next_authorized_task {state['next_authorized_task']} is set but no TODO item is OPEN"
+            )
     locked_ids = {
         i["id"].replace("-", "_").replace(".", "_").upper()
         for i in todo["items"]

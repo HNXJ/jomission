@@ -44,11 +44,16 @@ def render() -> str:
     for rec in lineages[-3:]:
         for o in rec["observations"]:
             out.append(f"- {rec['lineage_id']}: {o['claim']} — `{rec['commit']}:{o['receipt']}`")
-    nxt = items[s["next_authorized_task"]]
-    out += ["", "### Next authorized task", "",
-            f"- `{nxt['id']}` ({nxt['status']}): {nxt['goal']}",
-            f"- stop: {nxt['stop_condition']}"]
-    after = [i for i in todo["items"] if i["status"] == "OPEN_AFTER_HARNESS" and i["id"] != nxt["id"]]
+    if s.get("next_authorized_task"):
+        nxt = items[s["next_authorized_task"]]
+        out += ["", "### Next authorized task", "",
+                f"- `{nxt['id']}` ({nxt['status']}): {nxt['goal']}",
+                f"- stop: {nxt['stop_condition']}"]
+        after = [i for i in todo["items"] if i["status"] == "OPEN_AFTER_HARNESS" and i["id"] != nxt["id"]]
+    else:
+        out += ["", "### Next authorized task", "",
+                "- `NONE` (no task currently open; awaiting reviewer direction)"]
+        after = [i for i in todo["items"] if i["status"] == "OPEN_AFTER_HARNESS"]
     if after:
         out.append("- then: " + "; ".join(f"`{i['id']}`: {i['goal']}" for i in after))
     out += ["", "### Locked gates", "", "- " + ", ".join(f"`{g}`" for g in s["locked_gates"]),

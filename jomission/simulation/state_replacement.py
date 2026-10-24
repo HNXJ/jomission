@@ -5,7 +5,7 @@ Frozen authorities (do not alter T1-T7):
   Use frozen counterfactuals H_post→H_pre, Θ_post→Θ_pre, both, plus valid
   fast/history replacements, per hypothesis plan. Compare against untouched
   post state with matched RNG/input where possible.
-- Config: 4f9fdeae7428199a / hp f327f9d2, dt canonical 0.1, continuous state
+- Config: f00e6a5e24f3dab4 / hp f327f9d2, dt canonical 0.1, continuous state
   C_t=(X,H,Θ,D,RNG,cursor) preserved except declared component.
 - Require artifact-backed evidence, generated-owner.
 
@@ -52,7 +52,7 @@ from jaxfne.io import config_hash
 import jaxfne.hdp_network as hdp
 
 # Frozen identities
-FROZEN_CONFIG_HASH = "4f9fdeae7428199a"
+FROZEN_CONFIG_HASH = "f00e6a5e24f3dab4"  # JaxFNE-0-5-7-MIGRATION re-baseline; engine-independent
 FROZEN_HP_HASH_PREFIX = "f327f9d2"  # full f327f9d2ad64cc88
 FROZEN_DT_MS = 0.1
 FROZEN_HP_FULL = "f327f9d2ad64cc88"
@@ -306,7 +306,7 @@ def capture_pre_post_states(
     tests use dt_ms=0.5/1.0 and short duration.
 
     Model is ALWAYS built with canonical dt 0.1 to preserve frozen config_hash
-    4f9fdeae7428199a; simulation dt is passed via Simulation(dt_ms=...) and is
+    f00e6a5e24f3dab4; simulation dt is passed via Simulation(dt_ms=...) and is
     independent of cfg hash (verified: Simulation dt overrides cfg metadata dt).
     """
     # Build model with requested seed (replicate variation)

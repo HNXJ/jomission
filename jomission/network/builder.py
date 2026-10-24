@@ -403,20 +403,22 @@ def build_jomission_network(
         cfg = cfg.column(area, layers=list(layers), n=int(n_per_area))
 
     # Wire inter-area connectivity for each adjacent pair — both FF and FB (W2.3 explicit laminar hierarchy)
-    # FF: L2/3_E -> L4 (superficial->granular) with delay 8ms MODEL_ASSUMPTION
-    # FB: L6_E -> L1 / L6_E -> L5 (deep->supragranular/deep) with delay 12ms MODEL_ASSUMPTION, two specs per direction for key uniqueness
+    # FF: L2/3_E -> L4 (superficial->granular), delay 8 ms MODEL_ASSUMPTION
+    # FB: L6_E -> L1 / L6_E -> L5 (deep->supragranular/deep), delay 12 ms MODEL_ASSUMPTION, two specs per direction for key uniqueness
+    # The transmission delays are applied post-construct by _apply_laminar_delays (FF 80 steps, FB 120 steps).
+    # The declarative delay_ms_or_status argument is not passed: JaxFNE >= 0.5.5 refuses it
+    # ("the implementation realizes delay_ms_or_status in [None] only") and the realized delays
+    # are the seam's, so the argument was metadata only.
     for lo, hi in zip(areas[:-1], areas[1:]):
         cfg = cfg.inter_column_connectivity(
             source_area=lo,
             target_area=hi,
             mode="sparse",
             layer_to_layer_map=dict(FF_LAYER_MAP),
-            cell_type_to_cell_type_map={"E": "E", "PV": "PV", "SST": "SST", "VIP": "VIP"},
             p_feedforward=float(p_feedforward),
             p_feedback=0.0,
             feedforward_weight_range=(0.5, 2.0),
             feedback_weight_range=(0.3, 1.5),
-            delay_ms_or_status=float(DELAY_FF_MS),
         )
     # Explicit FB specs: V4->V1, FEF->V4, PFC->FEF each with L6->L1 and L6->L5 (derived from areas for genericity)
     fb_pairs = [(hi, lo) for lo, hi in zip(areas[:-1], areas[1:])]
@@ -427,12 +429,10 @@ def build_jomission_network(
                 target_area=lo,
                 mode="sparse",
                 layer_to_layer_map=dict(fb_map),
-                cell_type_to_cell_type_map={"E": "E", "PV": "PV", "SST": "SST", "VIP": "VIP"},
                 p_feedforward=0.0,
                 p_feedback=float(p_feedback),
                 feedforward_weight_range=(0.5, 2.0),
                 feedback_weight_range=(0.3, 1.5),
-                delay_ms_or_status=float(DELAY_FB_MS),
             )
 
     # Global fallback cell fractions (used if per-area table missing)
@@ -459,16 +459,35 @@ def build_jomission_network(
     # and jaxfne/_config.py:679 connections(max_in_degree, spatial_sigma)
     # Functional via cfg.connectivity metadata + _apply_spatial_locality pruning
     # in build_jomission_model (Gaussian kernel, same as jaxfne).
+    # JaxFNE >= 0.5.5 realizes within_area only as 'all_to_all_uniform_random' and refuses
+    # spatial_sigma and max_in_degree. The locality is applied post-construct by
+    # _apply_spatial_locality from this module's metadata, so the realized graph is unchanged.
     cfg = cfg.connectivity(
-        within_area="spatial_local",
+        within_area="all_to_all_uniform_random",
         within_gain=float(within_gain),
-        spatial_sigma=0.08,
-        max_in_degree=25,
         p_connect=None,
     )
+    cfg = cfg.update_metadata(
+        spatial_locality={
+            "spatial_sigma": 0.08,
+            "max_in_degree": 25,
+            "provenance": "MODEL_ASSUMPTION: local within-area topology sigma 0.08, max in-degree 25",
+            "seam": "post-construct _apply_spatial_locality pruning (builder.py)",
+        }
+    )
 
-    # Field + probe — linear_solver, proxy_readout (no physical calibration)
-    cfg = cfg.field(source_mode="proxy_no_field_solve")
+    # Field + probe — linear_solver, proxy_readout (no physical calibration).
+    # JaxFNE >= 0.5.5 refuses field(source_mode=...): the key has no consumer in either
+    # engine version. The declared values are the engine's own default field, written out
+    # (jaxfne 0.4.25 probe(): domain/conductivity/boundary/gauge), so the realized field is
+    # the one the engine used by default; the readout marker moves to this module's metadata.
+    cfg = cfg.field(
+        domain="laminar_column",
+        conductivity="proxy",
+        boundary="mean_zero_neumann",
+        gauge="mean_zero",
+    )
+    cfg = cfg.update_metadata(field_readout_mode="proxy_no_field_solve")
     cfg = cfg.probe(n_contacts=int(n_contacts))
 
     # Runtime — edge_list backend required for full-state continuation (C_t carry)
@@ -1972,8 +1991,9 @@ def build_jomission_model(
             pass
     # Apply sparse-local pruning if connectivity declares spatial params (GEN2_C003)
     conn = cfg.metadata.get("connectivity", {}) or {}
-    sigma = conn.get("spatial_sigma")
-    mid = conn.get("max_in_degree")
+    local = cfg.metadata.get("spatial_locality", {}) or {}
+    sigma = local.get("spatial_sigma", conn.get("spatial_sigma"))
+    mid = local.get("max_in_degree", conn.get("max_in_degree"))
     if sigma is not None and mid is not None:
         try:
             model = _apply_spatial_locality(

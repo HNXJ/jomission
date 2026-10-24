@@ -3,7 +3,7 @@
   "namespace": "rf_rate_factorial",
   "owner": "frozen",
   "freeze_note": "Frozen before execution; not tuned to results. Any expansion requires new version.",
-  "config_hash": "4f9fdeae7428199a",
+  "config_hash": "f00e6a5e24f3dab4",
   "hp_hash_canonical": "f327f9d2ad64cc88",
   "dt_ms_canonical": 0.1,
   "dt_ms_pilot": 1.0,
@@ -86,7 +86,7 @@
         }
       },
       "hp_hash": "bb8277e7a8e0bca2",
-      "config_hash": "4f9fdeae7428199a"
+      "config_hash": "f00e6a5e24f3dab4"
     },
     "B_RFoff_RateSlow": {
       "rf": "off",
@@ -120,7 +120,7 @@
         }
       },
       "hp_hash": "f72a489841810a4b",
-      "config_hash": "4f9fdeae7428199a"
+      "config_hash": "f00e6a5e24f3dab4"
     },
     "C_RFon_RateStd": {
       "rf": "on",
@@ -154,7 +154,7 @@
         }
       },
       "hp_hash": "f327f9d2ad64cc88",
-      "config_hash": "4f9fdeae7428199a"
+      "config_hash": "f00e6a5e24f3dab4"
     },
     "D_RFon_RateSlow": {
       "rf": "on",
@@ -188,7 +188,7 @@
         }
       },
       "hp_hash": "b326f7201c59b803",
-      "config_hash": "4f9fdeae7428199a"
+      "config_hash": "f00e6a5e24f3dab4"
     }
   },
   "cell_order": [
@@ -312,7 +312,7 @@
       "design_version": "rf_rate_factorial.v0.1.0",
       "predicate": "FULL",
       "C1_hashes": {
-        "config_hash": "4f9fdeae7428199a",
+        "config_hash": "f00e6a5e24f3dab4",
         "cell_hp_hashes": {
           "A_RFoff_RateStd": "bb8277e7a8e0bca2",
           "B_RFoff_RateSlow": "f72a489841810a4b",
@@ -407,7 +407,7 @@
       "design_version": "rf_rate_factorial.v0.1.0",
       "predicate": "PILOT",
       "C1_hashes": {
-        "config_hash": "4f9fdeae7428199a",
+        "config_hash": "f00e6a5e24f3dab4",
         "cell_hp_hashes": {
           "A_RFoff_RateStd": "bb8277e7a8e0bca2",
           "B_RFoff_RateSlow": "f72a489841810a4b",
@@ -509,7 +509,13 @@
     "code": "jomission.ablations.rf_rate_factorial (this design)",
     "jaxfne_version": "0.4.17",
     "design_module": "jomission.ablations.rf_rate_factorial",
-    "frozen_hash": "computed via validate_design() and check_completion()"
+    "frozen_hash": "computed via validate_design() and check_completion()",
+    "rebaseline_0_5_7": {
+      "change": "config_hash -> f00e6a5e24f3dab4; the JaxFNE-0-5-7-MIGRATION compatibility deltas removed the declarative parameters jaxfne >= 0.5.5 refuses, which changes the builder's metadata and therefore its hash. The realized graph is unchanged (same edge count, weights, delays)",
+      "untouched": "design_version, cells, factors, hp hashes, thresholds, estimands, freeze_note",
+      "engine_independence": "f00e6a5e24f3dab4 measured under jaxfne 0.4.25 and under 0.5.7: the deltas removed engine-specific metadata, so the hash no longer depends on the engine version",
+      "authority": "owner 2026-10-23: JAXFNE-0-5-7-MIGRATION"
+    }
   },
   "artifact_backing": {
     "manifest_path": "manifests/rf_rate_factorial_design.json",
@@ -517,5 +523,5 @@
     "tests": "tests/test_rf_rate_factorial.py",
     "results_dir": "results/rf_rate_factorial/"
   },
-  "manifest_sha256_16": "0c2972525d1d0496"
+  "manifest_sha256_16": "2cdbe72a22453a17"
 }

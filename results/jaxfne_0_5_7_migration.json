@@ -1,0 +1,93 @@
+{
+  "authority": "owner 2026-10-23: 0.4.25 is deprecated, move to the latest JaxFNE; owner 2026-10-23: authorize the promotion path (authority, re-seal, Gen2 identity re-baseline), with the Gen2 source_mode question settled by measurement. Authorized in manifests/todo.json as JAXFNE-0-5-7-MIGRATION",
+  "compatibility_deltas": [
+    {
+      "effect": "metadata only (Configuration.areas writes metadata): the built graph, the six cortical areas and the retinal interface's structural role are unchanged",
+      "id": "retinal-area-declaration",
+      "measured": "0.4.25 and 0.5.7 construct the same TFNE model: 2224 neurons, 1294396 edges before enforce, 246844 after (equal to the sealed results/whole_system_isolated_pop.json count), identical weight bytes sha256 8fccec054edeee9dce09166c622c77862e457acdf7fb2df393060fbf3d0df813, identical projection identity set (26 identities: 24 cortical, 2 retinal afferents), identical tau, receptor and delay values, 1047552 intra-retinal edges removed, retinal tonic 0.0. Only the config hash moves: 129dcb4e8f1ad88e (0.4.25) -> 78708ca2c3214dd9 (0.5.7)",
+      "where": "jomission/tfne/realize.py declare_retinal_interface, used by the ten whole-system arm scripts",
+      "why": "jaxfne >= 0.5.6 checks at construct that the declared areas are exactly the built columns; the arms build a Retina column for the retinal input interface without declaring its area"
+    },
+    {
+      "effect": "the realized graph is unchanged; the config hash becomes engine-independent",
+      "id": "gen2-declarative-parameters",
+      "measured": "0.4.25 with the deltas, 0.4.25 without them and 0.5.7 with them agree on 10666 edges, weight sha256 038b5bf1b577f25b343244e36cfdf036e00e96c5f50b0abfb14ad1ba7be4afde, weight min/max/mean, delays {20: 10076, 80: 287, 120: 303}, tau {2.0, 5.0} and 400 neurons. The config hash is f00e6a5e24f3dab4 under 0.4.25 and under 0.5.7 (it was 4574a15519ee8c33 before the deltas, and the pre-existing frozen constant 4f9fdeae7428199a was already stale; see manifests/q8_021_quarantine.json)",
+      "where": "jomission/network/builder.py: inter_column_connectivity delay_ms_or_status and cell_type_to_cell_type_map, connectivity spatial_sigma and max_in_degree, connectivity within_area, field source_mode",
+      "why": "jaxfne >= 0.5.5 refuses each of these as unrealized; the realized values come from this module's own seams and from the engine's only realized value"
+    }
+  ],
+  "engine_matrix": {
+    "0.4.25": "authority. construction baseline; probe arrays are the reference",
+    "0.5.0": "drop-in: construction hashes equal 0.4.25 and the probe arrays (V_m, sources, spikes) are bit-identical to 0.4.25",
+    "0.5.5": "same native-noise law as 0.4.25 (per-step 0.5) but a different noise realization: the engine re-chains the noise stream per chunk (9 noise-schedule references in 0.4.25 and 0.5.0, 43 in 0.5.5+). Over a 20 ms segment at dt 0.1 ms the probes differ (V_m max abs diff 106.6, sources 21.3, spikes 335 against 337)",
+    "0.5.6": "native-noise law changed: the default coefficient is dt-invariant (0.5*sqrt(DT_REF_MS/dt_ms), DT_REF_MS 0.5), so the per-step coefficient at dt 0.1 ms is 1.1180 instead of 0.5",
+    "0.5.7": "as 0.5.6. Over a 20 ms segment at dt 0.1 ms the probes differ from 0.4.25 (V_m max abs diff 97.7, sources 22.5, spikes 331 against 337) with the compatibility deltas in place"
+  },
+  "engine_provenance": {
+    "0.4.25": "sha256 035103bc81b2aebeb22b7cd73e45e59bba301059ddd0ee8c9d519e42fa3c4c10",
+    "0.5.0": "sha256 1a6cbe75b08f8855421f2792d8557bd39631db95ba75e3f09a0667d9b8ac2233",
+    "0.5.5": "sha256 496a8a310938334dda490e364bd5c3e945e7bb58ce6cb9d2d893b803ebfdf2ce",
+    "0.5.6": "sha256 5f2f6caa89c0a9fc84bdad8d837679a7318ded1f9adc5eb62f0e50cbf9785af9",
+    "0.5.7": "sha256 3f295317221bba4ab0b05d33a951813eeea4d5400ae640d29164bc744b89c1c8",
+    "installed": "0.5.7",
+    "interpreter": "C:\\Python314\\python.exe (CPython 3.14.3)",
+    "package": "jaxfne",
+    "wheel": "jaxfne-0.5.7-py3-none-any.whl, 965784 bytes",
+    "wheel_url": "https://files.pythonhosted.org/packages/8b/b2/4fb21da813266086e839eb567f146f8f484847cd2fad361623cb153a3307/jaxfne-0.5.7-py3-none-any.whl"
+  },
+  "fail_boundary": "the compatibility work is complete and engine-independent; the promotion of JaxFNE 0.5.7 is not, because the engine's native-noise law changed in 0.5.6 and the substrate's stochastic input therefore changes by a factor 2.236 at the canonical dt 0.1 ms. The declared acceptance criterion GEN2-PROBE (probe arrays identical) fails under 0.5.6 and 0.5.7 and passes under 0.5.0 and 0.5.5 (law) for the construction. The sealed SCI-EI-NATIVE-STATE-1 result stays valid as a measurement made under jaxfne 0.4.25 and is not retroactively altered.",
+  "identity_rebaseline": {
+    "engine_independent": true,
+    "from": "4574a15519ee8c33 (live under 0.4.25 before the compatibility deltas; the pre-existing frozen constant 4f9fdeae7428199a was already stale and is recorded in manifests/q8_021_quarantine.json)",
+    "to": "f00e6a5e24f3dab4",
+    "where": "jomission/simulation/state_replacement.py, jomission/ablations/rf_rate_factorial.py, manifests/rf_rate_factorial_design.json (with its manifest_sha256_16 recomputed), tests/test_rf.py, tests/test_area_local_field.py",
+    "sealed_history_untouched": "the archived manifests and the lineage records keep their own hashes"
+  },
+  "lineage_id": "JAXFNE-0-5-7-MIGRATION",
+  "native_noise_finding": {
+    "established": "jaxfne >= 0.5.6 computes the default native-noise coefficient as 0.5*sqrt(DT_REF_MS/dt_ms) with DT_REF_MS 0.5 (jaxfne/emitters.py _noise_coef), so at the canonical dt 0.1 ms the per-step coefficient is 1.1180 where jaxfne <= 0.5.5 use 0.5. The project invariant NATIVE_NOISE_DEFAULT (docs/project-sources/SUBSTRATE_PROGRAM.md) states the per-step law 0.5*N(0,1) per neuron per step, and that law is what every sealed result was produced with.",
+    "not_established": "that the 0.5.6+ default is wrong. It is a deliberate dt-invariance change in the engine, and it changes the model's stochastic input, which is a scientific question, not a compatibility question.",
+    "override_possible": "not from jomission at the emitter level: the built emitter params (IzhikevichParams) carry no noise_scale field in either engine version. The only route is runtime_cfg.hdp_params['noise_scale'], which the baseline kernel forwards when HDP is off and which the HDP path reads from the frozen canonical hp (hash f327f9d2). Declaring the historical per-step coefficient under 0.5.6+ would therefore be a substrate-wide re-declaration: 42 RuntimeConfig construction sites, a re-frozen canonical hp hash, and the NATIVE_NOISE_DEFAULT wording amended.",
+    "project_rule_reference": "NO_RETUNE_AFTER_RESULTS and the owner boundary 'separate compatibility from scientific qualification'"
+  },
+  "owner_options": {
+    "A_promote_0_5_5": "the newest engine that keeps the historical noise law. The compatibility deltas and the identity re-baseline are already in place and measured. The seeded realization changes, so no historical result is bit-reproducible; the law is unchanged.",
+    "B_promote_0_5_7_as_is": "the latest engine, accepting the engine's dt-invariant default: the substrate's per-step noise at dt 0.1 ms becomes 1.118 instead of 0.5. A scientific change that needs its own authorization and a re-baseline of the noise-dependent lineages.",
+    "C_promote_0_5_0": "the newest engine that changes no science: construction hashes equal 0.4.25 and the probe arrays are bit-identical. The compatibility deltas are then unnecessary (harmless).",
+    "D_declare_the_law_under_0_5_7": "keep 0.5.7 and declare the historical per-step coefficient: a substrate-wide re-declaration (42 RuntimeConfig sites, re-frozen canonical hp hash, amended NATIVE_NOISE_DEFAULT wording), i.e. its own lineage."
+  },
+  "parent": "JAXFNE-0425-MIGRATION",
+  "principal_delta": "the execution engine authority, with the compatibility deltas that keep the realized graph unchanged. No scientific parameter, result or verdict changes",
+  "promotion_state": {
+    "authority_promoted": false,
+    "reason": "the declared acceptance criteria were not met under 0.5.7 (GEN2-PROBE), and the promotion of the execution authority is withheld pending the owner's decision on the native-noise law",
+    "sealed_paths_re_registered": [
+      "jomission/tfne/realize.py",
+      "scripts/whole_system_authority_arm.py",
+      "scripts/whole_system_authority_arm_v2.py",
+      "scripts/whole_system_causal_arm.py",
+      "scripts/whole_system_diagnostic.py",
+      "scripts/whole_system_diagnostic_3.py",
+      "scripts/whole_system_ei_interaction_arm.py",
+      "scripts/whole_system_ei_regime_arm.py",
+      "scripts/whole_system_isolated_arm.py",
+      "scripts/whole_system_oscillator_arm.py"
+    ]
+  },
+  "receipts": [
+    "python scripts/jaxfne_construct_ab.py --out <a>.json --model tfne (0.4.25 and 0.5.7) and --compare <a>.json <b>.json",
+    "python scripts/jaxfne_probe_ab.py --code-root <checkout> --out <a>.json --npz <a>.npz (0.4.25 pre-change, 0.4.25 adapted, 0.5.0, 0.5.5, 0.5.7) and --compare",
+    "python -m pytest -q -p no:cacheprovider <tier-0 list> (0.4.25 interpreter): 2 failed, 210 passed; the two failures are the seal guard (the ten re-sealed paths, pending this record) and the results-coverage guard (this record and the specification, pending their registry entries)",
+    "engine matrix probe (one process per engine, pinned venvs E:\\wt\\venv-jaxfne-0425, -050, -055, -056)",
+    "project_check.py under the authority's interpreter: only the sealed-registry and results-coverage guards fail before this record is registered"
+  ],
+  "rollback": {
+    "engine": "python -m pip install --no-deps --no-index <jaxfne-0.4.25 wheel>",
+    "repository": "git branch -D migration/jaxfne-0-5-7 (main stays at 5b2c861)",
+    "recovery_work": "stash@{0} (66d578e38f756316e0c9f94cf7a7503ac4049685) and recovery/atlas-suite (e9c52fc) are untouched and remain the rollback evidence for the atlas work"
+  },
+  "schema": "jomission.scientific_result.v1",
+  "spec": "results/jaxfne_0_5_7_migration_spec.json",
+  "status": "FAIL",
+  "verdict": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW"
+}

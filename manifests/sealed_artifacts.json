@@ -1637,8 +1637,8 @@
   },
   {
    "path": "jomission/tfne/realize.py",
-   "blob": "78b730d5e942ba9fd993598249bc99a1f42586b2",
-   "sealed_in": "acdaf19"
+   "blob": "5fd3d8255c68a8d532efa43a730b486bb75d48f3",
+   "sealed_in": "5a01add"
   },
   {
    "path": "tests/test_whole_system_realization.py",
@@ -1678,8 +1678,8 @@
   },
   {
    "path": "scripts/whole_system_diagnostic.py",
-   "blob": "208cae2e4da736ea08fdf799dfd748eb870188c4",
-   "sealed_in": "0e76900",
+   "blob": "f60bd1e9d32e5b02c3ebc4445741aa72832ca70f",
+   "sealed_in": "5a01add",
    "resealed": "WS-DIAG-2: --spec plumbing and two write-path defect repairs; no scientific parameter changed"
   },
   {
@@ -1709,8 +1709,8 @@
   },
   {
    "path": "scripts/whole_system_diagnostic_3.py",
-   "blob": "7505c30fe22aedadd6c642491aa48ff393fd297b",
-   "sealed_in": "66ba377"
+   "blob": "097610743df174ac990a75adf1f0eb891dedabe7",
+   "sealed_in": "5a01add"
   },
   {
    "path": "jomission/tfne/hdp_authority.py",
@@ -1729,8 +1729,8 @@
   },
   {
    "path": "scripts/whole_system_authority_arm.py",
-   "blob": "6bfb97dd13c0760e99924f6fd31bcda2f74e5571",
-   "sealed_in": "74ee2cd"
+   "blob": "ff34dcf9815193fa7ba7bbbc3c92a06cf04bc578",
+   "sealed_in": "5a01add"
   },
   {
    "path": "jomission/tfne/o_authority.py",
@@ -1749,8 +1749,8 @@
   },
   {
    "path": "scripts/whole_system_authority_arm_v2.py",
-   "blob": "fe8d014056a01b6e92cb2063e22105783834ee8d",
-   "sealed_in": "ff68971"
+   "blob": "73749a264c4d2df8e445276d60120b9cf897997f",
+   "sealed_in": "5a01add"
   },
   {
    "path": "results/whole_system_authority_g000.json",
@@ -1764,8 +1764,8 @@
   },
   {
    "path": "scripts/whole_system_causal_arm.py",
-   "blob": "06f4a2a543f0a74b861248ab9953e4adefabeb41",
-   "sealed_in": "2a2f4d8"
+   "blob": "aa27eacb0233bad432376934a2efab6b84874724",
+   "sealed_in": "5a01add"
   },
   {
    "path": "results/whole_system_causal_spec.json",
@@ -1799,8 +1799,8 @@
   },
   {
    "path": "scripts/whole_system_oscillator_arm.py",
-   "blob": "409fcc8fa222bed4e814294f00d0b74e338b977b",
-   "sealed_in": "3b239c9"
+   "blob": "811ba91f9ff4b87244d36683382683d0806340fe",
+   "sealed_in": "5a01add"
   },
   {
    "path": "jomission/harness/oscillation.py",
@@ -1829,8 +1829,8 @@
   },
   {
    "path": "scripts/whole_system_isolated_arm.py",
-   "blob": "a524e6b219208bf58bfbc97322ecd137920788c9",
-   "sealed_in": "96b8749"
+   "blob": "adc416f1cea7b76786abb24a5e6f7a3090aa9d27",
+   "sealed_in": "5a01add"
   },
   {
    "path": "results/v21_background_design.json",
@@ -1864,8 +1864,8 @@
   },
   {
    "path": "scripts/whole_system_ei_regime_arm.py",
-   "blob": "e6b804e9055734fa2a6b3b240b7dce1f4fd7bd30",
-   "sealed_in": "c98c85d"
+   "blob": "eb50766e605bcd306d76f8436ba91f151ddef2b4",
+   "sealed_in": "5a01add"
   },
   {
    "path": "results/viz/SCI-EI-REGIME-1/atlas/manifest.json",
@@ -1914,8 +1914,8 @@
   },
   {
    "path": "scripts/whole_system_ei_interaction_arm.py",
-   "blob": "5110753f9077e09c035c2b6b85c43c156ce0d38b",
-   "sealed_in": "0934632"
+   "blob": "5aca56a031ac2e7a64a55b1eeaca3b661bad64cb",
+   "sealed_in": "5a01add"
   },
   {
    "path": "scripts/whole_system_ei_interaction_compare.py",
@@ -1971,6 +1971,11 @@
    "path": "results/whole_system_ei_native_state_reconciliation.json",
    "blob": "331ce0d3ebe9fd634e47dba0bfeb526f0e15f8b1",
    "sealed_in": "3ca2958"
+  },
+  {
+   "path": "results/jaxfne_0_5_7_migration_spec.json",
+   "blob": "4cee26f73d49433a89bce89d3b18f2ac7d039af5",
+   "sealed_in": "6b2b9b0"
   }
  ]
 }

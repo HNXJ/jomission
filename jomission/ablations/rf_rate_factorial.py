@@ -35,7 +35,7 @@ B : RF_off  × Rate_slow      (K_HDP=0,   tau_0=1000) hash f72a489841810a4b
 C : RF_on   × Rate_standard  (K_HDP=0.003,tau_0=5)    hash f327f9d2ad64cc88 (frozen canonical)
 D : RF_on   × Rate_slow      (K_HDP=0.003,tau_0=1000) hash b326f7201c59b803
 
-Each cell uses identical network (config_hash 4f9fdeae7428199a, 400 neurons,
+Each cell uses identical network (config_hash f00e6a5e24f3dab4, 400 neurons,
 V1→V4→FEF→PFC, dt_ms=0.1 canonical) and identical exposure/testing schedule
 (canonical_schedule 260 trials =1202.24 s exposure, 96 trials testing,
 26 checkpoints). Only hdp_params differ per cell (hashes above).
@@ -126,7 +126,7 @@ Design version rf_rate_factorial.v0.1.0 is COMPLETE iff all of:
   C1  Design artifacts exist and hashes verify:
       - this module hash (git) and manifests/rf_rate_factorial_design.json
         content hash match stored sha256 (frozen, not recomputed post hoc).
-      - config_hash == 4f9fdeae7428199a for all cells (verified via config_hash)
+      - config_hash == f00e6a5e24f3dab4 for all cells (verified via config_hash)
       - hp_hash per cell matches frozen table (A bb82..., B f72a..., C f327..., D b326...)
 
   C2  Per cell, lifecycle executed under canonical_schedule:
@@ -201,7 +201,7 @@ import numpy as np
 
 # Frozen identities
 DESIGN_VERSION = "rf_rate_factorial.v0.1.0"
-FROZEN_CONFIG_HASH = "4f9fdeae7428199a"
+FROZEN_CONFIG_HASH = "f00e6a5e24f3dab4"  # JaxFNE-0-5-7-MIGRATION re-baseline; engine-independent
 FROZEN_HP_HASH_CANONICAL = "f327f9d2ad64cc88"
 FROZEN_DT_MS_CANONICAL = 0.1
 FROZEN_DT_MS_PILOT = 1.0

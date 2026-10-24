@@ -5,9 +5,9 @@
   {
    "id": "ENV-STALE-EDITABLE",
    "signature": "ModuleNotFoundError for a module present in this checkout, or behaviour of older code outside pytest",
-   "cause": "_editable_impl_jomission.pth pointed at the stale clone E:/jomission; pytest pythonpath=['.'] masks it",
+   "cause": "_editable_impl_jomission.pth pointed at the stale clone E:/repos/jomission while the working clone is E:/jomission; pytest pythonpath=['.'] masks it",
    "detect": "tests/test_environment_provenance.py; scripts/project_check.py 'editable install'",
-   "repair": "python -m pip install --no-deps -e E:/repos/jomission (default isolated build)",
+   "repair": "python -m pip install --no-deps -e E:/jomission (default isolated build)",
    "status": "REPAIRED, guarded",
    "match": "jomission imports from .* not "
   },

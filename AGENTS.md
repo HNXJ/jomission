@@ -14,7 +14,7 @@ Authority: Project-level harness policy. Scientific claims remain governed by pr
 - Do not retune after results: sealed negatives stay negative; a changed criterion or parameter is a new lineage.
 - STOP at the first failed gate, at a declared stop state, or when proceeding needs an unrecorded decision. A STOP reports and waits.
 - Evidence class (`OBSERVED`/`DERIVED`/`INFERRED`/`ASSUMED`/`UNKNOWN`) and status (`PASS`/`FAIL`/...) are separate fields; a status comes from the result's `verdict`, never from a green test run.
-- Provenance: work only in `E:\repos\jomission`; `jomission` must import from this checkout and JaxFNE must equal the execution authority.
+- Provenance: work only in `E:\jomission`; `jomission` must import from this checkout and JaxFNE must equal the execution authority.
 - Omission firewall: no omission outcome informs substrate construction or appears in Pages before blind omission.
 - Artifacts: files in `manifests/sealed_artifacts.json` never change; corrections are additive records. Gate thresholds come from `jomission.harness.gates`, except frozen executed batteries listed in the gate file. Stage exact paths; push to origin (the check reports divergence only).
 - Tests: lowest covering tier in `manifests/test_tiers.json`; tier 3 runs only inside an authorizing TODO.

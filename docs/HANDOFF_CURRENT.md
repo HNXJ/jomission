@@ -134,5 +134,5 @@ superseded V2.1 wording is listed in `results/v21_provenance_correction.json`.
 
 > Reconstruct the state from repository evidence before acting. Treat this handoff as a routing map, not authority over executed artifacts. Independently challenge the current conclusion before implementing the next step. If repository evidence contradicts this handoff, STOP and surface the conflict. Make the smallest authorized scientific delta, verify it, seal it, and stop at the first failed gate.
 
-Work only in `E:\repos\jomission`. Push with
+Work only in `E:\jomission`. Push with
 `git push git@github.com:HNXJ/jomission.git <branch>:refs/heads/<branch>`.

@@ -68,12 +68,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-INTERACTION-1: baseline cell exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz) — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: weight-only cell leaves PV 0.0621 and VIP 0.0466 Hz unchanged against 18 percent stronger E->I weights; SST 50.2112 Hz — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: adaptation-only cell halves SST 50.2 to 29.2496 Hz with PV 0.0621 and VIP 0.0466 Hz unchanged — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: both-repaired cell reads PV 0.0621, VIP 0.0466, SST 29.2504 Hz: no cell viable, verdict EI_REGIME_STILL_UNRESOLVED — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: departures from additivity per class are recorded in the decomposition block; synchrony and the 94-95 ms mode reported per cell, not gating — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: V0 schematic and V1 initial raster of the baseline construction viewed before the runs; V2 reuses V1 ordering and window; V3 atlas 5 of 6 panels — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-RECRUITMENT-1: PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
@@ -82,6 +76,10 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
+- JAXFNE-0-5-7-MIGRATION: the compatibility deltas leave the Gen2 realized graph bit-identical across jaxfne 0.4.25 and 0.5.7: 10666 edges, weight sha256 038b5bf1b577f25b343244e36cfdf036e00e96c5f50b0abfb14ad1ba7be4afde, delays {20: 10076, 80: 287, 120: 303}, tau {2.0, 5.0}, 400 neurons — `e9b2367:results/jaxfne_0_5_7_migration.json`
+- JAXFNE-0-5-7-MIGRATION: the TFNE construction is identical across jaxfne 0.4.25 and 0.5.7: 2224 neurons, 1294396 edges before enforce and 246844 after (the sealed results/whole_system_isolated_pop.json count), identical weight bytes sha256 8fccec054edeee9dce09166c622c77862e457acdf7fb2df393060fbf3d0df813 and an identical projection identity set — `e9b2367:results/jaxfne_0_5_7_migration.json`
+- JAXFNE-0-5-7-MIGRATION: the probe arrays of the Gen2 model are identical under jaxfne 0.4.25 before and after the compatibility deltas, and identical under jaxfne 0.5.0; they differ under 0.5.5 (335 against 337 spikes over 20 ms) and under 0.5.7 (331 against 337) — `e9b2367:results/jaxfne_0_5_7_migration.json`
+- JAXFNE-0-5-7-MIGRATION: jaxfne >= 0.5.6 computes the default native-noise coefficient as 0.5*sqrt(DT_REF_MS/dt_ms) with DT_REF_MS 0.5, so at the canonical dt 0.1 ms the per-step coefficient is 1.1180 where jaxfne <= 0.5.5 use 0.5 — `e9b2367:results/jaxfne_0_5_7_migration.json`
 
 ### Next authorized task
 

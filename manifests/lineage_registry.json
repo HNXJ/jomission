@@ -3154,6 +3154,81 @@
      "finding": "MIXED_STATE_MECHANISM delivered. Interneuron firing discrepancies are driven by divergent phase-plane dynamics across cell classes under the intact model."
     }
    ]
+  },
+  {
+   "lineage_id": "JAXFNE-0-5-7-MIGRATION",
+   "parent": "JAXFNE-0425-MIGRATION",
+   "principal_delta": "the execution engine authority and the compatibility deltas it needs. No scientific parameter, result or verdict changes",
+   "preexecution_spec": {
+    "path": "results/jaxfne_0_5_7_migration_spec.json",
+    "commit": "6b2b9b0"
+   },
+   "authority": "owner 2026-10-23: JAXFNE-0-5-7-MIGRATION",
+   "inputs": [
+    "results/jaxfne_0_5_7_migration_spec.json"
+   ],
+   "frozen": [
+    "all scientific outputs and sealed results: no result is rewritten",
+    "the six-area cortical contract and the retinal interface's structural role",
+    "the canonical hp hash f327f9d2ad64cc88"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "the compatibility deltas leave the Gen2 realized graph bit-identical across jaxfne 0.4.25 and 0.5.7: 10666 edges, weight sha256 038b5bf1b577f25b343244e36cfdf036e00e96c5f50b0abfb14ad1ba7be4afde, delays {20: 10076, 80: 287, 120: 303}, tau {2.0, 5.0}, 400 neurons",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/jaxfne_0_5_7_migration.json"
+    },
+    {
+     "claim": "the TFNE construction is identical across jaxfne 0.4.25 and 0.5.7: 2224 neurons, 1294396 edges before enforce and 246844 after (the sealed results/whole_system_isolated_pop.json count), identical weight bytes sha256 8fccec054edeee9dce09166c622c77862e457acdf7fb2df393060fbf3d0df813 and an identical projection identity set",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/jaxfne_0_5_7_migration.json"
+    },
+    {
+     "claim": "the probe arrays of the Gen2 model are identical under jaxfne 0.4.25 before and after the compatibility deltas, and identical under jaxfne 0.5.0; they differ under 0.5.5 (335 against 337 spikes over 20 ms) and under 0.5.7 (331 against 337)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/jaxfne_0_5_7_migration.json"
+    },
+    {
+     "claim": "jaxfne >= 0.5.6 computes the default native-noise coefficient as 0.5*sqrt(DT_REF_MS/dt_ms) with DT_REF_MS 0.5, so at the canonical dt 0.1 ms the per-step coefficient is 1.1180 where jaxfne <= 0.5.5 use 0.5",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/jaxfne_0_5_7_migration.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "promoting 0.5.6 or 0.5.7 changes the substrate's stochastic input by a factor 2.236 at the canonical dt, which is a scientific change rather than a compatibility change; the historical per-step law cannot be declared from the emitter level because the built emitter params carry no noise_scale field",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW",
+    "status": "FAIL",
+    "status_note": "the compatibility work is complete and engine-independent; the promotion of 0.5.7 is withheld because the engine's default native-noise law changed in 0.5.6, so the declared probe-equivalence criterion does not hold under 0.5.6 and 0.5.7"
+   },
+   "acceptance": "the sealed specification's acceptance is not met under 0.5.7: GEN2-PROBE fails because the engine's default native-noise coefficient is dt-invariant",
+   "fail_boundary": "the compatibility deltas and the Gen2 identity re-baseline are established and engine-independent; the execution authority is NOT promoted. The sealed SCI-EI-NATIVE-STATE-1 result is untouched and remains a measurement made under jaxfne 0.4.25",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/jaxfne_0_5_7_migration_spec.json",
+    "results/jaxfne_0_5_7_migration.json"
+   ],
+   "tests": [
+    "tests/test_migration_jaxfne_057.py"
+   ],
+   "commit": "e9b2367",
+   "visualization": {
+    "exempt": "NOT_A_MODEL_LINEAGE",
+    "reason": "an engine migration builds no model and produces no figure: the checks compare constructions and probe arrays of the existing models"
+   },
+   "reports": [
+    {
+     "id": "MIGRATION-BLOCKED",
+     "finding": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW delivered: the compatibility deltas and the identity re-baseline are complete; the promotion is withheld pending the owner's decision on the native-noise law of JaxFNE >= 0.5.6"
+    }
+   ]
   }
  ]
 }

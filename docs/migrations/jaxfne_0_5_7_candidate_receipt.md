@@ -1,5 +1,16 @@
 # JaxFNE 0.5.7 migration candidate — receipt
 
+> **Status update (2026-10-23, later the same day).** The candidate phase below is history.
+> The compatibility work it identified was completed and committed (see
+> `results/jaxfne_0_5_7_migration.json`, the lineage edge
+> `JAXFNE-0-5-7-MIGRATION`, and the commits `6b2b9b0`, `e9b2367`, `27ab1e0`), and the
+> repository is green under the declared authority: `python scripts/project_check.py` ends
+> `PROJECT_CHECK_PASS` (tier 0: 212 passed), tier 2: 406 passed, 3 skipped. The promotion of
+> 0.5.7 itself is **withheld**: JaxFNE >= 0.5.6 changed the default native-noise law
+> (per-step coefficient 1.1180 at dt 0.1 ms against the historical 0.5), which is a
+> substrate-level change, not a compatibility change. The execution authority is unchanged at
+> 0.4.25 and the TODO item is BLOCKED on that decision.
+
 **Branch:** `migration/jaxfne-0-5-7` (unpushed; `main` untouched at `5b2c861`)
 **Base SHA:** `5b2c8612716764a401a4f0432a5cc734735ce6cc`
 **Candidate SHA:** `5a01add` (implementation), `46aa09e` (specification, committed before the runs)

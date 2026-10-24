@@ -50,8 +50,8 @@ def build():
     chain, rules, external, _ = architecture.build()
     normal = nf.normalize(chain, rules, external)
     cfg, _ = realize.scaffold(normal)
-    cfg = (cfg.add_column(retina.AREA, [retina.LAYER], retina.N)
-              .area_layer_cell_types(retina.AREA, {retina.LAYER: {retina.CLASS: 1.0}}))
+    cfg = realize.declare_retinal_interface(
+        cfg, retina.AREA, retina.LAYER, retina.N, {retina.LAYER: {retina.CLASS: 1.0}})
     cfg = realize.declare_mechanisms(cfg, normal)
     cfg = realize.declare_projections(cfg, normal)
 

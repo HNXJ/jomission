@@ -38,6 +38,28 @@ def scaffold(nf, n_per_instance=ctx.N_PER_INSTANCE, seed=0):
         p_feedforward=0.0, p_feedback=0.0), areas
 
 
+def declare_retinal_interface(cfg, area, layer, n, layer_cell_types):
+    """Add the retinal input column and declare its area to the engine.
+
+    JaxFNE >= 0.5.6 checks at construct that the declared areas are exactly the built
+    columns (jaxfne/_construct_core.py:571-577). The retinal interface is built as a
+    column, so its area must be declared as well; the check is what surfaced the
+    mismatch, and it states the engine's contract: an area is what construct builds.
+
+    Declaring an area writes metadata only (jaxfne Configuration.areas), so the graph is
+    unchanged: the same column, the same units, the same edges, the same tonic handling.
+    The retina keeps its structural role -- it holds no slot in the cortical hierarchy
+    (the feedforward/feedback wiring is fixed when the scaffold is built) and it is not
+    one of the six cortical areas. The six-area cortical contract is untouched; the
+    engine's area set becomes six cortical names plus the retinal input interface.
+    """
+    cfg = cfg.add_column(area, [layer], n).area_layer_cell_types(area, layer_cell_types)
+    declared = [str(a) for a in (cfg.metadata.get("areas") or [])]
+    if area not in declared:
+        cfg = cfg.areas([*declared, area])
+    return cfg
+
+
 #: tau_ms mirrors the compiler's legacy hardcoded excitatory default, so declaring the mechanism
 #: changes which compiler runs without changing the realized synaptic time constant.
 MECHANISM_TAU_MS = {"AMPA": 2.0}

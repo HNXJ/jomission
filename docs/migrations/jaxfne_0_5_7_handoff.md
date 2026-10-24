@@ -13,16 +13,16 @@ owner picks the engine version; everything else is prepared.
 
 | item | value |
 |---|---|
-| authoritative clone | `E:\jomission` (owner designation, 2026-10-23) |
+| authoritative clone | `G:\My Drive\Workspace\Computational\jomission` (moved there on 2026-10-24) |
 | branch | `migration/jaxfne-0-5-7`, unpushed |
 | `main` | `5b2c861`, untouched |
-| commits (promotion path) | `46aa09e` spec · `6b2b9b0` sealed specification · `e9b2367` compatibility deltas, identity re-baseline, sealed record · `27ab1e0` registry, lineage edge, handoff · `0bb2fae` candidate receipt note |
+| commits (promotion path) | `46aa09e` spec · `6b2b9b0` sealed specification · `e9b2367` compatibility deltas, identity re-baseline, sealed record · `27ab1e0` registry, lineage edge, handoff · `0bb2fae` candidate receipt note · the move commit |
 | interpreter | `C:\Python314\python.exe` (CPython 3.14.3), jaxfne 0.4.25, matching the authority |
-| editable install | `jomission` resolves to `E:\jomission\jomission` |
-| reference clone | `E:\repos\jomission` at `0d39ad5`, clean, 7 behind, not to be modified |
-| recovery work | `stash@{0}` `66d578e38f756316e0c9f94cf7a7503ac4049685`, `recovery/atlas-suite` `e9c52fc`; both untouched |
-| measurement baselines | `E:\wt\venv-jaxfne-{0425,050,055,056}` (one pinned engine each), `E:\wt\jomission-pre` (worktree at `5b2c861`, the pre-change code) |
-| wheels (hash-verified) | `C:\Users\nejath\AppData\Local\Temp\opencode\wheels\jaxfne-0.4.25/0.5.0/0.5.5/0.5.6/0.5.7-py3-none-any.whl` |
+| editable install | `jomission` resolves to the clone above; re-pin after the move with `python -m pip install --no-deps --no-index --find-links <wheels> -e "G:\My Drive\Workspace\Computational\jomission"` |
+| deleted after the cutover | `E:\jomission` (the pre-move copy, carrying this branch and the stash), `E:\repos\jomission` (reference clone), `E:\wt\jomission-pre` (the pre-change worktree used as the baseline) |
+| atlas stash | `stash@{0}` `66d578e38f756316e0c9f94cf7a7503ac4049685`, carried over to the clone above as `refs/stash`; `recovery/atlas-suite` `e9c52fc` is a branch there |
+| measurement baselines | `E:\wt\venv-jaxfne-{0425,050,055,056}` (one pinned engine each, outside the deleted trees; they inherit the editable pointer) |
+| wheels (hash-verified) | `scratch/wheels/` in the clone, and `C:\Users\nejath\AppData\Local\Temp\opencode\wheels` |
 
 pip cannot reach the package index from this machine (DNS failure). Wheels were fetched
 with `curl` from `files.pythonhosted.org` and installed with
@@ -117,14 +117,15 @@ branch is the wrong place: the noise declaration has to be specified and sealed 
 - `stash@{0}` and `recovery/atlas-suite` stay as they are. They are the rollback evidence
   for the atlas work, and the atlas content is already represented on `main` in a later
   form.
-- `E:\repos\jomission` is a reference clone. Do not synchronize, reset or modify it.
+- `E:\repos\jomission` was the reference clone and is deleted with the cutover. The
+  migration branch, the atlas stash and the recovery branch live in the clone above.
 - The migration is one lineage with one principal delta. A second change needs a new
   authorization.
 
 ## 7. Verify the state
 
 ```bash
-cd /e/jomission
+cd "/g/My Drive/Workspace/Computational/jomission"
 git log --oneline migration/jaxfne-0-5-7
 git status --porcelain --untracked-files=no          # expect empty
 git stash list                                       # expect one entry, 66d578e3

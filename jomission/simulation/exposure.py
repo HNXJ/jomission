@@ -39,7 +39,7 @@ def run_shortened_exposure(
     rep_cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == "AAAB"][0]
     sched = condition_to_stimulus_schedule(rep_cond, n_neurons=400, drive_amplitude=5.0)
     # Extend schedule by repeating with time offset — use Simulation continuation loop
-    runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=bool(enable_hdp), hdp_params={"h_state_dim": 2, "h_state_locality": "population"} if enable_hdp else {}, seed=seed) if enable_hdp else RuntimeConfig(recurrent_backend="edge_list", seed=seed)
+    runtime = RuntimeConfig(recurrent_backend="edge_list", enable_hdp=bool(enable_hdp), hdp_params={"h_state_dim": 2, "h_state_locality": "population"} if enable_hdp else {}) if enable_hdp else RuntimeConfig(recurrent_backend="edge_list")
 
     total_ms = float(n_trials * FULL_TRIAL_MS)
     # Single long simulate (continuous, no restart)

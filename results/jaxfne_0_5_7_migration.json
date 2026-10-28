@@ -59,8 +59,10 @@
   "parent": "JAXFNE-0425-MIGRATION",
   "principal_delta": "the execution engine authority, with the compatibility deltas that keep the realized graph unchanged. No scientific parameter, result or verdict changes",
   "promotion_state": {
-    "authority_promoted": false,
-    "reason": "the declared acceptance criteria were not met under 0.5.7 (GEN2-PROBE), and the promotion of the execution authority is withheld pending the owner's decision on the native-noise law",
+    "authority_promoted": true,
+    "promoted_engine": "0.5.5",
+    "owner_option": "A (promote 0.5.5), owner 2026-10-28",
+    "reason": "owner selected option A. GEN2-PROBE (probe arrays identical to 0.4.25) is NOT met under 0.5.5: V_m, sources and spikes differ (335 against 337 spikes over 20 ms). The owner accepted that the seeded realization changes and that no historical result is bit-reproducible; the native-noise law is unchanged",
     "sealed_paths_re_registered": [
       "jomission/tfne/realize.py",
       "scripts/whole_system_authority_arm.py",
@@ -89,5 +91,5 @@
   "schema": "jomission.scientific_result.v1",
   "spec": "results/jaxfne_0_5_7_migration_spec.json",
   "status": "FAIL",
-  "verdict": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW"
+  "verdict": "MIGRATION_PROMOTED_0_5_5"
 }

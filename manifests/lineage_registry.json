@@ -3203,9 +3203,9 @@
    ],
    "inferred": [],
    "verdict": {
-    "label": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW",
+    "label": "MIGRATION_PROMOTED_0_5_5",
     "status": "FAIL",
-    "status_note": "the compatibility work is complete and engine-independent; the promotion of 0.5.7 is withheld because the engine's default native-noise law changed in 0.5.6, so the declared probe-equivalence criterion does not hold under 0.5.6 and 0.5.7"
+    "status_note": "owner option A (2026-10-28): authority promoted to jaxfne 0.5.5, the engine with the historical per-step native-noise law. GEN2-PROBE (probe identity with 0.4.25) is not met under 0.5.5 (335 against 337 spikes over 20 ms); the realization changes and no historical result is bit-reproducible"
    },
    "acceptance": "the sealed specification's acceptance is not met under 0.5.7: GEN2-PROBE fails because the engine's default native-noise coefficient is dt-invariant",
    "fail_boundary": "the compatibility deltas and the Gen2 identity re-baseline are established and engine-independent; the execution authority is NOT promoted. The sealed SCI-EI-NATIVE-STATE-1 result is untouched and remains a measurement made under jaxfne 0.4.25",

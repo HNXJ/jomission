@@ -75,8 +75,9 @@ def test_capture_provides_continuous_state(captured):
         assert hasattr(pre.dynamic, field)
         assert hasattr(post.dynamic, field)
         assert np.asarray(getattr(pre.dynamic, field)).size > 0
-    # D is None for current model (no delays)
-    assert pre.delay_state is None and post.delay_state is None
+    # D is present: the builder emits laminar delays (20, 80, 120 steps), so the delay state is an array
+    assert pre.delay_state is not None and post.delay_state is not None
+    assert np.asarray(pre.delay_state).shape == np.asarray(post.delay_state).shape
     # RNG preserved shape
     assert np.asarray(pre.prng_key).shape == np.asarray(post.prng_key).shape
     # cursor step_index advanced
@@ -228,7 +229,7 @@ def test_continuous_state_preserved_except_declared(captured):
     assert np.allclose(np.asarray(rh.dynamic.prev_spikes), np.asarray(post.dynamic.prev_spikes))
     assert np.allclose(np.asarray(rh.dynamic.syn_state), np.asarray(post.dynamic.syn_state))
     assert np.allclose(np.asarray(rh.dynamic.w), np.asarray(post.dynamic.w))
-    assert rh.delay_state == post.delay_state
+    assert np.array_equal(np.asarray(rh.delay_state), np.asarray(post.delay_state))
     assert np.array_equal(np.asarray(rh.prng_key), np.asarray(post.prng_key))
     assert int(rh.step_index) == int(post.step_index)
     # Theta replacement preserves X,H,D,RNG,cursor

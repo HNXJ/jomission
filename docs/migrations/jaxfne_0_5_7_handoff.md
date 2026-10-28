@@ -163,5 +163,5 @@ Receipts:
 - Tier 2 under 0.5.5: 406 passed, 3 skipped, 0 failed.
 - Tier 1 targeted (the tests tier 2 excludes): 9 passed.
 
-Not done: merge to `main` (owner's word); the shared `C:\Python314` interpreter still has jaxfne
+Held (owner, 2026-10-28): the promotion stays on `_temp_migration-jaxfne-0-5-7`; it is not merged to `main`. Not done: merge to `main` (owner's word); the shared `C:\Python314` interpreter still has jaxfne
 0.4.25, so the project check passes from a venv with jaxfne 0.5.5 and this checkout editable.

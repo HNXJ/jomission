@@ -1,9 +1,9 @@
 # JaxFNE 0.5.7 migration: handover
 
-**State.** The compatibility work is committed and the repository is green under its
-declared authority. The engine promotion is withheld on one measured fact: JaxFNE 0.5.6
-changed the default native-noise law, which changes the substrate's stochastic input. The
-owner picks the engine version; everything else is prepared.
+**State (2026-10-28).** The owner chose option A: the execution authority is JaxFNE 0.5.5,
+promoted on `_temp_migration-jaxfne-0-5-7` (section 9). Tier 0, 1 and 2 are green under 0.5.5.
+The promotion is not merged to `main`. The record's GEN2-PROBE criterion is not met (0.5.5
+realizes a different noise stream); that is the owner's accepted consequence.
 
 **Read first.** `AGENTS.md`, `docs/HANDOFF_CURRENT.md`, `manifests/current_state.json`,
 `manifests/todo.json` (item `JAXFNE-0-5-7-MIGRATION`), then this file and
@@ -13,8 +13,8 @@ owner picks the engine version; everything else is prepared.
 
 | item | value |
 |---|---|
-| authoritative clone | `G:\My Drive\Workspace\Computational\jomission` (moved there on 2026-10-24) |
-| branch | `migration/jaxfne-0-5-7`, unpushed |
+| authoritative clone | `E:\repos\jomission` (the path jarness's workspace registry lists for this host; the `G:` clone named before 2026-10-28 is not reachable) |
+| branch | `_temp_migration-jaxfne-0-5-7`, pushed to origin at `f9ad306` (renamed from `migration/jaxfne-0-5-7` on 2026-10-28 to match the `_temp_` rule) |
 | `main` | `5b2c861`, untouched |
 | commits (promotion path) | `46aa09e` spec · `6b2b9b0` sealed specification · `e9b2367` compatibility deltas, identity re-baseline, sealed record · `27ab1e0` registry, lineage edge, handoff · `0bb2fae` candidate receipt note · the move commit |
 | interpreter | `C:\Python314\python.exe` (CPython 3.14.3), jaxfne 0.4.25, matching the authority |
@@ -38,7 +38,7 @@ with `curl` from `files.pythonhosted.org` and installed with
 | re-seal | the ten sealed whole-system paths re-registered in `manifests/sealed_artifacts.json` with their new blobs; the specification and the record registered |
 | sealed record | `results/jaxfne_0_5_7_migration.json`, verdict `MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW`, status `FAIL` |
 | lineage edge | `JAXFNE-0-5-7-MIGRATION` in `manifests/lineage_registry.json` |
-| TODO item | `manifests/todo.json`: `JAXFNE-0-5-7-MIGRATION`, status `BLOCKED` |
+| TODO item | `manifests/todo.json`: `JAXFNE-0-5-7-MIGRATION`, status `DONE` (section 9) |
 | gates | `python scripts/project_check.py` ends `PROJECT_CHECK_PASS` (tier 0: 212 passed); tier 2: 406 passed, 3 skipped, 0 failed; tier-1 subsets green |
 | tools added | `scripts/jaxfne_construct_ab.py` (construct invariants per engine), `scripts/jaxfne_probe_ab.py` (probe arrays per engine), `tests/test_migration_jaxfne_057.py` (construct-only regression test, tier 0) |
 
@@ -125,8 +125,8 @@ branch is the wrong place: the noise declaration has to be specified and sealed 
 ## 7. Verify the state
 
 ```bash
-cd "/g/My Drive/Workspace/Computational/jomission"
-git log --oneline migration/jaxfne-0-5-7
+cd "/e/repos/jomission"
+git log --oneline _temp_migration-jaxfne-0-5-7
 git status --porcelain --untracked-files=no          # expect empty
 git stash list                                       # expect one entry, 66d578e3
 python scripts/project_check.py                      # expect PROJECT_CHECK_PASS
@@ -144,3 +144,24 @@ python scripts/jaxfne_construct_ab.py --out <tmp>/a.json --model tfne
 | test residue | a tier-2 run writes `.tmp.driveupload/` and `.pages_test_tmp/` into the repository root, and the second one left a read-only directory that failed seven tier-0 tests with `WinError 5`. Neither path is ignored. Both were removed; an ignore rule is the cheap fix |
 | `G0` | no gate named `G0` exists in this repository. The live gate is `V2_LOCAL_OPERATION` (FAIL), and the open tasks are `SCI-AGSDR-CALIBRATION` (BLOCKED) and `SCI-PROP-QUALIFIED-1` (LOCKED) |
 | pages build | the `.pages_test_tmp` lock is a Windows file-lock artifact, not a project defect; the pages tests pass once the stale directory is removed |
+
+## 9. Applied: option A (2026-10-28)
+
+The owner chose A. The consequence was accepted: the seeded realization changes, and the
+probe arrays differ from 0.4.25 (335 against 337 spikes over 20 ms), so the GEN2-PROBE
+criterion is not met and no historical result is bit-reproducible. The TODO's stop condition
+names this case; the owner's choice of A is the decision that overrides it, recorded here.
+
+| commit | content |
+|---|---|
+| `ac532f7` | authority promoted to jaxfne 0.5.5 (`pyproject.toml`, `current_state.json`); record `promotion_state.authority_promoted: true`, verdict `MIGRATION_PROMOTED_0_5_5`, status `FAIL`; lineage verdict updated |
+| `5267926` | record blob re-registered at `ac532f7`; TODO `JAXFNE-0-5-7-MIGRATION` DONE; handoff block refreshed |
+| `f9ad306` | `jomission/simulation/exposure.py`: the runtime seed argument removed (both engines overwrite it with `Simulation.seed`; output byte-identical under 0.4.25); `tests/test_runtime_regression.py`: `within_area` set to the realized value and the field declared as the engine default |
+
+Receipts:
+- Quick and full project check PASS, tier-0 212 passed.
+- Tier 2 under 0.5.5: 406 passed, 3 skipped, 0 failed.
+- Tier 1 targeted (the tests tier 2 excludes): 9 passed.
+
+Not done: merge to `main` (owner's word); the shared `C:\Python314` interpreter still has jaxfne
+0.4.25, so the project check passes from a venv with jaxfne 0.5.5 and this checkout editable.

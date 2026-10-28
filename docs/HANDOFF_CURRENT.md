@@ -32,7 +32,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Authority
 
 - scientific head: main `be0db96`
-- execution: jaxfne 0.4.25 (`results/jaxfne_0425_migration.json`)
+- execution: jaxfne 0.5.5 (`results/jaxfne_0_5_7_migration.json`)
 - program: Closeout program (owner 2026-09-19): empty the todo and problem stacks — harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons
 
 ### Current state

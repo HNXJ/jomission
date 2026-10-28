@@ -1826,7 +1826,7 @@
       },
     {
      "id": "JAXFNE-0-5-7-MIGRATION",
-     "status": "BLOCKED",
+     "status": "DONE",
      "trigger": "owner 2026-10-23: 0.4.25 is deprecated, move to the latest JaxFNE; then owner 2026-10-23: authorize the promotion path (authority, re-seal, Gen2 identity re-baseline) with the Gen2 source_mode question settled by measurement",
      "goal": "move the execution authority to the JaxFNE version the owner selects, with the compatibility deltas that keep the realized graph unchanged",
      "parent_authority": "owner 2026-10-23 (owner order) on the parent JAXFNE-0425-MIGRATION",
@@ -1852,7 +1852,7 @@
      "downstream_unlock": [],
      "blocked_by": "the owner's decision on the native-noise law of JaxFNE >= 0.5.6: the default per-step coefficient becomes dt-invariant (1.1180 at dt 0.1 ms against the historical 0.5), which changes the substrate's stochastic input",
      "delivered": {
-      "verdict": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW",
+      "verdict": "MIGRATION_PROMOTED_0_5_5",
       "result": "results/jaxfne_0_5_7_migration.json",
       "summary": "the compatibility work is complete and engine-independent: the retinal area declaration (jaxfne >= 0.5.6 area validation) and the Gen2 declarative parameter deltas (jaxfne >= 0.5.5 refusals), both measured to leave the realized graph bit-identical under 0.4.25 and 0.5.7; the Gen2 config hash is now engine-independent (f00e6a5e24f3dab4) and the live pins are re-baselined to it; the ten sealed whole-system paths are re-registered. The promotion is withheld: under 0.5.6 and 0.5.7 the engine's default native-noise coefficient is dt-invariant, so the substrate's per-step noise at dt 0.1 ms changes from 0.5 to 1.1180 and the probe arrays are no longer equal to the 0.4.25 reference (331 against 337 spikes over 20 ms)",
       "receipts": [

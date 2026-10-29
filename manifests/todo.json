@@ -1877,8 +1877,15 @@
      "procedure": "run tests/test_q8_state_replacement.py, tests/test_q8_phenotype.py and tests/test_checkpoint_restart.py under jaxfne 0.5.5 and 0.4.25 with the skip markers removed; if all pass, write manifests/q8_freeze_renewal.json, add the additive lift entry to the quarantine record, commit the record and edits, then register the record in manifests/sealed_artifacts.json at that commit and run project_check",
      "acceptance": "the three test files pass under both engines with no skips (28 passed, 0 skipped under each); manifests/sealed_artifacts.json registers manifests/q8_freeze_renewal.json with sealed_in equal to the commit that adds it; python scripts/project_check.py --offline --no-tests ends PROJECT_CHECK_PASS",
      "stop_condition": "an un-skipped test fails: keep its marker, record the failure in the successor record, and STOP",
+     "required_inputs": [
+      "manifests/q8_021_quarantine.json",
+      "manifests/q8_state_replacement_seal.json",
+      "tests/test_q8_state_replacement.py",
+      "tests/test_q8_phenotype.py",
+      "tests/test_checkpoint_restart.py"
+     ],
      "artifacts_expected": ["manifests/q8_freeze_renewal.json"],
-     "downstream_unlock": ["Q8-carrier claims may cite the successor identity; the canonical science seals still pin 4f9fdeae7428199a and are not changed by this item"],
+     "downstream_unlock": [],
      "delivered": {
       "verdict": "Q8_FREEZE_RENEWED_LIFTED",
       "result": "manifests/q8_freeze_renewal.json",

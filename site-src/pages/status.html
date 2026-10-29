@@ -1,0 +1,31 @@
+<h1>Status</h1>
+<p class="status-note">Checklist of the modeling roadmap, JaxFNE migration and open gates. Each row names its source file. Nothing here is a result beyond what that file records.</p>
+<h2>Legend</h2>
+<p><span class="st st-pass">Pass</span> done and verified · <span class="st st-ongoing">Ongoing</span> in progress · <span class="st st-pending">Pending</span> waiting on a decision or input; blocked items count here · <span class="st st-notstarted">Not started</span> no work yet; locked items count here · <span class="st st-fail">Fail</span> failed gate or sealed negative; infeasible counts here</p>
+<h2>Checklist</h2>
+<table class="data checklist">
+<thead><tr><th>Status</th><th>Item</th><th>State</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td><span class="st st-pass">Pass</span></td><td>Tier-0 harness</td><td>158 tests pass at db2380d (migration branch)</td><td><code>manifests/test_tiers.json</code></td></tr>
+<tr><td><span class="st st-pass">Pass</span></td><td>Quick project check</td><td>Passes offline, without tests</td><td><code>scripts/project_check.py</code></td></tr>
+<tr><td><span class="st st-pass">Pass</span></td><td>JaxFNE 0.5.5 migration</td><td>Done on the migration branch; not on main</td><td><code>docs/migrations/jaxfne_0_5_7_handoff.md</code></td></tr>
+<tr><td><span class="st st-pass">Pass</span></td><td>Q8 freeze renewal</td><td>Renewed; quarantine lifted; successor identity <code>f00e6a5e24f3dab4</code></td><td><code>manifests/q8_freeze_renewal.json</code></td></tr>
+<tr><td><span class="st st-pass">Pass</span></td><td>Omission-Model-lite, stage 6</td><td>Built; untuned; structure only; 4 tests pass under JaxFNE 0.5.5</td><td><code>jomission/network/lite.py</code>, <code>tests/test_lite_network.py</code></td></tr>
+<tr><td><span class="st st-ongoing">Ongoing</span></td><td>Spectrolaminar pilot</td><td>Method and status draft; no results</td><td><code>site-src/pages/spectrolaminar.html</code></td></tr>
+<tr><td><span class="st st-pending">Pending</span></td><td>Migration branch merge to main</td><td>Held by the owner</td><td><code>docs/migrations/jaxfne_0_5_7_handoff.md</code></td></tr>
+<tr><td><span class="st st-pending">Pending</span></td><td>Canonical science seals</td><td>Still pin <code>4f9fdeae7428199a</code>; owner decision</td><td><code>manifests/q8_freeze_renewal.json</code></td></tr>
+<tr><td><span class="st st-pending">Pending</span></td><td>SCI-AGSDR-CALIBRATION</td><td>Blocked on the EI interaction verdict and reviewer authorization</td><td><code>manifests/todo.json</code></td></tr>
+<tr><td><span class="st st-pending">Pending</span></td><td>Site gate panel against the lineage record</td><td>E/I geometry, basin and stability not reconciled</td><td><code>site-src/manifest.json</code></td></tr>
+<tr><td><span class="st st-pending">Pending</span></td><td>Deck questions for the lite model</td><td>H2 and H3 comparison symbols, routing rule, area set, lite size</td><td><code>README.md</code>, modeling roadmap</td></tr>
+<tr><td><span class="st st-notstarted">Not started</span></td><td>Omission-Model-base, stage 7</td><td>6 × 50 = 300 neurons; areas V1/V2, FEF/PFC, V3/V4</td><td><code>README.md</code>, modeling roadmap</td></tr>
+<tr><td><span class="st st-notstarted">Not started</span></td><td>Omission-Model-augmented, stage 8</td><td>20 × 50 = 1000 neurons; adds MT/MST</td><td><code>README.md</code>, modeling roadmap</td></tr>
+<tr><td><span class="st st-notstarted">Not started</span></td><td>Lite trajectory run</td><td>No untuned run in the repo</td><td><code>jomission/network/lite.py</code></td></tr>
+<tr><td><span class="st st-notstarted">Not started</span></td><td>First milestone</td><td>7 of 9 items open: paradigm validation, 4-area instantiation, FF+FB graph, continuous trajectory, omission timing, readout path, deterministic manifest</td><td><code>README.md</code>, first milestone</td></tr>
+<tr><td><span class="st st-notstarted">Not started</span></td><td>Ordered propagation in a viable regime (SCI-PROP-QUALIFIED-1)</td><td>Locked until calibration defines the plant</td><td><code>manifests/todo.json</code></td></tr>
+<tr><td><span class="st st-fail">Fail</span></td><td>Current gate V2_LOCAL_OPERATION</td><td>FAIL</td><td><code>manifests/current_state.json</code></td></tr>
+<tr><td><span class="st st-fail">Fail</span></td><td>V2.1 local cortical operation</td><td>FAIL; sealed negative</td><td><code>results/v21_lineage.json</code></td></tr>
+<tr><td><span class="st st-fail">Fail</span></td><td>V2.1b local operation with private shot noise</td><td>FAIL; sealed negative</td><td><code>results/v21b_lineage.json</code></td></tr>
+<tr><td><span class="st st-fail">Fail</span></td><td>Nonlinear active basin</td><td>FAIL; sealed negative</td><td><code>results/s9_lineage.json</code></td></tr>
+<tr><td><span class="st st-fail">Fail</span></td><td>V2.1c intrinsic-heterogeneity boundary</td><td>INFEASIBLE</td><td><code>results/v21c_boundary.json</code></td></tr>
+</tbody>
+</table>

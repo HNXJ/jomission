@@ -1981,6 +1981,11 @@
    "path": "results/jaxfne_0_5_7_migration.json",
    "blob": "4aa29f695b76c88e013966b789aaef740551e158",
    "sealed_in": "ac532f7"
+  },
+  {
+   "path": "manifests/q8_freeze_renewal.json",
+   "blob": "040bed1c50dca6f97881b3f74e5068f0991eadf4",
+   "sealed_in": "2a9faf5"
   }
  ]
 }

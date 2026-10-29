@@ -1,12 +1,11 @@
 """Omission-Model-lite: the two-column proof of concept from the dissertation deck (Chapter 3).
 
-Two single-layer columns, V1 (layer L2/3) and FEF_PFC (layer L4), with the cell counts the
-deck lists for the lite model: E 18, PV 4, SST 2 (V1) or 1 (FEF/PFC), VIP 2 (V1) or 1
-(FEF/PFC). The counts sum to 26 and 24 (50 neurons in all), not the deck's "N=100". They
-are used as listed. The deck gives no layers; the layer per column is this module's choice,
-because JaxFNE treats a target layer of L4 as feedforward and any other target as feedback.
-Structure only: no visual drive, fixation neuron or plasticity; the deck's proof-of-concept
-stage is "tools validated", so this module builds and runs the graph.
+Two single-layer columns, V1 (L2/3) and FEF_PFC (L4), with the deck's lite cell counts: E 18,
+PV 4, SST 2 (V1) or 1 (FEF/PFC), VIP 2 (V1) or 1 (FEF/PFC). The counts sum to 26 and 24 (50
+neurons), not the deck's "N=100"; they are used as listed. The deck gives no layers; the layer
+per column is this module's choice, because JaxFNE treats a target layer of L4 as feedforward
+and any other target as feedback. Structure only: no visual drive, fixation neuron or plasticity.
+The deck's proof-of-concept stage is "tools validated", so this module builds and runs the graph.
 """
 
 from __future__ import annotations

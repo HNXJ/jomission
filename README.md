@@ -73,7 +73,7 @@ Failures are evidence about the model.
 
 ## Modeling roadmap (step by step)
 
-Source: the dissertation proposal deck, Chapter 3 (in-silico) and its roadmap, Google Drive file `1VaZ3xyYGQ1wi1dEtSjPRAVTAuYFZMxZ6rF44r85uyIM`. The Drive export carries no slide numbers, so the stages below are taken from the modeling content, not from page numbers.
+Source: the dissertation proposal deck, Chapter 3 (in-silico) and its roadmap, Google Drive file `1VaZ3xyYGQ1wi1dEtSjPRAVTAuYFZMxZ6rF44r85uyIM`. The Drive export has no slide numbers, so the stages below come from the modeling content, not page numbers.
 
 | stage | deck status | size (columns × neurons) | areas (deck) | repo status (observed) |
 |---|---|---|---|---|

@@ -138,7 +138,7 @@ python scripts/jaxfne_construct_ab.py --out <tmp>/a.json --model tfne
 
 | item | state |
 |---|---|
-| Q8 quarantine | `manifests/q8_021_quarantine.json` remains in force. The live Gen2 hash moved again (`f00e6a5e24f3dab4`), so its stale-identity class still applies; its lift condition (renew the builder freeze, make the `delay_state` assertions array-aware, and have the Q8 suite green) is untouched and needs its own TODO |
+| Q8 quarantine | lifted 2026-10-28 (owner: "Renew freeze"). Successor identity `f00e6a5e24f3dab4` recorded in `manifests/q8_freeze_renewal.json` (TODO `Q8-FREEZE-RENEWAL`); 28 passed, 0 skipped under 0.5.5 and 0.4.25. Open: the canonical science seals still pin `4f9fdeae7428199a` |
 | `NATIVE_NOISE_DEFAULT` wording | states the per-step law and ties it to the engine's default. Under 0.5.6+ the wording needs amendment whichever option is taken, and under option D the law has to be declared in jomission |
 | documentation | `AGENTS.md` and `docs/HANDOFF_CURRENT.md` named `E:\repos\jomission` as the working clone; both now name `E:\jomission`, and `ENV-STALE-EDITABLE` in `manifests/harness/environment_failures.json` describes the repaired pointer |
 | test residue | a tier-2 run writes `.tmp.driveupload/` and `.pages_test_tmp/` into the repository root, and the second one left a read-only directory that failed seven tier-0 tests with `WinError 5`. Neither path is ignored. Both were removed; an ignore rule is the cheap fix |

@@ -1,0 +1,52 @@
+{
+  "seal": "Q8 builder freeze renewal: successor identity for the Q8 state-replacement carriers",
+  "namespace": "q8_freeze_renewal",
+  "owner": "generated",
+  "date": "2026-10-28",
+  "item": "Q8-FREEZE-RENEWAL (manifests/todo.json)",
+  "authority": "owner 2026-10-28, 'Renew freeze', answering the Q8 quarantine question; lift condition of manifests/q8_021_quarantine.json",
+  "superseded": {
+    "config_hash": "4f9fdeae7428199a",
+    "record": "manifests/q8_state_replacement_seal.json",
+    "status": "stale identity for the Q8 freeze; the sealed record is not rewritten"
+  },
+  "successor": {
+    "config_hash": "f00e6a5e24f3dab4",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "n_per_area": 100,
+    "seed": 0,
+    "source": "jomission/simulation/state_replacement.py FROZEN_CONFIG_HASH and FROZEN_HP_FULL",
+    "measured_by": "tests/test_q8_state_replacement.py::test_frozen_config_and_hp (asserts the builder's config_hash equals FROZEN_CONFIG_HASH)"
+  },
+  "cause": "per the quarantine record: post-freeze GEN2 evolution (laminar delays hash-visible; tonic, lognormal, PV and SST changes) moved the builder hash. Taken from the quarantine record; not re-derived here",
+  "measured": [
+    {
+      "engine": "jaxfne 0.5.5",
+      "interpreter": "scratchpad auth055 venv (editable jomission)",
+      "files": ["tests/test_q8_state_replacement.py", "tests/test_q8_phenotype.py", "tests/test_checkpoint_restart.py"],
+      "summary": "28 passed, 14 warnings in 82.45s",
+      "skips": 0
+    },
+    {
+      "engine": "jaxfne 0.4.25",
+      "interpreter": "shared C:/Python314",
+      "files": ["tests/test_q8_state_replacement.py", "tests/test_q8_phenotype.py", "tests/test_checkpoint_restart.py"],
+      "summary": "28 passed, 14 warnings in 80.06s",
+      "skips": 0
+    }
+  ],
+  "lift": {
+    "quarantine_record": "manifests/q8_021_quarantine.json",
+    "lift_condition": "renew the builder freeze (new hash sealed as successor identity); make the delay_state assertions array-aware; Q8 suites fully green",
+    "status": "MET under jaxfne 0.5.5 and 0.4.25 as measured above",
+    "removed": "QUARANTINE_SKIP markers on tests/test_q8_phenotype.py::test_evaluate_counterfactual_matched_inputs_RNG and tests/test_q8_phenotype.py::test_matrix_machine_readable_and_artifact_backed; both pass under both engines"
+  },
+  "open": [
+    {
+      "item": "canonical science seals still pin 4f9fdeae7428199a",
+      "where": "manifests/canonical_science_seal.json, manifests/canonical_full_exposure_seal.json, manifests/canonical_smoke_seal.json, manifests/closure_contract.json, manifests/compute_readiness_seal.json, manifests/factorial_v0p2_design.json, jomission/simulation/full_run.py",
+      "status": "UNRESOLVED: the current builder yields f00e6a5e24f3dab4, not 4f9fdeae7428199a. Whether 4f9fdeae7428199a is still reproducible by any builder in the repo is not checked here. Not changed by this record; owner decision"
+    }
+  ]
+}

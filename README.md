@@ -78,7 +78,7 @@ Source: the dissertation proposal deck, Chapter 3 (in-silico) and its roadmap, G
 | stage | deck status | size (columns × neurons) | areas (deck) | repo status (observed) |
 |---|---|---|---|---|
 | 5 Omission (initial draft) | draft | — | — | this README |
-| 6 Omission-Model-lite | implemented, pre-tuned; "proof of concept; tools validated" | 2 × 50 = 100 | V1; FEF/PFC | no separate lite model found; the builder uses 4 areas (`V1, V4, FEF, PFC`), `N_PER_AREA_MIN` = 100 per area |
+| 6 Omission-Model-lite | implemented, pre-tuned; "proof of concept; tools validated" | 2 × 50 = 100 (built as listed: 26 + 24 = 50) | V1 (L2/3); FEF/PFC (L4) | built: `jomission/network/lite.py`, structure only, untuned; 4 tests pass under jaxfne 0.5.5 (`tests/test_lite_network.py`). The 4-area builder (`V1, V4, FEF, PFC`, `N_PER_AREA_MIN` = 100) is separate |
 | 7 Omission-Model-base | proposed, after lite | 6 × 50 = 300 | V1/V2, FEF/PFC, V3/V4 | not started |
 | 8 Omission-Model-augmented | proposed, after base | 20 × 50 = 1000 (8-6-4-2) | adds MT/MST | not started |
 

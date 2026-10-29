@@ -1,0 +1,27 @@
+<h1>Spectrolaminar motif from cell densities</h1>
+<p class="status-note">Draft for review. Not published. This page holds method and status only; it shows no results.</p>
+<h2>Question</h2>
+<p>Does one column per cortical area, built from that area's laminar cell-type densities and wired by declared rules only, reproduce the spectrolaminar LFP motif: gamma power above alpha–beta, with a depth profile that follows the densities?</p>
+<h2>Method</h2>
+<ol>
+<li>Densities: PV, CB, CR and NG cell densities and LFP relative power from LANSA (Mulvey et al.), 11 macaque areas, 21 depth bins.</li>
+<li>One JaxFNE column per area, 1050 Izhikevich neurons, with E, PV, SST and VIP fractions per depth bin taken from that area's densities.</li>
+<li>Canonical type-to-type wiring, shared by all areas. Connectivity is explicit; the engine's default all-to-all graph is off.</li>
+<li>Drives set within a physiological firing regime. The circuit is chosen in that regime and held out by area.</li>
+<li>Simulated LFP is analysed with the paper's PCA and PLSR pipeline, ported to NumPy.</li>
+<li>MEG and EEG come from the same runs: a column dipole, then a head model.</li>
+</ol>
+<h2>Status</h2>
+<table>
+<thead><tr><th>Item</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Anatomy to column, per area</td><td>implemented and checked</td></tr>
+<tr><td>Port of the analysis pipeline</td><td>implemented; checked on observed data</td></tr>
+<tr><td>Physiological regime, circuit held out by area</td><td>implemented; results not on this page</td></tr>
+<tr><td>Schizophrenia knockdown comparison</td><td>run; results not on this page</td></tr>
+<tr><td>Edge depth bins and alpha–beta depth profile</td><td>open</td></tr>
+<tr><td>Irregular firing without losing fit</td><td>open</td></tr>
+</tbody>
+</table>
+<h2>Scope</h2>
+<p>The pilot depends on JaxFNE core changes recorded in the JaxFNE repository. It does not change the jomission network, its gates or its results.</p>

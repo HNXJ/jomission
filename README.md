@@ -71,6 +71,36 @@ T7 absence of strong fixed between-area lead/lag
 
 Failures are evidence about the model.
 
+## Modeling roadmap (step by step)
+
+Source: the dissertation proposal deck, Chapter 3 (in-silico) and its roadmap, Google Drive file `1VaZ3xyYGQ1wi1dEtSjPRAVTAuYFZMxZ6rF44r85uyIM`. The Drive export carries no slide numbers, so the stages below are taken from the modeling content, not from page numbers.
+
+| stage | deck status | size (columns × neurons) | areas (deck) | repo status (observed) |
+|---|---|---|---|---|
+| 5 Omission (initial draft) | draft | — | — | this README |
+| 6 Omission-Model-lite | implemented, pre-tuned; "proof of concept; tools validated" | 2 × 50 = 100 | V1; FEF/PFC | no separate lite model found; the builder uses 4 areas (`V1, V4, FEF, PFC`), `N_PER_AREA_MIN` = 100 per area |
+| 7 Omission-Model-base | proposed, after lite | 6 × 50 = 300 | V1/V2, FEF/PFC, V3/V4 | not started |
+| 8 Omission-Model-augmented | proposed, after base | 20 × 50 = 1000 (8-6-4-2) | adds MT/MST | not started |
+
+Deck column composition (lite): E = 18, PV = 4, SST = 1–2, VIP = 1–2 per column. The counts sum to 24–26, not 50; the deck does not say which variant applies to which column.
+
+Hypotheses (deck, Chapter 3):
+
+- H1: omission mismatch neuron in higher order: P(spiking | omission) > a · P(baseline)
+- H2: omission and E/I ratio: P(omission | balance) ? P(omission | imbalance)
+- H3: omission effect: P(post-omission) ? P(pre-omission)
+
+The deck does not state the comparison symbol in H2 and H3 (`?`).
+
+Routing rule: Chapter 2 of the deck uses predictive routing (match: feedback α/β; mismatch: feedforward γ/θ). The final modeling slide uses signal-noise routing (match: signal, FF and FB α/β; mismatch: noise, FF γ/θ). The deck does not say which rule the model tests.
+
+Open for the owner:
+
+- Lite size: the deck's 100 neurons against the repo's minimum of 400 (4 areas × 100).
+- Area set: the deck's labels (V1/V2, V3/V4, MT/MST) differ from the repo's `V1, V4, FEF, PFC`.
+- Comparison symbols in H2 and H3, and the routing rule under test.
+- Science is on hold: this roadmap is design only; no stage is executed here.
+
 ## First milestone (this pass)
 
 - [x] stale mlxEngine removed (provenance: `a526f58`, tree `dcaf37b`)

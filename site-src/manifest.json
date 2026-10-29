@@ -210,7 +210,8 @@
     "propagation",
     "omission",
     "failure-atlas",
-    "lineage"
+    "lineage",
+    "spectrolaminar"
   ],
   "panels": {
     "attractor-diagram": {
@@ -1024,6 +1025,12 @@
       "group": "Omission program",
       "pages": [
         "omission"
+      ]
+    },
+    {
+      "group": "Pilot",
+      "pages": [
+        "spectrolaminar"
       ]
     },
     {

@@ -34,13 +34,16 @@
   ]
  },
  "runs": [
-  {"id": "V1-PROBE", "stage": "visualization only, not used for rates", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus off --seed 0 --probe-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_initial.npz"},
-  {"id": "V2-PROBE", "stage": "visualization only, not used for rates; keeps the final 1000 ms of 13000 ms", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus on --seed 0 --probe-ms 13000 --probe-keep-last-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_final.npz"},
+  {"id": "V1-PROBE", "stage": "visualization only, not used for rates", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus off --seed 0 --probe-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_initial.npz"},
+  {"id": "V2-PROBE", "stage": "visualization only, not used for rates; keeps the final 1000 ms of 13000 ms", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --probe-ms 13000 --probe-keep-last-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_final.npz"},
   {"id": "REGIME", "command": "python -u scripts/whole_system_ei_regime_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus on --seed 0 --out results/ei_replay_058/whole_system_ei_regime_diagnosis.json --out-y results/ei_replay_058/whole_system_ei_regime_diagnosis_y.npz"},
   {"id": "BASELINE", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell baseline --out results/ei_replay_058/whole_system_ei_interaction_baseline.json --out-y results/ei_replay_058/whole_system_ei_interaction_baseline_y.npz"},
   {"id": "W_ONLY", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell w_only --out results/ei_replay_058/whole_system_ei_interaction_w_only.json --out-y results/ei_replay_058/whole_system_ei_interaction_w_only_y.npz"},
   {"id": "A_ONLY", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell a_only --out results/ei_replay_058/whole_system_ei_interaction_a_only.json --out-y results/ei_replay_058/whole_system_ei_interaction_a_only_y.npz"},
   {"id": "BOTH", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell both --out results/ei_replay_058/whole_system_ei_interaction_both.json --out-y results/ei_replay_058/whole_system_ei_interaction_both_y.npz"}
+ ],
+ "amendments": [
+  {"id": 1, "date": "2026-10-30", "change": "V1-PROBE and V2-PROBE run through results/whole_system_ei_interaction_spec.json, the spec SCI-EI-INTERACTION-1 used for its own probes. The regime spec has no top-level kernel block; the oscillator probe raised KeyError 'kernel' before any reading. The interaction spec inherits the same construction, and its baseline cell is the regime intact arm.", "reason": "the probe failed before it produced a reading; the failure is recorded in this amendment, not hidden"}
  ],
  "order": "V0 render and V1 render, both viewed, then REGIME, BASELINE, W_ONLY, A_ONLY, BOTH, one process at a time; then scripts/ei_replay_058_compare.py; then V2 render; then V3 atlas",
  "visualization_contract": {

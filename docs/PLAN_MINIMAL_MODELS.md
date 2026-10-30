@@ -1,0 +1,163 @@
+# Plan: checklists, minimal typed models, scoreboard
+
+Date: 2026-10-30. Status: prepared, not executed. `next_authorized_task` is `null`; no
+simulation runs until the reviewer or owner authorizes one. Work items: `manifests/todo.json`
+(MIN-01 to MIN-05). Open uncertainties: `manifests/current_state.json`.
+
+## 1. Checklist A: minimal omission model with habituation and adaptation
+
+1. Name each added mechanism, its parameter and its value. Adaptation: SST `a`, canonical LTS
+   0.02 against the 0.05 used in SCI-EI-INTERACTION-1 (`lineage_registry.json`).
+2. Keep the omission encoding: the temporal slot stays, drive is zeroed, no time jump
+   (`jomission/paradigm/spec.py`). `paradigm_exact` stays valid.
+3. Fix the windows: omission_local −1000 to 1000 ms, baseline −250 to −50, slot 0 to 531,
+   post 531 to 1000 (`jomission/paradigm/epochs.py`). The spec equals the code.
+4. Resolve `habituation_schedule` (UNRESOLVED in `jomission/paradigm/conditions.py`; ≥1000 s
+   exposure is the stated requirement). Write schedule, trial order and seed before any run.
+5. Pair naive and habituated arms on one seed set. Only exposure history differs
+   (`jomission/simulation/ledger.py`, Δ_exposure).
+6. Perturb each new parameter at 0, at its boundary and at a non-default value. Require a
+   realized change or an explicit refusal.
+7. Limit the delta to the two added mechanisms (one principal delta per lineage).
+8. Keep the omission firewall. No omission outcome informs construction or reaches the Pages
+   before a blind test. BLIND-OMISSION is retired (owner 2026-09-19); a new blind test needs a
+   reviewer-authorized lineage.
+9. Gates: profile `prospective_v2` through `jomission.harness.gates`. PASS only when every check
+   holds on every window and cell. Gate blob equals the blob at the spec commit.
+10. Visualize: V0 construction, V1 1 s raster before interpretation, V2 final raster, V3 atlas.
+    Spec committed before the run; results in a separate commit; stop at the first failed gate.
+
+## 2. Checklist B: spectrolaminar 90% correlation pattern model
+
+Source: `site-src/pages/spectrolaminar.html` (draft). Gates SL0, SL1, SL2 from
+`docs/tfne/TFNE_V2_SPEC.md`. The 90% figure and its statistic are not in the repo.
+
+1. Define the 90% statistic in the spec: the two vectors (e.g. simulated gamma-over-alpha–beta
+   depth profile against LANSA relative power), pooled or per area, over the 21 depth bins,
+   threshold 0.90.
+2. Compute the chance floor from surrogate profiles, so 0.90 is judged against the null.
+3. Pin the LANSA input (PV, CB, CR, NG densities and LFP relative power; 11 areas; 21 bins).
+   Blocked: the source is not in the jomission repo.
+4. Build one column per area. Check realized E/PV/SST/VIP fractions per bin against the
+   densities; report the maximum deviation.
+5. Use one canonical type-to-type wiring for all areas. Confirm the all-to-all default is off;
+   record edge counts per type pair.
+6. Fix the physiological firing regime and drives before comparing any LFP.
+7. Choose the circuit on some areas; test on held-out areas. List the held-out areas in the spec.
+8. Check the ported PCA/PLSR pipeline against reference output on observed data before use.
+9. Do not tune H to make the proxy reproduce the pattern (SL2 rule). F4 is a positive control
+   only and is excluded from evidence.
+10. Keep the claim at "not qualified" until SL0 and SL1 pass. Keep knockdown results off the
+    Page until sealed. Open items stay listed: edge depth bins, alpha–beta profile, irregular
+    firing.
+
+## 3. Minimal typed model (shared by both checklists)
+
+- Size: N = 100 neurons per model by default; the same builder takes N as a parameter
+  (tested at 50, 100, 200). Reference scale: `jaxfne/examples/05_network_100_ei_multimodal.py`
+  (100 neurons, 75 E and 25 I).
+- Cell types and notation: `E`, `PV`, `SST(CB)`, `VIP(CR)`. Fractions for N = 100 are open
+  (MIN-02). Working placeholder for MIN-01 tests only: E 75, PV 10, SST 8, VIP 7.
+- Neuron: Izhikevich through the TFNE framework in JaxFNE 0.5.8 (`.emitter(family="izhikevich",
+  preset=...)`). Per-class parameters come from the JaxFNE preset table, each cited. The realized
+  values are read back and compared.
+- HDP: every model enables HDP through `.hdp(...)` (non-identity, so `enable_hdp` is true). The
+  H state is recorded per neuron. The HDP rule is declared in the spec (owner decision 2). The
+  qualified homeostatic configuration is detached and never supplies a success claim
+  (`docs/project-sources/SUBSTRATE_PROGRAM.md`).
+- Connectivity: declared with `.connections(...)`, one rule per pair. Literature basis:
+  - Pfeffer et al. 2013, Nat Neurosci, doi 10.1038/nn.3446 (text ingested in komposer,
+    `bibliography/10.1038_nn.3446.md`). Mouse V1, layers 2/3 to 5. PV cells strongly inhibit
+    PV and provide little inhibition to SST and VIP. SST cells avoid inhibiting SST and
+    strongly inhibit PV, VIP and E. VIP cells preferentially inhibit SST.
+  - Hertäg & Sprekeler 2020, eLife 9:e57541, "Learning prediction error neurons in a canonical
+    interneuron circuit" (`bibliography/computational.bib`). Title verified; the PV–SST–VIP
+    content is for Lane 2 to check against the paper.
+  - Bastos et al. 2012, Neuron, "Canonical microcircuits for predictive coding" (komposer
+    corpus). Title verified; content and DOI for Lane 2 to check.
+  - Tremblay, Lee & Rudy 2016, Neuron, doi 10.1016/j.neuron.2016.06.033. Review; not yet
+    ingested (komposer Priority A).
+  - Pi et al. 2013, Nature, doi 10.1038/nature12676. VIP disinhibition; not yet ingested.
+- Weights and probabilities trace to a cited passage. No value from memory. The komposer
+  workflow `workflow_multiagent_cortical_omission` is withdrawn (2026-09-23 audit) and is not a
+  source.
+- Reporting: class rates against the bands the project already uses: PV 12–25 Hz, VIP 8–15 Hz,
+  SST 6–12 Hz, E below PV (`scripts/ei_replay_058_compare.py`). Reported, not gated, unless the
+  owner decides otherwise (decision 3).
+
+## 4. Scoreboard (100 points)
+
+Each item is PASS or not. PASS needs a committed receipt. PARTIAL scores 0. Points for a
+checklist are its weight spread over its 10 items. 100/100 means every item is PASS and done.
+
+| id | item | pts | receipt |
+|---|---|---:|---|
+| S-01 | builder returns a JaxFNE model for N = 100 in one call with a seed | 8 | `tests/test_minimal_builder.py` |
+| S-02 | same call works for N in {50, 100, 200} with no code change | 4 | same |
+| S-03 | identical seed gives identical wiring bytes | 3 | same |
+| S-04 | every neuron is Izhikevich via JaxFNE; parameters match the cited presets | 5 | same |
+| S-05 | HDP enabled for the whole model; H recorded per neuron, finite | 5 | same |
+| S-06 | HDP rule declared in the spec; detached homeostatic configuration not used | 5 | spec |
+| S-07 | PV→PV strong; PV→SST and PV→VIP weak (Pfeffer 2013) | 5 | `docs/minimal/connectivity.json` |
+| S-08 | SST→SST absent; SST→PV, SST→VIP, SST→E strong (Pfeffer 2013) | 5 | same |
+| S-09 | VIP→SST preferential; VIP→PV and VIP→E weak (Pfeffer 2013) | 5 | same |
+| S-10 | E→PV, E→SST, E→VIP, E→E rules cited from a source | 5 | same |
+| S-11 | every weight and probability traces to a cited passage | 5 | same |
+| S-12 | 1000 ms run with no non-finite values | 5 | smoke receipt (MIN-03) |
+| S-13 | each class fires; none silent | 5 | same |
+| S-14 | E not runaway; class rates reported against the bands | 5 | same |
+| S-15 | HDP state stays bounded across the run | 5 | same |
+| CK-A | Checklist A items 1–10 each have a receipt (0.8 each) | 8 | MIN-04 |
+| CK-B | Checklist B items 1–10 each have a receipt (0.7 each) | 7 | MIN-05 |
+| S-18 | spec committed before any run | 3 | git history |
+| S-19 | tier 0 passes; new tests pass | 3 | suite_lock summary line |
+| S-20 | results committed separately from the spec; no retune after results | 2 | git history |
+| S-21 | todo and open items current; `project_check` PASS | 2 | `project_check` output |
+
+Totals: A 15, B 15, C 25 (S-07 to S-11), D 20 (S-12 to S-15), checklists 15, governance 10 = 100.
+Current score: 0/100 (nothing built yet).
+
+## 5. Parallel lanes (prepared, not spawned)
+
+Lanes 1 and 2 touch disjoint files and can run at the same time. They are BLOCKED in
+`manifests/todo.json` until owner decisions 1 and 2 (section 6) are given. Lane 3 waits for both. Lane 4
+waits for the LANSA source. Workers do mechanical parts only. Science semantics (weights, the
+statistic, interpretation) stay with the main model and the reviewer.
+
+- Lane 1, MIN-01 (worker, high). Writes `jomission/minimal/` and `tests/test_minimal_builder.py`.
+  Reads `jomission/network/builder.py` and the JaxFNE example and `_config.py` (repo at
+  `E:\repos\jaxfne`). Acceptance: `pytest tests/test_minimal_builder.py` passes; S-01 to S-06
+  receipts. Stop: JaxFNE refuses the four-type declaration (open item).
+- Lane 2, MIN-02 (worker, high; reviewer for the citations). Writes `docs/minimal/connectivity.json`.
+  Reads the komposer bibliography files named in section 3. Acceptance: every rule has a
+  citation that resolves to a passage; S-07 to S-11 receipts. Stop: a rule with no source is
+  listed as open, never filled from memory.
+- Lane 3, MIN-03 (worker, medium). Waits for lanes 1 and 2. 1000 ms smoke run to scratch;
+  S-12 to S-15 receipts. Any file under `results/` needs an authorizing TODO.
+- Lane 4, MIN-05 (blocked). Spectrolaminar statistic and null; waits for the LANSA source.
+- MIN-04 (blocked on MIN-03 and the habituation schedule): checklist A coverage.
+
+Packet fields for every lane: goal, baseline commit, files it may read, paths it may write,
+acceptance command and expected summary line, stop conditions, report cap of 200 words. One
+writer per file.
+
+## 6. Owner decisions (one batch)
+
+1. Fractions for N = 100: from the cited density source (recommended) or the placeholder
+   75/10/8/7 until a source exists.
+2. HDP rule for the minimal models: a named registered JaxFNE rule (recommended; Lane 1 proposes
+   from `jaxfne/hdp_rule.py`), or another rule you name.
+3. Rate bands: reported only (recommended) or gates.
+
+## 7. Open items
+
+Mirrored in `manifests/current_state.json` `open_uncertainties`.
+
+- MIN-01: a JaxFNE 0.5.8 four-type declaration (E, PV, SST, VIP) in `.network()` is unverified.
+- MIN-02: the CB ↔ SST and CR ↔ VIP marker mapping is the owner's convention, not yet cited.
+- MIN-02: E→PV, E→SST, E→VIP rates lie outside the Pfeffer 2013 scheme; no cited source yet.
+- MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer.
+- MIN-05: LANSA densities (Mulvey et al.) are not in the jomission repo.
+- MIN-05: the 90% statistic, its vectors and its surrogate null are undefined.
+- HDP rule for the minimal models is not chosen (decision 2).
+- The komposer workflow numbers are withdrawn; they are not a source for any weight.

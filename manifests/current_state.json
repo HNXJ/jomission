@@ -343,6 +343,38 @@
   {
    "item": "Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page)",
    "route": "record only"
+  },
+  {
+   "item": "MIN-01: a JaxFNE 0.5.8 four-type declaration (E, PV, SST, VIP) in .network() is unverified",
+   "route": "MIN-01"
+  },
+  {
+   "item": "MIN-02: the CB to SST and CR to VIP marker mapping is the owner's convention, not yet cited",
+   "route": "MIN-02"
+  },
+  {
+   "item": "MIN-02: E to PV, SST and VIP rates lie outside the Pfeffer 2013 scheme; no cited source in the repo yet",
+   "route": "MIN-02"
+  },
+  {
+   "item": "MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer (Priority A pending download)",
+   "route": "MIN-02"
+  },
+  {
+   "item": "MIN-05: LANSA cell densities (Mulvey et al.) are not in the jomission repo; the spectrolaminar fractions cannot be fixed",
+   "route": "MIN-05"
+  },
+  {
+   "item": "MIN-05: the 90% correlation statistic, its vectors and its surrogate null are undefined",
+   "route": "MIN-05"
+  },
+  {
+   "item": "HDP rule for the minimal models is not chosen; the homeostatic configuration is detached and cannot supply a success claim",
+   "route": "record only"
+  },
+  {
+   "item": "komposer workflow_multiagent_cortical_omission numbers are withdrawn (2026-09-23 audit); not a source for any weight",
+   "route": "record only"
   }
  ],
  "startup": [

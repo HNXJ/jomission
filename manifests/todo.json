@@ -435,6 +435,113 @@
     "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
     "artifacts_expected": [],
     "downstream_unlock": []
+   },
+   {
+    "id": "MIN-01",
+    "status": "BLOCKED",
+    "trigger": "owner 2026-10-30: 'file both under one plan' and 'prepare for a multi-agent parallel work' on very minimal models",
+    "goal": "reusable minimal typed laminar model builder: N = 100 Izhikevich neurons through JaxFNE 0.5.8, HDP enabled, cell types E, PV, SST(CB), VIP(CR)",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md sections 3 and 4 (scoreboard S-01 to S-06)",
+    "principal_delta": "new builder only; no existing jomission model, driver or sealed artifact changes",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md",
+     "jomission/network/builder.py"
+    ],
+    "frozen": [
+     "N = 100 default; sizes 50, 100 and 200 by parameter",
+     "Izhikevich parameters from the JaxFNE preset table, each cited in the spec",
+     "HDP enabled; rule named in the spec (owner decision 2)"
+    ],
+    "procedure": "Lane 1 of docs/PLAN_MINIMAL_MODELS.md section 5: write jomission/minimal/ and tests/test_minimal_builder.py; the reviewer reads the diff and reruns the test",
+    "acceptance": "pytest tests/test_minimal_builder.py passes; receipts for S-01 to S-06",
+    "stop_condition": "JaxFNE 0.5.8 refuses the four-type declaration: STOP and report (open uncertainty)",
+    "artifacts_expected": [
+     "jomission/minimal/__init__.py",
+     "tests/test_minimal_builder.py"
+    ],
+    "downstream_unlock": [
+     "MIN-03"
+    ]
+   },
+   {
+    "id": "MIN-02",
+    "status": "BLOCKED",
+    "trigger": "owner 2026-10-30: connectivity based on the PV-SST(CB)-VIP(CR)-E laminar literature",
+    "goal": "connectivity table for PV, SST, VIP and E, each rule and weight traced to a cited passage",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 3 (Pfeffer 2013; Hertag and Sprekeler 2020; Bastos 2012; Tremblay 2016 and Pi 2013 to ingest)",
+    "principal_delta": "documentation of the connectivity source; no code, no run",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md"
+    ],
+    "frozen": [
+     "no weight or probability from memory; a rule with no source stays open"
+    ],
+    "procedure": "Lane 2 of docs/PLAN_MINIMAL_MODELS.md section 5: write docs/minimal/connectivity.json with a citation per rule; the reviewer checks each citation against the text",
+    "acceptance": "every rule in docs/minimal/connectivity.json resolves to a cited passage; receipts for S-07 to S-11",
+    "stop_condition": "a rule has no source in the repo: list it as open and stop that rule",
+    "artifacts_expected": [
+     "docs/minimal/connectivity.json"
+    ],
+    "downstream_unlock": [
+     "MIN-03"
+    ]
+   },
+   {
+    "id": "MIN-03",
+    "status": "BLOCKED",
+    "trigger": "waits for MIN-01 and MIN-02",
+    "goal": "1000 ms smoke run of the minimal model: no non-finite values, class rates against the bands, HDP state bounded",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 4 (S-12 to S-15)",
+    "principal_delta": "none: smoke run of the built model",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md"
+    ],
+    "frozen": [
+     "1000 ms, dt 0.1 ms, seed fixed in the spec"
+    ],
+    "procedure": "Lane 3: smoke run to scratch with the tier 1 test; a file under results/ needs a TODO that authorizes it",
+    "acceptance": "receipts for S-12 to S-15",
+    "stop_condition": "any non-finite value or runaway E: STOP and report",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+   {
+    "id": "MIN-04",
+    "status": "BLOCKED",
+    "trigger": "owner 2026-10-30: checklist A (minimal omission model with habituation and adaptation); waits for MIN-03 and the habituation schedule",
+    "goal": "checklist A items 1 to 10, each with a receipt",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 1",
+    "principal_delta": "none until the habituation schedule is fixed by the owner",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md"
+    ],
+    "frozen": [
+     "omission firewall (BLIND-OMISSION retired; no omission outcome in the Pages)"
+    ],
+    "procedure": "per item in section 1 of the plan; each item is PASS only with a committed receipt",
+    "acceptance": "ten receipts; scoreboard CK-A",
+    "stop_condition": "habituation schedule still unresolved: STOP and ask the owner",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+   {
+    "id": "MIN-05",
+    "status": "BLOCKED",
+    "trigger": "owner 2026-10-30: checklist B (spectrolaminar 90% correlation pattern model); blocked on the LANSA density source",
+    "goal": "checklist B items 1 to 10, each with a receipt; the 90% statistic and its null defined in a spec before any run",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 2; docs/tfne/TFNE_V2_SPEC.md (SL0, SL1, SL2)",
+    "principal_delta": "none until the statistic is specified",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md"
+    ],
+    "frozen": [
+     "SL2 rule: H is never tuned to make a proxy reproduce the pattern"
+    ],
+    "procedure": "per item in section 2 of the plan; the LANSA densities must be pinned by blob before item 3",
+    "acceptance": "ten receipts; scoreboard CK-B",
+    "stop_condition": "LANSA source absent: STOP and report",
+    "artifacts_expected": [],
+    "downstream_unlock": []
    }
      ],
    "next_authorized_task": null

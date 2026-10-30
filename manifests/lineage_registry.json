@@ -3229,6 +3229,164 @@
      "finding": "MIGRATION_BLOCKED_ON_NATIVE_NOISE_LAW delivered: the compatibility deltas and the identity re-baseline are complete; the promotion is withheld pending the owner's decision on the native-noise law of JaxFNE >= 0.5.6"
     }
    ]
+  },
+  {
+   "lineage_id": "SCI-EI-REPLAY-058",
+   "parent": "SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (sealed receipts and specs, replayed and not altered)",
+   "principal_delta": "engine only: JaxFNE 0.5.8 in place of the sealed engine, with the native-noise coefficient pinned to the sealed 0.5 (noise_scale 0.2236068 at dt 0.1 ms, amendment 2). No parameter, seed, duration, tonic, weight, repair, rule or tolerance change",
+   "preexecution_spec": {
+    "path": "results/ei_replay_058_spec.json",
+    "commit": "8149047"
+   },
+   "authority": "owner 2026-10-29: 'Full redo' and 'ok proceed ... make real progress' after the option 'Replay EI'; owner 2026-10-30: 'ok proceed' (pin the sealed noise law, amendment 2) and 'accept' (artifact location strings are not a difference, amendment 3)",
+   "inputs": [
+    "results/ei_replay_058_spec.json",
+    "results/whole_system_ei_regime_spec.json",
+    "results/whole_system_ei_interaction_spec.json",
+    "results/jaxfne_0_5_8_migration.json",
+    "scripts/whole_system_ei_regime_arm.py",
+    "scripts/whole_system_ei_interaction_arm.py",
+    "scripts/whole_system_oscillator_arm.py",
+    "scripts/ei_replay_058_run.py",
+    "scripts/ei_replay_058_compare.py",
+    "scripts/ei_replay_058_probe_check.py",
+    "scripts/ei_replay_058_atlas.py"
+   ],
+   "frozen": [
+    "the sealed specs and driver blobs listed in results/ei_replay_058_spec.json, unchanged",
+    "noise pin: noise_scale 0.2236068 at dt 0.1 ms with kernel baseline; the runner refuses any other dt, kernel or driver-supplied noise_scale (runner blob b7202a27, amendment 2)",
+    "comparison tolerance 1e-9 absolute and relative; every label rule"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "all five receipts reproduce the sealed numeric leaves: numeric diffs 0 and max abs diff 0 for the regime diagnosis (1061 leaves) and each cell (baseline 1082, w_only 1086, a_only 1085, both 1089 leaves)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058/comparison.json",
+     "check": {
+      "path": "results/ei_replay_058/comparison.json",
+      "json_pointer": "/pairs/results~1ei_replay_058~1whole_system_ei_regime_diagnosis.json/max_abs_diff",
+      "expected": 0,
+      "tol": 0
+     }
+    },
+    {
+     "claim": "verdict labels equal the sealed labels: regime EI_REGIME_UNRESOLVED_MULTIPLE; interaction EI_REGIME_STILL_UNRESOLVED from the sealed cells and from the replay cells",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058/comparison.json"
+    },
+    {
+     "claim": "baseline cell reads E 10.6154 Hz on JaxFNE 0.5.8, the sealed value",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058/comparison.json",
+     "check": {
+      "path": "results/ei_replay_058/comparison.json",
+      "json_pointer": "/interaction_viability/replay/baseline/E",
+      "expected": 10.6154,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "the probes reproduce the sealed probes spike for spike: initial 15280 of 15280 spikes and final 13391 of 13391, identical fraction 1.0, no differing neuron",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058/probe_check.json"
+    },
+    {
+     "claim": "in the baseline cell run-health passes (execution, collapse and runaway pass true); the synchrony and propagation gates read fail (V4_2 CV 3.0129 against 3.0), as in the sealed receipt",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058/whole_system_ei_interaction_baseline.json"
+    },
+    {
+     "claim": "attempt 1 (unpinned default noise) reads baseline E 10.6918 Hz against the sealed 10.6154: ENGINE_SHIFT as first classified; kept unchanged as a record, not the replay of record",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/ei_replay_058_attempt1_unpinned/comparison.json",
+     "check": {
+      "path": "results/ei_replay_058_attempt1_unpinned/comparison.json",
+      "json_pointer": "/interaction_viability/replay/baseline/E",
+      "expected": 10.6918,
+      "tol": 1e-09
+     }
+    },
+    {
+     "claim": "the V3 atlas manifest has 3 AVAILABLE and 3 UNAVAILABLE status entries; the atlas receives spikes only (V_m None)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/viz/SCI-EI-REPLAY-058/atlas/manifest.json"
+    }
+   ],
+   "derived": [
+    {
+     "claim": "the pin realizes the sealed coefficient: 0.2236068 times sqrt(0.5 / 0.1) is 0.5 in float32; the 0.5.8 default base 0.5 realizes 1.1180 at dt 0.1 ms (emitters.py _noise_coef, DT_REF_MS 0.5)",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [
+    {
+     "claim": "the attempt-1 shift comes from the noise coefficient, not from the engine code; the pinned run removes it, but no run isolates the noise term alone",
+     "evidence_class": "INFERRED"
+    }
+   ],
+   "verdict": {
+    "label": "REPRODUCED",
+    "status": "PASS",
+    "status_note": "REPRODUCED under amendment 3: numeric diffs 0 and max abs diff 0 in all five receipts, every verdict label equal. Two artifact location strings per receipt are listed as location_diffs and not counted. The rule before amendment 3 gave ENGINE_SHIFT (classification_as_run). The disposition belongs to the reviewer"
+   },
+   "acceptance": "results/ei_replay_058_spec.json. Met: all five arms completed; run-health passes in the baseline cell; every other leaf, including every pass flag, equals its sealed value; comparison.json states the classification and each difference; the four contract artifacts resolve at the result commit",
+   "fail_boundary": "REPRODUCED is exact at 1e-9 on receipts that store rates to 4 decimals, so a shift below 5e-5 Hz cannot appear in this check (spec comparison rule). The per-cell 1 ms series (npz, gitignored) are not compared. The synchrony and propagation gates fail in the baseline cell as they do in the sealed receipt; this lineage does not re-judge them",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "results/ei_replay_058_spec.json",
+    "results/ei_replay_058/comparison.json",
+    "results/ei_replay_058/probe_check.json",
+    "results/ei_replay_058/whole_system_ei_regime_diagnosis.json",
+    "results/ei_replay_058/whole_system_ei_interaction_baseline.json",
+    "results/ei_replay_058/whole_system_ei_interaction_w_only.json",
+    "results/ei_replay_058/whole_system_ei_interaction_a_only.json",
+    "results/ei_replay_058/whole_system_ei_interaction_both.json",
+    "results/ei_replay_058_attempt1_unpinned/comparison.json",
+    "results/viz/SCI-EI-REPLAY-058/jaxfne_network_hspice.png",
+    "results/viz/SCI-EI-REPLAY-058/raster_initial_1000ms.png",
+    "results/viz/SCI-EI-REPLAY-058/raster_final.png",
+    "results/viz/SCI-EI-REPLAY-058/atlas/index.html"
+   ],
+   "tests": [
+    "tier 0 (manifests/test_tiers.json) under suite_lock after this record: 212 passed, 0 failed; project_check --offline --no-tests: only the clean-tree check was open before this commit"
+   ],
+   "commit": "7c95f7c",
+   "visualization": {
+    "V0": "results/viz/SCI-EI-REPLAY-058/jaxfne_network_hspice.png",
+    "V1": "results/viz/SCI-EI-REPLAY-058/raster_initial_1000ms.png",
+    "V2": "results/viz/SCI-EI-REPLAY-058/raster_final.png",
+    "V3": "results/viz/SCI-EI-REPLAY-058/atlas/index.html"
+   },
+   "driver_provenance": {
+    "runner": {
+     "path": "scripts/ei_replay_058_run.py",
+     "blob": "b7202a27f97af9edf4992a744ce423347c3d9004"
+    }
+   },
+   "attempt_1_record": {
+    "path": "results/ei_replay_058_attempt1_unpinned",
+    "note": "unpinned default noise, kept unchanged; not the replay of record",
+    "receipts": [
+     "results/ei_replay_058_attempt1_unpinned/comparison.json",
+     "results/ei_replay_058_attempt1_unpinned/probe_check.json",
+     "results/ei_replay_058_attempt1_unpinned/whole_system_ei_regime_diagnosis.json",
+     "results/ei_replay_058_attempt1_unpinned/whole_system_ei_interaction_baseline.json",
+     "results/ei_replay_058_attempt1_unpinned/whole_system_ei_interaction_w_only.json",
+     "results/ei_replay_058_attempt1_unpinned/whole_system_ei_interaction_a_only.json",
+     "results/ei_replay_058_attempt1_unpinned/whole_system_ei_interaction_both.json",
+     "results/viz/SCI-EI-REPLAY-058_attempt1_unpinned/atlas/manifest.json"
+    ]
+   },
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "EI-REPLAY",
+     "finding": "REPRODUCED under amendment 3: the sealed regime and interaction labels stand on JaxFNE 0.5.8 with the native-noise coefficient pinned. The replay adds no science; EI_REGIME_UNRESOLVED_MULTIPLE and EI_REGIME_STILL_UNRESOLVED stand. The disposition belongs to the reviewer"
+    }
+   ]
   }
  ]
 }

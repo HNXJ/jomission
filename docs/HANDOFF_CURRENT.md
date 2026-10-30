@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; owner order 2026-10-29 ('ok proceed') opened SCI-EI-REPLAY-058, an engine-only replay; downstream work still awaits reviewer direction
+- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; owner order 2026-10-29 ('ok proceed') opened SCI-EI-REPLAY-058, an engine-only replay, sealed 2026-10-30 as REPRODUCED under amendment 3 (lineage record in manifests/lineage_registry.json; disposition with the reviewer); downstream work still awaits reviewer direction
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -68,11 +68,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-RECRUITMENT-1: PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: neither class crosses its rheobase transiently (PV max 3.1869, VIP max 3.1905), so no STATE pattern; both cause UNRESOLVED — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: the current-budget atlas aligns per-class rate, total current with tonic and rheobase references, reconstructed splits, and v/u state over the full run — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
@@ -80,11 +75,17 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - JAXFNE-0-5-7-MIGRATION: the TFNE construction is identical across jaxfne 0.4.25 and 0.5.7: 2224 neurons, 1294396 edges before enforce and 246844 after (the sealed results/whole_system_isolated_pop.json count), identical weight bytes sha256 8fccec054edeee9dce09166c622c77862e457acdf7fb2df393060fbf3d0df813 and an identical projection identity set — `e9b2367:results/jaxfne_0_5_7_migration.json`
 - JAXFNE-0-5-7-MIGRATION: the probe arrays of the Gen2 model are identical under jaxfne 0.4.25 before and after the compatibility deltas, and identical under jaxfne 0.5.0; they differ under 0.5.5 (335 against 337 spikes over 20 ms) and under 0.5.7 (331 against 337) — `e9b2367:results/jaxfne_0_5_7_migration.json`
 - JAXFNE-0-5-7-MIGRATION: jaxfne >= 0.5.6 computes the default native-noise coefficient as 0.5*sqrt(DT_REF_MS/dt_ms) with DT_REF_MS 0.5, so at the canonical dt 0.1 ms the per-step coefficient is 1.1180 where jaxfne <= 0.5.5 use 0.5 — `e9b2367:results/jaxfne_0_5_7_migration.json`
+- SCI-EI-REPLAY-058: all five receipts reproduce the sealed numeric leaves: numeric diffs 0 and max abs diff 0 for the regime diagnosis (1061 leaves) and each cell (baseline 1082, w_only 1086, a_only 1085, both 1089 leaves) — `7c95f7c:results/ei_replay_058/comparison.json`
+- SCI-EI-REPLAY-058: verdict labels equal the sealed labels: regime EI_REGIME_UNRESOLVED_MULTIPLE; interaction EI_REGIME_STILL_UNRESOLVED from the sealed cells and from the replay cells — `7c95f7c:results/ei_replay_058/comparison.json`
+- SCI-EI-REPLAY-058: baseline cell reads E 10.6154 Hz on JaxFNE 0.5.8, the sealed value — `7c95f7c:results/ei_replay_058/comparison.json`
+- SCI-EI-REPLAY-058: the probes reproduce the sealed probes spike for spike: initial 15280 of 15280 spikes and final 13391 of 13391, identical fraction 1.0, no differing neuron — `7c95f7c:results/ei_replay_058/probe_check.json`
+- SCI-EI-REPLAY-058: in the baseline cell run-health passes (execution, collapse and runaway pass true); the synchrony and propagation gates read fail (V4_2 CV 3.0129 against 3.0), as in the sealed receipt — `7c95f7c:results/ei_replay_058/whole_system_ei_interaction_baseline.json`
+- SCI-EI-REPLAY-058: attempt 1 (unpinned default noise) reads baseline E 10.6918 Hz against the sealed 10.6154: ENGINE_SHIFT as first classified; kept unchanged as a record, not the replay of record — `7c95f7c:results/ei_replay_058_attempt1_unpinned/comparison.json`
+- SCI-EI-REPLAY-058: the V3 atlas manifest has 3 AVAILABLE and 3 UNAVAILABLE status entries; the atlas receives spikes only (V_m None) — `7c95f7c:results/viz/SCI-EI-REPLAY-058/atlas/manifest.json`
 
 ### Next authorized task
 
-- `SCI-EI-REPLAY-058` (OPEN): Re-run the sealed SCI-EI-REGIME-1 intact arm and the four SCI-EI-INTERACTION-1 cells on JaxFNE 0.5.8 with no parameter change; report whether readings and verdicts reproduce
-- stop: STOP after the comparison and the four contract artifacts; the reviewer decides the disposition
+- `NONE` (no task currently open; awaiting reviewer direction)
 
 ### Locked gates
 

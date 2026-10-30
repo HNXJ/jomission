@@ -238,8 +238,8 @@
   }
  },
  "open_scientific_question": "what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit: native-resolution (v_i, u_i, I_net) trajectories around firing opportunities, testing P(spike|v,u,I_net,class) to separate input delivery from the state-dependent transfer function",
- "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; owner order 2026-10-29 ('ok proceed') opened SCI-EI-REPLAY-058, an engine-only replay; downstream work still awaits reviewer direction",
- "next_authorized_task": "SCI-EI-REPLAY-058",
+ "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; owner order 2026-10-29 ('ok proceed') opened SCI-EI-REPLAY-058, an engine-only replay, sealed 2026-10-30 as REPRODUCED under amendment 3 (lineage record in manifests/lineage_registry.json; disposition with the reviewer); downstream work still awaits reviewer direction",
+ "next_authorized_task": null,
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

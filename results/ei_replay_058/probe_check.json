@@ -1,0 +1,36 @@
+{
+ "final": {
+  "first_differing_ms": null,
+  "identical_fraction": 1.0,
+  "neurons_with_any_difference": 0,
+  "replay": "results/viz/SCI-EI-REPLAY-058/probe_final.npz",
+  "sealed": "results/viz/SCI-EI-REGIME-1/probe_final.npz",
+  "shape_replay": [
+   1000,
+   2224
+  ],
+  "shape_sealed": [
+   1000,
+   2224
+  ],
+  "spikes_replay": 13391,
+  "spikes_sealed": 13391
+ },
+ "initial": {
+  "first_differing_ms": null,
+  "identical_fraction": 1.0,
+  "neurons_with_any_difference": 0,
+  "replay": "results/viz/SCI-EI-REPLAY-058/probe_initial.npz",
+  "sealed": "results/viz/SCI-EI-REGIME-1/probe_initial.npz",
+  "shape_replay": [
+   1000,
+   2224
+  ],
+  "shape_sealed": [
+   1000,
+   2224
+  ],
+  "spikes_replay": 15280,
+  "spikes_sealed": 15280
+ }
+}

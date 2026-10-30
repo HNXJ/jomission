@@ -430,6 +430,16 @@ def check_vocabulary(manifest):
             )
 
 
+def jaxfne_version():
+    """Installed JaxFNE version, so the footer cannot lag the engine."""
+    from importlib.metadata import PackageNotFoundError, version
+
+    try:
+        return version("jaxfne")
+    except PackageNotFoundError:
+        return "not recorded"
+
+
 def build(out_dir, commit=None):
     commit = commit or repo_commit()
     manifest = load_json(os.path.join(SRC, "manifest.json"))
@@ -508,6 +518,7 @@ def build(out_dir, commit=None):
             shell.replace("{{title}}", esc(titles[p]))
             .replace("{{root}}", "")
             .replace("{{nav}}", page_nav)
+            .replace("{{jaxfne}}", esc(jaxfne_version()))
             .replace("{{content}}", frag2)
             .replace("{{commit}}", esc(commit))
         )

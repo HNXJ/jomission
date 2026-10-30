@@ -1,8 +1,9 @@
 # Plan: checklists, minimal typed models, scoreboard
 
-Date: 2026-10-30. Status: prepared, not executed. `next_authorized_task` is `null`; no
-simulation runs until the reviewer or owner authorizes one. Work items: `manifests/todo.json`
-(MIN-01 to MIN-05). Open uncertainties: `manifests/current_state.json`.
+Date: 2026-10-30. Status: spec and builder committed (14486b1); smoke receipt written after that
+commit; scoreboard in section 4a. `next_authorized_task` is `null`. Work items:
+`manifests/todo.json` (MIN-02, MIN-04, MIN-05 open). Open uncertainties:
+`manifests/current_state.json`.
 
 ## 1. Checklist A: minimal omission model with habituation and adaptation
 
@@ -116,7 +117,36 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 | S-21 | todo and open items current; `project_check` PASS | 2 | `project_check` output |
 
 Totals: A 15, B 15, C 25 (S-07 to S-11), D 20 (S-12 to S-15), checklists 15, governance 10 = 100.
-Current score: 0/100 (nothing built yet).
+## 4a. Status (2026-10-30)
+
+Spec and code: commit 14486b1. Smoke receipt: `docs/minimal/smoke_receipt.json`, written by the
+run after that commit (byte-identical to an earlier run). Tier 0: 220 passed, 1 failed (the
+handoff-currency test, fixed by regenerating `docs/HANDOFF_CURRENT.md`); rerun pending.
+Score: 65/100 PASS; 70/100 when S-19 and S-21 pass.
+
+| id | state | pts | evidence |
+|---|---|---:|---|
+| S-01 | PASS | 8 | `tests/test_minimal_builder.py::test_n100_builds_with_seed_and_counts` |
+| S-02 | PASS | 4 | `test_sizes_build_without_code_change` (50, 100, 200) |
+| S-03 | PASS | 3 | `test_same_seed_gives_identical_wiring_bytes`; the seed is not shown to change wiring |
+| S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
+| S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
+| S-06 | PASS | 5 | section 3; owner decision 2 is assumed, not confirmed |
+| S-07 | PASS | 5 | `docs/minimal/connectivity.json`: PV_to_PV 0.986, PV_to_VIP 0.22; PV_to_SST absent |
+| S-08 | PASS | 5 | SST_to_PV 0.275, SST_to_VIP 0.77, SST_to_E 0.539; SST_to_SST absent |
+| S-09 | PASS | 5 | VIP_to_SST 0.246 (largest VIP output); VIP_to_PV 0.021, VIP_to_E 0.168 |
+| S-10 | FAIL | 0 | no E rule cited; open in `connectivity.json` |
+| S-11 | FAIL | 0 | four probabilities assumed 1.0; weights mix uIPSQ and INC |
+| S-12 | PASS | 5 | smoke receipt: finite spikes and V_m, finite H |
+| S-13 | FAIL | 0 | 2 PV and 1 VIP neurons with no spike in 1 s |
+| S-14 | PASS | 5 | E max 8 Hz under the 100 Hz ceiling; rates reported (PV, SST, VIP outside bands) |
+| S-15 | PASS | 5 | H within [1.0, 1.0024], bounds [0.1, 10.0]; H barely moves |
+| CK-A | FAIL | 0 | blocked on the habituation schedule (MIN-04) |
+| CK-B | FAIL | 0 | blocked on the LANSA source (MIN-05) |
+| S-18 | PASS | 3 | spec commit 14486b1 precedes the receipt run |
+| S-19 | pending | 3 | tier 0 rerun after the handoff fix |
+| S-20 | PASS | 2 | receipt committed separately. Disclosed: the weight unit was corrected (uIPSQ/INC mix to a single 2.8 pC scale) after the first probe; the rates did not drive the correction |
+| S-21 | pending | 2 | `project_check` |
 
 ## 5. Parallel lanes (prepared, not spawned)
 

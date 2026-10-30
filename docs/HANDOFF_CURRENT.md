@@ -108,13 +108,15 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - whether SST-c/VIP-c single-cell bursting entrains E irregularity (secondary hypothesis) → record only
 - cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact) → record only
 - Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page) → record only
-- MIN-01: a JaxFNE 0.5.8 four-type declaration (E, PV, SST, VIP) in .network() is unverified → MIN-01
+- JaxFNE 0.5.8 accepts the four-type declaration (E, PV, SST, VIP); simulate needs RuntimeConfig(recurrent_backend='edge_list', enable_hdp, hdp_params) passed to jtfne.simulation (jomission/minimal/builder.py minimal_runtime) → record only
+- minimal smoke (docs/minimal/smoke_receipt.json): S-13 fails as written; PV 2 and VIP 1 neurons fire no spike in 1 s; PV and SST mean rates sit outside the bands (reported, not gated) → record only
+- minimal HDP: H stays in [1.0, 1.0024] over 1 s; the bounds check passes but H barely moves → record only
 - MIN-02: the CB to SST and CR to VIP marker mapping is the owner's convention, not yet cited → MIN-02
 - MIN-02: E to PV, SST and VIP rates lie outside the Pfeffer 2013 scheme; no cited source in the repo yet → MIN-02
 - MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer (Priority A pending download) → MIN-02
 - MIN-05: LANSA cell densities (Mulvey et al.) are not in the jomission repo; the spectrolaminar fractions cannot be fixed → MIN-05
 - MIN-05: the 90% correlation statistic, its vectors and its surrogate null are undefined → MIN-05
-- HDP rule for the minimal models is not chosen; the homeostatic configuration is detached and cannot supply a success claim → record only
+- HDP rule for the minimal models: JaxFNE DEFAULT_HDP declared; owner decision 2 is assumed, not confirmed; the detached homeostatic configuration is not identified in the repo and no success claim rests on it → record only
 - komposer workflow_multiagent_cortical_omission numbers are withdrawn (2026-09-23 audit); not a source for any weight → record only
 
 <!-- generated:state:end -->

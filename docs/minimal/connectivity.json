@@ -1,0 +1,52 @@
+{
+ "schema": "jomission.minimal_connectivity.v1",
+ "status": "weights cited; probabilities open where marked; open items listed in open",
+ "area": "M",
+ "layer": "L2/3",
+ "cell_types": {
+  "E": {"fraction": 0.75, "basis": "assumed (owner decision 1 default); not cited"},
+  "PV": {"fraction": 0.11, "basis": "assumed: Pfeffer et al. 2013 interneuron split (Pvalb 36, Sst 30, VIP 17 percent of GFP interneurons) renormalized to the 25 percent interneuron share"},
+  "SST": {"fraction": 0.09, "basis": "assumed: same split as PV"},
+  "VIP": {"fraction": 0.05, "basis": "assumed: same split as PV"},
+  "alias": {"SST": "CB (owner convention, not cited)", "VIP": "CR (owner convention, not cited)"}
+ },
+ "reference": {
+  "name": "PV-to-pyramid INC and uIPSQ (weight 1.0)",
+  "value_pC": 2.8,
+  "weight_rule": "pC rows: weight = value_pC / 2.8; nINC rows: weight = nINC (the paper normalizes to the same 2.8 pC)",
+  "source": "Pfeffer et al. 2013, Nat Neurosci, doi 10.1038/nn.3446; komposer bibliography/10.1038_nn.3446.md lines 258-265 and 377-386"
+ },
+ "rules": [
+  {"name": "PV_to_PV", "pre": "PV", "post": "PV", "probability": 1.0, "weight": 0.9857, "sign": "inhibitory",
+   "basis": "Pcon 100 percent (line 396 and Pcon statement); uIPSQ 2.76 pC; 2.76/2.8", "status": "cited"},
+  {"name": "SST_to_PV", "pre": "SST", "post": "PV", "probability": 0.857, "weight": 0.2750, "sign": "inhibitory",
+   "basis": "Pcon 85.7 percent; uIPSQ 0.77 pC (line 402); 0.77/2.8", "status": "cited"},
+  {"name": "SST_to_VIP", "pre": "SST", "post": "VIP", "probability": 1.0, "weight": 0.77, "sign": "inhibitory",
+   "basis": "nINC Sst to VIP 0.77 (line 382; INC 2.15 pC at line 329); probability not cited, assumed 1.0", "status": "weight cited; probability open"},
+  {"name": "SST_to_E", "pre": "SST", "post": "E", "probability": 1.0, "weight": 0.5393, "sign": "inhibitory",
+   "basis": "Pcon 100 percent; uIPSQ 1.51 pC (line 259); 1.51/2.8", "status": "cited"},
+  {"name": "VIP_to_SST", "pre": "VIP", "post": "SST", "probability": 0.625, "weight": 0.2464, "sign": "inhibitory",
+   "basis": "Pcon 62.5 percent; uIPSQ 0.69 pC (line 406); 0.69/2.8", "status": "cited"},
+  {"name": "VIP_to_E", "pre": "VIP", "post": "E", "probability": 0.125, "weight": 0.1679, "sign": "inhibitory",
+   "basis": "Pcon about 12.5 percent (line 262); uIPSQ 0.47 pC (line 259); 0.47/2.8", "status": "cited"},
+  {"name": "PV_to_E", "pre": "PV", "post": "E", "probability": 1.0, "weight": 1.0, "sign": "inhibitory",
+   "basis": "uIPSQ 2.8 pC onto pyramids (line 258); 2.8/2.8; Pcon 100 percent", "status": "cited"},
+  {"name": "PV_to_VIP", "pre": "PV", "post": "VIP", "probability": 1.0, "weight": 0.22, "sign": "inhibitory",
+   "basis": "nINC Pvalb to VIP 0.22 (line 382); probability not cited, assumed 1.0", "status": "weight cited; probability open"},
+  {"name": "VIP_to_PV", "pre": "VIP", "post": "PV", "probability": 1.0, "weight": 0.0214, "sign": "inhibitory",
+   "basis": "INC VIP to Pvalb 0.06 pC (line 365); 0.06/2.8; probability not cited, assumed 1.0", "status": "weight cited; probability open"},
+  {"name": "VIP_to_VIP", "pre": "VIP", "post": "VIP", "probability": 1.0, "weight": 0.0214, "sign": "inhibitory",
+   "basis": "INC VIP to VIP 0.06 pC (line 366); 0.06/2.8; probability not cited, assumed 1.0", "status": "weight cited; probability open"}
+ ],
+ "absent": [
+  {"pair": "SST_to_SST", "source": "Pfeffer et al. 2013 line 438: lack of Sst-Sst connections; INC 0.06 pC (line 339)"},
+  {"pair": "PV_to_SST", "source": "Pfeffer et al. 2013 line 296: Sst cells not inhibited by Pvalb; INC 0.07 pC (line 298), nINC 0.03 (line 385); no rule declared"}
+ ],
+ "open": [
+  "E_to_PV, E_to_SST, E_to_VIP, E_to_E: no cited rate in the Pfeffer text; no rule declared (S-10 open)",
+  "Pcon for SST_to_VIP, PV_to_VIP, VIP_to_PV, VIP_to_VIP: not cited; 1.0 assumed",
+  "weights mix uIPSQ and nINC/INC rows on one 2.8 pC scale; uIPSQ and INC are different measures (S-11 open until one metric is chosen)",
+  "CB and CR mapping to SST and VIP: owner convention, not cited",
+  "Tremblay, Lee and Rudy 2016 and Pi et al. 2013 not ingested; Hertag and Sprekeler 2020 content not read"
+ ]
+}

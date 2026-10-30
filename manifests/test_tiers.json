@@ -52,6 +52,9 @@
      "tests/test_v21c_intrinsic_design.py::test_dispersion_zero_mean_exact_width",
      "tests/test_v21c_intrinsic_design.py::test_protocol_matches_code"
     ],
+    "minimal typed builder (model construction only, no simulation)": [
+     "tests/test_minimal_builder.py"
+    ],
     "vectorization equivalence (numpy + tiny model build, no simulation)": [
      "tests/test_hdp_vectorization.py",
      "tests/test_builder_vectorization.py"

@@ -57,14 +57,15 @@ Source: `site-src/pages/spectrolaminar.html` (draft). Gates SL0, SL1, SL2 from
   (tested at 50, 100, 200). Reference scale: `jaxfne/examples/05_network_100_ei_multimodal.py`
   (100 neurons, 75 E and 25 I).
 - Cell types and notation: `E`, `PV`, `SST(CB)`, `VIP(CR)`. Fractions for N = 100 are open
-  (MIN-02). Working placeholder for MIN-01 tests only: E 75, PV 10, SST 8, VIP 7.
+  (MIN-02). Used now (`docs/minimal/connectivity.json`, assumed, decision 1): E 75, PV 11, SST 9,
+  VIP 5 for N = 100 (the PV/SST/VIP split is Pfeffer's interneuron split renormalized to 25 percent).
 - Neuron: Izhikevich through the TFNE framework in JaxFNE 0.5.8 (`.emitter(family="izhikevich",
   preset=...)`). Per-class parameters come from the JaxFNE preset table, each cited. The realized
   values are read back and compared.
-- HDP: every model enables HDP through `.hdp(...)` (non-identity, so `enable_hdp` is true). The
-  H state is recorded per neuron. The HDP rule is declared in the spec (owner decision 2). The
-  qualified homeostatic configuration is detached and never supplies a success claim
-  (`docs/project-sources/SUBSTRATE_PROGRAM.md`).
+- HDP: every model enables HDP through `.hdp(**DEFAULT_HDP)` (`jaxfne/hdp_network.py`), so
+  `enable_hdp` is true. Owner decision 2 is assumed: the JaxFNE default parameters are the
+  declared rule, not the detached homeostatic configuration (no success claim rests on it;
+  `docs/HANDOFF_CURRENT.md`). The H state is recorded per neuron (`diagnostics H_final`, `H_trace`).
 - Connectivity: declared with `.connections(...)`, one rule per pair. Literature basis:
   - Pfeffer et al. 2013, Nat Neurosci, doi 10.1038/nn.3446 (text ingested in komposer,
     `bibliography/10.1038_nn.3446.md`). Mouse V1, layers 2/3 to 5. PV cells strongly inhibit

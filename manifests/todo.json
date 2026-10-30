@@ -435,7 +435,40 @@
     "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
     "artifacts_expected": [],
     "downstream_unlock": []
+   },
+   {
+    "id": "SCI-EI-REPLAY-058",
+    "status": "OPEN",
+    "trigger": "owner 2026-10-29: 'Full redo' (always the latest JaxFNE, redo everything), then 'ok proceed; ... make real progress' after the option 'Replay EI'",
+    "goal": "Re-run the sealed SCI-EI-REGIME-1 intact arm and the four SCI-EI-INTERACTION-1 cells on JaxFNE 0.5.8 with no parameter change; report whether readings and verdicts reproduce",
+    "parent_authority": "results/whole_system_ei_regime_spec.json (SCI-EI-REGIME-1, 28af326); results/whole_system_ei_interaction_spec.json (SCI-EI-INTERACTION-1, d846eff)",
+    "principal_delta": "engine only: JaxFNE 0.5.8. No parameter, seed, duration, tonic, weight, repair, rule or tolerance change",
+    "required_inputs": [
+     "results/ei_replay_058_spec.json",
+     "results/whole_system_ei_regime_spec.json",
+     "results/whole_system_ei_interaction_spec.json",
+     "scripts/whole_system_ei_regime_arm.py",
+     "scripts/whole_system_ei_interaction_arm.py",
+     "scripts/whole_system_oscillator_arm.py",
+     "scripts/ei_replay_058_compare.py"
+    ],
+    "frozen": [
+     "every sealed spec and driver blob named in results/ei_replay_058_spec.json",
+     "no parameter, seed, duration, tonic, weight, repair, rule or tolerance change after any reading is seen"
+    ],
+    "procedure": "per results/ei_replay_058_spec.json: V0 and V1 rendered and viewed; REGIME and the four interaction cells run one process at a time; scripts/ei_replay_058_compare.py; V2 render; V3 atlas; lineage record",
+    "acceptance": "five arms complete with execution, collapse and runaway passing; results/ei_replay_058/comparison.json classifies REPRODUCED, ENGINE_SHIFT or VERDICT_CHANGED with each difference listed",
+    "stop_condition": "STOP after the comparison and the four contract artifacts; the reviewer decides the disposition",
+    "artifacts_expected": [
+     "results/ei_replay_058/comparison.json",
+     "results/ei_replay_058/whole_system_ei_regime_diagnosis.json",
+     "results/ei_replay_058/whole_system_ei_interaction_baseline.json",
+     "results/ei_replay_058/whole_system_ei_interaction_w_only.json",
+     "results/ei_replay_058/whole_system_ei_interaction_a_only.json",
+     "results/ei_replay_058/whole_system_ei_interaction_both.json"
+    ],
+    "downstream_unlock": []
    }
      ],
-   "next_authorized_task": null
+   "next_authorized_task": "SCI-EI-REPLAY-058"
 }

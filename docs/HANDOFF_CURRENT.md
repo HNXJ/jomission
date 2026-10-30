@@ -38,7 +38,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Current state
 
 - gate `V2_LOCAL_OPERATION` = **FAIL** (definition `manifests/gates/v2_local_operation.json`)
-- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; no task open (next_authorized_task: null); awaiting reviewer direction before opening downstream work
+- stopped because: owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; owner order 2026-10-29 ('ok proceed') opened SCI-EI-REPLAY-058, an engine-only replay; downstream work still awaits reviewer direction
 
 - V2.1: **FAIL** — `results/v21_lineage.json`
 - V2.1b: **FAIL** — `results/v21b_lineage.json`
@@ -83,7 +83,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `NONE` (no task currently open; awaiting reviewer direction)
+- `SCI-EI-REPLAY-058` (OPEN): Re-run the sealed SCI-EI-REGIME-1 intact arm and the four SCI-EI-INTERACTION-1 cells on JaxFNE 0.5.8 with no parameter change; report whether readings and verdicts reproduce
+- stop: STOP after the comparison and the four contract artifacts; the reviewer decides the disposition
 
 ### Locked gates
 

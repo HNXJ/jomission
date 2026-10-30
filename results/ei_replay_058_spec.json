@@ -1,0 +1,68 @@
+{
+ "schema": "jomission.preexecution_spec.v1",
+ "lineage_id": "SCI-EI-REPLAY-058",
+ "question": "Does JaxFNE 0.5.8 reproduce the sealed SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 receipts and verdicts?",
+ "parents": [
+  {"lineage_id": "SCI-EI-REGIME-1", "commit": "28af326", "spec": "results/whole_system_ei_regime_spec.json"},
+  {"lineage_id": "SCI-EI-INTERACTION-1", "commit": "d846eff", "spec": "results/whole_system_ei_interaction_spec.json"}
+ ],
+ "authority": "owner 2026-10-29: 'Full redo' (always the latest JaxFNE, redo everything), then 'ok proceed; we gotta do so many simulations and make real progress' after the option 'Replay EI'. Authorized in manifests/todo.json as SCI-EI-REPLAY-058",
+ "principal_delta": "engine only: JaxFNE 0.5.8 in place of the sealed engine. No parameter, seed, duration, tonic, weight, repair, rule or tolerance changes",
+ "engine": {
+  "jaxfne": "0.5.8",
+  "jax": "0.10.2",
+  "interpreter": "any Python with jaxfne 0.5.8 and jax 0.10.2; each run log prints both versions before the run"
+ },
+ "frozen": {
+  "specs": [
+   {"path": "results/whole_system_ei_regime_spec.json", "blob": "cb69faa5a1b7516ef2c0f266734e59387477f388"},
+   {"path": "results/whole_system_ei_interaction_spec.json", "blob": "4fd8f578f06f6292715cda7debaafd2ff57ed508"}
+  ],
+  "drivers_at_seal": [
+   {"path": "scripts/whole_system_ei_regime_arm.py", "blob": "eb50766e605bcd306d76f8436ba91f151ddef2b4"},
+   {"path": "scripts/whole_system_ei_interaction_arm.py", "blob": "5aca56a031ac2e7a64a55b1eeaca3b661bad64cb"},
+   {"path": "scripts/whole_system_oscillator_arm.py", "blob": "811ba91f9ff4b87244d36683382683d0806340fe"}
+  ],
+  "driver_note": "the regime driver that ran (e6b804e) differs from the one sealed here by the migration commit 5a01add: declare_retinal_interface replaces a bare add_column. Measured graph-neutral under JaxFNE 0.4.25 (2224 neurons, 1294396 edges before and 246844 after enforce, identical weight bytes). This replay checks the construction again: the regime receipt's edges_total must read 246844",
+  "sealed_receipts": [
+   "results/whole_system_ei_regime_diagnosis.json",
+   "results/whole_system_ei_interaction_intact_g000_on_s0_baseline.json",
+   "results/whole_system_ei_interaction_intact_g000_on_s0_w_only.json",
+   "results/whole_system_ei_interaction_intact_g000_on_s0_a_only.json",
+   "results/whole_system_ei_interaction_intact_g000_on_s0_both.json",
+   "results/whole_system_ei_interaction.json"
+  ]
+ },
+ "runs": [
+  {"id": "V1-PROBE", "stage": "visualization only, not used for rates", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus off --seed 0 --probe-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_initial.npz"},
+  {"id": "V2-PROBE", "stage": "visualization only, not used for rates; keeps the final 1000 ms of 13000 ms", "command": "python -u scripts/whole_system_oscillator_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus on --seed 0 --probe-ms 13000 --probe-keep-last-ms 1000 --out results/viz/SCI-EI-REPLAY-058/probe_final.npz"},
+  {"id": "REGIME", "command": "python -u scripts/whole_system_ei_regime_arm.py --spec results/whole_system_ei_regime_spec.json --g 0.0 --stimulus on --seed 0 --out results/ei_replay_058/whole_system_ei_regime_diagnosis.json --out-y results/ei_replay_058/whole_system_ei_regime_diagnosis_y.npz"},
+  {"id": "BASELINE", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell baseline --out results/ei_replay_058/whole_system_ei_interaction_baseline.json --out-y results/ei_replay_058/whole_system_ei_interaction_baseline_y.npz"},
+  {"id": "W_ONLY", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell w_only --out results/ei_replay_058/whole_system_ei_interaction_w_only.json --out-y results/ei_replay_058/whole_system_ei_interaction_w_only_y.npz"},
+  {"id": "A_ONLY", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell a_only --out results/ei_replay_058/whole_system_ei_interaction_a_only.json --out-y results/ei_replay_058/whole_system_ei_interaction_a_only_y.npz"},
+  {"id": "BOTH", "command": "python -u scripts/whole_system_ei_interaction_arm.py --spec results/whole_system_ei_interaction_spec.json --g 0.0 --stimulus on --seed 0 --cell both --out results/ei_replay_058/whole_system_ei_interaction_both.json --out-y results/ei_replay_058/whole_system_ei_interaction_both_y.npz"}
+ ],
+ "order": "V0 render and V1 render, both viewed, then REGIME, BASELINE, W_ONLY, A_ONLY, BOTH, one process at a time; then scripts/ei_replay_058_compare.py; then V2 render; then V3 atlas",
+ "visualization_contract": {
+  "V0": "results/viz/SCI-EI-REPLAY-058/jaxfne_network_hspice.png",
+  "V1": "results/viz/SCI-EI-REPLAY-058/raster_initial_1000ms.png",
+  "V2": "results/viz/SCI-EI-REPLAY-058/raster_final.png",
+  "V3": "results/viz/SCI-EI-REPLAY-058/atlas/index.html",
+  "rule": "V0 and V1 are rendered and viewed before any run. V2 reuses V1's ordering and window. V3 is built after the runs"
+ },
+ "comparison": {
+  "script": "scripts/ei_replay_058_compare.py",
+  "output": "results/ei_replay_058/comparison.json",
+  "tolerance": {"abs": 1e-9, "rel": 1e-9},
+  "rule": "every leaf of each sealed receipt is compared with its replay counterpart. Receipts store rates to 4 decimals, so a shift below 5e-5 Hz cannot appear in this check; that limit is stated with the result"
+ },
+ "classification": {
+  "REPRODUCED": "no leaf differs and every label equal",
+  "ENGINE_SHIFT": "a leaf differs and every label equal",
+  "VERDICT_CHANGED": "a regime or interaction label differs, or the recomputed interaction label differs from the sealed one"
+ },
+ "viability_rule": "sealed rule: PV in [12, 25], VIP in [8, 15], SST in [6, 12] and E < PV, on rates_full_resolution; interaction label from the four cells per the sealed verdict_mapping",
+ "acceptance": "all five arms complete with execution, collapse and runaway passing; comparison.json written; the classification is stated with each difference listed; the lineage record names every receipt and the four contract artifacts",
+ "stop_condition": "STOP after the comparison, the V2 render and the V3 atlas. A run-health trip is EXECUTION_FAIL and is reported, not rerun with changed settings. No reading is seen and then used to change a parameter, rule or tolerance",
+ "introduces_mechanism": false
+}

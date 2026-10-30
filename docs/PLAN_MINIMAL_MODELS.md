@@ -120,9 +120,9 @@ Totals: A 15, B 15, C 25 (S-07 to S-11), D 20 (S-12 to S-15), checklists 15, gov
 ## 4a. Status (2026-10-30)
 
 Spec and code: commit 14486b1. Smoke receipt: `docs/minimal/smoke_receipt.json`, written by the
-run after that commit (byte-identical to an earlier run). Tier 0: 220 passed, 1 failed (the
-handoff-currency test, fixed by regenerating `docs/HANDOFF_CURRENT.md`); rerun pending.
-Score: 65/100 PASS; 70/100 when S-19 and S-21 pass.
+run after that commit (byte-identical to an earlier run). Tier 0 at b528fa7: 221 passed, 0 failed
+(the first run failed one handoff-currency test, fixed by regenerating `docs/HANDOFF_CURRENT.md`).
+`project_check --offline --no-tests`: PROJECT_CHECK_PASS. Score: 70/100 PASS.
 
 | id | state | pts | evidence |
 |---|---|---:|---|
@@ -144,9 +144,9 @@ Score: 65/100 PASS; 70/100 when S-19 and S-21 pass.
 | CK-A | FAIL | 0 | blocked on the habituation schedule (MIN-04) |
 | CK-B | FAIL | 0 | blocked on the LANSA source (MIN-05) |
 | S-18 | PASS | 3 | spec commit 14486b1 precedes the receipt run |
-| S-19 | pending | 3 | tier 0 rerun after the handoff fix |
+| S-19 | PASS | 3 | tier 0 at b528fa7: 221 passed, 0 failed |
 | S-20 | PASS | 2 | receipt committed separately. Disclosed: the weight unit was corrected (uIPSQ/INC mix to a single 2.8 pC scale) after the first probe; the rates did not drive the correction |
-| S-21 | pending | 2 | `project_check` |
+| S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS |
 
 ## 5. Parallel lanes (prepared, not spawned)
 
@@ -155,7 +155,7 @@ Lanes 1 and 2 touch disjoint files and can run at the same time. They are BLOCKE
 waits for the LANSA source. Workers do mechanical parts only. Science semantics (weights, the
 statistic, interpretation) stay with the main model and the reviewer.
 
-- Lane 1, MIN-01 (worker, high). Writes `jomission/minimal/` and `tests/test_minimal_builder.py`.
+- Lane 1, MIN-01 (done in 14486b1; removed from todo). Writes `jomission/minimal/` and `tests/test_minimal_builder.py`.
   Reads `jomission/network/builder.py` and the JaxFNE example and `_config.py` (repo at
   `E:\repos\jaxfne`). Acceptance: `pytest tests/test_minimal_builder.py` passes; S-01 to S-06
   receipts. Stop: JaxFNE refuses the four-type declaration (open item).
@@ -163,7 +163,7 @@ statistic, interpretation) stay with the main model and the reviewer.
   Reads the komposer bibliography files named in section 3. Acceptance: every rule has a
   citation that resolves to a passage; S-07 to S-11 receipts. Stop: a rule with no source is
   listed as open, never filled from memory.
-- Lane 3, MIN-03 (worker, medium). Waits for lanes 1 and 2. 1000 ms smoke run to scratch;
+- Lane 3, MIN-03 (done in 53a3d3b; removed from todo). 1000 ms smoke run; the receipt is in docs/minimal/;
   S-12 to S-15 receipts. Any file under `results/` needs an authorizing TODO.
 - Lane 4, MIN-05 (blocked). Spectrolaminar statistic and null; waits for the LANSA source.
 - MIN-04 (blocked on MIN-03 and the habituation schedule): checklist A coverage.
@@ -184,7 +184,8 @@ writer per file.
 
 Mirrored in `manifests/current_state.json` `open_uncertainties`.
 
-- MIN-01: a JaxFNE 0.5.8 four-type declaration (E, PV, SST, VIP) in `.network()` is unverified.
+- Resolved: JaxFNE 0.5.8 accepts the four-type declaration; `simulate()` needs the runtime from
+  `jomission/minimal/builder.py` `minimal_runtime` (edge_list backend and HDP carried in RuntimeConfig).
 - MIN-02: the CB ↔ SST and CR ↔ VIP marker mapping is the owner's convention, not yet cited.
 - MIN-02: E→PV, E→SST, E→VIP rates lie outside the Pfeffer 2013 scheme; no cited source yet.
 - MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer.

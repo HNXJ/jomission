@@ -5,8 +5,10 @@ Usage (from the repo root): python scripts/ei_replay_058_compare.py
 Pairs each replay receipt in results/ei_replay_058/ with its sealed receipt, compares every
 leaf (numbers within 1e-9 absolute and relative, strings and nulls exactly), recomputes the
 interaction verdict from the replay per-cell rates by the sealed viability rule, and writes
-results/ei_replay_058/comparison.json. Classification: REPRODUCED (no leaf differs),
-ENGINE_SHIFT (a leaf differs, every verdict label unchanged), VERDICT_CHANGED (a label differs).
+results/ei_replay_058/comparison.json. A text leaf whose sealed and replay values are both .npz
+artifact paths is a location difference: listed apart and not counted (spec amendment 3).
+Classification: REPRODUCED (no leaf differs), ENGINE_SHIFT (a leaf differs, every verdict label
+unchanged), VERDICT_CHANGED (a label differs). classification_as_run keeps the label before amendment 3.
 
 Exit 0 when the comparison is written; exit 2 when a receipt is missing or unreadable.
 """
@@ -61,10 +63,14 @@ def is_num(x):
     return isinstance(x, (int, float)) and not isinstance(x, bool)
 
 
+def is_location(a, b):
+    return isinstance(a, str) and isinstance(b, str) and a.endswith(".npz") and b.endswith(".npz")
+
+
 def compare(sealed, replay):
     s = dict(leaves(sealed))
     r = dict(leaves(replay))
-    numeric, text, missing = [], [], []
+    numeric, text, location, missing = [], [], [], []
     max_abs = 0.0
     for p, a in s.items():
         key = "/".join(p)
@@ -78,13 +84,15 @@ def compare(sealed, replay):
             if d > TOL_ABS + TOL_REL * abs(a):
                 numeric.append({"path": key, "sealed": a, "replay": b})
         elif a != b:
-            text.append({"path": key, "sealed": a, "replay": b})
+            entry = {"path": key, "sealed": a, "replay": b}
+            (location if is_location(a, b) else text).append(entry)
     extra = ["/".join(p) for p in r if p not in s]
     return {
         "leaves": len(s),
         "max_abs_diff": max_abs,
         "numeric_diffs": numeric,
         "text_diffs": text,
+        "location_diffs": location,
         "missing_in_replay": missing,
         "extra_in_replay": extra,
     }
@@ -110,6 +118,12 @@ def interaction_label(v):
     return "EI_REGIME_STILL_UNRESOLVED"
 
 
+def classify(clean, labels_hold):
+    if clean:
+        return "REPRODUCED"
+    return "ENGINE_SHIFT" if labels_hold else "VERDICT_CHANGED"
+
+
 def main():
     results = {}
     for sealed_rel, replay_rel in PAIRS:
@@ -123,24 +137,24 @@ def main():
         "interaction_sealed_recomputed": interaction_label(sealed_cells),
         "interaction_replay_recomputed": interaction_label(replay_cells),
     }
-    clean = all(
-        not v["numeric_diffs"] and not v["text_diffs"] and not v["missing_in_replay"]
-        for v in results.values()
-    )
     labels_hold = (
         labels["regime_sealed"] == labels["regime_replay"]
         and labels["interaction_sealed"] == labels["interaction_replay_recomputed"]
         and labels["interaction_sealed_recomputed"] == labels["interaction_replay_recomputed"]
     )
-    if clean:
-        classification = "REPRODUCED"
-    elif labels_hold:
-        classification = "ENGINE_SHIFT"
-    else:
-        classification = "VERDICT_CHANGED"
+    clean = all(
+        not v["numeric_diffs"] and not v["text_diffs"] and not v["missing_in_replay"]
+        for v in results.values()
+    )
+    clean_as_run = all(
+        not v["numeric_diffs"] and not v["text_diffs"] and not v["location_diffs"] and not v["missing_in_replay"]
+        for v in results.values()
+    )
+    classification = classify(clean, labels_hold)
     out = {
         "lineage_id": "SCI-EI-REPLAY-058",
         "classification": classification,
+        "classification_as_run": classify(clean_as_run, labels_hold),
         "labels": labels,
         "interaction_viability": {"sealed": sealed_cells, "replay": replay_cells},
         "pairs": results,
@@ -153,7 +167,8 @@ def main():
     for rel, v in results.items():
         print(
             f"  {rel}: leaves {v['leaves']}, numeric diffs {len(v['numeric_diffs'])}, "
-            f"text diffs {len(v['text_diffs'])}, max abs diff {v['max_abs_diff']:.3g}"
+            f"text diffs {len(v['text_diffs'])}, location diffs {len(v['location_diffs'])}, "
+            f"max abs diff {v['max_abs_diff']:.3g}"
         )
 
 

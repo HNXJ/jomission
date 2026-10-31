@@ -1,0 +1,114 @@
+{
+  "schema": "jomission.minimal_s13_sweep.v1",
+  "spec": "docs/minimal/s13_sweep_spec.json",
+  "dc_current": 1.0,
+  "vip_grid": [
+    0.1,
+    0.3162,
+    1.0,
+    3.162,
+    10.0
+  ],
+  "points": [
+    {
+      "vip_dc_current": 0.1,
+      "S-13": false,
+      "S-12": true,
+      "S-14": true,
+      "S-15": true,
+      "silent_neurons": {
+        "E": 0,
+        "PV": 0,
+        "SST": 0,
+        "VIP": 1
+      },
+      "mean_Hz": {
+        "E": 13.213,
+        "PV": 23.364,
+        "SST": 37.556,
+        "VIP": 0.8
+      }
+    },
+    {
+      "vip_dc_current": 0.3162,
+      "S-13": false,
+      "S-12": true,
+      "S-14": true,
+      "S-15": true,
+      "silent_neurons": {
+        "E": 0,
+        "PV": 0,
+        "SST": 0,
+        "VIP": 1
+      },
+      "mean_Hz": {
+        "E": 13.213,
+        "PV": 23.364,
+        "SST": 37.556,
+        "VIP": 0.8
+      }
+    },
+    {
+      "vip_dc_current": 1.0,
+      "S-13": false,
+      "S-12": true,
+      "S-14": true,
+      "S-15": true,
+      "silent_neurons": {
+        "E": 0,
+        "PV": 0,
+        "SST": 0,
+        "VIP": 1
+      },
+      "mean_Hz": {
+        "E": 13.24,
+        "PV": 23.455,
+        "SST": 37.556,
+        "VIP": 0.8
+      }
+    },
+    {
+      "vip_dc_current": 3.162,
+      "S-13": false,
+      "S-12": true,
+      "S-14": true,
+      "S-15": true,
+      "silent_neurons": {
+        "E": 0,
+        "PV": 0,
+        "SST": 0,
+        "VIP": 1
+      },
+      "mean_Hz": {
+        "E": 13.24,
+        "PV": 23.455,
+        "SST": 37.556,
+        "VIP": 0.8
+      }
+    },
+    {
+      "vip_dc_current": 10.0,
+      "S-13": false,
+      "S-12": true,
+      "S-14": true,
+      "S-15": true,
+      "silent_neurons": {
+        "E": 0,
+        "PV": 0,
+        "SST": 0,
+        "VIP": 1
+      },
+      "mean_Hz": {
+        "E": 13.187,
+        "PV": 22.909,
+        "SST": 37.667,
+        "VIP": 0.8
+      }
+    }
+  ],
+  "decision": {
+    "S-13": false,
+    "scored_vip_dc_current": null,
+    "rule": "PASS if any grid point has S-13 true; the scored point is the smallest such value"
+  }
+}

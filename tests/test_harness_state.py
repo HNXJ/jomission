@@ -31,6 +31,15 @@ def test_validators_reject_defects():
     assert any("not an OPEN TODO item" in e for e in errs)
 
 
+def test_open_item_without_authorized_task_is_valid():
+    state, todo = v.load("manifests/current_state.json"), v.load("manifests/todo.json")
+    live_todo = copy.deepcopy(todo)
+    live_todo["items"][0]["status"] = "OPEN"
+    held = copy.deepcopy(state)
+    held["next_authorized_task"] = None
+    assert not [e for e in v.validate_current_state(held, live_todo) if "next_authorized_task" in e]
+
+
 def test_preserved_science_todo():
     # Durable invariants only; current statuses live in the manifests, not in this test.
     items = {i["id"]: i for i in v.load("manifests/todo.json")["items"]}

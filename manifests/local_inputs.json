@@ -1,0 +1,77 @@
+{
+  "schema": "local_inputs/1",
+  "note": "Owner-supplied inputs copied into local/ (git-ignored). Restore from origin if a hash fails. Checked by scripts/check_local_inputs.py. Missing entries are findings; they are not repaired here.",
+  "inputs": [
+    {
+      "id": "CAMPAGNOLA_2022_PDF",
+      "path": "local/inputs/campagnola_2022.pdf",
+      "sha256": "8f9e176af03bdc9abc9f88709d6dcb5df1d3c0bedf632c804fd202a1eefc9d2e",
+      "bytes": 25750613,
+      "origin": "C:/Users/nejath/Downloads/2022_local_connectivity_and_synaptic_dynamics_in_m.pdf",
+      "used_by": ["docs/minimal/connectivity.json", "docs/PLAN_MINIMAL_MODELS.md"]
+    },
+    {
+      "id": "LANSA_PROCESSED_CYTO_MAT",
+      "path": "local/inputs/lansa/LANSA_processed_cyto.mat",
+      "sha256": "232423401cca1c60974b0ff644ce4f966f9ca2e49c0224060d6def912f2c1f63",
+      "bytes": 8736,
+      "origin": "E:/lansa_private/scratch_731e0f41_20261022/manuscript/lansa/LANSA_processed_cyto.mat",
+      "used_by": ["MIN-05 (CK-B, not yet specified)"]
+    },
+    {
+      "id": "LANSA_ANALYSIS_PIPELINE_M",
+      "path": "local/inputs/lansa/LANSA_Analysis_Pipeline.m",
+      "sha256": "17af13aeb19d0f7ef59fc37f5596deb833ddf857ed5e1bd0a50e15f74860fa5f",
+      "bytes": 34870,
+      "origin": "E:/lansa_private/scratch_731e0f41_20261022/manuscript/lansa/LANSA_Analysis_Pipeline.m",
+      "used_by": ["docs/PLAN_LONGTERM.md (P3, 90% PCA rule, lines 218-222)"]
+    },
+    {
+      "id": "BIB_PFEFFER_2013_MD",
+      "path": "local/inputs/bibliography/10.1038_nn.3446.md",
+      "sha256": "b6ea853b2ba3197f54c09a12391b5a7e77950fcc03d2d3b3926604f85fb8143d",
+      "bytes": 80230,
+      "origin": "E:/repos/komposer/bibliography/10.1038_nn.3446.md",
+      "used_by": ["docs/PLAN_MINIMAL_MODELS.md", "S-09 and S-10 sources"]
+    },
+    {
+      "id": "BIB_CAMPAGNOLA_2022_MD",
+      "path": "local/inputs/bibliography/2022_local_connectivity_and_synaptic_dynamics_in_m.md",
+      "sha256": "fb968f10d55a3ed38326f75af9010aa471b981dc0a1950e6f3eb516b93779515",
+      "bytes": 96314,
+      "origin": "E:/repos/komposer/bibliography/2022_local_connectivity_and_synaptic_dynamics_in_m.md",
+      "used_by": ["docs/minimal/connectivity.json (S-07, S-08)"]
+    },
+    {
+      "id": "BIB_COMPUTATIONAL_BIB",
+      "path": "local/inputs/bibliography/computational.bib",
+      "sha256": "e9397992204acb999a45f795e292ad44c7c38675299fb7cd02fbb2e5492df7ea",
+      "bytes": 7422,
+      "origin": "E:/repos/komposer/bibliography/computational.bib",
+      "used_by": ["docs/PLAN_MINIMAL_MODELS.md (Hertäg and Sprekeler 2020)"]
+    }
+  ],
+  "missing": [
+    {
+      "id": "PV_M0_STATES",
+      "status": "MISSING: directory exists and is empty",
+      "origin": "C:/Users/nejath/AppData/Local/Temp/claude/pv_predecessor/pv_predecessor/m0_states",
+      "cited_by": ["results/v21_pv_m0_r2.json", "results/v21_pv_microstate.json", "results/v21_pv_predecessor.json"],
+      "note": "Sealed results cite these .npz states; the files are gone. Sealed artifacts are not edited. Owner decision: regenerate, or accept the citation as unrecoverable."
+    },
+    {
+      "id": "JAXFNE_WHEELS",
+      "status": "MISSING: scratch/wheels and the Temp wheels folder do not exist",
+      "origin": "scratch/wheels (repo) and C:/Users/nejath/AppData/Local/Temp/opencode/wheels",
+      "cited_by": ["docs/migrations/jaxfne_0_5_7_handoff.md"],
+      "note": "The engine is pinned as jaxfne==0.5.8 in pyproject.toml and installed from its package index, not from these wheels."
+    },
+    {
+      "id": "G_DRIVE_CLONE",
+      "status": "UNREACHABLE from this session: G:/My Drive/Workspace/Computational/jomission is not present",
+      "origin": "G:/My Drive/Workspace/Computational/jomission",
+      "cited_by": ["AGENTS.md (provenance rule, line 17)", "docs/HANDOFF_CURRENT.md (line 156)", "docs/migrations/jaxfne_0_5_7_handoff.md"],
+      "note": "The working clone in use is E:/repos/jomission. The provenance rule names the G: path. Owner decision; AGENTS.md is not edited here."
+    }
+  ]
+}

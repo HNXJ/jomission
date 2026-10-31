@@ -38,3 +38,8 @@ results/viz/_gallery/
 # Scratch workspace
 scratch/
 
+# Local inputs: owner-supplied sources held outside git. Each has a sha256 in
+# manifests/local_inputs.json, checked by scripts/check_local_inputs.py.
+local/*
+!local/README.md
+

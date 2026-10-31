@@ -134,7 +134,9 @@ def validate_current_state(state: dict, todo: dict) -> list[str]:
     live = [i for i in todo["items"] if i["status"] in ("OPEN", "OPEN_AFTER_HARNESS")]
     if live:
         nxt = items.get(state["next_authorized_task"])
-        if nxt is None or nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS"):
+        if state["next_authorized_task"] is not None and (
+            nxt is None or nxt["status"] not in ("OPEN", "OPEN_AFTER_HARNESS")
+        ):
             err.append(
                 f"next_authorized_task {state['next_authorized_task']} is not an OPEN TODO item"
             )

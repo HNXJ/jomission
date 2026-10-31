@@ -60,7 +60,7 @@ MIN-05 open; MIN-06 OPEN, not authorized).
 ### P3 Checklist B: spectrolaminar 90% pattern
 - Objective: CK-B (items 1–10, 0.7 each). Statistic fixed by the LANSA pipeline: PCA cumulative
   explained variance ≥ 90% (2 PCs), against a surrogate chance floor. Source:
-  `E:\lansa_private\...\LANSA_Analysis_Pipeline.m` lines 218–222.
+  `local/inputs/lansa/LANSA_Analysis_Pipeline.m` lines 218–222 (copy; see `manifests/local_inputs.json`).
 - Loop: pin LANSA input by blob → build 11 areas × 21 bins → check realized E/PV/SST/VIP fractions
   per bin against densities → canonical wiring → PCA on simulated and observed profiles → surrogate
   null → held-out areas.

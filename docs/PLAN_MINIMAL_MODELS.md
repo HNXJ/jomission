@@ -127,7 +127,7 @@ Totals: S-01 to S-06 30, S-07 to S-11 25, S-12 to S-15 20, checklists 15 (CK-A 8
 
 Connectivity spec v2 (single source Campagnola 2022): commits 3850bce, 17e6b79 (PV_to_VIP), 22dda38
 (SST a = 0.02 after build). Smoke receipt `docs/minimal/smoke_receipt.json`: commit 6dfd540, the receipt
-for the current spec. Scoring v2 (§4) applies. Pfeffer 2013 receipts (14486b1) are kept in history.
+for the current spec. Scoring v2 (§4) applies: score 60/100 at c7758a9 (65 if owner decision 2 is taken as settled). Pfeffer 2013 receipts (14486b1) are kept in history.
 
 | id | state | pts | evidence |
 |---|---|---:|---|
@@ -136,7 +136,7 @@ for the current spec. Scoring v2 (§4) applies. Pfeffer 2013 receipts (14486b1) 
 | S-03 | PASS | 3 | `test_same_seed_gives_identical_wiring_bytes`; the seed is not shown to change wiring |
 | S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
 | S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
-| S-06 | PASS | 5 | section 3; owner decision 2 is assumed, not confirmed |
+| S-06 | FAIL | 0 | section 3 declares DEFAULT_HDP; owner decision 2 (HDP rule) is open, so 0 under Scoring v2 rule 3 |
 | S-07 | FAIL (pending ratification) | 0 | restated criterion scores PASS on the connectivity table: PV_to_PV 0.39, PV_to_SST 0.09, PV_to_VIP 0.056 (rule-of-three bound). The thresholds 0.15 and 0.10 were chosen after the values were read; not ratified, so 0 |
 | S-08 | FAIL (pending ratification) | 0 | restated criterion scores PASS: SST_to_PV 0.18, SST_to_VIP 0.30, SST_to_E 0.23, SST_to_SST 0.05. Same post-hoc thresholds; not ratified, so 0 |
 | S-09 | FAIL | 0 | Campagnola: VIP_to_SST 0.138, VIP_to_E 0.048, VIP_to_PV 0.019. The criterion cites Pfeffer; restated on the proposed thresholds, VIP_to_SST (0.138) is below strong (0.15), so it is not scored until restated |
@@ -149,9 +149,9 @@ for the current spec. Scoring v2 (§4) applies. Pfeffer 2013 receipts (14486b1) 
 | CK-A | FAIL | 0 | blocked on the habituation schedule (MIN-04) |
 | CK-B | FAIL | 0 | blocked on the LANSA source (MIN-05) |
 | S-18 | PASS | 3 | spec commits 3850bce, 17e6b79, 22dda38 precede receipt commit 6dfd540 |
-| S-19 | PASS | 3 | tier 0 on this tree: 221 passed, 0 failed (the tier 0 run after the smoke rerun) |
+| S-19 | PASS | 3 | tier 0 at c7758a9: 222 passed, 0 failed, rc 0 |
 | S-20 | PASS | 2 | receipts committed separately. Disclosed: the weight source changed (Pfeffer pC to Campagnola mV) after the 14486b1 receipts, before the 5351501 receipt; the old receipts stay in history |
-| S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS at 5351501 |
+| S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS at c7758a9 |
 
 ## 5. Parallel lanes (prepared, not spawned)
 

@@ -1,0 +1,117 @@
+{
+  "schema": "jomission.minimal_smoke.v1",
+  "status": "smoke run; no scientific verdict; checks only",
+  "n_neurons": 100,
+  "seed": 0,
+  "duration_ms": 1000.0,
+  "dt_ms": 0.1,
+  "dc_current": 1.0,
+  "drive_mean_by_class": {
+    "E": {
+      "tonic": 5.0,
+      "effective": 6.0
+    },
+    "PV": {
+      "tonic": 3.0,
+      "effective": 4.0
+    },
+    "SST": {
+      "tonic": 3.5,
+      "effective": 4.5
+    },
+    "VIP": {
+      "tonic": 3.0,
+      "effective": 4.0
+    }
+  },
+  "connectivity_sha256": "91d1b0adeb44c0f32421c2994031d222153fd998f98f6c530f435a384b555db4",
+  "rules": [
+    "E_to_E",
+    "E_to_PV",
+    "E_to_SST",
+    "E_to_VIP",
+    "PV_to_E",
+    "PV_to_PV",
+    "PV_to_SST",
+    "SST_to_E",
+    "SST_to_PV",
+    "SST_to_SST",
+    "SST_to_VIP",
+    "VIP_to_E",
+    "VIP_to_PV",
+    "VIP_to_SST",
+    "PV_to_VIP"
+  ],
+  "classes": {
+    "E": {
+      "n": 75,
+      "mean_Hz": 13.213,
+      "max_Hz": 14.0,
+      "silent_neurons": 0,
+      "band_Hz": null,
+      "mean_in_band": null
+    },
+    "PV": {
+      "n": 11,
+      "mean_Hz": 23.364,
+      "max_Hz": 27.0,
+      "silent_neurons": 0,
+      "band_Hz": [
+        12.0,
+        25.0
+      ],
+      "mean_in_band": true
+    },
+    "SST": {
+      "n": 9,
+      "mean_Hz": 37.556,
+      "max_Hz": 38.0,
+      "silent_neurons": 0,
+      "band_Hz": [
+        6.0,
+        12.0
+      ],
+      "mean_in_band": false
+    },
+    "VIP": {
+      "n": 5,
+      "mean_Hz": 0.8,
+      "max_Hz": 1.0,
+      "silent_neurons": 1,
+      "band_Hz": [
+        8.0,
+        15.0
+      ],
+      "mean_in_band": false
+    }
+  },
+  "E_mean_below_PV_mean": true,
+  "H": {
+    "bounds": [
+      0.1,
+      10.0
+    ],
+    "trace_min": 1.0,
+    "trace_max": 1.002408,
+    "final_min": 1.0,
+    "final_max": 1.002408,
+    "per_neuron_shape": [
+      100
+    ]
+  },
+  "nonfinite": {
+    "spikes": 0,
+    "V_m": 0
+  },
+  "checks": {
+    "S-12": true,
+    "S-13": false,
+    "S-14": true,
+    "S-15": true
+  },
+  "notes": [
+    "S-13 reads 'none silent' per neuron; a 1 s window at about 1 Hz gives about one spike, so a zero count is a sampling fact, not evidence of a dead cell",
+    "E drives PV, SST, VIP and E through the four E rules cited from Campagnola 2022 Fig. 2B and 3D (S-10)",
+    "S-14 ceiling is set after the first probe run, not pre-registered"
+  ]
+}

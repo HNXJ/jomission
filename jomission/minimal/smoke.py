@@ -30,10 +30,20 @@ RUNAWAY_HZ = 100.0  # S-14 ceiling; chosen after the first probe run, recorded a
 H_BOUNDS = (0.1, 10.0)  # H_min and H_max defaults of the JaxFNE HDP kernel (_hdp_kernel_kwargs)
 
 
-def smoke_receipt(n: int = 100, seed: int = 0, duration_ms: float = 1000.0, dt_ms: float = 0.1) -> dict:
-    """Run the minimal model once and return the receipt as a dict."""
+def smoke_receipt(
+    n: int = 100, seed: int = 0, duration_ms: float = 1000.0, dt_ms: float = 0.1, dc_current: float = 0.0
+) -> dict:
+    """Run the minimal model once and return the receipt as a dict.
+
+    dc_current adds a constant input to every neuron's emitter drive (native Izhikevich units).
+    At 0.0 the model is the tonic model and the receipt is unchanged.
+    """
     model = build_minimal_model(n=n, seed=seed)
     labels = np.asarray(model.params["emitter"].labels).tolist()
+    tonic = np.asarray(model.params["emitter"].drive, dtype=float)
+    if dc_current != 0.0:
+        model = model.with_emitter_parameters(drive_per_neuron=tonic + dc_current)
+    effective = np.asarray(model.params["emitter"].drive, dtype=float)
     sim = jtfne.simulation(
         duration_ms=duration_ms, dt_ms=dt_ms, seed=seed, runtime=minimal_runtime(model)
     )
@@ -72,6 +82,14 @@ def smoke_receipt(n: int = 100, seed: int = 0, duration_ms: float = 1000.0, dt_m
         "seed": seed,
         "duration_ms": duration_ms,
         "dt_ms": dt_ms,
+        "dc_current": dc_current,
+        "drive_mean_by_class": {
+            ct: {
+                "tonic": round(float(tonic[[i for i, lb in enumerate(labels) if lb == ct]].mean()), 6),
+                "effective": round(float(effective[[i for i, lb in enumerate(labels) if lb == ct]].mean()), 6),
+            }
+            for ct in CELL_TYPES
+        },
         "connectivity_sha256": model.cfg.metadata["connectivity_sha256"],
         "rules": [r["name"] for r in load_connectivity()["rules"]],
         "classes": classes,
@@ -100,8 +118,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--n", type=int, default=100)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--duration-ms", type=float, default=1000.0)
+    parser.add_argument("--dc-current", type=float, default=0.0)
     args = parser.parse_args(argv)
-    receipt = smoke_receipt(n=args.n, seed=args.seed, duration_ms=args.duration_ms)
+    receipt = smoke_receipt(
+        n=args.n, seed=args.seed, duration_ms=args.duration_ms, dc_current=args.dc_current
+    )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(receipt["checks"]), file=sys.stdout)

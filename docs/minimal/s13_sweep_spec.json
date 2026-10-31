@@ -1,0 +1,45 @@
+{
+  "schema": "jomission.minimal_s13_sweep_spec.v1",
+  "id": "MIN-06",
+  "lineage": "option 2 of the decision tree (owner choice 2026-10-31): larger VIP drive on a log-spaced grid",
+  "status": "PRE-EXECUTION SPEC: committed before the sweep runs",
+  "parent": "docs/minimal/s13_receipt.json (02e4f51, S-13 FAIL at VIP extra 0; stays as recorded)",
+  "model": {
+    "builder": "jomission.minimal.builder.build_minimal_model",
+    "n": 100,
+    "seed": 0,
+    "connectivity": "docs/minimal/connectivity.json (sha256 in each receipt)",
+    "hdp": "JaxFNE DEFAULT_HDP (owner decision 2)",
+    "duration_ms": 1000.0,
+    "dt_ms": 0.1
+  },
+  "drive": {
+    "dc_current_all_neurons": 1.0,
+    "vip_extra_dc_current": "grid value, VIP neurons only",
+    "units": "JaxFNE Izhikevich native current units (uncalibrated; docs/theory/notes/NEURON_IO_CHARACTERIZATION.md)",
+    "realization": "emitter drive_per_neuron = tonic drive + DC 1.0 + VIP extra; no schedule, so the drive additivity guard does not apply",
+    "tonic_by_class": {"E": 5.0, "PV": 3.0, "SST": 3.5, "VIP": 3.0}
+  },
+  "search": {
+    "parameter": "vip_extra_dc_current",
+    "grid": [0.1, 0.3162, 1.0, 3.162, 10.0],
+    "grid_rule": "log-spaced, half-decade steps from 0.1 to 10; values fixed here and in jomission/minimal/s13_sweep.py",
+    "points": 5
+  },
+  "criterion": {
+    "id": "S-13",
+    "per_point": "each class mean rate > 0 and silent_neurons == 0 (smoke checks)",
+    "decision": "S-13 PASS if at least one grid point passes; the scored point is the smallest passing VIP extra value. If no point passes: S-13 FAIL and STOP."
+  },
+  "stop_condition": "no grid point passes: STOP and report; no retune after results; no grid point outside the declared grid",
+  "command": "python -m jomission.minimal.s13_sweep --out docs/minimal/s13_sweep_receipt.json",
+  "frozen": [
+    "N = 100, seed 0",
+    "MIN-02 connectivity rules as recorded",
+    "DEFAULT_HDP",
+    "1000 ms window, dt 0.1 ms",
+    "DC 1.0 on all neurons",
+    "the grid and the decision rule above"
+  ],
+  "reported_not_gated": "class rates against the bands PV 12-25 Hz, VIP 8-15 Hz, SST 6-12 Hz (plan decision 3)"
+}

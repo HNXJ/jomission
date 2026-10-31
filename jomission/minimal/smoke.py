@@ -31,18 +31,25 @@ H_BOUNDS = (0.1, 10.0)  # H_min and H_max defaults of the JaxFNE HDP kernel (_hd
 
 
 def smoke_receipt(
-    n: int = 100, seed: int = 0, duration_ms: float = 1000.0, dt_ms: float = 0.1, dc_current: float = 0.0
+    n: int = 100,
+    seed: int = 0,
+    duration_ms: float = 1000.0,
+    dt_ms: float = 0.1,
+    dc_current: float = 0.0,
+    vip_dc_current: float = 0.0,
 ) -> dict:
     """Run the minimal model once and return the receipt as a dict.
 
     dc_current adds a constant input to every neuron's emitter drive (native Izhikevich units).
-    At 0.0 the model is the tonic model and the receipt is unchanged.
+    vip_dc_current adds a further constant input to VIP neurons only (lineage MIN-06 option 2).
+    At 0.0 for both the model is the tonic model and the receipt is unchanged.
     """
     model = build_minimal_model(n=n, seed=seed)
     labels = np.asarray(model.params["emitter"].labels).tolist()
     tonic = np.asarray(model.params["emitter"].drive, dtype=float)
-    if dc_current != 0.0:
-        model = model.with_emitter_parameters(drive_per_neuron=tonic + dc_current)
+    added = dc_current + np.asarray([vip_dc_current if lb == "VIP" else 0.0 for lb in labels], dtype=float)
+    if np.any(added != 0.0):
+        model = model.with_emitter_parameters(drive_per_neuron=tonic + added)
     effective = np.asarray(model.params["emitter"].drive, dtype=float)
     sim = jtfne.simulation(
         duration_ms=duration_ms, dt_ms=dt_ms, seed=seed, runtime=minimal_runtime(model)
@@ -83,6 +90,7 @@ def smoke_receipt(
         "duration_ms": duration_ms,
         "dt_ms": dt_ms,
         "dc_current": dc_current,
+        "vip_dc_current": vip_dc_current,
         "drive_mean_by_class": {
             ct: {
                 "tonic": round(float(tonic[[i for i, lb in enumerate(labels) if lb == ct]].mean()), 6),
@@ -119,9 +127,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--duration-ms", type=float, default=1000.0)
     parser.add_argument("--dc-current", type=float, default=0.0)
+    parser.add_argument("--vip-dc-current", type=float, default=0.0)
     args = parser.parse_args(argv)
     receipt = smoke_receipt(
-        n=args.n, seed=args.seed, duration_ms=args.duration_ms, dc_current=args.dc_current
+        n=args.n,
+        seed=args.seed,
+        duration_ms=args.duration_ms,
+        dc_current=args.dc_current,
+        vip_dc_current=args.vip_dc_current,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")

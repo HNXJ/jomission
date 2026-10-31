@@ -1,52 +1,61 @@
 {
- "schema": "jomission.minimal_connectivity.v1",
- "status": "weights cited; probabilities open where marked; open items listed in open",
+ "schema": "jomission.minimal_connectivity.v2",
+ "status": "single source: Campagnola et al. 2022, mouse VISp L2/3; all rules cited to Fig. 2B and Fig. 3D; open items listed in open",
  "area": "M",
  "layer": "L2/3",
  "cell_types": {
   "E": {"fraction": 0.75, "basis": "assumed (owner decision 1 default); not cited"},
-  "PV": {"fraction": 0.11, "basis": "assumed: Pfeffer et al. 2013 interneuron split (Pvalb 36, Sst 30, VIP 17 percent of GFP interneurons) renormalized to the 25 percent interneuron share"},
-  "SST": {"fraction": 0.09, "basis": "assumed: same split as PV"},
-  "VIP": {"fraction": 0.05, "basis": "assumed: same split as PV"},
+  "PV": {"fraction": 0.11, "basis": "assumed (owner decision 1 default); not cited"},
+  "SST": {"fraction": 0.09, "basis": "assumed (owner decision 1 default); not cited"},
+  "VIP": {"fraction": 0.05, "basis": "assumed (owner decision 1 default); not cited"},
   "alias": {"SST": "CB (owner convention, not cited)", "VIP": "CR (owner convention, not cited)"}
  },
- "reference": {
-  "name": "PV-to-pyramid INC and uIPSQ (weight 1.0)",
-  "value_pC": 2.8,
-  "weight_rule": "pC rows: weight = value_pC / 2.8; nINC rows: weight = nINC (the paper normalizes to the same 2.8 pC)",
-  "source": "Pfeffer et al. 2013, Nat Neurosci, doi 10.1038/nn.3446; komposer bibliography/10.1038_nn.3446.md lines 258-265 and 377-386"
+ "source": {
+  "name": "Campagnola et al. 2022, Science 375 eabj5861, doi 10.1126/science.abj5861",
+  "komposer": "bibliography/2022_local_connectivity_and_synaptic_dynamics_in_m.md (text); PDF supplied by the owner (Downloads, not in komposer)",
+  "probability_rule": "found/probed counts printed in each L2/3 element of Fig. 2B (unadjusted; the paper's model-adjusted pmax is colour only, not printed)",
+  "weight_rule": "|resting-state PSP amplitude| in mV from Fig. 3D, L2/3 row and column; sign from the presynaptic class (E excitatory, PV/SST/VIP inhibitory); owner decision: use mV directly"
  },
  "rules": [
-  {"name": "PV_to_PV", "pre": "PV", "post": "PV", "probability": 1.0, "weight": 0.9857, "sign": "inhibitory",
-   "basis": "Pcon 100 percent (line 396 and Pcon statement); uIPSQ 2.76 pC; 2.76/2.8", "status": "cited"},
-  {"name": "SST_to_PV", "pre": "SST", "post": "PV", "probability": 0.857, "weight": 0.2750, "sign": "inhibitory",
-   "basis": "Pcon 85.7 percent; uIPSQ 0.77 pC (line 402); 0.77/2.8", "status": "cited"},
-  {"name": "SST_to_VIP", "pre": "SST", "post": "VIP", "probability": 1.0, "weight": 0.77, "sign": "inhibitory",
-   "basis": "nINC Sst to VIP 0.77 (line 382; INC 2.15 pC at line 329); probability not cited, assumed 1.0", "status": "weight cited; probability open"},
-  {"name": "SST_to_E", "pre": "SST", "post": "E", "probability": 1.0, "weight": 0.5393, "sign": "inhibitory",
-   "basis": "Pcon 100 percent; uIPSQ 1.51 pC (line 259); 1.51/2.8", "status": "cited"},
-  {"name": "VIP_to_SST", "pre": "VIP", "post": "SST", "probability": 0.625, "weight": 0.2464, "sign": "inhibitory",
-   "basis": "Pcon 62.5 percent; uIPSQ 0.69 pC (line 406); 0.69/2.8", "status": "cited"},
-  {"name": "VIP_to_E", "pre": "VIP", "post": "E", "probability": 0.125, "weight": 0.1679, "sign": "inhibitory",
-   "basis": "Pcon about 12.5 percent (line 262); uIPSQ 0.47 pC (line 259); 0.47/2.8", "status": "cited"},
-  {"name": "PV_to_E", "pre": "PV", "post": "E", "probability": 1.0, "weight": 1.0, "sign": "inhibitory",
-   "basis": "uIPSQ 2.8 pC onto pyramids (line 258); 2.8/2.8; Pcon 100 percent", "status": "cited"},
-  {"name": "PV_to_VIP", "pre": "PV", "post": "VIP", "probability": 1.0, "weight": 0.22, "sign": "inhibitory",
-   "basis": "nINC Pvalb to VIP 0.22 (line 382); probability not cited, assumed 1.0", "status": "weight cited; probability open"},
-  {"name": "VIP_to_PV", "pre": "VIP", "post": "PV", "probability": 1.0, "weight": 0.0214, "sign": "inhibitory",
-   "basis": "INC VIP to Pvalb 0.06 pC (line 365); 0.06/2.8; probability not cited, assumed 1.0", "status": "weight cited; probability open"},
-  {"name": "VIP_to_VIP", "pre": "VIP", "post": "VIP", "probability": 1.0, "weight": 0.0214, "sign": "inhibitory",
-   "basis": "INC VIP to VIP 0.06 pC (line 366); 0.06/2.8; probability not cited, assumed 1.0", "status": "weight cited; probability open"}
+  {"name": "E_to_E", "pre": "E", "post": "E", "probability": 0.0568, "weight": 0.11, "sign": "excitatory",
+   "basis": "Fig. 2B 13/229; Fig. 3D 0.11 mV", "status": "cited"},
+  {"name": "E_to_PV", "pre": "E", "post": "PV", "probability": 0.4151, "weight": 0.27, "sign": "excitatory",
+   "basis": "Fig. 2B 22/53; Fig. 3D 0.27 mV", "status": "cited"},
+  {"name": "E_to_SST", "pre": "E", "post": "SST", "probability": 0.2985, "weight": 0.10, "sign": "excitatory",
+   "basis": "Fig. 2B 20/67; Fig. 3D 0.10 mV", "status": "cited"},
+  {"name": "E_to_VIP", "pre": "E", "post": "VIP", "probability": 0.1618, "weight": 0.45, "sign": "excitatory",
+   "basis": "Fig. 2B 11/68; Fig. 3D 0.45 mV", "status": "cited"},
+  {"name": "PV_to_E", "pre": "PV", "post": "E", "probability": 0.3462, "weight": 0.44, "sign": "inhibitory",
+   "basis": "Fig. 2B 18/52; Fig. 3D -0.44 mV", "status": "cited"},
+  {"name": "PV_to_PV", "pre": "PV", "post": "PV", "probability": 0.3947, "weight": 0.47, "sign": "inhibitory",
+   "basis": "Fig. 2B 45/114; Fig. 3D -0.47 mV", "status": "cited"},
+  {"name": "PV_to_SST", "pre": "PV", "post": "SST", "probability": 0.0909, "weight": 0.44, "sign": "inhibitory",
+   "basis": "Fig. 2B 8/88; Fig. 3D -0.44 mV. Pfeffer 2013 says absent; owner chose Campagnola", "status": "cited; conflicts with Pfeffer 2013"},
+  {"name": "SST_to_E", "pre": "SST", "post": "E", "probability": 0.2321, "weight": 0.16, "sign": "inhibitory",
+   "basis": "Fig. 2B 13/56; Fig. 3D -0.16 mV", "status": "cited"},
+  {"name": "SST_to_PV", "pre": "SST", "post": "PV", "probability": 0.1786, "weight": 0.18, "sign": "inhibitory",
+   "basis": "Fig. 2B 15/84; Fig. 3D -0.18 mV", "status": "cited"},
+  {"name": "SST_to_SST", "pre": "SST", "post": "SST", "probability": 0.0519, "weight": 0.19, "sign": "inhibitory",
+   "basis": "Fig. 2B 8/154; Fig. 3D -0.19 mV. Pfeffer 2013 says absent; owner chose Campagnola", "status": "cited; conflicts with Pfeffer 2013"},
+  {"name": "SST_to_VIP", "pre": "SST", "post": "VIP", "probability": 0.2976, "weight": 0.17, "sign": "inhibitory",
+   "basis": "Fig. 2B 25/84; Fig. 3D -0.17 mV", "status": "cited"},
+  {"name": "VIP_to_E", "pre": "VIP", "post": "E", "probability": 0.0484, "weight": 0.06, "sign": "inhibitory",
+   "basis": "Fig. 2B 3/62; Fig. 3D -0.06 mV", "status": "cited"},
+  {"name": "VIP_to_PV", "pre": "VIP", "post": "PV", "probability": 0.0185, "weight": 0.10, "sign": "inhibitory",
+   "basis": "Fig. 2B 1/54; Fig. 3D -0.10 mV", "status": "cited"},
+  {"name": "VIP_to_SST", "pre": "VIP", "post": "SST", "probability": 0.1379, "weight": 0.17, "sign": "inhibitory",
+   "basis": "Fig. 2B 12/87; Fig. 3D -0.17 mV", "status": "cited"}
  ],
  "absent": [
-  {"pair": "SST_to_SST", "source": "Pfeffer et al. 2013 line 438: lack of Sst-Sst connections; INC 0.06 pC (line 339)"},
-  {"pair": "PV_to_SST", "source": "Pfeffer et al. 2013 line 296: Sst cells not inhibited by Pvalb; INC 0.07 pC (line 298), nINC 0.03 (line 385); no rule declared"}
+  {"pair": "PV_to_VIP", "source": "Fig. 2B 0/54 (no connection found). Fig. 3D lists -0.23 mV for this pair with no connection count: the two panels disagree; rule declared absent; owner to confirm"},
+  {"pair": "VIP_to_VIP", "source": "Fig. 2B 2/209 gives probability 0.0096; with 5 VIP neurons (25 ordered pairs) the expected count is 0.24, and the builder compiles 0 edges at N = 100. Rule removed; owner to confirm absence at N = 100"}
  ],
  "open": [
-  "E_to_PV, E_to_SST, E_to_VIP, E_to_E: no cited rate in the Pfeffer text; no rule declared (S-10 open)",
-  "Pcon for SST_to_VIP, PV_to_VIP, VIP_to_PV, VIP_to_VIP: not cited; 1.0 assumed",
-  "weights mix uIPSQ and nINC/INC rows on one 2.8 pC scale; uIPSQ and INC are different measures (S-11 open until one metric is chosen)",
+  "Probabilities are unadjusted found/probed counts; the paper's model-adjusted pmax is not printed (colour only) and is not used",
+  "Fig. 2B and 3D are mouse VISp; the model area is M (no area mapping cited)",
+  "PV_to_VIP: Fig. 2B says 0/54 but Fig. 3D lists -0.23 mV; declared absent, owner to confirm",
   "CB and CR mapping to SST and VIP: owner convention, not cited",
-  "Tremblay, Lee and Rudy 2016 and Pi et al. 2013 not ingested; Hertag and Sprekeler 2020 content not read"
+  "Pfeffer 2013 conflicts: PV_to_SST and SST_to_SST are present here and absent in Pfeffer; the owner chose Campagnola as the single source",
+  "Weights are mV amplitudes used directly; the JaxFNE weight unit is not checked against mV"
  ]
 }

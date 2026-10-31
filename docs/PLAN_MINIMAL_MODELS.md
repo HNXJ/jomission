@@ -119,10 +119,11 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 Totals: S-01 to S-06 30, S-07 to S-11 25, S-12 to S-15 20, checklists 15 (CK-A 8, CK-B 7), S-18 to S-21 10 = 100.
 ## 4a. Status (2026-10-30)
 
-Spec and code: commit 14486b1. Smoke receipt: `docs/minimal/smoke_receipt.json`, written by the
-run after that commit (byte-identical to an earlier run). Tier 0 at b528fa7: 221 passed, 0 failed
-(the first run failed one handoff-currency test, fixed by regenerating `docs/HANDOFF_CURRENT.md`).
-`project_check --offline --no-tests`: PROJECT_CHECK_PASS. Score: 70/100 PASS.
+Connectivity spec v2 (single source Campagnola 2022): commit 3850bce. Smoke receipt
+`docs/minimal/smoke_receipt.json`: commit 5351501. Tier 0 on this tree: 221 passed, 0 failed.
+`project_check --offline --no-tests`: PROJECT_CHECK_PASS. Score: 70/100 PASS. Pfeffer 2013 receipts
+(S-07, S-08 at 14486b1) are kept in history; under Campagnola, S-07 and S-08 no longer hold, and
+S-10 and S-11 now do.
 
 | id | state | pts | evidence |
 |---|---|---:|---|
@@ -132,21 +133,21 @@ run after that commit (byte-identical to an earlier run). Tier 0 at b528fa7: 221
 | S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
 | S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
 | S-06 | PASS | 5 | section 3; owner decision 2 is assumed, not confirmed |
-| S-07 | PASS | 5 | `docs/minimal/connectivity.json`: PV_to_PV 0.986, PV_to_VIP 0.22; PV_to_SST absent |
-| S-08 | PASS | 5 | SST_to_PV 0.275, SST_to_VIP 0.77, SST_to_E 0.539; SST_to_SST absent |
+| S-07 | FAIL | 0 | Campagnola: PV_to_SST 8/88 (probability 0.09) but -0.44 mV (amplitude); PV_to_VIP absent. "weak" is not defined on one metric; owner to state it |
+| S-08 | FAIL | 0 | Campagnola: SST_to_SST present (8/154, -0.19 mV); the criterion says absent |
 | S-09 | PASS | 5 | VIP_to_SST 0.246 (largest VIP output); VIP_to_PV 0.021, VIP_to_E 0.168 |
-| S-10 | FAIL | 0 | no E rule cited; open in `connectivity.json` |
-| S-11 | FAIL | 0 | four probabilities assumed 1.0; weights mix uIPSQ and INC |
+| S-10 | PASS | 5 | E_to_E, E_to_PV, E_to_SST, E_to_VIP in `connectivity.json`: Fig. 2B counts, Fig. 3D mV |
+| S-11 | PASS | 5 | every rule and absent pair cites Fig. 2B or 3D; PV_to_VIP and VIP_to_VIP absence await owner confirmation |
 | S-12 | PASS | 5 | smoke receipt: finite spikes and V_m, finite H |
-| S-13 | FAIL | 0 | 2 PV and 1 VIP neurons with no spike in 1 s |
-| S-14 | PASS | 5 | E max 8 Hz under the 100 Hz ceiling; rates reported (PV, SST, VIP outside bands) |
+| S-13 | FAIL | 0 | 1 VIP neuron with no spike in 1 s (receipt 5351501); PV now fires in every neuron |
+| S-14 | PASS | 5 | E max 11 Hz under the 100 Hz ceiling; rates reported (PV 10.9 Hz, SST 51 Hz, VIP 0.8 Hz outside bands) |
 | S-15 | PASS | 5 | H within [1.0, 1.0024], bounds [0.1, 10.0]; H barely moves |
 | CK-A | FAIL | 0 | blocked on the habituation schedule (MIN-04) |
 | CK-B | FAIL | 0 | blocked on the LANSA source (MIN-05) |
-| S-18 | PASS | 3 | spec commit 14486b1 precedes the receipt run |
-| S-19 | PASS | 3 | tier 0 at b528fa7: 221 passed, 0 failed |
-| S-20 | PASS | 2 | receipt committed separately. Disclosed: the weight unit was corrected (uIPSQ/INC mix to a single 2.8 pC scale) after the first probe; the rates did not drive the correction |
-| S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS |
+| S-18 | PASS | 3 | spec commit 3850bce precedes the receipt run 5351501 |
+| S-19 | PASS | 3 | tier 0 on this tree: 221 passed, 0 failed (the tier 0 run after the smoke rerun) |
+| S-20 | PASS | 2 | receipts committed separately. Disclosed: the weight source changed (Pfeffer pC to Campagnola mV) after the 14486b1 receipts, before the 5351501 receipt; the old receipts stay in history |
+| S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS at 5351501 |
 
 ## 5. Parallel lanes (prepared, not spawned)
 

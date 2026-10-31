@@ -116,7 +116,7 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 | S-20 | results committed separately from the spec; no retune after results | 2 | git history |
 | S-21 | todo and open items current; `project_check` PASS | 2 | `project_check` output |
 
-Totals: A 15, B 15, C 25 (S-07 to S-11), D 20 (S-12 to S-15), checklists 15, governance 10 = 100.
+Totals: S-01 to S-06 30, S-07 to S-11 25, S-12 to S-15 20, checklists 15 (CK-A 8, CK-B 7), S-18 to S-21 10 = 100.
 ## 4a. Status (2026-10-30)
 
 Spec and code: commit 14486b1. Smoke receipt: `docs/minimal/smoke_receipt.json`, written by the

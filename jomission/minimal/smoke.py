@@ -88,7 +88,7 @@ def smoke_receipt(n: int = 100, seed: int = 0, duration_ms: float = 1000.0, dt_m
         "checks": checks,
         "notes": [
             "S-13 reads 'none silent' per neuron; a 1 s window at about 1 Hz gives about one spike, so a zero count is a sampling fact, not evidence of a dead cell",
-            "E has no declared outgoing rule (S-10 open), so E cannot drive the other classes in this model",
+            "E drives PV, SST, VIP and E through the four E rules cited from Campagnola 2022 Fig. 2B and 3D (S-10)",
             "S-14 ceiling is set after the first probe run, not pre-registered",
         ],
     }

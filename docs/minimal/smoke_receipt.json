@@ -5,33 +5,37 @@
   "seed": 0,
   "duration_ms": 1000.0,
   "dt_ms": 0.1,
-  "connectivity_sha256": "181f320bf8d0f7136888625ccb97257ff7013b7b1b97f26f8a3d775f242f50c4",
+  "connectivity_sha256": "c3bcd734a3388551790e20a2699b16fb27668e7ee767589b3100c2d230650860",
   "rules": [
-    "PV_to_PV",
-    "SST_to_PV",
-    "SST_to_VIP",
-    "SST_to_E",
-    "VIP_to_SST",
-    "VIP_to_E",
+    "E_to_E",
+    "E_to_PV",
+    "E_to_SST",
+    "E_to_VIP",
     "PV_to_E",
-    "PV_to_VIP",
+    "PV_to_PV",
+    "PV_to_SST",
+    "SST_to_E",
+    "SST_to_PV",
+    "SST_to_SST",
+    "SST_to_VIP",
+    "VIP_to_E",
     "VIP_to_PV",
-    "VIP_to_VIP"
+    "VIP_to_SST"
   ],
   "classes": {
     "E": {
       "n": 75,
-      "mean_Hz": 7.28,
-      "max_Hz": 8.0,
+      "mean_Hz": 10.987,
+      "max_Hz": 11.0,
       "silent_neurons": 0,
       "band_Hz": null,
       "mean_in_band": null
     },
     "PV": {
       "n": 11,
-      "mean_Hz": 0.818,
-      "max_Hz": 1.0,
-      "silent_neurons": 2,
+      "mean_Hz": 10.909,
+      "max_Hz": 11.0,
+      "silent_neurons": 0,
       "band_Hz": [
         12.0,
         25.0
@@ -40,8 +44,8 @@
     },
     "SST": {
       "n": 9,
-      "mean_Hz": 50.778,
-      "max_Hz": 51.0,
+      "mean_Hz": 51.444,
+      "max_Hz": 52.0,
       "silent_neurons": 0,
       "band_Hz": [
         6.0,
@@ -87,7 +91,7 @@
   },
   "notes": [
     "S-13 reads 'none silent' per neuron; a 1 s window at about 1 Hz gives about one spike, so a zero count is a sampling fact, not evidence of a dead cell",
-    "E has no declared outgoing rule (S-10 open), so E cannot drive the other classes in this model",
+    "E drives PV, SST, VIP and E through the four E rules cited from Campagnola 2022 Fig. 2B and 3D (S-10)",
     "S-14 ceiling is set after the first probe run, not pre-registered"
   ]
 }

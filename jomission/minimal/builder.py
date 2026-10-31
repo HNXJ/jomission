@@ -8,10 +8,12 @@ configuration.
 
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import json
 from pathlib import Path
 
+import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Configuration, RuntimeConfig
 from jaxfne.hdp_network import DEFAULT_HDP
@@ -19,6 +21,9 @@ from jaxfne.hdp_network import DEFAULT_HDP
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CONNECTIVITY_PATH = REPO_ROOT / "docs" / "minimal" / "connectivity.json"
 CELL_TYPES: tuple[str, ...] = ("E", "PV", "SST", "VIP")
+# Checklist A item 1: canonical SST adaptation a = 0.02. JaxFNE 0.5.8's SST preset is 0.05;
+# the deviation is applied after construction (apply_sst_adaptation), not in JaxFNE.
+SST_ADAPTATION_A: float = 0.02
 
 
 def load_connectivity(path: Path = CONNECTIVITY_PATH) -> dict:
@@ -76,9 +81,22 @@ def build_minimal_network(n: int = 100, seed: int = 0, connectivity: dict | None
     return cfg
 
 
+def apply_sst_adaptation(model: jtfne.Model, a_value: float = SST_ADAPTATION_A) -> jtfne.Model:
+    """Set the SST recovery time scale a on the built parameters (checklist A item 1).
+
+    JaxFNE 0.5.8 reads Izhikevich values only from its global table, so this patches the built
+    emitter parameters for SST neurons and leaves every other class at the table value.
+    """
+    params = model.params["emitter"]
+    is_sst = jnp.asarray([label == "SST" for label in params.labels])
+    a = jnp.where(is_sst, jnp.asarray(a_value, dtype=params.a.dtype), params.a)
+    model.params["emitter"] = dataclasses.replace(params, a=a)
+    return model
+
+
 def build_minimal_model(**kwargs) -> jtfne.Model:
-    """Construct the minimal model. Keyword arguments as in build_minimal_network."""
-    return jtfne.construct(build_minimal_network(**kwargs))
+    """Construct the minimal model with SST a = SST_ADAPTATION_A. Keyword arguments as in build_minimal_network."""
+    return apply_sst_adaptation(jtfne.construct(build_minimal_network(**kwargs)))
 
 
 def minimal_runtime(model: jtfne.Model, recurrent_backend: str = "edge_list") -> RuntimeConfig:

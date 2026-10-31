@@ -12,6 +12,7 @@ from jaxfne.emitters import IZHIKEVICH_CELL_TYPE_DEFAULTS, IzhikevichParams
 from jaxfne.hdp_network import DEFAULT_HDP
 from jomission.minimal.builder import (
     CELL_TYPES,
+    SST_ADAPTATION_A,
     build_minimal_model,
     cell_counts,
     load_connectivity,
@@ -58,7 +59,7 @@ def test_same_seed_gives_identical_wiring_bytes():
 
 
 def test_every_neuron_is_izhikevich_with_jaxfne_presets():
-    """S-04: the emitter is Izhikevich; each neuron's a, b, c, d, drive equal the JaxFNE preset for its label."""
+    """S-04: the emitter is Izhikevich; each neuron's b, c, d, drive equal the JaxFNE preset, and a equals the preset except SST (checklist A: 0.02)."""
     model = build_minimal_model(n=100, seed=0)
     emitter = model.params["emitter"]
     assert isinstance(emitter, IzhikevichParams)
@@ -68,8 +69,21 @@ def test_every_neuron_is_izhikevich_with_jaxfne_presets():
         assert idx, f"fixture must contain {ct}"
         preset = IZHIKEVICH_CELL_TYPE_DEFAULTS[ct]
         for name in ("a", "b", "c", "d", "drive"):
+            expected = SST_ADAPTATION_A if (name == "a" and ct == "SST") else preset[name]
             realized = np.asarray(getattr(emitter, name))[idx]
-            assert np.allclose(realized, preset[name], rtol=1e-6, atol=1e-6), (ct, name)
+            assert np.allclose(realized, expected, rtol=1e-6, atol=1e-6), (ct, name)
+
+
+def test_sst_adaptation_is_realized_not_only_declared():
+    """The SST a patch changes the built value from the JaxFNE table (0.05) to 0.02: a realized change, not a label."""
+    model = build_minimal_model(n=100, seed=0)
+    emitter = model.params["emitter"]
+    labels = np.asarray(emitter.labels).tolist()
+    sst = [i for i, lb in enumerate(labels) if lb == "SST"]
+    assert sst, "fixture must contain SST"
+    realized = np.asarray(emitter.a)[sst]
+    assert not np.allclose(realized, IZHIKEVICH_CELL_TYPE_DEFAULTS["SST"]["a"]), "patch changed nothing"
+    assert np.allclose(realized, SST_ADAPTATION_A, rtol=1e-6, atol=1e-6)
 
 
 def test_hdp_enabled_with_declared_default_parameters():

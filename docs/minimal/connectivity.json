@@ -44,10 +44,11 @@
   {"name": "VIP_to_PV", "pre": "VIP", "post": "PV", "probability": 0.0185, "weight": 0.10, "sign": "inhibitory",
    "basis": "Fig. 2B 1/54; Fig. 3D -0.10 mV", "status": "cited"},
   {"name": "VIP_to_SST", "pre": "VIP", "post": "SST", "probability": 0.1379, "weight": 0.17, "sign": "inhibitory",
-   "basis": "Fig. 2B 12/87; Fig. 3D -0.17 mV", "status": "cited"}
+   "basis": "Fig. 2B 12/87; Fig. 3D -0.17 mV", "status": "cited"},
+  {"name": "PV_to_VIP", "pre": "PV", "post": "VIP", "probability": 0.0556, "weight": 0.23, "sign": "inhibitory",
+   "basis": "Probability: rule of three, 3/54 = 0.056 (0/54 counts in Fig. 2B; owner choice). Weight: Fig. 3D -0.23 mV (owner choice: trust the amplitude)", "status": "probability is a bound, owner choice"}
  ],
  "absent": [
-  {"pair": "PV_to_VIP", "source": "Fig. 2B 0/54 (no connection found). Fig. 3D lists -0.23 mV for this pair with no connection count: the two panels disagree; rule declared absent; owner to confirm"},
   {"pair": "VIP_to_VIP", "source": "Fig. 2B 2/209 gives probability 0.0096; with 5 VIP neurons (25 ordered pairs) the expected count is 0.24, and the builder compiles 0 edges at N = 100. Rule removed; owner to confirm absence at N = 100"}
  ],
  "open": [

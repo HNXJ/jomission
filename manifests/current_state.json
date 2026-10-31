@@ -349,7 +349,7 @@
    "route": "record only"
   },
   {
-   "item": "minimal smoke (docs/minimal/smoke_receipt.json): S-13 fails as written; PV 2 and VIP 1 neurons fire no spike in 1 s; PV and SST mean rates sit outside the bands (reported, not gated)",
+   "item": "minimal smoke (docs/minimal/smoke_receipt.json): S-13 kept FAIL and reported (1 VIP neuron fires no spike in 1 s; 0 PV silent); S-07 and S-08 thresholds kept FAIL (owner decision); PV and SST mean rates sit outside the bands (reported, not gated)",
    "route": "record only"
   },
   {
@@ -358,10 +358,6 @@
   },
   {
    "item": "MIN-02: the CB to SST and CR to VIP marker mapping is the owner's convention, not yet cited",
-   "route": "MIN-02"
-  },
-  {
-   "item": "MIN-02: E to PV, SST and VIP rates lie outside the Pfeffer 2013 scheme; no cited source in the repo yet",
    "route": "MIN-02"
   },
   {
@@ -382,6 +378,38 @@
   },
   {
    "item": "komposer workflow_multiagent_cortical_omission numbers are withdrawn (2026-09-23 audit); not a source for any weight",
+   "route": "record only"
+  },
+  {
+   "item": "minimal PV to VIP: probability 0.0556 is the rule-of-three bound (3/54), not an estimate; weight 0.23 mV is the absolute Fig. 3D amplitude (owner chose to trust it); the source's 0/54 count and its -0.23 mV amplitude disagree",
+   "route": "record only"
+  },
+  {
+   "item": "minimal VIP to VIP is absent at N = 100 (owner decision): expected 0.24 edges, builder compiles 0; owner to confirm absence at N = 100",
+   "route": "record only"
+  },
+  {
+   "item": "minimal SST adaptation a = 0.02 is applied after construction because JaxFNE 0.5.8 has no public per-class override; deviates from JaxFNE's SST table value 0.05 (disclosed in jomission/minimal/builder.py)",
+   "route": "record only"
+  },
+  {
+   "item": "CK-A deferred: habituation schedule not supplied",
+   "route": "record only"
+  },
+  {
+   "item": "owner decision 1 not answered: spectrolaminar fractions 75/11/9/5 are used; the plan's placeholder 75/10/8/7 is unchanged",
+   "route": "MIN-05"
+  },
+  {
+   "item": "owner decision 3 not answered: rate bands are reported only, not gated (assumed)",
+   "route": "record only"
+  },
+  {
+   "item": "Campagnola et al. 2022 connectivity probabilities are Fig. 2B found/probed counts, unadjusted; the paper's adjusted pmax is not printed",
+   "route": "record only"
+  },
+  {
+   "item": "Campagnola et al. 2022 PDF is owner-supplied at C:/Users/nejath/Downloads/2022_local_connectivity_and_synaptic_dynamics_in_m.pdf and is not in komposer",
    "route": "record only"
   }
  ],

@@ -12,250 +12,116 @@
  ],
  "items": [
   {
-   "id": "SCI-V21C-BOUNDARY",
-   "status": "DONE",
-   "trigger": "reviewer disposition on v21c-intrinsic-design: verdict held UNRESOLVED until the b boundary is ordered",
-   "goal": "Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model",
-   "parent_authority": "v21c-intrinsic-design:results/v21c_design_protocol.json",
-   "principal_delta": "boundary resolution on the existing b grid interval; no new mechanism",
+   "id": "MIN-02",
+   "status": "BLOCKED",
+   "trigger": "owner 2026-10-30: connectivity from the PV-SST(CB)-VIP(CR)-E laminar literature. docs/minimal/connectivity.json: 15 rules, 14 cited, PV_to_VIP by owner choice (probability is a bound); VIP_to_VIP absent. Single source Campagnola 2022; Tremblay 2016 and Pi 2013 are no longer needed for the rules",
+   "goal": "connectivity table for PV, SST, VIP and E, each rule and weight traced to a cited passage",
+   "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 3 (Pfeffer 2013; Hertag and Sprekeler 2020; Bastos 2012; Tremblay 2016 and Pi 2013 to ingest)",
+   "principal_delta": "documentation of the connectivity source; no code, no run",
    "required_inputs": [
-    "v21c-intrinsic-design:jomission/qualification/intrinsic.py",
-    "v21c-intrinsic-design:results/v21c_width_b.json",
-    "v21c-intrinsic-design:results/v21c_design_notes.json"
+    "docs/PLAN_MINIMAL_MODELS.md"
    ],
    "frozen": [
-    "reduced model and inputs of the V2.1c protocol",
-    "M=300",
-    "seeds 31000/31001",
-    "lognormal mean-renormalized distribution",
-    "low_sm2p0 shot columns",
-    "criteria F1-F8"
+    "no weight or probability from memory; a rule with no source stays open"
    ],
-   "procedure": "1) commit and push results/v21c_boundary_spec.json on branch v21c-boundary (parent v21c-intrinsic-design) before any computation; 2) resolve b_crit and w_spontaneous (bisection, noise-free I=0 predicate); 3) reproduce sealed E rate-CV at w=0.20 and 0.30, then bisect w_CV=0.3; 4) classify ordering; 5) seal per jomission-gate-runner and STOP",
-   "acceptance": "both boundaries resolved with receipts; ordering in {SPONTANEOUS_BEFORE_CV, CV_BEFORE_SPONTANEOUS, COINCIDENT}; verdict per reviewer_decision.verdict_mapping",
-   "stop_condition": "report and STOP; V2.1c verdict decided by reviewer; no network simulation",
+   "procedure": "Lane 2 of docs/PLAN_MINIMAL_MODELS.md section 5: write docs/minimal/connectivity.json with a citation per rule; the reviewer checks each citation against the text",
+   "acceptance": "every rule in docs/minimal/connectivity.json resolves to a cited passage; receipts for S-07 to S-11",
+   "stop_condition": "a rule has no source in the repo: list it as open and stop that rule",
    "artifacts_expected": [
-    "results/v21c_boundary_spec.json",
-    "results/v21c_boundary.json",
-    "tests/test_v21c_boundary.py"
+    "docs/minimal/connectivity.json"
    ],
-   "downstream_unlock": [
-    "SCI-V21-GATE-REPAIR"
-   ],
-   "review_note": {
-    "source": "harness checkpoint 1 review of sealed V2.1c tables; no new computation",
-    "evidence_class": "DERIVED",
-    "receipts": [
-     "v21c-intrinsic-design:results/v21c_width_b.json",
-     "v21c-intrinsic-design:results/v21c_design_notes.json"
-    ],
-    "first_cell_definition": "already ordered by the sealed grid: b_crit in (0.260, 0.265]; max b is 0.2314 at w=0.05 (no pacemaker) and 0.2669 at w=0.1 (>= 1 pacemaker), so w_spontaneous in (0.05, 0.1]; min-window E rate-CV is 0.2554 at w=0.2 and 0.3767 at w=0.3, so w_CV in (0.2, 0.3); ordering SPONTANEOUS_BEFORE_CV",
-    "fraction_definition": "pacemaker fraction is 0.0633 at w=0.2 and 0.1367 at w=0.3: f_sp <= 0.0633 gives SPONTANEOUS_BEFORE_CV and f_sp > 0.1367 gives CV_BEFORE_SPONTANEOUS from sealed values; only f_sp in (0.0633, 0.1367] needs the bisection",
-    "assumed": "E rate-CV and pacemaker fraction are monotone in w between grid points (monotone on all sealed grid points)",
-    "consequence": "the answer is set mainly by the choice of definition and f_sp, a reviewer decision the pre-execution spec must fix first; the question stands and is not superseded"
-   },
-   "reviewer_decision": {
-    "authority": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
-    "definition": "w_spontaneous = inf{w : exists i in the designed M=300 E population with r_i(I=0) > 0}; no population-fraction threshold",
-    "invariant": "P_i[r_i(I=0) > 0] = 0 for every E cell of a designed population (zero-tonic persistence must not have an intrinsic pacemaker source)",
-    "method": "resolve w_spontaneous in (0.05, 0.10] and w_CV=0.3 in (0.20, 0.30] directly by deterministic bisection; single-cell open loop; no network simulation",
-    "do_not_seal_from": "the sealed-grid inequality plus a monotonicity assumption alone",
-    "verdict_mapping": {
-     "SPONTANEOUS_BEFORE_CV": "INTRINSIC_HETEROGENEITY_INFEASIBLE for the tested single-parameter family",
-     "CV_BEFORE_SPONTANEOUS": "b reopened as a feasible intrinsic mechanism; no in-network execution (low_sm2p0 fails the prospective VIP band)",
-     "COINCIDENT": "UNRESOLVED at the declared tolerance"
-    },
-    "after": "do not search for another mechanism; next is SCI-V21-GATE-REPAIR, then reassess the admissible background (SCI-V21-BACKGROUND)"
-   },
-   "receipts": [
-    "results/v21c_boundary.json",
-    "manifests/lineage_registry.json V2.1c-boundary",
-    "spec 620634d -> result d3a0c3c"
-   ]
+   "downstream_unlock": [],
+   "blocked_by": "owner decision 1 (cell fractions, assumed default in connectivity.json), owner decision 2 (HDP rule), CB/CR mapping (owner convention, not cited), owner confirmation of PV_to_VIP and VIP_to_VIP absence"
   },
   {
-   "id": "SCI-V21-GATE-REPAIR",
-   "status": "DONE",
-   "trigger": "spec amendment 1: battery gated only PV/SST/VIP >= 1 Hz; spec band is [1, 80] Hz; reviewer 2026-09-16: next after SCI-V21C-BOUNDARY, before any new mechanism search",
-   "goal": "Prospectively enforce PV/SST/VIP in [1, 80] Hz and per-class ISI-CV without rewriting executed V2.1/V2.1b verdicts",
-   "parent_authority": "results/generic_substrate_v2_spec.json amendment 1",
-   "principal_delta": "next operation battery evaluates gates through jomission.harness.gates profile prospective_v2",
+   "id": "MIN-04",
+   "status": "BLOCKED",
+   "trigger": "owner 2026-10-30: checklist A (minimal omission model with habituation and adaptation); waits for the habituation schedule",
+   "goal": "checklist A items 1 to 10, each with a receipt",
+   "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 1",
+   "principal_delta": "none until the habituation schedule is fixed by the owner",
    "required_inputs": [
-    "manifests/gates/v2_local_operation.json"
+    "docs/PLAN_MINIMAL_MODELS.md"
    ],
    "frozen": [
-    "historical_v21_battery profile",
-    "results/v21*_*.json"
+    "omission firewall (BLIND-OMISSION retired; no omission outcome in the Pages)"
    ],
-   "procedure": "harness delivered the canonical definition and the consumer guard; the first prospective V2 operation battery must import jomission.harness.gates and evaluate profile prospective_v2",
-   "acceptance": "tests/test_gates_single_source.py passes with that battery present",
-   "stop_condition": "any battery re-implementing thresholds fails tier 0",
-   "artifacts_expected": [
-    "tests/test_v2*_operation*.py importing jomission.harness.gates"
-   ],
-   "downstream_unlock": [
-    "SCI-V21-BACKGROUND"
-   ],
-   "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR",
-   "delivered": {
-    "state": "accepted by reviewer 2026-09-16; merged to main d9242c4",
-    "artifacts": [
-     "jomission/harness/operation.py",
-     "tests/test_v2_operation_prospective.py",
-     "tests/test_gates_single_source.py (canonical-estimator and historical-profile guards)",
-     "tests/test_harness_guards.py (PASS_ASSERT_ALLOWLIST entry: synthetic known-answer verdict label)",
-     "manifests/gates/v2_local_operation.json (estimator_implementation, battery_rule; thresholds unchanged)",
-     "manifests/test_tiers.json (tier 0)",
-     "results/generic_substrate_v2_amendment_2.json",
-     "manifests/gates/v2_local_operation.json (prospective_v2 check active_fraction_by_class; estimator active_fraction)",
-     "jomission/harness/gates.py (kind active_fraction_min_by_class), jomission/harness/operation.py (window active_fraction)"
-    ],
-    "acceptance_reading": "the battery is jomission.harness.operation.run_battery (gates.evaluate, profile prospective_v2) plus its tier-0 test tests/test_v2_operation_prospective.py, which matches tests/test_v2*_operation*.py and imports jomission.harness.gates; tests/test_gates_single_source.py passes with it present",
-    "validation": "synthetic rasters only, no plant or network simulation: per-neuron spike counts and ISI CVs equal the frozen window_isis; frozen run_regime executed through a fake engine gives equal checks and rates (rel 1e-9); class ISI statistic equals tests/test_v21b_isi_classes.py _class_stats; edge cases (CV exactly 0.5 and 1.5 in band, 4 vs 3 spikes, 15 vs 16 of 30 E co-spiking) match frozen code; mutation probes (ddof 1, sync >=, exclusive band edges, > min_spikes) each fail the tests",
-    "findings": [
-     {
-      "item": "frozen V2.1 battery gated E_het on E_rate_CV rounded to 3 decimals (tests/test_v21_operation.py:136,148); the canonical estimator does not round, so a window with E rate-CV in [0.2995, 0.3) passed historically and fails canonically",
-      "evidence": "no sealed results/v21*.json window has E_rate_CV in [0.29, 0.31]; no executed verdict changes",
-      "evidence_class": "OBSERVED"
-     },
-     {
-      "item": "amendment 1 VIP values are max-over-windows rates and equal the sealed cells (low_sm2p0 130.2, mid_sm2p0 139.5, high_sm2p0 159.0, high_sm1p0 86.1 Hz)",
-      "evidence": "tests/test_v2_operation_prospective.py::test_amendment_vip_values_match_sealed_cells",
-      "evidence_class": "OBSERVED"
-     }
-    ],
-    "receipts": [
-     "python -m pytest tests/test_gates_single_source.py tests/test_v2_operation_prospective.py tests/test_harness_guards.py -> 23 passed",
-     "python scripts/project_check.py -> PROJECT_CHECK_PASS"
-    ],
-    "reviewer_decision": {
-     "item": "silent E cells (fewer than min_spikes=4 in a window) are excluded from the ISI fraction but included in E rate-CV",
-     "decision": "ISI criteria apply only to active cells, but the active-cell fraction is itself gated (reviewer, 2026-09-16)",
-     "implemented_as": "spec amendment 2 (results/generic_substrate_v2_amendment_2.json): per class E/PV/SST/VIP, f_active = N(spikes >= 4 in the 5 s window)/N_class >= 0.95 in every analysis window; ISI fraction over active cells and E rate-CV over all cells unchanged",
-     "threshold_source": "reviewer choice; F3_silence precedent in results/v21c_design_protocol.json extended to all classes",
-     "executed_verdicts": "unchanged; historical_v21_battery has no activity check. On sealed low_sm2p0 the new check passes (min SST 31/32); that cell still fails class_rate_bands and isi_cv_by_class"
-    }
-   }
-  },
-  {
-   "id": "SCI-V21-BACKGROUND",
-   "status": "DONE",
-   "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz); reviewer 2026-09-16: the old background itself is invalid (VIP ~130 > 80 Hz) and is upstream of any further heterogeneity experiment",
-   "goal": "Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition",
-   "parent_authority": "manifests/gates/v2_local_operation.json profile prospective_v2",
-   "principal_delta": "design only: one all-class tonic support vector I0 and a mean-preserving private stochastic input with one common scale sigma; no network simulation until BKG_DESIGN_PASS",
-   "required_inputs": [
-    "results/battery_b1.json",
-    "results/v21_vectors.json",
-    "results/v21_low.json",
-    "results/v21_mid.json",
-    "results/v21_high.json",
-    "results/v21b_low_sm2p0.json",
-    "results/v21b_low_sm1p0.json",
-    "results/v21b_low_sm0p5.json",
-    "results/v21b_mid_sm2p0.json",
-    "results/v21b_mid_sm1p0.json",
-    "results/v21b_mid_sm0p5.json",
-    "results/v21b_high_sm2p0.json",
-    "results/v21b_high_sm1p0.json",
-    "results/v21b_high_sm0p5.json",
-    "results/v21b_vectors.json",
-    "results/v21b_isi_classes.json"
-   ],
-   "frozen": [
-    "V2.1b sealed bracket and results",
-    "static V2 substrate: tests/test_v21_operation.py build_plant (C-min cells, static s=1 efficacies, topology)",
-    "HDP and homeostatic detached (kernel baseline)",
-    "no intrinsic heterogeneity",
-    "prospective_v2 gate definitions (manifests/gates/v2_local_operation.json)",
-    "JaxFNE native noise 0.5*N(0,1) per neuron per step, PRNGKey(11)"
-   ],
-   "procedure": "BKG0 freeze substrate (no simulation). BKG1 derive I0=(I_E,I_PV,I_SST,I_VIP) targeting ~10 Hz per class from existing F-I and executed evidence; account for recurrent mean current or state the approximation. BKG2 private input I_i(t)=I0_c+xi_i(t), E[xi]=0. BKG3 xi_i,c=sigma*s_c*eta_i with s_c fixed by class calibration; predeclare three sigma levels derived from the executed V2.1b response. Then STOP.",
-   "acceptance": "BKG_DESIGN_PASS only if existing evidence supports: (1) an interior all-class tonic target; (2) a mean-preserving stochastic formulation; (3) one common stochastic degree of freedom; (4) a finite predeclared three-point bracket; (5) no class predicted to violate its prospective rate band before execution. Otherwise BKG_DESIGN_UNRESOLVED. Only PASS authorizes a network run.",
-   "stop_condition": "design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides",
-   "artifacts_expected": [
-    "results/v21_background_design.json"
-   ],
-   "downstream_unlock": [
-    "SCI-V21C-COMPOSITION"
-   ],
-   "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE",
-   "delivered": {
-    "state": "closed: BKG_DESIGN_UNRESOLVED; BKG1 requirement retired by reviewer D3 (2026-09-17); succeeded by SCI-V21-COUPLED-BACKGROUND",
-    "verdict": "BKG_DESIGN_UNRESOLVED",
-    "artifacts": [
-     "results/v21_background_design.json",
-     "scripts/v21_background_design.py",
-     "tests/test_v21_background_design.py (tier 0)",
-     "results/v21_background_design_r2.json",
-     "scripts/v21_background_design_r2.py",
-     "tests/test_v21_background_design_r2.py (tier 0)"
-    ],
-    "summary": "Under gain-normalized fluctuation (s_c = I0_E g_E / g_c) with tonic V_MID and sigma in {0.5, 1.0, 1.5}, criteria 2-4 are met and no E, SST or VIP band violation is predicted; PV 10 Hz support is not identified (0 Hz at 2.8, 20 Hz at 3.6), leaving criteria 1 and 5 unresolved for PV. VIP support is on target (10.6-10.8 Hz without shot input); its V2.1b overdrive is fluctuation-driven by the tonic-relative scaling.",
-    "reviewer_decisions_required": [
-     "R1 normalization A (literal) or B (gain-normalized)",
-     "R2 PV: P1 single-cell refinement on [2.8, 3.6] or P2 I0_PV = 3.6",
-     "R3 keep I0_VIP = 24.33 (premise to reduce VIP support contradicted by F1-F3)"
-    ],
-    "receipts": [
-     "python scripts/v21_background_design.py",
-     "python -m pytest tests/test_v21_background_design.py"
-    ],
-    "reviewer_decisions": {
-     "date": "2026-09-17",
-     "R1": "B: gain-normalized zero-mean shot, s_c = I0_E * g_E / g_c with one common sigma. Derivation kept explicit: equal rate-fluctuation amplitude needs g_c * s_c = const, so s_c is proportional to 1/g_c (never g_c). Bracket sigma in {0.5, 1.0, 1.5} provisional until PV is resolved",
-     "R2": "P1: isolated PV F-I diagnostic (SCI-V21-BKG-PV-CALIBRATION); P2 (I0_PV = 3.6) rejected as converting a previously observed successful rate into a parameter choice",
-     "R3": "keep I0_VIP = 24.33; VIP overdrive repaired by decoupling fluctuation amplitude from tonic"
-    },
-    "regeneration_decisions_required": [
-     "D1 PV mean support: isolated evaluation around onset 3.936-4.0 (target the lowest sustained isolated rate) or closed-loop network-supported calibration",
-     "D2 SST: tonic 0.59 below Hopf 0.763; isolated verification, tonic above onset, or accepted network support",
-     "D3 whether tonic must set the operating point per isolated class or only for the all-class network mean"
-    ],
-    "regeneration_decisions": {
-     "date": "2026-09-17",
-     "D1": "no isolated PV retuning: keep I_PV = 2.8 as candidate support; no search around onset 3.936-4.0 and no independent closed-loop PV calibration. The defect at V_MID is r_PV(network) = 0, not r_PV(isolated) = 0",
-     "D2": "no isolated SST retuning: SST 10.7 Hz in the network at tonic 0.59 < Hopf 0.763 is functional recruitment; no isolated SST diagnostic",
-     "D3": "the coupled network operating point is authoritative: r_c* = F_c(I0_c + I_rec,c(r*)), not r_c* = F_c(I0_c). Tonic establishes support; the coupled network establishes the operating point",
-     "retired_requirement": "BKG1 'derive every class tonic from isolated 10 Hz F-I inversion' (prospective)",
-     "noise_normalization_consequence": "s_c = I0_E g_E / g_c cannot use isolated g_PV or g_SST. The relevant gain is the closed-network susceptibility g_c^net = d r_c / d I_c^private at r*, measured after a coupled operating point is frozen; then s_c proportional to 1 / g_c^net (never g_c^net)",
-     "program": "coupled mean operating point -> network susceptibility -> mean-zero fluctuation design -> full V2.1 gates",
-     "successor": "SCI-V21-COUPLED-BACKGROUND"
-    },
-    "final_disposition": {
-     "date": "2026-09-17",
-     "status": "FAIL",
-     "note": "reviewer disposition after PV_NONSTATIONARY: background family STOPPED"
-    }
-   }
-  },
-  {
-   "id": "SCI-V21C-COMPOSITION",
-   "status": "RETIRED",
-   "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",
-   "goal": "Network execution of the composition",
-   "parent_authority": "SCI-V21C-BOUNDARY + SCI-V21-BACKGROUND + SCI-V21-GATE-REPAIR",
-   "principal_delta": "one zero-mean E intrinsic dispersion on a frozen admissible background",
-   "required_inputs": [
-    "resolved V2.1c verdict",
-    "admissible background",
-    "prospective_v2 gate consumer"
-   ],
-   "frozen": [
-    "background",
-    "cells except the dispersed parameter",
-    "topology",
-    "tonic",
-    "HDP detached"
-   ],
-   "procedure": "not authorized",
-   "acceptance": "V2_LOCAL_OPERATION prospective_v2 verdict",
-   "stop_condition": "blocked until all parents are DONE and reviewer authorizes",
+   "procedure": "per item in section 1 of the plan; each item is PASS only with a committed receipt",
+   "acceptance": "ten receipts; scoreboard CK-A",
+   "stop_condition": "habituation schedule still unresolved: STOP and ask the owner",
    "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2.2-RECURRENCE"
-   ],
-   "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
+   "downstream_unlock": []
+  },
+  {
+     "id": "SCI-AGSDR-CALIBRATION",
+     "status": "BLOCKED",
+     "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
+     "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
+     "parent_authority": "owner 2026-09-19 assessment (order position 2)",
+     "principal_delta": "none yet: the calibration design is written on unblock, not now",
+     "required_inputs": [
+      "manifests/agsdr_local_objectives.json",
+      "results/whole_system_ei_regime_diagnosis.json",
+      "jomission/qualification/b1_targets.py"
+     ],
+     "frozen": [
+      "no calibration is designed or executed by this item"
+     ],
+     "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
+     "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
+     "stop_condition": "BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization",
+     "artifacts_expected": [],
+     "downstream_unlock": [
+      "SCI-PROP-QUALIFIED-1"
+     ],
+     "blocked_by": "SCI-EI-INTERACTION-1 verdict plus reviewer authorization of the calibration design"
+    },
+   {
+    "id": "MIN-05",
+    "status": "BLOCKED",
+    "trigger": "owner 2026-10-30: checklist B (spectrolaminar 90% correlation pattern model); blocked on the LANSA densities (not in the repo) and the undefined 90% statistic. The connectivity source PDF (Campagnola 2022) is not LANSA",
+    "goal": "checklist B items 1 to 10, each with a receipt; the 90% statistic and its null defined in a spec before any run",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 2; docs/tfne/TFNE_V2_SPEC.md (SL0, SL1, SL2)",
+    "principal_delta": "none until the statistic is specified",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md"
+    ],
+    "frozen": [
+     "SL2 rule: H is never tuned to make a proxy reproduce the pattern"
+    ],
+    "procedure": "per item in section 2 of the plan; the LANSA densities must be pinned by blob before item 3",
+    "acceptance": "ten receipts; scoreboard CK-B",
+    "stop_condition": "LANSA source absent: STOP and report",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+  {
+    "id": "SCI-V21C-COMPOSITION",
+    "status": "RETIRED",
+    "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",
+    "goal": "Network execution of the composition",
+    "parent_authority": "SCI-V21C-BOUNDARY + SCI-V21-BACKGROUND + SCI-V21-GATE-REPAIR",
+    "principal_delta": "one zero-mean E intrinsic dispersion on a frozen admissible background",
+    "required_inputs": [
+     "resolved V2.1c verdict",
+     "admissible background",
+     "prospective_v2 gate consumer"
+    ],
+    "frozen": [
+     "background",
+     "cells except the dispersed parameter",
+     "topology",
+     "tonic",
+     "HDP detached"
+    ],
+    "procedure": "not authorized",
+    "acceptance": "V2_LOCAL_OPERATION prospective_v2 verdict",
+    "stop_condition": "blocked until all parents are DONE and reviewer authorizes",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2.2-RECURRENCE"
+    ],
+    "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
   },
    {
     "id": "V2.2-RECURRENCE",
@@ -395,30 +261,6 @@
     "downstream_unlock": [],
     "retired_because": "owner closeout directive 2026-09-19: the omission firewall's precondition (a frozen Gen-2 substrate) will not be built under this program. No sealed result is weakened by this retirement; any future blind omission test is a new reviewer-authorized lineage with its own freeze"
    },
-  {
-     "id": "SCI-AGSDR-CALIBRATION",
-     "status": "BLOCKED",
-     "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
-     "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
-     "parent_authority": "owner 2026-09-19 assessment (order position 2)",
-     "principal_delta": "none yet: the calibration design is written on unblock, not now",
-     "required_inputs": [
-      "manifests/agsdr_local_objectives.json",
-      "results/whole_system_ei_regime_diagnosis.json",
-      "jomission/qualification/b1_targets.py"
-     ],
-     "frozen": [
-      "no calibration is designed or executed by this item"
-     ],
-     "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
-     "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
-     "stop_condition": "BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization",
-     "artifacts_expected": [],
-     "downstream_unlock": [
-      "SCI-PROP-QUALIFIED-1"
-     ],
-     "blocked_by": "SCI-EI-INTERACTION-1 verdict plus reviewer authorization of the calibration design"
-    },
    {
     "id": "SCI-PROP-QUALIFIED-1",
     "status": "LOCKED",
@@ -436,65 +278,224 @@
     "artifacts_expected": [],
     "downstream_unlock": []
    },
-   {
-    "id": "MIN-02",
-    "status": "BLOCKED",
-    "trigger": "owner 2026-10-30: connectivity based on the PV-SST(CB)-VIP(CR)-E laminar literature. Partial: 10 weight rules cited in docs/minimal/connectivity.json; open: E rules, four probabilities, one weight metric, CB/CR mapping",
-    "goal": "connectivity table for PV, SST, VIP and E, each rule and weight traced to a cited passage",
-    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 3 (Pfeffer 2013; Hertag and Sprekeler 2020; Bastos 2012; Tremblay 2016 and Pi 2013 to ingest)",
-    "principal_delta": "documentation of the connectivity source; no code, no run",
-    "required_inputs": [
-     "docs/PLAN_MINIMAL_MODELS.md"
+  {
+   "id": "SCI-V21C-BOUNDARY",
+   "status": "DONE",
+   "trigger": "reviewer disposition on v21c-intrinsic-design: verdict held UNRESOLVED until the b boundary is ordered",
+   "goal": "Determine the ordering of w_CV=0.3 and w_spontaneous for E b-dispersion in the sealed single-cell open-loop reduced model",
+   "parent_authority": "v21c-intrinsic-design:results/v21c_design_protocol.json",
+   "principal_delta": "boundary resolution on the existing b grid interval; no new mechanism",
+   "required_inputs": [
+    "v21c-intrinsic-design:jomission/qualification/intrinsic.py",
+    "v21c-intrinsic-design:results/v21c_width_b.json",
+    "v21c-intrinsic-design:results/v21c_design_notes.json"
+   ],
+   "frozen": [
+    "reduced model and inputs of the V2.1c protocol",
+    "M=300",
+    "seeds 31000/31001",
+    "lognormal mean-renormalized distribution",
+    "low_sm2p0 shot columns",
+    "criteria F1-F8"
+   ],
+   "procedure": "1) commit and push results/v21c_boundary_spec.json on branch v21c-boundary (parent v21c-intrinsic-design) before any computation; 2) resolve b_crit and w_spontaneous (bisection, noise-free I=0 predicate); 3) reproduce sealed E rate-CV at w=0.20 and 0.30, then bisect w_CV=0.3; 4) classify ordering; 5) seal per jomission-gate-runner and STOP",
+   "acceptance": "both boundaries resolved with receipts; ordering in {SPONTANEOUS_BEFORE_CV, CV_BEFORE_SPONTANEOUS, COINCIDENT}; verdict per reviewer_decision.verdict_mapping",
+   "stop_condition": "report and STOP; V2.1c verdict decided by reviewer; no network simulation",
+   "artifacts_expected": [
+    "results/v21c_boundary_spec.json",
+    "results/v21c_boundary.json",
+    "tests/test_v21c_boundary.py"
+   ],
+   "downstream_unlock": [
+    "SCI-V21-GATE-REPAIR"
+   ],
+   "review_note": {
+    "source": "harness checkpoint 1 review of sealed V2.1c tables; no new computation",
+    "evidence_class": "DERIVED",
+    "receipts": [
+     "v21c-intrinsic-design:results/v21c_width_b.json",
+     "v21c-intrinsic-design:results/v21c_design_notes.json"
     ],
-    "frozen": [
-     "no weight or probability from memory; a rule with no source stays open"
-    ],
-    "procedure": "Lane 2 of docs/PLAN_MINIMAL_MODELS.md section 5: write docs/minimal/connectivity.json with a citation per rule; the reviewer checks each citation against the text",
-    "acceptance": "every rule in docs/minimal/connectivity.json resolves to a cited passage; receipts for S-07 to S-11",
-    "stop_condition": "a rule has no source in the repo: list it as open and stop that rule",
-    "artifacts_expected": [
-     "docs/minimal/connectivity.json"
-    ],
-    "downstream_unlock": []
+    "first_cell_definition": "already ordered by the sealed grid: b_crit in (0.260, 0.265]; max b is 0.2314 at w=0.05 (no pacemaker) and 0.2669 at w=0.1 (>= 1 pacemaker), so w_spontaneous in (0.05, 0.1]; min-window E rate-CV is 0.2554 at w=0.2 and 0.3767 at w=0.3, so w_CV in (0.2, 0.3); ordering SPONTANEOUS_BEFORE_CV",
+    "fraction_definition": "pacemaker fraction is 0.0633 at w=0.2 and 0.1367 at w=0.3: f_sp <= 0.0633 gives SPONTANEOUS_BEFORE_CV and f_sp > 0.1367 gives CV_BEFORE_SPONTANEOUS from sealed values; only f_sp in (0.0633, 0.1367] needs the bisection",
+    "assumed": "E rate-CV and pacemaker fraction are monotone in w between grid points (monotone on all sealed grid points)",
+    "consequence": "the answer is set mainly by the choice of definition and f_sp, a reviewer decision the pre-execution spec must fix first; the question stands and is not superseded"
    },
-   {
-    "id": "MIN-04",
-    "status": "BLOCKED",
-    "trigger": "owner 2026-10-30: checklist A (minimal omission model with habituation and adaptation); waits for the habituation schedule",
-    "goal": "checklist A items 1 to 10, each with a receipt",
-    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 1",
-    "principal_delta": "none until the habituation schedule is fixed by the owner",
-    "required_inputs": [
-     "docs/PLAN_MINIMAL_MODELS.md"
-    ],
-    "frozen": [
-     "omission firewall (BLIND-OMISSION retired; no omission outcome in the Pages)"
-    ],
-    "procedure": "per item in section 1 of the plan; each item is PASS only with a committed receipt",
-    "acceptance": "ten receipts; scoreboard CK-A",
-    "stop_condition": "habituation schedule still unresolved: STOP and ask the owner",
-    "artifacts_expected": [],
-    "downstream_unlock": []
+   "reviewer_decision": {
+    "authority": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
+    "definition": "w_spontaneous = inf{w : exists i in the designed M=300 E population with r_i(I=0) > 0}; no population-fraction threshold",
+    "invariant": "P_i[r_i(I=0) > 0] = 0 for every E cell of a designed population (zero-tonic persistence must not have an intrinsic pacemaker source)",
+    "method": "resolve w_spontaneous in (0.05, 0.10] and w_CV=0.3 in (0.20, 0.30] directly by deterministic bisection; single-cell open loop; no network simulation",
+    "do_not_seal_from": "the sealed-grid inequality plus a monotonicity assumption alone",
+    "verdict_mapping": {
+     "SPONTANEOUS_BEFORE_CV": "INTRINSIC_HETEROGENEITY_INFEASIBLE for the tested single-parameter family",
+     "CV_BEFORE_SPONTANEOUS": "b reopened as a feasible intrinsic mechanism; no in-network execution (low_sm2p0 fails the prospective VIP band)",
+     "COINCIDENT": "UNRESOLVED at the declared tolerance"
+    },
+    "after": "do not search for another mechanism; next is SCI-V21-GATE-REPAIR, then reassess the admissible background (SCI-V21-BACKGROUND)"
    },
-   {
-    "id": "MIN-05",
-    "status": "BLOCKED",
-    "trigger": "owner 2026-10-30: checklist B (spectrolaminar 90% correlation pattern model); blocked on the LANSA density source",
-    "goal": "checklist B items 1 to 10, each with a receipt; the 90% statistic and its null defined in a spec before any run",
-    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 2; docs/tfne/TFNE_V2_SPEC.md (SL0, SL1, SL2)",
-    "principal_delta": "none until the statistic is specified",
-    "required_inputs": [
-     "docs/PLAN_MINIMAL_MODELS.md"
+   "receipts": [
+    "results/v21c_boundary.json",
+    "manifests/lineage_registry.json V2.1c-boundary",
+    "spec 620634d -> result d3a0c3c"
+   ]
+  },
+  {
+   "id": "SCI-V21-BACKGROUND",
+   "status": "DONE",
+   "trigger": "prospective_v2 evaluation of low_sm2p0 fails VIP band (VIP ~130 Hz); reviewer 2026-09-16: the old background itself is invalid (VIP ~130 > 80 Hz) and is upstream of any further heterogeneity experiment",
+   "goal": "Establish a stochastic background admissible under prospective_v2 class bands before any intrinsic-heterogeneity network composition",
+   "parent_authority": "manifests/gates/v2_local_operation.json profile prospective_v2",
+   "principal_delta": "design only: one all-class tonic support vector I0 and a mean-preserving private stochastic input with one common scale sigma; no network simulation until BKG_DESIGN_PASS",
+   "required_inputs": [
+    "results/battery_b1.json",
+    "results/v21_vectors.json",
+    "results/v21_low.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
+    "results/v21b_low_sm2p0.json",
+    "results/v21b_low_sm1p0.json",
+    "results/v21b_low_sm0p5.json",
+    "results/v21b_mid_sm2p0.json",
+    "results/v21b_mid_sm1p0.json",
+    "results/v21b_mid_sm0p5.json",
+    "results/v21b_high_sm2p0.json",
+    "results/v21b_high_sm1p0.json",
+    "results/v21b_high_sm0p5.json",
+    "results/v21b_vectors.json",
+    "results/v21b_isi_classes.json"
+   ],
+   "frozen": [
+    "V2.1b sealed bracket and results",
+    "static V2 substrate: tests/test_v21_operation.py build_plant (C-min cells, static s=1 efficacies, topology)",
+    "HDP and homeostatic detached (kernel baseline)",
+    "no intrinsic heterogeneity",
+    "prospective_v2 gate definitions (manifests/gates/v2_local_operation.json)",
+    "JaxFNE native noise 0.5*N(0,1) per neuron per step, PRNGKey(11)"
+   ],
+   "procedure": "BKG0 freeze substrate (no simulation). BKG1 derive I0=(I_E,I_PV,I_SST,I_VIP) targeting ~10 Hz per class from existing F-I and executed evidence; account for recurrent mean current or state the approximation. BKG2 private input I_i(t)=I0_c+xi_i(t), E[xi]=0. BKG3 xi_i,c=sigma*s_c*eta_i with s_c fixed by class calibration; predeclare three sigma levels derived from the executed V2.1b response. Then STOP.",
+   "acceptance": "BKG_DESIGN_PASS only if existing evidence supports: (1) an interior all-class tonic target; (2) a mean-preserving stochastic formulation; (3) one common stochastic degree of freedom; (4) a finite predeclared three-point bracket; (5) no class predicted to violate its prospective rate band before execution. Otherwise BKG_DESIGN_UNRESOLVED. Only PASS authorizes a network run.",
+   "stop_condition": "design record returned with BKG_DESIGN_PASS or BKG_DESIGN_UNRESOLVED; no network simulation; reviewer decides",
+   "artifacts_expected": [
+    "results/v21_background_design.json"
+   ],
+   "downstream_unlock": [
+    "SCI-V21C-COMPOSITION"
+   ],
+   "started": "2026-09-16 reviewer order: open design-only (BKG0-BKG3); SCI-V21-GATE-REPAIR DONE",
+   "delivered": {
+    "state": "closed: BKG_DESIGN_UNRESOLVED; BKG1 requirement retired by reviewer D3 (2026-09-17); succeeded by SCI-V21-COUPLED-BACKGROUND",
+    "verdict": "BKG_DESIGN_UNRESOLVED",
+    "artifacts": [
+     "results/v21_background_design.json",
+     "scripts/v21_background_design.py",
+     "tests/test_v21_background_design.py (tier 0)",
+     "results/v21_background_design_r2.json",
+     "scripts/v21_background_design_r2.py",
+     "tests/test_v21_background_design_r2.py (tier 0)"
     ],
-    "frozen": [
-     "SL2 rule: H is never tuned to make a proxy reproduce the pattern"
+    "summary": "Under gain-normalized fluctuation (s_c = I0_E g_E / g_c) with tonic V_MID and sigma in {0.5, 1.0, 1.5}, criteria 2-4 are met and no E, SST or VIP band violation is predicted; PV 10 Hz support is not identified (0 Hz at 2.8, 20 Hz at 3.6), leaving criteria 1 and 5 unresolved for PV. VIP support is on target (10.6-10.8 Hz without shot input); its V2.1b overdrive is fluctuation-driven by the tonic-relative scaling.",
+    "reviewer_decisions_required": [
+     "R1 normalization A (literal) or B (gain-normalized)",
+     "R2 PV: P1 single-cell refinement on [2.8, 3.6] or P2 I0_PV = 3.6",
+     "R3 keep I0_VIP = 24.33 (premise to reduce VIP support contradicted by F1-F3)"
     ],
-    "procedure": "per item in section 2 of the plan; the LANSA densities must be pinned by blob before item 3",
-    "acceptance": "ten receipts; scoreboard CK-B",
-    "stop_condition": "LANSA source absent: STOP and report",
-    "artifacts_expected": [],
-    "downstream_unlock": []
+    "receipts": [
+     "python scripts/v21_background_design.py",
+     "python -m pytest tests/test_v21_background_design.py"
+    ],
+    "reviewer_decisions": {
+     "date": "2026-09-17",
+     "R1": "B: gain-normalized zero-mean shot, s_c = I0_E * g_E / g_c with one common sigma. Derivation kept explicit: equal rate-fluctuation amplitude needs g_c * s_c = const, so s_c is proportional to 1/g_c (never g_c). Bracket sigma in {0.5, 1.0, 1.5} provisional until PV is resolved",
+     "R2": "P1: isolated PV F-I diagnostic (SCI-V21-BKG-PV-CALIBRATION); P2 (I0_PV = 3.6) rejected as converting a previously observed successful rate into a parameter choice",
+     "R3": "keep I0_VIP = 24.33; VIP overdrive repaired by decoupling fluctuation amplitude from tonic"
+    },
+    "regeneration_decisions_required": [
+     "D1 PV mean support: isolated evaluation around onset 3.936-4.0 (target the lowest sustained isolated rate) or closed-loop network-supported calibration",
+     "D2 SST: tonic 0.59 below Hopf 0.763; isolated verification, tonic above onset, or accepted network support",
+     "D3 whether tonic must set the operating point per isolated class or only for the all-class network mean"
+    ],
+    "regeneration_decisions": {
+     "date": "2026-09-17",
+     "D1": "no isolated PV retuning: keep I_PV = 2.8 as candidate support; no search around onset 3.936-4.0 and no independent closed-loop PV calibration. The defect at V_MID is r_PV(network) = 0, not r_PV(isolated) = 0",
+     "D2": "no isolated SST retuning: SST 10.7 Hz in the network at tonic 0.59 < Hopf 0.763 is functional recruitment; no isolated SST diagnostic",
+     "D3": "the coupled network operating point is authoritative: r_c* = F_c(I0_c + I_rec,c(r*)), not r_c* = F_c(I0_c). Tonic establishes support; the coupled network establishes the operating point",
+     "retired_requirement": "BKG1 'derive every class tonic from isolated 10 Hz F-I inversion' (prospective)",
+     "noise_normalization_consequence": "s_c = I0_E g_E / g_c cannot use isolated g_PV or g_SST. The relevant gain is the closed-network susceptibility g_c^net = d r_c / d I_c^private at r*, measured after a coupled operating point is frozen; then s_c proportional to 1 / g_c^net (never g_c^net)",
+     "program": "coupled mean operating point -> network susceptibility -> mean-zero fluctuation design -> full V2.1 gates",
+     "successor": "SCI-V21-COUPLED-BACKGROUND"
+    },
+    "final_disposition": {
+     "date": "2026-09-17",
+     "status": "FAIL",
+     "note": "reviewer disposition after PV_NONSTATIONARY: background family STOPPED"
+    }
    }
+  },
+  {
+   "id": "SCI-V21-GATE-REPAIR",
+   "status": "DONE",
+   "trigger": "spec amendment 1: battery gated only PV/SST/VIP >= 1 Hz; spec band is [1, 80] Hz; reviewer 2026-09-16: next after SCI-V21C-BOUNDARY, before any new mechanism search",
+   "goal": "Prospectively enforce PV/SST/VIP in [1, 80] Hz and per-class ISI-CV without rewriting executed V2.1/V2.1b verdicts",
+   "parent_authority": "results/generic_substrate_v2_spec.json amendment 1",
+   "principal_delta": "next operation battery evaluates gates through jomission.harness.gates profile prospective_v2",
+   "required_inputs": [
+    "manifests/gates/v2_local_operation.json"
+   ],
+   "frozen": [
+    "historical_v21_battery profile",
+    "results/v21*_*.json"
+   ],
+   "procedure": "harness delivered the canonical definition and the consumer guard; the first prospective V2 operation battery must import jomission.harness.gates and evaluate profile prospective_v2",
+   "acceptance": "tests/test_gates_single_source.py passes with that battery present",
+   "stop_condition": "any battery re-implementing thresholds fails tier 0",
+   "artifacts_expected": [
+    "tests/test_v2*_operation*.py importing jomission.harness.gates"
+   ],
+   "downstream_unlock": [
+    "SCI-V21-BACKGROUND"
+   ],
+   "started": "2026-09-16 reviewer order: merge v21c-boundary and start SCI-V21-GATE-REPAIR",
+   "delivered": {
+    "state": "accepted by reviewer 2026-09-16; merged to main d9242c4",
+    "artifacts": [
+     "jomission/harness/operation.py",
+     "tests/test_v2_operation_prospective.py",
+     "tests/test_gates_single_source.py (canonical-estimator and historical-profile guards)",
+     "tests/test_harness_guards.py (PASS_ASSERT_ALLOWLIST entry: synthetic known-answer verdict label)",
+     "manifests/gates/v2_local_operation.json (estimator_implementation, battery_rule; thresholds unchanged)",
+     "manifests/test_tiers.json (tier 0)",
+     "results/generic_substrate_v2_amendment_2.json",
+     "manifests/gates/v2_local_operation.json (prospective_v2 check active_fraction_by_class; estimator active_fraction)",
+     "jomission/harness/gates.py (kind active_fraction_min_by_class), jomission/harness/operation.py (window active_fraction)"
+    ],
+    "acceptance_reading": "the battery is jomission.harness.operation.run_battery (gates.evaluate, profile prospective_v2) plus its tier-0 test tests/test_v2_operation_prospective.py, which matches tests/test_v2*_operation*.py and imports jomission.harness.gates; tests/test_gates_single_source.py passes with it present",
+    "validation": "synthetic rasters only, no plant or network simulation: per-neuron spike counts and ISI CVs equal the frozen window_isis; frozen run_regime executed through a fake engine gives equal checks and rates (rel 1e-9); class ISI statistic equals tests/test_v21b_isi_classes.py _class_stats; edge cases (CV exactly 0.5 and 1.5 in band, 4 vs 3 spikes, 15 vs 16 of 30 E co-spiking) match frozen code; mutation probes (ddof 1, sync >=, exclusive band edges, > min_spikes) each fail the tests",
+    "findings": [
+     {
+      "item": "frozen V2.1 battery gated E_het on E_rate_CV rounded to 3 decimals (tests/test_v21_operation.py:136,148); the canonical estimator does not round, so a window with E rate-CV in [0.2995, 0.3) passed historically and fails canonically",
+      "evidence": "no sealed results/v21*.json window has E_rate_CV in [0.29, 0.31]; no executed verdict changes",
+      "evidence_class": "OBSERVED"
+     },
+     {
+      "item": "amendment 1 VIP values are max-over-windows rates and equal the sealed cells (low_sm2p0 130.2, mid_sm2p0 139.5, high_sm2p0 159.0, high_sm1p0 86.1 Hz)",
+      "evidence": "tests/test_v2_operation_prospective.py::test_amendment_vip_values_match_sealed_cells",
+      "evidence_class": "OBSERVED"
+     }
+    ],
+    "receipts": [
+     "python -m pytest tests/test_gates_single_source.py tests/test_v2_operation_prospective.py tests/test_harness_guards.py -> 23 passed",
+     "python scripts/project_check.py -> PROJECT_CHECK_PASS"
+    ],
+    "reviewer_decision": {
+     "item": "silent E cells (fewer than min_spikes=4 in a window) are excluded from the ISI fraction but included in E rate-CV",
+     "decision": "ISI criteria apply only to active cells, but the active-cell fraction is itself gated (reviewer, 2026-09-16)",
+     "implemented_as": "spec amendment 2 (results/generic_substrate_v2_amendment_2.json): per class E/PV/SST/VIP, f_active = N(spikes >= 4 in the 5 s window)/N_class >= 0.95 in every analysis window; ISI fraction over active cells and E rate-CV over all cells unchanged",
+     "threshold_source": "reviewer choice; F3_silence precedent in results/v21c_design_protocol.json extended to all classes",
+     "executed_verdicts": "unchanged; historical_v21_battery has no activity check. On sealed low_sm2p0 the new check passes (min SST 31/32); that cell still fails class_rate_bands and isi_cv_by_class"
+    }
+   }
+  }
      ],
    "next_authorized_task": null
 }

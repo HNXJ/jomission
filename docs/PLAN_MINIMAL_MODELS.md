@@ -89,8 +89,14 @@ Source: `site-src/pages/spectrolaminar.html` (draft). Gates SL0, SL1, SL2 from
 
 ## 4. Scoreboard (100 points)
 
-Each item is PASS or not. PASS needs a committed receipt. PARTIAL scores 0. Points for a
-checklist are its weight spread over its 10 items. 100/100 means every item is PASS and done.
+Scoring v2 (2026-10-30). A score is recorded only when all of these hold:
+1. PASS needs a receipt committed after the spec it tests, cited by commit.
+2. A criterion that names a source is stated against the single source in the spec, and its
+   thresholds are ratified by the owner before it is scored.
+3. An item blocked on an open owner decision scores 0. PARTIAL scores 0.
+4. Tier 0 and `project_check` pass at the HEAD named in §4a.
+5. The total is the sum of PASS points. Checklist points are the weight spread over the 10 items.
+   100/100 means every item is PASS and done.
 
 | id | item | pts | receipt |
 |---|---|---:|---|
@@ -100,8 +106,8 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 | S-04 | every neuron is Izhikevich via JaxFNE; parameters match the cited presets | 5 | same |
 | S-05 | HDP enabled for the whole model; H recorded per neuron, finite | 5 | same |
 | S-06 | HDP rule declared in the spec; detached homeostatic configuration not used | 5 | spec |
-| S-07 | PROPOSED (2026-10-31, owner ratification pending): PV→PV strong; PV→SST and PV→VIP weak, by Campagnola 2022 Fig. 2B probability: strong ≥ 0.15, weak ≤ 0.10 | 5 | `docs/minimal/connectivity.json` |
-| S-08 | PROPOSED (2026-10-31, owner ratification pending): SST→PV, SST→VIP, SST→E strong (≥ 0.15) and SST→SST weak (≤ 0.10), by Campagnola 2022 Fig. 2B probability | 5 | same |
+| S-07 | PROPOSED (2026-10-30, owner ratification pending): PV→PV strong; PV→SST and PV→VIP weak, by Campagnola 2022 Fig. 2B probability: strong ≥ 0.15, weak ≤ 0.10 | 5 | `docs/minimal/connectivity.json` |
+| S-08 | PROPOSED (2026-10-30, owner ratification pending): SST→PV, SST→VIP, SST→E strong (≥ 0.15) and SST→SST weak (≤ 0.10), by Campagnola 2022 Fig. 2B probability | 5 | same |
 | S-09 | VIP→SST preferential; VIP→PV and VIP→E weak (Pfeffer 2013) | 5 | same |
 | S-10 | E→PV, E→SST, E→VIP, E→E rules cited from a source | 5 | same |
 | S-11 | every weight and probability traces to a cited passage | 5 | same |
@@ -119,11 +125,9 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 Totals: S-01 to S-06 30, S-07 to S-11 25, S-12 to S-15 20, checklists 15 (CK-A 8, CK-B 7), S-18 to S-21 10 = 100.
 ## 4a. Status (2026-10-30)
 
-Connectivity spec v2 (single source Campagnola 2022): commit 3850bce. Smoke receipt
-`docs/minimal/smoke_receipt.json`: commit 5351501. Tier 0 on this tree: 221 passed, 0 failed.
-`project_check --offline --no-tests`: PROJECT_CHECK_PASS. Score: 70/100 PASS. Pfeffer 2013 receipts
-(S-07, S-08 at 14486b1) are kept in history; under Campagnola, S-07 and S-08 no longer hold, and
-S-10 and S-11 now do.
+Connectivity spec v2 (single source Campagnola 2022): commits 3850bce, 17e6b79 (PV_to_VIP), 22dda38
+(SST a = 0.02 after build). Smoke receipt `docs/minimal/smoke_receipt.json`: commit 6dfd540, the receipt
+for the current spec. Scoring v2 (§4) applies. Pfeffer 2013 receipts (14486b1) are kept in history.
 
 | id | state | pts | evidence |
 |---|---|---:|---|
@@ -133,18 +137,18 @@ S-10 and S-11 now do.
 | S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
 | S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
 | S-06 | PASS | 5 | section 3; owner decision 2 is assumed, not confirmed |
-| S-07 | FAIL (pending ratification) | 0 | restated criterion scores PASS on the connectivity table: PV_to_PV 0.39, PV_to_SST 0.09, PV_to_VIP 0. The thresholds 0.15 and 0.10 were chosen after the values were read; not ratified, so 0 |
+| S-07 | FAIL (pending ratification) | 0 | restated criterion scores PASS on the connectivity table: PV_to_PV 0.39, PV_to_SST 0.09, PV_to_VIP 0.056 (rule-of-three bound). The thresholds 0.15 and 0.10 were chosen after the values were read; not ratified, so 0 |
 | S-08 | FAIL (pending ratification) | 0 | restated criterion scores PASS: SST_to_PV 0.18, SST_to_VIP 0.30, SST_to_E 0.23, SST_to_SST 0.05. Same post-hoc thresholds; not ratified, so 0 |
-| S-09 | PASS | 5 | VIP_to_SST 0.246 (largest VIP output); VIP_to_PV 0.021, VIP_to_E 0.168 |
+| S-09 | FAIL | 0 | Campagnola: VIP_to_SST 0.138, VIP_to_E 0.048, VIP_to_PV 0.019. The criterion cites Pfeffer; restated on the proposed thresholds, VIP_to_SST (0.138) is below strong (0.15), so it is not scored until restated |
 | S-10 | PASS | 5 | E_to_E, E_to_PV, E_to_SST, E_to_VIP in `connectivity.json`: Fig. 2B counts, Fig. 3D mV |
-| S-11 | PASS | 5 | every rule and absent pair cites Fig. 2B or 3D; PV_to_VIP and VIP_to_VIP absence await owner confirmation |
+| S-11 | PASS | 5 | every rule and absent pair cites Fig. 2B or 3D; PV_to_VIP probability is a rule-of-three bound (owner choice); VIP_to_VIP absence awaits owner confirmation |
 | S-12 | PASS | 5 | smoke receipt: finite spikes and V_m, finite H |
-| S-13 | FAIL | 0 | 1 VIP neuron with no spike in 1 s (receipt 5351501); PV now fires in every neuron |
-| S-14 | PASS | 5 | E max 11 Hz under the 100 Hz ceiling; rates reported (PV 10.9 Hz, SST 51 Hz, VIP 0.8 Hz outside bands) |
+| S-13 | FAIL | 0 | 1 VIP neuron with no spike in 1 s (receipt 6dfd540); owner kept FAIL and reported |
+| S-14 | PASS | 5 | E max 11 Hz under the 100 Hz ceiling; rates reported (PV 10.9 Hz, SST 31.2 Hz, VIP 0.8 Hz; PV, SST and VIP outside bands) |
 | S-15 | PASS | 5 | H within [1.0, 1.0024], bounds [0.1, 10.0]; H barely moves |
 | CK-A | FAIL | 0 | blocked on the habituation schedule (MIN-04) |
 | CK-B | FAIL | 0 | blocked on the LANSA source (MIN-05) |
-| S-18 | PASS | 3 | spec commit 3850bce precedes the receipt run 5351501 |
+| S-18 | PASS | 3 | spec commits 3850bce, 17e6b79, 22dda38 precede receipt commit 6dfd540 |
 | S-19 | PASS | 3 | tier 0 on this tree: 221 passed, 0 failed (the tier 0 run after the smoke rerun) |
 | S-20 | PASS | 2 | receipts committed separately. Disclosed: the weight source changed (Pfeffer pC to Campagnola mV) after the 14486b1 receipts, before the 5351501 receipt; the old receipts stay in history |
 | S-21 | PASS | 2 | `project_check --offline --no-tests`: PROJECT_CHECK_PASS at 5351501 |
@@ -167,7 +171,7 @@ statistic, interpretation) stay with the main model and the reviewer.
 - Lane 3, MIN-03 (done in 53a3d3b; removed from todo). 1000 ms smoke run; the receipt is in docs/minimal/;
   S-12 to S-15 receipts. Any file under `results/` needs an authorizing TODO.
 - Lane 4, MIN-05 (blocked). Spectrolaminar statistic and null; waits for the LANSA source.
-- MIN-04 (blocked on MIN-03 and the habituation schedule): checklist A coverage.
+- MIN-04 (blocked on the habituation schedule; MIN-03 is done): checklist A coverage.
 
 Packet fields for every lane: goal, baseline commit, files it may read, paths it may write,
 acceptance command and expected summary line, stop conditions, report cap of 200 words. One

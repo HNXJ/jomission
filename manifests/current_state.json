@@ -349,7 +349,7 @@
    "route": "record only"
   },
   {
-   "item": "minimal smoke (docs/minimal/smoke_receipt.json): S-13 kept FAIL and reported (1 VIP neuron fires no spike in 1 s; 0 PV silent); S-07 and S-08 thresholds kept FAIL (owner decision); PV and SST mean rates sit outside the bands (reported, not gated)",
+   "item": "minimal smoke (docs/minimal/smoke_receipt.json): S-13 kept FAIL and reported (1 VIP neuron fires no spike in 1 s; 0 PV silent); S-07 and S-08 thresholds ratified 2026-10-30 (owner decision; score 75); PV and SST mean rates sit outside the bands (reported, not gated)",
    "route": "record only"
   },
   {
@@ -373,7 +373,7 @@
    "route": "MIN-05"
   },
   {
-   "item": "HDP rule for the minimal models: JaxFNE DEFAULT_HDP declared; owner decision 2 is assumed, not confirmed; the detached homeostatic configuration is not identified in the repo and no success claim rests on it",
+   "item": "HDP rule for the minimal models: JaxFNE DEFAULT_HDP declared; owner decision 2 ratified 2026-10-30; the detached homeostatic configuration is not identified in the repo and no success claim rests on it",
    "route": "record only"
   },
   {

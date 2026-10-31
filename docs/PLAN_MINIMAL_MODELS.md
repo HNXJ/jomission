@@ -64,7 +64,7 @@ Source: `site-src/pages/spectrolaminar.html` (draft). Gates SL0, SL1, SL2 from
   preset=...)`). Per-class parameters come from the JaxFNE preset table, each cited. The realized
   values are read back and compared.
 - HDP: every model enables HDP through `.hdp(**DEFAULT_HDP)` (`jaxfne/hdp_network.py`), so
-  `enable_hdp` is true. Owner decision 2 is assumed: the JaxFNE default parameters are the
+  `enable_hdp` is true. Owner decision 2 (ratified 2026-10-30): the JaxFNE default parameters are the
   declared rule, not the detached homeostatic configuration (no success claim rests on it;
   `docs/HANDOFF_CURRENT.md`). The H state is recorded per neuron (`diagnostics H_final`, `H_trace`).
 - Connectivity: declared with `.connections(...)`, one rule per pair. Literature basis:
@@ -106,8 +106,8 @@ Scoring v2 (2026-10-30). A score is recorded only when all of these hold:
 | S-04 | every neuron is Izhikevich via JaxFNE; parameters match the cited presets | 5 | same |
 | S-05 | HDP enabled for the whole model; H recorded per neuron, finite | 5 | same |
 | S-06 | HDP rule declared in the spec; detached homeostatic configuration not used | 5 | spec |
-| S-07 | PROPOSED (2026-10-30, owner ratification pending): PV→PV strong; PV→SST and PV→VIP weak, by Campagnola 2022 Fig. 2B probability: strong ≥ 0.15, weak ≤ 0.10 | 5 | `docs/minimal/connectivity.json` |
-| S-08 | PROPOSED (2026-10-30, owner ratification pending): SST→PV, SST→VIP, SST→E strong (≥ 0.15) and SST→SST weak (≤ 0.10), by Campagnola 2022 Fig. 2B probability | 5 | same |
+| S-07 | RATIFIED 2026-10-30: PV→PV strong; PV→SST and PV→VIP weak, by Campagnola 2022 Fig. 2B probability: strong ≥ 0.15, weak ≤ 0.10 | 5 | `docs/minimal/connectivity.json` |
+| S-08 | RATIFIED 2026-10-30: SST→PV, SST→VIP, SST→E strong (≥ 0.15) and SST→SST weak (≤ 0.10), by Campagnola 2022 Fig. 2B probability | 5 | same |
 | S-09 | VIP→SST preferential; VIP→PV and VIP→E weak (Pfeffer 2013) | 5 | same |
 | S-10 | E→PV, E→SST, E→VIP, E→E rules cited from a source | 5 | same |
 | S-11 | every weight and probability traces to a cited passage | 5 | same |
@@ -127,7 +127,7 @@ Totals: S-01 to S-06 30, S-07 to S-11 25, S-12 to S-15 20, checklists 15 (CK-A 8
 
 Connectivity spec v2 (single source Campagnola 2022): commits 3850bce, 17e6b79 (PV_to_VIP), 22dda38
 (SST a = 0.02 after build). Smoke receipt `docs/minimal/smoke_receipt.json`: commit 6dfd540, the receipt
-for the current spec. Scoring v2 (§4) applies: score 60/100 at c7758a9 (65 if owner decision 2 is taken as settled). Pfeffer 2013 receipts (14486b1) are kept in history.
+for the current spec. Scoring v2 (§4) applies: score 75/100. Tier 0 at c7758a9; the code is unchanged since, and the later commits change only plan and state files. Pfeffer 2013 receipts (14486b1) are kept in history.
 
 | id | state | pts | evidence |
 |---|---|---:|---|
@@ -136,9 +136,9 @@ for the current spec. Scoring v2 (§4) applies: score 60/100 at c7758a9 (65 if o
 | S-03 | PASS | 3 | `test_same_seed_gives_identical_wiring_bytes`; the seed is not shown to change wiring |
 | S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
 | S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
-| S-06 | FAIL | 0 | section 3 declares DEFAULT_HDP; owner decision 2 (HDP rule) is open, so 0 under Scoring v2 rule 3 |
-| S-07 | FAIL (pending ratification) | 0 | restated criterion scores PASS on the connectivity table: PV_to_PV 0.39, PV_to_SST 0.09, PV_to_VIP 0.056 (rule-of-three bound). The thresholds 0.15 and 0.10 were chosen after the values were read; not ratified, so 0 |
-| S-08 | FAIL (pending ratification) | 0 | restated criterion scores PASS: SST_to_PV 0.18, SST_to_VIP 0.30, SST_to_E 0.23, SST_to_SST 0.05. Same post-hoc thresholds; not ratified, so 0 |
+| S-06 | PASS | 5 | section 3 declares DEFAULT_HDP; owner decision 2 ratified 2026-10-30 |
+| S-07 | PASS | 5 | ratified thresholds (strong ≥ 0.15, weak ≤ 0.10): PV_to_PV 0.39 strong; PV_to_SST 0.09 and PV_to_VIP 0.056 (rule-of-three bound) weak |
+| S-08 | PASS | 5 | ratified thresholds: SST_to_PV 0.18, SST_to_VIP 0.30, SST_to_E 0.23 strong; SST_to_SST 0.05 weak |
 | S-09 | FAIL | 0 | Campagnola: VIP_to_SST 0.138, VIP_to_E 0.048, VIP_to_PV 0.019. The criterion cites Pfeffer; restated on the proposed thresholds, VIP_to_SST (0.138) is below strong (0.15), so it is not scored until restated |
 | S-10 | PASS | 5 | E_to_E, E_to_PV, E_to_SST, E_to_VIP in `connectivity.json`: Fig. 2B counts, Fig. 3D mV |
 | S-11 | PASS | 5 | every rule and absent pair cites Fig. 2B or 3D; PV_to_VIP probability is a rule-of-three bound (owner choice); VIP_to_VIP absence awaits owner confirmation |
@@ -196,5 +196,5 @@ Mirrored in `manifests/current_state.json` `open_uncertainties`.
 - MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer.
 - MIN-05: LANSA densities (Mulvey et al.) are not in the jomission repo.
 - MIN-05: the 90% statistic, its vectors and its surrogate null are undefined.
-- HDP rule for the minimal models is not chosen (decision 2).
+- HDP rule for the minimal models: JaxFNE DEFAULT_HDP, ratified 2026-10-30 (decision 2).
 - The komposer workflow numbers are withdrawn; they are not a source for any weight.

@@ -109,13 +109,13 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - cross-process float32 floor ~1e-4 on active-motif w/I means (rates exact) → record only
 - Pages had no V2.1b/V2.1c entry; resolved 2026-09-19 by PUB-V21B-PAGES (V2.1b, ISI and V2.1c panels live on the activity page) → record only
 - JaxFNE 0.5.8 accepts the four-type declaration (E, PV, SST, VIP); simulate needs RuntimeConfig(recurrent_backend='edge_list', enable_hdp, hdp_params) passed to jtfne.simulation (jomission/minimal/builder.py minimal_runtime) → record only
-- minimal smoke (docs/minimal/smoke_receipt.json): S-13 kept FAIL and reported (1 VIP neuron fires no spike in 1 s; 0 PV silent); S-07 and S-08 thresholds kept FAIL (owner decision); PV and SST mean rates sit outside the bands (reported, not gated) → record only
+- minimal smoke (docs/minimal/smoke_receipt.json): S-13 kept FAIL and reported (1 VIP neuron fires no spike in 1 s; 0 PV silent); S-07 and S-08 thresholds ratified 2026-10-30 (owner decision; score 75); PV and SST mean rates sit outside the bands (reported, not gated) → record only
 - minimal HDP: H stays in [1.0, 1.0024] over 1 s; the bounds check passes but H barely moves → record only
 - MIN-02: the CB to SST and CR to VIP marker mapping is the owner's convention, not yet cited → MIN-02
 - MIN-02: Tremblay 2016 and Pi 2013 are not ingested into komposer (Priority A pending download) → MIN-02
 - MIN-05: LANSA cell densities (Mulvey et al.) are not in the jomission repo; the spectrolaminar fractions cannot be fixed → MIN-05
 - MIN-05: the 90% correlation statistic, its vectors and its surrogate null are undefined → MIN-05
-- HDP rule for the minimal models: JaxFNE DEFAULT_HDP declared; owner decision 2 is assumed, not confirmed; the detached homeostatic configuration is not identified in the repo and no success claim rests on it → record only
+- HDP rule for the minimal models: JaxFNE DEFAULT_HDP declared; owner decision 2 ratified 2026-10-30; the detached homeostatic configuration is not identified in the repo and no success claim rests on it → record only
 - komposer workflow_multiagent_cortical_omission numbers are withdrawn (2026-09-23 audit); not a source for any weight → record only
 - minimal PV to VIP: probability 0.0556 is the rule-of-three bound (3/54), not an estimate; weight 0.23 mV is the absolute Fig. 3D amplitude (owner chose to trust it); the source's 0/54 count and its -0.23 mV amplitude disagree → record only
 - minimal VIP to VIP is absent at N = 100 (owner decision): expected 0.24 edges, builder compiles 0; owner to confirm absence at N = 100 → record only

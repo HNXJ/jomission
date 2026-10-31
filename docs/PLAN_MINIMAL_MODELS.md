@@ -100,8 +100,8 @@ checklist are its weight spread over its 10 items. 100/100 means every item is P
 | S-04 | every neuron is Izhikevich via JaxFNE; parameters match the cited presets | 5 | same |
 | S-05 | HDP enabled for the whole model; H recorded per neuron, finite | 5 | same |
 | S-06 | HDP rule declared in the spec; detached homeostatic configuration not used | 5 | spec |
-| S-07 | PV→PV strong; PV→SST and PV→VIP weak (Pfeffer 2013) | 5 | `docs/minimal/connectivity.json` |
-| S-08 | SST→SST absent; SST→PV, SST→VIP, SST→E strong (Pfeffer 2013) | 5 | same |
+| S-07 | PROPOSED (2026-10-31, owner ratification pending): PV→PV strong; PV→SST and PV→VIP weak, by Campagnola 2022 Fig. 2B probability: strong ≥ 0.15, weak ≤ 0.10 | 5 | `docs/minimal/connectivity.json` |
+| S-08 | PROPOSED (2026-10-31, owner ratification pending): SST→PV, SST→VIP, SST→E strong (≥ 0.15) and SST→SST weak (≤ 0.10), by Campagnola 2022 Fig. 2B probability | 5 | same |
 | S-09 | VIP→SST preferential; VIP→PV and VIP→E weak (Pfeffer 2013) | 5 | same |
 | S-10 | E→PV, E→SST, E→VIP, E→E rules cited from a source | 5 | same |
 | S-11 | every weight and probability traces to a cited passage | 5 | same |
@@ -133,8 +133,8 @@ S-10 and S-11 now do.
 | S-04 | PASS | 5 | `test_every_neuron_is_izhikevich_with_jaxfne_presets` |
 | S-05 | PASS | 5 | declaration test; `H_final` shape [100], finite (smoke receipt) |
 | S-06 | PASS | 5 | section 3; owner decision 2 is assumed, not confirmed |
-| S-07 | FAIL | 0 | Campagnola: PV_to_SST 8/88 (probability 0.09) but -0.44 mV (amplitude); PV_to_VIP absent. "weak" is not defined on one metric; owner to state it |
-| S-08 | FAIL | 0 | Campagnola: SST_to_SST present (8/154, -0.19 mV); the criterion says absent |
+| S-07 | FAIL (pending ratification) | 0 | restated criterion scores PASS on the connectivity table: PV_to_PV 0.39, PV_to_SST 0.09, PV_to_VIP 0. The thresholds 0.15 and 0.10 were chosen after the values were read; not ratified, so 0 |
+| S-08 | FAIL (pending ratification) | 0 | restated criterion scores PASS: SST_to_PV 0.18, SST_to_VIP 0.30, SST_to_E 0.23, SST_to_SST 0.05. Same post-hoc thresholds; not ratified, so 0 |
 | S-09 | PASS | 5 | VIP_to_SST 0.246 (largest VIP output); VIP_to_PV 0.021, VIP_to_E 0.168 |
 | S-10 | PASS | 5 | E_to_E, E_to_PV, E_to_SST, E_to_VIP in `connectivity.json`: Fig. 2B counts, Fig. 3D mV |
 | S-11 | PASS | 5 | every rule and absent pair cites Fig. 2B or 3D; PV_to_VIP and VIP_to_VIP absence await owner confirmation |

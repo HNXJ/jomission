@@ -96,6 +96,37 @@
     "downstream_unlock": []
    },
   {
+    "id": "MIN-07",
+    "status": "OPEN",
+    "trigger": "owner 2026-10-31: node 2 S-13 FAIL, VIP silent at every DC drive (docs/minimal/s13_receipt.json, s13_sweep_receipt.json); owner chose a new lineage that changes the VIP cell initial state u0, v0, not the drive",
+    "goal": "S-13: each class (E, PV, SST, VIP) fires in the 1000 ms run; none silent",
+    "parent_authority": "docs/PLAN_MINIMAL_MODELS.md sections 3 and 4 (S-13); docs/AUDIT_MINIMAL_TREE.md (inferred cause); the FAIL receipts stay as recorded",
+    "principal_delta": "VIP initial state u0, v0 set to the regular-spiking defaults; no other VIP cell parameter changes",
+    "required_inputs": [
+     "docs/minimal/s13_receipt.json",
+     "docs/minimal/s13_sweep_receipt.json",
+     "docs/AUDIT_MINIMAL_TREE.md",
+     "jomission/minimal/builder.py"
+    ],
+    "frozen": [
+     "N = 100 and the MIN-02 connectivity rules",
+     "HDP DEFAULT_HDP (owner decision 2)",
+     "DC drive 1.0 on all neurons",
+     "1000 ms window",
+     "prior FAIL receipts are not overwritten"
+    ],
+    "procedure": "1. read the VIP u0, v0 defaults and their units from the JaxFNE convention, not from assumption; 2. commit docs/minimal/s13_vip_state_spec.json and push before any run; 3. one 1000 ms smoke; 4. commit docs/minimal/s13_vip_state_receipt.json separately; 5. score S-13 from that receipt only",
+    "acceptance": "a receipt committed after the spec shows E, PV, SST and VIP each fire; S-13 scored",
+    "stop_condition": "a VIP class still silent: STOP and report; no retune after results",
+    "artifacts_expected": [
+     "docs/minimal/s13_vip_state_spec.json",
+     "docs/minimal/s13_vip_state_receipt.json"
+    ],
+    "downstream_unlock": [
+     "MIN-04"
+    ]
+   },
+  {
     "id": "SCI-V21C-COMPOSITION",
     "status": "RETIRED",
     "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",

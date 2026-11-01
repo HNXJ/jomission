@@ -1,0 +1,73 @@
+{
+  "schema": "jomission.minimal_s13_vip_state_spec.v1",
+  "id": "MIN-07",
+  "status": "PRE-EXECUTION SPEC: committed before any run; no MIN-07 receipt exists",
+  "owner_decision_2026-10-31": "node 2 S-13 FAIL (VIP silent at every DC drive); the owner chose a new lineage that changes the VIP initial state u0, v0; the drive stays DC 1.0",
+  "goal": "S-13: each class (E, PV, SST, VIP) fires in the 1000 ms run; none silent",
+  "parent_receipts": [
+    "docs/minimal/s13_receipt.json (02e4f51, S-13 FAIL; stays as recorded)",
+    "docs/minimal/s13_sweep_receipt.json (6a6fd74, S-13 FAIL at all five VIP extra points; stays as recorded)"
+  ],
+  "model": {
+    "builder": "jomission.minimal.builder.build_minimal_model, then the VIP initial-state patch below",
+    "n": 100,
+    "seed": 0,
+    "connectivity": "docs/minimal/connectivity.json (MIN-02 rules as recorded)",
+    "hdp": "JaxFNE DEFAULT_HDP (owner decision 2)",
+    "duration_ms": 1000.0,
+    "dt_ms": 0.1
+  },
+  "drive": {
+    "name": "external DC input current",
+    "value": 1.0,
+    "units": "JaxFNE Izhikevich native current units (uncalibrated; docs/theory/notes/NEURON_IO_CHARACTERIZATION.md). No pA mapping is applied.",
+    "applied_to": "every neuron, as in docs/minimal/s13_spec.json",
+    "realization": "emitter drive_per_neuron = tonic drive + 1.0, via with_emitter_parameters; the VIP effective drive is 4.0"
+  },
+  "change": {
+    "cells": "the 5 VIP neurons at N = 100 (params.labels == 'VIP'); no other class changes",
+    "u0": {
+      "current": "b * (-65) = -0.10 * -65 = +6.5 (JaxFNE emitters.py: u0 = b * -65 at construction)",
+      "new": -13.0,
+      "reading": "the owner's 'regular-spiking defaults', read as the E preset's b = 0.20 times c = -65.0 (IZHIKEVICH_CELL_TYPE_DEFAULTS['E']); a reading, not a value the owner named"
+    },
+    "v0": {
+      "current": "seeded uniform draw in [-70, 0] mV (jaxfne _construct_core.py:234, random v0 always on)",
+      "new": "unchanged",
+      "reason": "a constant v0 gives all five VIP cells one identical start, so their spikes would be synchronous by construction"
+    },
+    "other_vip_params": "a = 0.02, b = -0.10, c = -55, d = 6 unchanged (the JaxFNE VIP preset)",
+    "realization": "dataclasses.replace on the built emitter parameters: u0 set to -13.0 at the VIP rows, after construction, as apply_sst_adaptation does (jomission/minimal/builder.py:88-93); read back per VIP neuron into the receipt"
+  },
+  "expectation": {
+    "basis": "derived from the equations above, not from a run",
+    "observed": "the VIP preset gives a stable rest near -85.3 mV and an unstable threshold near -42.2 mV at I = 4.0 (roots of 0.04 v^2 + (5 - b) v + 140 + I = 0 with b = -0.10); the receipt 6a6fd74 has mean VIP rate 0.80 Hz, i.e. four cells fire once",
+    "inferred": "u sits near b*v, so after a spike it relaxes back up with a = 0.02 (about 50 ms) and a lower u0 changes only the first part of the 1000 ms trajectory; sustained VIP firing is not expected from u0 alone. The run tests this; a PASS or FAIL is scored from the receipt only"
+  },
+  "search": {
+    "parameters": [],
+    "grid": null,
+    "note": "one point. A second VIP initial state needs a new spec and a log-spaced grid, stated before any run"
+  },
+  "command": "not yet written: the VIP initial-state realization and its test (new test first, run against the unpatched build) are added in a commit before the run, and the receipt command is fixed then",
+  "receipt": {
+    "path": "docs/minimal/s13_vip_state_receipt.json",
+    "must_hold": ["class rates", "silent_neurons per class", "VIP u0 and v0 read back per neuron", "drive_mean_by_class (tonic and effective)", "VIP spike count and first spike time per neuron"]
+  },
+  "criterion": {
+    "id": "S-13",
+    "pass": "for each class, mean rate > 0 and silent_neurons == 0",
+    "scored_from": "docs/minimal/s13_vip_state_receipt.json checks.S-13 only"
+  },
+  "stop_condition": "a VIP class still silent: STOP and report; no retune after results; the owner decides any next lineage",
+  "frozen": [
+    "N = 100 and the MIN-02 connectivity rules",
+    "DEFAULT_HDP",
+    "DC drive 1.0 on all neurons",
+    "1000 ms window, dt 0.1 ms",
+    "seed 0",
+    "VIP a, b, c, d and the drive",
+    "the S-13 criterion"
+  ],
+  "reported_not_gated": "class rates against the bands PV 12-25 Hz, VIP 8-15 Hz, SST 6-12 Hz (plan decision 3); VIP spike counts per cell, so a PASS by one spike per cell is visible"
+}

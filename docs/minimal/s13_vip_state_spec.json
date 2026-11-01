@@ -20,7 +20,7 @@
   "drive": {
     "name": "external DC input current",
     "value": 1.0,
-    "units": "JaxFNE Izhikevich native current units (uncalibrated; docs/theory/notes/NEURON_IO_CHARACTERIZATION.md). No pA mapping is applied.",
+    "units": "JaxFNE Izhikevich native current units, uncalibrated, as in docs/minimal/s13_spec.json. No pA mapping is applied. That spec cites docs/theory/notes/NEURON_IO_CHARACTERIZATION.md, which is not in the repo; the unit reading stays open.",
     "applied_to": "every neuron, as in docs/minimal/s13_spec.json",
     "realization": "emitter drive_per_neuron = tonic drive + 1.0, via with_emitter_parameters; the VIP effective drive is 4.0"
   },
@@ -37,7 +37,7 @@
       "reason": "a constant v0 gives all five VIP cells one identical start, so their spikes would be synchronous by construction"
     },
     "other_vip_params": "a = 0.02, b = -0.10, c = -55, d = 6 unchanged (the JaxFNE VIP preset)",
-    "realization": "dataclasses.replace on the built emitter parameters: u0 set to -13.0 at the VIP rows, after construction, as apply_sst_adaptation does (jomission/minimal/builder.py:88-93); read back per VIP neuron into the receipt"
+    "realization": "dataclasses.replace on the built emitter parameters: u0 set to -13.0 at the VIP rows, after construction, as apply_sst_adaptation does (jomission/minimal/builder.py:84-93); read back per VIP neuron into the receipt"
   },
   "expectation": {
     "basis": "derived from the equations above, not from a run",

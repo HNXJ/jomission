@@ -27,6 +27,30 @@
       "used_by": ["docs/PLAN_LONGTERM.md (P3, 90% PCA rule, lines 218-222)"]
     },
     {
+      "id": "LANSA_SPECTROLAMINAR_MAT",
+      "path": "local/inputs/lansa/spectrolaminar_data.mat",
+      "sha256": "aad7f7020569dd83b5937ca998ae61de8dc2421c12cf8e7399c41533a0a9ebef",
+      "bytes": 258364,
+      "origin": "E:/lansa_private/scratch_731e0f41_20261022/manuscript/lansa/spectrolaminar_data.mat",
+      "used_by": ["MIN-05 (CK-B): ephys_data, 21 bins x 150 frequencies x 11 areas (relative power)"]
+    },
+    {
+      "id": "LANSA_README",
+      "path": "local/inputs/lansa/LANSA_README.md",
+      "sha256": "b95273acb6a0d71892bdcc3847743e6cfb30f50b19442c749a569743ecbe5807",
+      "bytes": 1250,
+      "origin": "E:/lansa_private/scratch_731e0f41_20261022/manuscript/lansa/README.md",
+      "used_by": ["MIN-05 (CK-B): source description, citation and rng(42) seed for the pipeline"]
+    },
+    {
+      "id": "LANSA_PERMTESTMEANR_M",
+      "path": "local/inputs/lansa/functions/permTestMeanR.m",
+      "sha256": "16c3b9bffa9ada3752948df364a154b5084be3cb94dfbf7da7fdd11f9fac86e4",
+      "bytes": 1296,
+      "origin": "E:/lansa_private/scratch_731e0f41_20261022/manuscript/lansa/functions/permTestMeanR.m",
+      "used_by": ["MIN-05 (CK-B): circular-shift surrogate null, the chance floor"]
+    },
+    {
       "id": "BIB_PFEFFER_2013_MD",
       "path": "local/inputs/bibliography/10.1038_nn.3446.md",
       "sha256": "b6ea853b2ba3197f54c09a12391b5a7e77950fcc03d2d3b3926604f85fb8143d",

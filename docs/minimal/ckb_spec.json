@@ -1,0 +1,72 @@
+{
+  "schema": "jomission.minimal_ckb_spec.v1",
+  "id": "MIN-05",
+  "checklist": "B (docs/PLAN_MINIMAL_MODELS.md section 2): spectrolaminar 90% correlation pattern",
+  "status": "PRE-EXECUTION SPEC: committed before any model run; no CK-B item is PASS yet",
+  "owner_confirmed_2026-10-31": [
+    "statistic: PCA cumulative explained variance >= 90% with 2 PCs (pipeline rule)",
+    "cell-type mapping: PV->PV, CB->SST, CR->VIP, NG->E (LANSA NG is pyramidal per pipeline line 129)",
+    "surrogate null: circular shift along depth, as permTestMeanR",
+    "rolling back a record is allowed: a later correction is an additive record"
+  ],
+  "inputs": {
+    "source": "LANSA (Mulvey et al.), local copies in local/inputs/lansa; hashes in manifests/local_inputs.json",
+    "LANSA_processed_cyto.mat": "anatomy_data 21 bins x 4 types x 11 areas (sha256 232423401cca1c60974b0ff644ce4f966f9ca2e49c0224060d6def912f2c1f63)",
+    "spectrolaminar_data.mat": "ephys_data 21 bins x 150 frequencies x 11 areas (sha256 aad7f7020569dd83b5937ca998ae61de8dc2421c12cf8e7399c41533a0a9ebef)",
+    "LANSA_Analysis_Pipeline.m": "sha256 17af13aeb19d0f7ef59fc37f5596deb833ddf857ed5e1bd0a50e15f74860fa5f",
+    "functions/permTestMeanR.m": "sha256 16c3b9bffa9ada3752948df364a154b5084be3cb94dfbf7da7fdd11f9fac86e4",
+    "areas": ["V1", "V3", "V4", "MT", "MST", "LIP", "TEO", "PMD", "7A", "8A", "PFC"]
+  },
+  "observed_reference": {
+    "method": "Python port of pipeline lines 206-222: zscore then PCA (SVD) of proto profiles (mean over areas); k = max over X and Y of the first PC index with cumsum >= 90",
+    "X_cell_types": {"explained_pct_PC1_PC4": [62.47, 28.46, 8.47, 0.61], "cum_at_PC2": 90.93},
+    "Y_frequency": {"explained_pct_PC1_PC4": [71.53, 28.35, 0.05, 0.03], "cum_at_PC2": 99.88},
+    "k_perm": 2,
+    "reference_gap": "The pipeline prints these values but no MATLAB output is archived; item 8 is partial until the MATLAB log is pinned or the port is checked against an archived output."
+  },
+  "statistic": {
+    "name": "T",
+    "definition": "cumulative explained variance (%) of the first 2 PCs of a model profile matrix, computed separately for the cell-type profiles (X: 21 bins x 4 classes) and the frequency profiles (Y: 21 bins x 150 frequencies)",
+    "model_side_pass": "T_X >= 90 and T_Y >= 90, and each exceeds the 95th percentile of its surrogate distribution",
+    "threshold": 90.0
+  },
+  "chance_floor": {
+    "null": "each area's model profile circularly shifted along depth by an independent random amount (permTestMeanR)",
+    "n_surrogates": 5000,
+    "seed": 42,
+    "quantile": 0.95,
+    "note": "n_surrogates and quantile are declared here, not taken from the pipeline (its N_PERMS value is not in the copies held)"
+  },
+  "held_out": {
+    "fit_areas": ["V1", "V3", "V4", "MT", "MST", "LIP", "TEO"],
+    "test_areas": ["PMD", "7A", "8A", "PFC"],
+    "rule": "any choice among configurations (drive, fractions, wiring) uses fit_areas only; test_areas are reported once, no re-selection",
+    "note": "proposed split; the owner may change it before the run, and the change is recorded as an additive record"
+  },
+  "per_bin_fractions": {
+    "rule": "type fraction in each bin = LANSA density of that type / sum of the four densities in that bin, per area",
+    "check": "realized type fractions per bin against this target; report the maximum absolute deviation"
+  },
+  "wiring": {
+    "rules": "jomission/minimal/builder.py with docs/minimal/connectivity.json (MIN-02); one canonical type-to-type wiring for every area",
+    "dependency": "the drive and firing regime are fixed by node 2 (MIN-06), which ended on FAIL; CK-B cannot claim a regime the model does not have"
+  },
+  "model_side_gap": {
+    "what": "LFP relative power in 21 depth bins x 150 frequencies per area",
+    "present": "the minimal builder has 4 probe contacts (probe n_contacts = 4), not 21 depth bins",
+    "step": "a per-depth-bin LFP readout is new code and needs its own receipt before any comparison"
+  },
+  "sl2_rule": "H is never tuned to make a proxy reproduce the pattern; DEFAULT_HDP is fixed (owner decision 2)",
+  "stop_conditions": [
+    "a reference check of the PCA port fails against an archived output: STOP",
+    "the model-side LFP readout is not built: STOP before any T is computed",
+    "any held-out area is used to choose a configuration: STOP"
+  ],
+  "claim_until_pass": "not qualified; SL0 and SL1 are not passed",
+  "frozen": [
+    "the 11 areas and 21 bins of the LANSA inputs",
+    "the statistic, threshold 90, and the 2-PC rule",
+    "seed 42 for surrogates",
+    "fit and test area lists above"
+  ]
+}

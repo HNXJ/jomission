@@ -1,7 +1,7 @@
 # Next goals: optimization and organization, beside the todos
 
 Status: ADOPTED by the owner, 2026-11-02 (chose "All three lanes"). Adds no science and changes no
-gate. Each lane names the files it may touch, so the three lanes share no file.
+gate. Each lane names the files it may touch; no two lanes share one.
 
 ## Evidence behind the goals (observed)
 
@@ -25,12 +25,12 @@ gate. Each lane names the files it may touch, so the three lanes share no file.
 
 ## Approval points (owner)
 
-- Any deletion or move: needs your word first. Hard deletes are not used; moves go to `_temp_delete/`.
-- Results moves: only after the footprint report.
+- Any deletion or move needs your word first. No hard deletes; moves go to `_temp_delete/`.
+- Move results only after the footprint report.
 - Test moves between tiers: only with a reason logged in `test_tiers.json`.
 
 ## Stop conditions
 
 - A test count changes: stop and report.
 - A gate fails for a new reason: stop and report.
-- A lane needs a file another lane owns: stop; the lanes are re-split.
+- A lane needs a file another lane owns: stop and re-split the lanes.

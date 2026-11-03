@@ -31,7 +31,7 @@
     "docs/minimal/connectivity.json"
    ],
    "downstream_unlock": [],
-   "blocked_by": "owner decision 1 (cell fractions, assumed default in connectivity.json), owner decision 2 (HDP rule), CB/CR mapping (owner convention, not cited), owner confirmation of PV_to_VIP and VIP_to_VIP absence"
+   "blocked_by": "owner decision 1 (cell fractions, assumed default in connectivity.json); CB/CR mapping (owner convention, not cited). Owner decision 2 (HDP rule) was ratified 2026-10-30; PV_to_VIP (kept as a bound) and VIP_to_VIP absence were answered 2026-11-02"
   },
   {
    "id": "MIN-04",
@@ -49,6 +49,7 @@
    "procedure": "per item in section 1 of the plan; each item is PASS only with a committed receipt",
    "acceptance": "ten receipts; scoreboard CK-A",
    "stop_condition": "habituation schedule still unresolved: STOP and ask the owner",
+   "blocked_by": "CK-A-SCHEDULE-SPEC (the schedule spec, owner decision D8)",
    "artifacts_expected": [],
    "downstream_unlock": []
   },
@@ -78,11 +79,11 @@
     },
    {
     "id": "MIN-05",
-    "status": "BLOCKED",
+    "status": "OPEN",
     "trigger": "owner 2026-10-30: checklist B (spectrolaminar 90% correlation pattern model); blocked on the LANSA densities (not in the repo) and the undefined 90% statistic. The connectivity source PDF (Campagnola 2022) is not LANSA",
     "goal": "checklist B items 1 to 10, each with a receipt; the 90% statistic and its null defined in a spec before any run",
     "parent_authority": "docs/PLAN_MINIMAL_MODELS.md section 2; docs/tfne/TFNE_V2_SPEC.md (SL0, SL1, SL2)",
-    "principal_delta": "none until the statistic is specified",
+    "principal_delta": "CK-B model side: per-depth-bin LFP readout, not built. The statistic is in docs/minimal/ckb_spec.json (committed before any model run)",
     "required_inputs": [
      "docs/PLAN_MINIMAL_MODELS.md"
     ],
@@ -97,11 +98,13 @@
    },
   {
     "id": "MIN-07",
-    "status": "OPEN",
+    "status": "SUPERSEDED",
+    "superseded_by": ["MIN-08", "MIN-09"],
+    "superseded_reason": "owner 2026-11-02: u0 cannot make VIP fire (orchestrator probe, jchat #134); the lineage is split into a VIP drive change (MIN-08) and a PV drive change (MIN-09). The u0 spec is not run and its FAIL history is unchanged",
     "trigger": "owner 2026-10-31: node 2 S-13 FAIL, VIP silent at every DC drive (docs/minimal/s13_receipt.json, s13_sweep_receipt.json); owner chose a new lineage that changes the VIP cell initial state u0, v0, not the drive",
     "goal": "S-13: each class (E, PV, SST, VIP) fires in the 1000 ms run; none silent",
     "parent_authority": "docs/PLAN_MINIMAL_MODELS.md sections 3 and 4 (S-13); docs/AUDIT_MINIMAL_TREE.md (inferred cause); the FAIL receipts stay as recorded",
-    "principal_delta": "VIP initial state u0, v0 set to the regular-spiking defaults; no other VIP cell parameter changes",
+    "principal_delta": "none (superseded): the VIP u0 change is withdrawn",
     "required_inputs": [
      "docs/minimal/s13_receipt.json",
      "docs/minimal/s13_sweep_receipt.json",
@@ -115,16 +118,166 @@
      "1000 ms window",
      "prior FAIL receipts are not overwritten"
     ],
-    "procedure": "1. read the VIP u0, v0 defaults and their units from the JaxFNE convention, not from assumption; 2. commit docs/minimal/s13_vip_state_spec.json and push before any run; 3. one 1000 ms smoke; 4. commit docs/minimal/s13_vip_state_receipt.json separately; 5. score S-13 from that receipt only",
+    "procedure": "not authorized (superseded by MIN-08 and MIN-09)",
     "acceptance": "a receipt committed after the spec shows E, PV, SST and VIP each fire; S-13 scored",
     "stop_condition": "a VIP class still silent: STOP and report; no retune after results",
     "artifacts_expected": [
      "docs/minimal/s13_vip_state_spec.json",
      "docs/minimal/s13_vip_state_receipt.json"
     ],
+    "downstream_unlock": []
+   },
+  {
+    "id": "MIN-08",
+    "status": "DONE",
+    "receipt": "docs/minimal/s13_vip_drive_receipt.json (commit 1c44692): checks.VIP_window true, 5 of 5 VIP cells with at least 1 spike in 200-1000 ms",
+    "trigger": "owner 2026-11-02 (D1, D3, D9): VIP drive lineage on pinned jaxfne 0.5.8. VIP silence follows the preset rheobase (22.56), not u0 (orchestrator jchat #134, #137)",
+    "goal": "each of the 5 VIP cells has at least 1 spike in the 200-1000 ms window",
+    "parent_authority": "docs/OPEN_STACK.md D1, D3, D9; docs/minimal/s13_receipt.json and s13_sweep_receipt.json (FAIL, unchanged)",
+    "principal_delta": "VIP effective drive set to 25.0 (replaces tonic 3.0 + DC 1.0 = 4.0 on VIP cells); VIP u0 and v0 unchanged; no other class changes",
+    "required_inputs": [
+     "docs/OPEN_STACK.md",
+     "docs/minimal/s13_receipt.json",
+     "docs/minimal/s13_sweep_receipt.json",
+     "jomission/minimal/builder.py",
+     "jomission/minimal/smoke.py"
+    ],
+    "frozen": [
+     "N = 100, seed 0, MIN-02 connectivity rules",
+     "DEFAULT_HDP",
+     "DC 1.0 on E, PV and SST (unchanged)",
+     "1000 ms run, dt 0.1 ms",
+     "jaxfne 0.5.8 (owner 2026-11-02: no pin move)",
+     "E, PV and SST drives and labels",
+     "prior FAIL receipts are not overwritten"
+    ],
+    "procedure": "1. write docs/minimal/s13_vip_drive_spec.json: declare noise on or off (JaxFNE default is on, P12), dtype (JaxFNE default float32, P12), the 1000 ms run, the 200-1000 ms window, the criterion (each VIP cell at least 1 spike) and the realization (with_emitter_parameters, VIP rows only); commit and push before any run. 2. replace the untracked tests/test_minimal_vip_state.py with a VIP-drive realization test; run it against the unpatched build and require a failure; move the old test to _temp_delete/. 3. one 1000 ms smoke. 4. commit docs/minimal/s13_vip_drive_receipt.json separately. 5. score the VIP criterion from that receipt only",
+    "acceptance": "a receipt committed after the spec shows each of the 5 VIP cells with at least 1 spike in 200-1000 ms, with the VIP drive read back per cell; all-class S-13 is scored in MIN-09",
+    "stop_condition": "a VIP cell has no spike in 200-1000 ms: STOP and report; no retune after results",
+    "artifacts_expected": [
+     "docs/minimal/s13_vip_drive_spec.json",
+     "docs/minimal/s13_vip_drive_receipt.json"
+    ],
+    "downstream_unlock": [
+     "MIN-09"
+    ]
+   },
+  {
+    "id": "MIN-09",
+    "status": "BLOCKED",
+    "blocked_by": "owner decision: run at PV 5.0 (D2) or revise D2. MIN-08's all-class window counts (receipt all_class_each_cell_in_window true; PV min 15 spikes at PV 4.0, seed 0, noise on) bear on the knife-edge premise of D2",
+    "trigger": "owner 2026-11-02 (D2, D9): PV drive lineage after MIN-08. PV effective drive 4.0 sits on the saddle-node (rheobase 4.0)",
+    "goal": "S-13 scored on all four classes: E, PV, SST and VIP each have at least 1 spike per cell in 200-1000 ms",
+    "parent_authority": "MIN-08 receipt; docs/OPEN_STACK.md D2, D3, D9",
+    "principal_delta": "PV effective drive set to 5.0 (replaces tonic 3.0 + DC 1.0 = 4.0 on PV cells); PV u0 and v0 unchanged; VIP drive as in MIN-08",
+    "required_inputs": [
+     "docs/OPEN_STACK.md",
+     "jomission/minimal/builder.py"
+    ],
+    "frozen": [
+     "as MIN-08, with the VIP drive of the MIN-08 receipt",
+     "prior FAIL receipts are not overwritten"
+    ],
+    "procedure": "1. write docs/minimal/s13_pv_drive_spec.json with the MIN-08 declarations; commit and push before any run. 2. one 1000 ms smoke. 3. commit docs/minimal/s13_pv_drive_receipt.json separately. 4. score S-13 from that receipt only",
+    "acceptance": "a receipt committed after the spec shows E, PV, SST and VIP each with at least 1 spike per cell in 200-1000 ms; S-13 scored",
+    "stop_condition": "any cell silent in 200-1000 ms: STOP and report; no retune after results",
+    "artifacts_expected": [
+     "docs/minimal/s13_pv_drive_spec.json",
+     "docs/minimal/s13_pv_drive_receipt.json"
+    ],
     "downstream_unlock": [
      "MIN-04"
     ]
+   },
+  {
+    "id": "DOC-OWNER-ANSWERS",
+    "status": "OPEN",
+    "trigger": "owner answers 2026-11-02, not yet applied (docs/OPEN_STACK.md W5)",
+    "goal": "each recorded owner answer appears in the file it governs, and nothing else changes",
+    "parent_authority": "docs/OPEN_STACK.md D4, P2, P3, P7, W5",
+    "principal_delta": "text edits only; no code, no run, no sealed file",
+    "required_inputs": [
+     "docs/OPEN_STACK.md",
+     "AGENTS.md",
+     "docs/minimal/connectivity.json",
+     "docs/PLAN_MINIMAL_MODELS.md",
+     "docs/PLAN_DECISION_TREE.md"
+    ],
+    "frozen": [
+     "sealed artifacts listed in manifests/sealed_artifacts.json",
+     "gate thresholds"
+    ],
+    "procedure": "1. AGENTS.md line 17: G: provenance path to the E: clone (owner 2026-11-02). 2. D4 S-09 restatement: the owner's wording is not recorded in docs/OPEN_STACK.md; STOP and ask for it before editing. 3. connectivity.json: PV_to_VIP kept as a bound; VIP_to_VIP absent (text only). 4. P2, the sentence in docs/PLAN_MINIMAL_MODELS.md section 4a: an owner call; leave it for the owner. 5. docs/PLAN_DECISION_TREE.md: the S-13 lineage is named MIN-08 and MIN-09, not MIN-06 or MIN-07 (P7)",
+    "acceptance": "python scripts/project_check.py --offline --no-tests prints PROJECT_CHECK_PASS; each applied answer is found by grep in its file",
+    "stop_condition": "step 2 wording not recorded, or step 4 is not the owner's: STOP and ask",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+  {
+    "id": "CK-A-SCHEDULE-SPEC",
+    "status": "OPEN",
+    "trigger": "owner 2026-11-02 (D8): CK-A naive arm has no exposure; trial order random, seed 0. The schedule spec is still pending (docs/OPEN_STACK.md W7)",
+    "goal": "a committed pre-execution spec for the CK-A habituation schedule, unblocking MIN-04",
+    "parent_authority": "docs/OPEN_STACK.md D8; docs/PLAN_MINIMAL_MODELS.md section 1",
+    "principal_delta": "spec only; no run",
+    "required_inputs": [
+     "docs/PLAN_MINIMAL_MODELS.md",
+     "docs/OPEN_STACK.md"
+    ],
+    "frozen": [
+     "naive arm: no exposure",
+     "trial order random, seed 0",
+     "omission firewall: no omission outcome in the Pages"
+    ],
+    "procedure": "write docs/minimal/ck_a_schedule_spec.json from the owner's stated parameters: trial 4.624 s; ITI uniform 1000-2000 ms; 12 canonical conditions; 960 no-omission trials. The total trial count (1000 in the owner's first statement) is to be confirmed. Re-state the parameters to the owner and get confirmation before committing; commit and push before any run",
+    "acceptance": "the spec is committed and pushed; a schedule check prints the trial, condition and no-omission counts, each equal to the confirmed parameters",
+    "stop_condition": "any parameter not confirmed by the owner: STOP and ask",
+    "artifacts_expected": [
+     "docs/minimal/ck_a_schedule_spec.json"
+    ],
+    "downstream_unlock": [
+     "MIN-04"
+    ]
+   },
+  {
+    "id": "PV-M0-STATES-CORRECTION",
+    "status": "OPEN",
+    "trigger": "owner 2026-11-02 (D10): sealed PV results cite .npz states whose folder is empty; accepted as unrecoverable",
+    "goal": "an additive correction record states the citation is unrecoverable; no sealed file changes",
+    "parent_authority": "manifests/local_inputs.json (missing PV_M0_STATES); docs/OPEN_STACK.md D10",
+    "principal_delta": "one additive correction record; nothing regenerated",
+    "required_inputs": [
+     "manifests/local_inputs.json",
+     "manifests/sealed_artifacts.json"
+    ],
+    "frozen": [
+     "results/v21_pv_m0_r2.json, results/v21_pv_microstate.json and results/v21_pv_predecessor.json never change"
+    ],
+    "procedure": "1. read the correction convention in manifests/sealed_artifacts.json. 2. add one additive correction record naming the three sealed results and the missing PV_M0_STATES folder. 3. commit only at wrap-up or on request",
+    "acceptance": "project_check prints PROJECT_CHECK_PASS; the sealed-artifact hashes are unchanged",
+    "stop_condition": "no correction convention in the manifests: STOP and ask",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+  {
+    "id": "JARNESS-SUBAGENT-CAP",
+    "status": "BLOCKED",
+    "blocked_by": "the jarness clone is not located from this session; the jarness repo is not edited here",
+    "trigger": "owner 2026-11-02 (D6): Haiku 5.5 subagents up to 8; other models 3. The jarness rules still say 3 (docs/OPEN_STACK.md W6)",
+    "goal": "the jarness rules state the owner's cap, and AGENTS.md matches it",
+    "parent_authority": "docs/OPEN_STACK.md D6; AGENTS.md Project Rules",
+    "principal_delta": "the subagent cap line in the jarness repo only",
+    "required_inputs": [
+     "AGENTS.md"
+    ],
+    "frozen": [
+     "other jarness rules unchanged"
+    ],
+    "procedure": "in the jarness repo: edit the cap line, pass harness/lint.py, the tests and harness/audit.py, pin harness/quality-skills/SHA256SUMS, push, then rerun the installer. Never edit ~/.claude directly",
+    "acceptance": "harness/audit.py prints VERDICT: ACCEPT in the jarness repo, and the installed copy matches",
+    "stop_condition": "jarness repo not reachable: STOP and report",
+    "artifacts_expected": [],
+    "downstream_unlock": []
    },
   {
     "id": "SCI-V21C-COMPOSITION",

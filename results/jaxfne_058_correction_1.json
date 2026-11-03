@@ -1,0 +1,35 @@
+{
+  "schema": "jomission.jaxfne_058_correction.v1",
+  "corrects": "results/jaxfne_058_migration.json",
+  "date_utc": "2026-11-03",
+  "reason": "Review of the migration record against the repo at a9fcb65 found stale tier counts, a stale plotly unknown, a stale edge-identity note, and a verdict that predates later owner decisions. This record supersedes those fields; the original record is unchanged (sealed).",
+  "current_state_at_a9fcb65": {
+    "tier0": "208 passed, 0 failed (rerun at a9fcb65)",
+    "tier1_non_simulating": "45 passed, 1 skipped, 0 failed (rerun at a9fcb65)",
+    "tier2": "405 passed, 3 skipped, 0 failed (run on 588da38; the later commits 5d4e684 and a9fcb65 are docs-only)",
+    "project_check": "PROJECT_CHECK_PASS at a9fcb65",
+    "ci_tier0": "success on the current PR head (GitHub check run 126236521645)"
+  },
+  "supersedes": {
+    "tier2 402 passed": "superseded by 405 passed on 588da38",
+    "tier1 2 failed (UnicodeDecodeError)": "superseded: all three sealed v21b/v21c reads use cp1252; test_v21b_operation.py allowlist updated by owner decision; tier 1 has 0 failures",
+    "unknown: plotly not declared in pyproject": "resolved: plotly>=5 is in the dev extra (commit 5efc892)",
+    "receipts.edge_identity: scratch script not committed": "superseded: scripts/jaxfne_edge_identity.py is committed (5efc892) and reproduced at a9fcb65: baseline d3eaa4f dump 10666 edges under 0.4.25; head dump 10666 edges under 0.5.8; compare: 15 fields, none mismatched, exit 0",
+    "unknown: needs owner decision (Unicode)": "resolved by owner decision Q3 (allowlist update)",
+    "verdict: Tier 1 is NOT accepted": "superseded: tier 1 passes at head",
+    "unknown: tier 3 not run": "still not run; the owner declined tier-3 authorization on 2026-11-03"
+  },
+  "owner_decisions_2026_11_03": [
+    "0.5.8 is the source of truth (migration accepted)",
+    "Q1 frozen canonical hash: accept new value 05f3d334451c53d2",
+    "Q2 tier 2: run now (done)",
+    "Q3 Unicode in test_v21b_operation.py: allowlist update (applied)",
+    "Q4 PR body update (applied; refreshed at a9fcb65)",
+    "lite model: two areas V1 and V4 at n_per_area=100 (200 neurons)",
+    "tier 3: not authorized"
+  ],
+  "still_open": [
+    "tier 3 (owner declined)",
+    "'minimal' model definition used in the checklist is an assumption, not an owner definition"
+  ]
+}

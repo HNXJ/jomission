@@ -2,16 +2,16 @@
 
 Scope: jaxfne 0.5.8 migration, minimal and lite jomission models, and the project checks they touch.
 50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
-Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
+Scored on a9fcb65 after a full review (reproduction, CI, record audit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
-**Current score: 98/100**
+**Current score: 96/100**
 
 | # | Objective | Score (of 2) | Evidence |
 |---|---|---|---|
 | 1 | jaxfne pinned 0.5.8 in pyproject.toml | 2 | pyproject.toml:18 |
 | 2 | installed engine = pin = execution authority | 2 | project_check: jaxfne identity 0.5.8 |
 | 3 | current_state execution_authority evidence = 0.5.8 record | 2 | manifests/current_state.json |
-| 4 | 0.5.8 migration record has delta, tiers, unknowns, verdict | 2 | results/jaxfne_058_migration.json |
+| 4 | 0.5.8 migration record has delta, tiers, unknowns, verdict | 2 | results/jaxfne_058_migration.json (sealed) + results/jaxfne_058_correction_1.json (registered); correction supersedes stale fields |
 | 5 | migration record registered in sealed registry (append-only) | 2 | manifests/sealed_artifacts.json |
 | 6 | edge-identity comparison script committed as receipt | 2 | scripts/jaxfne_edge_identity.py (dump/compare receipt) |
 | 7 | canonical EdgeList identical to 0.4.25 baseline (15 fields) | 2 | comparison run; 10666 edges, all fields equal |
@@ -23,8 +23,8 @@ Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted a
 | 13 | field() uses realized proxy form (source_mode removed) | 2 | builder.py; runtime_regression |
 | 14 | Retina declared in areas metadata | 2 | scripts/whole_system_ei_native_state_arm.py |
 | 15 | per-trial runtime seed equals Simulation seed | 2 | jomission/simulation/exposure.py |
-| 16 | tier 0 passes on final state | 2 | 208 passed (cb15a79) |
-| 17 | tier 1 (non-simulating) passes | 2 | tier 1 non-simulating: 45 passed, 1 skipped, 0 failed (51b5685) |
+| 16 | tier 0 passes on final state | 2 | tier 0: 208 passed at a9fcb65 |
+| 17 | tier 1 (non-simulating) passes | 2 | tier 1 non-simulating: 45 passed, 1 skipped, 0 failed at a9fcb65 |
 | 18 | tier 2 passes on final state | 2 | tier 2 on 588da38: 405 passed, 3 skipped, 0 failed |
 | 19 | tier 3 authorized and run | 0 | owner declined tier-3 authorization (2026-11-03); blocked by owner |
 | 20 | sealed v21b Unicode read failures fixed | 2 | all three v21b/v21c sealed reads fixed cp1252; reseals recorded; allowlist owner-approved |
@@ -35,34 +35,35 @@ Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted a
 | 25 | plotly declared in pyproject | 2 | pyproject.toml dev extra: plotly>=5 |
 | 26 | handoff regenerated and state test passes | 2 | docs/HANDOFF_CURRENT.md |
 | 27 | sealed-artifact and call-site guards pass | 2 | test_harness_guards: 21 passed |
-| 28 | project_check full PASS | 2 | PROJECT_CHECK_PASS on cb15a79 |
+| 28 | project_check full PASS | 2 | PROJECT_CHECK_PASS at a9fcb65 |
 | 29 | scientific head ancestry check passes | 2 | project_check: main be0db96 in history |
 | 30 | todo / current_state consistent | 2 | project_check: todo, current_state [ok] |
-| 31 | working tree clean and pushed | 2 | cb15a79 pushed |
+| 31 | working tree clean and pushed | 2 | tree clean at a9fcb65 (verified in review) |
 | 32 | draft PR #1 exists for designated branch | 2 | HNXJ/jomission#1 |
-| 33 | PR #1 body reflects final state | 2 | PR #1 body rewritten to current state |
-| 34 | PR checks green | 2 | CI tier0 success on ddbadbf (.github/workflows/project-check.yml) |
-| 35 | commit messages follow attribution rules | 2 | no model identifier in commits |
+| 33 | PR #1 body reflects final state | 2 | PR #1 body refreshed to a9fcb65 state (review) |
+| 34 | PR checks green | 2 | CI tier0 success on current head (check run 126236521645) |
+| 35 | commit messages follow attribution rules | 2 | no model identifier in commits (system rule); Claude-Session trailer on every commit; Co-Authored-By model line deliberately omitted |
 | 36 | work on designated branch (not _temp) | 2 | cowork/focused-ptolemy-dz7hwc |
 | 37 | exposure.py continuation defect fixed | 2 | exposure.py one call per trial; tests/test_exposure_continuation.py fails on old code, passes on fix |
 | 38 | known defects recorded in migration record | 2 | coverage_loss, known_defects_out_of_scope |
-| 39 | jaxfne refusals audited against its rules, no unreported defect | 2 | docs/JAXFNE_058_AUDIT.md (each refusal with rule and source) |
+| 39 | jaxfne refusals audited against its rules, no unreported defect | 1 | docs/JAXFNE_058_AUDIT.md: every refusal audited against its rule; 'no unreported defect' NOT checked against an issue tracker (scored 1) |
 | 40 | owner Q1 (frozen hash) applied | 2 | accepted new hash |
 | 41 | owner Q2 (tier 2) applied | 2 | tier 2 run and recorded |
 | 42 | owner Q3 (Unicode fix) applied | 2 | owner Q3 applied: allowlist update for test_v21b_operation.py |
 | 43 | owner Q4 (PR body update) applied | 2 | owner Q4 applied: PR #1 body updated |
 | 44 | owner order: 0.5.8 adopted as source of truth | 2 | authority promoted |
 | 45 | cloud setup handout documented | 2 | docs/CLOUD_HANDOUT.md written |
-| 46 | checklist-score.md exists and is scored from evidence | 2 | this file |
+| 46 | checklist-score.md exists and is scored from evidence | 2 | this file; scores re-verified at a9fcb65 in review |
 | 47 | no sealed result recomputed | 2 | sealed artifacts unchanged apart from documented reseals |
 | 48 | pre-existing sealed-file defect flagged to owner | 2 | reported with options |
-| 49 | minimal jomission model (n_per_area=100) builds and passes tier 2 on 0.5.8 | 2 | canonical 400-neuron build; tier 2 402 passed |
+| 49 | minimal jomission model (n_per_area=100) builds and passes tier 2 on 0.5.8 | 1 | minimal = canonical 400-neuron build: an assumed definition, not owner-defined (scored 1 pending owner confirmation) |
 | 50 | lite jomission model (V1+V4, 200 neurons) defined and builds on 0.5.8 | 2 | build_jomission_lite_model: V1+V4, n_per_area=100 (200 neurons); tests/test_lite_model.py |
 
-## Changes in this revision
-- Removed: scientific gate V2_LOCAL_OPERATION (outside this migration) and the duplicate jaxfne-defect item.
-- Added: minimal model (passes); lite model (not defined in the repo, scored 0).
-- Re-scored: tier 1, Unicode fix (two of three files), owner Q3, jaxfne audit.
+## Changes in this revision (review at a9fcb65)
+- Re-verified at head: tier 0, tier 1, project check, CI, edge identity (reproduced from baseline d3eaa4f).
+- Downgraded: item 39 (no unreported-defect check) and item 49 (minimal definition is an assumption).
+- Record correction: results/jaxfne_058_correction_1.json supersedes stale fields of the sealed migration record; item 4 stays 2 on that basis.
+- Evidence refreshed for items 16, 17, 18, 28, 31, 33, 34, 46.
 
 ## Status
-- 98/100. The only open item is 19 (tier 3), which the owner declined to authorize on 2026-11-03. Nothing else is open in the checklist.
+- 96/100. Open: item 19 (tier 3, owner declined, 2 points); item 39 (check unreported jaxfne defects against an issue tracker, 1 point); item 49 (owner to confirm the 'minimal' definition, 1 point).

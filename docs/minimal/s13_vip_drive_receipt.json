@@ -1,0 +1,89 @@
+{
+  "schema": "jomission.minimal_s13_vip_drive_receipt.v1",
+  "status": "MIN-08 receipt: checks.VIP_window is the scored check; all-class window counts are reported only",
+  "spec": "docs/minimal/s13_vip_drive_spec.json",
+  "n_neurons": 100,
+  "seed": 0,
+  "duration_ms": 1000.0,
+  "dt_ms": 0.1,
+  "window_ms": [
+    200.0,
+    1000.0
+  ],
+  "vip_drive": 25.0,
+  "dc_current": 1.0,
+  "noise_scale": null,
+  "runtime_dtype": "float32",
+  "connectivity_sha256": "91d1b0adeb44c0f32421c2994031d222153fd998f98f6c530f435a384b555db4",
+  "classes": {
+    "E": {
+      "n": 75,
+      "tonic_mean": 5.0,
+      "effective_mean": 6.0,
+      "window_spikes_min_per_cell": 10,
+      "silent_in_window": 0,
+      "mean_Hz_window": 12.733
+    },
+    "PV": {
+      "n": 11,
+      "tonic_mean": 3.0,
+      "effective_mean": 4.0,
+      "window_spikes_min_per_cell": 15,
+      "silent_in_window": 0,
+      "mean_Hz_window": 21.932
+    },
+    "SST": {
+      "n": 9,
+      "tonic_mean": 3.5,
+      "effective_mean": 4.5,
+      "window_spikes_min_per_cell": 28,
+      "silent_in_window": 0,
+      "mean_Hz_window": 35.556
+    },
+    "VIP": {
+      "n": 5,
+      "tonic_mean": 3.0,
+      "effective_mean": 25.0,
+      "window_spikes_min_per_cell": 10,
+      "silent_in_window": 0,
+      "mean_Hz_window": 12.5
+    }
+  },
+  "vip_cells": [
+    {
+      "index": 95,
+      "drive": 25.0,
+      "window_spikes": 10,
+      "first_spike_ms": 0.4
+    },
+    {
+      "index": 96,
+      "drive": 25.0,
+      "window_spikes": 10,
+      "first_spike_ms": 0.6
+    },
+    {
+      "index": 97,
+      "drive": 25.0,
+      "window_spikes": 10,
+      "first_spike_ms": 0.3
+    },
+    {
+      "index": 98,
+      "drive": 25.0,
+      "window_spikes": 10,
+      "first_spike_ms": 3.0
+    },
+    {
+      "index": 99,
+      "drive": 25.0,
+      "window_spikes": 10,
+      "first_spike_ms": 0.2
+    }
+  ],
+  "all_class_each_cell_in_window": true,
+  "checks": {
+    "VIP_window": true,
+    "VIP_drive_realized": true
+  }
+}

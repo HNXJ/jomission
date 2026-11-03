@@ -2,7 +2,7 @@ name: pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, cowork/focused-ptolemy-dz7hwc]
   workflow_dispatch:
 
 permissions:
@@ -28,6 +28,11 @@ jobs:
           python-version: "3.12"
       - name: Build atlas site
         run: python scripts/build_pages.py --out site
+      - name: Publish dashboard (regenerated from receipts; not part of build_pages allowlist)
+        run: |
+          python scripts/build_dashboard.py
+          mkdir -p site/dashboard
+          cp docs/DASHBOARD.html site/dashboard/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

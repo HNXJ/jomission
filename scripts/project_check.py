@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-SSH_REMOTE = "git@github.com:HNXJ/jomission.git"
+SSH_REMOTE = os.environ.get("JOMISSION_REMOTE", "git@github.com:HNXJ/jomission.git")  # CI sets an https URL
 
 
 def git(*a):

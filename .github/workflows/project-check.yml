@@ -23,6 +23,8 @@ jobs:
           . .venv/bin/activate
           pip install -e ".[dev]"
       - name: Project check (includes tier-0 tests)
+        env:
+          JOMISSION_REMOTE: https://github.com/HNXJ/jomission.git
         run: |
           . .venv/bin/activate
           python scripts/project_check.py

@@ -4,7 +4,7 @@ Scope: jaxfne 0.5.8 migration (items 1-50, 80 points) and the dashboard (items 5
 Migration items: 1.6 points each (50 x 1.6 = 80). Dashboard items: 2 points each (10 x 2 = 20). Sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
 Scored on a9fcb65 after a full review (reproduction, CI, record audit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
-**Current score: 97.6/100**
+**Current score: 98.4/100**
 
 | # | Objective | Score (of 2) | Evidence |
 |---|---|---|---|
@@ -46,7 +46,7 @@ Scored on a9fcb65 after a full review (reproduction, CI, record audit). The chec
 | 36 | work on designated branch (not _temp) | 1.6 | cowork/focused-ptolemy-dz7hwc |
 | 37 | exposure.py continuation defect fixed | 1.6 | exposure.py one call per trial; tests/test_exposure_continuation.py fails on old code, passes on fix |
 | 38 | known defects recorded in migration record | 1.6 | coverage_loss, known_defects_out_of_scope |
-| 39 | jaxfne refusals audited against its rules, no unreported defect | 0.8 | docs/JAXFNE_058_AUDIT.md: every refusal audited against its rule; 'no unreported defect' NOT checked against an issue tracker (scored 1) |
+| 39 | jaxfne refusals audited against its rules, no unreported defect | 1.6 | docs/JAXFNE_058_AUDIT.md (each refusal with rule and source); HNXJ/jaxfne issue tracker has 0 issues (119 entries, all PRs, read via gh api after add_repo with push access); scope: the refusals encountered |
 | 40 | owner Q1 (frozen hash) applied | 1.6 | accepted new hash |
 | 41 | owner Q2 (tier 2) applied | 1.6 | tier 2 run and recorded |
 | 42 | owner Q3 (Unicode fix) applied | 1.6 | owner Q3 applied: allowlist update for test_v21b_operation.py |
@@ -77,4 +77,4 @@ Scored on a9fcb65 after a full review (reproduction, CI, record audit). The chec
 - Evidence refreshed for items 16, 17, 18, 28, 31, 33, 34, 46.
 
 ## Status
-- 97.6/100. Open: item 19 (tier 3, owner declined, 1.6 points); item 39 (jaxfne issue check, 0.8 points, blocked: this session has no GitHub API access to HNXJ/jaxfne).
+- 98.4/100. Open: item 19 (tier 3, owner declined, 1.6 points). Nothing else is open.

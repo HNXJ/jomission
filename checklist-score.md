@@ -4,7 +4,7 @@ Scope: jaxfne 0.5.8 migration, minimal and lite jomission models, and the projec
 50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
 Scored on 1011990 (tier 2 rerun on this commit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
-**Current score: 96/100**
+**Current score: 98/100**
 
 | # | Objective | Score (of 2) | Evidence |
 |---|---|---|---|
@@ -57,7 +57,7 @@ Scored on 1011990 (tier 2 rerun on this commit). The checklist may be adjusted a
 | 47 | no sealed result recomputed | 2 | sealed artifacts unchanged apart from documented reseals |
 | 48 | pre-existing sealed-file defect flagged to owner | 2 | reported with options |
 | 49 | minimal jomission model (n_per_area=100) builds and passes tier 2 on 0.5.8 | 2 | canonical 400-neuron build; tier 2 402 passed |
-| 50 | lite jomission model defined and builds on 0.5.8 | 0 | 'lite' not defined in repo; builder refuses n_per_area<100 |
+| 50 | lite jomission model (V1+V4, 200 neurons) defined and builds on 0.5.8 | 2 | build_jomission_lite_model: V1+V4, n_per_area=100 (200 neurons); tests/test_lite_model.py |
 
 ## Changes in this revision
 - Removed: scientific gate V2_LOCAL_OPERATION (outside this migration) and the duplicate jaxfne-defect item.
@@ -65,5 +65,4 @@ Scored on 1011990 (tier 2 rerun on this commit). The checklist may be adjusted a
 - Re-scored: tier 1, Unicode fix (two of three files), owner Q3, jaxfne audit.
 
 ## Next to raise the score
-- Tier 3 (item 19; 2 points): needs an authorizing lineage from the owner.
-- Lite model (item 50; 2 points): not defined in this repo or in jaxfne. Give a definition.
+- Tier 3 (item 19; 2 points): needs an authorizing lineage from the owner. Nothing else is open in the checklist.

@@ -2220,3 +2220,11 @@ def validate_network(n_per_area: int = 100) -> dict[str, Any]:
     if total != n_per_area * 4:
         issues.append(f"total n {total} != {n_per_area * 4}")
     return {"valid": not issues, "issues": issues, "columns": names, "total_n": total}
+
+
+def build_jomission_lite_model(*, seed: int = 0) -> jtfne.Model:
+    """Lite model: the canonical builder restricted to areas V1 and V4 at n_per_area=100 (200 neurons).
+
+    Same cell types, layers, locality and delay rules as the canonical model; only the area set is reduced.
+    """
+    return build_jomission_model(n_per_area=100, areas=("V1", "V4"), seed=seed)

@@ -164,7 +164,8 @@
    },
   {
     "id": "PV-SEEDS-4",
-    "status": "OPEN",
+    "status": "DONE",
+    "result": "5 of 5 seeds pass all_class_each_cell_in_window (docs/minimal/pv_seeds/s13_vip_drive_seed0..4.json): every cell of E, PV, SST and VIP has at least 1 spike in 200-1000 ms. Minimum window spikes: PV 14-19, VIP 9-10. No silent cell",
     "trigger": "owner 2026-11-03: test PV 4.0 across seeds 0-4 before any PV drive change. MIN-08 (seed 0) already shows every PV cell firing at 4.0 (receipt all_class_each_cell_in_window true)",
     "goal": "with the MIN-08 configuration, every cell of E, PV, SST and VIP has at least 1 spike in 200-1000 ms on each of seeds 0-4",
     "parent_authority": "docs/minimal/pv_seed_spec.json; docs/minimal/s13_vip_drive_spec.json (MIN-08); docs/OPEN_STACK.md D2",
@@ -194,7 +195,7 @@
   {
     "id": "MIN-09",
     "status": "BLOCKED",
-    "blocked_by": "PV-SEEDS-4 result and the owner's decision on D2 (PV 5.0 or revise)",
+    "blocked_by": "owner decision on D2: PV 5.0 (run MIN-09) or PV 4.0 (drop D2). PV-SEEDS-4 passes 5 of 5 seeds at 4.0",
     "trigger": "owner 2026-11-02 (D2, D9): PV drive lineage after MIN-08. PV effective drive 4.0 sits on the saddle-node (rheobase 4.0)",
     "goal": "S-13 scored on all four classes: E, PV, SST and VIP each have at least 1 spike per cell in 200-1000 ms",
     "parent_authority": "MIN-08 receipt; docs/OPEN_STACK.md D2, D3, D9",
@@ -710,5 +711,5 @@
    }
   }
      ],
-   "next_authorized_task": "PV-SEEDS-4"
+   "next_authorized_task": null
 }

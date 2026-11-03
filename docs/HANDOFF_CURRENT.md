@@ -85,7 +85,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `NONE` (no task currently open; awaiting reviewer direction)
+- `PV-SEEDS-4` (OPEN): with the MIN-08 configuration, every cell of E, PV, SST and VIP has at least 1 spike in 200-1000 ms on each of seeds 0-4
+- stop: a seed failing: report the class and cell; no retune and no drive change in this item
 
 ### Locked gates
 

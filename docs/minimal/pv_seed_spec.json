@@ -1,0 +1,56 @@
+{
+  "schema": "jomission.minimal_pv_seed_spec.v1",
+  "id": "PV-SEEDS-4",
+  "status": "PRE-EXECUTION SPEC: committed before any run; no PV-SEEDS-4 receipt exists",
+  "owner_decision_2026-11-03": "owner chose 'test PV 4.0 across seeds 0-4 first' over running MIN-09 at PV 5.0 (D2). The knife-edge premise of D2 is tested on independent seeds before any PV drive change",
+  "question": "with the MIN-08 configuration (VIP effective drive 25.0, E/PV/SST at tonic + 1.0, so PV effective 4.0), does every cell of every class fire in the 200-1000 ms window on each of seeds 0, 1, 2, 3 and 4?",
+  "parent": {
+    "config": "docs/minimal/s13_vip_drive_spec.json (MIN-08), unchanged except the seed",
+    "seed0_receipt": "docs/minimal/s13_vip_drive_receipt.json (commit 1c44692)"
+  },
+  "engine": "jaxfne 0.5.8 (no pin move); noise_scale None (JaxFNE default); runtime dtype float32",
+  "model": {
+    "builder": "jomission.minimal.builder.build_minimal_model",
+    "n": 100,
+    "seeds": [0, 1, 2, 3, 4],
+    "connectivity": "docs/minimal/connectivity.json (MIN-02 rules as recorded)",
+    "hdp": "jaxfne.hdp_network.DEFAULT_HDP",
+    "duration_ms": 1000.0,
+    "dt_ms": 0.1
+  },
+  "drive": {
+    "VIP": "25.0 effective (MIN-08)",
+    "E_PV_SST": "tonic + 1.0 (PV effective 4.0)",
+    "realization": "jomission.minimal.s13_vip_drive.realize_vip_drive, unchanged"
+  },
+  "criterion": {
+    "window_ms": [200.0, 1000.0],
+    "per_cell": "every cell of E, PV, SST and VIP has at least 1 spike in the window",
+    "scored_from": "each receipt's all_class_each_cell_in_window, one per seed",
+    "pass": "all five seeds pass; any seed failing is reported with its class and cell"
+  },
+  "receipts": {
+    "paths": [
+      "docs/minimal/pv_seeds/s13_vip_drive_seed0.json",
+      "docs/minimal/pv_seeds/s13_vip_drive_seed1.json",
+      "docs/minimal/pv_seeds/s13_vip_drive_seed2.json",
+      "docs/minimal/pv_seeds/s13_vip_drive_seed3.json",
+      "docs/minimal/pv_seeds/s13_vip_drive_seed4.json"
+    ],
+    "command": "python -m jomission.minimal.s13_vip_drive --seed S --out docs/minimal/pv_seeds/s13_vip_drive_seedS.json, for S in 0 1 2 3 4, one process at a time, detached",
+    "commit": "the five receipts in one commit after all five exist"
+  },
+  "search": {
+    "parameters": [],
+    "grid": null,
+    "note": "no drive value is varied; PV stays at 4.0. A PV change, if any, is a new spec (MIN-09, owner decision D2)"
+  },
+  "stop_condition": "a seed failing the criterion: report the class and cell; no retune and no drive change in this item",
+  "frozen": [
+    "N = 100, connectivity, DEFAULT_HDP, jaxfne 0.5.8",
+    "VIP 25.0, E/PV/SST at tonic + 1.0",
+    "1000 ms, dt 0.1 ms, window 200-1000 ms",
+    "seeds 0-4 only"
+  ],
+  "reported_not_gated": "class rates against the bands PV 12-25 Hz, VIP 8-15 Hz, SST 6-12 Hz (plan decision 3)"
+}

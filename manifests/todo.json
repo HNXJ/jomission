@@ -163,9 +163,38 @@
     ]
    },
   {
+    "id": "PV-SEEDS-4",
+    "status": "OPEN",
+    "trigger": "owner 2026-11-03: test PV 4.0 across seeds 0-4 before any PV drive change. MIN-08 (seed 0) already shows every PV cell firing at 4.0 (receipt all_class_each_cell_in_window true)",
+    "goal": "with the MIN-08 configuration, every cell of E, PV, SST and VIP has at least 1 spike in 200-1000 ms on each of seeds 0-4",
+    "parent_authority": "docs/minimal/pv_seed_spec.json; docs/minimal/s13_vip_drive_spec.json (MIN-08); docs/OPEN_STACK.md D2",
+    "principal_delta": "none: the configuration is MIN-08's; the seed is the only varied input",
+    "required_inputs": [
+     "docs/minimal/pv_seed_spec.json",
+     "docs/minimal/s13_vip_drive_spec.json",
+     "jomission/minimal/s13_vip_drive.py"
+    ],
+    "frozen": [
+     "as MIN-08: N = 100, connectivity, DEFAULT_HDP, jaxfne 0.5.8, VIP 25.0, E/PV/SST at tonic + 1.0, window 200-1000 ms"
+    ],
+    "procedure": "1. commit docs/minimal/pv_seed_spec.json and this item before any run. 2. add --seed to jomission/minimal/s13_vip_drive.py, one process at a time, detached. 3. run seeds 0-4 into docs/minimal/pv_seeds/. 4. commit the five receipts together. 5. score per seed from all_class_each_cell_in_window",
+    "acceptance": "five receipts committed after the spec; every seed has all_class_each_cell_in_window true, or the failing class and cell are reported",
+    "stop_condition": "a seed failing: report the class and cell; no retune and no drive change in this item",
+    "artifacts_expected": [
+     "docs/minimal/pv_seeds/s13_vip_drive_seed0.json",
+     "docs/minimal/pv_seeds/s13_vip_drive_seed1.json",
+     "docs/minimal/pv_seeds/s13_vip_drive_seed2.json",
+     "docs/minimal/pv_seeds/s13_vip_drive_seed3.json",
+     "docs/minimal/pv_seeds/s13_vip_drive_seed4.json"
+    ],
+    "downstream_unlock": [
+     "MIN-09"
+    ]
+   },
+  {
     "id": "MIN-09",
     "status": "BLOCKED",
-    "blocked_by": "owner decision: run at PV 5.0 (D2) or revise D2. MIN-08's all-class window counts (receipt all_class_each_cell_in_window true; PV min 15 spikes at PV 4.0, seed 0, noise on) bear on the knife-edge premise of D2",
+    "blocked_by": "PV-SEEDS-4 result and the owner's decision on D2 (PV 5.0 or revise)",
     "trigger": "owner 2026-11-02 (D2, D9): PV drive lineage after MIN-08. PV effective drive 4.0 sits on the saddle-node (rheobase 4.0)",
     "goal": "S-13 scored on all four classes: E, PV, SST and VIP each have at least 1 spike per cell in 200-1000 ms",
     "parent_authority": "MIN-08 receipt; docs/OPEN_STACK.md D2, D3, D9",
@@ -681,5 +710,5 @@
    }
   }
      ],
-   "next_authorized_task": null
+   "next_authorized_task": "PV-SEEDS-4"
 }

@@ -1,0 +1,74 @@
+{
+  "schema": "jomission.minimal_s13_vip_drive_spec.v1",
+  "id": "MIN-08",
+  "status": "PRE-EXECUTION SPEC: committed before any run; no MIN-08 receipt exists",
+  "owner_decisions_2026-11-02": "D1: S-13 next step is a new spec with VIP drive above the 0.5.8 rheobase (22.56); the u0 change is withdrawn. D3: window 200-1000 ms, each cell at least 1 spike. D9: two lineages, VIP first. VIP effective drive 25.0 (owner's choice from the orchestrator's single-cell probe, jchat #135-#137)",
+  "superseded_spec": "docs/minimal/s13_vip_state_spec.json (MIN-07): the u0 = -13.0 change is withdrawn; not run",
+  "parent_receipts": [
+    "docs/minimal/s13_receipt.json (02e4f51, S-13 FAIL; stays as recorded)",
+    "docs/minimal/s13_sweep_receipt.json (6a6fd74, S-13 FAIL at all five VIP extra points; stays as recorded)"
+  ],
+  "engine": {
+    "jaxfne": "0.5.8 (pyproject.toml; owner 2026-11-02: no pin move)",
+    "basis": "the standard Izhikevich equation, rheobase 22.56 for the VIP preset (orchestrator jchat #134; P-054 class-1 change is in dee12f9e, not on this pin)"
+  },
+  "model": {
+    "builder": "jomission.minimal.builder.build_minimal_model",
+    "n": 100,
+    "seed": 0,
+    "connectivity": "docs/minimal/connectivity.json (MIN-02 rules as recorded)",
+    "hdp": "jaxfne.hdp_network.DEFAULT_HDP (owner decision 2)",
+    "duration_ms": 1000.0,
+    "dt_ms": 0.1
+  },
+  "drive": {
+    "name": "emitter drive per neuron",
+    "E_PV_SST": "tonic + 1.0 (DC 1.0, unchanged from s13_receipt.json)",
+    "VIP": "25.0 effective, replacing tonic + 1.0 (= 4.0) on the 5 VIP neurons",
+    "units": "JaxFNE native Izhikevich current, uncalibrated; no pA mapping (as in docs/minimal/s13_spec.json)",
+    "realization": "jomission.minimal.s13_vip_drive.realize_vip_drive: drive_per_neuron = where(VIP, 25.0, tonic + 1.0), applied with model.with_emitter_parameters. VIP u0 and v0 unchanged"
+  },
+  "noise": {
+    "declared": "JaxFNE default, noise_scale None: the historical 0.5 at the reference step 0.5 ms, realized as 0.5 * sqrt(0.5 / dt_ms) = 1.118 per step at dt 0.1 (jaxfne emitters.py, noise_scale docstring)",
+    "run_setting": "no noise_scale argument is passed; the receipt records noise_scale as null"
+  },
+  "dtype": {
+    "declared": "float32",
+    "basis": "jaxfne RuntimeConfig default dtype 'float32' (_construct_presets.py); minimal_runtime passes no dtype",
+    "receipt": "the receipt records the runtime dtype it reads back"
+  },
+  "criterion": {
+    "id": "MIN-08 VIP window",
+    "window_ms": [200.0, 1000.0],
+    "per_cell": "each of the 5 VIP neurons has at least 1 spike with time index in [200, 1000) ms",
+    "scored_from": "docs/minimal/s13_vip_drive_receipt.json checks.VIP_window only",
+    "all_class_S13": "reported in the receipt, not scored here; the all-class S-13 is scored in MIN-09 (D3 applies to all classes)"
+  },
+  "search": {
+    "parameters": [],
+    "grid": null,
+    "note": "one point: VIP effective drive 25.0. Options 23.0 (4 spikes, probe) and 30.0 (22 spikes, probe) were not run"
+  },
+  "receipt": {
+    "path": "docs/minimal/s13_vip_drive_receipt.json",
+    "command": "python -m jomission.minimal.s13_vip_drive (written with the implementation, after the realization test is red)",
+    "must_hold": [
+      "per VIP neuron: the drive read back from the built model, the window spike count and the first spike time",
+      "drive_mean_by_class, tonic and effective",
+      "runtime dtype and noise_scale",
+      "checks.VIP_window",
+      "all-class window counts, reported only"
+    ]
+  },
+  "stop_condition": "a VIP neuron with no spike in [200, 1000) ms: STOP and report; no retune after results; the owner decides any next lineage",
+  "frozen": [
+    "N = 100, seed 0, MIN-02 connectivity rules",
+    "DEFAULT_HDP",
+    "E, PV and SST drives: tonic + 1.0",
+    "VIP u0 and v0 (builder defaults)",
+    "1000 ms run, dt 0.1 ms",
+    "jaxfne 0.5.8",
+    "the S-13 pass rule of s13_spec.json, for reporting only"
+  ],
+  "reported_not_gated": "class rates against the bands PV 12-25 Hz, VIP 8-15 Hz, SST 6-12 Hz (plan decision 3)"
+}

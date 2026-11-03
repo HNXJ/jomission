@@ -20,7 +20,7 @@ dependencies = [
 keywords = ["neuroscience", "omission", "laminar", "jaxfne", "predictive coding"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "pytest-cov", "ruff==0.16.2", "matplotlib>=3.8"]
+dev = ["pytest>=7", "pytest-cov", "ruff==0.16.2", "matplotlib>=3.8", "plotly>=5"]
 
 [tool.ruff]
 line-length = 100

@@ -26,7 +26,7 @@ Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted a
 | 16 | tier 0 passes on final state | 2 | 208 passed (cb15a79) |
 | 17 | tier 1 (non-simulating) passes | 2 | tier 1 non-simulating: 45 passed, 1 skipped, 0 failed (51b5685) |
 | 18 | tier 2 passes on final state | 2 | tier 2 on 588da38: 405 passed, 3 skipped, 0 failed |
-| 19 | tier 3 authorized and run | 0 | no authorizing lineage |
+| 19 | tier 3 authorized and run | 0 | owner declined tier-3 authorization (2026-11-03); blocked by owner |
 | 20 | sealed v21b Unicode read failures fixed | 2 | all three v21b/v21c sealed reads fixed cp1252; reseals recorded; allowlist owner-approved |
 | 21 | test_runtime_regression keeps sparse/proxy coverage | 2 | tests/test_within_area_sparse_coverage.py (sparse p_connect realized) |
 | 22 | test_rf frozen-hash test passes | 2 | tests/test_rf.py |
@@ -64,5 +64,5 @@ Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted a
 - Added: minimal model (passes); lite model (not defined in the repo, scored 0).
 - Re-scored: tier 1, Unicode fix (two of three files), owner Q3, jaxfne audit.
 
-## Next to raise the score
-- Tier 3 (item 19; 2 points): needs an authorizing lineage from the owner. Nothing else is open in the checklist.
+## Status
+- 98/100. The only open item is 19 (tier 3), which the owner declined to authorize on 2026-11-03. Nothing else is open in the checklist.

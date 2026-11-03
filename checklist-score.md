@@ -4,7 +4,7 @@ Scope: jaxfne 0.5.8 migration (items 1-50, 80 points) and the dashboard (items 5
 Migration items: 1.6 points each (50 x 1.6 = 80). Dashboard items: 2 points each (10 x 2 = 20). Sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
 Scored on a9fcb65 after a full review (reproduction, CI, record audit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
-**Current score: 96.8/100**
+**Current score: 97.6/100**
 
 | # | Objective | Score (of 2) | Evidence |
 |---|---|---|---|
@@ -56,7 +56,7 @@ Scored on a9fcb65 after a full review (reproduction, CI, record audit). The chec
 | 46 | checklist-score.md exists and is scored from evidence | 1.6 | this file; scores re-verified at a9fcb65 in review |
 | 47 | no sealed result recomputed | 1.6 | sealed artifacts unchanged apart from documented reseals |
 | 48 | pre-existing sealed-file defect flagged to owner | 1.6 | reported with options |
-| 49 | minimal jomission model (n_per_area=100) builds and passes tier 2 on 0.5.8 | 0.8 | minimal = canonical 400-neuron build: an assumed definition, not owner-defined (scored 1 pending owner confirmation) |
+| 49 | minimal jomission model (canonical 400-neuron build, n_per_area=100) builds and passes tier 2 on 0.5.8 | 1.6 | owner confirmed the definition (2026-11-03); tier 2 405 passed |
 | 50 | lite jomission model (V1+V4, 200 neurons) defined and builds on 0.5.8 | 1.6 | build_jomission_lite_model: V1+V4, n_per_area=100 (200 neurons); tests/test_lite_model.py |
 
 | 51 | docs/DASHBOARD.html committed (self-contained, no external network) | 2 | docs/DASHBOARD.html committed at d155593; no external resources |
@@ -77,4 +77,4 @@ Scored on a9fcb65 after a full review (reproduction, CI, record audit). The chec
 - Evidence refreshed for items 16, 17, 18, 28, 31, 33, 34, 46.
 
 ## Status
-- 96/100. Open: item 19 (tier 3, owner declined, 2 points); item 39 (check unreported jaxfne defects against an issue tracker, 1 point); item 49 (owner to confirm the 'minimal' definition, 1 point).
+- 97.6/100. Open: item 19 (tier 3, owner declined, 1.6 points); item 39 (jaxfne issue check, 0.8 points, blocked: this session has no GitHub API access to HNXJ/jaxfne).

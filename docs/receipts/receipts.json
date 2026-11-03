@@ -1,34 +1,131 @@
 {
   "schema": "jomission.dashboard_receipts.v1",
   "note": "Figures entered from command output observed in this session. Each carries its commit. Regenerate the dashboard with scripts/build_dashboard.py.",
-  "engine": {"pin": "jaxfne==0.5.8", "authority_0425_baseline": "d3eaa4f", "head": "154b5d3"},
+  "engine": {
+    "pin": "jaxfne==0.5.8",
+    "authority_0425_baseline": "d3eaa4f",
+    "head": "154b5d3"
+  },
   "edge_identity": {
-    "fields_compared": 15, "mismatched": [], "n_edges_0425": 10666, "n_edges_058": 10666,
-    "engine_0425": "0.4.25", "engine_058": "0.5.8",
+    "fields_compared": 15,
+    "mismatched": [],
+    "n_edges_0425": 10666,
+    "n_edges_058": 10666,
+    "engine_0425": "0.4.25",
+    "engine_058": "0.5.8",
     "method": "scripts/jaxfne_edge_identity.py dump at baseline d3eaa4f (0.4.25) and head (0.5.8), then compare; reproduced at a9fcb65",
     "exit_code": 0
   },
-  "config_hash": {"0.4.25": "4574a15519ee8c33", "0.5.8": "05f3d334451c53d2", "note": "metadata-only drift; frozen constant is the 0.5.8 value (owner decision)"},
+  "config_hash": {
+    "0.4.25": "4574a15519ee8c33",
+    "0.5.8": "05f3d334451c53d2",
+    "note": "metadata-only drift; frozen constant is the 0.5.8 value (owner decision)"
+  },
   "tiers": [
-    {"tier": "0", "name": "harness", "passed": 208, "failed": 0, "skipped": 0, "status": "PASS", "commit": "a9fcb65"},
-    {"tier": "1", "name": "targeted (non-simulating list)", "passed": 45, "failed": 0, "skipped": 1, "status": "PASS", "commit": "a9fcb65"},
-    {"tier": "2", "name": "compatibility (full suite minus listed ignores)", "passed": 405, "failed": 0, "skipped": 3, "status": "PASS", "commit": "588da38"},
-    {"tier": "3", "name": "scientific execution", "passed": null, "failed": null, "skipped": null, "status": "OPEN", "commit": null, "reason": "owner declined authorization (2026-11-03)"}
+    {
+      "tier": "0",
+      "name": "harness",
+      "passed": 208,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "commit": "a9fcb65"
+    },
+    {
+      "tier": "1",
+      "name": "targeted (non-simulating list)",
+      "passed": 45,
+      "failed": 0,
+      "skipped": 1,
+      "status": "PASS",
+      "commit": "a9fcb65"
+    },
+    {
+      "tier": "2",
+      "name": "compatibility (full suite minus listed ignores)",
+      "passed": 405,
+      "failed": 0,
+      "skipped": 3,
+      "status": "PASS",
+      "commit": "588da38"
+    },
+    {
+      "tier": "3",
+      "name": "scientific execution",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "status": "OPEN",
+      "commit": null,
+      "reason": "owner declined authorization (2026-11-03)"
+    }
   ],
-  "ci": {"workflow": "project-check", "job": "tier0", "result": "success", "head_observed": "154b5d3", "check_run": 126236521645},
-  "project_check": {"result": "PROJECT_CHECK_PASS", "commit": "154b5d3"},
-  "lite_model": {"areas": ["V1", "V4"], "n_per_area": 100, "neurons": 200, "test": "tests/test_lite_model.py", "status": "builds; finite V_m over 50 ms"},
+  "ci": {
+    "workflow": "project-check",
+    "job": "tier0",
+    "result": "success",
+    "head_observed": "154b5d3",
+    "check_run": 126236521645
+  },
+  "project_check": {
+    "result": "PROJECT_CHECK_PASS",
+    "commit": "154b5d3"
+  },
+  "lite_model": {
+    "areas": [
+      "V1",
+      "V4"
+    ],
+    "n_per_area": 100,
+    "neurons": 200,
+    "test": "tests/test_lite_model.py",
+    "status": "builds; finite V_m over 50 ms"
+  },
   "owner_decisions": [
-    {"id": "Q1", "text": "accept new frozen hash 05f3d334451c53d2", "status": "applied"},
-    {"id": "Q2", "text": "run tier 2 now", "status": "applied"},
-    {"id": "Q3", "text": "Unicode fix via allowlist update", "status": "applied"},
-    {"id": "Q4", "text": "update PR body", "status": "applied"},
-    {"id": "lite", "text": "lite = V1+V4 at n_per_area=100", "status": "applied"},
-    {"id": "tier3", "text": "authorize tier 3", "status": "declined"}
+    {
+      "id": "Q1",
+      "text": "accept new frozen hash 05f3d334451c53d2",
+      "status": "applied"
+    },
+    {
+      "id": "Q2",
+      "text": "run tier 2 now",
+      "status": "applied"
+    },
+    {
+      "id": "Q3",
+      "text": "Unicode fix via allowlist update",
+      "status": "applied"
+    },
+    {
+      "id": "Q4",
+      "text": "update PR body",
+      "status": "applied"
+    },
+    {
+      "id": "lite",
+      "text": "lite = V1+V4 at n_per_area=100",
+      "status": "applied"
+    },
+    {
+      "id": "tier3",
+      "text": "authorize tier 3",
+      "status": "declined"
+    },
+    {
+      "id": "minimal",
+      "text": "minimal = canonical 400-neuron build (n_per_area=100, 4 areas)",
+      "status": "applied"
+    }
   ],
   "open_items": [
-    {"item": "tier 3", "reason": "owner declined authorization"},
-    {"item": "minimal model definition", "reason": "assumed (canonical 400-neuron build); owner has not confirmed"},
-    {"item": "unreported jaxfne defects", "reason": "refusals audited; no issue-tracker check done"}
+    {
+      "item": "tier 3",
+      "reason": "owner declined authorization"
+    },
+    {
+      "item": "unreported jaxfne defects",
+      "reason": "refusals audited; no issue-tracker check done"
+    }
   ]
 }

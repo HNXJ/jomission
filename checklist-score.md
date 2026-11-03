@@ -2,7 +2,7 @@
 
 Scope: jaxfne 0.5.8 migration, minimal and lite jomission models, and the project checks they touch.
 50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
-Scored on 1011990 (tier 2 rerun on this commit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
+Scored on 588da38 (tier 2 rerun on this commit). The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
 **Current score: 98/100**
 
@@ -25,7 +25,7 @@ Scored on 1011990 (tier 2 rerun on this commit). The checklist may be adjusted a
 | 15 | per-trial runtime seed equals Simulation seed | 2 | jomission/simulation/exposure.py |
 | 16 | tier 0 passes on final state | 2 | 208 passed (cb15a79) |
 | 17 | tier 1 (non-simulating) passes | 2 | tier 1 non-simulating: 45 passed, 1 skipped, 0 failed (51b5685) |
-| 18 | tier 2 passes on final state | 2 | tier 2 on 1011990: 404 passed, 3 skipped, 0 failed |
+| 18 | tier 2 passes on final state | 2 | tier 2 on 588da38: 405 passed, 3 skipped, 0 failed |
 | 19 | tier 3 authorized and run | 0 | no authorizing lineage |
 | 20 | sealed v21b Unicode read failures fixed | 2 | all three v21b/v21c sealed reads fixed cp1252; reseals recorded; allowlist owner-approved |
 | 21 | test_runtime_regression keeps sparse/proxy coverage | 2 | tests/test_within_area_sparse_coverage.py (sparse p_connect realized) |

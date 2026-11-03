@@ -459,16 +459,19 @@ def build_jomission_network(
     # and jaxfne/_config.py:679 connections(max_in_degree, spatial_sigma)
     # Functional via cfg.connectivity metadata + _apply_spatial_locality pruning
     # in build_jomission_model (Gaussian kernel, same as jaxfne).
+    # jaxfne 0.5.8 realizes within_area only as all_to_all_uniform_random (0.4.25 never consumed
+    # "spatial_local": the engine built the uniform baseline and jomission pruned it). Locality is
+    # therefore kept as jomission metadata and applied by _apply_spatial_locality post-construct.
     cfg = cfg.connectivity(
-        within_area="spatial_local",
+        within_area="all_to_all_uniform_random",
         within_gain=float(within_gain),
-        spatial_sigma=0.08,
-        max_in_degree=25,
         p_connect=None,
     )
+    cfg = cfg.update_metadata(within_locality={"spatial_sigma": 0.08, "max_in_degree": 25})
 
     # Field + probe — linear_solver, proxy_readout (no physical calibration)
-    cfg = cfg.field(source_mode="proxy_no_field_solve")
+    # jaxfne 0.5.8 refuses source_mode (stored, never consumed); realized proxy form as in tfne/realize.py
+    cfg = cfg.field(domain="laminar_column", conductivity="proxy", boundary="mean_zero_neumann")
     cfg = cfg.probe(n_contacts=int(n_contacts))
 
     # Runtime — edge_list backend required for full-state continuation (C_t carry)
@@ -1971,9 +1974,9 @@ def build_jomission_model(
         except Exception:
             pass
     # Apply sparse-local pruning if connectivity declares spatial params (GEN2_C003)
-    conn = cfg.metadata.get("connectivity", {}) or {}
-    sigma = conn.get("spatial_sigma")
-    mid = conn.get("max_in_degree")
+    loc = cfg.metadata.get("within_locality", {}) or {}
+    sigma = loc.get("spatial_sigma")
+    mid = loc.get("max_in_degree")
     if sigma is not None and mid is not None:
         try:
             model = _apply_spatial_locality(

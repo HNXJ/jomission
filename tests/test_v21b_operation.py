@@ -40,7 +40,7 @@ CLASSES = ("E", "PV", "SST", "VIP")
 
 
 def _load_seal():
-    return json.load(open(VECTORS))
+    return json.load(open(VECTORS, encoding="cp1252"))
 
 
 def _load_v21():

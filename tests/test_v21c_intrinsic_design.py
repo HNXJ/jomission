@@ -48,7 +48,7 @@ def _inputs():
     """Shot E columns (low_sm2p0), recurrent spec, network targets."""
     from jomission.qualification.cmin import build_cmin
     b = _load("_v21b_battery", ROOT / "tests" / "test_v21b_operation.py")
-    seal = json.load(open(ROOT / "results" / "v21b_vectors.json"))
+    seal = json.load(open(ROOT / "results" / "v21b_vectors.json", encoding="cp1252"))
     cfg = seal["bracket"]["cells"]["low_sm2p0"]
     vec = json.load(open(ROOT / "results" / "v21_vectors.json"))["vectors"][cfg["tonic_vector"]]
     model = build_cmin()
@@ -59,7 +59,7 @@ def _inputs():
     e = cls == "E"
     assert int(e.sum()) == M
     shot_e = [np.ascontiguousarray(ch[:, e]) for ch in chunks]
-    cell = json.load(open(ROOT / "results" / "v21b_low_sm2p0.json"))
+    cell = json.load(open(ROOT / "results" / "v21b_low_sm2p0.json", encoding="cp1252"))
     rates = {c: float(np.mean([w[c] for w in cell["rates"]])) for c in ih.CLASSES}
     rec = ih.recurrent_spec(model, cls, rates)
     return {"shot_e": shot_e, "rec": rec, "I0": float(vec["E"]), "rates": rates}
@@ -121,7 +121,7 @@ def test_v21c_validation():
     base = _run(_homog())
     assert base is not None
     inp = _inputs()
-    tgt_isi = json.load(open(ROOT / "results" / "v21b_isi_classes.json"))
+    tgt_isi = json.load(open(ROOT / "results" / "v21b_isi_classes.json", encoding="cp1252"))
     net = {"rate": 19.206, "cv_median": 0.525, "frac_in": 0.722}
     red = {"rate": _mean(base, "rate_mean"), "cv_median": _mean(base, "cv_median"),
            "frac_in": _mean(base, "frac_in"), "rate_cv": _mean(base, "rate_cv")}

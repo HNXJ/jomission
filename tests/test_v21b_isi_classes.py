@@ -53,12 +53,12 @@ def apply_rule(cells):
 
 
 def _sealed_cells():
-    seal = json.load(open(ROOT / "results" / "v21b_vectors.json"))
-    return {k: json.load(open(ROOT / "results" / f"v21b_{k}.json")) for k in seal["bracket"]["cells"]}
+    seal = json.load(open(ROOT / "results" / "v21b_vectors.json", encoding="cp1252"))
+    return {k: json.load(open(ROOT / "results" / f"v21b_{k}.json", encoding="cp1252")) for k in seal["bracket"]["cells"]}
 
 
 def test_isi_rule_sealed():
-    rule = json.load(open(RULE))
+    rule = json.load(open(RULE, encoding="cp1252"))
     chosen, table = apply_rule(_sealed_cells())
     assert chosen == rule["chosen"]
     assert table == rule["candidates"]
@@ -79,10 +79,10 @@ def _class_stats(nsp, cv_all, cls):
 
 
 def test_v21b_isi_classes():
-    rule = json.load(open(RULE))
+    rule = json.load(open(RULE, encoding="cp1252"))
     regime, cell = rule["chosen"].split("_", 1)
     b = _load("_v21b_battery", ROOT / "tests" / "test_v21b_operation.py")
-    sealed = json.load(open(ROOT / "results" / f"v21b_{rule['chosen']}.json"))
+    sealed = json.load(open(ROOT / "results" / f"v21b_{rule['chosen']}.json", encoding="cp1252"))
 
     records = []
     cls_holder = {}
@@ -132,7 +132,7 @@ def test_v21b_isi_classes():
         b._load_v21 = load_and_wrap
         b._redirect_open = redirect
         res = b.run_cell(regime, cell)
-        rerun = json.load(open(tmp_dst))
+        rerun = json.load(open(tmp_dst, encoding="cp1252"))
 
     reproduced = {k: rerun[k] == sealed[k] for k in EXACT_KEYS}
     cur_rel = []

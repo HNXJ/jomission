@@ -61,10 +61,8 @@ def run_shortened_exposure(
             if state is None:
                 sig, state = jtfne.simulate(model2, sim, paradigm=sched_i, return_state=True)
             else:
-                sig = jtfne.simulate(model2, sim, paradigm=sched_i, continuation=state)
-                # Update state for next iter via return_state if needed; we can get new state by re-running with return_state
-                # For simplicity, continue using same state chain via return_state
-                _, state = jtfne.simulate(model2, sim, paradigm=sched_i, return_state=True)  # type: ignore
+                # Resume from the carried state and return the new one in the same call.
+                sig, state = jtfne.simulate(model2, sim, paradigm=sched_i, continuation=state, return_state=True)
             signals_list.append(sig)
         # Concatenate for metrics (use last signal as representative)
         signals = signals_list[-1]

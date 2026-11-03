@@ -1456,9 +1456,8 @@
   },
   {
    "path": "tests/test_v21b_operation.py",
-   "blob": "162515602557e26ba4cf1cb1d4112e8c67f66c22",
-   "sealed_in": "2f8c545",
-   "resealed": "owner decision 2026-11-03 (option A): read sealed v21b artifacts as cp1252 (byte 0xa7); no assertion changed"
+   "blob": "17f1a59c9163056c1de68f2cff908d3a050154a4",
+   "sealed_in": "c01bc01"
   },
   {
    "path": "results/v21c_boundary.json",

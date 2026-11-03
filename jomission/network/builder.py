@@ -411,12 +411,12 @@ def build_jomission_network(
             target_area=hi,
             mode="sparse",
             layer_to_layer_map=dict(FF_LAYER_MAP),
-            cell_type_to_cell_type_map={"E": "E", "PV": "PV", "SST": "SST", "VIP": "VIP"},
+            cell_type_to_cell_type_map=None,  # jaxfne 0.5.8 default is the identity map (E,PV,SST,VIP)
             p_feedforward=float(p_feedforward),
             p_feedback=0.0,
             feedforward_weight_range=(0.5, 2.0),
             feedback_weight_range=(0.3, 1.5),
-            delay_ms_or_status=float(DELAY_FF_MS),
+            delay_ms_or_status=None,  # jaxfne 0.5.8 realizes None only; FF delay applied by edge_list_with_delay_ms (DELAY_SEAM)
         )
     # Explicit FB specs: V4->V1, FEF->V4, PFC->FEF each with L6->L1 and L6->L5 (derived from areas for genericity)
     fb_pairs = [(hi, lo) for lo, hi in zip(areas[:-1], areas[1:])]
@@ -427,12 +427,12 @@ def build_jomission_network(
                 target_area=lo,
                 mode="sparse",
                 layer_to_layer_map=dict(fb_map),
-                cell_type_to_cell_type_map={"E": "E", "PV": "PV", "SST": "SST", "VIP": "VIP"},
+                cell_type_to_cell_type_map=None,  # jaxfne 0.5.8 default is the identity map (E,PV,SST,VIP)
                 p_feedforward=0.0,
                 p_feedback=float(p_feedback),
                 feedforward_weight_range=(0.5, 2.0),
                 feedback_weight_range=(0.3, 1.5),
-                delay_ms_or_status=float(DELAY_FB_MS),
+                delay_ms_or_status=None,  # jaxfne 0.5.8 realizes None only; FB delay applied by edge_list_with_delay_ms (DELAY_SEAM)
             )
 
     # Global fallback cell fractions (used if per-area table missing)

@@ -81,6 +81,8 @@ def build():
     cfg = cfg.add_column(retina.AREA, [retina.LAYER], retina.N).area_layer_cell_types(
         retina.AREA, {retina.LAYER: {retina.CLASS: 1.0}}
     )
+    # jaxfne 0.5.8 requires metadata areas == realized columns; scaffold declares cortical areas only.
+    cfg = cfg.update_metadata(areas=[*cfg.metadata["areas"], retina.AREA])
     cfg = realize.declare_mechanisms(cfg, normal)
     cfg = realize.declare_projections(cfg, normal)
 

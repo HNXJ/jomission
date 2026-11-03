@@ -1,0 +1,45 @@
+{
+  "acceptance": "project_check passes with installed, authority and evidence at 0.5.8; tier receipts below (final state)",
+  "authority": "PROMOTED: jaxfne 0.5.8 is the Jomission execution authority (owner decision 2026-11-03: 0.5.8 is source of truth). Supersedes 0.4.25.",
+  "date_utc": "2026-11-03",
+  "owner": "Hamm",
+  "pin": "pyproject.toml jaxfne==0.5.8",
+  "engine_identity": "jaxfne 0.5.8 (wheel jaxfne-0.5.8-py3-none-any.whl), installed in .venv",
+  "delta_science": {
+    "canonical_edge_list": "identical to 0.4.25 baseline d3eaa4f on all 15 EdgeList fields (10666 edges, identical weight range, delay_steps, tau_ms, receptor_index)",
+    "within_area_locality": "0.5.8 realizes within_area only as all_to_all_uniform_random; spatial_sigma 0.08 and max_in_degree 25 moved to update_metadata(within_locality); same post-construct pruning as 0.4.25 (0.4.25 never consumed 'spatial_local')",
+    "config_hash": "canonical 0.4.25 4574a15519ee8c33 -> 0.5.8 05f3d334451c53d2; metadata-only drift; FROZEN_CANONICAL_HASH re-frozen (owner decision)",
+    "refused_keys_removed": "inter_column delay_ms_or_status and cell_type_to_cell_type_map set to None (0.5.8 realizes None only; identity default); field(source_mode) replaced by realized proxy form; Retina declared in areas metadata; Simulation.seed equals runtime.seed per trial in exposure.py"
+  },
+  "difference_ledger": [
+    "builder.py: delay metadata None (delay still applied by edge_list_with_delay_ms shim)",
+    "builder.py: within-area baseline + pruning (see delta_science)",
+    "scripts/whole_system_ei_native_state_arm.py: Retina in areas metadata",
+    "jomission/simulation/exposure.py: per-trial runtime seed equal to Simulation seed",
+    "tests/test_rf.py, tests/test_area_local_field.py: frozen hash 05f3d334451c53d2",
+    "tests/test_runtime_regression.py: within_area all_to_all_uniform_random, field realized form"
+  ],
+  "tier_receipts": {
+    "tier0": "208 passed, 0 failed (final state, after authority promotion)",
+    "tier1_non_simulating": "43 passed, 1 skipped, 2 failed: tests/test_v21b_operation.py::test_v21b_seal_consistent and tests/test_v21b_isi_classes.py::test_isi_rule_sealed; UnicodeDecodeError on sealed results/v21b_vectors.json byte 0xa7; pre-existing on 0.4.25; sealed test files not edited",
+    "tier2": "402 passed, 3 skipped, 0 failed (final state)"
+  },
+  "unknowns": [
+    "tier 3 not run (no authorizing lineage)",
+    "UnicodeDecodeError on sealed v21b test files needs owner decision (correction record or unseal)",
+    "plotly not declared in pyproject but required by tests; installed into .venv only"
+  ],
+  "verdict": "Tiers 0 and 2 pass on final state except the authority pin, resolved by this record. Tier 1 is NOT accepted: 2 tests fail with UnicodeDecodeError on sealed files, pre-existing on 0.4.25. Tier 3 not run.",
+  "receipts": {
+    "edge_identity": "canonical EdgeList, 15 fields, all equal to d3eaa4f baseline (10666 edges); compared with numpy array_equal on edges dumped from build_jomission_model(seed=0) under engine 0.4.25 (PYTHONPATH on the d3eaa4f worktree) and engine 0.5.8 (working tree); scratch script not committed",
+    "config_hash": "0.4.25 4574a15519ee8c33 (matches prior FROZEN value); 0.5.8 05f3d334451c53d2; re-freeze per owner answer 2026-11-03 (accept new hash)",
+    "tier1_preexisting": "tier-1 baseline on 0.4.25 (d3eaa4f): 2 failed, 43 passed, 1 skipped, same two UnicodeDecodeError tests",
+    "project_check_quick": "python scripts/project_check.py --offline --no-tests: all [ok] except 'tree clean' (uncommitted at time of run)"
+  },
+  "coverage_loss": [
+    "tests/test_runtime_regression.py test_non_delayed_model_allows_dense: fixture changed from within_area='sparse' (refused by 0.5.8) to all_to_all_uniform_random; sparse/proxy path no longer covered by this test"
+  ],
+  "known_defects_out_of_scope": [
+    "jomission/simulation/exposure.py: second simulate in the n_trials>1 loop runs without continuation; state does not carry across trials (pre-existing, not changed by this migration)"
+  ]
+}

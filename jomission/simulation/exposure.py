@@ -55,7 +55,9 @@ def run_shortened_exposure(
         for i, cond_name in enumerate(seq):
             cond = [c for c in JOMISSION_PARADIGM.conditions if c.name == cond_name][0]
             sched_i = condition_to_stimulus_schedule(cond, n_neurons=400, drive_amplitude=5.0)
-            sim = Simulation(duration_ms=FULL_TRIAL_MS, dt_ms=dt_ms, seed=seed + i, runtime=runtime)
+            import dataclasses as _dc
+            rt_i = _dc.replace(runtime, seed=seed + i)  # jaxfne 0.5.8: Simulation.seed must equal runtime.seed
+            sim = Simulation(duration_ms=FULL_TRIAL_MS, dt_ms=dt_ms, seed=seed + i, runtime=rt_i)
             if state is None:
                 sig, state = jtfne.simulate(model2, sim, paradigm=sched_i, return_state=True)
             else:

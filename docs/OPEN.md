@@ -1,0 +1,21 @@
+# Open stack (problems, blockers, decision queue)
+
+Owner: Hamm. Each row: id, status, what is open, evidence, who decides, next check. Rows are removed only on a check that shows them closed.
+Last reviewed at cfd7333 (2026-11-03).
+
+| id | status | open | evidence | decides | next check |
+|---|---|---|---|---|---|
+| OPEN-01 | blocked | tier 3 (PV group, 6 tests) not run: owner has not ruled; machine 15 GB vs ~32 GB per battery; all six write sealed results | checklist item 29; results/v21_pv_*.json sealed; manifests/test_tiers.json tier 3 | Hamm | owner chooses: small memory-capped probe, or larger machine plus TODO |
+| OPEN-02 | open | visualization contract V0-V3 not produced for the migrated canonical lineage; exemption applies only to lineages that build no model, and this one builds build_jomission_model | manifests/visualization_contract.json exemption; checklist items 31-34 | Hamm | produce V0-V3, or rule otherwise |
+| OPEN-03 | blocked | V2_LOCAL_OPERATION gate FAIL (scientific result) | manifests/current_state.json current_gate | Hamm | science program |
+| OPEN-04 | open | sealed registry rule is append-only; three entries were overwritten in place for the cp1252 read fix (2f8c545, e8562d1, 59c6323 correction) | manifests/sealed_artifacts.json resealed field; results/jaxfne_058_correction_2.json | Hamm | accept the precedent, or require append-only corrections |
+| OPEN-05 | open | tests/test_rf.py assertion weakened in f9af396 (2026-08-28, GEN2_C021): default path now skips the weights-equal check (rf.py default interleaved_tiling=True) | git show f9af396 -- tests/test_rf.py | Hamm | restore the invariant under a named lineage, or record the change |
+| OPEN-06 | open | 0369ffd (2026-09-20) allowlists tests/test_ei_recruitment.py from the pass-scan | git show 0369ffd | Hamm | confirm the exemption is a construction precondition |
+| OPEN-07 | owner check | Pages: github-pages environment may allow main only; dev-branch deploys then fail. The shared pages concurrency group means a dev deploy replaces the live site | .github/workflows/pages.yml; Settings > Environments > github-pages > deployment branches | Hamm | confirm branch policy; confirm Pages source is GitHub Actions |
+| OPEN-08 | open | docs make claims with no receipt: docs/PROJECT_HANDOFF.md (42/100, missing results file); docs/FACTOR_ISOLATION_SEMANTIC.md (results/rf_rate_factorial/*.npz absent); docs/JAXFNE_VIS_HANDOUT.md (test file absent; no pytest receipt); docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md (0.024 vs 0.0103 conflict) | integrity review at cfd7333 | Hamm | receipts or removal |
+| OPEN-09 | open | jaxfne fresh-clone reproduction of the cloud setup not done | docs/CLOUD_HANDOUT.md | Claude on a fresh image | run it |
+| OPEN-10 | open | CI on the current head: last verified run was on a9fcb65 | checklist item 21 | Claude | read check run for the pushed head |
+| OPEN-11 | open | manifests/current_state.json "updated" is 2026-09-19 while the engine authority moved 2026-11-03 | current_state.json line 3 | Claude (state fact, after owner check) | update the date from `date -u` |
+| OPEN-12 | open | todo items: SCI-AGSDR-CALIBRATION BLOCKED (reviewer authorization needed; its verdict input exists); SCI-PROP-QUALIFIED-1 LOCKED; current_state routes to DONE items | manifests/todo.json; current_state.json | Hamm | reviewer authorization; retire or unlock |
+| OPEN-13 | open | no todo item for the jaxfne 0.5.8 promotion; the promotion has a record but no todo row | manifests/todo.json | Claude (after owner ruling on OPEN-04) | add a row with its closing check |
+| OPEN-14 | open | dashboard shows results as an inventory, not as figures; full-scope figure rendering not done | checklist item 50 | Hamm (scope) | scope decision |

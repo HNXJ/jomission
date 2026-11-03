@@ -15,12 +15,12 @@ in this container only, not on a fresh cloud image.
 
 ## State
 - Authority: `manifests/current_state.json` (jaxfne 0.5.8, record `results/jaxfne_058_migration.json`).
-- Scorecard: `checklist-score.md`.
+- Scorecard: `checklist-score.md` (v2). Open stack: `docs/OPEN.md`.
 
 ## Known open items
-- `tests/test_v21b_operation.py` Unicode read: needs an owner decision (see checklist item 20).
+- Sealed v21b/v21c reads use cp1252 (checklist item 25); the drive-guard allowlist entry is owner-approved.
 - `jomission/simulation/exposure.py`: second simulate in the multi-trial loop has no continuation.
-- The lite model is not defined.
+- Lite model: canonical builder on V1 and V4 at n_per_area=100 (200 neurons), owner-defined; builds and simulates finitely in tests/test_lite_model.py.
 
 ## Not in git (not available in the cloud image)
 - `local/` inputs (LANSA, bibliography, Campagnola PDF). Analyses that need them cannot run here.

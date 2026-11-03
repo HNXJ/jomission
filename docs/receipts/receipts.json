@@ -4,7 +4,7 @@
   "engine": {
     "pin": "jaxfne==0.5.8",
     "authority_0425_baseline": "d3eaa4f",
-    "head": "154b5d3"
+    "head": "cfd7333"
   },
   "edge_identity": {
     "fields_compared": 15,
@@ -29,7 +29,7 @@
       "failed": 0,
       "skipped": 0,
       "status": "PASS",
-      "commit": "a9fcb65"
+      "commit": "cfd7333"
     },
     {
       "tier": "1",
@@ -38,7 +38,7 @@
       "failed": 0,
       "skipped": 1,
       "status": "PASS",
-      "commit": "a9fcb65"
+      "commit": "cfd7333"
     },
     {
       "tier": "2",
@@ -47,7 +47,7 @@
       "failed": 0,
       "skipped": 3,
       "status": "PASS",
-      "commit": "588da38"
+      "commit": "cfd7333"
     },
     {
       "tier": "3",
@@ -64,7 +64,7 @@
     "workflow": "project-check",
     "job": "tier0",
     "result": "success",
-    "head_observed": "154b5d3",
+    "head_observed": "a9fcb65 run 126236521645 success; current head run pending",
     "check_run": 126236521645
   },
   "project_check": {

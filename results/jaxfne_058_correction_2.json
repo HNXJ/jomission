@@ -1,0 +1,29 @@
+{
+  "schema": "jomission.jaxfne_058_correction.v2",
+  "corrects": "results/jaxfne_058_migration.json (sealed, unchanged) and results/jaxfne_058_correction_1.json (sealed, unchanged)",
+  "date_utc": "2026-11-03",
+  "reason": "Deep review at cfd7333 (eight parallel reviewers, read-only). Corrects stale statements in correction_1 and records process findings. Original records are not edited.",
+  "supersedes": {
+    "correction_1: minimal model is an assumption": "owner confirmed minimal = canonical 400-neuron build on 2026-11-03 (receipts.json owner_decisions 'minimal')",
+    "correction_1: tier figures": "current tier figures are at cfd7333: tier 0 208 passed; tier 1 45 passed, 1 skipped, 0 failed; tier 2 405 passed, 3 skipped, 0 failed; no tested code changed since a9fcb65 (git diff empty)",
+    "correction_1: still_open tier 3 only": "open items are listed in docs/OPEN.md (OPEN-01 to OPEN-14)",
+    "migration record: tier 1 failed": "superseded by correction_1 and the figures above"
+  },
+  "process_findings": [
+    "Sealed registry is append-only. Three entries were overwritten in place for the cp1252 read fix (2f8c545 and e8562d1 for test_v21b_isi_classes, test_v21b_operation, test_v21c_intrinsic_design) and one allowlist blob changed (59c6323). Each followed the existing resealed precedent with an owner reason. Owner ruling pending: OPEN-04.",
+    "Pre-migration weakening found, not introduced by this migration: f9af396 (2026-08-28) changed tests/test_rf.py to skip the weights-equal assertion when interleaved_tiling is true, which is the default. OPEN-05.",
+    "0369ffd (2026-09-20) allowlists tests/test_ei_recruitment.py from the pass-scan. OPEN-06."
+  ],
+  "receipts_at": {
+    "tier0": "cfd7333",
+    "tier1": "cfd7333",
+    "tier2": "cfd7333",
+    "edge_identity": "a9fcb65 (no tested code changed since)"
+  },
+  "owner_decisions_on_record": [
+    "Q1-Q4 (2026-11-03)",
+    "lite = V1+V4 at n_per_area=100",
+    "minimal = canonical 400-neuron build",
+    "tier 3 declined (2026-11-03); PV-group scope question unanswered"
+  ]
+}

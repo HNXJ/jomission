@@ -2,9 +2,9 @@
 
 Scope: jaxfne 0.5.8 migration, minimal and lite jomission models, and the project checks they touch.
 50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partially met, 0 = not met.
-Scored on the commit that adds docs/JAXFNE_058_AUDIT.md. The checklist may be adjusted as the goals sharpen. Done means 100/100.
+Scored on ddbadbf. The checklist may be adjusted as the goals sharpen. Done means 100/100.
 
-**Current score: 88/100**
+**Current score: 93/100**
 
 | # | Objective | Score (of 2) | Evidence |
 |---|---|---|---|
@@ -28,7 +28,7 @@ Scored on the commit that adds docs/JAXFNE_058_AUDIT.md. The checklist may be ad
 | 18 | tier 2 passes on final state | 2 | 402 passed, 3 skipped, 0 failed |
 | 19 | tier 3 authorized and run | 0 | no authorizing lineage |
 | 20 | sealed v21b Unicode read failures fixed | 1 | isi and v21c fixed and resealed; operation reverted (drive-guard rule), pending owner decision |
-| 21 | test_runtime_regression keeps sparse/proxy coverage | 1 | fixture changed; dense path still tested |
+| 21 | test_runtime_regression keeps sparse/proxy coverage | 2 | tests/test_within_area_sparse_coverage.py (sparse p_connect realized) |
 | 22 | test_rf frozen-hash test passes | 2 | tests/test_rf.py |
 | 23 | test_area_local_field frozen-hash test passes | 2 | tests/test_area_local_field.py |
 | 24 | atlas tests pass | 2 | test_atlas_suite passes with plotly in venv |
@@ -41,10 +41,10 @@ Scored on the commit that adds docs/JAXFNE_058_AUDIT.md. The checklist may be ad
 | 31 | working tree clean and pushed | 2 | cb15a79 pushed |
 | 32 | draft PR #1 exists for designated branch | 2 | HNXJ/jomission#1 |
 | 33 | PR #1 body reflects final state | 2 | PR #1 body rewritten to current state |
-| 34 | PR checks green | 0 | no check runs reported |
+| 34 | PR checks green | 2 | CI tier0 success on ddbadbf (.github/workflows/project-check.yml) |
 | 35 | commit messages follow attribution rules | 2 | no model identifier in commits |
 | 36 | work on designated branch (not _temp) | 2 | cowork/focused-ptolemy-dz7hwc |
-| 37 | exposure.py continuation defect fixed | 0 | pre-existing; second simulate lacks continuation; not fixed |
+| 37 | exposure.py continuation defect fixed | 2 | exposure.py one call per trial; tests/test_exposure_continuation.py fails on old code, passes on fix |
 | 38 | known defects recorded in migration record | 2 | coverage_loss, known_defects_out_of_scope |
 | 39 | jaxfne refusals audited against its rules, no unreported defect | 2 | docs/JAXFNE_058_AUDIT.md (each refusal with rule and source) |
 | 40 | owner Q1 (frozen hash) applied | 2 | accepted new hash |
@@ -65,10 +65,6 @@ Scored on the commit that adds docs/JAXFNE_058_AUDIT.md. The checklist may be ad
 - Re-scored: tier 1, Unicode fix (two of three files), owner Q3, jaxfne audit.
 
 ## Next to raise the score
-- Owner decision on test_v21b_operation.py Unicode read: drive-guard rule (items 17, 20, 42).
-- Define the lite model (item 50).
-- Restore sparse/proxy coverage (item 21).
-- PR checks: none reported (item 34).
-- Fix exposure.py continuation (item 37).
-- Tier 3 needs an authorizing lineage (item 19).
-- Owner decisions still open: the list above only; nothing else is blocked by me.
+- Unicode in tests/test_v21b_operation.py (items 17, 20, 42): needs an owner decision. The drive-guard rule forbids the cp1252 edit unless the file imports jomission.harness.drive or the guard is changed.
+- Tier 3 (item 19): needs an authorizing lineage from the owner.
+- Lite model (item 50): undefined in the repo and in jaxfne; needs an owner definition.

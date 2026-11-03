@@ -2,7 +2,7 @@
 
 Spec: docs/minimal/s13_vip_drive_spec.json. The realization sets the emitter drive of the VIP rows to
 VIP_DRIVE and of every other row to tonic + DC_CURRENT. Writes docs/minimal/s13_vip_drive_receipt.json.
-Usage: python -m jomission.minimal.s13_vip_drive [--out PATH]
+Usage: python -m jomission.minimal.s13_vip_drive [--out PATH] [--seed S]
 Exit 0 when the run completes; checks.VIP_window is the only scored check.
 """
 
@@ -113,8 +113,9 @@ def vip_drive_receipt(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", type=Path, default=RECEIPT_PATH)
+    parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args(argv)
-    receipt = vip_drive_receipt()
+    receipt = vip_drive_receipt(seed=args.seed)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(receipt["checks"]), file=sys.stdout)

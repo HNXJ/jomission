@@ -73,3 +73,17 @@ The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migratio
 ## Notes
 - Visualization contract (manifests/visualization_contract.json) requires V0 to V3 for every non-grandfathered lineage. Whether the migrated canonical lineage is exempt is not decided; items 31 to 34 stay at 0 until it is.
 - Tier 3, the V2 gate, and the PV group are science decisions. They are not counted as migration progress.
+
+## Simulation program (status 2026-11-04; not yet scored)
+Scoring these needs a re-weighting decision: the 50 scored items total 100 points, so adding rows means retiring some current rows. Until then they are listed here with their evidence.
+
+| Sim | Objective | Status | Evidence |
+|---|---|---|---|
+| S1 | AGSDR stage 0: 24 candidates x seed 0, 2000 ms, n=400 (24 sims) | READY, not run | design 0726c5d; amendment 1 cf82168; runner b535876 (dry-run 52 sims, audit clean); TODO SCI-AGSDR-CALIBRATION OPEN, next_authorized_task |
+| S2 | AGSDR stage 1: top 8 x seeds {0,1} (16 sims) | pending S1 | design step 3 |
+| S3 | AGSDR stage 2: top 3 x seeds {0..3} (12 sims) | pending S2 | design step 4 |
+| S4 | Single-neuron f-I (NumPy assay, exploratory) | done, not engine-validated | docs/receipts/fi_single_neuron_v1.json; provenance v1_provenance.json |
+| S5 | Engine-equivalence of the f-I assay | not done | required before engine claims (OPEN, review item) |
+| S6 | PV drive scan (matched-state) | draft only, not approved, not in repo | scratch draft; pre-checks from JaxFNE handoff |
+| S7 | Visualization V0-V3 for the canonical lineage | not produced | manifests/visualization_contract.json |
+| S8 | Build and simulation speed | done (warm build 1.05 s; first simulate compile ~1.1 s) | docs/receipts/compile_cache_benchmark.json (3 pairs) |

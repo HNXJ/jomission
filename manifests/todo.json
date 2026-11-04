@@ -1682,7 +1682,7 @@
      "downstream_unlock": [
       "SCI-PROP-QUALIFIED-1"
      ],
-     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 rerun authorized (OPEN-19; spec to seal first). Open: viable-regime verdict (OPEN-25); per-class J_rates and J_CL1C not computed (OPEN-18); reviewer authorization of stage 1"
+     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19; docs/receipts/agsdr_b3_rerun). Open: viable-regime verdict (OPEN-25); per-class J_rates and J_CL1C not computed (OPEN-18); reviewer authorization of stage 1"
     },
    {
     "id": "SCI-PROP-QUALIFIED-1",

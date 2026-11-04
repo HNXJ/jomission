@@ -5,12 +5,12 @@ Scope: the jomission project goals. Re-weighted 2026-11-04 at owner request.
 Category weights (owner, 2026-11-04): Science program 40, Documentation and reproducibility 30, Dashboard and figures 20, rest 10. "Rest" is one pool of 5 items covering engine migration, models and harness.
 Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
 
-**Current score: 49/100** (v3, 2026-11-04). Lower than v2 mainly because the v2 migration, models and harness points (56 maximum) now carry 10 points. At v2 shares, science rose from 7.5 to 12. The re-weighting took v2 from 83.2 to 61.8; item scores took it to 55.0; the critic-audit downgrades (items 26, 33, 45) take it to 52.0; item 4 at 1 (critic, 2026-11-04) takes it to 51.0; the reviewer audit of 6ec69df takes it to 48.0; owner ruling Q8 restores item 4 to 2: 49.0 (earlier wording kept as audit history): items 38-40 to 1 (counts, not a result figure), item 49 to 1 (run at 374410d; OPEN-05 and OPEN-06 open), item 47 to 2 (no builder commit since a9fcb65).
+**Current score: 50/100** (v3, 2026-11-04). The B3 rerun (owner Q7; sealed 47d055f; receipts docs/receipts/agsdr_b3_rerun) makes item 20 a 2: 50.0. Lower than v2 mainly because the v2 migration, models and harness points (56 maximum) now carry 10 points. At v2 shares, science rose from 7.5 to 12. The re-weighting took v2 from 83.2 to 61.8; item scores took it to 55.0; the critic-audit downgrades (items 26, 33, 45) take it to 52.0; item 4 at 1 (critic, 2026-11-04) takes it to 51.0; the reviewer audit of 6ec69df takes it to 48.0; owner ruling Q8 restores item 4 to 2: 49.0 (earlier wording kept as audit history): items 38-40 to 1 (counts, not a result figure), item 49 to 1 (run at 374410d; OPEN-05 and OPEN-06 open), item 47 to 2 (no builder commit since a9fcb65).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 13 / 40 | 20 |
+| Science program | 14 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 14 / 20 | 10 |
 | Rest (migration, models, harness) | 7 / 10 | 5 |
@@ -37,7 +37,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 17 | Science program | AGSDR stage 2 (top 3 x seeds 0..3) | 0 | not authorized; depends on stage 1 |
 | 18 | Science program | PV drive scan (matched-state) | 0 | draft only, not approved, not in repo |
 | 19 | Science program | B10 objective audit clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (runner sha 160265516fe2) |
-| 20 | Science program | AGSDR Efrac tau correction applied to the stage-0 receipts | 1 | global tau-weighted Efrac recomputed for all 24 (stage0_correction_v1.json); no hard verdict changes on the 11 runner gates; population B3 not computable (no per-population ratios retained, OPEN-19) |
+| 20 | Science program | AGSDR Efrac tau correction applied to the stage-0 receipts, including B3 | 2 | global tau-weighted Efrac for all 24 (stage0_correction_v1.json); B3 recomputed from per-population sums (docs/receipts/agsdr_b3_rerun, sealed 47d055f; 24 of 24 reproduction and control checks pass); no hard verdict changes on the 11 runner gates |
 | 21 | Documentation and reproducibility | cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
 | 22 | Documentation and reproducibility | fresh-clone reproduction of the setup | 1 | run in this container only; not on a fresh cloud image (OPEN-09) |
 | 23 | Documentation and reproducibility | checklist versioned with history | 2 | docs/checklist-score-v1.md, docs/checklist-score-v2.md, this file; git history |
@@ -83,7 +83,7 @@ Source: external review of a50121b and audits of f23f8f4, a30ce48, 4e72c8a.
 | R | Condition | Status | Record |
 |---|---|---|---|
 | R1 | Selection rule: the frozen rule (nondominated set on the seven J_k, epsilon 0.05 retained by ruling 1, w=1/6 tie-break, remainder eliminated) has open parts: epsilon predicate (OPEN-23); dimension set, 6 computed vs 7 named (ruling 2, pending); overflow beyond the front and the 1/6 vs 1/7 weight (OPEN-18). Front-order fill withdrawn as automatic. | PARTIAL | OPEN-18, OPEN-23; stage0_correction_v1.json selection |
-| R2 | Efrac as W·r·tau (frozen J_EI): global value recomputed for all 24 (tau 2.0 ms E-pre, 5.0 ms I-pre); H05 under the all-E reading (one of two readings; the frozen text is silent on undefined-CV cells): 2 of 24 pass, 22 fail (DERIVED from receipts; an upper bound, since the isolated-smoke part is not computed; OPEN-26). Population B3 needs per-population ratios p' = 2p/(5-3p); none retained. Hard list: runner computes 11 gates; design line 18 lists nine; manifest lists H01-H12; H07 and H11 never computed; H08 is hard in the objectives but informational in the runner, 0 of 24 inside its box. If H08 is hard, 0 of 24 are feasible | PARTIAL | OPEN-19, OPEN-24, OPEN-26; stage0_correction_v1.json |
+| R2 | Efrac as W·r·tau (frozen J_EI): global value recomputed for all 24 (tau 2.0 ms E-pre, 5.0 ms I-pre); H05 under the all-E reading (one of two readings; the frozen text is silent on undefined-CV cells): 2 of 24 pass, 22 fail (DERIVED from receipts; an upper bound, since the isolated-smoke part is not computed; OPEN-26). Population B3 recomputed by the sealed rerun (docs/receipts/agsdr_b3_rerun; 24 of 24 controls pass; tau-weighted B3 term shifts -0.02 to -0.26 against the stored tau-free value). Hard list: runner computes 11 gates; design line 18 lists nine; manifest lists H01-H12; H07 and H11 never computed; H08 is hard in the objectives but informational in the runner, 0 of 24 inside its box. If H08 is hard, 0 of 24 are feasible | PARTIAL | OPEN-19, OPEN-24, OPEN-26; stage0_correction_v1.json |
 | R3 | Hard gates can fail: boundary cases on copies of the predicates; 24 stored verdicts reproduced; runner-path score_run on silent and saturated stub input (2 cases). Other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
 | R4 | Sampling departure: 16 rows redrawn, count reconstructed. Background values of redrawn rows not verified. Recorded, not accepted | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
 | R5 | CV denominator: the runner uses E cells with defined CV (>=3 spikes), a declared choice. AGS_S0_06: 0.207 over 184 of 242 E cells. The frozen H05 text says "fraction of E". Under all 242 E cells, 22 of 24 fail H05 | RULED Q1 (2026-11-04): all E cells; 2 of 24 pass H05 | OPEN-20, OPEN-26; stage0_correction_v1.json |

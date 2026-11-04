@@ -1,0 +1,26 @@
+{
+ "candidate_id": "AGS_S0_20",
+ "control_tau_free_abs_diff": 0.0,
+ "control_tau_free_frac_matches_stored": true,
+ "n_pop_total": 68,
+ "pass": true,
+ "reproduction": {
+  "I_E_rel_diff": 0.0,
+  "I_I_rel_diff": 0.0,
+  "bar_r_abs_diff": 0.0,
+  "mean_rho_abs_diff": 0.0,
+  "pass": true,
+  "total_spikes_exact": true
+ },
+ "stored_population_frac": 0.45588235294117646,
+ "tau_free": {
+  "B3_term": 0.43014705882352944,
+  "frac_in_band": 0.45588235294117646,
+  "n_populations_with_current": 68
+ },
+ "tau_weighted": {
+  "B3_term": 0.2463235294117648,
+  "frac_in_band": 0.6029411764705882,
+  "n_populations_with_current": 68
+ }
+}

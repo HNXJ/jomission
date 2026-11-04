@@ -8,6 +8,7 @@ references are "path" (working tree) or "ref:path" (git object).
 from __future__ import annotations
 
 import json
+import math
 import re
 import subprocess
 from pathlib import Path
@@ -307,10 +308,10 @@ def _observation_check(rec: dict, o: dict) -> list[str]:
         return [f"{lid}: check missing {missing}"]
     if not isinstance(chk, dict) or set(chk) - set(keys):
         return [f"{lid}: check has unknown keys {sorted(set(chk) - set(keys))}"]
-    if isinstance(chk["expected"], bool) or not isinstance(chk["expected"], (int, float)):
-        return [f"{lid}: check expected must be a number"]
-    if isinstance(chk["tol"], bool) or not isinstance(chk["tol"], (int, float)) or chk["tol"] < 0:
-        return [f"{lid}: check tol must be a non-negative number"]
+    if isinstance(chk["expected"], bool) or not isinstance(chk["expected"], (int, float)) or not math.isfinite(chk["expected"]):
+        return [f"{lid}: check expected must be a finite number"]
+    if isinstance(chk["tol"], bool) or not isinstance(chk["tol"], (int, float)) or not math.isfinite(chk["tol"]) or chk["tol"] < 0:
+        return [f"{lid}: check tol must be a finite non-negative number"]
     ref = f"{rec['commit']}:{chk['path']}"
     try:
         doc = json.loads(read_artifact(ref))
@@ -322,6 +323,8 @@ def _observation_check(rec: dict, o: dict) -> list[str]:
         return [f"{lid}: check pointer {chk['json_pointer']} does not resolve in {chk['path']}"]
     if isinstance(got, bool) or not isinstance(got, (int, float)):
         return [f"{lid}: check pointer {chk['json_pointer']} is not numeric"]
+    if not math.isfinite(got):
+        return [f"{lid}: check {chk['json_pointer']} = {got} is not finite"]
     if abs(got - chk["expected"]) > chk["tol"]:
         return [
             f"{lid}: check {chk['json_pointer']} = {got} contradicts expected {chk['expected']} (tol {chk['tol']})"

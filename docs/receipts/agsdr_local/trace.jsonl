@@ -1,0 +1,25 @@
+{"event": "stage0_start", "sampling_mode": "log-uniform (seeded LHS on log10 of each coordinate, mapped back; amendment 1)", "lhs_seed": 20261104, "log10_bounds": {"g_rec[E->E]": [-0.6020599913279624, -0.3467874862246563], "g_fastEI[E->PV]": [0.146128035678238, 0.3010299956639812], "g_fastEI[PV->E]": [0.0, 0.20411998265592482], "g_dend[E->SST]": [-0.3010299956639812, -0.045757490560675115], "g_dend[SST->E]": [-0.37675070960209955, -0.10790539730951959], "g_dend[SST->PV]": [-0.37675070960209955, -0.10790539730951959], "g_dend[SST->VIP]": [-0.25181197299379954, 0.01703333929878037], "g_disinh[VIP->SST]": [0.5440680443502757, 0.8129133566428556], "tonic_drive_scale": [-0.3467874862246563, -0.12493873660829993], "poisson_rate_hz": [3.0, 3.4771212547196626], "poisson_amplitude": [0.0, 0.47712125471966244]}, "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f"}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_00", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1167469707195441}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_01", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.13958853405539295}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_02", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.19334240081624643}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_03", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.11705527614256184}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_04", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1359651175197175}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_05", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.14210099140334215}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_06", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.11509106046660894}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_07", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1418389946219783}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_08", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.14253090548520098}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_09", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1502545626185007}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_10", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1249715125003795}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_11", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.18265940702114908}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_12", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.19615232564416346}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_13", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.16253733567618894}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_14", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.18681148846234047}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_15", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.11593637401864794}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_16", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.11880040872534847}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_17", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.16833561381771248}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_18", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.18498214598862198}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_19", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.1583886123819946}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_20", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.11551764073232275}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_21", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.15888608219792832}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_22", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.16376904107795037}
+{"event": "candidate_scored", "candidate_id": "AGS_S0_23", "seed": 0, "hard_pass": true, "failed_hard_gates": [], "soft_distance": 0.14733691568062854}

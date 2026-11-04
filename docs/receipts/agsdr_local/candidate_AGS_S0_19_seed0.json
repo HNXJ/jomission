@@ -1,0 +1,197 @@
+{
+  "candidate_id": "AGS_S0_19",
+  "seed": 0,
+  "stage": 0,
+  "status": "FEASIBLE",
+  "design": "docs/designs/SCI-AGSDR-CALIBRATION_design.md + amendment_1 (sealed)",
+  "sampling_mode": "log-uniform (seeded LHS on log10 of each coordinate, mapped back; amendment 1)",
+  "duration_ms": 2000.0,
+  "dt_ms": 0.1,
+  "values": {
+    "g_rec[E->E]": 0.3275862316925403,
+    "g_fastEI[E->PV]": 1.7039575727090979,
+    "g_fastEI[PV->E]": 1.4458707003716649,
+    "g_dend[E->SST]": 0.6214376936129125,
+    "g_dend[SST->E]": 0.42513084219117675,
+    "g_dend[SST->PV]": 0.7337028905894025,
+    "g_dend[SST->VIP]": 0.922643647218897,
+    "g_disinh[VIP->SST]": 6.456423652093312,
+    "tonic_drive_scale": 0.6891475157687406,
+    "poisson_rate_hz": 1940.7734387352073,
+    "poisson_amplitude": 1.1022998292381454
+  },
+  "builder_args": {
+    "tonic_drive_scale": 0.6891475157687406,
+    "background_poisson_rate_hz": 1940.7734387352073,
+    "background_poisson_amplitude": 1.1022998292381454
+  },
+  "motif_gains_effective": {
+    "E->E": 0.327586,
+    "E->PV": 2.896728,
+    "E->SST": 0.435006,
+    "PV->E": 1.879632,
+    "SST->E": 0.255079,
+    "SST->PV": 0.440222,
+    "SST->VIP": 0.738115,
+    "VIP->SST": 32.282118
+  },
+  "metrics": {
+    "n_neurons": 400,
+    "total_spikes": 5437,
+    "bar_r_Hz": 6.79625,
+    "class_mean_Hz": {
+      "E": 7.597107438016529,
+      "PV": 10.884615384615385,
+      "SST": 6.714285714285714,
+      "VIP": 0.5
+    },
+    "E_CV_rate": 1.3282828187459668,
+    "E_P_CV_gt_0p5": 0.18571428571428572,
+    "E_max_CV": 2.424133337521437,
+    "E_mean_CV": 0.3520877015498492,
+    "E_defined_CV_count": 140,
+    "all_median_Fano": 0.9,
+    "mean_rho": 0.28847249101927774,
+    "rho_pairs_used": 298,
+    "Efrac_proxy_global": 0.6592141267651792,
+    "I_E_proxy": 613.4593026396306,
+    "I_I_proxy": 317.1325608113675,
+    "population_count": 68,
+    "population_Efrac_defined_count": 68,
+    "population_Efrac_frac_in_0p15_0p60": 0.4411764705882353,
+    "population_mean_Hz_min": 0.16666666666666666,
+    "population_mean_Hz_max": 29.833333333333332,
+    "E_population_mean_Hz_min": 1.1428571428571428,
+    "mu_total_proxy": 3.6596690018544775
+  },
+  "hard_gates": [
+    {
+      "id": "H01_finite",
+      "rule": "all spikes, V_m and rates finite",
+      "value": true,
+      "pass": true
+    },
+    {
+      "id": "H02_bar_r_open_1_30",
+      "rule": "1 < bar_r < 30 Hz",
+      "value": 6.79625,
+      "pass": true
+    },
+    {
+      "id": "H03_mean_rho_below_0p60",
+      "rule": "mean rho < 0.60",
+      "value": 0.28847249101927774,
+      "pass": true
+    },
+    {
+      "id": "H04_CV_rate_above_0p15",
+      "rule": "CV_rate (E) > 0.15",
+      "value": 1.3282828187459668,
+      "pass": true
+    },
+    {
+      "id": "H05_P_CV_E_gt_0p5_at_least_0p15",
+      "rule": "P(CV_E > 0.5) >= 0.15",
+      "value": 0.18571428571428572,
+      "pass": true
+    },
+    {
+      "id": "H06_max_CV_E_at_least_1p5",
+      "rule": "max CV_E >= 1.5",
+      "value": 2.424133337521437,
+      "pass": true
+    },
+    {
+      "id": "H09_Efrac_open_0p05_0p95",
+      "rule": "0.05 < Efrac < 0.95 (proxy)",
+      "value": 0.6592141267651792,
+      "pass": true
+    },
+    {
+      "id": "H10a_class_mean_not_above_80",
+      "rule": "no cell-type mean > 80 Hz",
+      "value": 10.884615384615385,
+      "pass": true
+    },
+    {
+      "id": "H10b_E_class_mean_above_0p5",
+      "rule": "E cell-type mean > 0.5 Hz",
+      "value": 7.597107438016529,
+      "pass": true
+    },
+    {
+      "id": "H10c_population_mean_not_above_80",
+      "rule": "no (area,layer,type) mean > 80 Hz",
+      "value": 29.833333333333332,
+      "pass": true
+    },
+    {
+      "id": "H10d_E_population_mean_above_0p5",
+      "rule": "every E (area,layer) mean > 0.5 Hz",
+      "value": 1.1428571428571428,
+      "pass": true
+    }
+  ],
+  "failed_hard_gates": [],
+  "soft_terms": {
+    "B1_mu_band_3_15": 0.0,
+    "B2_CV_rate_above_0p3": 0.0,
+    "B2_mean_CV_E_band_0p5_1p5": 0.1479122984501508,
+    "B2_median_Fano_band_0p7_2": 0.0,
+    "B2_mean_rho_band_m0p05_0p2": 0.35388996407711093,
+    "B3_population_Efrac_frac_at_least_0p8": 0.44852941176470595
+  },
+  "soft_distance": 0.1583886123819946,
+  "informational": {
+    "H08_motif_ratio_box_0p7_1p3": {
+      "E->E": {
+        "g_multiplier": 0.3275862316925403,
+        "within_0p7_1p3": false
+      },
+      "E->PV": {
+        "g_multiplier": 1.7039575727090979,
+        "within_0p7_1p3": false
+      },
+      "PV->E": {
+        "g_multiplier": 1.4458707003716649,
+        "within_0p7_1p3": false
+      },
+      "E->SST": {
+        "g_multiplier": 0.6214376936129125,
+        "within_0p7_1p3": false
+      },
+      "SST->E": {
+        "g_multiplier": 0.42513084219117675,
+        "within_0p7_1p3": false
+      },
+      "SST->PV": {
+        "g_multiplier": 0.7337028905894025,
+        "within_0p7_1p3": true
+      },
+      "SST->VIP": {
+        "g_multiplier": 0.922643647218897,
+        "within_0p7_1p3": true
+      },
+      "VIP->SST": {
+        "g_multiplier": 6.456423652093312,
+        "within_0p7_1p3": false
+      }
+    },
+    "H08_all_within_box": false
+  },
+  "definitions": [
+    "LITERAL bar_r = total spikes * 1000 / duration_ms / N, N = 400 (objectives H02).",
+    "CHOICE per-neuron rate r_i = spike count / duration_ms (Hz).",
+    "CHOICE class mean = mean of r_i over one cell type pooled across areas and layers (design hard list).",
+    "CHOICE population = (area, layer, cell_type). The frozen H10 per-population limits (80 Hz, E > 0.5 Hz) are applied as extra hard gates.",
+    "CHOICE CV_ISI = population SD / mean of the ISIs, for neurons with at least 3 spikes (2 ISIs); others undefined.",
+    "CHOICE P(CV_E > 0.5) and max CV_E use E neurons with defined CV_ISI. Mean CV (soft) uses the same E neurons.",
+    "CHOICE CV_rate = SD / mean of r_i over E neurons (frozen H04 pool).",
+    "CHOICE Fano = variance / mean of spike counts in 100 ms bins (20 bins), per neuron with nonzero mean; soft term uses the median.",
+    "CHOICE rho = mean Pearson correlation of 100 ms binned counts over 400 random distinct neuron pairs (seed LHS_SEED + run seed); zero-variance pairs excluded.",
+    "PROXY_LIMITED Efrac = I_E / (I_E + I_I), I_E = sum over edges with E presynaptic of |w| * r_pre, I_I = same for non-E presynaptic (frozen J_EI proxy; tau omitted as common factor).",
+    "CHOICE B3 population Efrac = proxy above over incoming edges of each post population with nonzero current; the 80% rule uses that population count.",
+    "CHOICE soft distance: six terms (B1 mu; B2 CV_rate, mean CV, median Fano, mean rho; B3 population fraction), each 0 inside its band and normalised by band width (B3: shortfall from 0.8 over 0.8), weighted 1/6. The design gives the groups, not a per-term split.",
+    "CHOICE mu (B1) = bar_r."
+  ]
+}

@@ -209,6 +209,7 @@
     "hdp",
     "propagation",
     "omission",
+    "glo",
     "failure-atlas",
     "lineage",
     "spectrolaminar"
@@ -1018,9 +1019,10 @@
       ]
     },
     {
-      "group": "Omission program",
+      "group": "Paradigms",
       "pages": [
-        "omission"
+        "omission",
+        "glo"
       ]
     },
     {

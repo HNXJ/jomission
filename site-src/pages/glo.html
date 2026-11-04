@@ -1,0 +1,22 @@
+<h1>Global-Local Oddball</h1>
+<p>Source: Westerberg et al., "Hierarchical substrates of prediction in visual cortical spiking" (bioRxiv 10.1101/2024.10.02.616378, v5). Paradigm description only; no jomission simulation of this paradigm exists, and the models are unchanged. Owner's framing: the same concept as the omission paradigm, a learned stimulus pattern violated at a fixed position in a sequence.</p>
+<h2>Sequences</h2>
+<p>Four-stimulus sequences of drifting gratings at 135 degrees or 45 degrees from horizontal, symbolized x and y (counterbalanced across sessions and animals). Animals were habituated over 2000 to 3000 trials to x-x-x-y. In that context the fourth stimulus y is the <em>local oddball</em> (LO): it violates the local context set by repeating x, and by then it is predictable. The <em>global oddball</em> (GO) is x-x-x-x, a pattern never shown during habituation: it violates the learned global sequence, and it cannot be explained by release from adaptation.</p>
+<h2>Blocks and contrasts</h2>
+<ul>
+<li>Main block (400 trials): 80% x-x-x-y (predicted), 20% x-x-x-x (global oddball).</li>
+<li>Control block (200 trials): x-x-x-x and y-y-y-y, 50% each, predictable after the first stimulus.</li>
+<li>Main contrast: response to the fourth stimulus (P4) minus the third (P3), main block versus the same sequence position in the control block. P3 normalization removes cross-session firing-rate drift. For GO this isolates a prediction-error signal while controlling short-term adaptation; for LO it reveals release of adaptation.</li>
+<li>No-report task (no motor or reward confound on sensory responses); pupil (monkey) and running speed (mouse) indicated that the habituated sequence was learned.</li>
+</ul>
+<h2>Recordings</h2>
+<p>Neuropixels in mice (areas V1, LM, RL, AL, PM, AM) and 128-channel or 32-channel laminar probes in two monkeys (V1, V2, V3, V4, MT, MST, 8A, PFC); cell-type-specific optogenetics in both species. Significant oddball responses by nonparametric cluster-based permutation test, P &lt; 0.05 corrected.</p>
+<h2>Reported findings</h2>
+<ol>
+<li>GO responses were restricted to higher-order, more cognitive areas rather than early-to-mid visual cortex.</li>
+<li>Optogenetics and waveform analysis found no evidence that predictive suppression is implemented through inhibitory interneurons.</li>
+<li>Highly predictable LO responses were present in over 50% of neurons, including higher-order cortex, where suppression was expected; they were widespread, early and fed forward up the hierarchy.</li>
+<li>GO responses did not show feedforward processing; the laminar and area pattern fit feedback involving L2/3 and L5/6 in higher areas.</li>
+</ol>
+<h2>Relation to the omission paradigm</h2>
+<p>Shared (owner's framing): a habituated sequence with a violation at a fixed position, contrasted with a control block. Different, from the two pages: omission removes sensory drive in an intact time slot (no stimulus), whereas GO replaces the fourth stimulus by a stimulus of the other identity in an unpredicted sequence. Whether the contrasts map one to one is not established here.</p>

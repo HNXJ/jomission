@@ -142,7 +142,11 @@ def test_selection_is_not_determined_in_record():
     assert sel["status"] == "NOT DETERMINED"
     assert sel["eight_selected"] is None
     assert any("B3" in b for b in sel["blocked_by"])
-    assert sel["rule_status"].startswith("PROPOSAL")
+    assert sel["rule_status"].startswith("NOT APPLIED")
+    assert "frozen" in sel["rule"].lower() and "0.05" in sel["rule_status"]
+    bound = sel["bound_analysis_STRICT_5TERM_INFORMATIONAL"]
+    assert bound["scope"].startswith("STRICT comparison")
+    assert bound["certainly_dominated"] == []
 
 
 def test_none_value_fails_gate_without_exception():

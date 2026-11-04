@@ -10,11 +10,11 @@
   "CV eligibility",
   "runner code and receipts"
  ],
- "correction_script_sha256": "524931a1d4d410c8c45e76d1bde20f0f37f3a7d95ffcd45e0cf3c6e806c24874",
+ "correction_script_sha256": "7e98d68fa7b62c137a667080a7aa62cb69625076c1c2aff5facd1c41ad094ed8",
  "frozen_departures": [
   "dimensions: runner soft set has 6 terms (B1, B2 x4, B3); frozen J set has 7 (J_rates, J_irregularity, J_synchrony, J_Fano, J_hetero, J_EI, J_CL1C). manifests/agsdr_local_objectives.json algorithm_spec; design note line 167",
-  "dominance tolerance: frozen epsilon 0.05 (objectives algorithm_spec pareto_ranking); runner and this record use strict comparison, epsilon 0",
-  "overflow: frozen rule keeps N1=8 nondominated survivors with w=1/6 tie-breaker (agsdr_local_harness.json selection); it does not define overflow beyond the front. This record's front-order fill is a proposal",
+  "dominance tolerance: frozen epsilon 0.05 RETAINED (owner ruling 1, 2026-11-04). The runner and the bound analysis use strict comparison, epsilon 0: not valid for selection. The exact predicate (absolute or relative, boundary handling) is not defined in the frozen source (OPEN-23)",
+  "overflow: frozen rule keeps N1=8 nondominated survivors with w=1/6 tie-breaker (agsdr_local_harness.json selection). It does not define overflow beyond the front. The front-order fill from dominated fronts is WITHDRAWN as automatic (owner ruling 1 note). Overflow is open (OPEN-18)",
   "time basis: frozen H09 and J_EI are per step (edge_current_trace[t]); runner uses a time-integrated ratio over the 2000 ms run",
   "sign: frozen J_EI takes I_e positive and I_i negative; runner and record take abs(w)",
   "hard list: design line 18 lists nine gates; manifest lists H01-H12. H07 and H11 are not computed"
@@ -566,10 +566,12 @@
  "schema": "agsdr_stage0_correction_v1",
  "selection": {
   "blocked_by": [
-   "B3 needs per-population tau-weighted ratios p' = 2p/(5-3p); the receipts keep only the in-band fraction, so none is retained",
-   "dimension set (6 runner vs 7 frozen), dominance epsilon (0 vs 0.05), and overflow rule need owner ruling"
+   "dimension set: runner computes 6 terms; frozen names 7 (J_hetero, J_CL1C not computed). Owner ruling 2",
+   "exact dominance predicate for epsilon 0.05 (OPEN-23)",
+   "overflow beyond the front (OPEN-18)",
+   "B3 needs per-population tau-weighted ratios p' = 2p/(5-3p); the receipts keep only the in-band fraction, so none is retained (OPEN-19)"
   ],
-  "bound_analysis_informational": {
+  "bound_analysis_STRICT_5TERM_INFORMATIONAL": {
    "certainly_dominated": [],
    "certainly_nondominated": [
     "AGS_S0_00",
@@ -584,6 +586,7 @@
     "AGS_S0_20"
    ],
    "cut_note": "not settled by bounds: ordering inside an overflowing front uses the full soft distance, which includes B3",
+   "scope": "STRICT comparison (epsilon 0), five Efrac-free terms, no B3. NOT valid under the frozen seven-dimension epsilon-0.05 rule. Recompute after the dimension set and the exact predicate are ruled.",
    "terms_used": [
     "B1_mu_band_3_15",
     "B2_CV_rate_above_0p3",
@@ -609,8 +612,8 @@
    ]
   },
   "eight_selected": null,
-  "rule": "Pareto front over the soft terms among tau-feasible candidates; fill eight slots in front order; within a front that overflows, sort by soft distance then candidate ID.",
-  "rule_status": "PROPOSAL pending owner ruling (OPEN-18); not applied",
+  "rule": "Frozen (agsdr_local_harness.json selection; objectives algorithm_spec): among tau-feasible candidates, keep the nondominated set on the seven J_k with dominance tolerance epsilon 0.05; tie-break by w=1/6 scalar among the nondominated only; eliminate the remainder regardless of scalar.",
+  "rule_status": "NOT APPLIED. Frozen epsilon 0.05 retained (ruling 1). Dimension set, exact predicate and overflow open. No automatic fill from dominated fronts.",
   "shortfall_rule": "stop and report if fewer than eight tau-feasible candidates",
   "status": "NOT DETERMINED"
  },
@@ -625,5 +628,5 @@
  },
  "task": "SCI-AGSDR-CALIBRATION",
  "tau_check": "docs/receipts/agsdr_local/stage0_tau_check.json",
- "tau_check_sha256": "7002ea467367df7d40574277f5a43b9975466324d956a72a8b7686a980bcc4fb"
+ "tau_check_sha256": "2863ba2efa161699850fa14ba5555e68cd4cdff9b37d4fef4a601e3b1dbd33e4"
 }

@@ -222,6 +222,9 @@ def bound_analysis() -> dict:
     certain = sorted(x for x in vec if not any(dom(vec[y], vec[x]) for y in vec if y != x))
     undetermined = sorted(x for x in vec if x not in certain)
     return {
+        "scope": "STRICT comparison (epsilon 0), five Efrac-free terms, no B3. NOT valid under the "
+                 "frozen seven-dimension epsilon-0.05 rule. Recompute after the dimension set and "
+                 "the exact predicate are ruled.",
         "terms_used": FIVE_EFRAC_FREE,
         "certainly_nondominated": certain,
         "undetermined": undetermined,
@@ -303,11 +306,14 @@ def correct() -> int:
             "dimensions: runner soft set has 6 terms (B1, B2 x4, B3); frozen J set has 7 "
             "(J_rates, J_irregularity, J_synchrony, J_Fano, J_hetero, J_EI, J_CL1C). "
             "manifests/agsdr_local_objectives.json algorithm_spec; design note line 167",
-            "dominance tolerance: frozen epsilon 0.05 (objectives algorithm_spec pareto_ranking); "
-            "runner and this record use strict comparison, epsilon 0",
+            "dominance tolerance: frozen epsilon 0.05 RETAINED (owner ruling 1, 2026-11-04). "
+            "The runner and the bound analysis use strict comparison, epsilon 0: not valid for "
+            "selection. The exact predicate (absolute or relative, boundary handling) is not "
+            "defined in the frozen source (OPEN-23)",
             "overflow: frozen rule keeps N1=8 nondominated survivors with w=1/6 tie-breaker "
-            "(agsdr_local_harness.json selection); it does not define overflow beyond the front. "
-            "This record's front-order fill is a proposal",
+            "(agsdr_local_harness.json selection). It does not define overflow beyond the front. "
+            "The front-order fill from dominated fronts is WITHDRAWN as automatic (owner ruling "
+            "1 note). Overflow is open (OPEN-18)",
             "time basis: frozen H09 and J_EI are per step (edge_current_trace[t]); runner uses a "
             "time-integrated ratio over the 2000 ms run",
             "sign: frozen J_EI takes I_e positive and I_i negative; runner and record take abs(w)",
@@ -330,19 +336,24 @@ def correct() -> int:
         "sampling_departure": sampling_departure(receipts),
         "selection": {
             "status": "NOT DETERMINED",
-            "rule_status": "PROPOSAL pending owner ruling (OPEN-18); not applied",
-            "rule": "Pareto front over the soft terms among tau-feasible candidates; fill eight "
-                    "slots in front order; within a front that overflows, sort by soft distance "
-                    "then candidate ID.",
+            "rule_status": "NOT APPLIED. Frozen epsilon 0.05 retained (ruling 1). Dimension set, "
+                            "exact predicate and overflow open. No automatic fill from dominated "
+                            "fronts.",
+            "rule": "Frozen (agsdr_local_harness.json selection; objectives algorithm_spec): among "
+                    "tau-feasible candidates, keep the nondominated set on the seven J_k with "
+                    "dominance tolerance epsilon 0.05; tie-break by w=1/6 scalar among the "
+                    "nondominated only; eliminate the remainder regardless of scalar.",
             "blocked_by": [
+                "dimension set: runner computes 6 terms; frozen names 7 (J_hetero, J_CL1C not "
+                "computed). Owner ruling 2",
+                "exact dominance predicate for epsilon 0.05 (OPEN-23)",
+                "overflow beyond the front (OPEN-18)",
                 "B3 needs per-population tau-weighted ratios p' = 2p/(5-3p); the receipts keep "
-                "only the in-band fraction, so none is retained",
-                "dimension set (6 runner vs 7 frozen), dominance epsilon (0 vs 0.05), and overflow "
-                "rule need owner ruling",
+                "only the in-band fraction, so none is retained (OPEN-19)",
             ],
             "eight_selected": None,
             "shortfall_rule": "stop and report if fewer than eight tau-feasible candidates",
-            "bound_analysis_informational": bound_analysis(),
+            "bound_analysis_STRICT_5TERM_INFORMATIONAL": bound_analysis(),
         },
     }
     CORRECTION.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")

@@ -1677,7 +1677,7 @@
      ],
      "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
      "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
-     "stop_condition": "stage 0 run and correction packet done (a30ce48, audited). Stage 1 is not authorized until the rulings in blocked_by are recorded and reviewer authorization is recorded",
+     "stop_condition": "stage 0 run and correction packet done (packet f23f8f4; audit fixes a30ce48; ruling 1 in 4e72c8a). Stage 1 is not authorized until: the rulings in blocked_by are recorded (OPEN-18, OPEN-19, OPEN-23, OPEN-24); the viable-regime condition of the procedure is resolved or ruled not to apply (OPEN-25); and reviewer authorization is recorded at a location the TODO names",
      "artifacts_expected": [],
      "downstream_unlock": [
       "SCI-PROP-QUALIFIED-1"
@@ -1824,6 +1824,5 @@
         ]
        }
       }
-     ],
-   "next_authorized_task": null
+     ]
 }

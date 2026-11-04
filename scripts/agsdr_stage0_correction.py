@@ -229,8 +229,8 @@ def bound_analysis() -> dict:
         "certainly_nondominated": certain,
         "undetermined": undetermined,
         "certainly_dominated": [],
-        "cut_note": "not settled by bounds: ordering inside an overflowing front uses the full "
-                    "soft distance, which includes B3",
+        "cut_note": "not settled by bounds: any cut inside an overflowing front needs the tie-break "
+                    "weight (1/6 or 1/7, OPEN-18) and the full soft distance, which includes B3",
     }
 
 
@@ -303,9 +303,19 @@ def correct() -> int:
         "changed": ["H09 input: runner proxy replaced by tau-weighted Efrac in the record only; "
                     "no receipt or runner file was edited"],
         "frozen_departures": [
-            "dimensions: runner soft set has 6 terms (B1, B2 x4, B3); frozen J set has 7 "
-            "(J_rates, J_irregularity, J_synchrony, J_Fano, J_hetero, J_EI, J_CL1C). "
-            "manifests/agsdr_local_objectives.json algorithm_spec; design note line 167",
+            "dimensions: runner soft set has 6 terms (B1, B2 x4, B3). The frozen sources disagree: "
+            "objectives algorithm_spec names 7 (J_rates, J_irregularity, J_synchrony, J_Fano, "
+            "J_hetero, J_EI, J_CL1C); objectives J entries list 6 (J_Fano_J_hetero combined). "
+            "Sources: manifests/agsdr_local_objectives.json algorithm_spec and J entries (OPEN-18)",
+            "weight: w=1/6 (weights_baseline) vs equal 1/7 over the 7 active local dims "
+            "(note_local_expansion, objectives line 167: 'declare before run and freeze'). "
+            "Not ruled (OPEN-18)",
+            "J_rates: runner B1 is a global mean-rate band (sweep B1 line). Frozen J_rates is "
+            "per-class rate distributions and forbids the global mu scalar. Departure",
+            "H08 (pseudogenome locality): hard_threshold in objectives (DESIRED_MOTIF_GAIN ratios "
+            "within +-30%). Runner records it informational (box 0.7 to 1.3 of the candidate "
+            "multiplier); 0 of 24 candidates inside the box. If hard, 0 of 24 are feasible. "
+            "Owner ruling (OPEN-24)",
             "dominance tolerance: frozen epsilon 0.05 RETAINED (owner ruling 1, 2026-11-04). "
             "The runner and the bound analysis use strict comparison, epsilon 0: not valid for "
             "selection. The exact predicate (absolute or relative, boundary handling) is not "
@@ -318,12 +328,12 @@ def correct() -> int:
             "time-integrated ratio over the 2000 ms run",
             "sign: frozen J_EI takes I_e positive and I_i negative; runner and record take abs(w)",
             "hard list: design line 18 lists nine gates; manifest lists H01-H12. H07 and H11 "
-            "are not computed",
+            "are not computed by the runner (OPEN-24)",
         ],
         "superseded_not_edited": {
             "docs/receipts/agsdr_local/stage0_summary.json": [
                 "best_feasible (AGS_S0_06 by scalar soft distance): superseded, not a selection",
-                "feasible_ranked order: scalar ordering, superseded by the proposal rule",
+                "feasible_ranked order: scalar ordering; not a frozen-rule ranking",
                 "stage1_selection: 'not run' stands",
             ],
         },
@@ -339,10 +349,13 @@ def correct() -> int:
             "rule_status": "NOT APPLIED. Frozen epsilon 0.05 retained (ruling 1). Dimension set, "
                             "exact predicate and overflow open. No automatic fill from dominated "
                             "fronts.",
-            "rule": "Frozen (agsdr_local_harness.json selection; objectives algorithm_spec): among "
-                    "tau-feasible candidates, keep the nondominated set on the seven J_k with "
-                    "dominance tolerance epsilon 0.05; tie-break by w=1/6 scalar among the "
-                    "nondominated only; eliminate the remainder regardless of scalar.",
+            "rule": "Frozen (agsdr_local_harness.json seeds_fidelity_schedule.stages[0].selection): "
+                    "keep N1=8 survivors: all hard-pass, then the nondominated set on the J set with "
+                    "dominance tolerance epsilon 0.05; w=1/6 tie-break only among nondominated; "
+                    "eliminate the remainder regardless of scalar. Frozen text does not define the "
+                    "two overflow cases: (i) more than 8 nondominated: the cut is by the w-weighted "
+                    "scalar, weight open (1/6 vs 1/7); (ii) fewer than 8 nondominated: undefined "
+                    "in the frozen text.",
             "blocked_by": [
                 "dimension set: runner computes 6 terms; frozen names 7 (J_hetero, J_CL1C not "
                 "computed). Owner ruling 2",
@@ -352,7 +365,8 @@ def correct() -> int:
                 "only the in-band fraction, so none is retained (OPEN-19)",
             ],
             "eight_selected": None,
-            "shortfall_rule": "stop and report if fewer than eight tau-feasible candidates",
+            "shortfall_rule": "RECORD-AUTHORED, not frozen: stop and report if fewer than eight "
+                              "candidates survive; no replacements",
             "bound_analysis_STRICT_5TERM_INFORMATIONAL": bound_analysis(),
         },
     }

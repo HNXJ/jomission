@@ -143,6 +143,12 @@ def test_selection_is_not_determined_in_record():
     assert sel["eight_selected"] is None
     assert any("B3" in b for b in sel["blocked_by"])
     assert sel["rule_status"].startswith("NOT APPLIED")
+    assert "N1=8" in sel["rule"]
+    assert "w=1/6 tie-break only among nondominated" in sel["rule"]
+    assert "RECORD-AUTHORED" in sel["shortfall_rule"]
+    dep_text = " ".join(_json("stage0_correction_v1.json")["frozen_departures"])
+    for key in ("H08", "J_rates", "weight: w=1/6", "dominance tolerance"):
+        assert key in dep_text, key
     assert "frozen" in sel["rule"].lower() and "0.05" in sel["rule_status"]
     bound = sel["bound_analysis_STRICT_5TERM_INFORMATIONAL"]
     assert bound["scope"].startswith("STRICT comparison")

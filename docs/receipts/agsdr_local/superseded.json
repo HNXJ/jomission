@@ -1,0 +1,12 @@
+{
+  "schema": "agsdr_superseded_index_v1",
+  "note": "Additive index. The original receipts are not edited. Fields below are not a valid selection or feasibility result.",
+  "stage0_summary.json": {
+    "best_feasible": "scalar soft-distance minimum (AGS_S0_06); not a frozen-rule selection",
+    "feasible_ranked": "scalar ordering; not a Pareto or frozen-rule ranking",
+    "hard_pass_count": "24 under the runner gate set only (H01-H06, H09, H10a-d); H08 informational, H07 and H11 not computed",
+    "soft_distance": "B3 uses tau-omitted per-population ratios; soft values carry that defect",
+    "stage1_selection": "'not run' stands"
+  },
+  "successor": ["docs/receipts/agsdr_local/stage0_correction_v1.json"]
+}

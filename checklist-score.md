@@ -1,14 +1,14 @@
-# Checklist score (v4, final for owner review)
+# Checklist score (v4)
 
-Scope: the jomission project goals, as the program stands on 2026-11-04 (branch cowork/focused-ptolemy-dz7hwc; commit shas in item evidence). Not yet the checklist the dashboard reads (still v3, root checklist-score.md).
+Scope: the jomission project goals, as the program stands on 2026-11-04 (branch cowork/focused-ptolemy-dz7hwc; commit shas in item evidence). This file is the checklist the dashboard reads (adopted 2026-11-04).
 50 items, 2 points each, sum 100. Scoring: 2 = met with a receipt or commit that was checked, 1 = partial, 0 = not met or not verifiable.
 Category maxima (owner, 2026-11-04): Science program 40 (20 items), Documentation and reproducibility 30 (15), Dashboard and figures 20 (10), Rest 10 (5). The item count per category is unchanged from v3.
-Earlier revisions: v3 (50, 2026-11-04) at checklist-score.md (repo root); v2 (83.2) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
+Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Sensitivity: 53 if item 17 (added after the H results) is not accepted. Final score awaits the owner rulings listed in Notes.
+**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). Pending: PV drive scan retirement (no score effect).
 
 ## By category
 | Category | Score | Items |
@@ -43,7 +43,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 20 | Science program | H balance rule entered in the calibrated model with its own sealed calibration | 0 | not in the calibrated model (85c138b, Q7); H inactive in sealed 0.5.8 lineages (b1611d8); rule exists as optional jomission/dynamics/activity_balance.py. New item |
 | 21 | Documentation and reproducibility | Cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
 | 22 | Documentation and reproducibility | Fresh-clone reproduction of the setup | 1 | run in this container only; fresh cloud image not tested (OPEN-09 in docs/OPEN.md) |
-| 23 | Documentation and reproducibility | Checklist versioned with history | 2 | docs/checklist-score-v1.md; docs/checklist-score-v2.md; checklist-score.md (v3, repo root); docs/checklist-score-v4.md (this draft); git history |
+| 23 | Documentation and reproducibility | Checklist versioned with history | 2 | docs/checklist-score-v1.md; docs/checklist-score-v2.md; docs/checklist-score-v3.md; checklist-score.md (v4, repo root); git history |
 | 24 | Documentation and reproducibility | Results inventory on the dashboard | 1 | inventory section of docs/DASHBOARD.html (built by scripts/build_dashboard.py); figures not rendered (OPEN-14) |
 | 25 | Documentation and reproducibility | Open stack current and consistent with audits | 1 | docs/OPEN.md (updated at 7769617: OPEN-19 removed as done, OPEN-29 added); OPEN-22 (PR #1 body stale) and OPEN-28 (full-suite failures, not bisected) open |
 | 26 | Documentation and reproducibility | Handoff regenerated and current | 1 | docs/HANDOFF_CURRENT.md (regenerated at 374410d); carries no R1 to R6 status (review table below), so partial |
@@ -104,10 +104,10 @@ Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboar
 - Item 15 is a term scan of the runner, not an H05 or H08 test.
 - Items 9, 10: canonical lineage ruled Q13 (SCI-EI-NATIVE-STATE-1); OPEN-02 corrected. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).
 - Item 17 is partial by design and must not be read as H being calibrated. Items 19 and 20 stay at 0 so the limits stay visible.
-- Items 17, 19, 20 were defined after the H results; the owner is asked to ratify them.
+- Items 17, 19, 20 were defined after the H results; ratified by the owner (Q14, 2026-11-04).
 - Paradigm pages (omission; global-local oddball, 11da5b2) are not scored: category item counts are fixed by the owner.
 - Item 37 was checked on a copy of the repository (byte-identical rebuild).
 - OPEN-21 (b8d492e) bears on item 30 (provenance), not item 28; v2 numbering caused the mix-up. Item 28 stays 0 (OPEN-08).
-- Adoption: copy to checklist-score.md (v3 to docs/checklist-score-v3.md), edit scripts/build_dashboard.py line 164 header, rebuild docs/DASHBOARD.html, update OPEN-02, OPEN-21, OPEN-22 references.
-- Pending owner rulings: ratify items 17, 19, 20; PV drive scan retirement.
+- Adopted 2026-11-04: v3 moved to docs/checklist-score-v3.md; scripts/build_dashboard.py header says v4; dashboard rebuilt.
+- Pending owner ruling: PV drive scan retirement (item 18).
 - Checker (independent) proposed 57: disagreements on items 7, 38, 39 (+1 each; definitions), 22 (-1) are not adopted here without evidence beyond definition reading; recorded for ruling.

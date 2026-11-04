@@ -8,7 +8,7 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). Pending: PV drive scan retirement (no score effect).
+**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
@@ -38,7 +38,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 15 | Science program | B10 term scan of the stage-0 runner clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (22-term whole-word scan, runner sha 160265516fe2); the receipt states the objective predicate is not separately implemented (v3 item 19) |
 | 16 | Science program | AGSDR Efrac tau correction applied to stage-0 receipts, including B3 | 2 | docs/receipts/agsdr_local/stage0_correction_v1.json; docs/receipts/agsdr_b3_rerun/summary.json (sealed 47d055f) (v3 item 20) |
 | 17 | Science program | H balance-only rule acts on the network under a sealed test (predictions H1 to H3) | 1 | spec ce55b01 before run a7e3ae8; per-run fields in docs/receipts/h_balance_test/*_seed*.json recomputed: H1, H2, H3 hold 4 of 4. n = 2 seeds per condition; A seed 0 was seen in a smoke run (spec), so 3 of 4 are independent. Runner changed between seal and run for the mech test (b4fee06 surrogate seeding, de1b423 record_weight_trace False; spikes checked identical at 2000 ms only), disclosed here. Spec-before-run ancestry checked (git merge-base --is-ancestor): 3ca43f3<87acaf5, ce55b01<a7e3ae8, 11c1a0f<dc80abe, 024d2a6<069f21d, ac62ff0<7b21e87, 7ffa304<4df8ac9. Negative results are receipted: h_active_test (87acaf5), h_sync_test (dc80abe), h_sync2_test (4df8ac9, selection failed); ledger OPEN-27. Not a calibration claim. New item |
-| 18 | Science program | PV drive scan (matched-state) | 0 | no approved spec or receipt; retirement pending owner ruling (the calibration freezes PV_DRIVE 1.7; its J_CL1C +50% test is a response measure, not a matched-state scan) (v3 item 18) |
+| 18 | Science program | PV drive scan (matched-state) | 0 | no approved spec or receipt; kept, not retired (Q15) (the calibration freezes PV_DRIVE 1.7; its J_CL1C +50% test is a response measure, not a matched-state scan) (v3 item 18) |
 | 19 | Science program | H balance-only rho and population Fano rise resolved (prediction H4) | 0 | known limit, not resolved: H4 fails 4 of 4 (a7e3ae8); b9f118a; synchrony term closed by owner (Q6; h_sync_test, h_sync2_test). New item |
 | 20 | Science program | H balance rule entered in the calibrated model with its own sealed calibration | 0 | not in the calibrated model (85c138b, Q7); H inactive in sealed 0.5.8 lineages (b1611d8); rule exists as optional jomission/dynamics/activity_balance.py. New item |
 | 21 | Documentation and reproducibility | Cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
@@ -109,5 +109,5 @@ Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboar
 - Item 37 was checked on a copy of the repository (byte-identical rebuild).
 - OPEN-21 (b8d492e) bears on item 30 (provenance), not item 28; v2 numbering caused the mix-up. Item 28 stays 0 (OPEN-08).
 - Adopted 2026-11-04: v3 moved to docs/checklist-score-v3.md; scripts/build_dashboard.py header says v4; dashboard rebuilt.
-- Pending owner ruling: PV drive scan retirement (item 18).
+- Item 18: owner ruled keep (Q15); it is not retired. No spec is drafted.
 - Checker (independent) proposed 57: disagreements on items 7, 38, 39 (+1 each; definitions), 22 (-1) are not adopted here without evidence beyond definition reading; recorded for ruling.

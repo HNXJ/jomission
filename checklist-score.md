@@ -25,9 +25,9 @@ The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migratio
 | 4 | Engine migration | frozen canonical config_hash = owner-accepted value | 2 | tests/test_rf.py:37 = 05f3d334451c53d2 (owner Q1) |
 | 5 | Engine migration | jaxfne refusals audited against their rules | 2 | docs/JAXFNE_058_AUDIT.md |
 | 6 | Engine migration | jaxfne issue tracker checked for reported defects | 2 | HNXJ/jaxfne: 0 issues, 119 PRs (gh api, add_repo push) |
-| 7 | Engine migration | tier 0 passes on head | 2 | tier 0 on cfd7333: 208 passed, 0 failed |
-| 8 | Engine migration | tier 1 non-simulating passes on head | 2 | tier 1 non-simulating on cfd7333: 45 passed, 1 skipped, 0 failed |
-| 9 | Engine migration | tier 2 passes on head | 2 | tier 2 on cfd7333: 405 passed, 3 skipped, 0 failed; no code change since |
+| 7 | Engine migration | tier 0 passes on head | 2 | tier 0 on 860e330: 216 passed, 0 failed |
+| 8 | Engine migration | tier 1 non-simulating passes on head | 2 | tier 1 non-simulating on 860e330: 49 passed, 1 skipped, 0 failed |
+| 9 | Engine migration | tier 2 passes on head | 2 | tier 2 on 860e330: 419 passed, 3 skipped, 0 failed |
 | 10 | Engine migration | owner order 0.5.8 adopted as source of truth | 2 | execution_authority promoted; record results/jaxfne_058_migration.json |
 | 11 | Models | canonical 400-neuron network builds on 0.5.8 | 2 | build_jomission_model; tier 2 |
 | 12 | Models | within-area locality realized (within_locality + pruning) | 2 | builder.py; edge identity |
@@ -36,9 +36,9 @@ The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migratio
 | 15 | Models | minimal model = canonical 400-neuron build (owner-defined) | 2 | owner confirmed 2026-11-03; tier 2 |
 | 16 | Models | lite model V1+V4, 200 neurons, builds and simulates finitely | 2 | build_jomission_lite_model; tests/test_lite_model.py |
 | 17 | Models | field, Retina and areas declarations realized | 2 | builder.py field; scripts/whole_system_ei_native_state_arm.py |
-| 18 | Models | per-trial seed consistency in exposure | 2 | jomission/simulation/exposure.py; tests/test_exposure_continuation.py |
-| 19 | Harness and evidence | project_check full PASS on head | 2 | project_check PASS at cfd7333 |
-| 20 | Harness and evidence | sealed registry and guards pass | 2 | test_harness_guards: 21 passed after the last registry append (59c6323) |
+| 18 | Models | per-trial seed consistency in exposure | 2 | exposure: one simulation per trial, all trials aggregated (290e5e6); tests/test_exposure_continuation.py: 4 tests fail on pre-repair code, pass on fix |
+| 19 | Harness and evidence | project_check full PASS on head | 2 | PROJECT_CHECK_PASS at 860e330 |
+| 20 | Harness and evidence | sealed registry and guards pass | 2 | test_harness_guards: 11 passed at 860e330 |
 | 21 | Harness and evidence | CI project-check success on head | 1.6 | CI tier0 verified on a9fcb65 (run 126236521645); current head run pending |
 | 22 | Harness and evidence | handoff regenerated; state consistent | 2 | docs/HANDOFF_CURRENT.md; project_check [ok] |
 | 23 | Harness and evidence | working tree clean and pushed to designated branch | 2 | cowork/focused-ptolemy-dz7hwc |

@@ -1,0 +1,64 @@
+{
+ "probe_sha256": "8a4fc95ddb1c19a8e005e779bf2b4f670a1e3ac67539ebd4dc3392cffc07fa27",
+ "rule_sha256": "73f7dfa59f773fbbd90032e1e9922f4fd6e2f1233ad10aa876ffe66cfcafc529",
+ "runs": [
+  "A_normal_seed0",
+  "A_normal_seed1",
+  "A_normal_seed2",
+  "A_normal_seed3",
+  "B_stress_x1p5_seed0",
+  "B_stress_x1p5_seed1",
+  "B_stress_x1p5_seed2",
+  "B_stress_x1p5_seed3"
+ ],
+ "script_sha256": "a43c8ffa88cff7bdde93ad6aaeb7228f38575659cb856bd93c98f4d4b2ba6a02",
+ "spec": "docs/designs/H_SYNC_STARTUP_spec.md",
+ "spec_sha256": "75e54796147cfaa06bc57647fde5e2022b44014bf6bf30fb5feb72acd8082400",
+ "verdicts": {
+  "HS1_sync_le_half_balance": {
+   "A_normal_seed0": true,
+   "A_normal_seed1": true,
+   "A_normal_seed2": true,
+   "A_normal_seed3": true,
+   "B_stress_x1p5_seed0": false,
+   "B_stress_x1p5_seed1": false,
+   "B_stress_x1p5_seed2": false,
+   "B_stress_x1p5_seed3": false,
+   "all": false
+  },
+  "HS2_sigma_peak_ge_10": {
+   "A_normal_seed0": true,
+   "A_normal_seed1": true,
+   "A_normal_seed2": true,
+   "A_normal_seed3": true,
+   "B_stress_x1p5_seed0": true,
+   "B_stress_x1p5_seed1": true,
+   "B_stress_x1p5_seed2": true,
+   "B_stress_x1p5_seed3": true,
+   "all": true
+  },
+  "HS3_fixref_ge_0p8_balance": {
+   "A_normal_seed0": true,
+   "A_normal_seed1": true,
+   "A_normal_seed2": true,
+   "A_normal_seed3": true,
+   "B_stress_x1p5_seed0": true,
+   "B_stress_x1p5_seed1": true,
+   "B_stress_x1p5_seed2": true,
+   "B_stress_x1p5_seed3": true,
+   "all": true
+  },
+  "HS4_H_floor_sync_and_not_fixref": {
+   "A_normal_seed0": false,
+   "A_normal_seed1": false,
+   "A_normal_seed2": false,
+   "A_normal_seed3": false,
+   "B_stress_x1p5_seed0": false,
+   "B_stress_x1p5_seed1": false,
+   "B_stress_x1p5_seed2": false,
+   "B_stress_x1p5_seed3": false,
+   "all": false
+  },
+  "startup_explanation_supported": false
+ }
+}

@@ -1,6 +1,6 @@
 # SCI-AGSDR-CALIBRATION: J_rates spec (DRAFT, not sealed, not in effect)
 
-Status: DRAFT. Rulings R1 to R5 recorded 2026-11-04 (section "Rulings recorded" at the end). Not sealed. Nothing here is executed. The rerun that saves per-population rates still needs its own owner authorization. Sealing requires (1) the owner's rulings on the items marked RULING below, and (2) an owner authorization for a rerun that saves per-population mean rates (none of the stage-0 or B3 receipts keeps them).
+Status: SUPERSEDED by docs/designs/SCI-AGSDR-JRATES_spec.md (sealed). Historical draft. Rulings R1 to R5 recorded 2026-11-04 (section "Rulings recorded" at the end). Not sealed. Nothing here is executed. The rerun that saves per-population rates still needs its own owner authorization. Sealing requires (1) the owner's rulings on the items marked RULING below, and (2) an owner authorization for a rerun that saves per-population mean rates (none of the stage-0 or B3 receipts keeps them).
 
 ## Question and estimand
 - Frozen source: manifests/agsdr_local_objectives.json, J_rates (lines 170 to 186): per-class rate distributions P(r_E), P(r_PV), P(r_SST), P(r_VIP); "not |bar_r - 7.5| scalar".

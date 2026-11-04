@@ -64,6 +64,9 @@
     "exposure bookkeeping (short JAX, no results writes)": [
      "tests/test_exposure_continuation.py"
     ],
+    "AGSDR stage-0 correction (reads receipts, no simulation, writes nothing)": [
+     "tests/test_agsdr_stage0_correction.py"
+    ],
     "rate-factorial regression (numpy, no simulation)": [
      "tests/test_rf_rate_factorial.py"
     ],

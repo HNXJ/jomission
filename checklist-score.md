@@ -79,7 +79,7 @@ Scoring these needs a re-weighting decision: the 50 scored items total 100 point
 
 | Sim | Objective | Status | Evidence |
 |---|---|---|---|
-| S1 | AGSDR stage 0: 24 candidates x seed 0, 2000 ms, n=400 (24 sims) | RUN; 24/24 hard-feasible; selection and Efrac not valid yet (R1, R2) | a50121b; runner sha 160265516fe2…; stage0_summary.json; candidate receipts; TODO SCI-AGSDR-CALIBRATION OPEN |
+| S1 | AGSDR stage 0: 24 candidates x seed 0, 2000 ms, n=400 (24 sims) | RUN; 24/24 hard-feasible (also after tau correction); selection NOT DETERMINED (R1, R2 B3 input missing) | a50121b; runner sha 160265516fe2…; stage0_summary.json; candidate receipts; TODO SCI-AGSDR-CALIBRATION OPEN |
 | S2 | AGSDR stage 1: top 8 x seeds {0,1} (16 sims) | BLOCKED on R1–R6 | design step 3 |
 | S3 | AGSDR stage 2: top 3 x seeds {0..3} (12 sims) | BLOCKED on S2 | design step 4 |
 
@@ -88,12 +88,12 @@ Source: external review of a50121b. Reproduced against the repo before recording
 
 | R | Condition | Status | Record |
 |---|---|---|---|
-| R1 | Pareto-first selection (design step 2): frozen tie-break within the front; overflow rule (front 11 > 8) declared; corrected record appended, original summary kept | OPEN | OPEN-18 |
-| R2 | Efrac computed as W·r·tau per frozen J_EI, not abs(w)·r_pre; stage 0 recomputed. Effect on AGS_S0_06 proxy 0.672 is ASSUMED ~0.45 (uniform rates per class), not measured | OPEN | OPEN-19 |
-| R3 | Hard gates shown able to fail: one synthetic violating case per gate | OPEN | OPEN-20 |
-| R4 | Sampling departure declared: log-space LHS with mean-window background redraws (16 of 24 rows) | OPEN | OPEN-20 |
-| R5 | CV denominator reported: P(CV_E>0.5)=0.207 over 184 E cells with >=3 spikes, not all E | OPEN | OPEN-20 |
-| R6 | Freeze before stage 1: exact 8 vectors, scoring code, cross-seed selection rule | OPEN | OPEN-18 |
+| R1 | Pareto-first selection: rule recorded (front order, then soft distance and ID); applied to tau-corrected feasibility only once the population inputs of R2 exist. Selection NOT DETERMINED | PARTIAL | OPEN-18; docs/receipts/agsdr_local/stage0_correction_v1.json selection |
+| R2 | Efrac as W·r·tau per frozen J_EI. Global value recomputed for all 24 (realized tau 2.0 ms E-pre, 5.0 ms I-pre, single-valued in all builds). Hard feasibility unchanged (24/24). Population B3 correction NOT COMPUTABLE: per-population E/I sums not retained | PARTIAL | OPEN-19; stage0_tau_check.json; stage0_correction_v1.json |
+| R3 | Hard gates can fail: boundary and synthetic failure cases per gate; predicates reproduce all 24 stored verdicts | DONE (tests) | OPEN-20; tests/test_agsdr_stage0_correction.py (35 tests) |
+| R4 | Sampling departure recorded: 16 rows redrawn, reconstructed from the LHS stream and consistent with the recorded count. Owner acceptance pending | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
+| R5 | CV denominator recorded: P(CV_E>0.5)=0.207 over 184 of 242 E cells (>=3 spikes) | RECORDED | OPEN-20; stage0_correction_v1.json per_candidate |
+| R6 | Freeze before stage 1 (8 vectors, scoring code, cross-seed rule) | BLOCKED on R1/R2 | OPEN-18 |
 
 Not scored. A passing S1 run does not raise any item above; a qualified AGSDR result would need a new scored item and a re-weighting decision.
 | S4 | Single-neuron f-I (NumPy assay, exploratory) | done, not engine-validated | docs/receipts/fi_single_neuron_v1.json; provenance v1_provenance.json |

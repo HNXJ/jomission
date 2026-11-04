@@ -1,0 +1,416 @@
+{
+ "candidates": {
+  "AGS_S0_00": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_01": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_02": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_03": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_04": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_05": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_06": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_07": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_08": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_09": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_10": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_11": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_12": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_13": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_14": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_15": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_16": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_17": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_18": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_19": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_20": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_21": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_22": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  },
+  "AGS_S0_23": {
+   "E_pre": {
+    "edges": 6995,
+    "tau_ms_values": [
+     2.0
+    ]
+   },
+   "I_pre": {
+    "edges": 3671,
+    "tau_ms_values": [
+     5.0
+    ]
+   },
+   "n_E": 242,
+   "n_edges": 10666,
+   "n_neurons": 400
+  }
+ },
+ "correction_script_sha256": "ecd5dd5d0fbcc0e9367b248606846b56f7f72b59bbd8d04846f11eaa5bb04016",
+ "purpose": "realized tau_ms per presynaptic class from the runner's EdgeList (builds only)",
+ "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "schema": "agsdr_stage0_tau_check_v1"
+}

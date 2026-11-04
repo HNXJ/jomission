@@ -1,6 +1,6 @@
 # SCI-AGSDR-CALIBRATION: J_rates spec (DRAFT, not sealed, not in effect)
 
-Status: DRAFT for owner ruling. Nothing here is executed. Sealing requires (1) the owner's rulings on the items marked RULING below, and (2) an owner authorization for a rerun that saves per-population mean rates (none of the stage-0 or B3 receipts keeps them).
+Status: DRAFT. Rulings R1 to R5 recorded 2026-11-04 (section "Rulings recorded" at the end). Not sealed. Nothing here is executed. The rerun that saves per-population rates still needs its own owner authorization. Sealing requires (1) the owner's rulings on the items marked RULING below, and (2) an owner authorization for a rerun that saves per-population mean rates (none of the stage-0 or B3 receipts keeps them).
 
 ## Question and estimand
 - Frozen source: manifests/agsdr_local_objectives.json, J_rates (lines 170 to 186): per-class rate distributions P(r_E), P(r_PV), P(r_SST), P(r_VIP); "not |bar_r - 7.5| scalar".
@@ -42,3 +42,12 @@ Status: DRAFT for owner ruling. Nothing here is executed. Sealing requires (1) t
 
 ## Not decided here
 - Selection, stage 1, the H08 status (amendment 3 draft), and the dimension set are not decided by this spec. J_rates is one of the six J entries in the owner's Q5 ruling.
+
+## Rulings recorded (owner, 2026-11-04)
+- R1 (targets for E populations with no per-layer target): class-global E target [5, 8] Hz, band [2.5, 12] Hz.
+- R2 (FEF and PFC E target 3 to 6 Hz): every layer of FEF and PFC, band [1.5, 9] Hz.
+- R3 (E < PV ordering scope): per (area, layer) pair where both E and PV populations exist; penalty = violated fraction of such pairs.
+- R4 (normalization weights): J_rates = 0.5 (1 - coverage) + 0.5 (ordering penalty), in [0, 1].
+- R5 (VIP mean > 0.5 Hz): soft only, recorded, not gating.
+
+Still required before sealing: (a) owner authorization of the rerun that saves per-population mean rates for the 24 candidates; (b) the sealed spec commit; (c) the controls above.

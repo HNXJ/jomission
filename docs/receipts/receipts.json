@@ -137,5 +137,57 @@
     "total": 85.2,
     "categories": "Engine migration 20/20; Models 16/16; Harness and evidence 19.6/20; Science program 3/16; Dashboard and figures 20/20; Documentation and reproducibility 6.6/8",
     "previous_version": "docs/checklist-score-v1.md (98/100 under migration-only scope; 96.8+ before tier-3 gap)"
+  },
+  "single_neuron_fi": {
+    "receipt": "docs/receipts/fi_single_neuron_v1.json",
+    "script": "scripts/fi_single_neuron.py",
+    "scope": "single neuron, Izhikevich, numpy, 2 s; not a network result; finite-duration rheobase",
+    "summary": {
+      "E": {
+        "engine_preset": {
+          "tonic_drive": 5.0,
+          "b": 0.2,
+          "rheobase_extra_finite_duration": 0.0,
+          "gain_hz_per_unit": 2.183
+        }
+      },
+      "PV": {
+        "engine_preset": {
+          "tonic_drive": 3.0,
+          "b": 0.2,
+          "rheobase_extra_finite_duration": 0.75,
+          "gain_hz_per_unit": 17.135
+        }
+      },
+      "SST": {
+        "engine_preset": {
+          "tonic_drive": 3.5,
+          "b": 0.25,
+          "rheobase_extra_finite_duration": 0.0,
+          "gain_hz_per_unit": 12.615
+        },
+        "jomission": {
+          "tonic_drive": 3.5,
+          "b": 0.21,
+          "rheobase_extra_finite_duration": 0.0,
+          "gain_hz_per_unit": 13.028
+        }
+      },
+      "VIP": {
+        "engine_preset": {
+          "tonic_drive": 3.0,
+          "b": -0.1,
+          "rheobase_extra_finite_duration": 16.75,
+          "gain_hz_per_unit": 0.804
+        },
+        "jomission": {
+          "tonic_drive": 3.0,
+          "b": 0.2,
+          "rheobase_extra_finite_duration": 0.25,
+          "gain_hz_per_unit": 2.879
+        }
+      }
+    },
+    "commit": "to be set at commit"
   }
 }

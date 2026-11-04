@@ -141,53 +141,58 @@
   "single_neuron_fi": {
     "receipt": "docs/receipts/fi_single_neuron_v1.json",
     "script": "scripts/fi_single_neuron.py",
-    "scope": "single neuron, Izhikevich, numpy, 2 s; not a network result; finite-duration rheobase",
+    "scope": "exploratory single-cell NumPy assay with JaxFNE preset parameters; not an engine measurement; not a network result",
     "summary": {
       "E": {
         "engine_preset": {
           "tonic_drive": 5.0,
           "b": 0.2,
-          "rheobase_extra_finite_duration": 0.0,
-          "gain_hz_per_unit": 2.183
+          "first_spike_extra_2s": 0.0,
+          "positive_grid_linear_slope": 2.183
         }
       },
       "PV": {
         "engine_preset": {
           "tonic_drive": 3.0,
           "b": 0.2,
-          "rheobase_extra_finite_duration": 0.75,
-          "gain_hz_per_unit": 17.135
+          "first_spike_extra_2s": 0.75,
+          "positive_grid_linear_slope": 17.135
         }
       },
       "SST": {
         "engine_preset": {
           "tonic_drive": 3.5,
           "b": 0.25,
-          "rheobase_extra_finite_duration": 0.0,
-          "gain_hz_per_unit": 12.615
+          "first_spike_extra_2s": 0.0,
+          "positive_grid_linear_slope": 12.615
         },
         "jomission": {
           "tonic_drive": 3.5,
           "b": 0.21,
-          "rheobase_extra_finite_duration": 0.0,
-          "gain_hz_per_unit": 13.028
+          "first_spike_extra_2s": 0.0,
+          "positive_grid_linear_slope": 13.028
         }
       },
       "VIP": {
         "engine_preset": {
           "tonic_drive": 3.0,
           "b": -0.1,
-          "rheobase_extra_finite_duration": 16.75,
-          "gain_hz_per_unit": 0.804
+          "first_spike_extra_2s": 16.75,
+          "positive_grid_linear_slope": 0.804
         },
         "jomission": {
           "tonic_drive": 3.0,
           "b": 0.2,
-          "rheobase_extra_finite_duration": 0.25,
-          "gain_hz_per_unit": 2.879
+          "first_spike_extra_2s": 0.25,
+          "positive_grid_linear_slope": 2.879
         }
       }
     },
-    "commit": "to be set at commit"
+    "commit": "8ec42ed",
+    "labels": {
+      "onset": "first_spike_extra_2s",
+      "gain": "positive_grid_linear_slope"
+    },
+    "provenance": "docs/receipts/fi_single_neuron_v1_provenance.json"
   }
 }

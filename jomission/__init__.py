@@ -6,22 +6,27 @@ experiment definition, parameterization, orchestration, analysis, and manifests.
 
 __version__ = "0.1.0"
 
-# Persistent XLA compilation cache. Compilation is about two thirds of a canonical build
-# (measured: warm build 1.0 s vs cold 3.7 s). Compiled code is unchanged; only its reuse is.
-# Disable with JOMISSION_JAX_CACHE=0; the cache lives outside the repository.
+# Persistent XLA compilation cache (optional, performance only).
+# Measured on one machine: canonical build cold ~3.7 s, warm ~1.1 s (single run each; not a
+# multi-run benchmark). Compiled code is the same; only its reuse across processes changes.
+# Rules: a setting the caller already made in the environment always wins; the cache
+# directory must be trusted, because another writer to it can run arbitrary code when JAX loads
+# entries. Disable with JOMISSION_JAX_CACHE=0. Default directory: ~/.cache/jomission-jax.
 import os as _os
 
 if _os.environ.get("JOMISSION_JAX_CACHE", "1") != "0":
     try:
         import jax as _jax
 
-        _cache_dir = _os.environ.get(
-            "JAX_COMPILATION_CACHE_DIR",
-            _os.path.join(_os.path.expanduser("~"), ".cache", "jomission-jax"),
-        )
-        _jax.config.update("jax_compilation_cache_dir", _cache_dir)
-        _jax.config.update("jax_persistent_cache_min_compile_time_secs", 0)
-        _jax.config.update("jax_persistent_cache_min_entry_size_bytes", 0)
+        if "JAX_COMPILATION_CACHE_DIR" not in _os.environ:
+            _jax.config.update(
+                "jax_compilation_cache_dir",
+                _os.path.join(_os.path.expanduser("~"), ".cache", "jomission-jax"),
+            )
+        if "JAX_PERSISTENT_CACHE_MIN_COMPILE_TIME_SECS" not in _os.environ:
+            _jax.config.update("jax_persistent_cache_min_compile_time_secs", 0)
+        if "JAX_PERSISTENT_CACHE_MIN_ENTRY_SIZE_BYTES" not in _os.environ:
+            _jax.config.update("jax_persistent_cache_min_entry_size_bytes", -1)  # -1: no size limit
     except Exception:  # cache is an optimization; never block import
         pass
 

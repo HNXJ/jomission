@@ -1,0 +1,39 @@
+{
+ "schema": "jomission.fi_single_neuron_provenance.v1",
+ "receipt": "docs/receipts/fi_single_neuron_v1.json",
+ "receipt_blob": "fab339da4e50713d72e2eca390a9fbdd907e5853",
+ "script": "scripts/fi_single_neuron.py",
+ "script_blob_at_commit": "646be5e9577dbe0e5c37ceba7ae74f94be880794",
+ "script_commit": "8ec42ed (receipt), 39cdf54 (checklist row only)",
+ "engine": {
+  "jaxfne_version_read_for_presets": "0.5.8",
+  "numerical_integrator": "NumPy explicit Euler, dt 0.1 ms, 2000 ms, not the JaxFNE kernel"
+ },
+ "initialization": {
+  "v0": "c",
+  "u0": "b*c"
+ },
+ "reset": {
+  "threshold_mV": 30.0,
+  "v": "c",
+  "u": "u + d"
+ },
+ "grid": {
+  "extra_current": "0 to 20 step 0.25 (81 points)",
+  "total_input": "tonic_drive + extra"
+ },
+ "parameter_sources": "jaxfne.emitters.IZHIKEVICH_CELL_TYPE_DEFAULTS; jomission overrides b: VIP 0.20, SST 0.21",
+ "authorization": "owner, 2026-11-04: single-neuron f-I check only (bounded); output kept in docs/receipts",
+ "classification": "exploratory single-cell numerical assay; not an engine-validated measurement; not a network result",
+ "labels_for_reuse": {
+  "onset": "first_spike_extra_2s (first grid point with any spike in 2 s; a single spike counts)",
+  "gain": "positive_grid_linear_slope (straight line over all positive-rate grid points; not a local derivative)"
+ },
+ "not_established": [
+  "engine numerical equivalence (initialization, integration order, precision, noise, reset semantics)",
+  "sustained-onset threshold (no prospectively specified criterion)",
+  "local network susceptibility"
+ ],
+ "verification_of_claims": "Checked at 8ec42ed: VIP b=0.20 gives one 0.5 Hz spike at extra 0.25 (total 3.25) and 8.0 Hz at extra 1.0 (total 4.00); E and SST already active at lowest grid point.",
+ "created_utc_date": "2026-11-04"
+}

@@ -31,13 +31,13 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 11 | Science program | visualization V2 final raster | 0 | not produced |
 | 12 | Science program | visualization V3 atlas | 0 | not produced |
 | 13 | Science program | AGSDR calibration design sealed, with amendments | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); amendments 1 and 2; B10 audit amendment |
-| 14 | Science program | AGSDR stage 0 executed with receipts | 1 | 24 sims, seed 0, n=400; receipts in docs/receipts/agsdr_local/ (stage0_summary.json, stage0_tau_check.json, stage0_correction_v1.json); Efrac tau defect and selection defect open (R1, R2); H05 denominator open (OPEN-26) |
+| 14 | Science program | AGSDR stage 0 executed with receipts | 2 | 24 sims, seed 0, n=400; receipts in docs/receipts/agsdr_local/ (stage0_summary.json, stage0_tau_check.json, stage0_correction_v1.json); defects are scored in items 15, 16 and 20 |
 | 15 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: dimension set, overflow, epsilon predicate (OPEN-23), B3 route (OPEN-19) open; H08 hard-or-informational conflict (OPEN-24) |
 | 16 | Science program | AGSDR stage 1 (top 8 x seeds 0,1) | 0 | not authorized (stop_condition in manifests/todo.json) |
 | 17 | Science program | AGSDR stage 2 (top 3 x seeds 0..3) | 0 | not authorized; depends on stage 1 |
 | 18 | Science program | PV drive scan (matched-state) | 0 | draft only, not approved, not in repo |
 | 19 | Science program | B10 objective audit clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (runner sha 160265516fe2) |
-| 20 | Science program | build time with persistent compile cache (build only, no simulation speed target) | 2 | docs/receipts/compile_cache_benchmark.json (cold median 3.53 s, warm 1.05 s); not a science result; placement is an owner decision |
+| 20 | Science program | AGSDR Efrac tau correction applied to the stage-0 receipts | 1 | global tau-weighted Efrac recomputed for all 24 (stage0_correction_v1.json); no hard verdict changes on the 11 runner gates; population B3 not computable (no per-population ratios retained, OPEN-19) |
 | 21 | Documentation and reproducibility | cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
 | 22 | Documentation and reproducibility | fresh-clone reproduction of the setup | 1 | run in this container only; not on a fresh cloud image (OPEN-09) |
 | 23 | Documentation and reproducibility | checklist versioned with history | 2 | docs/checklist-score-v1.md, docs/checklist-score-v2.md, this file; git history |
@@ -52,7 +52,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 32 | Documentation and reproducibility | design-to-code traceability for AGSDR | 1 | runner sha in receipts; correction record; H08 and H07/H11 mismatch with the design unresolved |
 | 33 | Documentation and reproducibility | goals document ratified | 0 | docs/GOALS_PROPOSED.md exists; not ratified by owner (rubric: not ratified = 0) |
 | 34 | Documentation and reproducibility | receipts name generator and hash | 1 | AGSDR receipts do; older receipts not audited |
-| 35 | Documentation and reproducibility | compile-cache trust documented | 1 | default directory documented; trust decision open (OPEN-17) |
+| 35 | Documentation and reproducibility | compile cache: build-time receipt and trust documented (merged from former item 20) | 1 | docs/receipts/compile_cache_benchmark.json (cold 3.53 s, warm 1.05 s; build only); trust decision open (OPEN-17) |
 | 36 | Dashboard and figures | docs/DASHBOARD.html committed, no external resources | 2 | docs/DASHBOARD.html; self-contained SVG |
 | 37 | Dashboard and figures | dashboard generated deterministically by scripts/build_dashboard.py | 2 | rebuild byte-identical (checked 2026-11-04) |
 | 38 | Dashboard and figures | tier 0 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; v2 objective was a figure; not a result figure, audit 2026-11-04) |

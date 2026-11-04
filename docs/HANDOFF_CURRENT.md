@@ -85,7 +85,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Next authorized task
 
-- `NONE` (no task currently open; awaiting reviewer direction)
+- `SCI-AGSDR-CALIBRATION` (OPEN): calibrate AGSDR per-class rates against the EI-defined plant
+- stop: BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization
 
 ### Locked gates
 

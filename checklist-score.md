@@ -11,10 +11,10 @@ The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migratio
 |---|---|---|
 | Engine migration | 20 / 20 | 10 |
 | Models | 16 / 16 | 8 |
-| Harness and evidence | 20 / 20 | 10 |
+| Harness and evidence | 19.6 / 20 | 10 |
 | Science program | 3 / 16 | 8 |
 | Dashboard and figures | 20 / 20 | 10 |
-| Documentation and reproducibility | 5 / 8 | 4 |
+| Documentation and reproducibility | 6.6 / 8 | 4 |
 
 ## Items
 | # | Category | Objective | Score (of 2) | Evidence |

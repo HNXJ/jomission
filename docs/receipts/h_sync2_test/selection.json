@@ -1,0 +1,270 @@
+{
+ "baseline": {
+  "bar_r_Hz": 22.6675,
+  "class_mean_Hz": {
+   "E": 21.647727272727273,
+   "PV": 46.8125,
+   "SST": 25.601190476190474,
+   "VIP": 4.98046875
+  },
+  "mean_rho": 0.020674399385272126,
+  "pop_synchrony_fano_10ms": 4.234929965810081,
+  "rate_sd_Hz": 17.94016286854721
+ },
+ "condition": "B_stress_x1p5",
+ "grid": [
+  0.15,
+  0.5,
+  1.5
+ ],
+ "picked_kappa_s": null,
+ "rows": [
+  {
+   "kappa_s": 0.15,
+   "pass": false,
+   "rate_matched": {
+    "bar_r_Hz": 13.2675,
+    "class_mean_Hz": {
+     "E": 13.762396694214877,
+     "PV": 22.27403846153846,
+     "SST": 15.68452380952381,
+     "VIP": 2.4921875
+    },
+    "mean_rho": 0.03752112862352289,
+    "pop_synchrony_fano_10ms": 6.156210665159223,
+    "rate_sd_Hz": 13.536490267052239
+   },
+   "sync2": {
+    "bar_r_Hz": 13.255,
+    "class_mean_Hz": {
+     "E": 14.089876033057852,
+     "PV": 18.778846153846153,
+     "SST": 14.398809523809524,
+     "VIP": 4.859375
+    },
+    "mean_rho": 0.1159612506429017,
+    "pop_synchrony_fano_10ms": 9.736506978498678,
+    "rate_sd_Hz": 6.0406673886252005
+   },
+   "terms": {
+    "HC1_fano_lt_rm": false,
+    "HC2_rho_lt_rm": false,
+    "HC3_barr_le_0p8_baseline": true
+   },
+   "tune": {
+    "achieved_bar_r": 13.2675,
+    "iterations": [
+     {
+      "bar_r": 9.31625,
+      "iter": 0,
+      "tonic": 0.6
+     },
+     {
+      "bar_r": 16.390625,
+      "iter": 1,
+      "tonic": 0.75
+     },
+     {
+      "bar_r": 12.69375,
+      "iter": 2,
+      "tonic": 0.675
+     },
+     {
+      "bar_r": 14.48,
+      "iter": 3,
+      "tonic": 0.7125
+     },
+     {
+      "bar_r": 13.57375,
+      "iter": 4,
+      "tonic": 0.6937500000000001
+     },
+     {
+      "bar_r": 13.15625,
+      "iter": 5,
+      "tonic": 0.6843750000000001
+     },
+     {
+      "bar_r": 13.370625,
+      "iter": 6,
+      "tonic": 0.6890625000000001
+     },
+     {
+      "bar_r": 13.2675,
+      "iter": 7,
+      "tonic": 0.68671875
+     }
+    ],
+    "matched": true,
+    "rel_error": 0.0009430403621274454,
+    "target_bar_r": 13.255,
+    "tonic": 0.68671875
+   }
+  },
+  {
+   "kappa_s": 0.5,
+   "pass": false,
+   "rate_matched": {
+    "bar_r_Hz": 12.474375,
+    "class_mean_Hz": {
+     "E": 13.00413223140496,
+     "PV": 20.629807692307693,
+     "SST": 14.845238095238095,
+     "VIP": 2.2890625
+    },
+    "mean_rho": 0.05593205952496932,
+    "pop_synchrony_fano_10ms": 6.354767147652688,
+    "rate_sd_Hz": 13.24206600607983
+   },
+   "sync2": {
+    "bar_r_Hz": 12.515,
+    "class_mean_Hz": {
+     "E": 13.410123966942148,
+     "PV": 17.466346153846153,
+     "SST": 13.333333333333334,
+     "VIP": 4.5703125
+    },
+    "mean_rho": 0.06394202341796972,
+    "pop_synchrony_fano_10ms": 8.449688373951258,
+    "rate_sd_Hz": 5.680484134297005
+   },
+   "terms": {
+    "HC1_fano_lt_rm": false,
+    "HC2_rho_lt_rm": false,
+    "HC3_barr_le_0p8_baseline": true
+   },
+   "tune": {
+    "achieved_bar_r": 12.474375,
+    "iterations": [
+     {
+      "bar_r": 9.31625,
+      "iter": 0,
+      "tonic": 0.6
+     },
+     {
+      "bar_r": 16.390625,
+      "iter": 1,
+      "tonic": 0.75
+     },
+     {
+      "bar_r": 12.69375,
+      "iter": 2,
+      "tonic": 0.675
+     },
+     {
+      "bar_r": 10.950625,
+      "iter": 3,
+      "tonic": 0.6375
+     },
+     {
+      "bar_r": 11.81875,
+      "iter": 4,
+      "tonic": 0.65625
+     },
+     {
+      "bar_r": 12.235,
+      "iter": 5,
+      "tonic": 0.665625
+     },
+     {
+      "bar_r": 12.474375,
+      "iter": 6,
+      "tonic": 0.6703125000000001
+     },
+     {
+      "bar_r": 12.598125,
+      "iter": 7,
+      "tonic": 0.6726562500000001
+     }
+    ],
+    "matched": true,
+    "rel_error": 0.0032461046743907595,
+    "target_bar_r": 12.515,
+    "tonic": 0.6703125000000001
+   }
+  },
+  {
+   "kappa_s": 1.5,
+   "pass": false,
+   "rate_matched": {
+    "bar_r_Hz": 10.72375,
+    "class_mean_Hz": {
+     "E": 11.25309917355372,
+     "PV": 17.283653846153847,
+     "SST": 13.05952380952381,
+     "VIP": 1.859375
+    },
+    "mean_rho": 0.07876133432596942,
+    "pop_synchrony_fano_10ms": 7.282293390838094,
+    "rate_sd_Hz": 12.457738496111562
+   },
+   "sync2": {
+    "bar_r_Hz": 10.77875,
+    "class_mean_Hz": {
+     "E": 11.71694214876033,
+     "PV": 14.826923076923077,
+     "SST": 11.089285714285714,
+     "VIP": 3.73828125
+    },
+    "mean_rho": 0.1436086730520384,
+    "pop_synchrony_fano_10ms": 11.372069465383275,
+    "rate_sd_Hz": 4.942872235603506
+   },
+   "terms": {
+    "HC1_fano_lt_rm": false,
+    "HC2_rho_lt_rm": false,
+    "HC3_barr_le_0p8_baseline": true
+   },
+   "tune": {
+    "achieved_bar_r": 10.72375,
+    "iterations": [
+     {
+      "bar_r": 9.31625,
+      "iter": 0,
+      "tonic": 0.6
+     },
+     {
+      "bar_r": 16.390625,
+      "iter": 1,
+      "tonic": 0.75
+     },
+     {
+      "bar_r": 12.69375,
+      "iter": 2,
+      "tonic": 0.675
+     },
+     {
+      "bar_r": 10.950625,
+      "iter": 3,
+      "tonic": 0.6375
+     },
+     {
+      "bar_r": 10.104375,
+      "iter": 4,
+      "tonic": 0.6187499999999999
+     },
+     {
+      "bar_r": 10.521875,
+      "iter": 5,
+      "tonic": 0.6281249999999999
+     },
+     {
+      "bar_r": 10.72375,
+      "iter": 6,
+      "tonic": 0.6328125
+     },
+     {
+      "bar_r": 10.845625,
+      "iter": 7,
+      "tonic": 0.63515625
+     }
+    ],
+    "matched": true,
+    "rel_error": 0.00510263249449145,
+    "target_bar_r": 10.77875,
+    "tonic": 0.6328125
+   }
+  }
+ ],
+ "tuning_seed": 2
+}

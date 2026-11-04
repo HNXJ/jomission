@@ -1,0 +1,11 @@
+{
+ "schema": "jomission.b10_objective_audit.v1",
+ "runner": "scripts/agsdr_local_sweep.py",
+ "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "runner_git_blob_at_commit": null,
+ "hits": [],
+ "clean": true,
+ "terms_checked": 22,
+ "matching": "whole word (amendment 1, docs/designs/B10_audit_amendment_1.md)",
+ "scope": "whole runner file (stricter than the objective-only predicate; objective not separately implemented)"
+}

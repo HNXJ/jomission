@@ -5,12 +5,12 @@ Scope: the jomission project goals. Re-weighted 2026-11-04 at owner request.
 Category weights (owner, 2026-11-04): Science program 40, Documentation and reproducibility 30, Dashboard and figures 20, rest 10. "Rest" is one pool of 5 items covering engine migration, models and harness.
 Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
 
-**Current score: 48/100** (v3, 2026-11-04). Lower than v2 mainly because the v2 migration, models and harness points (56 maximum) now carry 10 points. At v2 shares, science rose from 7.5 to 12. The re-weighting took v2 from 83.2 to 61.8; item scores took it to 55.0; the critic-audit downgrades (items 26, 33, 45) take it to 52.0; item 4 at 1 (critic, 2026-11-04) takes it to 51.0; the reviewer audit of 6ec69df takes it to 48.0: items 38-40 to 1 (counts, not a result figure), item 49 to 1 (run at 374410d; OPEN-05 and OPEN-06 open), item 47 to 2 (no builder commit since a9fcb65).
+**Current score: 49/100** (v3, 2026-11-04). Lower than v2 mainly because the v2 migration, models and harness points (56 maximum) now carry 10 points. At v2 shares, science rose from 7.5 to 12. The re-weighting took v2 from 83.2 to 61.8; item scores took it to 55.0; the critic-audit downgrades (items 26, 33, 45) take it to 52.0; item 4 at 1 (critic, 2026-11-04) takes it to 51.0; the reviewer audit of 6ec69df takes it to 48.0; owner ruling Q8 restores item 4 to 2: 49.0 (earlier wording kept as audit history): items 38-40 to 1 (counts, not a result figure), item 49 to 1 (run at 374410d; OPEN-05 and OPEN-06 open), item 47 to 2 (no builder commit since a9fcb65).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 12 / 40 | 20 |
+| Science program | 13 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 14 / 20 | 10 |
 | Rest (migration, models, harness) | 7 / 10 | 5 |
@@ -21,7 +21,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 1 | Science program | tier 3 scientific batteries run under an authorized TODO | 0 | owner declined 2026-11-03; PV group decision pending; not run |
 | 2 | Science program | V2 local operation gate PASS (manifests/gates/v2_local_operation.json) | 0 | status FAIL (scientific result) |
 | 3 | Science program | viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 0 | both-repaired cell: no cell viable (docs/HANDOFF_CURRENT.md; lineage_registry EI_REGIME_STILL_UNRESOLVED) |
-| 4 | Science program | regime verdict recorded as one ratified label (any label; "met" definition for the owner, see note) | 1 | EI_REGIME_STILL_UNRESOLVED recorded (SCI-EI-INTERACTION-1, d846eff); ratification as a met label not evidenced (critic audit 2026-11-04); overlaps item 3 |
+| 4 | Science program | regime verdict recorded as one ratified label (any label; "met" definition for the owner, see note) | 2 | EI_REGIME_STILL_UNRESOLVED recorded (SCI-EI-INTERACTION-1, d846eff); owner ruling Q8 (2026-11-04): a recorded sealed verdict counts as met; overlaps item 3 |
 | 5 | Science program | SCI-EI-NATIVE-STATE-1 sealed verdict | 2 | current_state.json: MIXED_STATE_MECHANISM, sealed |
 | 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE; network-level question not closed |
 | 7 | Science program | single-neuron f-I assay (NumPy, exploratory) | 1 | docs/receipts/fi_single_neuron_v1.json; not engine-validated |
@@ -86,5 +86,5 @@ Source: external review of a50121b and audits of f23f8f4, a30ce48, 4e72c8a.
 | R2 | Efrac as W·r·tau (frozen J_EI): global value recomputed for all 24 (tau 2.0 ms E-pre, 5.0 ms I-pre); H05 under the all-E reading (one of two readings; the frozen text is silent on undefined-CV cells): 2 of 24 pass, 22 fail (DERIVED from receipts; an upper bound, since the isolated-smoke part is not computed; OPEN-26). Population B3 needs per-population ratios p' = 2p/(5-3p); none retained. Hard list: runner computes 11 gates; design line 18 lists nine; manifest lists H01-H12; H07 and H11 never computed; H08 is hard in the objectives but informational in the runner, 0 of 24 inside its box. If H08 is hard, 0 of 24 are feasible | PARTIAL | OPEN-19, OPEN-24, OPEN-26; stage0_correction_v1.json |
 | R3 | Hard gates can fail: boundary cases on copies of the predicates; 24 stored verdicts reproduced; runner-path score_run on silent and saturated stub input (2 cases). Other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
 | R4 | Sampling departure: 16 rows redrawn, count reconstructed. Background values of redrawn rows not verified. Recorded, not accepted | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
-| R5 | CV denominator: the runner uses E cells with defined CV (>=3 spikes), a declared choice. AGS_S0_06: 0.207 over 184 of 242 E cells. The frozen H05 text says "fraction of E". Under all 242 E cells, 22 of 24 fail H05 | OPEN (ruling needed) | OPEN-20, OPEN-26; stage0_correction_v1.json |
-| R6 | Stage 1 requires: R1 to R3 resolved, selection determined, eight vectors and cross-seed rule frozen, viable-regime condition of the TODO procedure addressed (OPEN-25) | BLOCKED | OPEN-18, OPEN-19, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |
+| R5 | CV denominator: the runner uses E cells with defined CV (>=3 spikes), a declared choice. AGS_S0_06: 0.207 over 184 of 242 E cells. The frozen H05 text says "fraction of E". Under all 242 E cells, 22 of 24 fail H05 | RULED Q1 (2026-11-04): all E cells; 2 of 24 pass H05 | OPEN-20, OPEN-26; stage0_correction_v1.json |
+| R6 | Stage 1 requires: R1 to R3 resolved, selection determined, eight vectors and cross-seed rule frozen, viable-regime condition of the TODO procedure addressed (OPEN-25) | BLOCKED: shortfall (2 feasible < 8 slots, OPEN-26); waits on a viable-regime verdict (OPEN-25) | OPEN-18, OPEN-19, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |

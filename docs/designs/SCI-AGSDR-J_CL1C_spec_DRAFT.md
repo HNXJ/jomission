@@ -38,3 +38,13 @@ Status: DRAFT. Nothing is executed. Sealing needs the owner rulings listed below
 
 ## Not decided here
 - Selection, the shortfall (OPEN-26), J_rates (computed), and the H08 amendment are separate.
+
+## Rulings recorded (owner, 2026-11-04)
+- C1: each candidate's own stage-0 motif gains.
+- C2: +50 percent of each candidate's own builder drive (its tonic_drive_scale and class scales), not the frozen stated numbers.
+- C3: PV recruitment and the other J_CL1C thresholds are soft, recorded, not gating.
+- C4: the two scratch review files are not used; J_CL1C is computed only from the new reruns.
+- C5: raw deltas only; no effect size d (one seed).
+- C6: accepted: each perturbation's violation is a clipped shortfall in [0, 1]; J_CL1C is the equal-weight mean of the three.
+
+Still required before sealing: (a) owner authorization for 96 interventional simulations (24 candidates x 4 runs of 1000 ms); (b) the sealed spec commit; (c) the controls above.

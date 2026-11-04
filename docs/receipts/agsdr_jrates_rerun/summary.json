@@ -1,0 +1,156 @@
+{
+ "candidates": {
+  "AGS_S0_00": {
+   "J_rates": 0.48161764705882354,
+   "coverage": 0.4117647058823529,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_01": {
+   "J_rates": 0.44485294117647056,
+   "coverage": 0.4852941176470588,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_02": {
+   "J_rates": 0.5220588235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_03": {
+   "J_rates": 0.4209558823529412,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.3125,
+   "pass": true
+  },
+  "AGS_S0_04": {
+   "J_rates": 0.46691176470588236,
+   "coverage": 0.4411764705882353,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_05": {
+   "J_rates": 0.4908088235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_06": {
+   "J_rates": 0.47610294117647056,
+   "coverage": 0.4852941176470588,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_07": {
+   "J_rates": 0.48161764705882354,
+   "coverage": 0.4117647058823529,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_08": {
+   "J_rates": 0.5147058823529411,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_09": {
+   "J_rates": 0.5147058823529411,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_10": {
+   "J_rates": 0.4522058823529412,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_11": {
+   "J_rates": 0.4908088235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_12": {
+   "J_rates": 0.5220588235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_13": {
+   "J_rates": 0.5147058823529411,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_14": {
+   "J_rates": 0.5294117647058824,
+   "coverage": 0.4411764705882353,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_15": {
+   "J_rates": 0.4834558823529412,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_16": {
+   "J_rates": 0.4834558823529412,
+   "coverage": 0.47058823529411764,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_17": {
+   "J_rates": 0.49816176470588236,
+   "coverage": 0.4411764705882353,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_18": {
+   "J_rates": 0.5294117647058824,
+   "coverage": 0.4411764705882353,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_19": {
+   "J_rates": 0.4742647058823529,
+   "coverage": 0.4264705882352941,
+   "ordering_penalty": 0.375,
+   "pass": true
+  },
+  "AGS_S0_20": {
+   "J_rates": 0.47610294117647056,
+   "coverage": 0.4852941176470588,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_21": {
+   "J_rates": 0.4908088235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.4375,
+   "pass": true
+  },
+  "AGS_S0_22": {
+   "J_rates": 0.5220588235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.5,
+   "pass": true
+  },
+  "AGS_S0_23": {
+   "J_rates": 0.5220588235294118,
+   "coverage": 0.45588235294117646,
+   "ordering_penalty": 0.5,
+   "pass": true
+  }
+ },
+ "candidates_run": 24,
+ "controls_all_pass": true,
+ "rerun_script_sha256": "dd274f931abec3191ba472ac1b86d27116d408729d10266640d6651fe27cafd2",
+ "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "schema": "agsdr_jrates_rerun_summary_v1",
+ "selection": "NOT RUN: J_rates alone does not select; the six-term rule and the shortfall (OPEN-26) still apply",
+ "spec": "docs/designs/SCI-AGSDR-JRATES_spec.md",
+ "spec_sha256": "3e449c291fbdfe0aa9ba1c5c3e2d7a173a4b78a5f4fec9b8d2f2f1c54ca10475"
+}

@@ -1,0 +1,499 @@
+{
+ "J_rates": {
+  "J_rates": 0.4209558823529412,
+  "coverage": 0.47058823529411764,
+  "coverage_soft_target_met": false,
+  "n_inband": 32,
+  "n_populations": 68,
+  "ordering_pairs": 16,
+  "ordering_penalty": 0.3125,
+  "ordering_violations": 5
+ },
+ "candidate_id": "AGS_S0_03",
+ "pass": true,
+ "populations": [
+  {
+   "area": "FEF",
+   "cell_type": "VIP",
+   "layer": "L1",
+   "mu_Hz": 1.0,
+   "n": 8
+  },
+  {
+   "area": "FEF",
+   "cell_type": "E",
+   "layer": "L2/3",
+   "mu_Hz": 11.285714285714286,
+   "n": 21
+  },
+  {
+   "area": "FEF",
+   "cell_type": "PV",
+   "layer": "L2/3",
+   "mu_Hz": 0.8333333333333334,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "SST",
+   "layer": "L2/3",
+   "mu_Hz": 6.5,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "VIP",
+   "layer": "L2/3",
+   "mu_Hz": 0.8333333333333334,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "E",
+   "layer": "L4",
+   "mu_Hz": 4.9375,
+   "n": 8
+  },
+  {
+   "area": "FEF",
+   "cell_type": "PV",
+   "layer": "L4",
+   "mu_Hz": 23.0,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "SST",
+   "layer": "L4",
+   "mu_Hz": 3.5,
+   "n": 2
+  },
+  {
+   "area": "FEF",
+   "cell_type": "VIP",
+   "layer": "L4",
+   "mu_Hz": 0.75,
+   "n": 2
+  },
+  {
+   "area": "FEF",
+   "cell_type": "E",
+   "layer": "L5",
+   "mu_Hz": 12.972222222222221,
+   "n": 18
+  },
+  {
+   "area": "FEF",
+   "cell_type": "PV",
+   "layer": "L5",
+   "mu_Hz": 29.5,
+   "n": 4
+  },
+  {
+   "area": "FEF",
+   "cell_type": "SST",
+   "layer": "L5",
+   "mu_Hz": 7.666666666666667,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "VIP",
+   "layer": "L5",
+   "mu_Hz": 3.0,
+   "n": 2
+  },
+  {
+   "area": "FEF",
+   "cell_type": "E",
+   "layer": "L6",
+   "mu_Hz": 7.615384615384615,
+   "n": 13
+  },
+  {
+   "area": "FEF",
+   "cell_type": "PV",
+   "layer": "L6",
+   "mu_Hz": 14.833333333333334,
+   "n": 3
+  },
+  {
+   "area": "FEF",
+   "cell_type": "SST",
+   "layer": "L6",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "FEF",
+   "cell_type": "VIP",
+   "layer": "L6",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "PFC",
+   "cell_type": "VIP",
+   "layer": "L1",
+   "mu_Hz": 0.625,
+   "n": 8
+  },
+  {
+   "area": "PFC",
+   "cell_type": "E",
+   "layer": "L2/3",
+   "mu_Hz": 12.15,
+   "n": 20
+  },
+  {
+   "area": "PFC",
+   "cell_type": "PV",
+   "layer": "L2/3",
+   "mu_Hz": 9.333333333333334,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "SST",
+   "layer": "L2/3",
+   "mu_Hz": 9.0,
+   "n": 4
+  },
+  {
+   "area": "PFC",
+   "cell_type": "VIP",
+   "layer": "L2/3",
+   "mu_Hz": 0.3333333333333333,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "E",
+   "layer": "L4",
+   "mu_Hz": 2.7142857142857144,
+   "n": 7
+  },
+  {
+   "area": "PFC",
+   "cell_type": "PV",
+   "layer": "L4",
+   "mu_Hz": 0.5,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "SST",
+   "layer": "L4",
+   "mu_Hz": 9.5,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "VIP",
+   "layer": "L4",
+   "mu_Hz": 0.5,
+   "n": 2
+  },
+  {
+   "area": "PFC",
+   "cell_type": "E",
+   "layer": "L5",
+   "mu_Hz": 10.117647058823529,
+   "n": 17
+  },
+  {
+   "area": "PFC",
+   "cell_type": "PV",
+   "layer": "L5",
+   "mu_Hz": 10.5,
+   "n": 4
+  },
+  {
+   "area": "PFC",
+   "cell_type": "SST",
+   "layer": "L5",
+   "mu_Hz": 3.375,
+   "n": 4
+  },
+  {
+   "area": "PFC",
+   "cell_type": "VIP",
+   "layer": "L5",
+   "mu_Hz": 0.5,
+   "n": 2
+  },
+  {
+   "area": "PFC",
+   "cell_type": "E",
+   "layer": "L6",
+   "mu_Hz": 8.125,
+   "n": 12
+  },
+  {
+   "area": "PFC",
+   "cell_type": "PV",
+   "layer": "L6",
+   "mu_Hz": 0.16666666666666666,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "SST",
+   "layer": "L6",
+   "mu_Hz": 16.166666666666668,
+   "n": 3
+  },
+  {
+   "area": "PFC",
+   "cell_type": "VIP",
+   "layer": "L6",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "VIP",
+   "layer": "L1",
+   "mu_Hz": 1.25,
+   "n": 8
+  },
+  {
+   "area": "V1",
+   "cell_type": "E",
+   "layer": "L2/3",
+   "mu_Hz": 10.840909090909092,
+   "n": 22
+  },
+  {
+   "area": "V1",
+   "cell_type": "PV",
+   "layer": "L2/3",
+   "mu_Hz": 15.0,
+   "n": 3
+  },
+  {
+   "area": "V1",
+   "cell_type": "SST",
+   "layer": "L2/3",
+   "mu_Hz": 11.0,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "VIP",
+   "layer": "L2/3",
+   "mu_Hz": 1.5,
+   "n": 3
+  },
+  {
+   "area": "V1",
+   "cell_type": "E",
+   "layer": "L4",
+   "mu_Hz": 9.833333333333334,
+   "n": 9
+  },
+  {
+   "area": "V1",
+   "cell_type": "PV",
+   "layer": "L4",
+   "mu_Hz": 11.166666666666666,
+   "n": 3
+  },
+  {
+   "area": "V1",
+   "cell_type": "SST",
+   "layer": "L4",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "VIP",
+   "layer": "L4",
+   "mu_Hz": 0.5,
+   "n": 1
+  },
+  {
+   "area": "V1",
+   "cell_type": "E",
+   "layer": "L5",
+   "mu_Hz": 6.7368421052631575,
+   "n": 19
+  },
+  {
+   "area": "V1",
+   "cell_type": "PV",
+   "layer": "L5",
+   "mu_Hz": 37.5,
+   "n": 3
+  },
+  {
+   "area": "V1",
+   "cell_type": "SST",
+   "layer": "L5",
+   "mu_Hz": 15.166666666666666,
+   "n": 3
+  },
+  {
+   "area": "V1",
+   "cell_type": "VIP",
+   "layer": "L5",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "E",
+   "layer": "L6",
+   "mu_Hz": 11.571428571428571,
+   "n": 14
+  },
+  {
+   "area": "V1",
+   "cell_type": "PV",
+   "layer": "L6",
+   "mu_Hz": 18.75,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "SST",
+   "layer": "L6",
+   "mu_Hz": 0.75,
+   "n": 2
+  },
+  {
+   "area": "V1",
+   "cell_type": "VIP",
+   "layer": "L6",
+   "mu_Hz": 2.5,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "VIP",
+   "layer": "L1",
+   "mu_Hz": 0.4375,
+   "n": 8
+  },
+  {
+   "area": "V4",
+   "cell_type": "E",
+   "layer": "L2/3",
+   "mu_Hz": 8.931818181818182,
+   "n": 22
+  },
+  {
+   "area": "V4",
+   "cell_type": "PV",
+   "layer": "L2/3",
+   "mu_Hz": 29.375,
+   "n": 4
+  },
+  {
+   "area": "V4",
+   "cell_type": "SST",
+   "layer": "L2/3",
+   "mu_Hz": 23.75,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "VIP",
+   "layer": "L2/3",
+   "mu_Hz": 0.5,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "E",
+   "layer": "L4",
+   "mu_Hz": 17.0625,
+   "n": 8
+  },
+  {
+   "area": "V4",
+   "cell_type": "PV",
+   "layer": "L4",
+   "mu_Hz": 0.25,
+   "n": 4
+  },
+  {
+   "area": "V4",
+   "cell_type": "SST",
+   "layer": "L4",
+   "mu_Hz": 14.5,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "VIP",
+   "layer": "L4",
+   "mu_Hz": 0.5,
+   "n": 1
+  },
+  {
+   "area": "V4",
+   "cell_type": "E",
+   "layer": "L5",
+   "mu_Hz": 11.63888888888889,
+   "n": 18
+  },
+  {
+   "area": "V4",
+   "cell_type": "PV",
+   "layer": "L5",
+   "mu_Hz": 25.5,
+   "n": 4
+  },
+  {
+   "area": "V4",
+   "cell_type": "SST",
+   "layer": "L5",
+   "mu_Hz": 0.5,
+   "n": 3
+  },
+  {
+   "area": "V4",
+   "cell_type": "VIP",
+   "layer": "L5",
+   "mu_Hz": 0.25,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "E",
+   "layer": "L6",
+   "mu_Hz": 6.642857142857143,
+   "n": 14
+  },
+  {
+   "area": "V4",
+   "cell_type": "PV",
+   "layer": "L6",
+   "mu_Hz": 7.0,
+   "n": 3
+  },
+  {
+   "area": "V4",
+   "cell_type": "SST",
+   "layer": "L6",
+   "mu_Hz": 26.0,
+   "n": 2
+  },
+  {
+   "area": "V4",
+   "cell_type": "VIP",
+   "layer": "L6",
+   "mu_Hz": 0.5,
+   "n": 1
+  }
+ ],
+ "reproduction": {
+  "bar_r_abs_diff": 0.0,
+  "class_mean_max_abs_diff": 0.0,
+  "mean_rho_abs_diff": 0.0,
+  "pass": true,
+  "total_spikes_exact": true
+ }
+}

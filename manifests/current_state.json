@@ -1,6 +1,6 @@
 {
  "schema": "jomission.current_state.v1",
- "updated": "2026-11-03",
+ "updated": "2026-11-04",
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {

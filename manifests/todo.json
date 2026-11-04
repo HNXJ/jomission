@@ -1772,7 +1772,7 @@
       "delivered": {
        "verdict": "MIGRATION_PASS",
        "result": "results/jaxfne_0425_migration.json",
-       "summary": "installed 0.4.25 from the fetched wheel with --no-deps (pip itself untouched). Tier-0 201+1pin, tier-1 45+1skip, tier-2 395+3skip with the single failure in every tier being the identity pin, resolved by promoting the authority. No tier-3 replay (no authorizing lineage); no sealed result touched; execution authority now points at the 0.4.25 migration evidence",
+       "summary": "installed 0.4.25 from the fetched wheel with --no-deps (pip itself untouched). Tier-0 201+1pin, tier-1 45+1skip, tier-2 395+3skip with the single failure in every tier being the identity pin, resolved by promoting the authority. No tier-3 replay (no authorizing lineage); no sealed result touched; at the time of this migration, execution authority pointed at the 0.4.25 migration evidence (historical snapshot, not current: current authority is jaxfne 0.5.8, see manifests/current_state.json)",
        "receipts": [
         "tier-0 under 0.4.25: 201 passed, identity pin only",
         "tier-1 exact nodes: 45 passed, 1 skipped (substrate-gate skip)",
@@ -1823,6 +1823,127 @@
          "tests/test_whole_system_ei_native_state.py (6 passed)"
         ]
        }
+      },
+      {
+       "id": "H-ACTIVE-AND-BALANCE",
+       "status": "DONE",
+       "trigger": "owner 2026-11-04: test whether H (activity balance, DEFAULT_HDP_DESYNC preset) moves the network before any calibration uses it; sync-term line closed by owner Q6",
+       "goal": "active-preset test, balance-rule test and the sync-term line of the H candidate, each pre-registered and run once",
+       "parent_authority": "owner rulings 2026-11-04: Q1-Q5 corrected sync spec; Q6 synchrony-term line CLOSED, balance-only stays the H candidate (b9f118a); Q7 drive_bias confirmed as H channel, balance rule not in calibrated model (85c138b)",
+       "principal_delta": "new rule modules and tests only (jomission/dynamics/activity_balance.py, tests/test_activity_balance.py); calibrated model not changed",
+       "required_inputs": [
+        "docs/designs/H_ACTIVE_TEST_spec.md",
+        "docs/designs/H_BALANCE_TEST_spec.md",
+        "docs/designs/H_SYNC_TEST_spec.md",
+        "docs/designs/H_SYNC_MECH_spec.md",
+        "docs/designs/H_SYNC_STARTUP_spec.md",
+        "docs/designs/H_SYNC2_TEST_spec.md"
+       ],
+       "frozen": [
+        "H specs and receipts as sealed; no re-run of a sealed cell",
+        "owner Q6: synchrony-term line closed, not reopened by this item"
+       ],
+       "procedure": "per test: pre-registered spec committed before the run, controls, one run, receipts committed additively",
+       "acceptance": "closed: active test (H engaged, no network effect); balance test (H1-H3 hold 4/4, H4 rho/Fano FAILS 4/4, recorded as known limit); sync term (H5, H6, H8 false, H9 true, rates collapse; sync2 selection failed, no test cells run); each with receipts and commits",
+       "stop_condition": "closed by owner Q6 (b9f118a). Balance-only remains the H candidate; the rho/Fano rise is a recorded known limit, not a pass",
+       "artifacts_expected": [
+        "docs/receipts/h_active_test",
+        "docs/receipts/h_balance_test",
+        "docs/receipts/h_sync_test",
+        "docs/receipts/h_sync_mech",
+        "docs/receipts/h_sync_startup",
+        "docs/receipts/h_sync2_test"
+       ],
+       "downstream_unlock": [],
+       "delivered": {
+        "summary": "active test 3ca43f3/87acaf5; balance test ce55b01/a7e3ae8 (float32 H quantization: b departs from kappa_I(H-1) by <=5.7e-3); sync term 11c1a0f/dc80abe, mechanism 024d2a6/069f21d, start-up ac62ff0/7b21e87, sync2 7ffa304/4df8ac9; owner rulings Q6 b9f118a, Q7 85c138b",
+        "receipts": [
+         "docs/receipts/h_active_test",
+         "docs/receipts/h_balance_test",
+         "docs/receipts/h_sync_test",
+         "docs/receipts/h_sync_mech",
+         "docs/receipts/h_sync_startup",
+         "docs/receipts/h_sync2_test"
+        ]
+       }
+      },
+      {
+       "id": "SITE-PARADIGMS",
+       "status": "DONE",
+       "trigger": "site navigation change 2026-11-04: nav group 'Omission program' renamed 'Paradigms'",
+       "goal": "site navigation: group 'Paradigms' with order omission, global-local oddball; new global-local oddball (GLO) page",
+       "parent_authority": "site change, commit 11da5b2; no scientific authority needed",
+       "principal_delta": "none: site text, nav order and one new page; no model change",
+       "required_inputs": [
+        "site-src/manifest.json",
+        "site-src/pages/glo.html"
+       ],
+       "frozen": [
+        "no model, result or verdict change"
+       ],
+       "procedure": "edit site-src navigation and add the GLO page; run page tests",
+       "acceptance": "page tests pass (per commit 11da5b2)",
+       "stop_condition": "site change only",
+       "artifacts_expected": [
+        "site-src/pages/glo.html"
+       ],
+       "downstream_unlock": [],
+       "delivered": {
+        "commit": "11da5b2",
+        "summary": "nav group renamed to Paradigms; order omission, global-local oddball; GLO paradigm description from Westerberg et al. bioRxiv v5; no model change",
+        "receipts": [
+         "site-src/manifest.json",
+         "site-src/pages/glo.html"
+        ]
+       }
+      },
+      {
+       "id": "SCI-AGSDR-H07H11",
+       "status": "OPEN",
+       "trigger": "owner 2026-11-04 (Q10, Q11, Q12): H07 and H11 stay hard but not yet computed after amendment 3; specify, seal, then run",
+       "goal": "compute H07 and H11 for each AGSDR candidate under the ruled definitions, then record the final feasible set",
+       "parent_authority": "owner rulings: Q10 amendment 3 sealed (43d1d71); Q11 spec first; Q-a..Q-f definitions ruled (fc5defc); Q12 implement, seal and run",
+       "principal_delta": "none yet: computation of H07 and H11 only; no parameter, gate threshold or calibrated-model change",
+       "required_inputs": [
+        "docs/designs/SCI-AGSDR-H07H11_spec_DRAFT.md",
+        "docs/designs/SCI-AGSDR-CALIBRATION_amendment_3.md",
+        "manifests/agsdr_local_objectives.json"
+       ],
+       "frozen": [
+        "ruled definitions: edges +-10%; modularity by area; locality index = mean pair distance (all / connected); saturation report-only; Poisson exempt in H11; no ratio box in H11",
+        "canonical model as built: 4 areas (FEF, PFC, V1, V4), within edges 10076, between 590"
+       ],
+       "procedure": "Q-g ruled 2026-11-04 (in-degree split by layer pair: non-vertical <= 25, vertical <= 40). Next: implement scripts/agsdr_h07h11.py, tests, controls, seal the spec, run once, record per-candidate H07/H11 records and the final feasible set",
+       "acceptance": "per-candidate H07/H11 records and the final feasible set recorded",
+       "stop_condition": "no run before the spec is sealed and the four controls pass. Stage 1 of SCI-AGSDR-CALIBRATION stays blocked until this set is recorded",
+       "artifacts_expected": [
+        "scripts/agsdr_h07h11.py"
+       ],
+       "downstream_unlock": [
+        "SCI-AGSDR-CALIBRATION"
+       ],
+       "blocked_by": "none (Q-g ruled 2026-11-04). Canonical-model findings: 4 areas, max within-area in-degree 34 vs cap 25 (non-vertical pairs 25, vertical pairs 12; vertical cap 40)"
+      },
+      {
+       "id": "OPEN-28-TEST-TRIAGE",
+       "status": "OPEN",
+       "trigger": "full-suite baseline 2026-11-04 (worker-reported): 465 pass, 36 fail, 17 timeouts, 1 OOM; lead re-ran 2 files (q8 x6 fail, ei_recruitment x1 fail)",
+       "goal": "classify each full-suite failure as pre-existing or new; find the commit that introduced any new failure",
+       "parent_authority": "OPEN-28 (2026-11-04)",
+       "principal_delta": "none: test triage only",
+       "required_inputs": [
+        "manifests/test_tiers.json",
+        "tests/"
+       ],
+       "frozen": [
+        "no assertion changed or test skipped to make a test pass",
+        "sealed artifacts untouched"
+       ],
+       "procedure": "bisect worker af13cc0c861f3b84b result still pending (not received). Then classify each failure against the baseline, using the lead's two re-runs as evidence",
+       "acceptance": "each failure classified pre-existing or new, with evidence; bisect result recorded",
+       "stop_condition": "triage only; no fix in this item",
+       "artifacts_expected": [],
+       "downstream_unlock": []
       }
      ]
 }

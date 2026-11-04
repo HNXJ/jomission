@@ -31,6 +31,24 @@ def checklist_rows() -> list[tuple[int, str, str, float]]:
     return rows
 
 
+def check_checklist_summary(rows) -> None:
+    """Fail if the 'By category' table or the header total disagree with the item rows."""
+    text = (ROOT / "checklist-score.md").read_text(encoding="utf-8")
+    cats: dict[str, float] = {}
+    for _, c, _, p in rows:
+        cats[c] = cats.get(c, 0.0) + p
+    for m in re.finditer(r"^\| (.+?) \| ([\d.]+) / ([\d.]+) \| (\d+) \|$", text, flags=re.M):
+        name, got, n_items = m.group(1), float(m.group(2)), int(m.group(4))
+        if name in cats and abs(got - cats[name]) > 1e-9:
+            raise ValueError(f"'By category' table: {name!r} says {got:g}, items sum {cats[name]:g}")
+        if name in cats and n_items != sum(1 for r in rows if r[1] == name):
+            raise ValueError(f"'By category' table: {name!r} item count {n_items} mismatches rows")
+    total = sum(p for _, _, _, p in rows)
+    m = re.search(r"Current score: ([\d.]+)/100", text)
+    if m and abs(float(m.group(1)) - total) > 1e-9:
+        raise ValueError(f"header score {m.group(1)} != item total {total:g}")
+
+
 def results_inventory() -> list[dict]:
     """Every top-level results/*.json: parse state, verdict field, sealed status. Sorted by path."""
     reg = json.loads((ROOT / "manifests/sealed_artifacts.json").read_text(encoding="utf-8"))
@@ -113,6 +131,7 @@ def item_svg(rows) -> str:
 def main() -> None:
     rec = json.loads((ROOT / "docs/receipts/receipts.json").read_text(encoding="utf-8"))
     rows = checklist_rows()
+    check_checklist_summary(rows)
     inv = results_inventory()
     inv_rows = "".join(f"<tr><td>{html.escape(r['path'])}</td><td>{r['bytes']}</td><td>{r['encoding']}</td><td>{html.escape(r['verdict'])}</td><td>{'yes' if r['sealed'] else 'no'}</td></tr>" for r in inv)
     fig_rows = "".join(f"<tr><td>{html.escape(p)}</td><td>{n}</td></tr>" for p, n in figures())

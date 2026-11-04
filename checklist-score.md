@@ -11,8 +11,8 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | Category | Score | Items |
 |---|---|---|
 | Science program | 13 / 40 | 20 |
-| Documentation and reproducibility | 17 / 30 | 15 |
-| Dashboard and figures | 18 / 20 | 10 |
+| Documentation and reproducibility | 15 / 30 | 15 |
+| Dashboard and figures | 17 / 20 | 10 |
 | Rest (migration, models, harness) | 7 / 10 | 5 |
 
 ## Items

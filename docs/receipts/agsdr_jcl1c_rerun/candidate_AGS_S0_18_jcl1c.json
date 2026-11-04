@@ -1,0 +1,68 @@
+{
+ "J_CL1C": 0.3174603174603175,
+ "baseline": {
+  "rates_Hz": {
+   "E": 6.9958677685950414,
+   "PV": 9.076923076923077,
+   "SST": 6.5,
+   "VIP": 0.84375
+  },
+  "rho": 0.3816016814564402
+ },
+ "bonuses_reported_not_in_J": {
+  "PV_delta_r_E_lt_0": true,
+  "PV_delta_rho_le_m0p10": false,
+  "SST_delta_rho_le_m0p03": true,
+  "VIP_delta_r_E_ge_0p1": false
+ },
+ "candidate_id": "AGS_S0_18",
+ "deltas": {
+  "SST_delta_r_E": 0.0,
+  "SST_delta_r_SST": 13.714285714285715,
+  "VIP_delta_r_SST": -0.0952380952380949,
+  "VIP_delta_r_VIP": 11.515625,
+  "delta_r_PV": 32.42307692307692,
+  "delta_rho": -0.08701044563346577
+ },
+ "pass": true,
+ "perturbed": {
+  "PV": {
+   "rates": {
+    "E": 6.93801652892562,
+    "PV": 41.5,
+    "SST": 6.5,
+    "VIP": 0.84375
+   },
+   "rho": 0.2945912358229744
+  },
+  "SST": {
+   "rates": {
+    "E": 6.9958677685950414,
+    "PV": 9.076923076923077,
+    "SST": 20.214285714285715,
+    "VIP": 0.84375
+   },
+   "rho": 0.3158195421986451
+  },
+  "VIP": {
+   "rates": {
+    "E": 6.991735537190083,
+    "PV": 9.01923076923077,
+    "SST": 6.404761904761905,
+    "VIP": 12.359375
+   },
+   "rho": 0.23243565844557862
+  }
+ },
+ "target_only_check": {
+  "PV": true,
+  "SST": true,
+  "VIP": true
+ },
+ "violations": {
+  "J_CL1C": 0.3174603174603175,
+  "PV": 0.0,
+  "SST": 0.5,
+  "VIP": 0.45238095238095255
+ }
+}

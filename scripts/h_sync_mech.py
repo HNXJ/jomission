@@ -137,7 +137,8 @@ def control() -> int:
 
 
 def hdp(rule: str, **rp) -> dict:
-    return {"hdp_rule": rule, "hdp_rule_params": rp}
+    # record_weight_trace False: recording only (spikes verified identical at 2000 ms); the 15 s w_trace is ~6 GB
+    return {"hdp_rule": rule, "hdp_rule_params": rp, "record_weight_trace": False}
 
 
 def verdicts(rec: dict) -> dict:

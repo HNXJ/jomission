@@ -21,7 +21,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 1 | Science program | tier 3 scientific batteries run under an authorized TODO | 0 | owner declined 2026-11-03; PV group decision pending; not run |
 | 2 | Science program | V2 local operation gate PASS (manifests/gates/v2_local_operation.json) | 0 | status FAIL (scientific result) |
 | 3 | Science program | viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 0 | both-repaired cell: no cell viable (docs/HANDOFF_CURRENT.md; lineage_registry EI_REGIME_STILL_UNRESOLVED) |
-| 4 | Science program | regime verdict recorded as one ratified label | 2 | EI_REGIME_STILL_UNRESOLVED recorded (SCI-EI-INTERACTION-1, d846eff) |
+| 4 | Science program | regime verdict recorded as one ratified label (any label; "met" definition for the owner, see note) | 2 | EI_REGIME_STILL_UNRESOLVED recorded (SCI-EI-INTERACTION-1, d846eff); overlaps item 3 |
 | 5 | Science program | SCI-EI-NATIVE-STATE-1 sealed verdict | 2 | current_state.json: MIXED_STATE_MECHANISM, sealed |
 | 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE; network-level question not closed |
 | 7 | Science program | single-neuron f-I assay (NumPy, exploratory) | 1 | docs/receipts/fi_single_neuron_v1.json; not engine-validated |
@@ -37,7 +37,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 17 | Science program | AGSDR stage 2 (top 3 x seeds 0..3) | 0 | not authorized; depends on stage 1 |
 | 18 | Science program | PV drive scan (matched-state) | 0 | draft only, not approved, not in repo |
 | 19 | Science program | B10 objective audit clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (runner sha 160265516fe2) |
-| 20 | Science program | build and simulation speed (compile cache) | 2 | docs/receipts/compile_cache_benchmark.json (cold median 3.53 s, warm 1.05 s) |
+| 20 | Science program | build time with persistent compile cache (build only, no simulation speed target) | 2 | docs/receipts/compile_cache_benchmark.json (cold median 3.53 s, warm 1.05 s); not a science result; placement is an owner decision |
 | 21 | Documentation and reproducibility | cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
 | 22 | Documentation and reproducibility | fresh-clone reproduction of the setup | 1 | run in this container only; not on a fresh cloud image (OPEN-09) |
 | 23 | Documentation and reproducibility | checklist versioned with history | 2 | docs/checklist-score-v1.md, docs/checklist-score-v2.md, this file; git history |
@@ -55,18 +55,18 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 35 | Documentation and reproducibility | compile-cache trust documented | 1 | default directory documented; trust decision open (OPEN-17) |
 | 36 | Dashboard and figures | docs/DASHBOARD.html committed, no external resources | 2 | docs/DASHBOARD.html; self-contained SVG |
 | 37 | Dashboard and figures | dashboard generated deterministically by scripts/build_dashboard.py | 2 | rebuild byte-identical (checked 2026-11-04) |
-| 38 | Dashboard and figures | tier 0 figure with receipt | 2 | docs/receipts/receipts.json |
-| 39 | Dashboard and figures | tier 1 figure with receipt | 2 | docs/receipts/receipts.json |
-| 40 | Dashboard and figures | tier 2 figure with receipt | 2 | docs/receipts/receipts.json |
+| 38 | Dashboard and figures | tier 0 test-count chart with receipt | 2 | docs/receipts/receipts.json (counts only; chart is a bar of counts, not a result figure) |
+| 39 | Dashboard and figures | tier 1 test-count chart with receipt | 2 | docs/receipts/receipts.json (counts only) |
+| 40 | Dashboard and figures | tier 2 test-count chart with receipt | 2 | docs/receipts/receipts.json (counts only) |
 | 41 | Dashboard and figures | tier 3 shown as open with its reason | 2 | receipts open status; owner declined |
 | 42 | Dashboard and figures | edge-identity table on the dashboard | 2 | receipts.json edge_identity |
 | 43 | Dashboard and figures | checklist score chart by category and item | 2 | inline SVG, Chromium-rendered |
 | 44 | Dashboard and figures | GitHub Pages current with the head | 0 | main deploy blocked by the github-pages environment rule (OPEN-07); last live deploy not verified |
 | 45 | Dashboard and figures | open items and owner decisions shown with reasons | 2 | receipts.json open_items, owner_decisions |
 | 46 | Rest | jaxfne 0.5.8 pinned, installed, and adopted as source of truth | 2 | pyproject.toml:18; project_check identity 0.5.8; results/jaxfne_058_migration.json; docs/JAXFNE_058_AUDIT.md; jaxfne tracker 0 issues, 119 PRs (v2 items 5, 6) |
-| 47 | Rest | canonical network identity (15 EdgeList fields, config hash, builds) | 1 | reproduced at a9fcb65 (10666 edges); config hash 05f3d334451c53d2 frozen; not re-run on head. Also: inter-column delays, cell-map identity, within-area locality (builder.py; v2 items 12-14); lite model tests/test_lite_model.py (v2 items 11, 16) |
+| 47 | Rest | canonical network identity (15 EdgeList fields, config hash, builds) | 1 | reproduced at a9fcb65 (10666 edges); config hash 05f3d334451c53d2 frozen; not re-run on head. Also: inter-column delays, cell-map identity, within-area locality (builder.py; v2 items 12-14); lite model tests/test_lite_model.py (v2 items 11, 16); config hash (v2 item 4, above); field and Retina declarations (v2 item 17); per-trial seed consistency in exposure, tests/test_exposure_continuation.py (v2 item 18) |
 | 48 | Rest | tiers 0, 1 and 2 pass on current head | 1 | last full runs at 860e330: tier 0 216 passed; tier 1 non-simulating 49 passed, 1 skipped; tier 2 419 passed, 3 skipped. Head 164ad74 has only targeted runs, which pass |
-| 49 | Rest | sealed registry and guards pass on head | 2 | test_harness_guards and test_harness_state pass at 4e72c8a; project_check --offline --no-tests PASS at 4e72c8a. Full project_check PASS (v2: at 860e330) not re-run on head |
+| 49 | Rest | sealed registry and guards pass on head | 2 | test_harness_guards, test_harness_state, test_agsdr_stage0_correction, test_gates_single_source, test_agents_policy: 62 passed at 374410d (run this session). Full project_check PASS (v2: at 860e330) not re-run on head |
 | 50 | Rest | CI green on head and working tree clean and pushed | 1 | CI run on current head not verified; tree clean at push |
 
 ## Notes

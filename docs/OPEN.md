@@ -5,7 +5,7 @@ Last reviewed 2026-11-04 (audits of f23f8f4, a30ce48, 4e72c8a applied; checklist
 
 | id | status | open | evidence | decides | next check |
 |---|---|---|---|---|---|
-| OPEN-01 | blocked | tier 3 (PV group, 6 tests) not run: owner has not ruled; machine 15 GB vs ~32 GB per battery; all six write sealed results | checklist item 29; results/v21_pv_*.json sealed; manifests/test_tiers.json tier 3 | Hamm | owner chooses: small memory-capped probe, or larger machine plus TODO |
+| OPEN-01 | blocked | tier 3 (PV group, 6 tests) not run: owner declined authorization 2026-11-03 (docs/receipts/receipts.json); the PV-group scope question is unanswered; machine 15 GB vs ~32 GB per battery; all six write sealed results | checklist item 29; results/v21_pv_*.json sealed; manifests/test_tiers.json tier 3 | Hamm | owner chooses: small memory-capped probe, or larger machine plus TODO |
 | OPEN-02 | open | visualization contract V0-V3 not produced for the migrated canonical lineage; exemption applies only to lineages that build no model, and this one builds build_jomission_model | manifests/visualization_contract.json exemption; checklist items 31-34 | Hamm | produce V0-V3, or rule otherwise |
 | OPEN-03 | blocked | V2_LOCAL_OPERATION gate FAIL (scientific result) | manifests/current_state.json current_gate | Hamm | science program |
 | OPEN-04 | open | sealed registry rule is append-only; three entries were overwritten in place for the cp1252 read fix (2f8c545, e8562d1, 59c6323 correction) | manifests/sealed_artifacts.json resealed field; results/jaxfne_058_correction_2.json | Hamm | accept the precedent, or require append-only corrections |

@@ -13,6 +13,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# Owner weights (2026-11-04). The build fails if a category's item count x 2 differs.
+OWNER_WEIGHTS = {
+    "Science program": 40.0,
+    "Documentation and reproducibility": 30.0,
+    "Dashboard and figures": 20.0,
+    "Rest": 10.0,
+}
+
 
 def checklist_rows() -> list[tuple[int, str, str, float]]:
     """Rows of the v2 table: | # | Category | Objective | Score | Evidence |."""
@@ -73,6 +81,8 @@ def score_svg(rows) -> str:
     out, y = [], 30
     for name, pts in cats.items():
         got, mx = sum(pts), 2.0 * len(pts)
+        if name in OWNER_WEIGHTS and mx != OWNER_WEIGHTS[name]:
+            raise ValueError(f"category {name!r}: max {mx:g} != owner weight {OWNER_WEIGHTS[name]:g}")
         out.append(bar(250, y, 360, 22, got / mx if mx else 0, f"{name} {got:.0f}/{mx:.0f}", "#2b6cb0"))
         y += 40
     return f'<svg width="660" height="{y}" font-family="sans-serif">{"".join(out)}</svg>'

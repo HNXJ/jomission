@@ -1,0 +1,35 @@
+{
+ "schema": "jomission.compile_cache_benchmark.v1",
+ "workload": "build_jomission_model(n_per_area=100, seed=0), separate processes",
+ "repeats": 3,
+ "settings": {
+  "min_compile_time_secs": 0,
+  "min_entry_size_bytes": -1
+ },
+ "machine": {
+  "platform": "Linux-6.18.44-fc-v233-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "cpu_count": 4
+ },
+ "results": {
+  "cold": {
+   "build_s": [
+    4.7351,
+    3.4825,
+    3.5342
+   ],
+   "median_s": 3.534,
+   "min_s": 3.482
+  },
+  "warm": {
+   "build_s": [
+    1.051,
+    1.1356,
+    1.0493
+   ],
+   "median_s": 1.051,
+   "min_s": 1.049
+  }
+ },
+ "note": "Measured by this script; build time excludes import."
+}

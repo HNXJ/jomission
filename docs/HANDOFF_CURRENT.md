@@ -86,7 +86,7 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 ### Next authorized task
 
 - `SCI-AGSDR-CALIBRATION` (OPEN): calibrate AGSDR per-class rates against the EI-defined plant
-- stop: BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization
+- stop: stage 0 run and correction packet done (f23f8f4, audited). Stage 1 is not authorized until the owner rules on OPEN-18 (selection rule) and OPEN-19 (B3 route), and reviewer authorization is recorded
 
 ### Locked gates
 

@@ -1,13 +1,24 @@
 {
+ "changed": [
+  "H09 input: runner proxy replaced by tau-weighted Efrac in the record only; no receipt or runner file was edited"
+ ],
  "changed_not": [
-  "thresholds",
+  "gate thresholds and predicates",
   "objective weights",
   "candidate parameters",
   "sampling",
   "CV eligibility",
-  "gate rules"
+  "runner code and receipts"
  ],
- "correction_script_sha256": "ecd5dd5d0fbcc0e9367b248606846b56f7f72b59bbd8d04846f11eaa5bb04016",
+ "correction_script_sha256": "524931a1d4d410c8c45e76d1bde20f0f37f3a7d95ffcd45e0cf3c6e806c24874",
+ "frozen_departures": [
+  "dimensions: runner soft set has 6 terms (B1, B2 x4, B3); frozen J set has 7 (J_rates, J_irregularity, J_synchrony, J_Fano, J_hetero, J_EI, J_CL1C). manifests/agsdr_local_objectives.json algorithm_spec; design note line 167",
+  "dominance tolerance: frozen epsilon 0.05 (objectives algorithm_spec pareto_ranking); runner and this record use strict comparison, epsilon 0",
+  "overflow: frozen rule keeps N1=8 nondominated survivors with w=1/6 tie-breaker (agsdr_local_harness.json selection); it does not define overflow beyond the front. This record's front-order fill is a proposal",
+  "time basis: frozen H09 and J_EI are per step (edge_current_trace[t]); runner uses a time-integrated ratio over the 2000 ms run",
+  "sign: frozen J_EI takes I_e positive and I_i negative; runner and record take abs(w)",
+  "hard list: design line 18 lists nine gates; manifest lists H01-H12. H07 and H11 are not computed"
+ ],
  "hard_feasibility": {
   "changed_candidate_ids": [],
   "proxy_feasible_count": 24,
@@ -520,6 +531,8 @@
   }
  ],
  "provenance_note": "Commit c43443e carries the label 'Goal: G-AGSDR-CALIBRATION'. That ID is not a verified goal in this repo. The verified task identifier is SCI-AGSDR-CALIBRATION.",
+ "runner_sha256_current": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "runner_sha256_in_stage0_summary": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
  "sampling_departure": {
   "consistent": true,
   "method_declared_in_amendment_1": false,
@@ -553,16 +566,64 @@
  "schema": "agsdr_stage0_correction_v1",
  "selection": {
   "blocked_by": [
-   "B3 population tau correction requires per-population E/I sums, which are not in any receipt"
+   "B3 needs per-population tau-weighted ratios p' = 2p/(5-3p); the receipts keep only the in-band fraction, so none is retained",
+   "dimension set (6 runner vs 7 frozen), dominance epsilon (0 vs 0.05), and overflow rule need owner ruling"
   ],
+  "bound_analysis_informational": {
+   "certainly_dominated": [],
+   "certainly_nondominated": [
+    "AGS_S0_00",
+    "AGS_S0_03",
+    "AGS_S0_04",
+    "AGS_S0_06",
+    "AGS_S0_07",
+    "AGS_S0_08",
+    "AGS_S0_09",
+    "AGS_S0_13",
+    "AGS_S0_15",
+    "AGS_S0_20"
+   ],
+   "cut_note": "not settled by bounds: ordering inside an overflowing front uses the full soft distance, which includes B3",
+   "terms_used": [
+    "B1_mu_band_3_15",
+    "B2_CV_rate_above_0p3",
+    "B2_mean_CV_E_band_0p5_1p5",
+    "B2_median_Fano_band_0p7_2",
+    "B2_mean_rho_band_m0p05_0p2"
+   ],
+   "undetermined": [
+    "AGS_S0_01",
+    "AGS_S0_02",
+    "AGS_S0_05",
+    "AGS_S0_10",
+    "AGS_S0_11",
+    "AGS_S0_12",
+    "AGS_S0_14",
+    "AGS_S0_16",
+    "AGS_S0_17",
+    "AGS_S0_18",
+    "AGS_S0_19",
+    "AGS_S0_21",
+    "AGS_S0_22",
+    "AGS_S0_23"
+   ]
+  },
   "eight_selected": null,
-  "rule": "Pareto front over the six soft terms among tau-feasible candidates; fill eight slots in front order; within a front that overflows, sort by soft distance then candidate ID.",
+  "rule": "Pareto front over the soft terms among tau-feasible candidates; fill eight slots in front order; within a front that overflows, sort by soft distance then candidate ID.",
+  "rule_status": "PROPOSAL pending owner ruling (OPEN-18); not applied",
   "shortfall_rule": "stop and report if fewer than eight tau-feasible candidates",
   "status": "NOT DETERMINED"
  },
  "source_receipts": "docs/receipts/agsdr_local/candidate_AGS_S0_*_seed0.json (unchanged)",
- "source_summary_sha256_expected": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "stage0_summary_file_sha256": "aa3b5800ac4a9748152e9fbb9a229ace149785b9969f1940dc52436fd0d21dba",
+ "superseded_not_edited": {
+  "docs/receipts/agsdr_local/stage0_summary.json": [
+   "best_feasible (AGS_S0_06 by scalar soft distance): superseded, not a selection",
+   "feasible_ranked order: scalar ordering, superseded by the proposal rule",
+   "stage1_selection: 'not run' stands"
+  ]
+ },
  "task": "SCI-AGSDR-CALIBRATION",
  "tau_check": "docs/receipts/agsdr_local/stage0_tau_check.json",
- "tau_check_sha256": "0c61ed4218984937ccbcdece8253d360140c12c6826b6a1f2c08cdd09256e813"
+ "tau_check_sha256": "7002ea467367df7d40574277f5a43b9975466324d956a72a8b7686a980bcc4fb"
 }

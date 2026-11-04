@@ -142,3 +142,73 @@ def test_selection_is_not_determined_in_record():
     assert sel["status"] == "NOT DETERMINED"
     assert sel["eight_selected"] is None
     assert any("B3" in b for b in sel["blocked_by"])
+    assert sel["rule_status"].startswith("PROPOSAL")
+
+
+def test_none_value_fails_gate_without_exception():
+    # Receipts write NaN as null; a null must fail the gate, not raise.
+    values = {g: 0.3 for g in C.GATE_PREDICATES}
+    values["H09_Efrac_open_0p05_0p95"] = None
+    values["H01_finite"] = None
+    out = C.evaluate_gates(values)
+    assert out["H09_Efrac_open_0p05_0p95"] is False
+    assert out["H01_finite"] is False
+
+
+# --- runner-path negative controls: the runner's score_run on violating synthetic input ----
+
+class _Edges:
+    def __init__(self, pre, post, weight):
+        self.pre, self.post, self.weight = pre, post, weight
+
+
+class _StubModel:
+    """Only the attributes score_run reads: neuron_table() and params['edge_list']."""
+
+    def __init__(self, n):
+        import numpy as np
+
+        half = n // 2
+        self._rows = [{"area": "V1", "layer": "L2/3", "cell_type": "E" if i < half else "PV"}
+                      for i in range(n)]
+        self.params = {"edge_list": _Edges(np.array([0, 1]), np.array([1, 0]),
+                                           np.array([0.5, -0.5]))}
+
+    def neuron_table(self):
+        return self._rows
+
+
+def _stub_cand():
+    import agsdr_local_sweep as A
+
+    vals = {f"{g}[{A.motif_name(m)}]": 1.0 for g, m, _, _ in A.MOTIF_COORDS}
+    return {"values": vals, "mu_total": 3.5}
+
+
+def _score_stub(spikes_value: int):
+    import numpy as np
+    import agsdr_local_sweep as A
+
+    n = 20
+    steps = round(A.DURATION_MS / A.DT_MS)
+    S = np.full((steps, n), spikes_value, dtype=np.int64)
+    v = np.zeros((steps, n))
+    return A.score_run(_StubModel(n), S, v, _stub_cand(), 0)
+
+
+def test_runner_path_silent_network_fails_the_declared_gates():
+    # Known negative: no spikes. Runner must reject it on the bar_r, CV and Efrac gates.
+    r = _score_stub(0)
+    assert r["hard_pass"] is False
+    failed = set(r["failed"])
+    assert {"H02_bar_r_open_1_30", "H05_P_CV_E_gt_0p5_at_least_0p15",
+            "H06_max_CV_E_at_least_1p5", "H09_Efrac_open_0p05_0p95"} <= failed
+
+
+def test_runner_path_saturated_network_fails_rate_gates():
+    # Known negative: a spike every step (10 kHz per neuron). Runner must reject the rate gates.
+    r = _score_stub(1)
+    assert r["hard_pass"] is False
+    failed = set(r["failed"])
+    assert "H02_bar_r_open_1_30" in failed
+    assert "H10a_class_mean_not_above_80" in failed

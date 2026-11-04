@@ -4,14 +4,14 @@ Scope: the jomission project goals, not only the jaxfne migration. Redefined 202
 50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partial, 0 = not met.
 The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migration-only scope is now one category.
 
-**Current score: 85.2/100** (unchanged 2026-11-04: no scored item's status changed; item 36 evidence updated. Review conditions R1–R6 are open and unscored, see the simulation program section.)
+**Current score: 83.2/100** (2026-11-04 audit: items 24 and 28 downgraded 2 to 1; was 85.2. Item 36 evidence updated. Review conditions R1–R6 are open and unscored, see the simulation program section.)
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
 | Engine migration | 20 / 20 | 10 |
 | Models | 16 / 16 | 8 |
-| Harness and evidence | 19.6 / 20 | 10 |
+| Harness and evidence | 17.6 / 20 | 10 |
 | Science program | 3 / 16 | 8 |
 | Dashboard and figures | 20 / 20 | 10 |
 | Documentation and reproducibility | 6.6 / 8 | 4 |
@@ -42,11 +42,11 @@ The previous 98/100 revision is kept at docs/checklist-score-v1.md. Its migratio
 | 21 | Harness and evidence | CI project-check success on head | 1.6 | CI tier0 verified on a9fcb65 (run 126236521645); current head run pending |
 | 22 | Harness and evidence | handoff regenerated; state consistent | 2 | docs/HANDOFF_CURRENT.md; project_check [ok] |
 | 23 | Harness and evidence | working tree clean and pushed to designated branch | 2 | cowork/focused-ptolemy-dz7hwc |
-| 24 | Harness and evidence | draft PR #1 body reflects final state | 2 | PR #1 updated after review |
+| 24 | Harness and evidence | draft PR #1 body reflects final state | 1 | PR #1 merged 2026-11-04; body reports the cfd7333 state and omits stage 0 (stale; audit 2026-11-04) |
 | 25 | Harness and evidence | sealed v21b/v21c reads decodable (cp1252), reseals recorded | 2 | owner option A; resealed entries; allowlist owner-approved |
 | 26 | Harness and evidence | sparse within-area coverage in tests | 2 | tests/test_within_area_sparse_coverage.py |
 | 27 | Harness and evidence | migration record correction is additive and registered | 2 | results/jaxfne_058_correction_1.json (registered) |
-| 28 | Harness and evidence | commits follow attribution rules | 2 | Claude-Session trailer on every commit; no model identifier in commit text (system rule) |
+| 28 | Harness and evidence | commits follow attribution rules | 1 | Claude-Session trailer on every commit. Commits c43443e and f23f8f4 carry a Co-Authored-By line naming a model, which conflicts with the rule "no model identifier in commit text"; owner ruling pending (OPEN-21) |
 | 29 | Science program | tier 3 scientific batteries run under an authorized TODO | 0 | owner declined (2026-11-03); PV group pending decision; not run |
 | 30 | Science program | V2 local operation gate (manifests/gates/v2_local_operation.json) | 0 | status FAIL (scientific result, not this migration) |
 | 31 | Science program | visualization contract V0 schematic for the migrated canonical lineage | 0 | not produced; applicability to the migrated lineage to be confirmed |
@@ -79,7 +79,7 @@ Scoring these needs a re-weighting decision: the 50 scored items total 100 point
 
 | Sim | Objective | Status | Evidence |
 |---|---|---|---|
-| S1 | AGSDR stage 0: 24 candidates x seed 0, 2000 ms, n=400 (24 sims) | RUN; 24/24 hard-feasible (also after tau correction); selection NOT DETERMINED (R1, R2 B3 input missing) | a50121b; runner sha 160265516fe2…; stage0_summary.json; candidate receipts; TODO SCI-AGSDR-CALIBRATION OPEN |
+| S1 | AGSDR stage 0: 24 candidates x seed 0, 2000 ms, n=400 (24 sims) | RUN; 24/24 on the nine design hard gates (also after tau correction); H07 and H11 never computed (manifest lists H01-H12); selection NOT DETERMINED (R1, R2) | a50121b; runner sha 160265516fe2…; stage0_summary.json; candidate receipts; TODO SCI-AGSDR-CALIBRATION OPEN |
 | S2 | AGSDR stage 1: top 8 x seeds {0,1} (16 sims) | BLOCKED on R1–R6 | design step 3 |
 | S3 | AGSDR stage 2: top 3 x seeds {0..3} (12 sims) | BLOCKED on S2 | design step 4 |
 
@@ -88,11 +88,11 @@ Source: external review of a50121b. Reproduced against the repo before recording
 
 | R | Condition | Status | Record |
 |---|---|---|---|
-| R1 | Pareto-first selection: rule recorded (front order, then soft distance and ID); applied to tau-corrected feasibility only once the population inputs of R2 exist. Selection NOT DETERMINED | PARTIAL | OPEN-18; docs/receipts/agsdr_local/stage0_correction_v1.json selection |
-| R2 | Efrac as W·r·tau per frozen J_EI. Global value recomputed for all 24 (realized tau 2.0 ms E-pre, 5.0 ms I-pre, single-valued in all builds). Hard feasibility unchanged (24/24). Population B3 correction NOT COMPUTABLE: per-population E/I sums not retained | PARTIAL | OPEN-19; stage0_tau_check.json; stage0_correction_v1.json |
-| R3 | Hard gates can fail: boundary and synthetic failure cases per gate; predicates reproduce all 24 stored verdicts | DONE (tests) | OPEN-20; tests/test_agsdr_stage0_correction.py (35 tests) |
-| R4 | Sampling departure recorded: 16 rows redrawn, reconstructed from the LHS stream and consistent with the recorded count. Owner acceptance pending | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
-| R5 | CV denominator recorded: P(CV_E>0.5)=0.207 over 184 of 242 E cells (>=3 spikes) | RECORDED | OPEN-20; stage0_correction_v1.json per_candidate |
+| R1 | Pareto-first selection: a PROPOSAL is recorded (front order, then soft distance, then ID). It is not applied and deviates from the frozen spec: 6 vs 7 dimensions, dominance epsilon 0 vs 0.05, overflow undefined. Bound analysis (5 Efrac-free terms, informational): 10 certainly nondominated, 14 undetermined, none certainly dominated. Selection NOT DETERMINED | PARTIAL | OPEN-18; stage0_correction_v1.json selection, frozen_departures |
+| R2 | Efrac as W·r·tau per frozen J_EI. Global value recomputed for all 24 (realized tau 2.0 ms E-pre, 5.0 ms I-pre, single-valued in all builds). Hard feasibility unchanged (24/24). Population B3 needs per-population ratios p' = 2p/(5-3p); none retained, so B3 is NOT COMPUTABLE. Per-step vs time-integrated and abs vs signed departures recorded | PARTIAL | OPEN-19; stage0_tau_check.json; stage0_correction_v1.json |
+| R3 | Hard gates can fail: boundary cases on copies of the predicates; 24 stored verdicts reproduced; runner-path score_run on silent and saturated stub input (2 cases, 38 tests in the new file). Other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
+| R4 | Sampling departure: 16 rows redrawn, count reconstructed from the LHS stream. Background values of redrawn rows not verified. Recorded, not accepted by the owner | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
+| R5 | CV denominator recorded: AGS_S0_06 P(CV_E>0.5)=0.207 over 184 of 242 E cells (>=3 spikes); defined counts 131 to 187 across candidates | RECORDED | OPEN-20; stage0_correction_v1.json per_candidate |
 | R6 | Freeze before stage 1 (8 vectors, scoring code, cross-seed rule) | BLOCKED on R1/R2 | OPEN-18 |
 
 Not scored. A passing S1 run does not raise any item above; a qualified AGSDR result would need a new scored item and a re-weighting decision.

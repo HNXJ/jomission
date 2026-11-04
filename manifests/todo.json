@@ -1677,12 +1677,12 @@
      ],
      "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
      "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
-     "stop_condition": "BLOCKED until SCI-EI-INTERACTION-1 delivers its verdict; design and execution only after reviewer authorization",
+     "stop_condition": "stage 0 run and correction packet done (f23f8f4, audited). Stage 1 is not authorized until the owner rules on OPEN-18 (selection rule) and OPEN-19 (B3 route), and reviewer authorization is recorded",
      "artifacts_expected": [],
      "downstream_unlock": [
       "SCI-PROP-QUALIFIED-1"
      ],
-     "blocked_by": "SCI-EI-INTERACTION-1 verdict plus reviewer authorization of the calibration design"
+     "blocked_by": "owner rulings OPEN-18 (selection rule: dimensions, dominance epsilon, overflow) and OPEN-19 (B3 route); reviewer authorization of stage 1"
     },
    {
     "id": "SCI-PROP-QUALIFIED-1",

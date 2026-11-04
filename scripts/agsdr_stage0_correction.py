@@ -59,8 +59,18 @@ GATE_PREDICATES = {
 
 
 def evaluate_gates(values: dict) -> dict[str, bool]:
-    """Pass/fail per hard gate id. A missing id raises (no silent pass)."""
-    return {gid: bool(GATE_PREDICATES[gid](values[gid])) for gid in GATE_PREDICATES}
+    """Pass/fail per hard gate id. A missing id raises (no silent pass).
+
+    The receipts write NaN as null, so None is read as NaN and fails the gate. H01 is a bool;
+    None there means the finite check did not record, so it fails too.
+    """
+    out = {}
+    for gid, pred in GATE_PREDICATES.items():
+        v = values[gid]
+        if v is None:
+            v = False if gid == "H01_finite" else math.nan
+        out[gid] = bool(pred(v))
+    return out
 
 
 def tau_weighted_efrac(i_e: float, i_i: float, tau_e: float, tau_i: float) -> float:
@@ -188,6 +198,39 @@ def sampling_departure(receipts: list[dict]) -> dict:
     }
 
 
+# ---------------------------------------------------------------- bound analysis (informational)
+
+FIVE_EFRAC_FREE = ["B1_mu_band_3_15", "B2_CV_rate_above_0p3", "B2_mean_CV_E_band_0p5_1p5",
+                   "B2_median_Fano_band_0p7_2", "B2_mean_rho_band_m0p05_0p2"]
+
+
+def bound_analysis() -> dict:
+    """What the five Efrac-free terms alone settle, with B3 in [0, 1] unknown.
+
+    Dominance on the six terms needs dominance on the five. So a candidate dominated on the five
+    terms is undetermined, and one dominated on none of them is certainly nondominated. No
+    candidate can be certainly dominated, since B3 is unknown for both sides. Strict comparison,
+    epsilon 0, as in the runner. Informational only: it does not select.
+    """
+    vec = {}
+    for r in _candidate_receipts():
+        vec[r["candidate_id"]] = [r["soft_terms"][k] for k in FIVE_EFRAC_FREE]
+
+    def dom(y, x):
+        return all(a <= b for a, b in zip(y, x)) and any(a < b for a, b in zip(y, x))
+
+    certain = sorted(x for x in vec if not any(dom(vec[y], vec[x]) for y in vec if y != x))
+    undetermined = sorted(x for x in vec if x not in certain)
+    return {
+        "terms_used": FIVE_EFRAC_FREE,
+        "certainly_nondominated": certain,
+        "undetermined": undetermined,
+        "certainly_dominated": [],
+        "cut_note": "not settled by bounds: ordering inside an overflowing front uses the full "
+                    "soft distance, which includes B3",
+    }
+
+
 # ---------------------------------------------------------------- correct
 
 def correct() -> int:
@@ -243,15 +286,41 @@ def correct() -> int:
         "schema": "agsdr_stage0_correction_v1",
         "task": "SCI-AGSDR-CALIBRATION",
         "source_receipts": "docs/receipts/agsdr_local/candidate_AGS_S0_*_seed0.json (unchanged)",
-        "source_summary_sha256_expected": summary["runner_sha256"],
+        "runner_sha256_in_stage0_summary": summary["runner_sha256"],
+        "runner_sha256_current": A.sha256_of(A.THIS_FILE),
+        "stage0_summary_file_sha256": A.sha256_of(SUMMARY),
         "tau_check": "docs/receipts/agsdr_local/stage0_tau_check.json",
         "tau_check_sha256": A.sha256_of(TAU_CHECK),
         "correction_script_sha256": A.sha256_of(Path(__file__).resolve()),
         "provenance_note": (
             "Commit c43443e carries the label 'Goal: G-AGSDR-CALIBRATION'. That ID is not a "
             "verified goal in this repo. The verified task identifier is SCI-AGSDR-CALIBRATION."),
-        "changed_not": ["thresholds", "objective weights", "candidate parameters", "sampling",
-                        "CV eligibility", "gate rules"],
+        "changed_not": ["gate thresholds and predicates", "objective weights", "candidate "
+                        "parameters", "sampling", "CV eligibility", "runner code and receipts"],
+        "changed": ["H09 input: runner proxy replaced by tau-weighted Efrac in the record only; "
+                    "no receipt or runner file was edited"],
+        "frozen_departures": [
+            "dimensions: runner soft set has 6 terms (B1, B2 x4, B3); frozen J set has 7 "
+            "(J_rates, J_irregularity, J_synchrony, J_Fano, J_hetero, J_EI, J_CL1C). "
+            "manifests/agsdr_local_objectives.json algorithm_spec; design note line 167",
+            "dominance tolerance: frozen epsilon 0.05 (objectives algorithm_spec pareto_ranking); "
+            "runner and this record use strict comparison, epsilon 0",
+            "overflow: frozen rule keeps N1=8 nondominated survivors with w=1/6 tie-breaker "
+            "(agsdr_local_harness.json selection); it does not define overflow beyond the front. "
+            "This record's front-order fill is a proposal",
+            "time basis: frozen H09 and J_EI are per step (edge_current_trace[t]); runner uses a "
+            "time-integrated ratio over the 2000 ms run",
+            "sign: frozen J_EI takes I_e positive and I_i negative; runner and record take abs(w)",
+            "hard list: design line 18 lists nine gates; manifest lists H01-H12. H07 and H11 "
+            "are not computed",
+        ],
+        "superseded_not_edited": {
+            "docs/receipts/agsdr_local/stage0_summary.json": [
+                "best_feasible (AGS_S0_06 by scalar soft distance): superseded, not a selection",
+                "feasible_ranked order: scalar ordering, superseded by the proposal rule",
+                "stage1_selection: 'not run' stands",
+            ],
+        },
         "per_candidate": rows,
         "hard_feasibility": {
             "proxy_feasible_count": len(proxy_feasible),
@@ -261,13 +330,19 @@ def correct() -> int:
         "sampling_departure": sampling_departure(receipts),
         "selection": {
             "status": "NOT DETERMINED",
-            "rule": "Pareto front over the six soft terms among tau-feasible candidates; fill "
-                    "eight slots in front order; within a front that overflows, sort by "
-                    "soft distance then candidate ID.",
-            "blocked_by": ["B3 population tau correction requires per-population E/I "
-                           "sums, which are not in any receipt"],
+            "rule_status": "PROPOSAL pending owner ruling (OPEN-18); not applied",
+            "rule": "Pareto front over the soft terms among tau-feasible candidates; fill eight "
+                    "slots in front order; within a front that overflows, sort by soft distance "
+                    "then candidate ID.",
+            "blocked_by": [
+                "B3 needs per-population tau-weighted ratios p' = 2p/(5-3p); the receipts keep "
+                "only the in-band fraction, so none is retained",
+                "dimension set (6 runner vs 7 frozen), dominance epsilon (0 vs 0.05), and overflow "
+                "rule need owner ruling",
+            ],
             "eight_selected": None,
             "shortfall_rule": "stop and report if fewer than eight tau-feasible candidates",
+            "bound_analysis_informational": bound_analysis(),
         },
     }
     CORRECTION.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")

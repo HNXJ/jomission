@@ -409,7 +409,7 @@
    "n_neurons": 400
   }
  },
- "correction_script_sha256": "ecd5dd5d0fbcc0e9367b248606846b56f7f72b59bbd8d04846f11eaa5bb04016",
+ "correction_script_sha256": "524931a1d4d410c8c45e76d1bde20f0f37f3a7d95ffcd45e0cf3c6e806c24874",
  "purpose": "realized tau_ms per presynaptic class from the runner's EdgeList (builds only)",
  "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
  "schema": "agsdr_stage0_tau_check_v1"

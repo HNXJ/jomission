@@ -1,0 +1,105 @@
+{
+ "probe_sha256": "8a4fc95ddb1c19a8e005e779bf2b4f670a1e3ac67539ebd4dc3392cffc07fa27",
+ "rule_sha256": "73f7dfa59f773fbbd90032e1e9922f4fd6e2f1233ad10aa876ffe66cfcafc529",
+ "runs": [
+  "A_normal_seed0",
+  "A_normal_seed1",
+  "B_stress_x1p5_seed0",
+  "B_stress_x1p5_seed1"
+ ],
+ "script_sha256": "8e18e787a38b2544cdc68c86e58e4596064ee16fcdd09b969caef3fc1a4c3565",
+ "spec": "docs/designs/H_SYNC_MECH_spec.md",
+ "spec_sha256": "839d5a0ca9fec653a4e5907b1c39101d684ef45693813f6b0f3fb5cf1390801e",
+ "verdicts": {
+  "HM1_oscillation_in_sync_not_balance": {
+   "all": false,
+   "balance": {
+    "A_normal_seed0": false,
+    "A_normal_seed1": true,
+    "B_stress_x1p5_seed0": true,
+    "B_stress_x1p5_seed1": false
+   },
+   "sync": {
+    "A_normal_seed0": false,
+    "A_normal_seed1": false,
+    "B_stress_x1p5_seed0": false,
+    "B_stress_x1p5_seed1": false
+   }
+  },
+  "HM2_period_scales_with_timescale": {
+   "all": false,
+   "cases": {
+    "A_normal_seed0": {
+     "detected": [
+      false,
+      false,
+      false
+     ],
+     "monotone_increasing": false,
+     "periods_s": [
+      0.2,
+      0.29268292682926833,
+      1.090909090909091
+     ]
+    },
+    "A_normal_seed1": {
+     "detected": [
+      false,
+      false,
+      false
+     ],
+     "monotone_increasing": false,
+     "periods_s": [
+      0.2142857142857143,
+      0.25,
+      2.0
+     ]
+    },
+    "B_stress_x1p5_seed0": {
+     "detected": [
+      true,
+      false,
+      false
+     ],
+     "monotone_increasing": false,
+     "periods_s": [
+      0.2,
+      0.32432432432432434,
+      1.090909090909091
+     ]
+    },
+    "B_stress_x1p5_seed1": {
+     "detected": [
+      true,
+      false,
+      false
+     ],
+     "monotone_increasing": false,
+     "periods_s": [
+      0.23529411764705882,
+      0.2,
+      0.4285714285714286
+     ]
+    }
+   },
+   "median_loglog_slope": NaN
+  },
+  "HM3_denominator": {
+   "collapse_independent_of_denominator": false,
+   "rate_ratio_fixref_over_balance": {
+    "A_normal_seed0": 1.0109239706258448,
+    "A_normal_seed1": 1.0093252879868349,
+    "B_stress_x1p5_seed0": 1.0031410825199645,
+    "B_stress_x1p5_seed1": 1.0037608657087103
+   },
+   "rate_ratio_sync_over_balance": {
+    "A_normal_seed0": 0.9099777136385224,
+    "A_normal_seed1": 0.9152313037118303,
+    "B_stress_x1p5_seed0": 0.9636379769299025,
+    "B_stress_x1p5_seed1": 0.9680503814085505
+   },
+   "ratio_blowup_explains_collapse": false
+  },
+  "classification": "NO_OSCILLATION_DETECTED_OTHER_MECHANISM"
+ }
+}

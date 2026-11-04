@@ -175,14 +175,16 @@ def verdicts(rec: dict) -> dict:
             "classification": cls}
 
 
-def run_all() -> int:
+def run_key(key: str) -> int:
+    """One (condition, seed) in its own process (memory: 15 s traces of 400 neurons)."""
     OUT.mkdir(parents=True, exist_ok=True)
-    rng = np.random.default_rng(SUR_SEED)
-    rec = {}
-    for cname, tonic in T.CONDITIONS.items():
+    cname, seed = key.rsplit("_seed", 1)
+    seed = int(seed)
+    rng = np.random.default_rng(SUR_SEED + 1000 * list(T.CONDITIONS).index(cname) + seed)
+    if True:
+        tonic = T.CONDITIONS[cname]
         m = T.build(tonic)
-        for seed in (0, 1):
-            key = f"{cname}_seed{seed}"
+        if True:
             base, _ = HB.run(m, seed, None, DUR)
             p_ref = float(pop_series(base).mean())
             r = {"p_ref_Hz": p_ref, "baseline": stats_of(base, rng)}
@@ -191,11 +193,21 @@ def run_all() -> int:
                 sp, _ = HB.run(m, seed, hdp(sy.RULE_NAME, tau_r=1000.0 * s, tau_H=1000.0 * s), DUR)
                 r[f"sync_s{s:g}"] = stats_of(sp, rng)
             r["fixref"] = stats_of(HB.run(m, seed, hdp(fx.RULE_NAME, p_ref=p_ref), DUR)[0], rng)
-            rec[key] = r
             (OUT / f"{key}.json").write_text(json.dumps(r, indent=1, sort_keys=True) + "\n", encoding="utf-8")
             print(key, " | ".join("%s r %.2f p %.3f T %.2fs p2p %.2f" % (
                 a, r[a]["window_bar_r_Hz"], r[a]["p_ar1"], r[a]["period_s"], r[a]["p2p_rel"])
                 for a in r if a not in ("p_ref_Hz", "baseline")), flush=True)
+    return 0
+
+
+def run_all() -> int:
+    keys = [f"{c}_seed{s}" for c in T.CONDITIONS for s in (0, 1)]
+    for k in keys:
+        rc = subprocess.run([sys.executable, str(Path(__file__).resolve()), "key", k]).returncode
+        if rc != 0:
+            print("FAILED", k, rc)
+            return rc
+    rec = {k: json.loads((OUT / f"{k}.json").read_text(encoding="utf-8")) for k in keys}
     v = verdicts({k: {a: {f: x[f] for f in ("oscillation", "period_s", "window_bar_r_Hz")}
                       for a, x in r.items() if a != "p_ref_Hz"} for k, r in rec.items()})
     summary = {"spec": "docs/designs/H_SYNC_MECH_spec.md", "spec_sha256": A.sha256_of(SPEC),
@@ -213,8 +225,11 @@ def run_all() -> int:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("cmd", choices=["control", "run"])
+    ap.add_argument("cmd", choices=["control", "run", "key"])
+    ap.add_argument("name", nargs="?")
     a = ap.parse_args(argv)
+    if a.cmd == "key":
+        return run_key(a.name)
     return control() if a.cmd == "control" else run_all()
 
 

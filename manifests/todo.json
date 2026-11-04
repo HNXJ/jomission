@@ -1662,7 +1662,7 @@
      },
     {
      "id": "SCI-AGSDR-CALIBRATION",
-     "status": "AUTHORIZED",
+     "status": "BLOCKED",
      "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
      "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
      "parent_authority": "owner 2026-09-19 assessment (order position 2)",

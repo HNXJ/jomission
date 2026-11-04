@@ -49,6 +49,19 @@ def check_checklist_summary(rows) -> None:
         raise ValueError(f"header score {m.group(1)} != item total {total:g}")
 
 
+def open_stack() -> list[dict]:
+    """Rows of docs/OPEN.md: id, status, what is open (first 240 chars), who decides."""
+    out = []
+    for line in (ROOT / "docs/OPEN.md").read_text(encoding="utf-8").splitlines():
+        if not line.startswith("| OPEN-"):
+            continue
+        c = [x.strip() for x in line.strip().strip("|").split(" | ")]
+        text = c[2] if len(c) >= 3 else ""
+        out.append({"id": c[0], "status": c[1], "open": text[:240] + ("..." if len(text) > 240 else ""),
+                    "decides": c[-2] if len(c) >= 5 else "-"})
+    return out
+
+
 def results_inventory() -> list[dict]:
     """Every top-level results/*.json: parse state, verdict field, sealed status. Sorted by path."""
     reg = json.loads((ROOT / "manifests/sealed_artifacts.json").read_text(encoding="utf-8"))
@@ -138,6 +151,10 @@ def main() -> None:
     total = sum(p for _, _, _, p in rows)
     ei = rec["edge_identity"]
     open_rows = "".join(f"<li>item {n}: {html.escape(obj)} ({pts:g}/2)</li>" for n, _, obj, pts in rows if pts < 2.0)
+    stack = open_stack()
+    stack_rows = "".join(
+        f"<tr><td>{html.escape(r['id'])}</td><td>{html.escape(r['status'])}</td><td>{html.escape(r['open'])}</td><td>{html.escape(r['decides'])}</td></tr>"
+        for r in stack)
     dec_rows = "".join(
         f"<tr><td>{html.escape(d['id'])}</td><td>{html.escape(d['text'])}</td><td>{html.escape(d['status'])}</td></tr>"
         for d in rec["owner_decisions"])
@@ -173,6 +190,7 @@ table{{border-collapse:collapse;width:100%;font-size:13px}} td,th{{border-bottom
 <h2>Checklist items</h2><div class="card">{item_svg(rows)}<p class="mut">Blue: full credit. Amber: partial or open. Numbers are checklist item numbers.</p></div>
 <h2>Owner decisions</h2><div class="card"><table><tr><th>id</th><th>decision</th><th>status</th></tr>{dec_rows}</table></div>
 <h2>Open (every checklist item below 2 points)</h2><div class="card"><ul>{open_rows}</ul></div>
+<h2>Open stack (docs/OPEN.md, all {len(stack)} rows)</h2><div class="card"><table><tr><th>id</th><th>status</th><th>what is open</th><th>decides</th></tr>{stack_rows}</table></div>
 <h2>Results inventory (all results/*.json)</h2><div class="card"><p class="mut">{len(inv)} files; {sum(1 for r in inv if r["verdict"] != "-")} carry a verdict or status field; {sum(1 for r in inv if r["sealed"])} sealed; {sum(1 for r in inv if r["encoding"]=="cp1252")} decode as cp1252 only.</p><table><tr><th>file</th><th>bytes</th><th>encoding</th><th>verdict/status</th><th>sealed</th></tr>{inv_rows}</table></div>
 <h2>Figures (docs/_static)</h2><div class="card"><table><tr><th>file</th><th>bytes</th></tr>{fig_rows}</table></div>
 </body></html>

@@ -39,3 +39,9 @@ def test_inventory_counts():
     expected = len(list((ROOT / "results").glob("*.json")))
     html = PAGE.read_text(encoding="utf-8")
     assert html.count("<tr><td>results/") == expected
+
+
+def test_open_stack_rows_shown():
+    n = sum(1 for line in (ROOT / "docs/OPEN.md").read_text(encoding="utf-8").splitlines() if line.startswith("| OPEN-"))
+    html = PAGE.read_text(encoding="utf-8")
+    assert n > 0 and html.count("<tr><td>OPEN-") == n

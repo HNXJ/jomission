@@ -1,6 +1,6 @@
-# Corrected synchrony term (DRAFT; not sealed; no run authorized)
+# Corrected synchrony term (pre-registered, sealed on commit of this file)
 
-Status: draft from owner answers Q1 to Q4 (2026-11-04). Sealing = commit of the non-DRAFT file on the owner's go. Parameters other than the declared grid are fixed at sealing.
+Status: sealed on commit. Owner answers Q1 to Q5 (2026-11-04): spec the corrected term, seal and run as drafted. Parameters other than the declared grid are fixed at this commit. Supersedes `H_SYNC2_TEST_spec_DRAFT.md` (removed). Code: `scripts/h_sync2_test.py`, `jomission/dynamics/activity_balance_sync2.py`.
 
 ## Question
 Does a synchrony term with a bounded, constant reference (no start-up blowup) restrain Fano and rho beyond what rate compression alone does, without losing rate restraint?
@@ -34,7 +34,7 @@ kappa_s in {0.15, 0.5, 1.5}. Selection on **tuning seed 2, condition B**, window
 2. Determinism: repeated sync2 run identical.
 3. Unit tests of sync2 (equals sync when r_ref = P_s; sigma bounded by (P_f)/r_ref at P_s = 0; finite at silence) and of the balance and sync rules pass.
 4. Rate matching: achieved bar_r within 3% on tuning seed (else the rate-matched arm is reported failed, HC1 and HC2 undefined).
-5. Detector-free: no oscillation claims are made.
+5. No oscillation claims are made.
 
 ## Limits
 - Grid of three; the optimum may lie between points.

@@ -1,0 +1,11 @@
+{
+ "runs": [
+  "A_normal_seed0",
+  "A_normal_seed1",
+  "B_stress_x1p5_seed0",
+  "B_stress_x1p5_seed1"
+ ],
+ "script_sha256": "5746a25fb5d3819929be9da5dd13f018a546f60f84dee5a0e37f16937f99f980",
+ "spec": "docs/designs/H_ACTIVE_TEST_spec.md",
+ "spec_sha256": "2989fe39fcd14901fc29820b8ba5d9514f5447bfd6fbef77a9c3447352055081"
+}

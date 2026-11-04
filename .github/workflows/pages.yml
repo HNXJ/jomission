@@ -2,7 +2,7 @@ name: pages
 
 on:
   push:
-    branches: [main, cowork/focused-ptolemy-dz7hwc]
+    branches: [main, dev, cowork/focused-ptolemy-dz7hwc]
   workflow_dispatch:
 
 permissions:

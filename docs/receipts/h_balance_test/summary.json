@@ -1,0 +1,12 @@
+{
+ "rule_sha256": "d5f299658d7d59ffbdc4fe4e8428ce6e9632b776aeb86c61143d666db3fce69f",
+ "runs": [
+  "A_normal_seed0",
+  "A_normal_seed1",
+  "B_stress_x1p5_seed0",
+  "B_stress_x1p5_seed1"
+ ],
+ "script_sha256": "f5919018caec683c28b4f3e91f69b6c5328d97b1a217b013cfa27b3f77ff7be3",
+ "spec": "docs/designs/H_BALANCE_TEST_spec.md",
+ "spec_sha256": "e4d5a752d3717c2093faa74e90d9543ec2b79cc78189822daf9714a65a54e2cf"
+}

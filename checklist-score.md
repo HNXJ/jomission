@@ -31,7 +31,7 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 11 | Science program | visualization V2 final raster | 0 | not produced |
 | 12 | Science program | visualization V3 atlas | 0 | not produced |
 | 13 | Science program | AGSDR calibration design sealed, with amendments | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); amendments 1 and 2; B10 audit amendment |
-| 14 | Science program | AGSDR stage 0 executed with receipts | 1 | 24 sims, seed 0, n=400; receipts in docs/receipts/agsdr_local/; Efrac tau defect and selection defect open (R1, R2) |
+| 14 | Science program | AGSDR stage 0 executed with receipts | 1 | 24 sims, seed 0, n=400; receipts in docs/receipts/agsdr_local/ (stage0_summary.json, stage0_tau_check.json, stage0_correction_v1.json); Efrac tau defect and selection defect open (R1, R2) |
 | 15 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: dimension set, overflow, epsilon predicate (OPEN-23), B3 route (OPEN-19) open; H08 hard-or-informational conflict (OPEN-24) |
 | 16 | Science program | AGSDR stage 1 (top 8 x seeds 0,1) | 0 | not authorized (stop_condition in manifests/todo.json) |
 | 17 | Science program | AGSDR stage 2 (top 3 x seeds 0..3) | 0 | not authorized; depends on stage 1 |
@@ -44,9 +44,9 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 24 | Documentation and reproducibility | results inventory on the dashboard | 1 | 367 results rows listed; figures not rendered (OPEN-14) |
 | 25 | Documentation and reproducibility | open stack current and consistent with audits | 1 | docs/OPEN.md current at 4e72c8a; audit conflicts (H08, regime verdict, attribution) partly recorded |
 | 26 | Documentation and reproducibility | handoff regenerated and current | 2 | docs/HANDOFF_CURRENT.md; tests/test_harness_state.py passes |
-| 27 | Documentation and reproducibility | TODO consistent with state | 1 | validators pass; stop_condition still incomplete; a top-level next_authorized_task null key is present (audit) |
+| 27 | Documentation and reproducibility | TODO consistent with state | 1 | validators pass; top-level null key removed (164ad74); stop_condition lists its rulings (OPEN-18, 19, 23, 24, 25); reviewer-authorization location still undefined (OPEN-25) |
 | 28 | Documentation and reproducibility | every claim has a receipt | 0 | OPEN-08: four docs make claims with no receipt |
-| 29 | Documentation and reproducibility | sealed-artifact policy enforced | 1 | append-only rule enforced by guards; in-place reseals recorded (OPEN-04, governance open) |
+| 29 | Documentation and reproducibility | sealed-artifact policy enforced | 1 | append-only rule enforced by guards; in-place reseals recorded (OPEN-04, governance open); cp1252 reseals owner-approved (v2 item 25); results/jaxfne_058_correction_1.json registered (v2 item 27); tests/test_within_area_sparse_coverage.py (v2 item 26) |
 | 30 | Documentation and reproducibility | commit and PR provenance | 1 | Claude-Session trailer on every commit; model-name trailer conflict (OPEN-21); PR #1 body stale (OPEN-22) |
 | 31 | Documentation and reproducibility | gate thresholds single source | 1 | test_gates_single_source passes; AGSDR predicates are copies of runner rules (tested, not imported) |
 | 32 | Documentation and reproducibility | design-to-code traceability for AGSDR | 1 | runner sha in receipts; correction record; H08 and H07/H11 mismatch with the design unresolved |
@@ -63,10 +63,10 @@ Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, 
 | 43 | Dashboard and figures | checklist score chart by category and item | 2 | inline SVG, Chromium-rendered |
 | 44 | Dashboard and figures | GitHub Pages current with the head | 0 | main deploy blocked by the github-pages environment rule (OPEN-07); last live deploy not verified |
 | 45 | Dashboard and figures | open items and owner decisions shown with reasons | 2 | receipts.json open_items, owner_decisions |
-| 46 | Rest | jaxfne 0.5.8 pinned, installed, and adopted as source of truth | 2 | pyproject.toml:18; project_check identity 0.5.8; results/jaxfne_058_migration.json |
-| 47 | Rest | canonical network identity (15 EdgeList fields, config hash, builds) | 1 | reproduced at a9fcb65 (10666 edges); config hash 05f3d334451c53d2 frozen; not re-run on head |
-| 48 | Rest | tiers 0 to 2 pass on current head | 1 | last full run at 860e330 (tier 0: 216 passed; tier 2: 419 passed); head has only targeted runs |
-| 49 | Rest | sealed registry and guards pass on head | 2 | test_harness_guards and test_harness_state pass at 4e72c8a; project_check offline PASS |
+| 46 | Rest | jaxfne 0.5.8 pinned, installed, and adopted as source of truth | 2 | pyproject.toml:18; project_check identity 0.5.8; results/jaxfne_058_migration.json; docs/JAXFNE_058_AUDIT.md; jaxfne tracker 0 issues, 119 PRs (v2 items 5, 6) |
+| 47 | Rest | canonical network identity (15 EdgeList fields, config hash, builds) | 1 | reproduced at a9fcb65 (10666 edges); config hash 05f3d334451c53d2 frozen; not re-run on head. Also: inter-column delays, cell-map identity, within-area locality (builder.py; v2 items 12-14); lite model tests/test_lite_model.py (v2 items 11, 16) |
+| 48 | Rest | tiers 0, 1 and 2 pass on current head | 1 | last full runs at 860e330: tier 0 216 passed; tier 1 non-simulating 49 passed, 1 skipped; tier 2 419 passed, 3 skipped. Head 164ad74 has only targeted runs, which pass |
+| 49 | Rest | sealed registry and guards pass on head | 2 | test_harness_guards and test_harness_state pass at 4e72c8a; project_check --offline --no-tests PASS at 4e72c8a. Full project_check PASS (v2: at 860e330) not re-run on head |
 | 50 | Rest | CI green on head and working tree clean and pushed | 1 | CI run on current head not verified; tree clean at push |
 
 ## Notes

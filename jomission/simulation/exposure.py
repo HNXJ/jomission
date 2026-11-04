@@ -85,9 +85,11 @@ def run_shortened_exposure(
         "trials": trials,
         "area_rates_hz": area_rates,
         "h_info": h_info,
+        "h_info_scope": "last_trial",
         "field_present": last.field is not None,
         "n_steps": int(sum(t["n_steps"] for t in trials)),
         "signals_summary": last.summary(),
+        "signals_summary_scope": "last_trial",
     }
 
 

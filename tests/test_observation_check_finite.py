@@ -39,3 +39,9 @@ def test_non_finite_expected_is_rejected(monkeypatch):
 def test_non_finite_tolerance_is_rejected(monkeypatch):
     _with_text(monkeypatch, '{"value": 1}')
     assert v._observation_check(REC, _obs(tol=float("inf"))) != []
+
+
+def test_unrelated_non_finite_field_does_not_affect_checked_value(monkeypatch):
+    # The checked value is finite; a NaN elsewhere in the receipt is not this observation's value.
+    _with_text(monkeypatch, '{"value": 1, "unrelated": NaN}')
+    assert v._observation_check(REC, _obs()) == []

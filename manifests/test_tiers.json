@@ -32,7 +32,8 @@
     "tests/test_visualization_contract.py",
     "tests/test_whole_system_diagnostic.py",
     "tests/test_whole_system_ei_native_state.py",
-    "tests/test_whole_system_realization.py"
+    "tests/test_whole_system_realization.py",
+    "tests/test_observation_check_finite.py"
    ]
   },
   "1": {
@@ -59,6 +60,9 @@
      "tests/test_factor_isolation.py",
      "tests/test_namespaces.py",
      "tests/test_targets_and_ablations.py"
+    ],
+    "exposure bookkeeping (short JAX, no results writes)": [
+     "tests/test_exposure_continuation.py"
     ],
     "rate-factorial regression (numpy, no simulation)": [
      "tests/test_rf_rate_factorial.py"

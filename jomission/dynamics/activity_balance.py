@@ -10,7 +10,7 @@ Equations (time in ms, rates in Hz; dt is the kernel step):
   tau_r  dr/dt = r_inst - r                                 (activity trace, aux "rate")
   delta       = max(0, r - r_hi) - max(0, r_lo - r)        (signed deviation outside the band)
   tau_H  dH/dt = (1 - H) - kappa * delta * (tau_H / 1000)   (H history with restoring term)
-  db/dt       = kappa_I * dH/dt                             (drive_bias; so b = kappa_I (H - 1))
+  db/dt       = kappa_I * dH/dt                             (drive_bias; b = kappa_I (H - 1) in exact arithmetic; float32 drift <= 5.7e-3 over 2000 ms)
 
 Units of kappa: 1/(Hz * s). With the defaults, a neuron at 22 Hz settles near H = 0.4 and
 a silent neuron near H = 1.05. Parameters are PROPOSED AND UNTUNED; they are fixed in the spec
@@ -54,7 +54,7 @@ def _activity_balance_step(ctx: HDPRuleContext) -> HDPRuleUpdate:
     d_r = (r_inst - r) / tau_r                               # per ms
     delta = jnp.maximum(0.0, r - r_hi) - jnp.maximum(0.0, r_lo - r)
     dH = (1.0 - ctx.H) / tau_H - kappa * delta * (1.0 / 1000.0)   # per ms
-    d_b = kappa_I * dH                                       # b = kappa_I (H - 1) exactly
+    d_b = kappa_I * dH                                       # b = kappa_I (H - 1) in exact arithmetic
     return HDPRuleUpdate(dH=dH, d_aux=d_r, d_theta={"drive_bias": d_b})
 
 

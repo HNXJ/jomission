@@ -8,12 +8,12 @@ Earlier revisions: v3 (50, 2026-11-04) at checklist-score.md (repo root); v2 (83
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 52/100** (v4, 2026-11-04). Against v3 (50): Science +3, Documentation 0, Dashboard 0, Rest -1. Sensitivity: 51 if item 17 (H items, added after the H results) is not accepted; 49 if items 9 and 10 stay at 0. Final score awaits the owner rulings listed in Notes.
+**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Sensitivity: 53 if item 17 (added after the H results) is not accepted. Final score awaits the owner rulings listed in Notes.
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 17 / 40 | 20 |
+| Science program | 19 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 14 / 20 | 10 |
 | Rest | 6 / 10 | 5 |
@@ -29,8 +29,8 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE in results/whole_system_ei_native_state.json; network-level question not closed (docs/HANDOFF_CURRENT.md) |
 | 7 | Science program | Single-neuron f-I assay (NumPy, exploratory) | 1 | docs/receipts/fi_single_neuron_v1.json; script scripts/fi_single_neuron.py; not engine-validated |
 | 8 | Science program | Engine-equivalence of the f-I assay | 0 | not done: docs/receipts/fi_single_neuron_v1_provenance.json records provenance only; no equivalence receipt in docs/receipts/ |
-| 9 | Science program | Visualization V0 (schematic) and V1 (initial 1 s raster) exist for a canonical lineage | 1 | present: results/viz/SCI-EI-REGIME-1, SCI-EI-INTERACTION-1, SCI-EI-NATIVE-STATE-1, SCI-WS-OSC-1/2 hold jaxfne_network_hspice.png and raster_initial_1000ms.png (ls, this session); the registry names no canonical lineage, so partial; OPEN-02 ("not produced") is stale (v3 items 9, 10) |
-| 10 | Science program | Visualization V2 (final raster) and V3 (atlas) exist for a canonical lineage | 1 | present: results/viz/SCI-EI-REGIME-1 and SCI-EI-NATIVE-STATE-1 hold raster_final.png and atlas/ (ls); same canonical-lineage gap as item 9 (v3 items 11, 12) |
+| 9 | Science program | Visualization V0 (schematic) and V1 (initial 1 s raster) exist for a canonical lineage | 2 | canonical lineage SCI-EI-NATIVE-STATE-1 (owner ruling Q13, 2026-11-04): V0 jaxfne_network_hspice.png and V1 raster_initial_1000ms.png present and registered in manifests/lineage_registry.json (ls, grep); file existence checked, content not inspected here (v3 items 9, 10) |
+| 10 | Science program | Visualization V2 (final raster) and V3 (atlas) exist for a canonical lineage | 2 | SCI-EI-NATIVE-STATE-1: raster_final.png and atlas/index.html (with 4 atlas pages) present and registered; existence checked, content not inspected here (v3 items 11, 12) |
 | 11 | Science program | AGSDR calibration design sealed, with amendments 1 to 3 | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); docs/designs/SCI-AGSDR-CALIBRATION_amendment_1.md, _2.md, _3.md (amendment 3 sealed in 43d1d71) |
 | 12 | Science program | AGSDR stage 0 executed with receipts (24 candidates, seed 0) | 2 | docs/receipts/agsdr_local/stage0_summary.json (run in a50121b); its hard_pass_count 24 / best_feasible is superseded by stage0_correction_v1.json (2 of 24 feasible under H05 all-E, OPEN-26) |
 | 13 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: docs/receipts/agsdr_local/stage0_correction_v1.json; OPEN-18 and OPEN-23 in docs/OPEN.md; H08 status OPEN-24 |
@@ -87,7 +87,7 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 
 | Item | v3 | v4 | Reason |
 |---|---|---|---|
-| 9, 10 | 0,0,0,0 | 1, 1 | v3 checked the wrong location: V0 to V3 exist in results/viz/<lineage> for five lineages (ls); partial because no canonical lineage is named |
+| 9, 10 | 0,0,0,0 | 2, 2 | v3 checked the wrong location; V0 to V3 exist in results/viz/<lineage>; owner ruled SCI-EI-NATIVE-STATE-1 canonical (Q13), all four registered and present |
 | 17 | new | 1 | H1 to H3 hold 4 of 4; n = 2, A seed 0 smoke-informed |
 | 19, 20 | new | 0, 0 | H4 unresolved; rule not in calibrated model |
 | 18 | 0 | 0 | PV drive scan kept; retirement pending owner |
@@ -96,18 +96,18 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 17; Documentation 15 to 15; Dashboard 14 to 14; Rest 7 to 6; total 50 to 52.
+Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboard 14 to 14; Rest 7 to 6; total 50 to 54.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).
 - Tier 3, the V2 gate and the PV group are science decisions, not migration progress.
 - Item 15 is a term scan of the runner, not an H05 or H08 test.
-- Items 9, 10: OPEN-02 still says V0 to V3 are not produced; results/viz contradicts it. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).
+- Items 9, 10: canonical lineage ruled Q13 (SCI-EI-NATIVE-STATE-1); OPEN-02 corrected. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).
 - Item 17 is partial by design and must not be read as H being calibrated. Items 19 and 20 stay at 0 so the limits stay visible.
 - Items 17, 19, 20 were defined after the H results; the owner is asked to ratify them.
 - Paradigm pages (omission; global-local oddball, 11da5b2) are not scored: category item counts are fixed by the owner.
 - Item 37 was checked on a copy of the repository (byte-identical rebuild).
 - OPEN-21 (b8d492e) bears on item 30 (provenance), not item 28; v2 numbering caused the mix-up. Item 28 stays 0 (OPEN-08).
 - Adoption: copy to checklist-score.md (v3 to docs/checklist-score-v3.md), edit scripts/build_dashboard.py line 164 header, rebuild docs/DASHBOARD.html, update OPEN-02, OPEN-21, OPEN-22 references.
-- Pending owner rulings: ratify items 17, 19, 20; canonical lineage for items 9 and 10; PV drive scan retirement.
+- Pending owner rulings: ratify items 17, 19, 20; PV drive scan retirement.
 - Checker (independent) proposed 57: disagreements on items 7, 38, 39 (+1 each; definitions), 22 (-1) are not adopted here without evidence beyond definition reading; recorded for ruling.

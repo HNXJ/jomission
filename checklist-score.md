@@ -1,90 +1,113 @@
-# Checklist score (v3)
+# Checklist score (v4, final for owner review)
 
-Scope: the jomission project goals. Re-weighted 2026-11-04 at owner request.
-50 items, 2 points each, sum 100. Scoring: 2 = met with evidence, 1 = partial, 0 = not met.
-Category weights (owner, 2026-11-04): Science program 40, Documentation and reproducibility 30, Dashboard and figures 20, rest 10. "Rest" is one pool of 5 items covering engine migration, models and harness.
-Earlier revisions: v2 (83.2, 2026-11-04) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
+Scope: the jomission project goals, as the program stands on 2026-11-04 (branch cowork/focused-ptolemy-dz7hwc; commit shas in item evidence). Not yet the checklist the dashboard reads (still v3, root checklist-score.md).
+50 items, 2 points each, sum 100. Scoring: 2 = met with a receipt or commit that was checked, 1 = partial, 0 = not met or not verifiable.
+Category maxima (owner, 2026-11-04): Science program 40 (20 items), Documentation and reproducibility 30 (15), Dashboard and figures 20 (10), Rest 10 (5). The item count per category is unchanged from v3.
+Earlier revisions: v3 (50, 2026-11-04) at checklist-score.md (repo root); v2 (83.2) in docs/checklist-score-v2.md; v1 (98, migration-only) in docs/checklist-score-v1.md.
 
-**Current score: 50/100** (v3, 2026-11-04). The B3 rerun (owner Q7; sealed 47d055f; receipts docs/receipts/agsdr_b3_rerun) makes item 20 a 2: 50.0. Lower than v2 mainly because the v2 migration, models and harness points (56 maximum) now carry 10 points. At v2 shares, science rose from 7.5 to 12. The re-weighting took v2 from 83.2 to 61.8; item scores took it to 55.0; the critic-audit downgrades (items 26, 33, 45) take it to 52.0; item 4 at 1 (critic, 2026-11-04) takes it to 51.0; the reviewer audit of 6ec69df takes it to 48.0; owner ruling Q8 restores item 4 to 2: 49.0 (earlier wording kept as audit history): items 38-40 to 1 (counts, not a result figure), item 49 to 1 (run at 374410d; OPEN-05 and OPEN-06 open), item 47 to 2 (no builder commit since a9fcb65).
+Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
+Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
+
+**Current score: 54/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard 0, Rest -1. Sensitivity: 53 if item 17 (added after the H results) is not accepted. Final score awaits the owner rulings listed in Notes.
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 14 / 40 | 20 |
+| Science program | 19 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 14 / 20 | 10 |
-| Rest (migration, models, harness) | 7 / 10 | 5 |
+| Rest | 6 / 10 | 5 |
 
 ## Items
 | # | Category | Objective | Score (of 2) | Evidence |
 |---|---|---|---|---|
-| 1 | Science program | tier 3 scientific batteries run under an authorized TODO | 0 | owner declined 2026-11-03; PV group decision pending; not run |
-| 2 | Science program | V2 local operation gate PASS (manifests/gates/v2_local_operation.json) | 0 | status FAIL (scientific result) |
-| 3 | Science program | viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 0 | both-repaired cell: no cell viable (docs/HANDOFF_CURRENT.md; lineage_registry EI_REGIME_STILL_UNRESOLVED) |
-| 4 | Science program | regime verdict recorded as one ratified label (any label; "met" definition for the owner, see note) | 2 | EI_REGIME_STILL_UNRESOLVED recorded (SCI-EI-INTERACTION-1, d846eff); owner ruling Q8 (2026-11-04): a recorded sealed verdict counts as met; overlaps item 3 |
-| 5 | Science program | SCI-EI-NATIVE-STATE-1 sealed verdict | 2 | current_state.json: MIXED_STATE_MECHANISM, sealed |
-| 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE; network-level question not closed |
-| 7 | Science program | single-neuron f-I assay (NumPy, exploratory) | 1 | docs/receipts/fi_single_neuron_v1.json; not engine-validated |
-| 8 | Science program | engine-equivalence of the f-I assay | 0 | not done (OPEN, review item) |
-| 9 | Science program | visualization V0 schematic for the canonical lineage | 0 | not produced (manifests/visualization_contract.json; applicability to confirm, OPEN-02) |
-| 10 | Science program | visualization V1 initial 1 s raster | 0 | not produced |
-| 11 | Science program | visualization V2 final raster | 0 | not produced |
-| 12 | Science program | visualization V3 atlas | 0 | not produced |
-| 13 | Science program | AGSDR calibration design sealed, with amendments | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); amendments 1 and 2; B10 audit amendment |
-| 14 | Science program | AGSDR stage 0 executed with receipts | 2 | 24 sims, seed 0, n=400; receipts in docs/receipts/agsdr_local/ (stage0_summary.json, stage0_tau_check.json, stage0_correction_v1.json); defects are scored in items 15, 16 and 20 |
-| 15 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: dimension set, overflow, epsilon predicate (OPEN-23), B3 route (OPEN-19) open; H08 hard-or-informational conflict (OPEN-24) |
-| 16 | Science program | AGSDR stage 1 (top 8 x seeds 0,1) | 0 | not authorized (stop_condition in manifests/todo.json) |
-| 17 | Science program | AGSDR stage 2 (top 3 x seeds 0..3) | 0 | not authorized; depends on stage 1 |
-| 18 | Science program | PV drive scan (matched-state) | 0 | draft only, not approved, not in repo |
-| 19 | Science program | B10 objective audit clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (runner sha 160265516fe2) |
-| 20 | Science program | AGSDR Efrac tau correction applied to the stage-0 receipts, including B3 | 2 | global tau-weighted Efrac for all 24 (stage0_correction_v1.json); B3 recomputed from per-population sums (docs/receipts/agsdr_b3_rerun, sealed 47d055f; 24 of 24 reproduction and control checks pass); no hard verdict changes on the 11 runner gates |
-| 21 | Documentation and reproducibility | cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
-| 22 | Documentation and reproducibility | fresh-clone reproduction of the setup | 1 | run in this container only; not on a fresh cloud image (OPEN-09) |
-| 23 | Documentation and reproducibility | checklist versioned with history | 2 | docs/checklist-score-v1.md, docs/checklist-score-v2.md, this file; git history |
-| 24 | Documentation and reproducibility | results inventory on the dashboard | 1 | 367 results rows listed; figures not rendered (OPEN-14) |
-| 25 | Documentation and reproducibility | open stack current and consistent with audits | 1 | docs/OPEN.md current at 4e72c8a; audit conflicts (H08, regime verdict, attribution) partly recorded |
-| 26 | Documentation and reproducibility | handoff regenerated and current | 1 | docs/HANDOFF_CURRENT.md regenerated and tests/test_harness_state.py passes; the handoff carries the TODO stop line (stage 0 noted) but not R1-R6 or the selection status (audit 2026-11-04) |
-| 27 | Documentation and reproducibility | TODO consistent with state | 1 | validators pass; top-level null key removed (164ad74); stop_condition lists its rulings (OPEN-18, 19, 23, 24, 25, 26); reviewer-authorization location still undefined (OPEN-25) |
-| 28 | Documentation and reproducibility | every claim has a receipt | 0 | OPEN-08: four docs make claims with no receipt |
-| 29 | Documentation and reproducibility | sealed-artifact policy enforced | 1 | append-only rule enforced by guards; in-place reseals recorded (OPEN-04, governance open); cp1252 reseals owner-approved (v2 item 25); results/jaxfne_058_correction_1.json registered (v2 item 27); tests/test_within_area_sparse_coverage.py (v2 item 26) |
-| 30 | Documentation and reproducibility | commit and PR provenance | 1 | Claude-Session trailer on every commit; model-name trailer conflict (OPEN-21); PR #1 body stale (OPEN-22) |
-| 31 | Documentation and reproducibility | gate thresholds single source | 1 | test_gates_single_source passes; AGSDR predicates are copies of runner rules (tested, not imported) |
-| 32 | Documentation and reproducibility | design-to-code traceability for AGSDR | 1 | runner sha in receipts; correction record; H08 and H07/H11 mismatch with the design unresolved |
-| 33 | Documentation and reproducibility | goals document ratified | 0 | docs/GOALS_PROPOSED.md exists; not ratified by owner (rubric: not ratified = 0) |
-| 34 | Documentation and reproducibility | receipts name generator and hash | 1 | AGSDR receipts do; older receipts not audited |
-| 35 | Documentation and reproducibility | compile cache: build-time receipt and trust documented (merged from former item 20) | 1 | docs/receipts/compile_cache_benchmark.json (cold 3.53 s, warm 1.05 s; build only); trust decision open (OPEN-17) |
-| 36 | Dashboard and figures | docs/DASHBOARD.html committed, no external resources | 2 | docs/DASHBOARD.html; self-contained SVG |
-| 37 | Dashboard and figures | dashboard generated deterministically by scripts/build_dashboard.py | 2 | rebuild byte-identical (checked 2026-11-04) |
-| 38 | Dashboard and figures | tier 0 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; v2 objective was a figure; not a result figure, audit 2026-11-04) |
-| 39 | Dashboard and figures | tier 1 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; not a result figure, audit 2026-11-04) |
-| 40 | Dashboard and figures | tier 2 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; not a result figure, audit 2026-11-04) |
-| 41 | Dashboard and figures | tier 3 shown as open with its reason | 2 | receipts open status; owner declined |
-| 42 | Dashboard and figures | edge-identity table on the dashboard | 2 | receipts.json edge_identity |
-| 43 | Dashboard and figures | checklist score chart by category and item | 2 | inline SVG, Chromium-rendered |
-| 44 | Dashboard and figures | GitHub Pages current with the head | 0 | dev deploys do not run and main is blocked by the github-pages environment rule (OPEN-07); last live deploy not verified |
-| 45 | Dashboard and figures | open items and owner decisions shown with reasons | 1 | receipts.json open_items, owner_decisions; the OPEN stack (OPEN-18 to OPEN-25) is not on the dashboard (audit 2026-11-04) |
-| 46 | Rest | jaxfne 0.5.8 pinned, installed, and adopted as source of truth | 2 | pyproject.toml:18; project_check identity 0.5.8; results/jaxfne_058_migration.json; docs/JAXFNE_058_AUDIT.md; jaxfne tracker 0 issues, 119 PRs (v2 items 5, 6) |
-| 47 | Rest | canonical network identity (15 EdgeList fields, config hash, builds) | 2 | reproduced at a9fcb65 (10666 edges); no commit to jomission/network/builder.py since a9fcb65 (git log checked 2026-11-04); config hash 05f3d334451c53d2 frozen. Also: inter-column delays, cell-map identity, within-area locality (builder.py; v2 items 12-14); lite model tests/test_lite_model.py (v2 items 11, 16); config hash (v2 item 4, above); field and Retina declarations (v2 item 17); per-trial seed consistency in exposure, tests/test_exposure_continuation.py (v2 item 18) |
-| 48 | Rest | tiers 0, 1 and 2 pass on current head | 1 | last full runs at 860e330: tier 0 216 passed; tier 1 non-simulating 49 passed, 1 skipped; tier 2 419 passed, 3 skipped. Current head has only targeted runs, which pass |
-| 49 | Rest | sealed registry and guards pass on head | 1 | test_harness_guards, test_harness_state, test_agsdr_stage0_correction, test_gates_single_source, test_agents_policy: 62 passed at 374410d (run this session); not re-run on the current head. OPEN-05 (weakened tests/test_rf.py assertion) and OPEN-06 (exempted test file) are open against these guards. Full project_check PASS (v2: at 860e330) not re-run on head |
-| 50 | Rest | CI green on head and working tree clean and pushed | 1 | CI run on current head not verified; tree clean at push |
+| 1 | Science program | Tier 3 scientific batteries run under an authorized TODO | 0 | owner declined tier 3 (a9fcb65); receipts tier 3 status OPEN in docs/receipts/receipts.json |
+| 2 | Science program | V2 local operation gate PASS (manifests/gates/v2_local_operation.json) | 0 | gate V2_LOCAL_OPERATION recorded as FAIL in docs/HANDOFF_CURRENT.md (line 40) |
+| 3 | Science program | Viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 0 | no cell viable (d846eff); manifests/lineage_registry.json, label EI_REGIME_STILL_UNRESOLVED |
+| 4 | Science program | Regime verdict recorded: a sealed verdict is on file (null permitted) | 2 | manifests/lineage_registry.json (EI_REGIME_STILL_UNRESOLVED recorded); owner ruling Q8 (recorded in docs/OPEN.md, decision log) |
+| 5 | Science program | SCI-EI-NATIVE-STATE-1 sealed verdict | 2 | manifests/current_state.json (MIXED_STATE_MECHANISM); results/whole_system_ei_native_state.json, listed in manifests/sealed_artifacts.json |
+| 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE in results/whole_system_ei_native_state.json; network-level question not closed (docs/HANDOFF_CURRENT.md) |
+| 7 | Science program | Single-neuron f-I assay (NumPy, exploratory) | 1 | docs/receipts/fi_single_neuron_v1.json; script scripts/fi_single_neuron.py; not engine-validated |
+| 8 | Science program | Engine-equivalence of the f-I assay | 0 | not done: docs/receipts/fi_single_neuron_v1_provenance.json records provenance only; no equivalence receipt in docs/receipts/ |
+| 9 | Science program | Visualization V0 (schematic) and V1 (initial 1 s raster) exist for a canonical lineage | 2 | canonical lineage SCI-EI-NATIVE-STATE-1 (owner ruling Q13, 2026-11-04): V0 jaxfne_network_hspice.png and V1 raster_initial_1000ms.png present and registered in manifests/lineage_registry.json (ls, grep); file existence checked, content not inspected here (v3 items 9, 10) |
+| 10 | Science program | Visualization V2 (final raster) and V3 (atlas) exist for a canonical lineage | 2 | SCI-EI-NATIVE-STATE-1: raster_final.png and atlas/index.html (with 4 atlas pages) present and registered; existence checked, content not inspected here (v3 items 11, 12) |
+| 11 | Science program | AGSDR calibration design sealed, with amendments 1 to 3 | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); docs/designs/SCI-AGSDR-CALIBRATION_amendment_1.md, _2.md, _3.md (amendment 3 sealed in 43d1d71) |
+| 12 | Science program | AGSDR stage 0 executed with receipts (24 candidates, seed 0) | 2 | docs/receipts/agsdr_local/stage0_summary.json (run in a50121b); its hard_pass_count 24 / best_feasible is superseded by stage0_correction_v1.json (2 of 24 feasible under H05 all-E, OPEN-26) |
+| 13 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: docs/receipts/agsdr_local/stage0_correction_v1.json; OPEN-18 and OPEN-23 in docs/OPEN.md; H08 status OPEN-24 |
+| 14 | Science program | AGSDR stages 1 (top 8 x seeds 0,1) and 2 (top 3 x seeds 0..3) executed | 0 | blocked: docs/OPEN.md OPEN-25 (viable-regime verdict) and R6 in the review table below; no stage-1 receipt in docs/receipts/ (merged from v3 items 16 and 17) |
+| 15 | Science program | B10 term scan of the stage-0 runner clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (22-term whole-word scan, runner sha 160265516fe2); the receipt states the objective predicate is not separately implemented (v3 item 19) |
+| 16 | Science program | AGSDR Efrac tau correction applied to stage-0 receipts, including B3 | 2 | docs/receipts/agsdr_local/stage0_correction_v1.json; docs/receipts/agsdr_b3_rerun/summary.json (sealed 47d055f) (v3 item 20) |
+| 17 | Science program | H balance-only rule acts on the network under a sealed test (predictions H1 to H3) | 1 | spec ce55b01 before run a7e3ae8; per-run fields in docs/receipts/h_balance_test/*_seed*.json recomputed: H1, H2, H3 hold 4 of 4. n = 2 seeds per condition; A seed 0 was seen in a smoke run (spec), so 3 of 4 are independent. Runner changed between seal and run for the mech test (b4fee06 surrogate seeding, de1b423 record_weight_trace False; spikes checked identical at 2000 ms only), disclosed here. Spec-before-run ancestry checked (git merge-base --is-ancestor): 3ca43f3<87acaf5, ce55b01<a7e3ae8, 11c1a0f<dc80abe, 024d2a6<069f21d, ac62ff0<7b21e87, 7ffa304<4df8ac9. Negative results are receipted: h_active_test (87acaf5), h_sync_test (dc80abe), h_sync2_test (4df8ac9, selection failed); ledger OPEN-27. Not a calibration claim. New item |
+| 18 | Science program | PV drive scan (matched-state) | 0 | no approved spec or receipt; retirement pending owner ruling (the calibration freezes PV_DRIVE 1.7; its J_CL1C +50% test is a response measure, not a matched-state scan) (v3 item 18) |
+| 19 | Science program | H balance-only rho and population Fano rise resolved (prediction H4) | 0 | known limit, not resolved: H4 fails 4 of 4 (a7e3ae8); b9f118a; synchrony term closed by owner (Q6; h_sync_test, h_sync2_test). New item |
+| 20 | Science program | H balance rule entered in the calibrated model with its own sealed calibration | 0 | not in the calibrated model (85c138b, Q7); H inactive in sealed 0.5.8 lineages (b1611d8); rule exists as optional jomission/dynamics/activity_balance.py. New item |
+| 21 | Documentation and reproducibility | Cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
+| 22 | Documentation and reproducibility | Fresh-clone reproduction of the setup | 1 | run in this container only; fresh cloud image not tested (OPEN-09 in docs/OPEN.md) |
+| 23 | Documentation and reproducibility | Checklist versioned with history | 2 | docs/checklist-score-v1.md; docs/checklist-score-v2.md; checklist-score.md (v3, repo root); docs/checklist-score-v4.md (this draft); git history |
+| 24 | Documentation and reproducibility | Results inventory on the dashboard | 1 | inventory section of docs/DASHBOARD.html (built by scripts/build_dashboard.py); figures not rendered (OPEN-14) |
+| 25 | Documentation and reproducibility | Open stack current and consistent with audits | 1 | docs/OPEN.md (updated at 7769617: OPEN-19 removed as done, OPEN-29 added); OPEN-22 (PR #1 body stale) and OPEN-28 (full-suite failures, not bisected) open |
+| 26 | Documentation and reproducibility | Handoff regenerated and current | 1 | docs/HANDOFF_CURRENT.md (regenerated at 374410d); carries no R1 to R6 status (review table below), so partial |
+| 27 | Documentation and reproducibility | TODO consistent with state | 1 | manifests/todo.json; validators pass after 164ad74; rulings OPEN-18 and OPEN-23 to OPEN-26 listed (OPEN-19 removed as done at 7769617) |
+| 28 | Documentation and reproducibility | Every claim has a receipt | 0 | OPEN-08 in docs/OPEN.md: four docs make claims with no receipt |
+| 29 | Documentation and reproducibility | Sealed-artifact policy enforced | 1 | manifests/sealed_artifacts.json lists older results/h_defect, h_history, h_lineage, h_sensitivity and v21 results, but neither the H-controller receipts nor docs/designs/H_*_spec.md (sealed by commit only); in-place reseals recorded (OPEN-04) |
+| 30 | Documentation and reproducibility | Commit and PR provenance | 1 | Claude-Session trailer on 108 of 458 non-merge commits, 89 of 89 since 2026-11-03; Co-Authored-By names vary (Opus 5 119, Sonnet 5.5 25, Haiku 5.5 3, internal-model 2); owner ruling OPEN-21 (b8d492e) keeps attribution lines but the written rule in docs/checklist-score-v1.md item 35 is not amended; PR #1 body stale (OPEN-22) |
+| 31 | Documentation and reproducibility | Gate thresholds single source | 1 | tests/test_gates_single_source.py; AGSDR predicates are copies of runner rules (tested, not imported) |
+| 32 | Documentation and reproducibility | Design-to-code traceability for AGSDR | 1 | docs/designs/SCI-AGSDR-CALIBRATION_amendment_3.md; H07 and H11 not yet computed; H08 mismatch OPEN-24 |
+| 33 | Documentation and reproducibility | Goals document ratified | 0 | docs/GOALS_PROPOSED.md exists; not ratified by the owner |
+| 34 | Documentation and reproducibility | Receipts name generator and hash | 1 | docs/receipts/h_balance_test/summary.json (rule_sha256, script_sha256, spec_sha256); docs/receipts/agsdr_local/stage0_summary.json; older receipts not audited |
+| 35 | Documentation and reproducibility | Compile cache: build-time receipt and trust documented | 1 | docs/receipts/compile_cache_benchmark.json (build only); trust decision open (OPEN-17) |
+| 36 | Dashboard and figures | docs/DASHBOARD.html committed, no external resources | 2 | docs/DASHBOARD.html; no script, link or http reference found in it |
+| 37 | Dashboard and figures | Dashboard generated deterministically by scripts/build_dashboard.py | 2 | rebuilt from a copy of the repo on 2026-11-04: byte-identical to docs/DASHBOARD.html |
+| 38 | Dashboard and figures | Tier 0 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; not a result figure) |
+| 39 | Dashboard and figures | Tier 1 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; not a result figure) |
+| 40 | Dashboard and figures | Tier 2 test-count chart with receipt | 1 | docs/receipts/receipts.json (counts only; not a result figure); chart drawn by scripts/build_dashboard.py tier_svg (v3 item 40) |
+| 41 | Dashboard and figures | Tier 3 shown as open with its reason | 2 | docs/receipts/receipts.json (tier 3 status OPEN, reason recorded); a9fcb65 |
+| 42 | Dashboard and figures | Edge-identity table on the dashboard | 2 | docs/receipts/receipts.json, key edge_identity; table in docs/DASHBOARD.html |
+| 43 | Dashboard and figures | Checklist score chart by category and item | 2 | scripts/build_dashboard.py (score_svg, item_svg); docs/DASHBOARD.html |
+| 44 | Dashboard and figures | GitHub Pages current with the head | 0 | deploy blocked by github-pages environment rule (OPEN-07 in docs/OPEN.md); .github/workflows/pages.yml |
+| 45 | Dashboard and figures | Open items and owner decisions shown with reasons | 1 | docs/receipts/receipts.json keys open_items and owner_decisions; OPEN-18 to OPEN-28 are not on the dashboard |
+| 46 | Rest | jaxfne 0.5.8 pinned, installed, adopted as source of truth | 2 | pyproject.toml line 18 (jaxfne==0.5.8); results/jaxfne_058_migration.json; docs/JAXFNE_058_AUDIT.md |
+| 47 | Rest | Canonical network identity (edge list, config hash, builds) | 2 | docs/receipts/receipts.json (edge_identity; config_hash); tests/test_lite_model.py; no commit to jomission/network/builder.py after a9fcb65 (git log --ancestry-path a9fcb65..HEAD) |
+| 48 | Rest | Tiers 0, 1 and 2 pass on the current head | 0 | rule: 0 when an in-scope failure is recorded on head. tests/test_hdp_attractor.py (tier 2) OOM reported under OPEN-28 (b3342af); full-suite baseline 36 failed, 17 timed out, 1 OOM (worker-reported, not bisected); last tier pass 860e330 |
+| 49 | Rest | Sealed registry and guards pass on head | 1 | rule: 1 when the last pass is on an older commit with no in-scope failure recorded. tests/test_harness_guards.py, test_harness_state.py, test_agsdr_stage0_correction.py; the three files pass on head 70d5c37 (56 passed, tree clean after); held at 1 because OPEN-05 (weakened rf assertion) and OPEN-06 (allowlisted test) question guard integrity |
+| 50 | Rest | CI green on head, working tree clean, pushed | 1 | pushed: origin/cowork/focused-ptolemy-dz7hwc = HEAD (checked at commit time); working tree clean; CI run on the head not verified (partial) |
 
-## Notes
-- Items 4 and 5: the owner has not defined "met" for regime-verdict items. The recorded label is a null verdict (manifests/lineage_registry.json, EI_REGIME_STILL_UNRESOLVED). Item 4 is 1 under the critic audit. Under a positive-verdict definition, item 4 would be 0 (the verdict is null); item 5 would need its own ruling (its verdict is MIXED_STATE_MECHANISM).
-- Item 19 ("B10 objective audit clean") stays 2 on the receipt, which is a 22-term whole-word scan of the stage-0 runner. The scan is not an H05 or H08 test.
-- Harness diagnosis (AGENTS section 5; score below 80). Cause: the score is driven by unmet science objectives (items 1, 2, 3, 8 to 12, 15 to 18 at 0) and by rulings the owner has not made (OPEN-18 to OPEN-26). No harness defect is the cause. Repair: owner rulings and the science program, not a harness change. Recurrence check: the dashboard build fails when the category table or header total disagrees with the item rows (scripts/build_dashboard.py, check_checklist_summary; negative control run 2026-11-04).
-- Visualization contract (manifests/visualization_contract.json) requires V0 to V3 for every non-grandfathered lineage. Whether the migrated canonical lineage is exempt is undecided (items 9 to 12).
-- Tier 3, the V2 gate and the PV group are science decisions, not migration progress.
-- Items 14 to 17 and the review conditions below replace the earlier simulation-program table; each fact is recorded once.
-
-## Review conditions before stage 1 (2026-11-04)
-Source: external review of a50121b and audits of f23f8f4, a30ce48, 4e72c8a.
-
+## Review conditions before stage 1 (carried from v3; status as of 2026-11-04)
 | R | Condition | Status | Record |
 |---|---|---|---|
-| R1 | Selection rule: the frozen rule (nondominated set on the seven J_k, epsilon 0.05 retained by ruling 1, w=1/6 tie-break, remainder eliminated) has open parts: epsilon predicate (OPEN-23); dimension set, 6 computed vs 7 named (ruling 2, pending); overflow beyond the front and the 1/6 vs 1/7 weight (OPEN-18). Front-order fill withdrawn as automatic. | PARTIAL | OPEN-18, OPEN-23; stage0_correction_v1.json selection |
-| R2 | Efrac as W·r·tau (frozen J_EI): global value recomputed for all 24 (tau 2.0 ms E-pre, 5.0 ms I-pre); H05 under the all-E reading (one of two readings; the frozen text is silent on undefined-CV cells): 2 of 24 pass, 22 fail (DERIVED from receipts; an upper bound, since the isolated-smoke part is not computed; OPEN-26). Population B3 recomputed by the sealed rerun (docs/receipts/agsdr_b3_rerun; 24 of 24 controls pass; tau-weighted B3 term shifts -0.02 to -0.26 against the stored tau-free value). Hard list: runner computes 11 gates; design line 18 lists nine; manifest lists H01-H12; H07 and H11 never computed; H08 is hard in the objectives but informational in the runner, 0 of 24 inside its box. If H08 is hard, 0 of 24 are feasible | PARTIAL | OPEN-19, OPEN-24, OPEN-26; stage0_correction_v1.json |
-| R3 | Hard gates can fail: boundary cases on copies of the predicates; 24 stored verdicts reproduced; runner-path score_run on silent and saturated stub input (2 cases). Other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
-| R4 | Sampling departure: 16 rows redrawn, count reconstructed. Background values of redrawn rows not verified. Recorded, not accepted | RECORDED | OPEN-20; stage0_correction_v1.json sampling_departure |
-| R5 | CV denominator: the runner uses E cells with defined CV (>=3 spikes), a declared choice. AGS_S0_06: 0.207 over 184 of 242 E cells. The frozen H05 text says "fraction of E". Under all 242 E cells, 22 of 24 fail H05 | RULED Q1 (2026-11-04): all E cells; 2 of 24 pass H05 | OPEN-20, OPEN-26; stage0_correction_v1.json |
-| R6 | Stage 1 requires: R1 to R3 resolved, selection determined, eight vectors and cross-seed rule frozen, viable-regime condition of the TODO procedure addressed (OPEN-25) | BLOCKED: shortfall (2 feasible < 8 slots, OPEN-26); waits on a viable-regime verdict (OPEN-25) | OPEN-18, OPEN-19, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |
+| R1 | Selection rule: epsilon predicate, dimension set (6 computed vs 7 named) and overflow / weight 1/6 vs 1/7 open | PARTIAL | OPEN-18, OPEN-23; docs/receipts/agsdr_local/stage0_correction_v1.json |
+| R2 | Efrac tau-weighted for all 24; H05 under all-E reading gives 2 of 24 pass; H07 and H11 never computed (OPEN-29); H08 hard in objectives, informational in runner | PARTIAL | OPEN-24, OPEN-26, OPEN-29; docs/receipts/agsdr_local/stage0_correction_v1.json |
+| R3 | Hard gates can fail: boundary cases on copies of the predicates; other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
+| R4 | Sampling departure: 16 rows redrawn; background values not verified | RECORDED | OPEN-20; docs/receipts/agsdr_local/stage0_correction_v1.json |
+| R5 | CV denominator: all 242 E cells; 2 of 24 pass H05 | RULED Q1 (2026-11-04) | OPEN-20, OPEN-26 |
+| R6 | Stage 1 requires R1 to R3 resolved, selection determined, vectors and cross-seed rule frozen, viable-regime verdict | BLOCKED | OPEN-18, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |
+
+## Changes from v3
+Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 10 (V2, V3); v3 13 to 15 became 11 to 13; v3 16 and 17 became 14; v3 19 and 20 became 15 and 16; items 18 and 21 to 50 keep their numbers. Items 17, 19, 20 are new (H controller); 30 and 40 keep their v3 objectives.
+
+| Item | v3 | v4 | Reason |
+|---|---|---|---|
+| 9, 10 | 0,0,0,0 | 2, 2 | v3 checked the wrong location; V0 to V3 exist in results/viz/<lineage>; owner ruled SCI-EI-NATIVE-STATE-1 canonical (Q13), all four registered and present |
+| 17 | new | 1 | H1 to H3 hold 4 of 4; n = 2, A seed 0 smoke-informed |
+| 19, 20 | new | 0, 0 | H4 unresolved; rule not in calibrated model |
+| 18 | 0 | 0 | PV drive scan kept; retirement pending owner |
+| 15 | 2 | 2 | renamed to what the receipt shows (term scan) |
+| 48 | 1 | 0 | in-scope failure on head recorded (test_hdp_attractor OOM, OPEN-28) |
+| 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
+| 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
+
+Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboard 14 to 14; Rest 7 to 6; total 50 to 54.
+
+## Notes
+- Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).
+- Tier 3, the V2 gate and the PV group are science decisions, not migration progress.
+- Item 15 is a term scan of the runner, not an H05 or H08 test.
+- Items 9, 10: canonical lineage ruled Q13 (SCI-EI-NATIVE-STATE-1); OPEN-02 corrected. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).
+- Item 17 is partial by design and must not be read as H being calibrated. Items 19 and 20 stay at 0 so the limits stay visible.
+- Items 17, 19, 20 were defined after the H results; the owner is asked to ratify them.
+- Paradigm pages (omission; global-local oddball, 11da5b2) are not scored: category item counts are fixed by the owner.
+- Item 37 was checked on a copy of the repository (byte-identical rebuild).
+- OPEN-21 (b8d492e) bears on item 30 (provenance), not item 28; v2 numbering caused the mix-up. Item 28 stays 0 (OPEN-08).
+- Adoption: copy to checklist-score.md (v3 to docs/checklist-score-v3.md), edit scripts/build_dashboard.py line 164 header, rebuild docs/DASHBOARD.html, update OPEN-02, OPEN-21, OPEN-22 references.
+- Pending owner rulings: ratify items 17, 19, 20; PV drive scan retirement.
+- Checker (independent) proposed 57: disagreements on items 7, 38, 39 (+1 each; definitions), 22 (-1) are not adopted here without evidence beyond definition reading; recorded for ruling.

@@ -658,14 +658,10 @@ def audit_b10_objective(objective_source: str | Path) -> dict[str, Any]:
     hits: list[str] = []
     for term in FORBIDDEN_TERMS_B10:
         # Word-boundary-ish search; for symbols allow substring
-        pattern = re.escape(term)
-        if re.search(pattern, text):
-            # Filter false positives for short terms: require word-ish but we treat T1 as \bT1\b
-            if term in ("T1", "T2", "T3", "T4", "T5", "T6", "T7"):
-                if re.search(rf"\b{re.escape(term)}\b", text):
-                    hits.append(term)
-            else:
-                hits.append(term)
+        # Whole-word match for every term (amendment 1, docs/designs/B10_audit_amendment_1.md):
+        # a substring rule matches 'omission' inside 'jomission' and cannot pass for any model file.
+        if re.search(rf"\b{re.escape(term)}\b", text):
+            hits.append(term)
     return {"hits": hits, "clean": len(hits) == 0, "forbidden_terms": FORBIDDEN_TERMS_B10}
 
 

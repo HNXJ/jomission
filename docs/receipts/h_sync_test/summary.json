@@ -1,0 +1,108 @@
+{
+ "balance_arm_reproduces_receipts": {
+  "A_normal_seed0": true,
+  "A_normal_seed1": true,
+  "B_stress_x1p5_seed0": true,
+  "B_stress_x1p5_seed1": true
+ },
+ "balance_rule_sha256": "9de1667720a1c0a94f0f061a581cac7496c3f9228bc4e715fae665f611bb2aec",
+ "rate_matching": {
+  "achieved_bar_r": 15.088749885559082,
+  "iterations": [
+   {
+    "bar_r": 16.475000381469727,
+    "iter": 0,
+    "tonic": 0.75
+   },
+   {
+    "bar_r": 12.7787504196167,
+    "iter": 1,
+    "tonic": 0.675
+   },
+   {
+    "bar_r": 14.588749885559082,
+    "iter": 2,
+    "tonic": 0.7125
+   },
+   {
+    "bar_r": 15.553750038146973,
+    "iter": 3,
+    "tonic": 0.73125
+   },
+   {
+    "bar_r": 15.088749885559082,
+    "iter": 4,
+    "tonic": 0.721875
+   },
+   {
+    "bar_r": 15.322500228881836,
+    "iter": 5,
+    "tonic": 0.7265625
+   },
+   {
+    "bar_r": 15.21875,
+    "iter": 6,
+    "tonic": 0.72421875
+   },
+   {
+    "bar_r": 15.15625,
+    "iter": 7,
+    "tonic": 0.7230468750000001
+   }
+  ],
+  "matched": true,
+  "rel_error": 0.0017366778667929903,
+  "target_bar_r": 15.114999771118164,
+  "tonic": 0.721875
+ },
+ "rule_sha256": "73f7dfa59f773fbbd90032e1e9922f4fd6e2f1233ad10aa876ffe66cfcafc529",
+ "runs": [
+  "A_normal_seed0",
+  "A_normal_seed1",
+  "B_stress_x1p5_seed0",
+  "B_stress_x1p5_seed1"
+ ],
+ "script_sha256": "4c1fe9ebcb45161a7890b957fc811798e85697308398e4674f6e390416a3715c",
+ "spec": "docs/designs/H_SYNC_TEST_spec.md",
+ "spec_sha256": "a31eb012549726689a5d189e88ec901b3a039e3c08134b37c3de8d5fbfc586e8",
+ "verdicts": {
+  "H5_fano_sync_lt_balance": {
+   "A_normal_seed0": false,
+   "A_normal_seed1": false,
+   "B_stress_x1p5_seed0": false,
+   "B_stress_x1p5_seed1": false,
+   "all": false
+  },
+  "H6_rho_sync_lt_balance": {
+   "A_normal_seed0": false,
+   "A_normal_seed1": false,
+   "B_stress_x1p5_seed0": false,
+   "B_stress_x1p5_seed1": false,
+   "all": false
+  },
+  "H7_barr_sync_lt_baseline": {
+   "A_normal_seed0": true,
+   "A_normal_seed1": true,
+   "B_stress_x1p5_seed0": true,
+   "B_stress_x1p5_seed1": true,
+   "all": true
+  },
+  "H8_fano_sync_le_baseline_A": {
+   "A_normal_seed0": false,
+   "A_normal_seed1": false,
+   "all": false
+  },
+  "H9_balance_rho_gt_rate_matched_B": {
+   "all": true,
+   "balance_rho": [
+    0.188103898160276,
+    0.1949422865081758
+   ],
+   "rate_matched_rho": [
+    0.06650977882517631,
+    0.05078519412213198
+   ],
+   "rm_seed_spread": 0.01572458470304433
+  }
+ }
+}

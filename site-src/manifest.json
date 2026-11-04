@@ -782,10 +782,6 @@
     }
   },
   "plotly_allowlist": {
-    "b1_b2_b3_dashboard.html": {
-      "evidence_class": "OBSERVED",
-      "status": "QUARANTINED"
-    },
     "network_3d.html": {
       "evidence_class": "OBSERVED"
     },

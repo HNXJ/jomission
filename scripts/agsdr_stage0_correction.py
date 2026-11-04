@@ -279,6 +279,9 @@ def correct() -> int:
             "E_cells_CV_defined": n_e_def,
             "P_CV_E_gt_0p5": m["E_P_CV_gt_0p5"],
             "B3_population_Efrac_frac_in_band_proxy": m["population_Efrac_frac_in_0p15_0p60"],
+            "H05_tail_count_from_P_and_defined": round(m["E_P_CV_gt_0p5"] * n_e_def),
+            "H05_fraction_all_E_denominator": round(m["E_P_CV_gt_0p5"] * n_e_def) / t["n_E"],
+            "H05_pass_all_E_denominator": (round(m["E_P_CV_gt_0p5"] * n_e_def) / t["n_E"]) >= 0.15,
             "B3_population_tau_correction": "NOT COMPUTABLE: per-population E/I sums not retained",
         })
 
@@ -342,6 +345,11 @@ def correct() -> int:
             "proxy_feasible_count": len(proxy_feasible),
             "tau_feasible_count": len(feasible),
             "changed_candidate_ids": changed,
+            "H05_all_E_denominator_pass_count": sum(x["H05_pass_all_E_denominator"] for x in rows),
+            "H05_all_E_denominator_passing": sorted(x["candidate_id"] for x in rows
+                                                    if x["H05_pass_all_E_denominator"]),
+            "H05_note": "Frozen H05 text: 'fraction of E with CV>0.5'. Runner uses E cells with "
+                        "defined CV. Ruling OPEN-26. Tail count = P x defined count, exact.",
         },
         "sampling_departure": sampling_departure(receipts),
         "selection": {

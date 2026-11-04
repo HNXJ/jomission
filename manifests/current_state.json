@@ -240,6 +240,7 @@
  "open_scientific_question": "what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit: native-resolution (v_i, u_i, I_net) trajectories around firing opportunities, testing P(spike|v,u,I_net,class) to separate input delivery from the state-dependent transfer function",
  "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; the STOP recorded here is superseded by next_authorized_task below (SCI-AGSDR-CALIBRATION, open); awaiting reviewer direction before downstream work beyond it",
  "next_authorized_task": "SCI-AGSDR-CALIBRATION",
+ "next_authorized_task_note": "open; stage 1 is blocked by the stop_condition in manifests/todo.json (rulings OPEN-18, 19, 23, 24, 25, 26; reviewer authorization)",
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

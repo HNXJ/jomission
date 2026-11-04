@@ -137,6 +137,17 @@ def test_sampling_departure_reconstruction_matches_recorded_count():
     assert dep["consistent"] is True
 
 
+def test_h05_all_E_denominator_known_answer():
+    # Known answer from receipts: AGS_S0_06 has 184 defined E cells, P=0.2065..., so 38 tail
+    # cells. Over all 242 E cells the fraction is 38/242 = 0.157, which passes 0.15.
+    rec = _json("stage0_correction_v1.json")
+    row = next(x for x in rec["per_candidate"] if x["candidate_id"] == "AGS_S0_06")
+    assert row["H05_tail_count_from_P_and_defined"] == 38
+    assert row["H05_fraction_all_E_denominator"] == pytest.approx(38 / 242)
+    assert row["H05_pass_all_E_denominator"] is True
+    assert rec["hard_feasibility"]["H05_all_E_denominator_pass_count"] == 2
+
+
 def test_selection_is_not_determined_in_record():
     sel = _json("stage0_correction_v1.json")["selection"]
     assert sel["status"] == "NOT DETERMINED"

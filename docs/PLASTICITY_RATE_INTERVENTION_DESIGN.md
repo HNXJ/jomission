@@ -1,5 +1,7 @@
 # Plasticity-Rate Intervention Design — Theta/H Timescale Audit & Rate-Only Scaling
 
+> Historical (owner ruling Q21, 2026-11-05; OPEN-08): numbers without receipts are marked UNVERIFIED or CONFLICT inline; they are not evidence.
+
 **Status: design only (no code mutated)**  
 **Author: Subagent D**  
 **Date: 2026-08-24**  

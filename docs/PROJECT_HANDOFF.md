@@ -95,3 +95,5 @@ Receipts from [`results/phase_c_recurrent_gain_sweep_results.json`](results/phas
   - `AGENTS.md`: Established at repository root.
   - Test: `tests/test_agents_policy.py` PASS (2/2).
   - Visualization: Plotly reference gallery infrastructure operational with audited captions.
+
+> Historical (owner ruling Q21, 2026-11-05; OPEN-08): numbers without receipts are marked UNVERIFIED or CONFLICT inline; they are not evidence.

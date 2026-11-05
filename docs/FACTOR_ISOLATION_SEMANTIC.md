@@ -1,5 +1,7 @@
 # Semantic Factor-Isolation Validator — Jomission Factorial v0.2
 
+> Historical (owner ruling Q21, 2026-11-05; OPEN-08): numbers without receipts are marked UNVERIFIED or CONFLICT inline; they are not evidence.
+
 **Module:** `jomission/ablations/factor_isolation.py`
 **Tests:** `tests/test_factor_isolation.py` (6 tests, all catch-or-pass semantics)
 **Version:** `factor_isolation.v0.2.0`

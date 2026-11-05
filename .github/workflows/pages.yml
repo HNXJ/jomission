@@ -38,6 +38,8 @@ jobs:
         with:
           path: site
   deploy:
+    # Owner ruling Q23 (2026-11-05, OPEN-07): deploy from main only; other branches build and upload only.
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:

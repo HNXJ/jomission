@@ -1,6 +1,6 @@
 # Open stack (problems, blockers, decision queue)
 
-Owner: Hamm. Each row: id, status, what is open, evidence, who decides, next check. Rows are removed only on a check that shows them closed.
+Owner: Hamm. Each row: id, status, what is open, evidence, who decides, next check. Rows are removed only on a check that shows them closed. Decision rule (Hamm, 2026-11-05): the agent takes its recommended option when it is reasonably optimal given the repo, goals and jaxfne, and logs it here as a delegated decision; it asks only for real unknowns or 50/50 trade-offs.
 Last reviewed 2026-11-05 (checklist v4 adopted; current score in checklist-score.md; plan and results in docs/PROGRESS_REVIEW_2026-11-05.md).
 
 | id | status | open | evidence | decides | next check |

@@ -1,0 +1,86 @@
+{
+ "Efrac_proxy": 0.4410029480660439,
+ "Efrac_tau_weighted": 0.23987163927233932,
+ "H05_fraction_all_E": 0.10330578512396695,
+ "H05_pass_all_E": false,
+ "H05_tail_count": 25,
+ "bar_r_Hz": 7.46375,
+ "candidate_id": "AGS_S0_02",
+ "class_mean_Hz": {
+  "E": 6.768595041322314,
+  "PV": 8.826923076923077,
+  "SST": 5.428571428571429,
+  "VIP": 10.3203125
+ },
+ "failed_tau": [
+  "H05_all_E"
+ ],
+ "feasible_pre_structural": false,
+ "gates_runner": {
+  "H01_finite": true,
+  "H02_bar_r_open_1_30": true,
+  "H03_mean_rho_below_0p60": true,
+  "H04_CV_rate_above_0p15": true,
+  "H05_P_CV_E_gt_0p5_at_least_0p15": true,
+  "H06_max_CV_E_at_least_1p5": true,
+  "H09_Efrac_open_0p05_0p95": true,
+  "H10a_class_mean_not_above_80": true,
+  "H10b_E_class_mean_above_0p5": true,
+  "H10c_population_mean_not_above_80": true,
+  "H10d_E_population_mean_above_0p5": true
+ },
+ "gates_tau": {
+  "H01_finite": true,
+  "H02_bar_r_open_1_30": true,
+  "H03_mean_rho_below_0p60": true,
+  "H04_CV_rate_above_0p15": true,
+  "H05_P_CV_E_gt_0p5_at_least_0p15": true,
+  "H06_max_CV_E_at_least_1p5": true,
+  "H09_Efrac_open_0p05_0p95": true,
+  "H10a_class_mean_not_above_80": true,
+  "H10b_E_class_mean_above_0p5": true,
+  "H10c_population_mean_not_above_80": true,
+  "H10d_E_population_mean_above_0p5": true
+ },
+ "hard_pass_runner": true,
+ "hard_pass_tau": true,
+ "metrics": {
+  "E_CV_rate": 1.4013716712250743,
+  "E_P_CV_gt_0p5": 0.19230769230769232,
+  "E_defined_CV_count": 130,
+  "E_max_CV": 2.198160834420227,
+  "E_mean_CV": 0.371417972714893,
+  "E_population_mean_Hz_min": 0.8571428571428571,
+  "Efrac_proxy_global": 0.4410029480660439,
+  "I_E_proxy": 466.3130810916364,
+  "I_I_proxy": 591.0791271386861,
+  "all_median_Fano": 0.5500000000000002,
+  "bar_r_Hz": 7.46375,
+  "class_mean_Hz": {
+   "E": 6.768595041322314,
+   "PV": 8.826923076923077,
+   "SST": 5.428571428571429,
+   "VIP": 10.3203125
+  },
+  "mean_rho": 0.22697162506146185,
+  "mu_total_proxy": 3.540106369774513,
+  "n_neurons": 400,
+  "population_Efrac_defined_count": 68,
+  "population_Efrac_frac_in_0p15_0p60": 0.4264705882352941,
+  "population_count": 68,
+  "population_mean_Hz_max": 24.5,
+  "population_mean_Hz_min": 0.16666666666666666,
+  "rho_pairs_used": 288,
+  "total_spikes": 5971
+ },
+ "soft_distance_runner": 0.13646081793690865,
+ "viable_bands": {
+  "E_lt_PV": true,
+  "PV": false,
+  "SST": false,
+  "VIP": true,
+  "all": false
+ },
+ "vip_drive_mean": 4.598505697678775,
+ "vip_drive_scale": 2.25
+}

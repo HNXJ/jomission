@@ -1,0 +1,60 @@
+{
+ "H07_status": "NOT_DETERMINED: gate fails its canonical reference (stop rule); owner ruling needed",
+ "amendment_sha256": "8bce919d0790254a6e4403d218547bed089f86b85c1fe7b971eda3fe32fe134a",
+ "count_after_H11": 4,
+ "feasible_H01_H10d_tau_H05allE": [
+  "AGS_S0_06",
+  "AGS_S0_15",
+  "AGS_S0_16",
+  "AGS_S0_20"
+ ],
+ "feasible_after_H11": [
+  "AGS_S0_06",
+  "AGS_S0_15",
+  "AGS_S0_16",
+  "AGS_S0_20"
+ ],
+ "final_hard_feasible": null,
+ "n_candidates": 24,
+ "runner_sha256": "160265516fe212a485710af849af64a15cd719eb0be79ce457bc3b48e876d80f",
+ "script_sha256": "4c4aedfeeff30a99740442cd0db6cd97f8106cf4c0670525cb9d0055bdf623aa",
+ "slots_stage1": 8,
+ "spec": "docs/designs/SCI-AGSDR-STAGE0-A4_spec.md",
+ "spec_sha256": "b5b59c1b8b6142fa4a591ba16b64c9e05d732f460d84998d3b57ce31f532bb8c",
+ "viable_bands_all": [
+  "AGS_S0_00",
+  "AGS_S0_03",
+  "AGS_S0_06",
+  "AGS_S0_10",
+  "AGS_S0_15",
+  "AGS_S0_16",
+  "AGS_S0_20"
+ ],
+ "vip_drive_scale": 2.25,
+ "vip_in_band": [
+  "AGS_S0_00",
+  "AGS_S0_01",
+  "AGS_S0_02",
+  "AGS_S0_03",
+  "AGS_S0_04",
+  "AGS_S0_05",
+  "AGS_S0_06",
+  "AGS_S0_07",
+  "AGS_S0_08",
+  "AGS_S0_09",
+  "AGS_S0_10",
+  "AGS_S0_11",
+  "AGS_S0_12",
+  "AGS_S0_13",
+  "AGS_S0_14",
+  "AGS_S0_15",
+  "AGS_S0_16",
+  "AGS_S0_17",
+  "AGS_S0_18",
+  "AGS_S0_19",
+  "AGS_S0_20",
+  "AGS_S0_21",
+  "AGS_S0_22",
+  "AGS_S0_23"
+ ]
+}

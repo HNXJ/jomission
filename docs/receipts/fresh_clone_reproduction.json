@@ -1,0 +1,34 @@
+{
+ "schema": "jomission.fresh_clone_reproduction.v1",
+ "date": "2026-11-05",
+ "clone": "git clone https://github.com/HNXJ/jomission (fresh directory in session scratch), branch cowork/focused-ptolemy-dz7hwc",
+ "commit_tested": "07332b4",
+ "venv": "fresh .venv in the clone, Python 3.13.18",
+ "steps": [
+  {
+   "step": "handout setup 1 (clone, checkout)",
+   "result": "ok",
+   "observed_by": "worker (2026-11-05), clone first at 7249e96 then pulled to 07332b4 by lead"
+  },
+  {
+   "step": "handout setup 2 (venv, pip install -e .[dev])",
+   "result": "ok: jaxfne 0.5.8, plotly, pytest installed",
+   "observed_by": "worker"
+  },
+  {
+   "step": "tier 0 (manifests/test_tiers.json tiers.0.tests)",
+   "result": "216 passed, 5 warnings in 39.31s",
+   "observed_by": "lead at 07332b4"
+  },
+  {
+   "step": "python scripts/project_check.py --offline --no-tests",
+   "result": "PROJECT_CHECK_PASS",
+   "observed_by": "lead at 07332b4"
+  }
+ ],
+ "earlier_failure": "at 7249e96 tier 0 had 1 failure (stale H07H11 spec path in manifests/todo.json), fixed in 6114c6b",
+ "limits": [
+  "same container image, not a fresh cloud image (OPEN-09)",
+  "handout line 7 clone command needs the checkout as a separate step (wording)"
+ ]
+}

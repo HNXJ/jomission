@@ -67,6 +67,9 @@
     "AGSDR stage-0 correction (reads receipts, no simulation, writes nothing)": [
      "tests/test_agsdr_stage0_correction.py"
     ],
+    "laminar motif: AdEx adaptation through HDP (short JAX, single neuron pair, writes nothing)": [
+     "tests/test_adex_hdp_adaptation.py"
+    ],
     "rate-factorial regression (numpy, no simulation)": [
      "tests/test_rf_rate_factorial.py"
     ],

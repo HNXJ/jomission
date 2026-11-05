@@ -1905,7 +1905,7 @@
        "parent_authority": "owner rulings: Q10 amendment 3 sealed (43d1d71); Q11 spec first; Q-a..Q-f definitions ruled (fc5defc); Q12 implement, seal and run",
        "principal_delta": "none yet: computation of H07 and H11 only; no parameter, gate threshold or calibrated-model change",
        "required_inputs": [
-        "docs/designs/SCI-AGSDR-H07H11_spec_DRAFT.md",
+        "docs/designs/SCI-AGSDR-H07H11_spec.md",
         "docs/designs/SCI-AGSDR-CALIBRATION_amendment_3.md",
         "manifests/agsdr_local_objectives.json"
        ],

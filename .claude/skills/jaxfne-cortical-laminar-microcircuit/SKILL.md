@@ -7,7 +7,7 @@ description: Theory, math and biophysics for building a laminar Izhikevich-TFNE 
 
 Sources (read from `docs/project-sources/laminar_motif/` if copied there; otherwise the owner's uploads):
 **M** Mulvey et al., *Conserved Laminar-Cellular Architecture Predicts the Spectrolaminar Motif* (manuscript);
-**T25** Tahvili et al. 2025, Cell Reports 44:116131; **T26** Tahvili et al. 2026, PLoS Comput Biol 22 (June 2026, DOI suffix pcbi.1014378);
+**T25** Tahvili et al. 2025, Cell Reports 44:116131; **T26** Tahvili et al. 2026, PLoS Comput Biol 22 (June 2026);
 **D** `Spectrolaminar_motif_jaxfne_v4` deck (local pilot v4, 2026-10-20).
 Tags: [O] read from a source this session, [K] general knowledge not in the sources (verify before use), [H] hypothesis.
 

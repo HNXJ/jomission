@@ -28,7 +28,24 @@
  ],
  "earlier_failure": "at 7249e96 tier 0 had 1 failure (stale H07H11 spec path in manifests/todo.json), fixed in 6114c6b",
  "limits": [
-  "same container image, not a fresh cloud image (OPEN-09)",
   "handout line 7 clone command needs the checkout as a separate step (wording)"
- ]
+ ],
+ "fresh_cloud_image": {
+  "session": "separate cloud session 2026-11-05 (child of this session)",
+  "commit_tested": "619af01",
+  "python": "3.13.18",
+  "before_unshallow": {
+   "git_rev_list_count": 50,
+   "tier0": "5 failed, 204 passed, 7 errors (all cite commits missing from the shallow history)",
+   "project_check": "PROJECT_CHECK_FAIL: scientific head ancestry: main be0db96 in HEAD history"
+  },
+  "after_unshallow": {
+   "command": "git fetch --unshallow origin",
+   "git_rev_list_count": 511,
+   "tier0": "216 passed, 5 warnings in 32.65s",
+   "project_check": "PROJECT_CHECK_PASS"
+  },
+  "verdict": "REPRODUCED_AFTER_UNSHALLOW",
+  "observed_by": "child session report (read by lead from its transcript)"
+ }
 }

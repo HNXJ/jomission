@@ -1422,7 +1422,7 @@
     "acceptance": "per-class rates re-measured at full resolution with the subsampling caveat removed, and the PV and VIP deficit attributed to a named mechanism rather than left as an observation",
     "stop_condition": "diagnosis only. No parameter is changed and no rate is calibrated",
     "artifacts_expected": [
-     "results/ei_regime_diagnosis.json"
+     "results/whole_system_ei_regime_diagnosis.json"
     ],
     "downstream_unlock": [],
     "authorization": "owner 2026-09-19 in the closeout program: run after the harness closeout items; B1 ratification recorded in B1-CLASS-TARGETS-RATIFIED",
@@ -1677,12 +1677,12 @@
      ],
      "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
      "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
-     "stop_condition": "stage 0 run and correction packet done (packet f23f8f4; audit fixes a30ce48; ruling 1 in 4e72c8a). Stage 1 is not authorized until: the rulings in blocked_by are recorded (OPEN-18, OPEN-19, OPEN-23, OPEN-24, OPEN-26); the viable-regime condition of the procedure is resolved or ruled not to apply (OPEN-25); and reviewer authorization is recorded at a location the TODO names",
+     "stop_condition": "stage 0 run and correction packet done (packet f23f8f4; audit fixes a30ce48; ruling 1 in 4e72c8a). Stage 1 is not authorized until: the rulings in blocked_by are recorded (OPEN-18, OPEN-19 closed, OPEN-23, OPEN-24, OPEN-26); the viable-regime condition of the procedure is resolved or ruled not to apply (OPEN-25); and reviewer authorization is recorded at a location the TODO names",
      "artifacts_expected": [],
      "downstream_unlock": [
       "SCI-PROP-QUALIFIED-1"
      ],
-     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19; docs/receipts/agsdr_b3_rerun). Open: viable-regime verdict (OPEN-25); J_CL1C computed (docs/receipts/agsdr_jcl1c_rerun); J_Fano_J_hetero SD_r term not computed (OPEN-18); reviewer authorization of stage 1"
+     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19, closed; docs/receipts/agsdr_b3_rerun). Open: viable-regime verdict (OPEN-25); J_CL1C computed (docs/receipts/agsdr_jcl1c_rerun); J_Fano_J_hetero SD_r term not computed (OPEN-18); reviewer authorization of stage 1"
     },
    {
     "id": "SCI-PROP-QUALIFIED-1",
@@ -1829,7 +1829,7 @@
        "status": "DONE",
        "trigger": "owner 2026-11-04: test whether H (activity balance, DEFAULT_HDP_DESYNC preset) moves the network before any calibration uses it; sync-term line closed by owner Q6",
        "goal": "active-preset test, balance-rule test and the sync-term line of the H candidate, each pre-registered and run once",
-       "parent_authority": "owner rulings 2026-11-04: Q1-Q5 corrected sync spec; Q6 synchrony-term line CLOSED, balance-only stays the H candidate (b9f118a); Q7 drive_bias confirmed as H channel, balance rule not in calibrated model (85c138b)",
+       "parent_authority": "owner rulings 2026-11-04: Q1-Q5 corrected sync spec; Q6-H synchrony-term line CLOSED, balance-only stays the H candidate (b9f118a); Q7 drive_bias confirmed as H channel, balance rule not in calibrated model (85c138b)",
        "principal_delta": "new rule modules and tests only (jomission/dynamics/activity_balance.py, tests/test_activity_balance.py); calibrated model not changed",
        "required_inputs": [
         "docs/designs/H_ACTIVE_TEST_spec.md",
@@ -1841,11 +1841,11 @@
        ],
        "frozen": [
         "H specs and receipts as sealed; no re-run of a sealed cell",
-        "owner Q6: synchrony-term line closed, not reopened by this item"
+        "owner Q6-H: synchrony-term line closed, not reopened by this item"
        ],
        "procedure": "per test: pre-registered spec committed before the run, controls, one run, receipts committed additively",
        "acceptance": "closed: active test (H engaged, no network effect); balance test (H1-H3 hold 4/4, H4 rho/Fano FAILS 4/4, recorded as known limit); sync term (H5, H6, H8 false, H9 true, rates collapse; sync2 selection failed, no test cells run); each with receipts and commits",
-       "stop_condition": "closed by owner Q6 (b9f118a). Balance-only remains the H candidate; the rho/Fano rise is a recorded known limit, not a pass",
+       "stop_condition": "closed by owner Q6-H (b9f118a). Balance-only remains the H candidate; the rho/Fano rise is a recorded known limit, not a pass",
        "artifacts_expected": [
         "docs/receipts/h_active_test",
         "docs/receipts/h_balance_test",
@@ -1947,7 +1947,8 @@
       },
       {
        "id": "SCI-EI-MEANFIELD",
-       "status": "OPEN",
+       "status": "SUPERSEDED",
+       "superseded_by": "SCI-VIP-DRIVE-PROBE (2026-11-05): stage-0 receipts showed VIP (24 of 24 below band) is the binding constraint, and no noisy transfer functions exist for a mean-field; a direct spiking probe with an exact positive control replaced it",
        "trigger": "OPEN-25 blocks stage 1; history dependence at fixed parameters in V2.1-coupled-background suggests multistability (review section 4)",
        "goal": "decide whether a viable E-I branch (B1 bands) exists in the allowed parameter box, by class-level mean-field analysis (fixed points, Jacobian, continuation in I_PV, I_VIP)",
        "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",
@@ -2019,6 +2020,32 @@
         "docs/receipts/h_balance_mech/"
        ],
        "downstream_unlock": []
+      },
+      {
+       "id": "SCI-VIP-DRIVE-PROBE",
+       "status": "DONE",
+       "trigger": "OPEN-25; VIP below band in 24 of 24 stage-0 candidates",
+       "goal": "test whether VIP-only drive scaling brings AGS_S0_06 and AGS_S0_20 into the B1 bands",
+       "parent_authority": "docs/designs/SCI-VIP-DRIVE-PROBE_spec.md (sealed 2fcac30)",
+       "principal_delta": "none: probe only; VIP drive is not an AGSDR design dimension (owner decision)",
+       "required_inputs": [
+        "docs/receipts/agsdr_local/candidate_AGS_S0_06_seed0.json",
+        "docs/receipts/agsdr_local/candidate_AGS_S0_20_seed0.json"
+       ],
+       "frozen": [
+        "sealed spec",
+        "stage-0 simulation and scoring"
+       ],
+       "procedure": "scripts/vip_drive_probe.py control; run per (candidate, seed); summary",
+       "acceptance": "controls C1 to C3 pass; verdict per the sealed decision rule",
+       "stop_condition": "no grid extension; no calibration change",
+       "artifacts_expected": [
+        "docs/receipts/vip_drive_probe/summary.json"
+       ],
+       "downstream_unlock": [
+        "SCI-AGSDR-CALIBRATION"
+       ],
+       "delivered_verdict": "VIABLE_BRANCH_ON_VIP_DRIVE_AXIS: f in {2.0, 2.5} meets PV, VIP, SST bands and E < PV at seeds 0 and 1 for both candidates; HV1, HV2 true; stage-0 hard gates pass at those f (superseded H05 reading; H05 all-E, H07, H11 not computed)"
       }
      ]
 }

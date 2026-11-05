@@ -75,9 +75,12 @@ Order: P0 runs now. P1 next: it is analysis only, cheap, and it decides whether 
 | # | Result | Receipt |
 |---|---|---|
 | P0 | Tiers 0 to 2 pass on head; all other failures are tier 3 (OPEN-01) | docs/receipts/receipts.json |
-| P1 | Replaced by SCI-VIP-DRIVE-PROBE (VIP below band in 24 of 24 candidates). VIP drive x2.0 to x2.5 puts AGS_S0_06 and AGS_S0_20 in all bands at 2 seeds; other classes barely move (SST -0.3 Hz) | docs/receipts/vip_drive_probe/summary.json |
+| P1 (original) | SCI-EI-MEANFIELD: MEANFIELD_REPRODUCES (K1 to K4). Loop gain 0.01: the network is functionally near-uncoupled (OPEN-35) | docs/receipts/ei_meanfield/summary.json |
+| P1 (probe) | SCI-VIP-DRIVE-PROBE (VIP below band in 24 of 24 candidates). VIP drive x2.0 to x2.5 puts AGS_S0_06 and AGS_S0_20 in all bands at 2 seeds; other classes barely move (SST -0.3 Hz) | docs/receipts/vip_drive_probe/summary.json |
 | P2 | No hysteresis on VIP-drive or global-drive axes (3 seeds, null passes). PV silencing at low drive is graded (0.1 Hz at g 0.5), not a fold. Section 4's multistability reading is not supported on these axes | docs/receipts/hysteresis_probe/summary.json |
 | P3 | NEITHER_M1_NOR_M2 by the sealed rule. H on E only keeps the E-rate cut with rho near the rate-matched baseline (B); interneuron control carries most of the rise | docs/receipts/h_balance_mech/summary.json |
 | P4 | H11 PASS 24 of 24; H07 NOT_DETERMINED (locality index 1.92 on the canonical reference vs > 3). 2x within_gain moves bar_r by 0.1 to 0.3 percent | docs/receipts/agsdr_h07h11/summary.json |
 
 Revised reading of section 4: the E-I "regime defect" in these candidates is a VIP drive deficit (graded, monostable on the tested axes), not a basin problem.
+
+Revised reading (after SCI-EI-MEANFIELD): with loop gain about 0.01, the regime question is single-cell drive against rheobase per class. The VIP deficit, PV silencing at low drive and the absent hysteresis all follow from that. Recurrent motifs (sections 2 and 4) act only at weight scales well above the operating point (x20 to x100).

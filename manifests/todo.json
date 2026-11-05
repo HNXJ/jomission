@@ -1690,7 +1690,7 @@
     "trigger": "owner authorization in chat 2026-11-05: spectrolaminar motif column as the building block of the omission paradigm",
     "goal": "Izhikevich-TFNE laminar column (E, PV, SST, VIP) in JaxFNE with an HDP adaptation and balance H-state that reproduces the spectrolaminar motif from cell densities; scored by a 25-item checklist",
     "parent_authority": "owner 2026-11-05 (chat); docs/PLAN_LAMINAR_MOTIF.md; seal proposal docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md approved as drafted 2026-11-05 (structure only, every numeric threshold UNSET)",
-    "principal_delta": "none yet: items 1-3 only (authority, source digest, seal); no simulation or calibration is authorized by this entry",
+    "principal_delta": "items 1-3 (authority, source digest, seal) and items 8-9 (a-e): the HDP adaptation rule jomission/dynamics/adex_hdp.py with unit tests on a two-neuron kernel run; no scientific run, calibration or result is authorized by this entry",
     "required_inputs": [
      "docs/PLAN_LAMINAR_MOTIF.md",
      "docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md",
@@ -1709,7 +1709,8 @@
      "docs/laminar_motif/"
     ],
     "downstream_unlock": [],
-    "blocked_by": "owner values for the UNSET register in docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md (thresholds, neuron and synapse set, seed counts, alpha); LANSA densities and observed LFP not in hand"
+    "progress": "2026-11-05 builder score 4/100 (item 1 closed); reviewers not run. Item 2 digest 97/97 matched; item 3 structure approved, thresholds UNSET; items 8-9: rule and tests a-e done (8 tests, 6 of 6 mutants killed), TFNE spec and balance term h_b and tolerance 9f open. See docs/PLAN_LAMINAR_MOTIF.md",
+    "blocked_by": "OPEN-36 (owner values for the UNSET register: thresholds, neuron and synapse set, seed counts, alpha, AdEx tolerance); OPEN-37 (JaxFNE 0.5.8 vs v0.5.9); OPEN-38 (LANSA densities, observed LFP and the analysis port not in hand)"
    },
    {
     "id": "SCI-PROP-QUALIFIED-1",

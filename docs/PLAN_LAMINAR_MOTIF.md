@@ -21,7 +21,7 @@ Done = two independent skeptic `reviewer` runs (separate contexts, neither sees 
 
 | # | Item | Closing check | Builder | Rev A | Rev B |
 |---|---|---|---|---|---|
-| 1 | Authorization and lineage: owner or reviewer names this task; todo entry, parent authority, frozen list, one principal delta per edge | entry in `manifests/todo.json`; `project_check` PASS | 0 | 0 | 0 |
+| 1 | Authorization and lineage: owner or reviewer names this task; todo entry, parent authority, frozen list, one principal delta per edge | entry in `manifests/todo.json`; `project_check` PASS | 4 | 0 | 0 |
 | 2 | Source digest verified: every number in the skill re-read from the PDFs; T25 vs T26 parameter choice recorded with reason | table of number, page, source; no unmatched row | 0 | 0 | 0 |
 | 3 | Pre-execution seal: targets (motif r, band peak depths, PCA split, LOAO r, Q²), parameter brackets, scoring rule, stop states, seeds | sealed spec committed and pushed before any item 11+ run | 0 | 0 | 0 |
 | 4 | Anatomy to column: LANSA densities, 11 areas, 21 bins; type fractions per bin | max abs fraction error computed and reported; deck v4 reached 0.021 (source value, threshold UNSET) | 0 | 0 | 0 |
@@ -47,7 +47,16 @@ Done = two independent skeptic `reviewer` runs (separate contexts, neither sees 
 | 24 | Receipts: result JSON with `verdict`, SHA, config, seeds, JaxFNE version; tier-0 test added; sealed files immutable | `project_check` PASS; `test_sealed_artifacts_unchanged` PASS | 0 | 0 | 0 |
 | 25 | Final report: arithmetic reconciled (H3), claims tagged, open issues in a table, negatives stated as negatives | report passes both reviewers' recount | 0 | 0 | 0 |
 
-Current score: builder 0/100, reviewer A 0/100, reviewer B 0/100.
+Current score (2026-11-05): builder **4/100**, reviewer A 0/100, reviewer B 0/100 (no reviewer has run). The goal is met only at 100/100 from both reviewers.
+
+Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.json`; `project_check --offline` PASS and tier-0 216 passed on the pushed commit a460ebd). Not scored, with reason:
+
+| Item | State | Why it scores 0 |
+|---|---|---|
+| 2 | digest 97/97 matched | the T25-or-T26 set choice is UNSET (owner) |
+| 3 | structure approved | every numeric threshold UNSET; spec not yet amended with values |
+| 8 | rule implemented | no TFNE `x : A : y` spec file and no balance term `h_b` yet |
+| 9 | tests a-e pass (8 tests, 6 of 6 mutants killed) | (f) AdEx-reference trace tolerance UNSET and untested; pending a clean full project check on commit 9d22e9c |
 
 ## Order
 

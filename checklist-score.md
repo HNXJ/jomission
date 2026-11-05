@@ -8,12 +8,12 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 63/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +4, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 64/100** (v4, 2026-11-04). Against v3 (50): Science +8, Documentation +4, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 21 / 40 | 20 |
+| Science program | 22 / 40 | 20 |
 | Documentation and reproducibility | 19 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 8 / 10 | 5 |
@@ -23,7 +23,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 |---|---|---|---|---|
 | 1 | Science program | Tier 3 scientific batteries run under an authorized TODO | 0 | owner declined tier 3 (a9fcb65); receipts tier 3 status OPEN in docs/receipts/receipts.json |
 | 2 | Science program | V2 local operation gate PASS (manifests/gates/v2_local_operation.json) | 0 | gate V2_LOCAL_OPERATION recorded as FAIL in docs/HANDOFF_CURRENT.md (line 40) |
-| 3 | Science program | Viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 1 | found on a non-design axis: SCI-VIP-DRIVE-PROBE (spec sealed 2fcac30; docs/receipts/vip_drive_probe/summary.json) verdict VIABLE_BRANCH_ON_VIP_DRIVE_AXIS: VIP drive x2.0 and x2.5 put AGS_S0_06 and AGS_S0_20 in all bands with E < PV at seeds 0 and 1; partial because VIP drive is outside the AGSDR design (owner ruling pending, OPEN-25), n = 2 seeds, fresh start only; lineage verdict EI_REGIME_STILL_UNRESOLVED (d846eff) stands |
+| 3 | Science program | Viable operating regime found (PV in [12,25], VIP in [8,15], SST in [6,12], E < PV) | 2 | owner accepted SCI-VIP-DRIVE-PROBE as the viable-regime verdict (Q16, 2026-11-05; OPEN-25): VIP drive x2.0 and x2.5 put AGS_S0_06 and AGS_S0_20 in all bands with E < PV at seeds 0 and 1 (docs/receipts/vip_drive_probe/summary.json, spec 2fcac30); no hysteresis on two axes (79dfe68). Limits: n = 2 seeds; the design amendment adding VIP drive is pending |
 | 4 | Science program | Regime verdict recorded: a sealed verdict is on file (null permitted) | 2 | manifests/lineage_registry.json (EI_REGIME_STILL_UNRESOLVED recorded); owner ruling Q8 (docs/OPEN.md OPEN-30) |
 | 5 | Science program | SCI-EI-NATIVE-STATE-1 sealed verdict | 2 | manifests/current_state.json (MIXED_STATE_MECHANISM); results/whole_system_ei_native_state.json, listed in manifests/sealed_artifacts.json |
 | 6 | Science program | SST repeated-spiking question answered | 1 | partial: SST_STATE_ADVANTAGE in results/whole_system_ei_native_state.json; network-level question not closed (docs/HANDOFF_CURRENT.md) |
@@ -80,7 +80,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | R3 | Hard gates can fail: boundary cases on copies of the predicates; other gates not yet exercised on the runner path | PARTIAL | OPEN-20; tests/test_agsdr_stage0_correction.py |
 | R4 | Sampling departure: 16 rows redrawn; background values not verified | RECORDED | OPEN-20; docs/receipts/agsdr_local/stage0_correction_v1.json |
 | R5 | CV denominator: all 242 E cells; 2 of 24 pass H05 | RULED Q1 (2026-11-04) | OPEN-20, OPEN-26 |
-| R6 | Stage 1 requires R1 to R3 resolved, selection determined, vectors and cross-seed rule frozen, viable-regime verdict | BLOCKED | OPEN-18, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |
+| R6 | Stage 1 requires R1 to R3 resolved, selection determined, vectors and cross-seed rule frozen, viable-regime verdict (recorded Q16; amendment 4 and stage-0 rerun pending) | BLOCKED | OPEN-18, OPEN-23, OPEN-24, OPEN-25, OPEN-26 |
 
 ## Changes from v3
 Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 10 (V2, V3); v3 13 to 15 became 11 to 13; v3 16 and 17 became 14; v3 19 and 20 became 15 and 16; items 18 and 21 to 50 keep their numbers. Items 17, 19, 20 are new (H controller); 30 and 40 keep their v3 objectives.
@@ -95,14 +95,14 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 48 | 1 | 2 | tiers 0, 1, 2 pass on head (receipts.json, 2026-11-05) |
 | 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
 | 45 | 1 | 2 | dashboard Open stack section from docs/OPEN.md (test: rows shown = rows in file) |
-| 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE), no hysteresis on two axes (SCI-PV-HYSTERESIS); outside the design |
+| 3 | 0 | 2 | VIP-drive probe accepted as the viable-regime verdict (Q16); no hysteresis on two axes |
 | 32 | 1 | 2 | H07, H11 implemented and run (scripts/agsdr_h07h11.py) |
 | 28 | 0 | 1 | OPEN-08 claims marked inline; one verified |
 | 22 | 1 | 2 | fresh-clone reproduction done (same image) |
 | 26 | 1 | 2 | handoff current with R1 to R6 status |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 19; Dashboard 14 to 15; Rest 7 to 8; total 50 to 63.
+Totals by category, v3 to v4: Science 14 to 22; Documentation 15 to 19; Dashboard 14 to 15; Rest 7 to 8; total 50 to 64.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).

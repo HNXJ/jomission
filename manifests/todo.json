@@ -2000,7 +2000,8 @@
       },
       {
        "id": "H-BALANCE-MECH",
-       "status": "OPEN",
+       "status": "DONE",
+       "delivered_verdict": "NEITHER_M1_NOR_M2 (docs/receipts/h_balance_mech/summary.json; spec sealed 7e074b2; C1 to C3 pass). Observed, B: e_only rise fraction 0.27 and 0.33 (rho 0.064 and 0.081 vs ref 0.188 and 0.195; E rate 15.7 Hz as ref; PV and SST unchanged); class_rhi 0.79 and 0.83 (PV 47 to 40 Hz, SST 25.6 to 19.4 Hz). Most of the rise needs H on interneurons; which interneuron class carries it is not separated",
        "trigger": "H4 fails 4 of 4; checklist item 19; review section 2 (M1 inhibitory tracking vs M2 homogenisation)",
        "goal": "discriminate why balance-only raises rho and Fano: arms E-only H, class-specific r_hi (PV 25, SST 12, VIP 15, E 10)",
        "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",

@@ -8,12 +8,12 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 58/100** (v4, 2026-11-04). Against v3 (50): Science +6, Documentation 0, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 59/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation 0, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 20 / 40 | 20 |
+| Science program | 21 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 8 / 10 | 5 |
@@ -39,7 +39,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 16 | Science program | AGSDR Efrac tau correction applied to stage-0 receipts, including B3 | 2 | docs/receipts/agsdr_local/stage0_correction_v1.json; docs/receipts/agsdr_b3_rerun/summary.json (sealed 47d055f) (v3 item 20) |
 | 17 | Science program | H balance-only rule acts on the network under a sealed test (predictions H1 to H3) | 1 | spec ce55b01 before run a7e3ae8; per-run fields in docs/receipts/h_balance_test/*_seed*.json recomputed: H1, H2, H3 hold 4 of 4. n = 2 seeds per condition; A seed 0 was seen in a smoke run (spec), so 3 of 4 are independent. Runner changed between seal and run for the mech test (b4fee06 surrogate seeding, de1b423 record_weight_trace False; spikes checked identical at 2000 ms only), disclosed here. Spec-before-run ancestry checked (git merge-base --is-ancestor): 3ca43f3<87acaf5, ce55b01<a7e3ae8, 11c1a0f<dc80abe, 024d2a6<069f21d, ac62ff0<7b21e87, 7ffa304<4df8ac9. Negative results are receipted: h_active_test (87acaf5), h_sync_test (dc80abe), h_sync2_test (4df8ac9, selection failed); ledger OPEN-27. Not a calibration claim. New item |
 | 18 | Science program | PV drive scan (matched-state) | 0 | no approved spec or receipt; kept, not retired (Q15) (the calibration freezes PV_DRIVE 1.7; its J_CL1C +50% test is a response measure, not a matched-state scan) (v3 item 18) |
-| 19 | Science program | H balance-only rho and population Fano rise resolved (prediction H4) | 0 | known limit, not resolved: H4 fails 4 of 4 (a7e3ae8); b9f118a; synchrony term closed by owner (Q6-H; h_sync_test, h_sync2_test). New item |
+| 19 | Science program | H balance-only rho and population Fano rise resolved (prediction H4) | 1 | partial: cause localised, not resolved. H_BALANCE_MECH (sealed 7e074b2; docs/receipts/h_balance_mech/summary.json): with H on E cells only the B rho rise falls to 27 and 33 percent of the reference rise (rho 0.064, 0.081 vs 0.188, 0.195; rate-matched 0.067), E rate cut kept; H4 still fails (rho and Fano above baseline). Earlier: known limit, not resolved: H4 fails 4 of 4 (a7e3ae8); b9f118a; synchrony term closed by owner (Q6-H; h_sync_test, h_sync2_test). New item |
 | 20 | Science program | H balance rule entered in the calibrated model with its own sealed calibration | 0 | not in the calibrated model (85c138b, Q7); H inactive in sealed 0.5.8 lineages (b1611d8); rule exists as optional jomission/dynamics/activity_balance.py. New item |
 | 21 | Documentation and reproducibility | Cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
 | 22 | Documentation and reproducibility | Fresh-clone reproduction of the setup | 1 | run in this container only; fresh cloud image not tested (OPEN-09 in docs/OPEN.md) |
@@ -89,7 +89,7 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 |---|---|---|---|
 | 9, 10 | 0,0,0,0 | 2, 2 | v3 checked the wrong location; V0 to V3 exist in results/viz/<lineage>; owner ruled SCI-EI-NATIVE-STATE-1 canonical (Q13), all four registered and present |
 | 17 | new | 1 | H1 to H3 hold 4 of 4; n = 2, A seed 0 smoke-informed |
-| 19, 20 | new | 0, 0 | H4 unresolved; rule not in calibrated model |
+| 19, 20 | new | 1, 0 | H4 cause localised to interneuron control (H_BALANCE_MECH); rule not in calibrated model |
 | 18 | 0 | 0 | PV drive scan kept; retirement pending owner |
 | 15 | 2 | 2 | renamed to what the receipt shows (term scan) |
 | 48 | 1 | 2 | tiers 0, 1, 2 pass on head (receipts.json, 2026-11-05) |
@@ -98,7 +98,7 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE); outside the design |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 20; Documentation 15 to 15; Dashboard 14 to 15; Rest 7 to 8; total 50 to 58.
+Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 15; Dashboard 14 to 15; Rest 7 to 8; total 50 to 59.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).

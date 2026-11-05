@@ -1,0 +1,239 @@
+{
+ "C1_reproduces_h_balance_test": {
+  "A_normal_seed0": true,
+  "A_normal_seed1": true,
+  "B_stress_x1p5_seed0": true,
+  "B_stress_x1p5_seed1": true
+ },
+ "M1": false,
+ "M2": false,
+ "e_rate_sd_compressed_e_only_B": {
+  "B_stress_x1p5_seed0": true,
+  "B_stress_x1p5_seed1": true
+ },
+ "rise_fraction": {
+  "A_normal_seed0": {
+   "class_rhi": 0.2607300196008734,
+   "e_only": 0.08136020349138728
+  },
+  "A_normal_seed1": {
+   "class_rhi": 0.48272631468826166,
+   "e_only": 0.3202873692873978
+  },
+  "B_stress_x1p5_seed0": {
+   "class_rhi": 0.7943141869842346,
+   "e_only": 0.26802557485717293
+  },
+  "B_stress_x1p5_seed1": {
+   "class_rhi": 0.8339894846701262,
+   "e_only": 0.33197575924307965
+  }
+ },
+ "rule_sha256": "9de1667720a1c0a94f0f061a581cac7496c3f9228bc4e715fae665f611bb2aec",
+ "script_sha256": "77cfa4d70f6e61a51eeebccc39b11d724928dd817180d81bd8058024aba5b7cc",
+ "spec": "docs/designs/H_BALANCE_MECH_spec.md",
+ "spec_sha256": "a1e3a0f59c17cdabf13feb2eca4083877f26be3bc089fedd94b39b216704c1cd",
+ "table": {
+  "A_normal_seed0": {
+   "baseline": {
+    "bar_r": 9.444,
+    "class_Hz": {
+     "E": 9.95,
+     "PV": 14.73,
+     "SST": 11.79,
+     "VIP": 1.71
+    },
+    "fano": 14.616,
+    "rho": 0.1358,
+    "rho10": 0.151
+   },
+   "class_rhi": {
+    "bar_r": 7.894,
+    "class_Hz": {
+     "E": 7.86,
+     "PV": 14.08,
+     "SST": 9.77,
+     "VIP": 1.77
+    },
+    "fano": 18.488,
+    "rho": 0.1409,
+    "rho10": 0.1423
+   },
+   "e_only": {
+    "bar_r": 8.178,
+    "class_Hz": {
+     "E": 7.86,
+     "PV": 14.73,
+     "SST": 11.76,
+     "VIP": 1.71
+    },
+    "fano": 17.512,
+    "rho": 0.1374,
+    "rho10": 0.149
+   },
+   "ref": {
+    "bar_r": 7.04,
+    "class_Hz": {
+     "E": 7.84,
+     "PV": 8.31,
+     "SST": 8.88,
+     "VIP": 1.77
+    },
+    "fano": 21.889,
+    "rho": 0.1553,
+    "rho10": 0.1435
+   }
+  },
+  "A_normal_seed1": {
+   "baseline": {
+    "bar_r": 9.414,
+    "class_Hz": {
+     "E": 9.94,
+     "PV": 14.64,
+     "SST": 11.62,
+     "VIP": 1.73
+    },
+    "fano": 14.862,
+    "rho": 0.1424,
+    "rho10": 0.1486
+   },
+   "class_rhi": {
+    "bar_r": 7.899,
+    "class_Hz": {
+     "E": 7.91,
+     "PV": 13.93,
+     "SST": 9.74,
+     "VIP": 1.76
+    },
+    "fano": 18.384,
+    "rho": 0.1603,
+    "rho10": 0.1391
+   },
+   "e_only": {
+    "bar_r": 8.172,
+    "class_Hz": {
+     "E": 7.89,
+     "PV": 14.62,
+     "SST": 11.63,
+     "VIP": 1.72
+    },
+    "fano": 17.477,
+    "rho": 0.1543,
+    "rho10": 0.1431
+   },
+   "ref": {
+    "bar_r": 7.085,
+    "class_Hz": {
+     "E": 7.93,
+     "PV": 8.29,
+     "SST": 8.85,
+     "VIP": 1.76
+    },
+    "fano": 21.652,
+    "rho": 0.1796,
+    "rho10": 0.1444
+   }
+  },
+  "B_stress_x1p5_seed0": {
+   "baseline": {
+    "bar_r": 22.718,
+    "class_Hz": {
+     "E": 21.65,
+     "PV": 47.02,
+     "SST": 25.68,
+     "VIP": 5.06
+    },
+    "fano": 7.619,
+    "rho": 0.0182,
+    "rho10": 0.0388
+   },
+   "class_rhi": {
+    "bar_r": 17.521,
+    "class_Hz": {
+     "E": 15.71,
+     "PV": 39.68,
+     "SST": 19.42,
+     "VIP": 5.12
+    },
+    "fano": 14.149,
+    "rho": 0.1532,
+    "rho10": 0.0532
+   },
+   "e_only": {
+    "bar_r": 19.08,
+    "class_Hz": {
+     "E": 15.68,
+     "PV": 46.89,
+     "SST": 25.62,
+     "VIP": 5.05
+    },
+    "fano": 10.735,
+    "rho": 0.0638,
+    "rho10": 0.0473
+   },
+   "ref": {
+    "bar_r": 15.057,
+    "class_Hz": {
+     "E": 15.7,
+     "PV": 22.19,
+     "SST": 17.64,
+     "VIP": 5.14
+    },
+    "fano": 20.605,
+    "rho": 0.1881,
+    "rho10": 0.0641
+   }
+  },
+  "B_stress_x1p5_seed1": {
+   "baseline": {
+    "bar_r": 22.727,
+    "class_Hz": {
+     "E": 21.69,
+     "PV": 46.89,
+     "SST": 25.63,
+     "VIP": 5.12
+    },
+    "fano": 7.397,
+    "rho": 0.0236,
+    "rho10": 0.0308
+   },
+   "class_rhi": {
+    "bar_r": 17.559,
+    "class_Hz": {
+     "E": 15.74,
+     "PV": 39.73,
+     "SST": 19.45,
+     "VIP": 5.2
+    },
+    "fano": 13.717,
+    "rho": 0.1665,
+    "rho10": 0.044
+   },
+   "e_only": {
+    "bar_r": 19.106,
+    "class_Hz": {
+     "E": 15.73,
+     "PV": 46.79,
+     "SST": 25.6,
+     "VIP": 5.12
+    },
+    "fano": 10.571,
+    "rho": 0.0805,
+    "rho10": 0.0398
+   },
+   "ref": {
+    "bar_r": 15.109,
+    "class_Hz": {
+     "E": 15.76,
+     "PV": 22.33,
+     "SST": 17.51,
+     "VIP": 5.22
+    },
+    "fano": 20.195,
+    "rho": 0.1949,
+    "rho10": 0.0594
+   }
+  }
+ },
+ "verdict": "NEITHER_M1_NOR_M2"
+}

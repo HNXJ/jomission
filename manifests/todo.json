@@ -1685,6 +1685,33 @@
      "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19, closed; docs/receipts/agsdr_b3_rerun). Viable-regime verdict recorded (Q16, OPEN-25: VIP-drive probe); amendment 4 in effect (Q17, frozen VIP drive x2.25, 7a5c675); stage 0 under amendment 4 (docs/receipts/agsdr_stage0_a4/summary.json): 7 of 24 meet the B1 bands, 4 hard-feasible after H11 (AGS_S0_06, 15, 16, 20; others fail H05 all-E only) vs 8 slots; H07 ruled (Q18, OPEN-29): final hard-feasible set 4 of 24 under amendment 4; stages 1 and 2 run under Q24 (spec e2c8224, docs/receipts/agsdr_stage12_a4): theta* AGS_S0_06, ledger advancement pending owner (OPEN-34); open: J_CL1C computed (docs/receipts/agsdr_jcl1c_rerun); J_Fano_J_hetero SD_r term not computed (OPEN-18); reviewer authorization of stage 1"
     },
    {
+    "id": "SCI-LAMINAR-MOTIF-1",
+    "status": "OPEN",
+    "trigger": "owner authorization in chat 2026-11-05: spectrolaminar motif column as the building block of the omission paradigm",
+    "goal": "Izhikevich-TFNE laminar column (E, PV, SST, VIP) in JaxFNE with an HDP adaptation and balance H-state that reproduces the spectrolaminar motif from cell densities; scored by a 25-item checklist",
+    "parent_authority": "owner 2026-11-05 (chat); docs/PLAN_LAMINAR_MOTIF.md; seal proposal docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md approved as drafted 2026-11-05 (structure only, every numeric threshold UNSET)",
+    "principal_delta": "none yet: items 1-3 only (authority, source digest, seal); no simulation or calibration is authorized by this entry",
+    "required_inputs": [
+     "docs/PLAN_LAMINAR_MOTIF.md",
+     "docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md",
+     "docs/laminar_motif/item02_digest_receipt.txt",
+     ".claude/skills/jaxfne-cortical-laminar-microcircuit/SKILL.md"
+    ],
+    "frozen": [
+     "all results/*.json",
+     "AGSDR calibration lineage (SCI-AGSDR-CALIBRATION stays next_authorized_task)",
+     "omission firewall"
+    ],
+    "procedure": "docs/PLAN_LAMINAR_MOTIF.md checklist; owner sets the UNSET thresholds before any run",
+    "acceptance": "two independent skeptic reviewers each score the 25-item checklist 100/100",
+    "stop_condition": "any UNSET threshold needed by an item; any source conflict; the first failed gate",
+    "artifacts_expected": [
+     "docs/laminar_motif/"
+    ],
+    "downstream_unlock": [],
+    "blocked_by": "owner values for the UNSET register in docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md (thresholds, neuron and synapse set, seed counts, alpha); LANSA densities and observed LFP not in hand"
+   },
+   {
     "id": "SCI-PROP-QUALIFIED-1",
     "status": "LOCKED",
     "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",

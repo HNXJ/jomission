@@ -1,0 +1,98 @@
+OK   M   p18  motif conservation 0.76
+OK   M   p18  high gamma conservation 0.89
+OK   M   p18  beta conservation 0.78
+OK   M   p18  alpha conservation 0.63
+OK   M   p17  CR density conservation 0.81
+OK   M   p17  CB 0.70
+OK   M   p17  PV 0.64
+OK   M   p17  NG 0.53
+OK   M   p19  anatomy PCA cumulative 90.93
+OK   M   p19  function PCA cumulative 99.87
+OK   M   p19  PC1X 62.47
+OK   M   p19  PC2X 28.46
+OK   M   p21  PC1Y 71.53
+OK   M   p21  PC2Y 28.35
+OK   M   p21  PLSR Q2 0.42, r 0.71
+OK   M   p23  beta coefficient conservation 0.992
+OK   M   p24  SZ beta trend p 0.054
+OK   M   p14  Procrustes cutoff X 0.756
+OK   M   p14  Procrustes cutoff Y 0.752
+OK   M   p21  alpha/beta Q2 range 0.40-0.75
+OK   M   p21  alpha/beta r range 0.71-0.88
+OK   M   p21  high gamma Q2 range 0.37-0.66
+OK   M   p21  low gamma Q2 range -0.10-0.67
+OK   M   p 8  eq. 1 relative power (max over channels)
+OK   M   p12  21 bins, -0.6:0.4, step 0.05
+OK   M   p12  60/40 split about mid-L4
+OK   M   p13  z-score on feature dimension
+OK   M   p13  PCs retained to >= 90% cumulative variance
+OK   M   p14  bootstrap ratio 2.5
+OK   M   p13  5,000 permutations
+OK   M   p15  4 PLSR components
+OK   M   p15  rPRED = mean of per-frequency correlations
+OK   M   p15  Wilcoxon across areas
+OK   M   p15  Fisher combined test
+OK   M   p16  six bands
+OK   M   p18  alpha-beta peak L5/6, gamma peak L3
+OK   M   p23  cross-area prediction r >= 0.61, mean 0.70
+OK   M   p23  own-area prediction 0.88
+OK   D   p 1  1050 neurons
+OK   D   p 3  fractions 483/205/167/195
+OK   D   p 3  fractions within 0.021
+OK   D   p 4  drives
+OK   D   p 8  rates
+OK   D   p 8  motif r of area means 0.44
+OK   D   p 9  held-out r 0.30 (-0.15 to 0.52)
+OK   D   p 9  10 of 11 folds
+OK   D   p 9  gamma above alpha-beta 5/11 vs 10/11
+OK   D   p10  conservation 0.63 (0.54; 0.76)
+OK   D   p10  LOAO r 0.70 (0.71)
+OK   D   p10  Q2 0.37 (0.16; 0.42)
+OK   D   p10  PCA split 96/2 vs 72/28
+OK   D   p11  irregular-firing PCA 59/16
+OK   D   p 6  edge/interior 0.43, 0.48, 0.86
+OK   D   p11  E CV 0.14
+OK   D   p11  E CV 0.42 with Poisson background, 16 configs
+OK   D   p 5  VIP rheobase 22.6
+OK   D   p 5  113 of 288 settings kept
+OK   D   p12  PLSR 120 Hz -0.40% vs -0.13%
+OK   D   p12  knockdown outside seed range in 7 of 11 areas
+OK   T25 p10  VT -50
+OK   T25 p10  Delta 2, 0.5, 1.5
+OK   T25 p10  b 130, 0, 25
+OK   T25 p10  EL -60, -60, -55
+OK   T25 p10  a 4, 0, 4
+OK   T25 p10  tau_w 500
+OK   T25 p 4  N 8000/800/600
+OK   T25 p 4  PV lead ~7 ms, 80 deg
+OK   T25 p17  no synaptic delay in base model
+OK   T25 p10  tauE (PV,SOM,E)=(1,2,5) ms; tauI 5 ms
+OK   T25 p10  Erev E 0, I -80
+OK   T25 p10  Q PV->{E,PV} 6
+OK   T25 p10  Q SOM->{E,PV} 5
+OK   T25 p10  Q E->E 1.25
+OK   T25 p10  Q E->PV 3.75
+OK   T25 p10  Q E->SOM 2.5
+OK   T25 p10  Q Ext 1.25 (as printed: 'QE->Ext')
+OK   T26 p21  Delta 2, 0.5, 2
+OK   T26 p21  b 50, 0, 80
+OK   T26 p21  EL -65, -65, -55
+OK   T26 p21  spike threshold VT + 5 Delta
+OK   T26 p22  N 8000/750/750 (NI 1500)
+OK   T26 p22  p = 0.07
+OK   T26 p 6  35 Hz, PV-SOM delay ~7 ms
+OK   T26 p22  tau_d 2, tauE 2, tauI 8 ms
+OK   T26 p22  Erev E 0, I -80
+OK   T26 p22  Q {PV,SOM}->{E,PV} 5
+OK   T26 p22  Q E->E 2
+OK   T26 p22  Q E->{PV,SOM} 3
+OK   T26 p22  Q Ext->{E,PV} 2.5
+OK   T26 p22  Q PV->SOM = Q SOM->SOM = 0
+OK   T26 p22  external Poisson 4 Hz
+OK   T26 p 5  mean-field T = 15 ms
+OK   T26 p 5  mean-field delay 2 ms
+OK   T26 p16  Q SOM->E 4, SOM->PV 2.05
+OK   T26 p16  linear-model tau 20 ms
+OK   T26 p16  Eq. 10 matrix
+OK   T26 p16  linear model PV lead 4 ms
+unmatched: 0 of 97

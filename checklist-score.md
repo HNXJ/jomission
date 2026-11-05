@@ -8,7 +8,7 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 55/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard +1, Rest -1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 56/100** (v4, 2026-11-04). Against v3 (50): Science +5, Documentation 0, Dashboard +1, Rest 0. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
@@ -16,7 +16,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | Science program | 19 / 40 | 20 |
 | Documentation and reproducibility | 15 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
-| Rest | 6 / 10 | 5 |
+| Rest | 7 / 10 | 5 |
 
 ## Items
 | # | Category | Objective | Score (of 2) | Evidence |
@@ -68,7 +68,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 45 | Dashboard and figures | Open items and owner decisions shown with reasons | 2 | dashboard section "Open stack" lists all docs/OPEN.md rows with status, what is open and who decides (scripts/build_dashboard.py open_stack; tests/test_dashboard_build.py::test_open_stack_rows_shown: page rows = OPEN rows); ruled rows carry their rulings; checklist-level open list and receipts owner_decisions unchanged |
 | 46 | Rest | jaxfne 0.5.8 pinned, installed, adopted as source of truth | 2 | pyproject.toml line 18 (jaxfne==0.5.8); results/jaxfne_058_migration.json; docs/JAXFNE_058_AUDIT.md |
 | 47 | Rest | Canonical network identity (edge list, config hash, builds) | 2 | docs/receipts/receipts.json (edge_identity; config_hash); tests/test_lite_model.py; no commit to jomission/network/builder.py after a9fcb65 (git log --ancestry-path a9fcb65..HEAD) |
-| 48 | Rest | Tiers 0, 1 and 2 pass on the current head | 0 | rule: 0 when an in-scope failure is recorded on head. tests/test_hdp_attractor.py (tier 2) OOM reported under OPEN-28 (b3342af); full-suite baseline 36 failed, 17 timed out, 1 OOM (worker-reported, not bisected); last tier pass 860e330 |
+| 48 | Rest | Tiers 0, 1 and 2 pass on the current head | 1 | rule: 1 when the last pass is on an older commit with no recorded in-scope failure. Last tier pass 860e330. The recorded in-scope failure (test_hdp_attractor OOM, OPEN-28) did not reproduce: 36 passed alone on db15d60, 2.1 GB peak (2026-11-05); the OOM was concurrent runs. Other full-suite failures are tier 3 or tier-2-ignored files (manifests/test_tiers.json). Tiers 0 to 2 not yet run on head |
 | 49 | Rest | Sealed registry and guards pass on head | 1 | rule: 1 when the last pass is on an older commit with no in-scope failure recorded. tests/test_harness_guards.py, test_harness_state.py, test_agsdr_stage0_correction.py; the three files pass on head 70d5c37 (56 passed, tree clean after); held at 1 because OPEN-05 (weakened rf assertion) and OPEN-06 (allowlisted test) question guard integrity |
 | 50 | Rest | CI green on head, working tree clean, pushed | 1 | pushed: origin/cowork/focused-ptolemy-dz7hwc = HEAD (checked at commit time); working tree clean; CI run on the head not verified (partial) |
 
@@ -92,18 +92,19 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 19, 20 | new | 0, 0 | H4 unresolved; rule not in calibrated model |
 | 18 | 0 | 0 | PV drive scan kept; retirement pending owner |
 | 15 | 2 | 2 | renamed to what the receipt shows (term scan) |
-| 48 | 1 | 0 | in-scope failure on head recorded (test_hdp_attractor OOM, OPEN-28) |
+| 48 | 1 | 1 | in-scope failure (test_hdp_attractor OOM) did not reproduce when run alone; tiers 0 to 2 still not run on head |
 | 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
 | 45 | 1 | 2 | dashboard Open stack section from docs/OPEN.md (test: rows shown = rows in file) |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboard 14 to 15; Rest 7 to 6; total 50 to 55.
+Totals by category, v3 to v4: Science 14 to 19; Documentation 15 to 15; Dashboard 14 to 15; Rest 7 to 7; total 50 to 56.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).
 - Tier 3, the V2 gate and the PV group are science decisions, not migration progress.
 - Item 15 is a term scan of the runner, not an H05 or H08 test.
 - Items 9, 10: canonical lineage ruled Q13 (SCI-EI-NATIVE-STATE-1); OPEN-02 corrected. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).
+- Item 17: H1 to H3 follow from the leaky proportional-loop algebra of the rule (docs/PROGRESS_REVIEW_2026-11-05.md section 1); passing them shows the rule is wired and acts, not a network finding.
 - Item 17 is partial by design and must not be read as H being calibrated. Items 19 and 20 stay at 0 so the limits stay visible.
 - Items 17, 19, 20 were defined after the H results; ratified by the owner (Q14, 2026-11-04).
 - Paradigm pages (omission; global-local oddball, 11da5b2) are not scored: category item counts are fixed by the owner.

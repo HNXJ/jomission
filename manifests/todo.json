@@ -1939,10 +1939,85 @@
         "no assertion changed or test skipped to make a test pass",
         "sealed artifacts untouched"
        ],
-       "procedure": "bisect worker af13cc0c861f3b84b result still pending (not received). Then classify each failure against the baseline, using the lead's two re-runs as evidence",
+       "procedure": "bisect received (OPEN-28: no head-only failure among tested files). test_hdp_attractor (tier 1/2) 36 passed alone on db15d60 (2.1 GB peak). The other 13 unrun files are tier 3 (manifests/test_tiers.json; owner declined tier 3, OPEN-01): not run; a rerun started 2026-11-05 was stopped before any tier-3 test completed. Next: run tiers 0, 1 and 2 on head sequentially in a worktree for checklist item 48; git status results/ must stay empty",
        "acceptance": "each failure classified pre-existing or new, with evidence; bisect result recorded",
        "stop_condition": "triage only; no fix in this item",
        "artifacts_expected": [],
+       "downstream_unlock": []
+      },
+      {
+       "id": "SCI-EI-MEANFIELD",
+       "status": "OPEN",
+       "trigger": "OPEN-25 blocks stage 1; history dependence at fixed parameters in V2.1-coupled-background suggests multistability (review section 4)",
+       "goal": "decide whether a viable E-I branch (B1 bands) exists in the allowed parameter box, by class-level mean-field analysis (fixed points, Jacobian, continuation in I_PV, I_VIP)",
+       "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",
+       "principal_delta": "none until owner ratifies a result",
+       "required_inputs": [
+        "docs/receipts/fi_single_neuron_v1.json",
+        "jomission/network/builder.py",
+        "docs/receipts/h_balance_test (tonic-network class rates)"
+       ],
+       "frozen": [
+        "no change to the spiking model",
+        "tolerances declared before comparison"
+       ],
+       "procedure": "write a sealed spec first: model equations, f-I fits, effective weights, tolerances; then compute",
+       "acceptance": "known positive: reproduces tonic-network class rates (A baseline) within the declared tolerance; known negative: predicts the PV-silent state of SCI-EI-INTERACTION-1; then a stated answer on existence of a viable branch",
+       "stop_condition": "analysis only; any spiking confirmation goes to SCI-PV-HYSTERESIS",
+       "artifacts_expected": [
+        "docs/designs/SCI-EI-MEANFIELD_spec.md",
+        "docs/receipts/ei_meanfield/"
+       ],
+       "downstream_unlock": [
+        "SCI-PV-HYSTERESIS",
+        "SCI-AGSDR-CALIBRATION"
+       ]
+      },
+      {
+       "id": "SCI-PV-HYSTERESIS",
+       "status": "OPEN",
+       "trigger": "review section 4; V2.1-coupled-background claims (PV 14.66 Hz vs collapse at lambda 0.65625 by history)",
+       "goal": "test for a fold pair in the spiking model: up and down sweeps of lambda with state carried, 3 seeds; null arm with state reset",
+       "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",
+       "principal_delta": "none until owner ratifies a result",
+       "required_inputs": [
+        "manifests/lineage_registry.json V2.1-coupled-background"
+       ],
+       "frozen": [
+        "sealed spec before any run"
+       ],
+       "procedure": "spec, seal, smoke one seed, run",
+       "acceptance": "fold pair supported iff up and down branches differ over a lambda interval at all 3 seeds and the reset arm shows no difference",
+       "stop_condition": "stop after the verdict; no calibration change",
+       "artifacts_expected": [
+        "docs/designs/SCI-PV-HYSTERESIS_spec.md"
+       ],
+       "downstream_unlock": [
+        "SCI-AGSDR-CALIBRATION"
+       ]
+      },
+      {
+       "id": "H-BALANCE-MECH",
+       "status": "OPEN",
+       "trigger": "H4 fails 4 of 4; checklist item 19; review section 2 (M1 inhibitory tracking vs M2 homogenisation)",
+       "goal": "discriminate why balance-only raises rho and Fano: arms E-only H, class-specific r_hi (PV 25, SST 12, VIP 15, E 10)",
+       "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",
+       "principal_delta": "none until owner ratifies a result",
+       "required_inputs": [
+        "jomission/dynamics/activity_balance.py",
+        "scripts/h_balance_test.py"
+       ],
+       "frozen": [
+        "sealed spec before run",
+        "balance rule defaults unchanged for the reference arm"
+       ],
+       "procedure": "spec with predictions M1/M2, seal, run 4 runs per arm (A, B x seeds 0, 1)",
+       "acceptance": "M1 supported iff rho rise vanishes with interneurons exempt; M2 iff it persists with within-class rate SD compressed; else reported as observed",
+       "stop_condition": "test only; rule not entered in the calibrated model (Q7)",
+       "artifacts_expected": [
+        "docs/designs/H_BALANCE_MECH_spec.md",
+        "docs/receipts/h_balance_mech/"
+       ],
        "downstream_unlock": []
       }
      ]

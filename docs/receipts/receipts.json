@@ -29,8 +29,8 @@
       "failed": 0,
       "skipped": 0,
       "status": "PASS",
-      "commit": "2637aca",
-      "note": "215 passed in worktree run; tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout fails in a worktree by design (strips PYTHONPATH) and passed in the checkout (2 passed); jomission/ and tests/ unchanged from 2637aca to d228841"
+      "commit": "205493d",
+      "note": "checkout run 2026-11-05"
     },
     {
       "tier": "1",
@@ -39,8 +39,8 @@
       "failed": 0,
       "skipped": 1,
       "status": "PASS",
-      "commit": "d228841",
-      "note": "checkout run 2026-11-05; plus 9 tier-1 node ids from tier-2-ignored files: 9 passed"
+      "commit": "205493d",
+      "note": "checkout run 2026-11-05; non-simulating tier-1 list (manifests/test_tiers.json by_subsystem, including the V2.1b/V2.1c node ids); the earlier \"+9 node ids\" note double-counted them"
     },
     {
       "tier": "2",
@@ -49,8 +49,8 @@
       "failed": 0,
       "skipped": 3,
       "status": "PASS",
-      "commit": "2637aca",
-      "note": "499 passed in worktree run; tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout fails in a worktree by design (strips PYTHONPATH) and passed in the checkout (2 passed); jomission/ and tests/ unchanged from 2637aca to d228841; git status results/ empty after the run"
+      "commit": "205493d",
+      "note": "checkout run 2026-11-05; git status clean after the run"
     },
     {
       "tier": "3",
@@ -67,8 +67,8 @@
     "workflow": "project-check",
     "job": "tier0",
     "result": "success",
-    "head_observed": "a9fcb65 run 126236521645 success; current head run pending",
-    "check_run": 126236521645
+    "head_observed": "205493d project-check run 41962989489 success (PR #2); pages deploy fails before any step (environment rule, OPEN-07)",
+    "check_run": 41962989489
   },
   "project_check": {
     "result": "PROJECT_CHECK_PASS",

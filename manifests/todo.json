@@ -1950,7 +1950,7 @@
       {
        "id": "SCI-EI-MEANFIELD",
        "status": "SUPERSEDED",
-       "superseded_by": "SCI-VIP-DRIVE-PROBE (2026-11-05): stage-0 receipts showed VIP (24 of 24 below band) is the binding constraint, and no noisy transfer functions exist for a mean-field; a direct spiking probe with an exact positive control replaced it",
+       "superseded_by": "owner ruling Q20 (2026-11-05): replacement accepted; P1 closed on SCI-VIP-DRIVE-PROBE and SCI-PV-HYSTERESIS. SCI-VIP-DRIVE-PROBE (2026-11-05): stage-0 receipts showed VIP (24 of 24 below band) is the binding constraint, and no noisy transfer functions exist for a mean-field; a direct spiking probe with an exact positive control replaced it",
        "trigger": "OPEN-25 blocks stage 1; history dependence at fixed parameters in V2.1-coupled-background suggests multistability (review section 4)",
        "goal": "decide whether a viable E-I branch (B1 bands) exists in the allowed parameter box, by class-level mean-field analysis (fixed points, Jacobian, continuation in I_PV, I_VIP)",
        "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",

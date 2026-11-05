@@ -8,12 +8,12 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 65/100** (v4, 2026-11-04). Against v3 (50): Science +8, Documentation +4, Dashboard +1, Rest +2. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 69/100** (v4, 2026-11-04). Against v3 (50): Science +12, Documentation +4, Dashboard +1, Rest +2. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
-| Science program | 22 / 40 | 20 |
+| Science program | 26 / 40 | 20 |
 | Documentation and reproducibility | 19 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 9 / 10 | 5 |
@@ -33,8 +33,8 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 10 | Science program | Visualization V2 (final raster) and V3 (atlas) exist for a canonical lineage | 2 | SCI-EI-NATIVE-STATE-1: raster_final.png and atlas/index.html present (atlas manifest lists 6 panels, 5 available) and registered; existence checked, content not inspected here (v3 items 11, 12) |
 | 11 | Science program | AGSDR calibration design sealed, with amendments 1 to 3 | 2 | docs/designs/SCI-AGSDR-CALIBRATION_design.md (0726c5d); docs/designs/SCI-AGSDR-CALIBRATION_amendment_1.md, _2.md, _3.md (amendment 3 sealed in 43d1d71) |
 | 12 | Science program | AGSDR stage 0 executed with receipts (24 candidates, seed 0) | 2 | docs/receipts/agsdr_local/stage0_summary.json (run in a50121b); its hard_pass_count 24 / best_feasible is superseded by stage0_correction_v1.json (2 of 24 feasible under H05 all-E, OPEN-26) |
-| 13 | Science program | AGSDR stage 0 selection determined under the frozen rule | 0 | NOT DETERMINED: docs/receipts/agsdr_local/stage0_correction_v1.json; OPEN-18 and OPEN-23 in docs/OPEN.md; H08 status OPEN-24 |
-| 14 | Science program | AGSDR stages 1 (top 8 x seeds 0,1) and 2 (top 3 x seeds 0..3) executed | 0 | blocked: docs/OPEN.md OPEN-25 (viable-regime verdict) and R6 in the review table below; no stage-1 receipt in docs/receipts/ (merged from v3 items 16 and 17) |
+| 13 | Science program | AGSDR stage 0 selection determined under the frozen rule | 2 | selection determined (2026-11-05) under amendments 1 to 4, rulings Q16 to Q18, Q24 and delegated D1 to D4 (docs/designs/SCI-AGSDR-STAGE12-A4_spec.md): stage-0 feasible set 4 of 24 (docs/receipts/agsdr_h07h11/h07_q18_summary.json); stage-1 ranking 06, 20, 15, 16 (docs/receipts/agsdr_stage12_a4/stage1_ranking.json) |
+| 14 | Science program | AGSDR stages 1 (top 8 x seeds 0,1) and 2 (top 3 x seeds 0..3) executed | 2 | executed under spec e2c8224: stage 1, 4 candidates (slots = feasible count, D1) x seeds 0, 1; stage 2, top 3 x seeds 0 to 3, with 95 percent CI per soft term; theta* AGS_S0_06 (docs/receipts/agsdr_stage12_a4/stage2_ranking.json). Ledger advancement pending owner (OPEN-34) |
 | 15 | Science program | B10 term scan of the stage-0 runner clean | 2 | docs/receipts/agsdr_local/B10_objective_audit.json (22-term whole-word scan, runner sha 160265516fe2); the receipt states the objective predicate is not separately implemented (v3 item 19) |
 | 16 | Science program | AGSDR Efrac tau correction applied to stage-0 receipts, including B3 | 2 | docs/receipts/agsdr_local/stage0_correction_v1.json; docs/receipts/agsdr_b3_rerun/summary.json (sealed 47d055f) (v3 item 20) |
 | 17 | Science program | H balance-only rule acts on the network under a sealed test (predictions H1 to H3) | 1 | spec ce55b01 before run a7e3ae8; per-run fields in docs/receipts/h_balance_test/*_seed*.json recomputed: H1, H2, H3 hold 4 of 4. n = 2 seeds per condition; A seed 0 was seen in a smoke run (spec), so 3 of 4 are independent. Runner changed between seal and run for the mech test (b4fee06 surrogate seeding, de1b423 record_weight_trace False; spikes checked identical at 2000 ms only), disclosed here. Spec-before-run ancestry checked (git merge-base --is-ancestor): 3ca43f3<87acaf5, ce55b01<a7e3ae8, 11c1a0f<dc80abe, 024d2a6<069f21d, ac62ff0<7b21e87, 7ffa304<4df8ac9. Negative results are receipted: h_active_test (87acaf5), h_sync_test (dc80abe), h_sync2_test (4df8ac9, selection failed); ledger OPEN-27. Not a calibration claim. New item |
@@ -93,6 +93,7 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 18 | 0 | 0 | PV drive scan kept; retirement pending owner |
 | 15 | 2 | 2 | renamed to what the receipt shows (term scan) |
 | 48 | 1 | 2 | tiers 0, 1, 2 pass at 205493d (receipts.json, 2026-11-05) |
+| 13, 14 | 0, 0 | 2, 2 | selection determined and stages 1, 2 executed under amendment 4 (theta* AGS_S0_06) |
 | 50 | 1 | 2 | project-check CI green on 205493d (PR #2) |
 | 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
 | 45 | 1 | 2 | dashboard Open stack section from docs/OPEN.md (test: rows shown = rows in file) |
@@ -103,10 +104,10 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 26 | 1 | 2 | handoff current with R1 to R6 status |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 22; Documentation 15 to 19; Dashboard 14 to 15; Rest 7 to 9; total 50 to 65.
+Totals by category, v3 to v4: Science 14 to 26; Documentation 15 to 19; Dashboard 14 to 15; Rest 7 to 9; total 50 to 69.
 
 ## Notes
-- Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1, 2, 8, 13, 14, 18, 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).
+- Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1, 2, 8, 18, 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).
 - Tier 3, the V2 gate and the PV group are science decisions, not migration progress.
 - Item 15 is a term scan of the runner, not an H05 or H08 test.
 - Items 9, 10: canonical lineage ruled Q13 (SCI-EI-NATIVE-STATE-1); OPEN-02 corrected. V0 is byte-identical for SCI-EI-REGIME-1 and SCI-EI-INTERACTION-1 (checker, md5).

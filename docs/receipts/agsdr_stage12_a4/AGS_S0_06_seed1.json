@@ -1,0 +1,85 @@
+{
+ "Efrac_tau_weighted": 0.27858902740910574,
+ "H05_fraction_all_E": 0.1859504132231405,
+ "candidate_id": "AGS_S0_06",
+ "class_mean_Hz": {
+  "E": 10.824380165289256,
+  "PV": 24.009615384615383,
+  "SST": 8.05952380952381,
+  "VIP": 11.328125
+ },
+ "gates_tau": {
+  "H01_finite": true,
+  "H02_bar_r_open_1_30": true,
+  "H03_mean_rho_below_0p60": true,
+  "H04_CV_rate_above_0p15": true,
+  "H05_P_CV_E_gt_0p5_at_least_0p15": true,
+  "H06_max_CV_E_at_least_1p5": true,
+  "H09_Efrac_open_0p05_0p95": true,
+  "H10a_class_mean_not_above_80": true,
+  "H10b_E_class_mean_above_0p5": true,
+  "H10c_population_mean_not_above_80": true,
+  "H10d_E_population_mean_above_0p5": true
+ },
+ "hard_pass": true,
+ "metrics": {
+  "E_CV_rate": 1.054900694499311,
+  "E_P_CV_gt_0p5": 0.24193548387096775,
+  "E_defined_CV_count": 186,
+  "E_max_CV": 1.9488853919509554,
+  "E_mean_CV": 0.421262888736758,
+  "E_population_mean_Hz_min": 6.088235294117647,
+  "Efrac_proxy_global": 0.4912057643152616,
+  "I_E_proxy": 835.7764267566981,
+  "I_I_proxy": 865.7028462354792,
+  "all_median_Fano": 0.215686274509804,
+  "bar_r_Hz": 12.32875,
+  "class_mean_Hz": {
+   "E": 10.824380165289256,
+   "PV": 24.009615384615383,
+   "SST": 8.05952380952381,
+   "VIP": 11.328125
+  },
+  "mean_rho": 0.08180467562433237,
+  "mu_total_proxy": 3.8737088751400033,
+  "n_neurons": 400,
+  "population_Efrac_defined_count": 68,
+  "population_Efrac_frac_in_0p15_0p60": 0.4411764705882353,
+  "population_count": 68,
+  "population_mean_Hz_max": 41.833333333333336,
+  "population_mean_Hz_min": 0.25,
+  "rho_pairs_used": 323,
+  "total_spikes": 9863
+ },
+ "seed": 1,
+ "soft_distance": 0.14996925710596515,
+ "soft_terms": {
+  "B1_mu_band_3_15": 0.0,
+  "B2_CV_rate_above_0p3": 0.0,
+  "B2_mean_CV_E_band_0p5_1p5": 0.07873711126324201,
+  "B2_mean_rho_band_m0p05_0p2": 0.0,
+  "B2_median_Fano_band_0p7_2": 0.37254901960784303,
+  "B3_population_Efrac_frac_at_least_0p8": 0.44852941176470595
+ },
+ "soft_vector": [
+  0.0,
+  0.0,
+  0.07873711126324201,
+  0.37254901960784303,
+  0.0,
+  0.44852941176470595
+ ],
+ "tau": {
+  "E": 2.0,
+  "I": 5.0,
+  "n_E": 242
+ },
+ "viable_bands": {
+  "E_lt_PV": true,
+  "PV": true,
+  "SST": true,
+  "VIP": true,
+  "all": true
+ },
+ "vip_drive_scale": 2.25
+}

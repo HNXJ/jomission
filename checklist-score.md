@@ -8,13 +8,13 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 59/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation 0, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 60/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +1, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
 | Science program | 21 / 40 | 20 |
-| Documentation and reproducibility | 15 / 30 | 15 |
+| Documentation and reproducibility | 16 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 8 / 10 | 5 |
 
@@ -52,7 +52,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 29 | Documentation and reproducibility | Sealed-artifact policy enforced | 1 | manifests/sealed_artifacts.json lists older results/h_defect, h_history, h_lineage, h_sensitivity and v21 results, but neither the H-controller receipts nor docs/designs/H_*_spec.md (sealed by commit only); in-place reseals recorded (OPEN-04) |
 | 30 | Documentation and reproducibility | Commit and PR provenance | 1 | Claude-Session trailer on 119 of 469 non-merge commits (all since 2026-11-03; counted 2026-11-05); Co-Authored-By names vary (Opus 5 119, Sonnet 5.5 33, Opus 5.5 3, Haiku 5.5 3, internal-model 2); owner ruling OPEN-21 (b8d492e) keeps attribution lines but the written rule in docs/checklist-score-v1.md item 35 is not amended; PR #1 body stale (OPEN-22) |
 | 31 | Documentation and reproducibility | Gate thresholds single source | 1 | tests/test_gates_single_source.py; AGSDR predicates are copies of runner rules (tested, not imported) |
-| 32 | Documentation and reproducibility | Design-to-code traceability for AGSDR | 1 | docs/designs/SCI-AGSDR-CALIBRATION_amendment_3.md; H07 and H11 not yet computed; H08 mismatch OPEN-24 |
+| 32 | Documentation and reproducibility | Design-to-code traceability for AGSDR | 2 | every hard gate has code: H01 to H10d in scripts/agsdr_local_sweep.py; H07, H11 in scripts/agsdr_h07h11.py (spec sealed 7249e96, receipts docs/receipts/agsdr_h07h11); H08 informational in design (amendment 3) and runner. H07 term 4 fails its reference (OPEN-29): a definition issue, not a traceability gap |
 | 33 | Documentation and reproducibility | Goals document ratified | 0 | docs/GOALS_PROPOSED.md exists; not ratified by the owner |
 | 34 | Documentation and reproducibility | Receipts name generator and hash | 1 | docs/receipts/h_balance_test/summary.json (rule_sha256, script_sha256, spec_sha256); docs/receipts/agsdr_local/stage0_summary.json; older receipts not audited |
 | 35 | Documentation and reproducibility | Compile cache: build-time receipt and trust documented | 1 | docs/receipts/compile_cache_benchmark.json (build only); trust decision open (OPEN-17) |
@@ -95,10 +95,11 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 48 | 1 | 2 | tiers 0, 1, 2 pass on head (receipts.json, 2026-11-05) |
 | 30, 40 | 1, 1 | 1, 1 | unchanged; evidence updated (provenance counts; H-spec ancestry moved to item 17) |
 | 45 | 1 | 2 | dashboard Open stack section from docs/OPEN.md (test: rows shown = rows in file) |
-| 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE); outside the design |
+| 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE), no hysteresis on two axes (SCI-PV-HYSTERESIS); outside the design |
+| 32 | 1 | 2 | H07, H11 implemented and run (scripts/agsdr_h07h11.py) |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 15; Dashboard 14 to 15; Rest 7 to 8; total 50 to 59.
+Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 16; Dashboard 14 to 15; Rest 7 to 8; total 50 to 60.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).

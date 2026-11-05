@@ -1899,7 +1899,8 @@
       },
       {
        "id": "SCI-AGSDR-H07H11",
-       "status": "OPEN",
+       "status": "DONE",
+       "delivered_verdict": "H11 PASS 24 of 24; H07 NOT_DETERMINED: term 4 (locality_index > 3, Q-c definition) fails the canonical reference (1.92), terms 1, 2, 3, 5 pass for all 24 (topology identical to canonical). Set after H11: AGS_S0_06, AGS_S0_20 (upper bound). Report-only saturation: 2x within_gain changes bar_r by 0.1 to 0.3 percent (docs/receipts/agsdr_h07h11/summary.json; spec sealed 7249e96)",
        "trigger": "owner 2026-11-04 (Q10, Q11, Q12): H07 and H11 stay hard but not yet computed after amendment 3; specify, seal, then run",
        "goal": "compute H07 and H11 for each AGSDR candidate under the ruled definitions, then record the final feasible set",
        "parent_authority": "owner rulings: Q10 amendment 3 sealed (43d1d71); Q11 spec first; Q-a..Q-f definitions ruled (fc5defc); Q12 implement, seal and run",
@@ -1977,7 +1978,8 @@
       },
       {
        "id": "SCI-PV-HYSTERESIS",
-       "status": "OPEN",
+       "status": "DONE",
+       "delivered_verdict": "NO_HYSTERESIS_DETECTED on axes V (VIP drive 1 to 4) and G (global drive 0.5 to 1.25 at f 2.25), 3 seeds, null control pass (docs/receipts/hysteresis_probe/summary.json; spec sealed 79dfe68). PV falls continuously to 0.1 Hz at g 0.5 and recovers on the way back (up and down within about 0.2 Hz): PV silencing is graded, not a fold, on these axes",
        "trigger": "review section 4; V2.1-coupled-background claims (PV 14.66 Hz vs collapse at lambda 0.65625 by history)",
        "goal": "test for a fold pair in the spiking model: up and down sweeps of lambda with state carried, 3 seeds; null arm with state reset",
        "parent_authority": "docs/PROGRESS_REVIEW_2026-11-05.md section 6 (proposal; owner may reorder)",

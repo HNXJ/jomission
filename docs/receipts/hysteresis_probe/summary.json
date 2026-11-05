@@ -1,0 +1,86 @@
+{
+ "axes": {
+  "G": {
+   "hysteresis_all_seeds": false,
+   "null_control_pass": true,
+   "per_seed": {
+    "0": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.0,
+      "SST": 1.0,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    },
+    "1": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.0,
+      "SST": 1.0,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    },
+    "2": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.03846153846154,
+      "SST": 1.0,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    }
+   },
+   "verdict": "NO_HYSTERESIS_DETECTED"
+  },
+  "V": {
+   "hysteresis_all_seeds": false,
+   "null_control_pass": true,
+   "per_seed": {
+    "0": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.0,
+      "SST": 1.0,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    },
+    "1": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.0,
+      "SST": 1.0,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    },
+    "2": {
+     "tol_Hz": {
+      "E": 1.0,
+      "PV": 1.0,
+      "SST": 1.071428571428573,
+      "VIP": 1.0
+     },
+     "up_vs_down": {},
+     "up_vs_null_up": {}
+    }
+   },
+   "verdict": "NO_HYSTERESIS_DETECTED"
+  }
+ },
+ "script_sha256": "cd2cc9a4768a805130e4d72dc99939adaeb76a88c632fc723ed5cc58357ba0bb",
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "spec": "docs/designs/SCI-PV-HYSTERESIS_spec.md",
+ "spec_sha256": "ab14e80148b58b2063c2808321789116154c610746bf7f120649da824a79c601"
+}

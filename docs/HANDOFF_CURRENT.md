@@ -112,6 +112,13 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 <!-- generated:state:end -->
 
+## Stage-1 review conditions and open stack (hand-written; home of each fact named)
+
+- R1 to R6 (AGSDR stage 1): table in `checklist-score.md` ("Review conditions before stage 1"). Status 2026-11-05: R1, R2, R3 PARTIAL; R4 RECORDED; R5 RULED; R6 BLOCKED (viable-regime verdict, OPEN-25).
+- OPEN-25 evidence 2026-11-05: `docs/receipts/vip_drive_probe/summary.json` (VIABLE_BRANCH_ON_VIP_DRIVE_AXIS; VIP drive is outside the AGSDR design, owner ruling pending).
+- H07: NOT_DETERMINED (locality index fails its canonical reference; `docs/receipts/agsdr_h07h11/summary.json`, OPEN-29).
+- Problems, blockers, decision queue: `docs/OPEN.md`. Plan: `docs/PROGRESS_REVIEW_2026-11-05.md`. Score: `checklist-score.md`.
+
 ## Repository map
 
 | need | owner |

@@ -1926,7 +1926,8 @@
       },
       {
        "id": "OPEN-28-TEST-TRIAGE",
-       "status": "OPEN",
+       "status": "DONE",
+       "delivered": "2026-11-05: tiers 0 to 2 pass on head (receipts.json); bisected failures classified pre-existing or flaky; all other failures are in tier-3 files, out of scope without an authorising TODO (OPEN-01, OPEN-28 blocked)",
        "trigger": "full-suite baseline 2026-11-04 (worker-reported): 465 pass, 36 fail, 17 timeouts, 1 OOM; lead re-ran 2 files (q8 x6 fail, ei_recruitment x1 fail)",
        "goal": "classify each full-suite failure as pre-existing or new; find the commit that introduced any new failure",
        "parent_authority": "OPEN-28 (2026-11-04)",

@@ -29,25 +29,28 @@
       "failed": 0,
       "skipped": 0,
       "status": "PASS",
-      "commit": "860e330"
+      "commit": "2637aca",
+      "note": "215 passed in worktree run; tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout fails in a worktree by design (strips PYTHONPATH) and passed in the checkout (2 passed); jomission/ and tests/ unchanged from 2637aca to d228841"
     },
     {
       "tier": "1",
       "name": "targeted (non-simulating list)",
-      "passed": 49,
+      "passed": 88,
       "failed": 0,
       "skipped": 1,
       "status": "PASS",
-      "commit": "860e330"
+      "commit": "d228841",
+      "note": "checkout run 2026-11-05; plus 9 tier-1 node ids from tier-2-ignored files: 9 passed"
     },
     {
       "tier": "2",
       "name": "compatibility (full suite minus listed ignores)",
-      "passed": 419,
+      "passed": 500,
       "failed": 0,
       "skipped": 3,
       "status": "PASS",
-      "commit": "860e330"
+      "commit": "2637aca",
+      "note": "499 passed in worktree run; tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout fails in a worktree by design (strips PYTHONPATH) and passed in the checkout (2 passed); jomission/ and tests/ unchanged from 2637aca to d228841; git status results/ empty after the run"
     },
     {
       "tier": "3",

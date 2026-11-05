@@ -67,6 +67,22 @@
      "repair": "read-only delta on touched surfaces first, then install, then tier 0+1+2, then seal the migration evidence and promote authority plus the pyproject pin together; no tier-3 replay without an authorizing lineage",
      "evidence": "commits acd4289, 3640fd7, 12bb6e1; tier-2 395+3skip/516s under 0.4.25",
      "scope": "environment changes: engine upgrades"
+    },
+    {
+     "id": "L9-TIER-BEFORE-RERUN",
+     "trigger": "rerunning failed or timed-out test files from a full-suite baseline",
+     "cause": "13 of 14 queued files were tier 3 (scientific execution, owner-gated); the bisect worker and a rerun ran tier-3 files unauthorised",
+     "repair": "classify every file against manifests/test_tiers.json before any rerun; tier 3 only inside an authorising TODO",
+     "evidence": "OPEN-28 (2026-11-05); sealed-write guard blocked all writes",
+     "scope": "test triage"
+    },
+    {
+     "id": "L10-GATE-THEN-COMMIT",
+     "trigger": "check and commit chained in one shell line",
+     "cause": "a ';' after pytest let a failing harness test through to a commit (stale spec path after a rename)",
+     "repair": "chain checks to commits with '&&' only; after renaming a file, grep manifests for the old path",
+     "evidence": "99da930 then fix 6114c6b; fresh clone at 7249e96 failed tier 0",
+     "scope": "commits"
     }
    ],
  "dogfood": {

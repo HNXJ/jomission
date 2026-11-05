@@ -114,9 +114,9 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ## Stage-1 review conditions and open stack (hand-written; home of each fact named)
 
-- R1 to R6 (AGSDR stage 1): table in `checklist-score.md` ("Review conditions before stage 1"). Status 2026-11-05: R1, R2, R3 PARTIAL; R4 RECORDED; R5 RULED; R6 BLOCKED (viable-regime verdict ruled Q16; still needs H07 ruling OPEN-29, selection rule OPEN-18/23, shortfall OPEN-33).
+- R1 to R6 (AGSDR stage 1): table in `checklist-score.md` ("Review conditions before stage 1"). Status 2026-11-05: R1, R2, R3 PARTIAL; R4 RECORDED; R5 RULED; R6 BLOCKED (viable-regime verdict ruled Q16; still needs selection rule OPEN-18/23, shortfall OPEN-33 (4 feasible vs 8 slots)).
 - OPEN-25 evidence 2026-11-05: `docs/receipts/vip_drive_probe/summary.json` (VIABLE_BRANCH_ON_VIP_DRIVE_AXIS), accepted as the viable-regime verdict (Q16); amendment 4 (frozen VIP drive x2.25) in effect; stage 0 under it: `docs/receipts/agsdr_stage0_a4/summary.json` (4 of 24 feasible after H11).
-- H07: NOT_DETERMINED (locality index fails its canonical reference; `docs/receipts/agsdr_h07h11/summary.json`, OPEN-29).
+- H07: ruled Q18 (term 4 >= 0.9 x canonical); H07 PASS 24 of 24; final hard-feasible set 4 of 24 under amendment 4 (`docs/receipts/agsdr_h07h11/h07_q18_summary.json`, OPEN-29).
 - Problems, blockers, decision queue: `docs/OPEN.md`. Plan: `docs/PROGRESS_REVIEW_2026-11-05.md`. Score: `checklist-score.md`.
 
 ## Repository map

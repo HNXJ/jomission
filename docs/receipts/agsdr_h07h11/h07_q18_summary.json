@@ -1,0 +1,172 @@
+{
+ "H07_pass_count": 24,
+ "controls": {
+  "canonical_pass": true,
+  "globalized_fail": true,
+  "globalized_locality": 1.0047210504246324,
+  "globalized_matches_sealed_control": true
+ },
+ "controls_pass": true,
+ "factor": 0.9,
+ "final_hard_feasible_amendment_4": [
+  "AGS_S0_06",
+  "AGS_S0_15",
+  "AGS_S0_16",
+  "AGS_S0_20"
+ ],
+ "final_hard_feasible_unamended": [
+  "AGS_S0_06",
+  "AGS_S0_20"
+ ],
+ "per_candidate": {
+  "AGS_S0_00": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_01": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_02": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_03": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_04": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_05": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_06": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_07": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_08": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_09": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_10": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_11": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_12": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_13": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_14": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_15": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_16": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_17": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_18": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_19": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_20": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_21": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_22": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  },
+  "AGS_S0_23": {
+   "H07_pass_Q18": true,
+   "H11_pass": true,
+   "t4_locality_index": 1.921965973858054,
+   "t4_pass_Q18": true
+  }
+ },
+ "ruling": "docs/designs/SCI-AGSDR-H07H11_ruling_Q18.md",
+ "ruling_sha256": "13208e64c4f01bfeb3c5bbd8c34efe84471a6f3d2b16a9b8ebb6a5d8513e91ec",
+ "script_sha256": "102757f7b088cbfb8254c5b29b5c8bed36922476b396d4263f2ac4df761ce525",
+ "stage1_slots": 8,
+ "threshold": 1.7297693764722486
+}

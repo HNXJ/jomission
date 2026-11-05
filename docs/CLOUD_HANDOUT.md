@@ -1,7 +1,6 @@
 # Cloud handout (jomission, jaxfne 0.5.8)
 
-Status: written from the cloud container session on 2026-11-03. Setup steps were run
-in this container only, not on a fresh cloud image.
+Status: written 2026-11-03. Reproduced 2026-11-05 on a fresh clone with a fresh venv at 07332b4 (steps 1 and 2 as written; tier 0 216 passed; `project_check.py --offline --no-tests` PROJECT_CHECK_PASS; Python 3.13). Same container image; a fresh cloud image is not tested.
 
 ## Setup
 1. `git clone https://github.com/HNXJ/jomission && cd jomission && git checkout cowork/focused-ptolemy-dz7hwc`
@@ -15,10 +14,10 @@ in this container only, not on a fresh cloud image.
 
 ## State
 - Authority: `manifests/current_state.json` (jaxfne 0.5.8, record `results/jaxfne_058_migration.json`).
-- Scorecard: `checklist-score.md` (v2). Open stack: `docs/OPEN.md`.
+- Scorecard: `checklist-score.md` (v4). Open stack: `docs/OPEN.md`.
 
 ## Known open items
-- Sealed v21b/v21c reads use cp1252 (checklist item 25); the drive-guard allowlist entry is owner-approved.
+- Sealed v21b/v21c reads use cp1252 (OPEN-04); the drive-guard allowlist entry is owner-approved.
 - `jomission/simulation/exposure.py`: second simulate in the multi-trial loop has no continuation.
 - Lite model: canonical builder on V1 and V4 at n_per_area=100 (200 neurons), owner-defined; builds and simulates finitely in tests/test_lite_model.py.
 

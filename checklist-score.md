@@ -8,13 +8,13 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 61/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +2, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 62/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +3, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
 | Science program | 21 / 40 | 20 |
-| Documentation and reproducibility | 17 / 30 | 15 |
+| Documentation and reproducibility | 18 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 8 / 10 | 5 |
 
@@ -42,7 +42,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 19 | Science program | H balance-only rho and population Fano rise resolved (prediction H4) | 1 | partial: cause localised, not resolved. H_BALANCE_MECH (sealed 7e074b2; docs/receipts/h_balance_mech/summary.json): with H on E cells only the B rho rise falls to 27 and 33 percent of the reference rise (rho 0.064, 0.081 vs 0.188, 0.195; rate-matched 0.067), E rate cut kept; H4 still fails (rho and Fano above baseline). Earlier: known limit, not resolved: H4 fails 4 of 4 (a7e3ae8); b9f118a; synchrony term closed by owner (Q6-H; h_sync_test, h_sync2_test). New item |
 | 20 | Science program | H balance rule entered in the calibrated model with its own sealed calibration | 0 | not in the calibrated model (85c138b, Q7); H inactive in sealed 0.5.8 lineages (b1611d8); rule exists as optional jomission/dynamics/activity_balance.py. New item |
 | 21 | Documentation and reproducibility | Cloud setup handout | 2 | docs/CLOUD_HANDOUT.md |
-| 22 | Documentation and reproducibility | Fresh-clone reproduction of the setup | 1 | run in this container only; fresh cloud image not tested (OPEN-09 in docs/OPEN.md) |
+| 22 | Documentation and reproducibility | Fresh-clone reproduction of the setup | 2 | fresh clone from origin, fresh venv, handout steps as written at 07332b4 (2026-11-05): install ok, tier 0 216 passed, project_check --offline --no-tests PROJECT_CHECK_PASS (docs/CLOUD_HANDOUT.md status line). Limit: same container image, not a fresh cloud image (OPEN-09) |
 | 23 | Documentation and reproducibility | Checklist versioned with history | 2 | docs/checklist-score-v1.md; docs/checklist-score-v2.md; docs/checklist-score-v3.md; checklist-score.md (v4, repo root); git history |
 | 24 | Documentation and reproducibility | Results inventory on the dashboard | 1 | inventory section of docs/DASHBOARD.html (built by scripts/build_dashboard.py); figures not rendered (OPEN-14) |
 | 25 | Documentation and reproducibility | Open stack current and consistent with audits | 1 | docs/OPEN.md (updated at 7769617: OPEN-19 removed as done, OPEN-29 added); OPEN-22 (PR #1 body stale) and OPEN-28 (full-suite failures, not bisected) open |
@@ -98,9 +98,10 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE), no hysteresis on two axes (SCI-PV-HYSTERESIS); outside the design |
 | 32 | 1 | 2 | H07, H11 implemented and run (scripts/agsdr_h07h11.py) |
 | 28 | 0 | 1 | OPEN-08 claims marked inline; one verified |
+| 22 | 1 | 2 | fresh-clone reproduction done (same image) |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 17; Dashboard 14 to 15; Rest 7 to 8; total 50 to 61.
+Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 18; Dashboard 14 to 15; Rest 7 to 8; total 50 to 62.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).

@@ -8,13 +8,13 @@ Earlier revisions: v3 (50, 2026-11-04) in docs/checklist-score-v3.md; v2 (83.2) 
 Rule for items 48 and 49: 0 when an in-scope failure is recorded on head; 1 when the last pass is on an older commit with no recorded in-scope failure.
 Review rule for this draft: every evidence entry is a path or commit sha that was checked with ls, git show or git merge-base in this session. A claim that rests only on a commit message or on the OPEN stack is scored 1 at most, and this is noted in the item.
 
-**Current score: 60/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +1, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
+**Current score: 61/100** (v4, 2026-11-04). Against v3 (50): Science +7, Documentation +2, Dashboard +1, Rest +1. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
 ## By category
 | Category | Score | Items |
 |---|---|---|
 | Science program | 21 / 40 | 20 |
-| Documentation and reproducibility | 16 / 30 | 15 |
+| Documentation and reproducibility | 17 / 30 | 15 |
 | Dashboard and figures | 15 / 20 | 10 |
 | Rest | 8 / 10 | 5 |
 
@@ -48,7 +48,7 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 | 25 | Documentation and reproducibility | Open stack current and consistent with audits | 1 | docs/OPEN.md (updated at 7769617: OPEN-19 removed as done, OPEN-29 added); OPEN-22 (PR #1 body stale) and OPEN-28 (full-suite failures, not bisected) open |
 | 26 | Documentation and reproducibility | Handoff regenerated and current | 1 | docs/HANDOFF_CURRENT.md (regenerated at 374410d); carries no R1 to R6 status (review table below), so partial |
 | 27 | Documentation and reproducibility | TODO consistent with state | 1 | manifests/todo.json; validators pass after 164ad74; rulings OPEN-18 and OPEN-23 to OPEN-26 listed (OPEN-19 removed as done at 7769617) |
-| 28 | Documentation and reproducibility | Every claim has a receipt | 0 | OPEN-08 in docs/OPEN.md: four docs make claims with no receipt |
+| 28 | Documentation and reproducibility | Every claim has a receipt | 1 | partial: every claim listed in OPEN-08 is now marked inline (3 docs UNVERIFIED or CONFLICT, 1 VERIFIED: docs/JAXFNE_VIS_HANDOUT.md); receipts for the 3 remain absent; no repo-wide claim audit since cfd7333 |
 | 29 | Documentation and reproducibility | Sealed-artifact policy enforced | 1 | manifests/sealed_artifacts.json lists older results/h_defect, h_history, h_lineage, h_sensitivity and v21 results, but neither the H-controller receipts nor docs/designs/H_*_spec.md (sealed by commit only); in-place reseals recorded (OPEN-04) |
 | 30 | Documentation and reproducibility | Commit and PR provenance | 1 | Claude-Session trailer on 119 of 469 non-merge commits (all since 2026-11-03; counted 2026-11-05); Co-Authored-By names vary (Opus 5 119, Sonnet 5.5 33, Opus 5.5 3, Haiku 5.5 3, internal-model 2); owner ruling OPEN-21 (b8d492e) keeps attribution lines but the written rule in docs/checklist-score-v1.md item 35 is not amended; PR #1 body stale (OPEN-22) |
 | 31 | Documentation and reproducibility | Gate thresholds single source | 1 | tests/test_gates_single_source.py; AGSDR predicates are copies of runner rules (tested, not imported) |
@@ -97,9 +97,10 @@ Numbering: items 1 to 8 keep their v3 numbers; v3 9 to 12 became 9 (V0, V1) and 
 | 45 | 1 | 2 | dashboard Open stack section from docs/OPEN.md (test: rows shown = rows in file) |
 | 3 | 0 | 1 | viable bands met on the VIP-drive axis (SCI-VIP-DRIVE-PROBE), no hysteresis on two axes (SCI-PV-HYSTERESIS); outside the design |
 | 32 | 1 | 2 | H07, H11 implemented and run (scripts/agsdr_h07h11.py) |
+| 28 | 0 | 1 | OPEN-08 claims marked inline; one verified |
 | 4 | 2 | 2 | wording changed to "sealed verdict recorded"; Q8 now in docs/OPEN.md |
 
-Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 16; Dashboard 14 to 15; Rest 7 to 8; total 50 to 60.
+Totals by category, v3 to v4: Science 14 to 21; Documentation 15 to 17; Dashboard 14 to 15; Rest 7 to 8; total 50 to 61.
 
 ## Notes
 - Harness diagnosis (AGENTS section 5; score below 80). Cause: unmet science objectives (items 1 to 3, 8, 13, 14, 18 to 20 at 0) and owner rulings pending (OPEN-18 to OPEN-26, OPEN-29). No harness defect is the cause. Repair: owner rulings and the science program. Recurrence check: the dashboard build fails when the category table or header total disagrees with item rows (scripts/build_dashboard.py, check_checklist_summary).

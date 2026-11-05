@@ -1,7 +1,7 @@
 # Project Handoff: Recurrent Scaling System Identification & Phase C Closure
 
 **Date**: 2026-09-02  
-**Publication Readiness Score**: **42/100**  
+**Publication Readiness Score**: **42/100** [UNVERIFIED 2026-11-05: no scoring receipt in repo; see OPEN-08]  
 *(Definition: Baseline computational/observability harness verified, repository synchronization clean, unitary and recurrent transfer functions directly identified; but primary neurocomputational benchmarks B1-B3 fail, B6 deferred, and sequence context memory mechanism remains missing).*
 
 ---
@@ -31,7 +31,7 @@
 
 ## 2. Latest Phase C Empirical Receipts
 
-Receipts from [`results/phase_c_recurrent_gain_sweep_results.json`](results/phase_c_recurrent_gain_sweep_results.json):
+Receipts from [`results/phase_c_recurrent_gain_sweep_results.json`](results/phase_c_recurrent_gain_sweep_results.json): [UNVERIFIED 2026-11-05: results/phase_c_recurrent_gain_sweep_results.json not in repo; see OPEN-08]
 
 | $g_R$ | $R_E = \frac{\langle I_E \rangle}{\langle I_{\rm ext} \rangle}$ | $R_I = \frac{\langle \|I_I\| \rangle}{\langle I_{\rm ext} \rangle}$ | Firing Rate | $r_E$ | $r_{\rm PV}$ | $r_{\rm SST}$ | $r_{\rm VIP}$ | $CV_{\rm ISI}$ | Median Fano | Late $\rho$ | uEPSP ($E \to E$) | uIPSP ($PV \to E$) | Stability |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|

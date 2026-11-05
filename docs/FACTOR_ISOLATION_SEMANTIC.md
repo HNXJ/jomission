@@ -71,7 +71,7 @@ dense Θ(t) trace — not config.
 ## 3. Reference numbers are measured, not nominal
 
 All frozen references come from the **real v0.1 cell runs**
-(`results/rf_rate_factorial/{A,B}_RF*_RateRef/recording/external_drive_examples.npz`):
+(`results/rf_rate_factorial/{A,B}_RF*_RateRef/recording/external_drive_examples.npz`): [UNVERIFIED 2026-11-05: results/rf_rate_factorial/ not in repo (*.npz gitignored, never committed); see OPEN-08]
 
 - RFoff AAAB total energy `42,480,000`, per-slot `10,620,000`, 400 active units,
   drive mean `2.2967`, std `0` (uniform).

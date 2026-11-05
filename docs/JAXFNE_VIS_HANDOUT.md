@@ -71,7 +71,7 @@ lineages or contracts.
 | empty projections | `test_hspice_renders_with_no_projections_at_all`, `test_a_model_with_no_projections_is_one_column` |
 | deterministic rendering | `test_rendering_is_deterministic` compares PNG bytes across two calls |
 
-23 tests, all passing (`jomission/tests/test_jaxfne_vis.py`).
+23 tests, all passing (`tests/test_jaxfne_vis.py`). [VERIFIED 2026-11-05: 23 collected; the file is in tier 0, which passed at 2637aca (docs/receipts/receipts.json)]
 
 Stage inference was checked against the six-area model **without** being told the
 hierarchy: from the projection graph alone it recovers

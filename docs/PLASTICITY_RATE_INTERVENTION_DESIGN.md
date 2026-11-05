@@ -165,7 +165,7 @@ intervention["tau_0_ms"] = 5.0 * 200  # 1000 ms
 
 - New `tau_i`: E 125 s, PV 1.0 s, SST/VIP 3.375 s
 - New `τ_eff,E`: 125/0.15 ≈ 833 s (γ-corrected ~800 s)
-- Predicted exposure trajectory: `H(t)=1+(1.036-1)·(1-exp(-t/833))` → at 1200 s, **76% of asymptote** (H≈1.027), still visibly ramping. At trial 130 (600 s): 51% (H≈1.018). Provides continuous gradient across entire exposure, detectable in T4/T5 pre/post contrasts while preserving 5-seed stability envelope (slower H is more stable, not less; verified stable at τ_0×10 and ×100 with same K_ctrl; larger τ reduces overshoot, see H std drop 0.024→0.006 at ×100).
+- Predicted exposure trajectory: `H(t)=1+(1.036-1)·(1-exp(-t/833))` → at 1200 s, **76% of asymptote** (H≈1.027), still visibly ramping. At trial 130 (600 s): 51% (H≈1.018). Provides continuous gradient across entire exposure, detectable in T4/T5 pre/post contrasts while preserving 5-seed stability envelope (slower H is more stable, not less; verified stable at τ_0×10 and ×100 with same K_ctrl; larger τ reduces overshoot, see H std drop 0.024→0.006 at ×100). [CONFLICT 2026-11-05: x100 H std 0.006 (this line) vs 0.0103 (line 226); x1 0.024 has no source in repo; neither value has a receipt; see OPEN-08]
 - `w` remains fast (τ_w=1 s) so weight tracks current H each trial — overall weight phenotype inherits H's exposure timescale without additional slowing. Empirically at `τ_0×200, K unchanged`: |w| drift 0.01274→0.01292 over 6 trials (1.4% in 27 s, monotonic, not yet saturated) vs. `τ_0×100,K/100` which over-slows w to 0.01% per 6 trials.
 
 #### Alternative tiers (choose one, not a sweep)
@@ -223,7 +223,7 @@ Coupled `K` slowdown would flatten w additionally but is not needed for H-driven
 - **Code references**: `hdp.v1_pfc_aaab_hdp_params` source (`hdp_network.py:230`), `tau_i` cube law (`emitters.py:392`), `H_update` & `K_HDP/K_w_ctrl` weight step (`emitters.py:656-665`), `resolve_h_state_locality` default node (`_hdp_adaptive.py:53`), `population_restoring_derivatives` with τ defaults 0.2/2.0 (`_hdp_adaptive.py:171-172`), dead `tau_theta_s` audit via `grep` across `jaxfne`, `ContinuationState.dynamic` fields `v,u,prev_spikes,syn_state,H,w` (`_pipeline.py`).
 - **Empirical runs** (seed 42, dt 0.5 ms, n_per_area 100, 4624 ms trials, `jtfne.simulate` with continuation — all logged above):
   - Factor 1 H fit τ=3.87 s (12 trials, curve_fit, se 0.25 s).
-  - H std by factor: 1→0.0241, 10→0.0307, 50→0.0174, 100→0.0103, 200→0.0057, 300→0.0039 (monotonic contraction except 10× anomaly due to transient overshoot).
+  - H std by factor: 1→0.0241, 10→0.0307, 50→0.0174, 100→0.0103, 200→0.0057, 300→0.0039 (monotonic contraction except 10× anomaly due to transient overshoot). [CONFLICT 2026-11-05: x100 0.0103 (this line) vs 0.006 (line 168); x1 0.024 (this line) has no source in repo; neither value has a receipt; see OPEN-08]
   - |w| saturated at 0.01285 (factor 1) vs. ramping 0.01276→0.01296 at factor 100 K unchanged.
   - Co-scaled K 100×: drift 16 ppm/6 trials — over-slows.
 - **Schedule authority**: `canonical_schedule` gives 260 trials = 1202.24 s exposure (`t3_authorization.json:114`), so "1200 s" target is 260×4624 ms.

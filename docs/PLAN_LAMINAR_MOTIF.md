@@ -1,6 +1,6 @@
 # Plan: spectrolaminar motif column (side plan)
 
-Status: **authorized by the owner in chat, 2026-11-05** ("i authorize once you fix this", after the AdEx and HDP corrections, now made). `manifests/todo.json` still has `next_authorized_task = SCI-AGSDR-CALIBRATION` and no entry for this plan; item 1 closes when the entry is added on a branch cut from main (this checkout is another lineage's branch, so it was not edited here).
+Status: **authorized by the owner in chat, 2026-11-05** ("i authorize once you fix this", after the AdEx and HDP corrections, now made). `manifests/todo.json` has entry `SCI-LAMINAR-MOTIF-1`; `next_authorized_task` stays `SCI-AGSDR-CALIBRATION`.
 Progress (no score change until the seal is approved): item 2 digest complete, 97 of 97 values matched, including the synaptic Q tables and mean-field T (receipt and script in `docs/laminar_motif/`); the T25-or-T26 set choice remains UNSET. Item 3 seal structure approved by the owner 2026-11-05 (`docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md`); all thresholds remain UNSET, so item 3 is not closed and runs needing a threshold are blocked. Todo entry `SCI-LAMINAR-MOTIF-1` added (item 1), `next_authorized_task` unchanged. Plan numbers below that came from a source are references, not thresholds.
 Skill: `.claude/skills/jaxfne-cortical-laminar-microcircuit`. Agent: `.claude/agents/laminar-microcircuit-builder.md`.
 
@@ -56,7 +56,7 @@ Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.jso
 | 2 | digest 97/97 matched | the T25-or-T26 set choice is UNSET (owner) |
 | 3 | structure approved | every numeric threshold UNSET; spec not yet amended with values |
 | 8 | rule implemented | no TFNE `x : A : y` spec file and no balance term `h_b` yet |
-| 9 | tests a-e pass (8 tests, 6 of 6 mutants killed) | (f) AdEx-reference trace tolerance UNSET and untested; pending a clean full project check on commit 9d22e9c |
+| 9 | tests a-e pass (8 tests, 6 of 6 mutants killed) | (f) AdEx-reference trace tolerance UNSET and untested; full `project_check --offline` on the commit carrying the rule not yet run (suite-lock wait timed out 2026-11-05, requeued); unpushed |
 
 ## Order
 
@@ -67,6 +67,6 @@ Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.jso
 | Point | Why it matters |
 |---|---|
 | Task authorization (item 1) | `AGENTS.md` limits work to `next_authorized_task` or a reviewer-named task |
-| T25 vs T26 AdEx parameters differ: SST Δ 1.5/2 mV, SST b 25/80 pA, E EL -60/-65 mV, E b 130/50 pA (SST EL and all PV values equal) | pick one set; recorded in item 2 |
+| T25 vs T26 AdEx parameters differ: SST Δ 1.5/2 mV, SST b 25/80 pA, E EL -60/-65 mV, E b 130/50 pA (SST EL and all PV values equal) | pick one set; recorded in item 2 (OPEN-36) |
 | Cell-type map CB~SST, CR~VIP, NG=E is an assumption | alters the density-to-fraction step in item 4 |
-| Feedback path of the HDP adaptation into the neuron (`drive_bias` vs H1b gain) and H units | HDP can carry it (registrable rule: `dH`, per-spike `jH`); path chosen in item 8, verified in item 9 |
+| Native-to-pA factor for `drive_bias` and the H units of `h_w`, `h_b` | `drive_bias` is the chosen path (rule built, tests a-e pass); the factor is a design choice still to record in item 8 |

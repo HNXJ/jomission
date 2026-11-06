@@ -71,6 +71,9 @@
     "laminar motif: AdEx adaptation through HDP (short JAX, single neuron pair, writes nothing)": [
      "tests/test_adex_hdp_adaptation.py"
     ],
+    "laminar motif: E0 gates, CAMINOS module realization and estimators (one 9500-neuron construct, no simulation, writes nothing)": [
+     "tests/test_caminos_e0.py"
+    ],
     "rate-factorial regression (numpy, no simulation)": [
      "tests/test_rf_rate_factorial.py"
     ],

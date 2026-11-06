@@ -1,0 +1,83 @@
+{
+ "schema": "jomission.figure_plan.v1",
+ "rule": "Main figures: 7 per series. Supplements: not fixed, about 2 to 3 times the main count. A figure's status comes from its dependencies, not from intent. No figure shows a result before the checklist item that produces it has closed. Omission figures 02 to 07 are owner-TBD and show no omission outcome before blind omission (AGENTS.md firewall). Citations are UNSET until verified against the papers.",
+ "authority": "owner, chat 2026-11-06 (main figure scope); supplements and statuses proposed by the builder",
+ "owner_questions": [
+  "Omission figures 02 to 07: topics (owner TBD).",
+  "Citations to verify: Mendoza-Halliday et al. (spectrolaminar motif), the Major et al. reply, the Caminos model, Disney (SST-CB and CR-VIP overlap), Campagnola et al. 2022 (mouse V1 connection probabilities). Titles and years are UNSET until read.",
+  "Figure 01 reward feedback: the paradigm spec lists reward schedule as an unresolved field; draw it marked unresolved or supply the timing.",
+  "Source of the omission project's paradigm figure: path in the omission repository (omission-mac)."
+ ],
+ "series": {
+  "omission": {
+   "title": "Omission paradigm model",
+   "figures": [
+    {"id": "om-01", "kind": "main", "title": "Paradigm", "owner_status": "OWNER_SPECIFIED", "status": "PLANNED",
+     "content": "Trial timeline with timing identical to the omission project: fx, p1, d1, p2, d2, p3, d3, p4, d4, and reward feedback; adjusted for jomission and JaxFNE (conditions, epochs, event codes).",
+     "sources": ["jomission/paradigm/spec.py (slot onsets, durations, event codes)", "omission project paradigm figure (read-only; path UNSET)"],
+     "data_needed": "none; read from the paradigm spec by the figure script",
+     "blocked_by": ["reward timing UNRESOLVED in the spec: draw it flagged as unresolved"],
+     "checklist_items": [19]},
+    {"id": "om-02", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-03", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-04", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-05", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-06", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-07", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-s01", "kind": "supplement", "title": "Condition table", "owner_status": "PROPOSED", "status": "PLANNED",
+     "content": "The 12 conditions with stimulus identity per slot.", "sources": ["jomission/paradigm/spec.py"], "data_needed": "none", "blocked_by": [], "checklist_items": [19]},
+    {"id": "om-s02", "kind": "supplement", "title": "Epochs and event codes", "owner_status": "PROPOSED", "status": "PLANNED",
+     "content": "The 9 epochs, slot onsets and durations, event codes.", "sources": ["jomission/paradigm/spec.py"], "data_needed": "none", "blocked_by": [], "checklist_items": [19]},
+    {"id": "om-s03", "kind": "supplement", "title": "Unresolved paradigm fields", "owner_status": "PROPOSED", "status": "PLANNED",
+     "content": "The fields the spec leaves unresolved and what each blocks.", "sources": ["manifests/milestone_01_short_trajectory.json (paradigm_exact)"], "data_needed": "none", "blocked_by": [], "checklist_items": []}
+   ]
+  },
+  "lansa": {
+   "title": "LANSA laminar model (spectrolaminar motif)",
+   "figures": [
+    {"id": "la-01", "kind": "main", "title": "Spectrolaminar motif: concept, oscillations, LFP, ubiquity", "owner_status": "OWNER_SPECIFIED", "status": "BLOCKED",
+     "content": "The motif (gamma superficial, alpha-beta deep, L4 crossover), how LFP and relative power by depth express oscillations, and how widely the motif occurs across areas and species. Sources: Mendoza-Halliday et al. and the Major et al. reply.",
+     "sources": ["attached manuscript M (relative power, 11 areas)", "Mendoza-Halliday et al. (citation UNSET)", "Major et al. reply (citation UNSET)"],
+     "data_needed": "observed relative-power maps (not in the repository)", "blocked_by": ["OPEN-38 (observed LFP), citations UNSET"], "checklist_items": [14]},
+    {"id": "la-02", "kind": "main", "title": "Oscillation mechanisms I: network", "owner_status": "OWNER_SPECIFIED", "status": "PLANNED",
+     "content": "Synfire chain, PING, PINB, sparse random connectivity, E-I loops: schematic of each and the frequency it predicts. Proposed split with figure 03: network-level mechanisms here.",
+     "sources": ["Tahvili 2025 and 2026 (PING-like E-PV-SST gamma)", "other mechanism references UNSET"], "data_needed": "none (schematics); optional isolated-module traces from item 11", "blocked_by": ["citations UNSET"], "checklist_items": [11]},
+    {"id": "la-03", "kind": "main", "title": "Oscillation mechanisms II: cellular and laminar", "owner_status": "OWNER_SPECIFIED", "status": "PLANNED",
+     "content": "Subthreshold oscillations, membrane time constant, and the Caminos model: how single-cell timescales set preferred frequency. Proposed split with figure 02.",
+     "sources": ["Caminos model (citation UNSET)", "Izhikevich parameter sets (item 6)"], "data_needed": "none (schematics); rheobase and time-constant table from item 6", "blocked_by": ["citations UNSET"], "checklist_items": [6]},
+    {"id": "la-04", "kind": "main", "title": "LANSA primate cell-type densities", "owner_status": "OWNER_SPECIFIED", "status": "BLOCKED",
+     "content": "PV, CB, CR, NG and E density per depth bin and area (11 areas, 21 bins).",
+     "sources": ["LANSA (location UNSET)"], "data_needed": "LANSA densities", "blocked_by": ["OPEN-38"], "checklist_items": [4]},
+    {"id": "la-05", "kind": "main", "title": "Observed microcircuit and type mapping", "owner_status": "OWNER_SPECIFIED", "status": "BLOCKED",
+     "content": "Mapping PV/E/CB/CR to PV/E/SST/VIP, with the CB~SST and CR~VIP overlap reported by Disney and colleagues stated as an assumption with its uncertainty; the resulting SST/PV ratio by depth.",
+     "sources": ["Disney et al. (citations UNSET)", "LANSA densities"], "data_needed": "LANSA densities", "blocked_by": ["OPEN-38", "mapping assumption (plan open point)"], "checklist_items": [4, 5]},
+    {"id": "la-06", "kind": "main", "title": "Connectivity mapping and the SST/PV hypothesis", "owner_status": "OWNER_SPECIFIED", "status": "BLOCKED",
+     "content": "Campagnola et al. 2022 mouse V1 connection probabilities mapped onto the column's type pairs; the Caminos-model wiring; the hypothesis that an SST/PV ratio peaking deep and dipping superficially causes the motif, and the prediction that reversing it reverses the motif (a test with a falsifier, item 17, not a result here).",
+     "sources": ["Campagnola et al. 2022 (citation UNSET)", "Caminos model (citation UNSET)", "docs/PLAN_LAMINAR_MOTIF.md hypothesis"], "data_needed": "published probability tables; wiring file from item 7", "blocked_by": ["OPEN-36 (thresholds), wiring file (item 7)"], "checklist_items": [5, 7, 17]},
+    {"id": "la-07", "kind": "main", "title": "TFNE-Izhikevich column: raster, CSD, LFP, reversal and drive ablations", "owner_status": "OWNER_SPECIFIED", "status": "BLOCKED",
+     "content": "The column with HDP adaptation: raster, CSD, LFP, relative power by depth; SST/PV flatten and reverse; top-down and bottom-up baseline-drive ablations that remove the motif.",
+     "sources": ["jomission column runs (items 11 to 21)"], "data_needed": "sealed simulations", "blocked_by": ["items 4 to 18 and 21 not closed", "OPEN-36", "OPEN-37", "OPEN-38", "OPEN-39"], "checklist_items": [15, 16, 17, 18, 19, 21]},
+    {"id": "la-s01", "kind": "supplement", "title": "Analysis methods: multitaper, relative power, bands", "owner_status": "PROPOSED", "status": "PLANNED", "content": "Multitaper 2 Hz, relative power definition, band edges, 21 depth bins.", "sources": ["manuscript M"], "data_needed": "none", "blocked_by": [], "checklist_items": [14]},
+    {"id": "la-s02", "kind": "supplement", "title": "Structure-function methods: PCA, PLSR, Procrustes, LOAO", "owner_status": "PROPOSED", "status": "PLANNED", "content": "PCA over z-scored features, PLSR with 4 components, leave-one-area-out, permutation tests.", "sources": ["manuscript M", "docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md"], "data_needed": "none", "blocked_by": [], "checklist_items": [14, 18]},
+    {"id": "la-s03", "kind": "supplement", "title": "Observed motif maps, all areas", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Relative power by depth and frequency for every area.", "sources": ["manuscript M"], "data_needed": "observed LFP", "blocked_by": ["OPEN-38"], "checklist_items": [14]},
+    {"id": "la-s04", "kind": "supplement", "title": "LANSA densities, every area and bin", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Full density tables behind figure 04.", "sources": ["LANSA"], "data_needed": "LANSA densities", "blocked_by": ["OPEN-38"], "checklist_items": [4]},
+    {"id": "la-s05", "kind": "supplement", "title": "Type-fraction error per bin", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Declared proportion versus realized integer counts per bin.", "sources": ["item 4 receipt"], "data_needed": "item 4 output", "blocked_by": ["OPEN-38"], "checklist_items": [4]},
+    {"id": "la-s06", "kind": "supplement", "title": "Mapping uncertainty: alternative CB/CR/NG assignments", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "SST/PV profile under alternative assignments of CB, CR and NG.", "sources": ["Disney et al. (UNSET)"], "data_needed": "LANSA densities", "blocked_by": ["OPEN-38"], "checklist_items": [5]},
+    {"id": "la-s07", "kind": "supplement", "title": "Full connection-probability matrices", "owner_status": "PROPOSED", "status": "PLANNED", "content": "Campagnola et al. 2022 matrices and their mapping to the column.", "sources": ["Campagnola et al. 2022 (UNSET)"], "data_needed": "published tables", "blocked_by": ["citations UNSET"], "checklist_items": [7]},
+    {"id": "la-s08", "kind": "supplement", "title": "Tahvili E-PV-SST module replication", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Peak frequency and PV-leads-SST lag on the isolated module versus the source values.", "sources": ["Tahvili 2025 and 2026"], "data_needed": "item 11 runs", "blocked_by": ["OPEN-36"], "checklist_items": [11]},
+    {"id": "la-s09", "kind": "supplement", "title": "Izhikevich parameter sets and rheobase", "owner_status": "PROPOSED", "status": "PLANNED", "content": "Four parameter sets with units, dt and rheobase per type.", "sources": ["item 6"], "data_needed": "item 6 output", "blocked_by": ["item 6 not closed"], "checklist_items": [6]},
+    {"id": "la-s10", "kind": "supplement", "title": "HDP adaptation versus AdEx reference trace", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Single-neuron trace comparison (item 9f).", "sources": ["tests/test_adex_hdp_adaptation.py"], "data_needed": "reference trace and tolerance", "blocked_by": ["OPEN-36 (tolerance UNSET)"], "checklist_items": [9]},
+    {"id": "la-s11", "kind": "supplement", "title": "Balance term dynamics", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "h_b range per bin and the HDP-off ablation.", "sources": ["docs/laminar_motif/ITEM08_H_STATE_SPEC.md"], "data_needed": "item 10 runs", "blocked_by": ["OPEN-39"], "checklist_items": [10]},
+    {"id": "la-s12", "kind": "supplement", "title": "Per-type rates and irregularity", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Rates and CV for E, PV, SST, VIP after onset.", "sources": ["item 12"], "data_needed": "item 12 runs", "blocked_by": ["OPEN-36", "OPEN-35"], "checklist_items": [12]},
+    {"id": "la-s13", "kind": "supplement", "title": "Leave-one-area-out selection folds", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Fold-by-fold selection table.", "sources": ["item 13"], "data_needed": "item 13 runs", "blocked_by": ["OPEN-36"], "checklist_items": [13]},
+    {"id": "la-s14", "kind": "supplement", "title": "Seed spread and held-out robustness", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Per-area spread across seeds.", "sources": ["item 20"], "data_needed": "item 20 runs", "blocked_by": ["OPEN-36"], "checklist_items": [20]},
+    {"id": "la-s15", "kind": "supplement", "title": "Ablations: H, VIP, PV, SST, adaptation", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Motif change per ablation.", "sources": ["item 21"], "data_needed": "item 21 runs", "blocked_by": ["OPEN-36"], "checklist_items": [21]},
+    {"id": "la-s16", "kind": "supplement", "title": "SST/PV flatten and reverse: full sweep", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Dose-response of the motif to the SST/PV profile.", "sources": ["item 17"], "data_needed": "item 17 runs", "blocked_by": ["OPEN-36"], "checklist_items": [17]},
+    {"id": "la-s17", "kind": "supplement", "title": "Frequency attribution by type-resolved current", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Band power by type and depth.", "sources": ["item 16"], "data_needed": "item 16 runs", "blocked_by": ["OPEN-36"], "checklist_items": [16]},
+    {"id": "la-s18", "kind": "supplement", "title": "Known residuals: edge bins, alpha-beta depth, irregularity", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Each residual with its number.", "sources": ["item 22"], "data_needed": "item 22 runs", "blocked_by": ["OPEN-36"], "checklist_items": [22]},
+    {"id": "la-s19", "kind": "supplement", "title": "Prior art: deck v4 baseline", "owner_status": "PROPOSED", "status": "PLANNED", "content": "Deck v4 motif r, held-out r, gamma-above-alpha-beta count, Q2, PCA split next to observed.", "sources": ["attached deck v4", "docs/laminar_motif/item02_digest_receipt.txt"], "data_needed": "none", "blocked_by": [], "checklist_items": [2]},
+    {"id": "la-s20", "kind": "supplement", "title": "Negative controls C1 to C7", "owner_status": "PROPOSED", "status": "BLOCKED", "content": "Each control's outcome.", "sources": ["docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md"], "data_needed": "control runs", "blocked_by": ["OPEN-36"], "checklist_items": [3, 18]}
+   ]
+  }
+ }
+}

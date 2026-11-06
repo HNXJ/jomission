@@ -19,11 +19,42 @@ def built(tmp_path_factory):
     return html, json.loads(m.group(1).replace("<\\/", "</"))
 
 
+def test_figure_plan_counts_and_fields(built):
+    _, d = built
+    series = {s["id"]: s for s in d["figures"]["series"]}
+    assert set(series) == {"omission", "lansa"}
+    for s in series.values():
+        assert s["main"] == 7, s["id"]
+        ids = [f["id"] for f in s["figures"]]
+        assert len(ids) == len(set(ids))
+        assert sum(s["by_status"].values()) == s["main"] + s["supplements"]
+    n = series["lansa"]["supplements"]
+    assert 2 * 7 <= n <= 3 * 7, "supplements about 2 to 3 times the main count"
+    raw = json.loads((ROOT / "docs/FIGURE_PLAN.json").read_text(encoding="utf-8"))
+    for s in raw["series"].values():
+        for f in s["figures"]:
+            assert f["status"] in {"PLANNED", "BLOCKED", "TBD"}, f["id"]
+            if f["status"] == "BLOCKED":
+                assert f["blocked_by"], f"{f['id']} is BLOCKED with no blocker"
+            if f["status"] == "TBD":
+                assert f["owner_status"] == "OWNER_TBD", f["id"]
+            if f["owner_status"] != "OWNER_TBD":
+                assert f["title"] and f["content"] and f["sources"], f["id"]
+
+
+def test_omission_figures_hold_no_outcome(built):
+    _, d = built
+    om = next(s for s in d["figures"]["series"] if s["id"] == "omission")
+    for f in om["figures"]:
+        if f["id"] not in ("om-01", "om-s01", "om-s02", "om-s03"):
+            assert f["status"] == "TBD" and not f["content"], f["id"]
+
+
 def test_five_pages_present(built):
     html, _ = built
     assert not re.search(r"<!doctype|<html|<head|<body", html, re.I), "publish step adds the skeleton"
     assert "<title>" in html and 'name="claude:viewport-fit-sides"' in html
-    for pid in ("overview", "omission", "laminar", "gates", "todo"):
+    for pid in ("overview", "omission", "laminar", "figures", "gates", "todo"):
         assert f"['{pid}'," in html, pid
 
 

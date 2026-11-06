@@ -1,6 +1,6 @@
 """Build a multi-page project dashboard (one self-contained index.html, tabs as pages).
 
-Pages: overview, omission paradigm, LANSA and laminar motif, gates and lineages, todo and open.
+Pages: overview, omission paradigm, LANSA and laminar motif, figures, gates and lineages, todo and open.
 Every value is read from a repo file by this script; nothing is typed into the page. Text from
 data enters the DOM through textContent. Style follows the omission Draft-S dashboard: colors and
 fonts from host CSS variables with fallbacks, light and dark, ids in monospace.
@@ -116,7 +116,28 @@ def collect() -> dict:
             "items": [{"id": i["id"], "status": i["status"], "goal": i.get("goal", "")} for i in td["items"]],
             "open": opens,
         },
+        "figures": figures(),
     }
+
+
+def figures() -> dict:
+    """Figure plan (docs/FIGURE_PLAN.json): per series, the figures with status and blockers."""
+    fp = _json("docs/FIGURE_PLAN.json")
+    out = {"rule": fp["rule"], "owner_questions": fp["owner_questions"], "series": []}
+    for sid, s in fp["series"].items():
+        figs = s["figures"]
+        by_status: dict[str, int] = {}
+        for f in figs:
+            by_status[f["status"]] = by_status.get(f["status"], 0) + 1
+        out["series"].append({
+            "id": sid, "title": s["title"],
+            "main": sum(1 for f in figs if f["kind"] == "main"),
+            "supplements": sum(1 for f in figs if f["kind"] == "supplement"),
+            "by_status": by_status,
+            "figures": [{k: f[k] for k in ("id", "kind", "title", "owner_status", "status", "content", "blocked_by")}
+                        for f in figs],
+        })
+    return out
 
 
 def prohibited() -> list[str]:
@@ -148,10 +169,12 @@ html,body{margin:0;background:var(--bg);color:var(--fg)}
 .fg table{border-collapse:collapse;width:100%;font-size:.875rem}
 .fg th,.fg td{text-align:left;vertical-align:top;padding:6px 10px;border-bottom:1px solid var(--line)}
 .fg th{background:var(--panel);font-weight:500;white-space:nowrap}
+.fg td.id{white-space:nowrap}
 .fg td.id,.fg .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.8125rem}
 .fg .pill{display:inline-block;padding:0 8px;border-radius:99px;border:1px solid var(--line);font-size:.75rem}
 .fg .PASS,.fg .DONE{color:var(--good)}.fg .FAIL,.fg .INFEASIBLE,.fg .BLOCKED{color:var(--bad)}
-.fg .PARTIAL,.fg .OPEN,.fg .LOCKED,.fg .INSUFFICIENT_ALONE{color:var(--warn)}
+.fg .PARTIAL,.fg .OPEN,.fg .LOCKED,.fg .INSUFFICIENT_ALONE,.fg .TBD{color:var(--warn)}
+.fg .PLANNED{color:var(--muted)}
 .fg .note{color:var(--muted);font-size:.8125rem}
 </style>
 <div class="fg" id="root"><h1>Jomission series</h1><div class="stamp" id="stamp"></div>
@@ -160,7 +183,7 @@ html,body{margin:0;background:var(--bg);color:var(--fg)}
 <script>
 "use strict";
 const D = JSON.parse(document.getElementById('data').textContent);
-const PAGES = [['overview','Overview'],['omission','Omission paradigm'],['laminar','LANSA and laminar motif'],['gates','Gates and lineages'],['todo','Todo and open']];
+const PAGES = [['overview','Overview'],['omission','Omission paradigm'],['laminar','LANSA and laminar motif'],['figures','Figures'],['gates','Gates and lineages'],['todo','Todo and open']];
 function el(tag, cls, text){const e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=String(text); return e;}
 function kpi(label, value){const k=el('div','kpi'); k.append(el('b','',value), el('span','',label)); return k;}
 function pill(s){return el('span','pill '+String(s).replace(/[^A-Za-z_]/g,''), s);}
@@ -178,7 +201,7 @@ P.overview = s => {
     kpi('laminar plan, builder score', o.builder_score+' / '+(o.plan_items*4)));
   s.append(k, el('h2','','Todo items by status'));
   s.append(table(['status','count'], Object.entries(o.todo_by_status), r=>[pill(r[0]), r[1]]));
-  s.append(el('p','note','Pages: omission paradigm, LANSA and laminar motif, gates and lineages, todo and open. Source files are named on each page.'));
+  s.append(el('p','note','Pages: omission paradigm, LANSA and laminar motif, figures, gates and lineages, todo and open. Source files are named on each page.'));
 };
 P.omission = s => {
   const m=D.omission;
@@ -199,6 +222,19 @@ P.laminar = s => {
   s.append(el('h2','','Owner decisions open'));
   s.append(table(['id','kind','text'], l.open_rows, r=>[{id:r.id}, r.kind, cut(r.text,420)]));
   s.append(el('p','note','Source: docs/PLAN_LAMINAR_MOTIF.md, docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md, docs/OPEN.md. LANSA densities are not in the repository (OPEN-38); no density value is shown.'));
+};
+P.figures = s => {
+  const f=D.figures;
+  s.append(el('p','',f.rule));
+  f.series.forEach(se=>{
+    const k=el('div','kpis'); k.append(kpi('main figures', se.main), kpi('supplements', se.supplements));
+    Object.entries(se.by_status).forEach(([st,n])=>k.append(kpi(st, n)));
+    s.append(el('h2','',se.title), k);
+    s.append(table(['id','kind','title','status','who','needs'], se.figures,
+      r=>[{id:r.id}, r.kind, r.title, pill(r.status), r.owner_status, cut(r.blocked_by.join('; '),160)]));
+  });
+  s.append(el('h2','','Questions for the owner'), table(['question'], f.owner_questions, q=>[q]));
+  s.append(el('p','note','Source: docs/FIGURE_PLAN.json. A figure shows a result only after the checklist item that produces it has closed.'));
 };
 P.gates = s => {
   const g=D.gates;

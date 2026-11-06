@@ -6,24 +6,29 @@
   "Omission figures 02 to 07: topics (owner TBD).",
   "Citations to verify: Mendoza-Halliday et al. (spectrolaminar motif), the Major et al. reply, the Caminos model, Disney (SST-CB and CR-VIP overlap), Campagnola et al. 2022 (mouse V1 connection probabilities). Titles and years are UNSET until read.",
   "Figure 01 reward feedback: the paradigm spec lists reward schedule as an unresolved field; draw it marked unresolved or supply the timing.",
-  "Source of the omission project's paradigm figure: path in the omission repository (omission-mac)."
+  "Omission figures 02 to 07: adopt the proposed mirrors of Draft-S (from omission-mac, inferred) or set other topics. A model has no behaviour, so Draft-S fig03 and fig04 have no analogue unless a readout is added."
  ],
+ "conventions": {
+  "source": "omission-mac 2026-11-06 (read-only; owner file E:\\omission context/figures/figstyle.py)",
+  "match": ["house style, area order and colors, class colors, band colors, stimulus and omission shading, slot colors", "PNG 300 dpi plus cleaned SVG", "bold lowercase panel letters on main figures, drawn in the SVG (omission-mac correction: Hamm 2026-11-02, their todo row RN; their current renders still show uppercase until re-rendered)", "folder per figure: png, svg, generated readme, generator code, data csv under 1 MiB, one receipt json", "caption: one bold letter per panel, estimand, unit of inference, test and family", "placeholder or synthetic content carries a red PLACEHOLDER-DUMMY title"],
+  "constraint": "Draft-S makes no cell-type claims. PV, SST and VIP appear on the model side only, never as a reading of recorded units."
+ },
  "series": {
   "omission": {
    "title": "Omission paradigm model",
    "figures": [
     {"id": "om-01", "kind": "main", "title": "Paradigm", "owner_status": "OWNER_SPECIFIED", "status": "PLANNED",
      "content": "Trial timeline with timing identical to the omission project: fx, p1, d1, p2, d2, p3, d3, p4, d4, and reward feedback; adjusted for jomission and JaxFNE (conditions, epochs, event codes).",
-     "sources": ["jomission/paradigm/spec.py (slot onsets, durations, event codes)", "omission project paradigm figure (read-only; path UNSET)"],
+     "sources": ["jomission/paradigm/spec.py (slot onsets, durations, event codes)", "omission Draft-S fig01 (E:\\omission context/draft-s/figures/fig01; generator assets/code/fig01_recording_topology_and_paradigm.py; timing source context/sources/task.md), read-only"],
      "data_needed": "none; read from the paradigm spec by the figure script",
      "blocked_by": ["reward timing UNRESOLVED in the spec: draw it flagged as unresolved"],
      "checklist_items": [19]},
-    {"id": "om-02", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
-    {"id": "om-03", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
-    {"id": "om-04", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
-    {"id": "om-05", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
-    {"id": "om-06", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
-    {"id": "om-07", "kind": "main", "title": "TBD", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-02", "kind": "main", "title": "TBD", "proposed_mirror": "Draft-S fig02: class-wise PSTHs (S, O, Q, B across the sequence) from the model", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-03", "kind": "main", "title": "TBD", "proposed_mirror": "Draft-S fig05: decodability of stimulus identity and omission (identity null)", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-04", "kind": "main", "title": "TBD", "proposed_mirror": "Draft-S fig06: functional-class prevalence in the model", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-05", "kind": "main", "title": "TBD", "proposed_mirror": "Draft-S fig07: gain change on the stimulus after an omission (after-party units)", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-06", "kind": "main", "title": "TBD", "proposed_mirror": "Draft-S fig08: overlap structure of the classes", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
+    {"id": "om-07", "kind": "main", "title": "TBD", "proposed_mirror": "UNSET: closing figure (Draft-S ends with a null model, supfig47); Draft-S fig03 and fig04 (behaviour, break units) apply only if the model gets a behavioural readout", "owner_status": "OWNER_TBD", "status": "TBD", "content": "", "sources": [], "data_needed": "", "blocked_by": ["owner topic"], "checklist_items": []},
     {"id": "om-s01", "kind": "supplement", "title": "Condition table", "owner_status": "PROPOSED", "status": "PLANNED",
      "content": "The 12 conditions with stimulus identity per slot.", "sources": ["jomission/paradigm/spec.py"], "data_needed": "none", "blocked_by": [], "checklist_items": [19]},
     {"id": "om-s02", "kind": "supplement", "title": "Epochs and event codes", "owner_status": "PROPOSED", "status": "PLANNED",

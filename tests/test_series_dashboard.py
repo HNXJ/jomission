@@ -42,6 +42,13 @@ def test_figure_plan_counts_and_fields(built):
                 assert f["title"] and f["content"] and f["sources"], f["id"]
 
 
+def test_conventions_present_and_lowercase_panels(built):
+    _, d = built
+    c = d["figures"]["conventions"]
+    assert any("lowercase" in m and "panel" in m for m in c["match"]), "mains use bold lowercase panel letters"
+    assert "cell-type" in c["constraint"]
+
+
 def test_omission_figures_hold_no_outcome(built):
     _, d = built
     om = next(s for s in d["figures"]["series"] if s["id"] == "omission")

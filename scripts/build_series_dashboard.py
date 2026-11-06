@@ -123,7 +123,7 @@ def collect() -> dict:
 def figures() -> dict:
     """Figure plan (docs/FIGURE_PLAN.json): per series, the figures with status and blockers."""
     fp = _json("docs/FIGURE_PLAN.json")
-    out = {"rule": fp["rule"], "owner_questions": fp["owner_questions"], "series": []}
+    out = {"rule": fp["rule"], "owner_questions": fp["owner_questions"], "conventions": fp["conventions"], "series": []}
     for sid, s in fp["series"].items():
         figs = s["figures"]
         by_status: dict[str, int] = {}
@@ -134,8 +134,8 @@ def figures() -> dict:
             "main": sum(1 for f in figs if f["kind"] == "main"),
             "supplements": sum(1 for f in figs if f["kind"] == "supplement"),
             "by_status": by_status,
-            "figures": [{k: f[k] for k in ("id", "kind", "title", "owner_status", "status", "content", "blocked_by")}
-                        for f in figs],
+            "figures": [{**{k: f[k] for k in ("id", "kind", "title", "owner_status", "status", "content", "blocked_by")},
+                         "proposed_mirror": f.get("proposed_mirror", "")} for f in figs],
         })
     return out
 
@@ -230,9 +230,12 @@ P.figures = s => {
     const k=el('div','kpis'); k.append(kpi('main figures', se.main), kpi('supplements', se.supplements));
     Object.entries(se.by_status).forEach(([st,n])=>k.append(kpi(st, n)));
     s.append(el('h2','',se.title), k);
-    s.append(table(['id','kind','title','status','who','needs'], se.figures,
-      r=>[{id:r.id}, r.kind, r.title, pill(r.status), r.owner_status, cut(r.blocked_by.join('; '),160)]));
+    s.append(table(['id','kind','title','status','who','needs','proposed mirror (not owner-set)'], se.figures,
+      r=>[{id:r.id}, r.kind, r.title, pill(r.status), r.owner_status, cut(r.blocked_by.join('; '),160), r.proposed_mirror]));
   });
+  s.append(el('h2','','Matching conventions (Draft-S)'));
+  s.append(table(['rule'], f.conventions.match, c=>[c]));
+  s.append(el('p','note',f.conventions.constraint));
   s.append(el('h2','','Questions for the owner'), table(['question'], f.owner_questions, q=>[q]));
   s.append(el('p','note','Source: docs/FIGURE_PLAN.json. A figure shows a result only after the checklist item that produces it has closed.'));
 };

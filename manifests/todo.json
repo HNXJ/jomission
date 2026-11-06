@@ -1709,7 +1709,7 @@
      "docs/laminar_motif/"
     ],
     "downstream_unlock": [],
-    "progress": "2026-11-05 builder score 4/100 (item 1 closed); reviewers not run. Item 2 digest 97/97 matched; item 3 structure approved, thresholds UNSET; items 8-9: rule and tests a-e done (8 tests, 6 of 6 mutants killed), TFNE spec and balance term h_b and tolerance 9f open. Full project_check on the rule commit not yet run (suite-lock wait timed out, requeued); commits after the pushed one are unpushed. 2026-11-06: figure plan docs/FIGURE_PLAN.json and draft minimal model docs/laminar_motif/MINIMAL_MODEL_SPEC.md added; no run authorized until the spec is approved (OPEN-40). See docs/PLAN_LAMINAR_MOTIF.md",
+    "progress": "2026-11-05 builder score 4/100 (item 1 closed); reviewers not run. Item 2 digest 97/97 matched; item 3 structure approved, thresholds UNSET; items 8-9: rule and tests a-e done (8 tests, 6 of 6 mutants killed), TFNE spec and balance term h_b and tolerance 9f open. Full project_check on the rule commit not yet run (suite-lock wait timed out, requeued); commits after the pushed one are unpushed. 2026-11-06: figure plan docs/FIGURE_PLAN.json and draft minimal model docs/laminar_motif/MINIMAL_MODEL_SPEC.md added; spec structure approved 2026-11-06 (AdEx first, 3 modules, E-cell synaptic-current proxy); no run authorized until E0 criteria are sealed (OPEN-40). See docs/PLAN_LAMINAR_MOTIF.md",
     "blocked_by": "OPEN-36 (owner values for the UNSET register: thresholds, neuron and synapse set, seed counts, alpha, AdEx tolerance); OPEN-37 (JaxFNE 0.5.8 vs v0.5.9); OPEN-38 (LANSA densities, observed LFP and the analysis port not in hand)"
    },
    {

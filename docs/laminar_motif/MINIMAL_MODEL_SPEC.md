@@ -1,6 +1,6 @@
 # Minimal model LM-0 (draft, 2026-11-06)
 
-Status: DRAFT. Not sealed. No simulation, calibration or score change until the owner approves this spec (AGENTS.md: seal before running). Every threshold is UNSET and follows the approved structure in `ITEM03_SEAL_PROPOSAL.md`. LM-0 is the minimal-scale realization of checklist items 6, 7, 11, 15, 17 and 21; it adds no checklist item.
+Status: structure APPROVED by the owner 2026-11-06 ("Approve as drafted"), with the three decisions below recorded. Thresholds and E0 pass criteria are UNSET, so no run is authorized yet (AGENTS.md: seal before running). Every threshold is UNSET and follows the approved structure in `ITEM03_SEAL_PROPOSAL.md`. LM-0 is the minimal-scale realization of checklist items 6, 7, 11, 15, 17 and 21; it adds no checklist item.
 
 ## Hypothesis in measurable form (owner, 2026-11-06)
 
@@ -43,8 +43,14 @@ Readout (design choice, UNSET): LFP proxy per module from summed synaptic curren
 | HDP adaptation rule | `jomission/dynamics/adex_hdp.py` | tested (item 9 a to e) |
 | Izhikevich-TFNE variant | item 6 parameter sets | not built |
 
-## Open decisions (OPEN-40)
+## Decisions (owner, 2026-11-06)
 
-1. Neuron class for LM-0: the AdEx emitter (the only validated gamma E-PV-SST reference, and where E0 can be checked) or the Izhikevich-TFNE column of the plan. Minimal base: AdEx first; Izhikevich as the item 6 and 11 comparison. Trade-off belongs to the owner.
-2. LFP proxy definition and the depth-module count.
-3. Source for the Disney SST-CB and CR-VIP overlap (not in the komposer repository).
+1. Neuron class: AdEx first (JaxFNE AdEx emitter, the validated CAMINOS reference); the Izhikevich-TFNE column follows as the item 6 and 11 comparison.
+2. Three depth modules; LFP proxy per module is the summed synaptic current onto E cells.
+3. Structure of E0 to E6 approved as drafted.
+
+## Still open (OPEN-40)
+
+1. E0 pass criteria (UNSET). Proposal, to be approved before E0 runs: the JaxFNE reference values and margins for the same observables, stated in the sealed E0 spec, not here.
+2. Source for the Disney SST-CB and CR-VIP overlap (not in the komposer repository).
+3. The two JaxFNE records that disagree on the CAMINOS port (PASS versus mixed).

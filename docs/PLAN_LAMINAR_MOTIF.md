@@ -2,6 +2,7 @@
 
 Status: **authorized by the owner in chat, 2026-11-05** ("i authorize once you fix this", after the AdEx and HDP corrections, now made). `manifests/todo.json` has entry `SCI-LAMINAR-MOTIF-1`; `next_authorized_task` stays `SCI-AGSDR-CALIBRATION`.
 Progress (no score change until the seal is approved): item 2 digest complete, 97 of 97 values matched, including the synaptic Q tables and mean-field T (receipt and script in `docs/laminar_motif/`); the T25-or-T26 set choice remains UNSET. Item 3 seal structure approved by the owner 2026-11-05 (`docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md`); all thresholds remain UNSET, so item 3 is not closed and runs needing a threshold are blocked. Todo entry `SCI-LAMINAR-MOTIF-1` added (item 1), `next_authorized_task` unchanged. Plan numbers below that came from a source are references, not thresholds.
+Minimal-model track (2026-11-06, owner): `docs/laminar_motif/MINIMAL_MODEL_SPEC.md` (draft, unsealed) states the hypothesis as E/I ratio, SST/PV ratio and one-direction SST-to-PV wiring, with experiments E0 to E6 and their falsifiers. It is the minimal-scale route through items 6, 7, 11, 15, 17 and 21; no item is added. Figure plan: `docs/FIGURE_PLAN.json` (7 main figures per series). CAMINOS is the mechanism name of Tahvili, Vinck and di Volo, which JaxFNE already ports.
 Skill: `.claude/skills/jaxfne-cortical-laminar-microcircuit`. Agent: `.claude/agents/laminar-microcircuit-builder.md`.
 
 ## Goal
@@ -68,5 +69,6 @@ Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.jso
 |---|---|
 | Task authorization (item 1) | `AGENTS.md` limits work to `next_authorized_task` or a reviewer-named task |
 | T25 vs T26 AdEx parameters differ: SST Δ 1.5/2 mV, SST b 25/80 pA, E EL -60/-65 mV, E b 130/50 pA (SST EL and all PV values equal) | pick one set; recorded in item 2 (OPEN-36) |
-| Cell-type map CB~SST, CR~VIP, NG=E is an assumption | alters the density-to-fraction step in item 4 |
+| Cell-type map CB~SST, CR~VIP, NG=E is an assumption; the Disney papers on the overlap are not in the komposer repository | alters the density-to-fraction step in item 4; owner to supply the PDFs |
+| Neuron class for the minimal model: AdEx emitter (validated CAMINOS reference) or Izhikevich-TFNE (OPEN-40) | decides where E0 can be checked and whether item 6 is on the critical path |
 | Native-to-pA factor for `drive_bias` and the H units of `h_w`, `h_b` | `drive_bias` is the chosen path (rule built, tests a-e pass); the factor is a design choice still to record in item 8 |

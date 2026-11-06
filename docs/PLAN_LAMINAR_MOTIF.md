@@ -15,7 +15,7 @@ Prior art (deck v4): motif r 0.44, held-out r 0.30, gamma above alpha-beta in 5 
 
 ## Scoring
 
-Score = 4 points per item, 25 items, **0/100 now**. An item scores 4 only when its closing check was run on the sealed state and its receipt is in the repo; otherwise 0 (no partial credit).
+Score = 4 points per item, 25 items, **4/100 now** (item 1 closed). An item scores 4 only when its closing check was run on the sealed state and its receipt is in the repo; otherwise 0 (no partial credit).
 Done = two independent skeptic `reviewer` runs (separate contexts, neither sees the other's score nor the builder's reasoning) each score 100/100 against this list and the work. Any item either reviewer fails goes back to the builder; the final score is the lower of the two.
 
 ## Checklist

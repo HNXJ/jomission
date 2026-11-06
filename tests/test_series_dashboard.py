@@ -52,7 +52,9 @@ def test_minimal_model_status_matches_repo(built):
     assert (ROOT / mm["spec"]).exists() and (ROOT / "docs/laminar_motif/E0_SEAL.md").exists()
     for g in mm["e0_gates"]:
         assert g["state"] in {"PASS", "OPEN", "QUEUED", "FAIL"}, g
-        if g["state"] == "PASS":
+        if g["state"] == "PASS" and g["evidence"].startswith("JaxFNE v"):
+            assert re.search(r"\d+ passed", g["evidence"]), "external evidence cites a pass count"
+        elif g["state"] == "PASS":
             path, _, fn = g["evidence"].partition("::")
             text = (ROOT / path).read_text(encoding="utf-8")
             assert f"def {fn}(" in text, f"gate {g['id']} cites a missing test"

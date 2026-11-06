@@ -7,7 +7,8 @@
   "Three depth modules; LFP proxy per module is the summed synaptic current onto E cells",
   "Structure of E0 to E6 approved as drafted (owner, 2026-11-06); thresholds UNSET",
   "E0 is checked against the JaxFNE P5 references within the P6 margins (owner, 2026-11-06)",
-  "E0 runner lives in jomission (owner, 2026-11-06); CPU backend"
+  "E0 runner lives in jomission (owner, 2026-11-06); CPU backend",
+  "E0 runs on JaxFNE 0.5.9 (owner, 2026-11-06; E0_SEAL.md Amendment 1)"
  ],
  "experiments": [
   {"id": "E0", "manipulation": "one isolated CAMINOS module, JaxFNE AdEx emitter, published parameters", "status": "SEALED", "authorized": true},
@@ -22,8 +23,8 @@
  "e0_gates": [
   {"id": 1, "name": "Parameter identity (cells, synapses, drive)", "state": "PASS", "evidence": "tests/test_caminos_e0.py::test_realized_cell_parameters_equal_table1"},
   {"id": 2, "name": "Realized connectivity (edge counts, no autapses, no PV to SST or SST to SST)", "state": "PASS", "evidence": "tests/test_caminos_e0.py::test_realized_edges_match_declared_blocks"},
-  {"id": 3, "name": "Kernel identity (JaxFNE single-cell and recurrent-step tests on 0.5.8)", "state": "OPEN", "evidence": ""},
+  {"id": 3, "name": "Kernel identity (JaxFNE single-cell and recurrent-step tests on 0.5.9)", "state": "PASS", "evidence": "JaxFNE v0.5.9 tests/test_emitters_adex.py: 83 passed, 2026-11-06"},
   {"id": 4, "name": "Converter known answer and rate-matched Poisson null", "state": "PASS", "evidence": "tests/test_caminos_e0.py::test_estimators_null_rate_matched_poisson"},
-  {"id": 5, "name": "Unscored 12 s pilot (seed 0): memory and time", "state": "QUEUED", "evidence": ""}
+  {"id": 5, "name": "Unscored 12 s pilot (seed 0) on 0.5.9: memory and time", "state": "QUEUED", "evidence": ""}
  ]
 }

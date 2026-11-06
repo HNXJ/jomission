@@ -1,10 +1,10 @@
-# E0 seal: CAMINOS reference module on JaxFNE 0.5.8 (pre-execution, 2026-11-06)
+# E0 seal: CAMINOS reference module on JaxFNE 0.5.9 (pre-execution, 2026-11-06; Amendment 1)
 
 Lineage: SCI-LAMINAR-MOTIF-1, minimal model LM-0 (`MINIMAL_MODEL_SPEC.md`, structure approved 2026-11-06). This file is committed and pushed before any E0 run. After a run, a changed criterion, margin or parameter is a new lineage, not an edit here.
 
 ## Question and estimand
 
-Does the CAMINOS E-PV-SST reference network, built through the JaxFNE 0.5.8 public API in the jomission environment, reproduce the JaxFNE P5 reference estimands within the margins JaxFNE itself declared? Estimands (p = 0.07, seeds 1 to 5, means over seeds): peak frequency `f_pk`, PV-to-SST lag, mean rates of E, PV, SST. This is a pipeline-equality check. It does not test the paper, and it tests nothing about the laminar hypothesis.
+Does the CAMINOS E-PV-SST reference network, built through the JaxFNE 0.5.9 public API in the jomission environment, reproduce the JaxFNE P5 reference estimands within the margins JaxFNE itself declared? Estimands (p = 0.07, seeds 1 to 5, means over seeds): peak frequency `f_pk`, PV-to-SST lag, mean rates of E, PV, SST. This is a pipeline-equality check. It does not test the paper, and it tests nothing about the laminar hypothesis.
 
 ## Reference (read from the JaxFNE P6 preregistration and result file, not from memory)
 
@@ -22,7 +22,7 @@ Owner decision 2026-11-06: E0 is checked against the JaxFNE P6 references and ma
 
 - Model: parameters exactly as the JaxFNE port specification (`artifacts/etudes/papers/caminos/PORT_SPEC.md`): AdEx E, PV, SST; 8000, 750, 750 cells; Bernoulli p = 0.07; seven blocks, no PV-to-SST and no SST-to-SST edges; conductances, time constants and 2 ms delay as specified; 560 private 4 Hz Poisson sources per E and PV cell at p = 0.07 (`round(p * 8000)`), SST undriven.
 - Run: dt 0.1 ms, T 12 s, first 2 s discarded, float32, seeds 1 to 5 through the public API (`connectivity(edge_seed=s)` and the drive seed), the ADVANCED kernel `simulate_adex(record_v=False)` as in P6.
-- Analysis: JaxFNE's `caminos_analysis.py`, unchanged, scoring converted per-step population counts. Backend, device, dtype, code SHA and the JaxFNE version are recorded in each run's manifest; the version must equal the project's execution authority (0.5.8).
+- Analysis: JaxFNE's `caminos_analysis.py`, unchanged, scoring converted per-step population counts. Backend, device, dtype, code SHA and the JaxFNE version are recorded in each run's manifest; the version must equal the project's execution authority (0.5.9 after the amendment below; 0.5.8 before it).
 - Not in scope: Q4 (R1 to R4), Q5 (onset sweep), C1. They check the paper's other panels and are not needed for E1 to E6.
 
 ## Gates before scoring (a failure stops E0)
@@ -49,7 +49,11 @@ Seed SDs from P5 at p = 0.07: E 3.0 %, PV 0.6 %, SST 4.1 % of the mean, lag 0.17
 
 ## Declared deviations from the P6 setup
 
-JaxFNE 0.5.8 in the jomission environment instead of the P6 code identity; Windows host and its backend instead of WSL2 CUDA if no GPU is used (recorded; spike trains differ at equal seed by construction, so equivalence is on the estimands). Nothing else is changed.
+JaxFNE 0.5.9 (see the amendment) in the jomission environment instead of the P6 code identity; Windows host and its backend instead of WSL2 CUDA if no GPU is used (recorded; spike trains differ at equal seed by construction, so equivalence is on the estimands). Nothing else is changed.
+
+## Amendment 1 (owner, 2026-11-06, before any scored run): JaxFNE 0.5.9
+
+Owner ruling: E0 runs on JaxFNE 0.5.9 (tag v0.5.9, `e0160dfc`), not 0.5.8. Changed: the JaxFNE version everywhere above; the analysis call `population_rates` uses `dt_ms` and `discard_ms` (milliseconds; the seconds forms are deprecated in 0.5.9), values unchanged. Unchanged: references, margins, gates, verdict rule, seeds, procedure. The seed-0 pilot of 2026-11-06 ran on 0.5.8 (2155 s CPU wall, rates 1.10/11.29/6.90 Hz, f_pk 35.0 Hz, lag 7.1 ms; unscored, peak memory not captured); it does not satisfy gate 5 for 0.5.9, so gate 5 is rerun on 0.5.9 with peak memory recorded. Gates 1, 2 and 4 are rerun on 0.5.9 (15 tests passed on a side install before this amendment); gate 3 runs on 0.5.9.
 
 ## Evidence class
 

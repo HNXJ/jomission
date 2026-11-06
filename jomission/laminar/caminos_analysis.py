@@ -1,7 +1,7 @@
 """E0 estimators: peak frequency, PV-to-SST lag, population rates (docs/laminar_motif/E0_SEAL.md).
 
-Subset of the JaxFNE etude estimators, verbatim except one call adapted to the 0.5.8 signature
-(``population_rates`` in seconds; see the comment at the call) (artifacts/etudes/papers/caminos/caminos_analysis.py,
+Subset of the JaxFNE etude estimators, verbatim except one call written in the 0.5.9 millisecond form
+(``population_rates``; see the comment at the call) (artifacts/etudes/papers/caminos/caminos_analysis.py,
 spec PREREG_P3): the constants and the functions ``kept_slice``, ``e_welch``, ``spectral_peak``,
 ``_gaussian_kernel``, ``pv_som_lag`` and ``analyze_run``. The R1 to R4 scorer is not ported (E0 scores
 Q1 to Q3 only). The JaxFNE ``SOM`` label is the SST class. Input is per-step population counts
@@ -101,8 +101,8 @@ def analyze_run(counts, dt, sizes, pe_threshold=PE_THRESHOLD):
     arr = _as_float_counts(counts)
     keep = arr[kept_slice(arr.shape[0], dt)]
     spikes = {p: int(keep[:, i].sum()) for i, p in enumerate(POPS)}
-    # JaxFNE 0.5.8 takes seconds (dt, discard_s); the dev etude calls the milliseconds form, absent in 0.5.8.
-    rates = population_rates(arr, dt, sizes, POPS, DISCARD_S)
+    # JaxFNE 0.5.9: milliseconds form (the seconds forms are deprecated).
+    rates = population_rates(arr, sizes=sizes, pops=POPS, dt_ms=dt * 1000.0, discard_ms=DISCARD_S * 1000.0)
     out = {
         "rates_Hz": rates,
         "spikes_kept": spikes,

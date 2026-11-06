@@ -9,7 +9,7 @@
   "Omission figures 02 to 07: adopt the proposed mirrors of Draft-S (from omission-mac, inferred) or set other topics. A model has no behaviour, so Draft-S fig03 and fig04 have no analogue unless a readout is added."
  ],
  "conventions": {
-  "source": "omission-mac 2026-11-06 (read-only; owner file E:\\omission context/figures/figstyle.py)",
+  "source": "omission-mac 2026-11-06 (read-only; owner file context/figures/figstyle.py in the omission repo)",
   "match": ["house style, area order and colors, class colors, band colors, stimulus and omission shading, slot colors", "PNG 300 dpi plus cleaned SVG", "bold lowercase panel letters on main figures, drawn in the SVG (omission-mac correction: Hamm 2026-11-02, their todo row RN; their current renders still show uppercase until re-rendered)", "folder per figure: png, svg, generated readme, generator code, data csv under 1 MiB, one receipt json", "caption: one bold letter per panel, estimand, unit of inference, test and family", "placeholder or synthetic content carries a red PLACEHOLDER-DUMMY title"],
   "constraint": "Draft-S makes no cell-type claims. PV, SST and VIP appear on the model side only, never as a reading of recorded units."
  },
@@ -19,7 +19,7 @@
    "figures": [
     {"id": "om-01", "kind": "main", "title": "Paradigm", "owner_status": "OWNER_SPECIFIED", "status": "PLANNED",
      "content": "Trial timeline with timing identical to the omission project: fx, p1, d1, p2, d2, p3, d3, p4, d4, and reward feedback; adjusted for jomission and JaxFNE (conditions, epochs, event codes).",
-     "sources": ["jomission/paradigm/spec.py (slot onsets, durations, event codes)", "omission Draft-S fig01 (E:\\omission context/draft-s/figures/fig01; generator assets/code/fig01_recording_topology_and_paradigm.py; timing source context/sources/task.md), read-only"],
+     "sources": ["jomission/paradigm/spec.py (slot onsets, durations, event codes)", "omission Draft-S fig01 (omission repo, context/draft-s/figures/fig01; generator assets/code/fig01_recording_topology_and_paradigm.py; timing source context/sources/task.md), read-only"],
      "data_needed": "none; read from the paradigm spec by the figure script",
      "blocked_by": ["reward timing UNRESOLVED in the spec: draw it flagged as unresolved"],
      "checklist_items": [19]},

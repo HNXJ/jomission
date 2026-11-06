@@ -105,7 +105,8 @@ def collect() -> dict:
                        "revA": sum(r["revA"] for r in plan),
                        "revB": sum(r["revB"] for r in plan)},
             "unset_mentions": len(re.findall(r"\bUNSET\b", seal)),
-            "open_rows": [r for r in opens if r["id"] in ("OPEN-36", "OPEN-37", "OPEN-38", "OPEN-39")],
+            "open_rows": [r for r in opens if r["id"] in ("OPEN-36", "OPEN-37", "OPEN-38", "OPEN-39", "OPEN-40", "OPEN-41")],
+            "minimal": _json("docs/laminar_motif/MINIMAL_MODEL_STATUS.json"),
         },
         "gates": {
             "verdicts": [{"id": k, **v} for k, v in cs["latest_verdict"].items()],
@@ -174,7 +175,8 @@ html,body{margin:0;background:var(--bg);color:var(--fg)}
 .fg .pill{display:inline-block;padding:0 8px;border-radius:99px;border:1px solid var(--line);font-size:.75rem}
 .fg .PASS,.fg .DONE{color:var(--good)}.fg .FAIL,.fg .INFEASIBLE,.fg .BLOCKED{color:var(--bad)}
 .fg .PARTIAL,.fg .OPEN,.fg .LOCKED,.fg .INSUFFICIENT_ALONE,.fg .TBD{color:var(--warn)}
-.fg .PLANNED{color:var(--muted)}
+.fg .PLANNED,.fg .SPECIFIED,.fg .QUEUED{color:var(--muted)}
+.fg .SEALED{color:var(--good)}
 .fg .note{color:var(--muted);font-size:.8125rem}
 </style>
 <div class="fg" id="root"><h1>Jomission series</h1><div class="stamp" id="stamp"></div>
@@ -217,6 +219,12 @@ P.laminar = s => {
   const l=D.laminar, k=el('div','kpis');
   k.append(kpi('builder', l.scores.builder+' / 100'), kpi('reviewer A', l.scores.revA+' / 100'), kpi('reviewer B', l.scores.revB+' / 100'), kpi('UNSET mentions in seal proposal', l.unset_mentions));
   s.append(k, el('p','','Goal: a four-type (E, PV, SST, VIP) Izhikevich-TFNE column in JaxFNE whose simulated LFP reproduces the spectrolaminar motif from cell densities, then the building block of the omission paradigm. Score is 4 points per item, no partial credit.'));
+  const mm=l.minimal;
+  s.append(el('h2','','Minimal model '+mm.model));
+  s.append(table(['decision'], mm.decisions, d=>[d]));
+  s.append(table(['id','manipulation','status','run authorized'], mm.experiments, r=>[{id:r.id}, r.manipulation, pill(r.status), r.authorized?'yes':'no']));
+  s.append(el('h2','','E0 gates (sealed pre-run checks)'));
+  s.append(table(['gate','check','state','evidence'], mm.e0_gates, g=>[String(g.id), g.name, pill(g.state), g.evidence]));
   s.append(el('h2','','Checklist'));
   s.append(table(['#','item','closing check','builder','rev A','rev B'], l.plan, r=>[String(r.n), cut(r.item,140), cut(r.check,160), r.builder, r.revA, r.revB]));
   s.append(el('h2','','Owner decisions open'));

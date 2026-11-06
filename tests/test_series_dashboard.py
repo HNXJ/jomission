@@ -42,6 +42,24 @@ def test_figure_plan_counts_and_fields(built):
                 assert f["title"] and f["content"] and f["sources"], f["id"]
 
 
+def test_minimal_model_status_matches_repo(built):
+    _, d = built
+    mm = d["laminar"]["minimal"]
+    ids = [e["id"] for e in mm["experiments"]]
+    assert ids[0] == "E0" and len(ids) == len(set(ids)) == 8
+    assert [e["id"] for e in mm["experiments"] if e["authorized"]] == ["E0"], "only E0 is sealed and authorized"
+    assert all(e["status"] == "SEALED" for e in mm["experiments"] if e["authorized"])
+    assert (ROOT / mm["spec"]).exists() and (ROOT / "docs/laminar_motif/E0_SEAL.md").exists()
+    for g in mm["e0_gates"]:
+        assert g["state"] in {"PASS", "OPEN", "QUEUED", "FAIL"}, g
+        if g["state"] == "PASS":
+            path, _, fn = g["evidence"].partition("::")
+            text = (ROOT / path).read_text(encoding="utf-8")
+            assert f"def {fn}(" in text, f"gate {g['id']} cites a missing test"
+        else:
+            assert g["evidence"] == "", "a gate without a pass carries no evidence"
+
+
 def test_conventions_present_and_lowercase_panels(built):
     _, d = built
     c = d["figures"]["conventions"]

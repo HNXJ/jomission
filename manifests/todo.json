@@ -12,6 +12,75 @@
  ],
  "items": [
   {
+     "id": "SCI-AGSDR-CALIBRATION",
+     "status": "OPEN",
+     "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
+     "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
+     "parent_authority": "owner 2026-09-19 assessment (order position 2)",
+     "principal_delta": "none yet: the calibration design is written on unblock, not now",
+     "required_inputs": [
+      "manifests/agsdr_local_objectives.json",
+      "results/whole_system_ei_regime_diagnosis.json",
+      "jomission/qualification/b1_targets.py"
+     ],
+     "frozen": [
+      "no calibration is designed or executed by this item"
+     ],
+     "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
+     "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
+     "stop_condition": "stage 0 run and correction packet done (packet f23f8f4; audit fixes a30ce48; ruling 1 in 4e72c8a). Stage 1 is not authorized until: the rulings in blocked_by are recorded (OPEN-18, OPEN-19 closed, OPEN-23, OPEN-24, OPEN-26); the viable-regime condition of the procedure is resolved or ruled not to apply (OPEN-25); and reviewer authorization is recorded at a location the TODO names",
+     "artifacts_expected": [],
+     "downstream_unlock": [
+      "SCI-PROP-QUALIFIED-1"
+     ],
+     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19, closed; docs/receipts/agsdr_b3_rerun). Viable-regime verdict recorded (Q16, OPEN-25: VIP-drive probe); amendment 4 in effect (Q17, frozen VIP drive x2.25, 7a5c675); stage 0 under amendment 4 (docs/receipts/agsdr_stage0_a4/summary.json): 7 of 24 meet the B1 bands, 4 hard-feasible after H11 (AGS_S0_06, 15, 16, 20; others fail H05 all-E only) vs 8 slots; H07 ruled (Q18, OPEN-29): final hard-feasible set 4 of 24 under amendment 4; stages 1 and 2 run under Q24 (spec e2c8224, docs/receipts/agsdr_stage12_a4): theta* AGS_S0_06, ledger advancement pending owner (OPEN-34); open: J_CL1C computed (docs/receipts/agsdr_jcl1c_rerun); J_Fano_J_hetero SD_r term not computed (OPEN-18); reviewer authorization of stage 1"
+    },
+  {
+    "id": "SCI-LAMINAR-MOTIF-1",
+    "status": "OPEN",
+    "trigger": "owner authorization in chat 2026-11-05: spectrolaminar motif column as the building block of the omission paradigm",
+    "goal": "Izhikevich-TFNE laminar column (E, PV, SST, VIP) in JaxFNE with an HDP adaptation and balance H-state that reproduces the spectrolaminar motif from cell densities; scored by a 25-item checklist",
+    "parent_authority": "owner 2026-11-05 (chat); docs/PLAN_LAMINAR_MOTIF.md; seal proposal docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md approved as drafted 2026-11-05 (structure only, every numeric threshold UNSET)",
+    "principal_delta": "items 1-3 (authority, source digest, seal) and items 8-9 (a-e): the HDP adaptation rule jomission/dynamics/adex_hdp.py with unit tests on a two-neuron kernel run; plus E0 (owner approval in chat 2026-11-06, sealed in docs/laminar_motif/E0_SEAL.md): reproduce the CAMINOS E-PV-SST reference module on JaxFNE 0.5.8, p 0.07, seeds 1 to 5, against the JaxFNE P5 references and P6 margins; no other scientific run, calibration or result (E1 to E6 included) is authorized by this entry",
+    "required_inputs": [
+     "docs/PLAN_LAMINAR_MOTIF.md",
+     "docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md",
+     "docs/laminar_motif/item02_digest_receipt.txt",
+     ".claude/skills/jaxfne-cortical-laminar-microcircuit/SKILL.md"
+    ],
+    "frozen": [
+     "all results/*.json",
+     "AGSDR calibration lineage (SCI-AGSDR-CALIBRATION stays next_authorized_task)",
+     "omission firewall"
+    ],
+    "procedure": "docs/PLAN_LAMINAR_MOTIF.md checklist; owner sets the UNSET thresholds before any run",
+    "acceptance": "two independent skeptic reviewers each score the 25-item checklist 100/100",
+    "stop_condition": "any UNSET threshold needed by an item; any source conflict; the first failed gate",
+    "artifacts_expected": [
+     "docs/laminar_motif/"
+    ],
+    "downstream_unlock": [],
+    "progress": "2026-11-06 on main and dev at 1960ac7 (project_check PASS, tier-0 224). Builder score 4/100 (item 1 closed); reviewers not run. Item 2 digest 97/97, T25-or-T26 choice UNSET; item 3 structure approved, thresholds UNSET; items 8-9: HDP adaptation rule and tests a-e done, TFNE spec draft (OPEN-39), 9f tolerance UNSET. Figure plan docs/FIGURE_PLAN.json. Minimal model LM-0 structure approved (AdEx first, 3 modules, E-cell synaptic-current proxy). E0 sealed (docs/laminar_motif/E0_SEAL.md): runner jomission/laminar/caminos_e0.py, gates 1, 2, 4 pass (tests/test_caminos_e0.py, 7 tests, 9 of 9 mutants killed); gate 3 (JaxFNE kernel tests on 0.5.8) and gate 5 (unscored 12 s pilot, queued) open; scored runs not started. See docs/PLAN_LAMINAR_MOTIF.md",
+    "blocked_by": "OPEN-36 (owner values for the UNSET register: thresholds, neuron and synapse set, seed counts, alpha, AdEx tolerance); OPEN-37 (JaxFNE 0.5.8 vs v0.5.9); OPEN-38 (LANSA densities, observed LFP and the analysis port not in hand)"
+   },
+  {
+    "id": "SCI-PROP-QUALIFIED-1",
+    "status": "LOCKED",
+    "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",
+    "goal": "test ordered trajectory propagation in the AGSDR-defined viable regime",
+    "parent_authority": "owner 2026-09-19 assessment (order position 3)",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "results/propagation_trajectory.json"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance",
+    "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
+    "artifacts_expected": [],
+    "downstream_unlock": []
+   },
+  {
    "id": "HARNESS-CHECKPOINT-1",
    "status": "DONE",
    "trigger": "reviewer order 2026-09-16: compact and strengthen harness before further science",
@@ -314,62 +383,6 @@
     "analytic_regeneration": "results/v21_background_design_r2.json (BKG_DESIGN_UNRESOLVED)"
    }
   },
-   {
-    "id": "SCI-V21-COUPLED-BACKGROUND",
-    "status": "RETIRED",
-   "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
-   "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
-   "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
-   "principal_delta": "one coordinate lambda in I(lambda) = (1 - lambda) I_MID + lambda I_HIGH; no shot noise; no per-class tuning",
-   "required_inputs": [
-    "results/v21_coupled_background_spec.json",
-    "results/v21_vectors.json",
-    "results/v21_mid.json",
-    "results/v21_high.json",
-    "results/v21_background_design_r2.json"
-   ],
-   "frozen": [
-    "V2.1 static column tests/test_v21_operation.py build_plant",
-    "kernel baseline, HDP detached, no intrinsic heterogeneity",
-    "native noise 0.5*N(0,1), PRNGKey(11)",
-    "prospective_v2 gate file",
-    "endpoints V_MID and V_HIGH from results/v21_vectors.json"
-   ],
-   "procedure": "run tests/test_v21_coupled_background.py (tier 3) exactly as sealed in results/v21_coupled_background_spec.json: bracket {0, 0.5, 1}, endpoint reproduction, bisection to 0.0625 only across pass/fail transitions, candidate midpoint of the passing run, state-dependence check from both endpoint end states; classify; STOP",
-   "acceptance": "COUPLED_BACKGROUND_PASS: finite interior interval satisfies all class-rate bands (margin >= 0.125, state-independent); COUPLED_BACKGROUND_FAIL: no interior passing point; COUPLED_BACKGROUND_UNRESOLVED: discontinuity, hysteresis or state dependence prevents qualification",
-   "stop_condition": "verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review",
-   "artifacts_expected": [
-    "results/v21_coupled_background.json"
-   ],
-   "downstream_unlock": [
-    "SCI-V21C-COMPOSITION"
-   ],
-   "delivered": {
-    "verdict": "COUPLED_BACKGROUND_UNRESOLVED",
-    "result": "results/v21_coupled_background.json",
-    "spec_commit": "f916d80",
-    "result_commit": "54ff926",
-    "summary": "bands pass on evaluated [0.3125, 1], fail at 0 and 0.25; candidate lambda 0.65625 fails the state-dependence check: PV decays within the run (window 3: 10.2 Hz fresh, 2.01 Hz from the lambda-0 end state, 14.66 Hz from the lambda-1 end state)",
-    "reviewer_decisions_required": [
-     "whether PV nonstationarity at lambda 0.65625 blocks the coupled-background program or calls for a predeclared longer-run or multi-initial-state qualification of an interior lambda"
-    ],
-    "reviewer_decision": {
-     "date": "2026-09-17",
-     "decision": "keep COUPLED_BACKGROUND_UNRESOLVED; no bands-only PASS. A rate-viable interval lambda in [0.3125, 1] exists, so mean recruitment is no longer the blocker; the open variable is PV stationarity/state dependence. Slow convergence, multistability/metastability and nonstationary PV dynamics are not distinguished by 20 s. No further lambda values",
-     "successor": "SCI-V21-PV-STATIONARITY"
-    },
-    "final_disposition": {
-      "date": "2026-09-17",
-      "status": "UNRESOLVED",
-      "blocked_by": "PV history dependence at lambda 0.65625 (SCI-V21-PV-STATIONARITY: PV_NONSTATIONARY)"
-     },
-    "lift_and_retirement": {
-     "date": "2026-09-19",
-     "lift": "the recorded lift condition is met: the M0/M1/M2 transplant line explains the mechanism producing PV state dependence (results/v21_pv_m0_r2.json: only v, u, syn_state differ between the fate-carrying initial states; results/v21_pv_m1.json and results/v21_pv_m2.json: the fate is carried by the joint (v,u) intrinsic configuration, single blocks and the PV-incoming synaptic state insufficient). The block reason PV_NONSTATIONARY is therefore attributed, not open",
-     "retired_by": "owner 2026-09-19 (closeout program): with the block lifted and the V2 background chain retired, the coupled-background question closes by attribution; no interior-lambda qualification is run"
-    }
-    }
-   },
   {
    "id": "SCI-V21-PV-STATIONARITY",
    "status": "DONE",
@@ -452,34 +465,6 @@
    }
   },
   {
-   "id": "SCI-V21C-COMPOSITION",
-   "status": "RETIRED",
-   "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",
-   "goal": "Network execution of the composition",
-   "parent_authority": "SCI-V21C-BOUNDARY + SCI-V21-BACKGROUND + SCI-V21-GATE-REPAIR",
-   "principal_delta": "one zero-mean E intrinsic dispersion on a frozen admissible background",
-   "required_inputs": [
-    "resolved V2.1c verdict",
-    "admissible background",
-    "prospective_v2 gate consumer"
-   ],
-   "frozen": [
-    "background",
-    "cells except the dispersed parameter",
-    "topology",
-    "tonic",
-    "HDP detached"
-   ],
-   "procedure": "not authorized",
-   "acceptance": "V2_LOCAL_OPERATION prospective_v2 verdict",
-   "stop_condition": "blocked until all parents are DONE and reviewer authorizes",
-   "artifacts_expected": [],
-   "downstream_unlock": [
-    "V2.2-RECURRENCE"
-   ],
-   "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
-  },
-   {
     "id": "PUB-V21B-PAGES",
     "status": "DONE",
    "trigger": "reviewer: add V2.1b and class-resolved ISI to Pages when convenient",
@@ -510,7 +495,7 @@
      ]
     }
    },
-   {
+  {
     "id": "PUB-EVIDENCE-LABELS",
     "status": "DONE",
    "trigger": "harness checkpoint 1 inventory: site-src/manifest.json `evidence` mixes evidence classes with status labels",
@@ -545,7 +530,7 @@
      ]
     }
    },
-   {
+  {
     "id": "HARNESS-LINEAGE-RECEIPT",
     "status": "DONE",
    "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
@@ -578,7 +563,7 @@
      ]
     }
    },
-   {
+  {
     "id": "HARNESS-REGISTRY-COVERAGE",
     "status": "DONE",
    "trigger": "reviewer disposition 2026-09-16 on harness checkpoint 1 (accepted 94/100)",
@@ -640,7 +625,7 @@
     ]
    }
   },
-   {
+  {
     "id": "HD-WIN-FILELOCK",
     "status": "DONE",
    "trigger": "results/harness_debt_classification.json: WinError 32 on TemporaryDirectory cleanup of memmapped npz",
@@ -669,7 +654,7 @@
      ]
     }
    },
-   {
+  {
     "id": "HD-STALE-EXPECTATIONS",
     "status": "DONE",
    "trigger": "results/harness_debt_classification.json: hdp smoke bound and Q8 config_hash stale expectations",
@@ -698,7 +683,7 @@
      ]
     }
    },
-   {
+  {
     "id": "HD-STATE-REPLACEMENT-0424",
     "status": "DONE",
     "trigger": "HD-STALE-EXPECTATIONS execution surfaced a root split: five tests in tests/test_q8_phenotype.py fail with TypeError at jomission/simulation/state_replacement.py:211 — DynamicState.__new__() missing 3 required positional arguments: theta_S, aux, and b — a construction path that predates the jaxfne 0.4.24 DynamicState fields",
@@ -728,144 +713,6 @@
       "sealed registry: jomission/simulation/state_replacement.py is not sealed"
      ]
     }
-   },
-   {
-    "id": "V2.2-RECURRENCE",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "functional local recurrence (REC ON vs matched REC OFF)",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "recurrence architecture",
-    "required_inputs": [
-     "V2_LOCAL_OPERATION PASS"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec acceptance_sketches.recurrence",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "V2-ACTIVE-BASIN"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19: the chain's prerequisite gate V2_LOCAL_OPERATION is sealed FAIL (results/v21_lineage.json, results/v21b_lineage.json) and the questions this chain would have asked moved to the whole-system program (WS-AUTH/WS-PROP/WS-OSC lineages). A revived Gen-2 program would be a new reviewer-authorized lineage, not this item"
-   },
-   {
-    "id": "V2-ACTIVE-BASIN",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "zero-tonic active basin",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "V2.2-RECURRENCE DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec acceptance_sketches.basin",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "V2-PROPAGATION"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19 with parent V2.2-RECURRENCE; see that item's reason"
-   },
-   {
-    "id": "V2-PROPAGATION",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "propagation requalification",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "V2-ACTIVE-BASIN DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec acceptance_sketches.communication",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "V2-RESPONSE-TIMESCALE"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19 with parent V2-ACTIVE-BASIN; the propagation question lives on as HD-PROPAGATION-OBSERVABLE, not as this requalification"
-   },
-   {
-    "id": "V2-RESPONSE-TIMESCALE",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "recurrent response timescale T_R",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "V2-PROPAGATION DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "V2-HIERARCHY"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19 with parent V2-PROPAGATION; see that item's reason"
-   },
-   {
-    "id": "V2-HIERARCHY",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "functional hierarchy",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "V2-RESPONSE-TIMESCALE DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "GEN2-FREEZE"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19 with parent V2-RESPONSE-TIMESCALE; see that item's reason"
-   },
-   {
-    "id": "GEN2-FREEZE",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "Gen-2 substrate freeze",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "V2-HIERARCHY DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [
-     "BLIND-OMISSION"
-    ],
-    "retired_because": "owner closeout directive 2026-09-19 with parent V2-HIERARCHY; no Gen-2 freeze happens under this program"
-   },
-   {
-    "id": "BLIND-OMISSION",
-    "status": "RETIRED",
-    "trigger": "V2 sequence",
-    "goal": "blind omission test on frozen Gen-2 (omission firewall)",
-    "parent_authority": "results/generic_substrate_v2_spec.json",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "GEN2-FREEZE DONE"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec",
-    "stop_condition": "retired; see retired_because",
-    "artifacts_expected": [],
-    "downstream_unlock": [],
-    "retired_because": "owner closeout directive 2026-09-19: the omission firewall's precondition (a frozen Gen-2 substrate) will not be built under this program. No sealed result is weakened by this retirement; any future blind omission test is a new reviewer-authorized lineage with its own freeze"
    },
   {
    "id": "SCI-V21",
@@ -1250,7 +1097,7 @@
    "downstream_unlock": [],
    "downstream_note": "blocks nothing and unlocks nothing; it prevents a repeat of the nonzero exit"
   },
-   {
+  {
     "id": "HD-PROPAGATION-OBSERVABLE",
     "status": "DONE",
     "trigger": "WS-PROP-1 built the authorized causal estimator and it returned exactly 0.0 in all six areas, including V1_1 which the retina drives directly. The two-window spike count per E cell is exactly 21.000000 in every area, coupling, seed and stimulus condition, so a window-mean rate observable cannot see the stimulus at all",
@@ -1403,7 +1250,7 @@
     "summary": "both arms, 0.16 and 0.53 percent from the intact 94.0 ms period with every synapse zeroed. Cross-check passed"
    }
   },
-   {
+  {
     "id": "SCI-EI-REGIME-1",
     "status": "DONE",
     "trigger": "while scoping the reviewer's AGSDR calibration question, the intact whole-system model was measured per class: E 10.93 Hz, PV 0.433 Hz, SST 51.28 Hz, VIP 0.446 Hz against B1 targets of 5-8, 12-25, 6-12 and 8-15. PV and VIP are 30 to 60 times below target, SST is 5 to 8 times above, and the required E < PV ordering is inverted",
@@ -1444,7 +1291,7 @@
      ]
     }
    },
-   {
+  {
     "id": "B1-CLASS-TARGETS-RATIFIED",
     "status": "DONE",
     "trigger": "the E-I regime finding named B1_CLASS_TARGETS as MODEL_ASSUMPTION and ratification-pending (jomission/qualification/b1_targets.py)",
@@ -1473,7 +1320,7 @@
      ]
     }
    },
-   {
+  {
     "id": "HARNESS-CHECKPOINT-CLOSURE",
     "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19: the todo and problem stacks must end empty, including the checkpoint-1 defects that have no TODO item of their own",
@@ -1509,7 +1356,7 @@
       ]
      }
     },
-   {
+  {
     "id": "SKILLS-OVERHAUL",
     "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 1: all context and skills low-verbosity, simple and smooth) plus the two dogfood proposals awaiting disposition in manifests/harness/lessons.json",
@@ -1540,7 +1387,7 @@
      ]
     }
    },
-   {
+  {
     "id": "PAGES-THEME-OVERHAUL",
     "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 1): all context low-verbosity, clearly formatted with tables, lists, paragraphs and HTML figures, theme-matched, TFNE grammar consistent, terms consistent, well-organized left menu",
@@ -1577,7 +1424,7 @@
      ]
     }
    },
-   {
+  {
     "id": "CODE-JAX-OVERHAUL",
     "status": "DONE",
     "trigger": "owner closeout directive 2026-09-19 (goal 2): all code low-complexity, optimal computational order, best ideal flattening and usage of jax",
@@ -1610,7 +1457,7 @@
       ]
      }
     },
-   {
+  {
     "id": "SCI-EI-INTERACTION-1",
     "status": "DONE",
      "trigger": "owner assessment 2026-09-19: EI_REGIME_UNRESOLVED_MULTIPLE is the main mechanistic ambiguity in the local cortical object; open the weight-by-adaptation interaction lineage first, then AGSDR, then the propagation successor",
@@ -1660,76 +1507,7 @@
        ]
       }
      },
-    {
-     "id": "SCI-AGSDR-CALIBRATION",
-     "status": "OPEN",
-     "trigger": "owner assessment 2026-09-19: calibrate AGSDR only against a defined plant, after the EI interaction lineage; calibrating against the current PV-silent/SST-dominant regime would absorb substrate defects into calibration",
-     "goal": "calibrate AGSDR per-class rates against the EI-defined plant",
-     "parent_authority": "owner 2026-09-19 assessment (order position 2)",
-     "principal_delta": "none yet: the calibration design is written on unblock, not now",
-     "required_inputs": [
-      "manifests/agsdr_local_objectives.json",
-      "results/whole_system_ei_regime_diagnosis.json",
-      "jomission/qualification/b1_targets.py"
-     ],
-     "frozen": [
-      "no calibration is designed or executed by this item"
-     ],
-     "procedure": "on unblock by a viable-regime verdict plus reviewer authorization of the calibration design: seal the design, execute, seal the result. Until then, no spec is written",
-     "acceptance": "a sealed calibration design executed per its own spec with receipts; to be declared at unblock time",
-     "stop_condition": "stage 0 run and correction packet done (packet f23f8f4; audit fixes a30ce48; ruling 1 in 4e72c8a). Stage 1 is not authorized until: the rulings in blocked_by are recorded (OPEN-18, OPEN-19 closed, OPEN-23, OPEN-24, OPEN-26); the viable-regime condition of the procedure is resolved or ruled not to apply (OPEN-25); and reviewer authorization is recorded at a location the TODO names",
-     "artifacts_expected": [],
-     "downstream_unlock": [
-      "SCI-PROP-QUALIFIED-1"
-     ],
-     "blocked_by": "rulings recorded 2026-11-04: H05 all E cells (OPEN-26; 2 feasible < 8 slots, shortfall rule); H08 informational (OPEN-24; objectives amendment pending); overflow w=1/6 and six J entries (OPEN-18); additive epsilon 0.05 (OPEN-23); B3 recomputed by sealed rerun (OPEN-19, closed; docs/receipts/agsdr_b3_rerun). Viable-regime verdict recorded (Q16, OPEN-25: VIP-drive probe); amendment 4 in effect (Q17, frozen VIP drive x2.25, 7a5c675); stage 0 under amendment 4 (docs/receipts/agsdr_stage0_a4/summary.json): 7 of 24 meet the B1 bands, 4 hard-feasible after H11 (AGS_S0_06, 15, 16, 20; others fail H05 all-E only) vs 8 slots; H07 ruled (Q18, OPEN-29): final hard-feasible set 4 of 24 under amendment 4; stages 1 and 2 run under Q24 (spec e2c8224, docs/receipts/agsdr_stage12_a4): theta* AGS_S0_06, ledger advancement pending owner (OPEN-34); open: J_CL1C computed (docs/receipts/agsdr_jcl1c_rerun); J_Fano_J_hetero SD_r term not computed (OPEN-18); reviewer authorization of stage 1"
-    },
-   {
-    "id": "SCI-LAMINAR-MOTIF-1",
-    "status": "OPEN",
-    "trigger": "owner authorization in chat 2026-11-05: spectrolaminar motif column as the building block of the omission paradigm",
-    "goal": "Izhikevich-TFNE laminar column (E, PV, SST, VIP) in JaxFNE with an HDP adaptation and balance H-state that reproduces the spectrolaminar motif from cell densities; scored by a 25-item checklist",
-    "parent_authority": "owner 2026-11-05 (chat); docs/PLAN_LAMINAR_MOTIF.md; seal proposal docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md approved as drafted 2026-11-05 (structure only, every numeric threshold UNSET)",
-    "principal_delta": "items 1-3 (authority, source digest, seal) and items 8-9 (a-e): the HDP adaptation rule jomission/dynamics/adex_hdp.py with unit tests on a two-neuron kernel run; no scientific run, calibration or result is authorized by this entry",
-    "required_inputs": [
-     "docs/PLAN_LAMINAR_MOTIF.md",
-     "docs/laminar_motif/ITEM03_SEAL_PROPOSAL.md",
-     "docs/laminar_motif/item02_digest_receipt.txt",
-     ".claude/skills/jaxfne-cortical-laminar-microcircuit/SKILL.md"
-    ],
-    "frozen": [
-     "all results/*.json",
-     "AGSDR calibration lineage (SCI-AGSDR-CALIBRATION stays next_authorized_task)",
-     "omission firewall"
-    ],
-    "procedure": "docs/PLAN_LAMINAR_MOTIF.md checklist; owner sets the UNSET thresholds before any run",
-    "acceptance": "two independent skeptic reviewers each score the 25-item checklist 100/100",
-    "stop_condition": "any UNSET threshold needed by an item; any source conflict; the first failed gate",
-    "artifacts_expected": [
-     "docs/laminar_motif/"
-    ],
-    "downstream_unlock": [],
-    "progress": "2026-11-05 builder score 4/100 (item 1 closed); reviewers not run. Item 2 digest 97/97 matched; item 3 structure approved, thresholds UNSET; items 8-9: rule and tests a-e done (8 tests, 6 of 6 mutants killed), TFNE spec and balance term h_b and tolerance 9f open. Full project_check on the rule commit not yet run (suite-lock wait timed out, requeued); commits after the pushed one are unpushed. 2026-11-06: figure plan docs/FIGURE_PLAN.json and draft minimal model docs/laminar_motif/MINIMAL_MODEL_SPEC.md added; spec structure approved 2026-11-06 (AdEx first, 3 modules, E-cell synaptic-current proxy); no run authorized until E0 criteria are sealed (OPEN-40). See docs/PLAN_LAMINAR_MOTIF.md",
-    "blocked_by": "OPEN-36 (owner values for the UNSET register: thresholds, neuron and synapse set, seed counts, alpha, AdEx tolerance); OPEN-37 (JaxFNE 0.5.8 vs v0.5.9); OPEN-38 (LANSA densities, observed LFP and the analysis port not in hand)"
-   },
-   {
-    "id": "SCI-PROP-QUALIFIED-1",
-    "status": "LOCKED",
-    "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",
-    "goal": "test ordered trajectory propagation in the AGSDR-defined viable regime",
-    "parent_authority": "owner 2026-09-19 assessment (order position 3)",
-    "principal_delta": "none yet",
-    "required_inputs": [
-     "results/propagation_trajectory.json"
-    ],
-    "frozen": [],
-    "procedure": "not authorized",
-    "acceptance": "spec acceptance",
-    "stop_condition": "locked until AGSDR calibration defines the plant and the reviewer authorizes the design",
-    "artifacts_expected": [],
-    "downstream_unlock": []
-   },
-   {
+  {
     "id": "SCI-EI-RECRUITMENT-1",
     "status": "DONE",
     "trigger": "owner assessment 2026-09-19: the factorial removes mean E->I weight scale (PV/VIP unmoved by +18%) and adaptation magnitude (SST halved, PV/VIP unmoved) as explanations; PV 0.062 and VIP 0.047 Hz are invariant across all four cells, so move upstream from parameter magnitude to realized input and recruitment",
@@ -1774,7 +1552,7 @@
       ]
      }
     },
-    {
+  {
      "id": "JAXFNE-0425-MIGRATION",
      "status": "DONE",
      "trigger": "owner 2026-09-21: adopt latest jaxfne 0.4.25",
@@ -1809,7 +1587,7 @@
         ]
        }
       },
-      {
+  {
        "id": "SCI-EI-NATIVE-STATE-1",
        "status": "DONE",
        "trigger": "owner assessment 2026-09-21: recruitment stayed UNRESOLVED after exhausting mean parameters, factorial intervention and current accounting; move from parameter magnitude to native state geometry before manufacturing another repair axis",
@@ -1852,7 +1630,7 @@
         ]
        }
       },
-      {
+  {
        "id": "H-ACTIVE-AND-BALANCE",
        "status": "DONE",
        "trigger": "owner 2026-11-04: test whether H (activity balance, DEFAULT_HDP_DESYNC preset) moves the network before any calibration uses it; sync-term line closed by owner Q6",
@@ -1895,7 +1673,7 @@
         ]
        }
       },
-      {
+  {
        "id": "SITE-PARADIGMS",
        "status": "DONE",
        "trigger": "site navigation change 2026-11-04: nav group 'Omission program' renamed 'Paradigms'",
@@ -1925,7 +1703,7 @@
         ]
        }
       },
-      {
+  {
        "id": "SCI-AGSDR-H07H11",
        "status": "DONE",
        "delivered_verdict": "H11 PASS 24 of 24; H07 NOT_DETERMINED: term 4 (locality_index > 3, Q-c definition) fails the canonical reference (1.92), terms 1, 2, 3, 5 pass for all 24 (topology identical to canonical). Set after H11: AGS_S0_06, AGS_S0_20 (upper bound). Report-only saturation: 2x within_gain changes bar_r by 0.00 to 0.34 percent (docs/receipts/agsdr_h07h11/summary.json; spec sealed 7249e96)",
@@ -1953,7 +1731,7 @@
        ],
        "blocked_by": "none (Q-g ruled 2026-11-04). Canonical-model findings: 4 areas, max within-area in-degree 34 vs cap 25 (non-vertical pairs 25, vertical pairs 12; vertical cap 40)"
       },
-      {
+  {
        "id": "OPEN-28-TEST-TRIAGE",
        "status": "DONE",
        "delivered": "2026-11-05: tiers 0 to 2 pass at 2637aca and d228841 (receipts.json; jomission/ and tests/ unchanged since); bisected failures classified pre-existing or flaky; all other failures are in tier-3 files, out of scope without an authorising TODO (OPEN-01, OPEN-28 blocked)",
@@ -1975,7 +1753,7 @@
        "artifacts_expected": [],
        "downstream_unlock": []
       },
-      {
+  {
        "id": "SCI-EI-MEANFIELD",
        "status": "DONE",
        "delivered_verdict": "MEANFIELD_REPRODUCES (spec sealed 537c01a; docs/receipts/ei_meanfield/summary.json): neuron-resolved mean-field with open-loop transfer reproduces AGS_S0_06 class rates within 0.36 Hz (f 1 and 2.25), predicts the PV-silent state at g 0.5 (0.09 vs 0.06 Hz) and both VIP states; unique fixed point; loop gain (spectral radius) 0.010 to 0.013",
@@ -2005,7 +1783,7 @@
         "SCI-AGSDR-CALIBRATION"
        ]
       },
-      {
+  {
        "id": "SCI-PV-HYSTERESIS",
        "status": "DONE",
        "delivered_verdict": "NO_HYSTERESIS_DETECTED on axes V (VIP drive 1 to 4) and G (global drive 0.5 to 1.25 at f 2.25), 3 seeds, null control pass (docs/receipts/hysteresis_probe/summary.json; spec sealed 79dfe68). PV falls continuously to 0.1 Hz at g 0.5 and recovers on the way back (up and down within about 0.2 Hz): PV silencing is graded on the tested grid (a fold narrower than one grid step is not excluded)",
@@ -2029,7 +1807,7 @@
         "SCI-AGSDR-CALIBRATION"
        ]
       },
-      {
+  {
        "id": "H-BALANCE-MECH",
        "status": "DONE",
        "delivered_verdict": "NEITHER_M1_NOR_M2 (docs/receipts/h_balance_mech/summary.json; spec sealed 7e074b2; C1 to C3 pass). Observed, B: e_only rise fraction 0.27 and 0.33 (rho 0.064 and 0.081 vs ref 0.188 and 0.195; E rate 15.7 Hz as ref; PV and SST unchanged); class_rhi 0.79 and 0.83 (PV 47 to 40 Hz, SST 25.6 to 19.4 Hz). e_only removes 67 to 73 percent of the B rise; which interneuron class carries the rest is not separated",
@@ -2054,7 +1832,7 @@
        ],
        "downstream_unlock": []
       },
-      {
+  {
        "id": "SCI-VIP-DRIVE-PROBE",
        "status": "DONE",
        "trigger": "OPEN-25; VIP below band in 24 of 24 stage-0 candidates",
@@ -2079,6 +1857,228 @@
         "SCI-AGSDR-CALIBRATION"
        ],
        "delivered_verdict": "VIABLE_BRANCH_ON_VIP_DRIVE_AXIS: f in {2.0, 2.5} meets PV, VIP, SST bands and E < PV at seeds 0 and 1 for both candidates; HV1, HV2 true; stage-0 hard gates pass at those f (superseded H05 reading; H05 all-E, H07, H11 not computed)"
-      }
+      },
+  {
+    "id": "SCI-V21-COUPLED-BACKGROUND",
+    "status": "RETIRED",
+   "trigger": "reviewer 2026-09-17 D1-D3 after BKG_DESIGN_UNRESOLVED r2: coupled network operating point authoritative; V_MID all-class except PV silent, V_HIGH all classes active",
+   "goal": "find whether a finite interior coupled tonic background on the V_MID to V_HIGH path satisfies all prospective_v2 class-rate bands",
+   "parent_authority": "SCI-V21-BACKGROUND delivered.regeneration_decisions (reviewer 2026-09-17)",
+   "principal_delta": "one coordinate lambda in I(lambda) = (1 - lambda) I_MID + lambda I_HIGH; no shot noise; no per-class tuning",
+   "required_inputs": [
+    "results/v21_coupled_background_spec.json",
+    "results/v21_vectors.json",
+    "results/v21_mid.json",
+    "results/v21_high.json",
+    "results/v21_background_design_r2.json"
+   ],
+   "frozen": [
+    "V2.1 static column tests/test_v21_operation.py build_plant",
+    "kernel baseline, HDP detached, no intrinsic heterogeneity",
+    "native noise 0.5*N(0,1), PRNGKey(11)",
+    "prospective_v2 gate file",
+    "endpoints V_MID and V_HIGH from results/v21_vectors.json"
+   ],
+   "procedure": "run tests/test_v21_coupled_background.py (tier 3) exactly as sealed in results/v21_coupled_background_spec.json: bracket {0, 0.5, 1}, endpoint reproduction, bisection to 0.0625 only across pass/fail transitions, candidate midpoint of the passing run, state-dependence check from both endpoint end states; classify; STOP",
+   "acceptance": "COUPLED_BACKGROUND_PASS: finite interior interval satisfies all class-rate bands (margin >= 0.125, state-independent); COUPLED_BACKGROUND_FAIL: no interior passing point; COUPLED_BACKGROUND_UNRESOLVED: discontinuity, hysteresis or state dependence prevents qualification",
+   "stop_condition": "verdict recorded; candidate lambda reported, not frozen; no susceptibility measurement, no shot-noise design, ISI-CV/synchrony/heterogeneity are not criteria; STOP for review",
+   "artifacts_expected": [
+    "results/v21_coupled_background.json"
+   ],
+   "downstream_unlock": [
+    "SCI-V21C-COMPOSITION"
+   ],
+   "delivered": {
+    "verdict": "COUPLED_BACKGROUND_UNRESOLVED",
+    "result": "results/v21_coupled_background.json",
+    "spec_commit": "f916d80",
+    "result_commit": "54ff926",
+    "summary": "bands pass on evaluated [0.3125, 1], fail at 0 and 0.25; candidate lambda 0.65625 fails the state-dependence check: PV decays within the run (window 3: 10.2 Hz fresh, 2.01 Hz from the lambda-0 end state, 14.66 Hz from the lambda-1 end state)",
+    "reviewer_decisions_required": [
+     "whether PV nonstationarity at lambda 0.65625 blocks the coupled-background program or calls for a predeclared longer-run or multi-initial-state qualification of an interior lambda"
+    ],
+    "reviewer_decision": {
+     "date": "2026-09-17",
+     "decision": "keep COUPLED_BACKGROUND_UNRESOLVED; no bands-only PASS. A rate-viable interval lambda in [0.3125, 1] exists, so mean recruitment is no longer the blocker; the open variable is PV stationarity/state dependence. Slow convergence, multistability/metastability and nonstationary PV dynamics are not distinguished by 20 s. No further lambda values",
+     "successor": "SCI-V21-PV-STATIONARITY"
+    },
+    "final_disposition": {
+      "date": "2026-09-17",
+      "status": "UNRESOLVED",
+      "blocked_by": "PV history dependence at lambda 0.65625 (SCI-V21-PV-STATIONARITY: PV_NONSTATIONARY)"
+     },
+    "lift_and_retirement": {
+     "date": "2026-09-19",
+     "lift": "the recorded lift condition is met: the M0/M1/M2 transplant line explains the mechanism producing PV state dependence (results/v21_pv_m0_r2.json: only v, u, syn_state differ between the fate-carrying initial states; results/v21_pv_m1.json and results/v21_pv_m2.json: the fate is carried by the joint (v,u) intrinsic configuration, single blocks and the PV-incoming synaptic state insufficient). The block reason PV_NONSTATIONARY is therefore attributed, not open",
+     "retired_by": "owner 2026-09-19 (closeout program): with the block lifted and the V2 background chain retired, the coupled-background question closes by attribution; no interior-lambda qualification is run"
+    }
+    }
+   },
+  {
+   "id": "SCI-V21C-COMPOSITION",
+   "status": "RETIRED",
+   "trigger": "hypothesis: fixed stochastic background + one zero-mean intrinsic dispersion -> V2 local operation gates",
+   "goal": "Network execution of the composition",
+   "parent_authority": "SCI-V21C-BOUNDARY + SCI-V21-BACKGROUND + SCI-V21-GATE-REPAIR",
+   "principal_delta": "one zero-mean E intrinsic dispersion on a frozen admissible background",
+   "required_inputs": [
+    "resolved V2.1c verdict",
+    "admissible background",
+    "prospective_v2 gate consumer"
+   ],
+   "frozen": [
+    "background",
+    "cells except the dispersed parameter",
+    "topology",
+    "tonic",
+    "HDP detached"
+   ],
+   "procedure": "not authorized",
+   "acceptance": "V2_LOCAL_OPERATION prospective_v2 verdict",
+   "stop_condition": "blocked until all parents are DONE and reviewer authorizes",
+   "artifacts_expected": [],
+   "downstream_unlock": [
+    "V2.2-RECURRENCE"
+   ],
+   "retired_because": "parent verdict INTRINSIC_HETEROGENEITY_INFEASIBLE (results/v21c_boundary.json) for the tested single-parameter E family; any new heterogeneity mechanism needs a new reviewer-authorized lineage after SCI-V21-GATE-REPAIR and SCI-V21-BACKGROUND"
+  },
+  {
+    "id": "V2.2-RECURRENCE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "functional local recurrence (REC ON vs matched REC OFF)",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "recurrence architecture",
+    "required_inputs": [
+     "V2_LOCAL_OPERATION PASS"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.recurrence",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-ACTIVE-BASIN"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19: the chain's prerequisite gate V2_LOCAL_OPERATION is sealed FAIL (results/v21_lineage.json, results/v21b_lineage.json) and the questions this chain would have asked moved to the whole-system program (WS-AUTH/WS-PROP/WS-OSC lineages). A revived Gen-2 program would be a new reviewer-authorized lineage, not this item"
+   },
+  {
+    "id": "V2-ACTIVE-BASIN",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "zero-tonic active basin",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2.2-RECURRENCE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.basin",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-PROPAGATION"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2.2-RECURRENCE; see that item's reason"
+   },
+  {
+    "id": "V2-PROPAGATION",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "propagation requalification",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-ACTIVE-BASIN DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec acceptance_sketches.communication",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-RESPONSE-TIMESCALE"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-ACTIVE-BASIN; the propagation question lives on as HD-PROPAGATION-OBSERVABLE, not as this requalification"
+   },
+  {
+    "id": "V2-RESPONSE-TIMESCALE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "recurrent response timescale T_R",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-PROPAGATION DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "V2-HIERARCHY"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-PROPAGATION; see that item's reason"
+   },
+  {
+    "id": "V2-HIERARCHY",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "functional hierarchy",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-RESPONSE-TIMESCALE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "GEN2-FREEZE"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-RESPONSE-TIMESCALE; see that item's reason"
+   },
+  {
+    "id": "GEN2-FREEZE",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "Gen-2 substrate freeze",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "V2-HIERARCHY DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [
+     "BLIND-OMISSION"
+    ],
+    "retired_because": "owner closeout directive 2026-09-19 with parent V2-HIERARCHY; no Gen-2 freeze happens under this program"
+   },
+  {
+    "id": "BLIND-OMISSION",
+    "status": "RETIRED",
+    "trigger": "V2 sequence",
+    "goal": "blind omission test on frozen Gen-2 (omission firewall)",
+    "parent_authority": "results/generic_substrate_v2_spec.json",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "GEN2-FREEZE DONE"
+    ],
+    "frozen": [],
+    "procedure": "not authorized",
+    "acceptance": "spec",
+    "stop_condition": "retired; see retired_because",
+    "artifacts_expected": [],
+    "downstream_unlock": [],
+    "retired_because": "owner closeout directive 2026-09-19: the omission firewall's precondition (a frozen Gen-2 substrate) will not be built under this program. No sealed result is weakened by this retirement; any future blind omission test is a new reviewer-authorized lineage with its own freeze"
+   }
      ]
 }

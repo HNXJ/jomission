@@ -1,0 +1,26 @@
+{
+ "schema": "jomission.e0_pilot_receipt.v1",
+ "gate": 5,
+ "scored": false,
+ "verdict": "PILOT_COMPLETE",
+ "note": "Unscored. Estimates are informational and never compared with the E0 margins. E0 scoring uses seeds 1 to 5.",
+ "seed": 0,
+ "p": 0.07,
+ "T_s": 12.0,
+ "steps": 120000,
+ "dt_ms": 0.1,
+ "jaxfne_version": "0.5.9",
+ "backend": "cpu:0",
+ "wall_s": 2171.56,
+ "peak_working_set_MB_1s_probe": 1413.7,
+ "peak_pagefile_MB_1s_probe": 2997.5,
+ "memory_note": "Measured on a separate 1 s run (seed 0, same build); counts are the only per-step record, so peak memory is inferred, not measured, to be near-independent of T.",
+ "estimates_informational": {
+  "rates_Hz": {"E": 1.095875, "PV": 11.288266666666667, "SOM": 6.8972},
+  "peak_freq_E_Hz": 35.0,
+  "lag_PV_SOM_ms": 7.1,
+  "oscillates": true
+ },
+ "same_as_0_5_8_pilot": "rates, f_pk and lag are identical to the 0.5.8 pilot of the same seed (rates to all printed digits)",
+ "evidence_class": "OBSERVED (run outputs); memory scaling INFERRED"
+}

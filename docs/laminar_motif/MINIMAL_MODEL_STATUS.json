@@ -25,6 +25,6 @@
   {"id": 2, "name": "Realized connectivity (edge counts, no autapses, no PV to SST or SST to SST)", "state": "PASS", "evidence": "tests/test_caminos_e0.py::test_realized_edges_match_declared_blocks"},
   {"id": 3, "name": "Kernel identity (JaxFNE single-cell and recurrent-step tests on 0.5.9)", "state": "PASS", "evidence": "JaxFNE v0.5.9 tests/test_emitters_adex.py: 83 passed, 2026-11-06"},
   {"id": 4, "name": "Converter known answer and rate-matched Poisson null", "state": "PASS", "evidence": "tests/test_caminos_e0.py::test_estimators_null_rate_matched_poisson"},
-  {"id": 5, "name": "Unscored 12 s pilot (seed 0) on 0.5.9: memory and time", "state": "QUEUED", "evidence": ""}
+  {"id": 5, "name": "Unscored 12 s pilot (seed 0) on 0.5.9: memory and time", "state": "PASS", "evidence": "docs/laminar_motif/E0_PILOT_RECEIPT.json"}
  ]
 }

@@ -54,6 +54,9 @@ def test_minimal_model_status_matches_repo(built):
         assert g["state"] in {"PASS", "OPEN", "QUEUED", "FAIL"}, g
         if g["state"] == "PASS" and g["evidence"].startswith("JaxFNE v"):
             assert re.search(r"\d+ passed", g["evidence"]), "external evidence cites a pass count"
+        elif g["state"] == "PASS" and g["evidence"].endswith(".json"):
+            rec = json.loads((ROOT / g["evidence"]).read_text(encoding="utf-8"))
+            assert rec["gate"] == g["id"] and rec["scored"] is False and rec["verdict"] == "PILOT_COMPLETE"
         elif g["state"] == "PASS":
             path, _, fn = g["evidence"].partition("::")
             text = (ROOT / path).read_text(encoding="utf-8")

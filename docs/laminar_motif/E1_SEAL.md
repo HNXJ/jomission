@@ -1,6 +1,6 @@
-# E1 seal (DRAFT, 2026-11-07): peak frequency versus SST/PV ratio in one isolated module
+# E1 seal (2026-11-07): peak frequency versus SST/PV ratio in one isolated module
 
-Status: DRAFT with proposed values. Not sealed, no run authorized. Every value marked (P) is a proposal for the owner to approve, change or reject; approval turns this file into the seal and it is pushed before any run (AGENTS.md: seal before running). A changed criterion after a run is a new lineage.
+Status: SEALED on the owner's approval of every value in the decisions table (E1-a to E1-f, "as drafted", 2026-11-07). Committed and pushed before any E1 run (AGENTS.md: seal before running). A changed criterion after a run is a new lineage.
 
 Lineage: SCI-LAMINAR-MOTIF-1, minimal model LM-0, experiment E1 (`MINIMAL_MODEL_SPEC.md`). Builds on E0 (PASS, `results/laminar_e0/e0_result.json`): the same network code, JaxFNE 0.5.9.
 
@@ -11,19 +11,19 @@ In one isolated CAMINOS module with the one-direction wiring (SST to PV strong, 
 ## Design
 
 - Fixed: `N_E = 8000`, `N_inh = N_PV + N_SST = 1500` (so `eps = N_E / N_inh` fixed), p = 0.07, all conductances, delays, time constants and the drive of E0 (560 private 4 Hz Poisson sources per E and PV cell, SST undriven), dt 0.1 ms, T 12 s, first 2 s discarded, float32, JaxFNE 0.5.9, CPU.
-- Swept: `rho` on a log grid, `N_SST = round(1500 * rho / (1 + rho))`, `N_PV = 1500 - N_SST` (P):
+- Swept: `rho` on a log grid, `N_SST = round(1500 * rho / (1 + rho))`, `N_PV = 1500 - N_SST`:
 
 | rho | 0.25 | 0.5 | 1 | 2 | 4 |
 |---|---|---|---|---|---|
 | N_SST | 300 | 500 | 750 | 1000 | 1200 |
 | N_PV | 1200 | 1000 | 750 | 500 | 300 |
 
-- Seeds 1, 2, 3 at every `rho` (P); 15 runs. The `rho = 1` runs are the E0 seeds 1 to 3 (same code, same configuration, same seeds); they are reused only if the counts arrays are byte-identical to a fresh `rho = 1` construct check, otherwise rerun. New runs: 12, about 36 min each on CPU, about 7.2 h.
+- Seeds 1, 2, 3 at every `rho`; 15 runs. The `rho = 1` runs are the E0 seeds 1 to 3 (same code, same configuration, same seeds); they are reused only if the counts arrays are byte-identical to a fresh `rho = 1` construct check, otherwise rerun. New runs: 12, about 36 min each on CPU, about 7.2 h.
 - Why log2 spacing: the AGSDR log-exponential sweep is the owner's standing method for finding values and boundaries; this grid spans a factor 16 in `rho` symmetric about the E0 point.
 
 ## Readout
 
-Per run: `analyze_run` of E0 unchanged (`f_pk`, peak excess, oscillates flag, rates). `f_pk` is quantized to 1 Hz (1 s Welch windows); this limits the smallest detectable difference. Band class of `f_pk` (P): gamma `f_pk >= 30 Hz`, beta `13 <= f_pk < 30 Hz`, below that alpha or lower. A run that does not oscillate (peak excess below 4) has `f_pk` undefined and is reported, never dropped.
+Per run: `analyze_run` of E0 unchanged (`f_pk`, peak excess, oscillates flag, rates). `f_pk` is quantized to 1 Hz (1 s Welch windows); this limits the smallest detectable difference. Band class of `f_pk`: gamma `f_pk >= 30 Hz`, beta `13 <= f_pk < 30 Hz`, below that alpha or lower. A run that does not oscillate (peak excess below 4) has `f_pk` undefined and is reported, never dropped.
 
 ## Gates before scoring (a failure stops E1)
 
@@ -32,7 +32,7 @@ Per run: `analyze_run` of E0 unchanged (`f_pk`, peak excess, oscillates flag, ra
 3. Positive control: the `rho = 1` build equals the E0 build (same counts for seed 1 on a 2 s probe, byte-equal).
 4. Null: the permutation statistic below is computed on a synthetic case where `f_pk` is independent of `rho`; it must not pass.
 
-## Verdict rule (P)
+## Verdict rule
 
 PASS requires all of:
 1. at least 4 of the 5 `rho` values oscillate in each seed;
@@ -46,12 +46,12 @@ FAIL: all five `rho` oscillate in every seed and any of 2 to 4 is not met (the f
 
 PASS: in this module, a higher SST/PV count ratio lowers the peak frequency at fixed E/I and drive, which supports the mechanism ingredient. It does not show a depth profile, a spectrolaminar motif or any biological claim. FAIL is a negative: no retuning, the difference is diagnosed in a new lineage. Alternative explanation not excluded by E1: `N_PV` changes the total PV drive and the recurrent PV loop together with `rho`; E1c and the E/I sweep in E6 address wiring and ratio specificity.
 
-## Owner decisions needed
+## Owner decisions (2026-11-07, each "as drafted")
 
-| Id | Value | Proposed |
+| Id | Value | Decision |
 |---|---|---|
 | E1-a | `rho` grid | 0.25, 0.5, 1, 2, 4 |
-| E1-b | seeds per `rho` | 3 (5 would cost 4.8 h more) |
+| E1-b | seeds per `rho` | 3 |
 | E1-c | minimum frequency drop | 3 Hz |
 | E1-d | permutation alpha | 0.05, one-sided |
 | E1-e | band edges for the class label | 13 and 30 Hz |

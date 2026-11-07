@@ -48,7 +48,12 @@ def test_minimal_model_status_matches_repo(built):
     ids = [e["id"] for e in mm["experiments"]]
     assert ids[0] == "E0" and len(ids) == len(set(ids)) == 8
     assert [e["id"] for e in mm["experiments"] if e["authorized"]] == ["E0"], "only E0 is sealed and authorized"
-    assert all(e["status"] == "SEALED" for e in mm["experiments"] if e["authorized"])
+    for e in mm["experiments"]:
+        if e["authorized"]:
+            assert e["status"] in {"SEALED", "PASS", "FAIL"}
+            if e["status"] in {"PASS", "FAIL"}:  # the status comes from the result file's verdict, never typed
+                res = json.loads((ROOT / e["result"]).read_text(encoding="utf-8"))
+                assert res["verdict"] == e["status"]
     assert (ROOT / mm["spec"]).exists() and (ROOT / "docs/laminar_motif/E0_SEAL.md").exists()
     for g in mm["e0_gates"]:
         assert g["state"] in {"PASS", "OPEN", "QUEUED", "FAIL"}, g

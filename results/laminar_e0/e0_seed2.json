@@ -1,0 +1,30 @@
+{
+ "schema": "jomission.e0_seed.v1",
+ "seed": 2,
+ "p": 0.07,
+ "T_s": 12.0,
+ "steps": 120000,
+ "wall_s": 2130.847446680069,
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "side-install",
+ "analysis": {
+  "rates_Hz": {
+   "E": 1.0677249999999998,
+   "PV": 11.248533333333333,
+   "SOM": 6.726933333333333
+  },
+  "spikes_kept": {
+   "E": 85418,
+   "PV": 84364,
+   "SOM": 50452
+  },
+  "peak_freq_E_Hz": 34.0,
+  "peak_excess_E": 18.346021112033345,
+  "oscillates": true,
+  "lag_PV_SOM_ms": 7.2,
+  "undefined": []
+ }
+}

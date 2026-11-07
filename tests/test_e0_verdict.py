@@ -79,6 +79,18 @@ def test_input_not_mutated():
     assert recs == before
 
 
+def test_stored_result_equals_recomputed_verdict():
+    import json
+    from pathlib import Path
+
+    d = Path(__file__).resolve().parents[1] / "results/laminar_e0"
+    res = json.loads((d / "e0_result.json").read_text(encoding="utf-8"))
+    seeds = {n: json.loads((d / f"e0_seed{n}.json").read_text(encoding="utf-8")) for n in v.SEEDS}
+    assert all(s["jaxfne_version"] == "0.5.9" and s["p"] == 0.07 and s["T_s"] == 12.0 for s in seeds.values())
+    again = v.verdict(seeds)
+    assert res["verdict"] == again["verdict"] and res["estimands"] == again["estimands"]
+
+
 def test_references_equal_the_seal_table():
     text = open("docs/laminar_motif/E0_SEAL.md", encoding="utf-8").read()
     for token in ("33.8 Hz", "1 Hz", "7.04 ms", "0.34 ms", "1.106 Hz", "6.1 %", "11.37 Hz", "1.2 %", "7.05 Hz", "8.2 %"):

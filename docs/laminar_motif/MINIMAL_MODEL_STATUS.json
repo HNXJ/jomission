@@ -8,7 +8,8 @@
   "Structure of E0 to E6 approved as drafted (owner, 2026-11-06); thresholds UNSET",
   "E0 is checked against the JaxFNE P5 references within the P6 margins (owner, 2026-11-06)",
   "E0 runner lives in jomission (owner, 2026-11-06); CPU backend",
-  "E0 runs on JaxFNE 0.5.9 (owner, 2026-11-06; E0_SEAL.md Amendment 1)"
+  "E0 runs on JaxFNE 0.5.9 (owner, 2026-11-06; E0_SEAL.md Amendment 1)",
+  "E2/E3 SST/PV depth profile comes from mouse-based data; macaque CB/PV (superficial-high) is a conflicting proxy, not SST (owner, 2026-11-06; source dataset UNSET, OPEN-38)"
  ],
  "experiments": [
   {"id": "E0", "manipulation": "one isolated CAMINOS module, JaxFNE AdEx emitter, published parameters", "status": "SEALED", "authorized": true},

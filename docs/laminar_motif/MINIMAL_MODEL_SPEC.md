@@ -1,6 +1,6 @@
 # Minimal model LM-0 (draft, 2026-11-06)
 
-Status: structure APPROVED by the owner 2026-11-06 ("Approve as drafted"), with the three decisions below recorded. Thresholds and E0 pass criteria are UNSET, so no run is authorized yet (AGENTS.md: seal before running). Every threshold is UNSET and follows the approved structure in `ITEM03_SEAL_PROPOSAL.md`. LM-0 is the minimal-scale realization of checklist items 6, 7, 11, 15, 17 and 21; it adds no checklist item.
+Status: structure APPROVED by the owner 2026-11-06 ("Approve as drafted"), with the three decisions below recorded. E0 pass criteria are sealed (`E0_SEAL.md`, Amendment 1: JaxFNE 0.5.9) and E0 is the only authorized run; E1 to E6 stay unauthorized until each has a seal (AGENTS.md: seal before running). Every other threshold is UNSET and follows the approved structure in `ITEM03_SEAL_PROPOSAL.md`. LM-0 is the minimal-scale realization of checklist items 6, 7, 11, 15, 17 and 21; it adds no checklist item.
 
 ## Hypothesis in measurable form (owner, 2026-11-06)
 
@@ -51,6 +51,6 @@ Readout (design choice, UNSET): LFP proxy per module from summed synaptic curren
 
 ## Still open (OPEN-40)
 
-1. E0 pass criteria (UNSET). Proposal, to be approved before E0 runs: the JaxFNE reference values and margins for the same observables, stated in the sealed E0 spec, not here.
+1. E0 pass criteria: closed 2026-11-06, the JaxFNE P5 references within the P6 margins, sealed in `E0_SEAL.md`.
 2. Source for the Disney SST-CB and CR-VIP overlap (not in the komposer repository).
 3. The two JaxFNE records that disagree on the CAMINOS port (PASS versus mixed).

@@ -56,7 +56,7 @@ Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.jso
 |---|---|---|
 | 2 | digest 97/97 matched | the T25-or-T26 set choice is UNSET (owner) |
 | 3 | structure approved | every numeric threshold UNSET; spec not yet amended with values |
-| 8 | rule implemented | no TFNE `x : A : y` spec file and no balance term `h_b` yet |
+| 8 | rule implemented | TFNE `x : A : y` spec is a draft (ITEM08_H_STATE_SPEC.md, OPEN-39); no balance term `h_b` yet |
 | 9 | tests a-e pass (8 tests, 6 of 6 mutants killed) | (f) AdEx-reference trace tolerance UNSET and untested; full `project_check --offline` on the commit carrying the rule not yet run (suite-lock wait timed out 2026-11-05, requeued); unpushed |
 
 ## Order
@@ -69,6 +69,6 @@ Builder basis: item 1 closed (entry `SCI-LAMINAR-MOTIF-1` in `manifests/todo.jso
 |---|---|
 | Task authorization (item 1) | `AGENTS.md` limits work to `next_authorized_task` or a reviewer-named task |
 | T25 vs T26 AdEx parameters differ: SST Δ 1.5/2 mV, SST b 25/80 pA, E EL -60/-65 mV, E b 130/50 pA (SST EL and all PV values equal) | pick one set; recorded in item 2 (OPEN-36) |
-| Cell-type map CB~SST, CR~VIP, NG=E is an assumption; the Disney papers on the overlap are not in the komposer repository | alters the density-to-fraction step in item 4; owner to supply the PDFs |
-| Neuron class for the minimal model: AdEx emitter (validated CAMINOS reference) or Izhikevich-TFNE (OPEN-40) | decides where E0 can be checked and whether item 6 is on the critical path |
+| Cell-type map CB~SST, CR~VIP, NG=E is an assumption; the Disney papers on the overlap are not in the komposer repository. Observed in X: macaque CB/PV is superficial-high, opposite to the hypothesis; owner ruled 2026-11-06 that CB is not SST and E2/E3 take a mouse-based or ramp SST/PV profile (OPEN-38) | alters the density-to-fraction step in item 4; owner to supply the PDFs |
+| Neuron class for the minimal model: decided 2026-11-06, AdEx first (validated CAMINOS reference), Izhikevich-TFNE as the comparison (OPEN-40) | closed; item 6 stays off the critical path for E0 |
 | Native-to-pA factor for `drive_bias` and the H units of `h_w`, `h_b` | `drive_bias` is the chosen path (rule built, tests a-e pass); the factor is a design choice still to record in item 8 |

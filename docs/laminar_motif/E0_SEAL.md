@@ -53,7 +53,7 @@ JaxFNE 0.5.9 (see the amendment) in the jomission environment instead of the P6 
 
 ## Amendment 1 (owner, 2026-11-06, before any scored run): JaxFNE 0.5.9
 
-Owner ruling: E0 runs on JaxFNE 0.5.9 (tag v0.5.9, `e0160dfc`), not 0.5.8. Changed: the JaxFNE version everywhere above; the analysis call `population_rates` uses `dt_ms` and `discard_ms` (milliseconds; the seconds forms are deprecated in 0.5.9), values unchanged. Unchanged: references, margins, gates, verdict rule, seeds, procedure. The seed-0 pilot of 2026-11-06 ran on 0.5.8 (2155 s CPU wall, rates 1.10/11.29/6.90 Hz, f_pk 35.0 Hz, lag 7.1 ms; unscored, peak memory not captured); it does not satisfy gate 5 for 0.5.9, so gate 5 is rerun on 0.5.9 with peak memory recorded. Gates 1, 2 and 4 are rerun on 0.5.9 (15 tests passed on a side install before this amendment); gate 3 runs on 0.5.9.
+Owner ruling: E0 runs on JaxFNE 0.5.9 (tag v0.5.9, `e0160dfc`), not 0.5.8. Changed: the JaxFNE version everywhere above; the analysis call `population_rates` uses `dt_ms` and `discard_ms` (milliseconds; the seconds forms are deprecated in 0.5.9), values unchanged. Unchanged: references, margins, gates, verdict rule, seeds, procedure. The seed-0 pilot of 2026-11-06 ran on 0.5.8 (2155 s CPU wall, rates 1.10/11.29/6.90 Hz, f_pk 35.0 Hz, lag 7.1 ms; unscored, peak memory not captured); it does not satisfy gate 5 for 0.5.9, so gate 5 is rerun on 0.5.9 with peak memory recorded. Gates 1, 2 and 4 are rerun on 0.5.9 (the 7 E0 tests and 8 HDP-adaptation tests passed on a side install before this amendment); gate 3 runs on 0.5.9.
 
 ## Evidence class
 

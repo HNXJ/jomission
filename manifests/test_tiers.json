@@ -36,7 +36,10 @@
     "tests/test_whole_system_diagnostic.py",
     "tests/test_whole_system_ei_native_state.py",
     "tests/test_whole_system_realization.py",
-    "tests/test_observation_check_finite.py"
+    "tests/test_observation_check_finite.py",
+    "tests/test_b10_audit_word_boundary.py",
+    "tests/test_dashboard_build.py",
+    "tests/test_e1_verdict.py"
    ]
   },
   "1": {
@@ -68,13 +71,23 @@
      "tests/test_exposure_continuation.py"
     ],
     "AGSDR stage-0 correction (reads receipts, no simulation, writes nothing)": [
-     "tests/test_agsdr_stage0_correction.py"
+     "tests/test_agsdr_stage0_correction.py",
+     "tests/test_agsdr_b3_rerun.py",
+     "tests/test_agsdr_jcl1c.py",
+     "tests/test_agsdr_jrates.py"
+    ],
+    "activity balance / H controller (numpy, short JAX, writes nothing)": [
+     "tests/test_activity_balance.py",
+     "tests/test_activity_balance_sync.py",
+     "tests/test_activity_balance_sync2.py",
+     "tests/test_activity_balance_sync_fixref.py"
     ],
     "laminar motif: AdEx adaptation through HDP (short JAX, single neuron pair, writes nothing)": [
      "tests/test_adex_hdp_adaptation.py"
     ],
     "laminar motif: E0 gates, CAMINOS module realization and estimators (one 9500-neuron construct, no simulation, writes nothing)": [
-     "tests/test_caminos_e0.py"
+     "tests/test_caminos_e0.py",
+     "tests/test_e1_gates.py"
     ],
     "rate-factorial regression (numpy, no simulation)": [
      "tests/test_rf_rate_factorial.py"
@@ -103,7 +116,9 @@
      "tests/test_t4_t5_analysis.py",
      "tests/test_t7_lag.py",
      "tests/test_trajectory_and_recording.py",
-     "tests/test_v21_provenance.py"
+     "tests/test_v21_provenance.py",
+     "tests/test_lite_model.py",
+     "tests/test_within_area_sparse_coverage.py"
     ],
     "unclassified subsystems": "classify cost and writes on first use; add here"
    }

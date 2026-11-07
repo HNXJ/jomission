@@ -11,7 +11,8 @@ from __future__ import annotations
 import numpy as np
 
 NE, NPV, NSST = 8000, 750, 750
-N = NE + NPV + NSST
+N_INH = NPV + NSST  # 1500
+N = NE + N_INH
 DT_MS = 0.1
 DELAY_MS = 2.0
 TAU_E_MS, TAU_I_MS = 2.0, 8.0
@@ -33,6 +34,20 @@ RULES = (
 POPS = ("E", "PV", "SOM")
 
 
+def sizes(n_sst: int = NSST) -> dict[str, int]:
+    """Population sizes for an E-PV-SST module with fixed NE=8000 and N_inh=1500."""
+    n_s = int(n_sst)
+    n_pv = N_INH - n_s
+    if n_s < 0 or n_pv < 0:
+        raise ValueError(f"n_sst must be between 0 and {N_INH}, got {n_sst}")
+    return {"E": NE, "PV": n_pv, "SOM": n_s}
+
+
+def rho_to_nsst(rho: float) -> int:
+    """N_SST for a given SST/PV ratio rho with fixed N_inh = 1500 (E1 seal)."""
+    return int(round(N_INH * float(rho) / (1.0 + float(rho))))
+
+
 def ext_source_count(p: float) -> int:
     """Private Poisson sources per E and PV cell: round(p * NE)."""
     return int(round(float(p) * NE))
@@ -50,12 +65,13 @@ def drive_spec(p: float, seed: int) -> dict:
     }
 
 
-def build_spec(p: float, seed: int):
+def build_spec(p: float, seed: int, n_sst: int = NSST):
     import jaxfne as jtfne
 
+    sz = sizes(n_sst)
     cfg = (
         jtfne.Configuration()
-        .network(name="caminos_e0", n=N, cell_types={"E": NE / N, "PV": NPV / N, "SOM": NSST / N})
+        .network(name="caminos_e0", n=N, cell_types={"E": sz["E"] / N, "PV": sz["PV"] / N, "SOM": sz["SOM"] / N})
         .emitter(family="adex", adex_decay="euler", adex_step_order="default")
         .mechanisms(name="ampa", kind="receptor", params={"tau_ms": TAU_E_MS, "reversal_mV": REV_E_MV})
         .mechanisms(name="gaba", kind="receptor", params={"tau_ms": TAU_I_MS, "reversal_mV": REV_I_MV})
@@ -95,7 +111,7 @@ def spikes_to_counts(spikes, sizes: dict) -> np.ndarray:
     return out
 
 
-def run(p: float, seed: int, T_s: float) -> dict:
+def run(p: float, seed: int, T_s: float, n_sst: int = NSST) -> dict:
     """Construct and simulate through the public API; return counts, sizes and wall time. float32 required."""
     import time
 
@@ -103,14 +119,14 @@ def run(p: float, seed: int, T_s: float) -> dict:
     import jaxfne as jtfne
 
     t0 = time.time()
-    model = jtfne.construct(build_spec(p, seed))
+    model = jtfne.construct(build_spec(p, seed, n_sst=n_sst))
     sim = build_sim(p, seed, T_s)
     if str(sim.resolved_runtime.actual_dtype) != "float32":
         raise RuntimeError(f"E0 runs are float32, runtime resolved {sim.resolved_runtime.actual_dtype}")
     signals = model.simulate(sim)
     jax.block_until_ready(signals.spikes)
     labels = tuple(model.params["emitter"].labels)
-    sizes = {t: labels.count(t) for t in POPS}
-    counts = spikes_to_counts(np.asarray(signals.spikes), sizes)
-    return {"counts": counts, "sizes": sizes, "steps": int(sim.n_steps), "wall_s": time.time() - t0,
+    sz = {t: labels.count(t) for t in POPS}
+    counts = spikes_to_counts(np.asarray(signals.spikes), sz)
+    return {"counts": counts, "sizes": sz, "steps": int(sim.n_steps), "wall_s": time.time() - t0,
             "jax_devices": [str(d) for d in jax.devices()], "jaxfne_version": jtfne.__version__}

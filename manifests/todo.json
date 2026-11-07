@@ -1706,7 +1706,7 @@
   {
        "id": "SCI-AGSDR-H07H11",
        "status": "DONE",
-       "delivered_verdict": "H11 PASS 24 of 24; H07 NOT_DETERMINED: term 4 (locality_index > 3, Q-c definition) fails the canonical reference (1.92), terms 1, 2, 3, 5 pass for all 24 (topology identical to canonical). Set after H11: AGS_S0_06, AGS_S0_20 (upper bound). Report-only saturation: 2x within_gain changes bar_r by 0.00 to 0.34 percent (docs/receipts/agsdr_h07h11/summary.json; spec sealed 7249e96)",
+       "delivered_verdict": "H11 PASS 24 of 24; H07 NOT_DETERMINED: term 4 (locality_index > 3, Q-c definition) fails the canonical reference (1.92), terms 1, 2, 3, 5 pass for all 24 (topology identical to canonical). Set after H11: AGS_S0_06, AGS_S0_20 (upper bound). Report-only saturation: 2x within_gain changes bar_r by 0.00 to 0.34 percent (docs/receipts/agsdr_h07h11/summary.json; spec sealed 7249e96). Superseded in part, additive note 2026-11-06: the Q18 ruling (owner 2026-11-05, term 4 passes iff locality_index >= 0.9 x canonical 1.730) recomputed H07 as PASS 24 of 24 with both controls passing (docs/receipts/agsdr_h07h11/h07_q18_summary.json; OPEN-29); the NOT_DETERMINED above is the 2026-11-04 verdict under the original term 4",
        "trigger": "owner 2026-11-04 (Q10, Q11, Q12): H07 and H11 stay hard but not yet computed after amendment 3; specify, seal, then run",
        "goal": "compute H07 and H11 for each AGSDR candidate under the ruled definitions, then record the final feasible set",
        "parent_authority": "owner rulings: Q10 amendment 3 sealed (43d1d71); Q11 spec first; Q-a..Q-f definitions ruled (fc5defc); Q12 implement, seal and run",

@@ -47,9 +47,12 @@ def test_minimal_model_status_matches_repo(built):
     mm = d["laminar"]["minimal"]
     ids = [e["id"] for e in mm["experiments"]]
     assert ids[0] == "E0" and len(ids) == len(set(ids)) == 8
-    assert [e["id"] for e in mm["experiments"] if e["authorized"]] == ["E0"], "only E0 is sealed and authorized"
+    todo = json.loads((ROOT / "manifests/todo.json").read_text(encoding="utf-8"))["items"]
+    delta = next(i for i in todo if i["id"] == "SCI-LAMINAR-MOTIF-1")["principal_delta"]
     for e in mm["experiments"]:
+        assert e["authorized"] == (f"docs/laminar_motif/{e['id']}_SEAL.md" in delta), f"{e['id']}: authorization must match todo principal_delta"
         if e["authorized"]:
+            assert (ROOT / e["seal"]).exists(), f"{e['id']} authorized without a seal file"
             assert e["status"] in {"SEALED", "PASS", "FAIL"}
             if e["status"] in {"PASS", "FAIL"}:  # the status comes from the result file's verdict, never typed
                 res = json.loads((ROOT / e["result"]).read_text(encoding="utf-8"))

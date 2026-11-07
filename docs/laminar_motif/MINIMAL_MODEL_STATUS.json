@@ -13,7 +13,7 @@
   "Until the numeric mouse profile arrives, E2/E3 are specified with a one-parameter SST/PV ramp, low superficial and high deep, steepness from the AGSDR log-exp sweep (owner, 2026-11-06)"
  ],
  "experiments": [
-  {"id": "E0", "manipulation": "one isolated CAMINOS module, JaxFNE AdEx emitter, published parameters", "status": "PASS", "authorized": true, "result": "results/laminar_e0/e0_result.json"},
+  {"id": "E0", "manipulation": "one isolated CAMINOS module, JaxFNE AdEx emitter, published parameters", "status": "PASS", "authorized": true, "seal": "docs/laminar_motif/E0_SEAL.md", "result": "results/laminar_e0/e0_result.json"},
   {"id": "E1", "manipulation": "one module, sweep SST/PV at fixed E/I and drive", "status": "SEALED", "authorized": true, "seal": "docs/laminar_motif/E1_SEAL.md"},
   {"id": "E1c", "manipulation": "E1 with PV to SST added (symmetric wiring)", "status": "SPECIFIED", "authorized": false},
   {"id": "E2", "manipulation": "three-module stack, SST/PV low superficial and high deep", "status": "SPECIFIED", "authorized": false},

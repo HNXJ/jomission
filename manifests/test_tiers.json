@@ -22,6 +22,7 @@
     "tests/test_pages_build.py",
    "tests/test_series_dashboard.py",
     "tests/test_e0_verdict.py",
+    "tests/test_lansa_density.py",
     "tests/test_project_memory.py",
     "tests/test_propagation_causal.py",
     "tests/test_seal_write_guard.py",

@@ -6,7 +6,6 @@ Fractions are explicit tables, not assumed identical across areas.
 
 from __future__ import annotations
 
-from typing import Mapping
 
 # Canonical areas, layers, cell types
 JOMISSION_AREAS: tuple[str, ...] = ("V1", "V4", "FEF", "PFC")

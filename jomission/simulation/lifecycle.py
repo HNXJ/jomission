@@ -23,7 +23,6 @@ from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import (
     JOMISSION_PARADIGM,
     condition_to_stimulus_schedule,
-    FROZEN_CANONICAL_CONFIG_HASH,
     CANONICAL_UNIFORM_AMPLITUDE,
 )
 from jomission.network.rf import RFConfig, RFOperator
@@ -167,7 +166,6 @@ def _run_phase(
                 rec["dH_components_available"] = True
                 # Store compact stats to avoid (n_steps,n_neurons) blowup
                 try:
-                    import jax.numpy as jnp
 
                     for k in ("dH_income_trace", "dH_rate_trace", "dH_weight_trace", "dH_passive_trace", "dH_barrier_trace"):
                         arr = diag.get(k)

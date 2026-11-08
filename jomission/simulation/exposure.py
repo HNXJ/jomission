@@ -11,7 +11,6 @@ from jaxfne import Simulation, RuntimeConfig
 
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
-from jomission.dynamics.h_state import HStateConfig
 from jomission.paradigm.epochs import FULL_TRIAL_MS
 
 

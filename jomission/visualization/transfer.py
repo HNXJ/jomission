@@ -42,9 +42,7 @@ adds a new fixed tab "Transfer Function" that calls transfer_figures().
 from __future__ import annotations
 
 import hashlib
-import json
-import pathlib
-from typing import Any, Dict, List, Tuple
+from typing import Any, Tuple
 
 import numpy as np
 
@@ -269,7 +267,6 @@ def _extract_events(simulation_result: dict) -> list[dict]:
     # Fallback: try simulation_result["schedule"]
     if not events:
         try:
-            from jomission.paradigm.spec import JOMISSION_PARADIGM  # type: ignore
             # Use first condition events as placeholder? But that would be misleading if spontaneous.
             # Only use if simulation_result explicitly not spontaneous.
             if simulation_result.get("paradigm") is None and not simulation_result.get("hdp_error"):

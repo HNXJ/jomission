@@ -9,7 +9,6 @@ from jomission.network.builder import build_jomission_model, simulation_with_bac
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
 from jomission.visualization.theme import (
     AREA_COLORS,
-    CLASS_COLORS,
     apply_dark_theme,
     wrap_figure_with_provenance_html,
 )

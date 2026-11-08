@@ -2494,7 +2494,6 @@ def run_report(simulation_result: dict) -> dict:
         if fig is None:
             continue
         try:
-            import plotly.io as pio  # type: ignore
 
             fig.write_html(
                 str(figs_dir / f"{tab_id.replace('/', '_').replace(' ', '_')}.html"),

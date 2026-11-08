@@ -6,18 +6,15 @@ All omission trials preserve identical temporal geometry; only drive is zeroed.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any, Optional
 
 from jaxfne import Paradigm, ParadigmCondition, ParadigmEvent
 
 from jomission.paradigm.epochs import (
     CANONICAL_EPOCHS,
-    EPOCH_BY_NAME,
     EVENT_CODES,
     COMPARISON_CODE,
     COMPARISON_LABEL,
-    TRIAL_ANALYSIS_WINDOWS,
     P1_TO_D4_MS,
     FULL_TRIAL_MS,
     validate_epochs,
@@ -301,7 +298,6 @@ def assert_energy_parity(
     tol_rel: float = ENERGY_TOL_REL,
 ) -> dict[str, Any]:
     """Gate B5 parity: |E_off - E_on|/max ≤ tol_rel (default 5%). Returns gate dict."""
-    import math
 
     hi = max(float(e_off), float(e_on))
     if hi == 0:

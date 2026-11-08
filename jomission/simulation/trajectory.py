@@ -11,16 +11,13 @@ from typing import Any, Sequence
 
 import jax.numpy as jnp
 import jaxfne as jtfne
-from jaxfne import Simulation, ContinuationState
 
 from jomission.paradigm.spec import (
     JOMISSION_PARADIGM,
     SLOT_ONSET_MS,
-    SLOT_DURATION_MS,
-    FROZEN_CANONICAL_CONFIG_HASH,
     CANONICAL_UNIFORM_AMPLITUDE,
 )
-from jomission.paradigm.epochs import P1_TO_D4_MS, FULL_TRIAL_MS
+from jomission.paradigm.epochs import FULL_TRIAL_MS
 from jomission.network.rf import RFConfig, RFOperator
 
 

@@ -7,7 +7,6 @@ from plotly.subplots import make_subplots
 from jomission.network.builder import build_jomission_model
 from jomission.network.rf import RFConfig, RFOperator
 from jomission.visualization.theme import (
-    CLASS_COLORS,
     apply_dark_theme,
     wrap_figure_with_provenance_html,
 )

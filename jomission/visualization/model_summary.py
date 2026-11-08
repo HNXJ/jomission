@@ -49,7 +49,6 @@ from collections import Counter, defaultdict
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
-import jax.numpy as jnp
 
 # generated-owner imports (same as analyses)
 try:

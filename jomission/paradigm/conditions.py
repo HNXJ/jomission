@@ -5,7 +5,6 @@ Authoritative source: attached paradigm specification.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Optional
 
 # Stimulus identities — canonical labels (visual parameter values are UNRESOLVED)

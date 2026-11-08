@@ -2,8 +2,6 @@
 
 import hashlib, json
 import jaxfne.hdp_network as hdp
-from jomission.network.builder import build_jomission_model
-from jaxfne.io import config_hash
 
 def cell_config(rf_on: bool, slow_rate: bool):
     # rf_on: use RF operator (distinct hash), slow_rate: tau0 1000 vs 5
@@ -11,7 +9,6 @@ def cell_config(rf_on: bool, slow_rate: bool):
     if slow_rate:
         hp["tau_0_ms"] = 1000.0
     # rf_on adds rf metadata
-    from jomission.network.rf import RFConfig, RFOperator
     # keep distinct identities via hash of hp+rf flag
     hp_hash = hashlib.sha256(json.dumps(hp, sort_keys=True).encode()).hexdigest()[:8]
     rf_hash = "rf_on" if rf_on else "rf_off"

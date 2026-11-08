@@ -33,7 +33,6 @@ that carrier stores history at that phenotype level.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 import pathlib
@@ -42,12 +41,10 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 import scipy.stats as st
 
-import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Simulation, RuntimeConfig
 import jaxfne.hdp_network as hdp
 
-from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
 from jomission.paradigm.epochs import (
     OMISSION_SLOT_MS,
@@ -61,7 +58,6 @@ from jomission.simulation.state_replacement import (
     FROZEN_CONFIG_HASH,
     FROZEN_HP_FULL,
     FROZEN_DT_MS,
-    FROZEN_HP_HASH_PREFIX,
     REPLACEMENT_SPECS,
     capture_pre_post_states,
     apply_replacement_by_name,

@@ -31,9 +31,7 @@ Functions:
 
 from __future__ import annotations
 
-import json
 import pathlib
-from collections import Counter, defaultdict
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
@@ -49,7 +47,6 @@ try:
         JOMISSION_AREAS,
         JOMISSION_LAYERS,
         LAYER_COUNT_FRAC_DEFAULT,
-        AREA_LAYER_CELL_TYPES,
     )
     from jomission.network.builder import (
         MOTIF_GAIN,

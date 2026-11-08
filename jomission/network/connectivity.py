@@ -8,7 +8,6 @@ Tables are declarative and replaceable via literature priors.
 
 from __future__ import annotations
 
-from typing import Mapping
 
 # Within-area gain (baseline recurrent)
 WITHIN_GAIN_DEFAULT: float = 0.35

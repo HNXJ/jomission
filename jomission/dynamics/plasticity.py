@@ -5,9 +5,7 @@ No parallel simulator; this is a thin declarative layer.
 
 from __future__ import annotations
 
-from typing import Any
 
-import jaxfne as jtfne
 from jaxfne import RuntimeConfig
 
 

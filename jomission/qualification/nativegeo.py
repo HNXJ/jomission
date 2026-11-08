@@ -30,7 +30,6 @@ COMMIT_R=500 Hz predeclared (10% of the sync level; S9 active band max 40).
 
 from __future__ import annotations
 
-import numpy as np
 
 CANDIDATES: tuple[float, ...] = (50.0, 54.0, 57.0, 61.0)
 

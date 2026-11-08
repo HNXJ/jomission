@@ -30,8 +30,8 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import dataclass, field, asdict
-from typing import Any, Dict, List, Tuple, Optional, Sequence
+from dataclasses import dataclass, asdict
+from typing import Any, Dict, List, Tuple, Optional
 
 import numpy as np
 
@@ -655,7 +655,7 @@ class RFOperator:
         Proves JaxFNE capability is sufficient: no engine modification needed.
         If condition is a string name, resolves via JOMISSION_PARADIGM.
         """
-        from jaxfne import StimulusSchedule, ParadigmCondition
+        from jaxfne import StimulusSchedule
 
         # Resolve condition
         if isinstance(condition, str):
@@ -838,7 +838,6 @@ def build_jomission_model_with_rf(
 ) -> Any:
     """Build jomission Model with RF metadata (distinct config_hash)."""
     import jaxfne as jtfne
-    from jomission.network.builder import build_jomission_network
     cfg = build_jomission_network_with_rf(rf_config=rf_config, **builder_kwargs)
     return jtfne.construct(cfg)
 
@@ -879,7 +878,6 @@ def prove_jaxfne_target_indices_capability() -> Dict[str, Any]:
     )
     arr = sched.to_array(n_steps=n_steps, dt_ms=dt)
     # Check per-unit amplitudes
-    import jax.numpy as jnp
     arr_np = np.asarray(arr)
     ok = bool(
         np.allclose(arr_np[0:5, 0], 1.0)

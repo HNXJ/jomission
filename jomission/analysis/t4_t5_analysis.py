@@ -48,7 +48,6 @@ import hashlib
 import json
 import math
 import pathlib
-from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
@@ -368,7 +367,7 @@ def build_field_rate_arrays(
     areas: tuple
     meta: dict provenance (proxy_readout etc)
     """
-    from jomission.recording.area_local import field_by_area_4d, field_by_area_array
+    from jomission.recording.area_local import field_by_area_4d
 
     # Determine layout flag for area_local
     time_major = layout == "trial_A_T_C"

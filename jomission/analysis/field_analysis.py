@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 import numpy as np
-import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Simulation, RuntimeConfig
 import jaxfne.hdp_network as hdp
@@ -84,7 +83,7 @@ def run_t4_t7(*, seed: int = 0, reps: int = 3, out: str = "manifests/t4_t7_canon
     by Y_pre). Post-exposure field comparison requires continuation from ckpt_trial_0260;
     handled separately if needed.
     """
-    import pathlib, hashlib, time
+    import pathlib, time
     t0 = time.time()
     model = build_jomission_model(n_per_area=100, seed=seed)
     hp = hdp.v1_pfc_aaab_hdp_params()

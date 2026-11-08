@@ -5,7 +5,6 @@ import plotly.graph_objects as go
 
 from jomission.network.builder import build_jomission_model
 from jomission.visualization.theme import (
-    AREA_COLORS,
     CLASS_COLORS,
     PROJ_COLORS,
     apply_dark_theme,

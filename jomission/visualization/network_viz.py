@@ -26,7 +26,7 @@ from __future__ import annotations
 import hashlib
 import math
 from collections import Counter, defaultdict
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Sequence, Tuple
 
 import numpy as np
 
@@ -48,7 +48,6 @@ try:
         JOMISSION_CELL_TYPES,
         LAYER_DEPTH_BANDS,
         LAYER_COUNT_FRAC_DEFAULT,
-        AREA_LAYER_CELL_TYPES,
     )
     from jomission.network.builder import (
         MOTIF_GAIN,

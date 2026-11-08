@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import replace
-from typing import Any, Mapping, Sequence, Optional
+from typing import Any, Mapping, Sequence
 
 import jax.numpy as jnp
 import numpy as np

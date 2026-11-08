@@ -1,7 +1,6 @@
 """Master Build Script for the Jomission Interactive Reference Gallery."""
 
 import os
-import sys
 import time
 
 from jomission.visualization.theme import wrap_figure_with_provenance_html

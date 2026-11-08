@@ -33,7 +33,6 @@ from __future__ import annotations
 import json
 import hashlib
 import pathlib
-from dataclasses import dataclass, asdict
 from typing import Any, Dict
 
 VISUALIZATION_VERSION = "VIS_FOUNDATION_v0.2.0-ontology"

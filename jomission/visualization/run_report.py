@@ -1520,7 +1520,6 @@ def run_report(simulation_result: dict) -> dict:
         if fig is None:
             continue
         try:
-            import plotly.io as pio  # type: ignore
             if isinstance(fig, dict):
                 # Transfer function composite: dict stage_id -> fig
                 for stage_id, stage_fig in fig.items():

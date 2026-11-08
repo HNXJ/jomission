@@ -8,7 +8,6 @@ from plotly.subplots import make_subplots
 
 from jomission.visualization.theme import (
     PROJ_COLORS,
-    CLASS_COLORS,
     apply_dark_theme,
     wrap_figure_with_provenance_html,
 )

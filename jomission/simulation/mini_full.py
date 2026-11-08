@@ -4,7 +4,7 @@ Uses dt1.0 and reduced trials for feasibility (pilot scale), but continuous (X,H
 Produces artifacts for Δ_exposure, T1-T7 scaffolding, and seals NEGATIVE where model fails.
 """
 
-import json, pathlib, datetime, hashlib, time
+import json, pathlib, hashlib
 import jax.numpy as jnp
 import jaxfne as jtfne
 from jaxfne import Simulation, RuntimeConfig
@@ -12,7 +12,6 @@ import jaxfne.hdp_network as hdp
 from jaxfne.io import config_hash
 from jomission.network.builder import build_jomission_model
 from jomission.paradigm.spec import JOMISSION_PARADIGM, condition_to_stimulus_schedule
-from jomission.simulation.schedule import canonical_schedule
 
 def run_mini_full(dt_ms=2.0, seed=0, exposure_trials=3, testing_reps=1):
     # Mini schedule: pre 1 trial (RRRR), baseline 2 trials (RRRR), exposure 11, testing 12*1=12, recovery 1

@@ -10,9 +10,7 @@ Frozen authorities (104d55e / factorial_v0p2_design.json):
 """
 
 from __future__ import annotations
-import argparse, hashlib, json, os, pathlib, sys, time
-from dataclasses import replace
-import jax, jax.numpy as jnp
+import argparse, hashlib, json, pathlib
 import jaxfne as jtfne
 from jaxfne import Simulation, RuntimeConfig
 import jaxfne.hdp_network as hdp
@@ -21,7 +19,7 @@ from jomission.network.builder import build_jomission_model
 from jomission.network.rf import RFConfig, RFOperator
 from jomission.paradigm.spec import JOMISSION_PARADIGM
 from jomission.evidence import EvidenceRef
-from jomission.simulation.atomic_save import atomic_write_json, verify_artifacts_readable
+from jomission.simulation.atomic_save import atomic_write_json
 
 CELLS = {
     "A": {"name":"A_RFoff_RateStd","rf_on":False,"K_HDP":0.0,"tau0":5.0},

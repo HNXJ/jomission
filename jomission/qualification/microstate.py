@@ -40,7 +40,6 @@ Acceptance classes: SPIKE_RESET_MICROSTATE | ADAPTATION | SYNAPTIC_STATE
 
 from __future__ import annotations
 
-import numpy as np
 
 PRIMARY = (50.0, 3.75)
 REPLICATE = (57.0, 4.0)

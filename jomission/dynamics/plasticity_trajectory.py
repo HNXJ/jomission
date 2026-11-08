@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping, Sequence, Any
+from typing import Any
 import numpy as np
 
 from jomission.network.connectivity import HIERARCHY

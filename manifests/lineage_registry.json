@@ -3246,6 +3246,118 @@
      "finding": "PASS: all 5 estimands inside P6 margins (f_pk 34.0 Hz, lag 7.16 ms, rates E 1.08 Hz, PV 11.28 Hz, SST 6.78 Hz)."
     }
    ]
+  },
+  {
+   "lineage_id": "SCI-LAMINAR-E1",
+   "parent": "SCI-LAMINAR-MOTIF-1",
+   "principal_delta": "E1 SST/PV ratio sweep (rho in 0.25, 0.5, 1, 2, 4) in one isolated module at fixed E/I and drive, seeds 1 to 3, JaxFNE 0.5.9",
+   "preexecution_spec": {
+    "path": "docs/laminar_motif/E1_SEAL.md",
+    "commit": "e944198"
+   },
+   "authority": "owner 2026-11-07 (chat approval of E1-a to E1-f); docs/laminar_motif/E1_SEAL.md",
+   "inputs": [
+    "docs/laminar_motif/E1_SEAL.md",
+    "results/laminar_e0/e0_result.json"
+   ],
+   "frozen": [
+    "fixed N_E = 8000, N_inh = 1500 (N_PV + N_SST = 1500)",
+    "Bernoulli p = 0.07 connectivity",
+    "E0 Poisson drive (560 4Hz sources per E and PV cell, SST undriven)",
+    "dt 0.1 ms, T 12 s, first 2 s discarded, float32, JaxFNE 0.5.9, CPU"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "E1 frequency slope is strictly negative in all 3 seeds (slopes -6.6, -5.9, -6.3; mean -6.27 Hz/octave; permutation p = 0.0000 < 0.05)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/laminar_e1/e1_result.json",
+     "check": {
+      "path": "results/laminar_e1/e1_result.json",
+      "json_pointer": "/conditions/c2_negative_slope_per_seed/mean_slope",
+      "expected": -6.266666666666667,
+      "tol": 0.001
+     }
+    },
+    {
+     "claim": "E1 peak frequency shifts monotonically from high gamma to beta across oscillating ratios (mean f_pk: rho=0.25 is 46.0 Hz, rho=0.5 is 39.7 Hz, rho=1.0 is 34.0 Hz, rho=2.0 is 27.0 Hz)",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/laminar_e1/e1_result.json",
+     "check": {
+      "path": "results/laminar_e1/e1_result.json",
+      "json_pointer": "/per_seed/1/0.25/peak_freq_E_Hz",
+      "expected": 46.0,
+      "tol": 0.001
+     }
+    },
+    {
+     "claim": "At rho = 4.0 (N_SST = 1200, N_PV = 300), the network leaves the oscillatory regime (peak excess < 4 or within 2 Hz of band edge), leaving condition 3 f_pk(0.25) - f_pk(4) undefined",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/laminar_e1/e1_result.json",
+     "check": {
+      "path": "results/laminar_e1/e1_result.json",
+      "json_pointer": "/conditions/c1_min_oscillating_per_seed/per_seed/1",
+      "expected": 4,
+      "tol": 0.0
+     }
+    }
+   ],
+   "derived": [
+    {
+     "claim": "A higher SST/PV count ratio lowers oscillation frequency across the 4 oscillating points (rho 0.25 to 2.0); at rho = 4.0 PV suppression by SST extinguishes the oscillation under E0 drive",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "E1_INCONCLUSIVE",
+    "status": "UNRESOLVED",
+    "status_note": "verdict INCONCLUSIVE under sealed criteria: condition 1 passed (4 of 5 oscillate per seed), condition 2 passed (negative slope), condition 4 passed (p < 0.05), but condition 3 (f_pk(0.25) - f_pk(4.0) >= 3 Hz) is undefined because rho=4.0 does not oscillate"
+   },
+   "acceptance": "docs/laminar_motif/E1_SEAL.md. Met: verdict computed strictly per sealed verdict rules without post-hoc modification",
+   "fail_boundary": "loss of oscillation at high SST/PV ratio (rho = 4.0)",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "docs/laminar_motif/E1_SEAL.md",
+    "results/laminar_e1/e1_result.json",
+    "results/laminar_e1/e1_rho0.25_seed1.json",
+    "results/laminar_e1/e1_rho0.25_seed2.json",
+    "results/laminar_e1/e1_rho0.25_seed3.json",
+    "results/laminar_e1/e1_rho0.5_seed1.json",
+    "results/laminar_e1/e1_rho0.5_seed2.json",
+    "results/laminar_e1/e1_rho0.5_seed3.json",
+    "results/laminar_e1/e1_rho1_seed1.json",
+    "results/laminar_e1/e1_rho1_seed2.json",
+    "results/laminar_e1/e1_rho1_seed3.json",
+    "results/laminar_e1/e1_rho2_seed1.json",
+    "results/laminar_e1/e1_rho2_seed2.json",
+    "results/laminar_e1/e1_rho2_seed3.json",
+    "results/laminar_e1/e1_rho4_seed1.json",
+    "results/laminar_e1/e1_rho4_seed2.json",
+    "results/laminar_e1/e1_rho4_seed3.json"
+   ],
+   "tests": [
+    "tests/test_e1_verdict.py",
+    "tests/test_e1_gates.py"
+   ],
+   "commit": "8200fac",
+   "visualization": {
+    "exempt": "NOT_A_MODEL_LINEAGE",
+    "reason": "E1 is an isolated parameter sweep testing the SST/PV frequency gradient ingredient in one module, not a full substrate model lineage"
+   },
+   "driver_provenance": {
+    "path": "scripts/run_e1_scored.py"
+   },
+   "harness_changes": [],
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "E1-SST-PV-SWEEP",
+     "finding": "INCONCLUSIVE: Monotonic frequency gradient confirmed across rho 0.25 to 2.0 (46 Hz gamma down to 27 Hz beta, mean slope -6.27 Hz/octave, p=0.0000). At rho = 4.0 oscillation ceases under E0 drive."
+    }
+   ]
   }
  ]
 }

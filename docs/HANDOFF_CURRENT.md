@@ -68,16 +68,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-RECRUITMENT-1: PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: neither class crosses its rheobase transiently (PV max 3.1869, VIP max 3.1905), so no STATE pattern; both cause UNRESOLVED — `dd8d6c4:results/whole_system_ei_recruitment.json`
-- SCI-EI-RECRUITMENT-1: the current-budget atlas aligns per-class rate, total current with tonic and rheobase references, reconstructed splits, and v/u state over the full run — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-LAMINAR-MOTIF-1: E0 CAMINOS reference replication on JaxFNE 0.5.9: all 5 estimands within P6 margins across seeds 1-5; peak frequency mean 34.0 Hz — `ea249f1:results/laminar_e0/e0_result.json`
 - SCI-LAMINAR-MOTIF-1: E0 PV-to-SST lag mean 7.16 ms within declared margin 0.34 ms of P5 reference 7.04 ms — `ea249f1:results/laminar_e0/e0_result.json`
+- SCI-LAMINAR-E1: E1 frequency slope is strictly negative in all 3 seeds (slopes -6.6, -5.9, -6.3; mean -6.27 Hz/octave; permutation p = 0.0000 < 0.05) — `8200fac:results/laminar_e1/e1_result.json`
+- SCI-LAMINAR-E1: E1 peak frequency shifts monotonically from high gamma to beta across oscillating ratios (mean f_pk: rho=0.25 is 46.0 Hz, rho=0.5 is 39.7 Hz, rho=1.0 is 34.0 Hz, rho=2.0 is 27.0 Hz) — `8200fac:results/laminar_e1/e1_result.json`
+- SCI-LAMINAR-E1: At rho = 4.0 (N_SST = 1200, N_PV = 300), the network leaves the oscillatory regime (peak excess < 4 or within 2 Hz of band edge), leaving condition 3 f_pk(0.25) - f_pk(4) undefined — `8200fac:results/laminar_e1/e1_result.json`
 
 ### Next authorized task
 

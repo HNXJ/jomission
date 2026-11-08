@@ -1,0 +1,38 @@
+{
+ "schema": "jomission.e1_run.v1",
+ "lineage": "SCI-LAMINAR-MOTIF-1",
+ "experiment": "E1",
+ "rho": 4.0,
+ "seed": 3,
+ "n_sst": 1200,
+ "n_pv": 300,
+ "n_e": 8000,
+ "p": 0.07,
+ "T_s": 12.0,
+ "steps": 120000,
+ "wall_s": 1510.4629378318787,
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "side-install",
+ "reused_from_e0": false,
+ "analysis": {
+  "rates_Hz": {
+   "E": 3.7110250000000002,
+   "PV": 29.857333333333337,
+   "SOM": 18.891666666666666
+  },
+  "spikes_kept": {
+   "E": 296882,
+   "PV": 89572,
+   "SOM": 226700
+  },
+  "peak_freq_E_Hz": 21.0,
+  "peak_excess_E": 4.775770385917618,
+  "oscillates": false,
+  "lag_PV_SOM_ms": 4.5,
+  "undefined": [],
+  "band_class": "beta"
+ }
+}

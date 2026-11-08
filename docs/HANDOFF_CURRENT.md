@@ -68,12 +68,6 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-INTERACTION-1: baseline cell exactly rebuilds the EI diagnosis (E 10.6154, PV 0.0621, SST 50.1991, VIP 0.0466 Hz) — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: weight-only cell leaves PV 0.0621 and VIP 0.0466 Hz unchanged against 18 percent stronger E->I weights; SST 50.2112 Hz — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: adaptation-only cell halves SST 50.2 to 29.2496 Hz with PV 0.0621 and VIP 0.0466 Hz unchanged — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: both-repaired cell reads PV 0.0621, VIP 0.0466, SST 29.2504 Hz: no cell viable, verdict EI_REGIME_STILL_UNRESOLVED — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: departures from additivity per class are recorded in the decomposition block; synchrony and the 94-95 ms mode reported per cell, not gating — `d846eff:results/whole_system_ei_interaction.json`
-- SCI-EI-INTERACTION-1: V0 schematic and V1 initial raster of the baseline construction viewed before the runs; V2 reuses V1 ordering and window; V3 atlas 5 of 6 panels — `d846eff:results/whole_system_ei_interaction.json`
 - SCI-EI-RECRUITMENT-1: PV rate 0.0596 Hz with total drive 2.9939 against fresh rheobase 4.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: VIP rate 0.0488 Hz with total drive 2.9933 against fresh rheobase 24.0; reconstructed split withheld by its residual gate — `dd8d6c4:results/whole_system_ei_recruitment.json`
 - SCI-EI-RECRUITMENT-1: the mean-field split disagrees with retained-minus-tonic in sign and 20x magnitude, so DEFICIT and VETO readings are withheld as unreliable per the predeclared residual rule — `dd8d6c4:results/whole_system_ei_recruitment.json`
@@ -82,6 +76,8 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 - SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
+- SCI-LAMINAR-MOTIF-1: E0 CAMINOS reference replication on JaxFNE 0.5.9: all 5 estimands within P6 margins across seeds 1-5; peak frequency mean 34.0 Hz — `ea249f1:results/laminar_e0/e0_result.json`
+- SCI-LAMINAR-MOTIF-1: E0 PV-to-SST lag mean 7.16 ms within declared margin 0.34 ms of P5 reference 7.04 ms — `ea249f1:results/laminar_e0/e0_result.json`
 
 ### Next authorized task
 

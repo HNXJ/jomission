@@ -368,6 +368,7 @@
   {
    "lineage_id": "V2.1-bkg-pv-calibration",
    "parent": "V2.1-background-design",
+   "parent_note": "V2.1-background-design refers to the BKG0-BKG3 analytical design committed at d9c8f5f (results/v21_background_design.json; BKG_DESIGN_UNRESOLVED), which produced no simulation lineage record",
    "principal_delta": "isolated PV tonic current I in [2.8, 3.6] under native noise; everything else frozen",
    "introduces_mechanism": false,
    "preexecution_spec": {
@@ -449,6 +450,7 @@
   {
    "lineage_id": "V2.1-coupled-background",
    "parent": "V2.1-background-design",
+   "parent_note": "V2.1-background-design refers to the BKG0-BKG3 analytical design committed at d9c8f5f (results/v21_background_design.json; BKG_DESIGN_UNRESOLVED), which produced no simulation lineage record",
    "principal_delta": "one tonic coordinate lambda on I(lambda) = (1 - lambda) V_MID + lambda V_HIGH, all classes together; frozen V2.1 static column, native noise, no shot input",
    "introduces_mechanism": false,
    "preexecution_spec": {
@@ -3152,6 +3154,96 @@
     {
      "id": "EI-NATIVE-STATE",
      "finding": "MIXED_STATE_MECHANISM delivered. Interneuron firing discrepancies are driven by divergent phase-plane dynamics across cell classes under the intact model."
+    }
+   ]
+  },
+  {
+   "lineage_id": "SCI-LAMINAR-MOTIF-1",
+   "parent": "generic_substrate_v2@ae49af2",
+   "principal_delta": "E0 CAMINOS reference module on JaxFNE 0.5.9, p 0.07, seeds 1 to 5, against JaxFNE P5 references and P6 margins (pipeline equality only)",
+   "preexecution_spec": {
+    "path": "docs/laminar_motif/E0_SEAL.md",
+    "commit": "0465b36"
+   },
+   "authority": "owner 2026-11-05 (chat); docs/PLAN_LAMINAR_MOTIF.md; docs/laminar_motif/E0_SEAL.md Amendment 1",
+   "inputs": [
+    "docs/laminar_motif/E0_SEAL.md"
+   ],
+   "frozen": [
+    "CAMINOS model parameters per JaxFNE PORT_SPEC.md",
+    "AdEx E, PV, SST (8000, 750, 750 cells)",
+    "Bernoulli p=0.07 connectivity",
+    "Poisson drive 560 4Hz sources on E and PV"
+   ],
+   "executed": true,
+   "observations": [
+    {
+     "claim": "E0 CAMINOS reference replication on JaxFNE 0.5.9: all 5 estimands within P6 margins across seeds 1-5; peak frequency mean 34.0 Hz",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/laminar_e0/e0_result.json",
+     "check": {
+      "path": "results/laminar_e0/e0_result.json",
+      "json_pointer": "/estimands/f_pk_Hz/mean",
+      "expected": 34.0,
+      "tol": 0.001
+     }
+    },
+    {
+     "claim": "E0 PV-to-SST lag mean 7.16 ms within declared margin 0.34 ms of P5 reference 7.04 ms",
+     "evidence_class": "OBSERVED",
+     "receipt": "results/laminar_e0/e0_result.json",
+     "check": {
+      "path": "results/laminar_e0/e0_result.json",
+      "json_pointer": "/estimands/lag_PV_SOM_ms/mean",
+      "expected": 7.16,
+      "tol": 0.001
+     }
+    }
+   ],
+   "derived": [
+    {
+     "claim": "pipeline equality holds between jomission environment on JaxFNE 0.5.9 and external CAMINOS reference implementation",
+     "evidence_class": "DERIVED"
+    }
+   ],
+   "inferred": [],
+   "verdict": {
+    "label": "E0_PIPELINE_EQUALITY_PASS",
+    "status": "PASS",
+    "status_note": "all 5 estimands inside declared P6 margins; pipeline equality check PASS; laminar hypothesis untested"
+   },
+   "acceptance": "docs/laminar_motif/E0_SEAL.md. Met: all five estimands within declared margins of JaxFNE P5 reference",
+   "fail_boundary": "any estimand outside its declared margin",
+   "supersedes": [],
+   "retired": [],
+   "artifacts": [
+    "docs/laminar_motif/E0_SEAL.md",
+    "results/laminar_e0/e0_result.json",
+    "results/laminar_e0/e0_seed1.json",
+    "results/laminar_e0/e0_seed2.json",
+    "results/laminar_e0/e0_seed3.json",
+    "results/laminar_e0/e0_seed4.json",
+    "results/laminar_e0/e0_seed5.json"
+   ],
+   "tests": [
+    "tests/test_caminos_e0.py",
+    "tests/test_e0_verdict.py"
+   ],
+   "commit": "ea249f1",
+   "visualization": {
+    "exempt": "NOT_A_MODEL_LINEAGE",
+    "reason": "E0 CAMINOS reference replication on JaxFNE 0.5.9 is a pipeline equality benchmark against external P5/P6 margins, not a jomission substrate model lineage"
+   },
+   "driver_provenance": {
+    "path": "jomission/laminar/caminos_e0.py"
+   },
+   "harness_changes": [],
+   "introduces_mechanism": false,
+   "qualifies": [],
+   "reports": [
+    {
+     "id": "E0-CAMINOS",
+     "finding": "PASS: all 5 estimands inside P6 margins (f_pk 34.0 Hz, lag 7.16 ms, rates E 1.08 Hz, PV 11.28 Hz, SST 6.78 Hz)."
     }
    ]
   }

@@ -32,6 +32,8 @@ def main() -> int:
             cmd = [
                 PYTHON,
                 str(SUITE_LOCK),
+                "--wait-s",
+                "28800",
                 "--label",
                 f"jomission-e1-rho{rho:g}-s{s}",
                 "--",

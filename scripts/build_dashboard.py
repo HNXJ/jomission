@@ -93,7 +93,7 @@ def results_inventory() -> list[dict]:
 
 def figures() -> list[tuple[str, int]]:
     out = []
-    for f in sorted((ROOT / "docs/_static").rglob("*")):
+    for f in sorted((ROOT / "docs/_static").rglob("*"), key=lambda p: p.as_posix().lower()):
         if f.is_file() and f.suffix.lower() in (".html", ".png", ".svg", ".pdf"):
             out.append((f.relative_to(ROOT).as_posix(), f.stat().st_size))
     return out

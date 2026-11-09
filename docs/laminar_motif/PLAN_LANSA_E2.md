@@ -16,8 +16,8 @@ E1 per-rho mean `f_pk` (OBSERVED, `results/laminar_e1/e1_result.json`, 3 seeds; 
 
 | rho | 0.25 | 0.5 | 1 | 2 | 4 |
 |---|---|---|---|---|---|
-| f_pk (Hz) | 46.0 | 39.7 | 34.0 | 27.0 | none (peak excess 3.04, 3.26, 4.78; seed 3 is above 4 but fails the `edge_ok` term of `oscillation_call`, which `E1_SEAL.md` does not state) |
-| PV rate (Hz) | 8.0 | 8.9 | 11.3 | 17.9 | 30.0 |
+| f_pk (Hz) | 46.0 | 39.7 | 34.0 | 27.0 | none (peak excess 3.04, 3.26, 4.78; seed 3 is above 4 yet `oscillates` is false; INFERRED cause: the `edge_ok` term of `jaxfne.analysis.oscillation_call`, which `E1_SEAL.md` does not state) |
+| PV rate (Hz) | 8.0 | 8.9 | 11.3 | 17.8 | 30.0 |
 
 Two consequences for E2 (INFERRED from isolated modules):
 - The reachable range at E0 drive is 46 to 27 Hz: gamma to low beta. No alpha (8-12 Hz) point exists. A deep module with rho 2 predicts beta, not alpha; one with rho 4 predicts no rhythm.
@@ -34,6 +34,14 @@ Two consequences for E2 (INFERRED from isolated modules):
 | C5 | Brief: replication audit reports a PV-to-SOM lag; asks to confirm one-way SST to PV | brief; E0 | not a conflict: a lag is timing, not an edge; E0 reproduces PV leading SST by 7.16 ms with one-way wiring. E1c tests the wiring directly |
 | C7 | E1 verdict path: condition 1 holds (4 of 5 oscillate in each seed); condition 3 is undefined because rho 4 does not oscillate. `E1_SEAL.md` names INCONCLUSIVE only for a failed condition 1; `e1_verdict.py` (residual branch, about line 260) also returns INCONCLUSIVE for this case | `E1_SEAL.md`; `jomission/laminar/e1_verdict.py` | (a) record that the code's residual branch is the reading of the seal, additive note, verdict unchanged; (b) treat as a seal gap; E2's verdict rule must name every branch |
 | C6 | Brief 20 s; E0/E1 use 12 s, 2 s discarded | seals | (a) 20 s, 2 s discarded; (b) 12 s for comparability with E1 |
+
+## Owner rulings 2026-11-09 (chat)
+
+- Speed over test coverage: build, simulate, inspect; tests only where a run depends on them.
+- C1/C4: rho S 0.25, M 1, D 2 (ramp inside the E1 oscillating range). C2: 3 modules. C3: one CAMINOS unit per module (8000 E, 1500 inh).
+- Coupling: adjacent modules (S-M, M-D), both directions, E to E, PV and SST, p 0.01, local weights (2.0 nS to E, 3.0 nS to inhibitory), 2 ms delay.
+- C6: 20 s, 2 s discarded, seed 1, then inspect.
+- Route: JaxFNE 0.5.9 AdEx through `construct_adex_model(neuron_rows=...)`; the public `column()` path is refused for AdEx. Layer selectors realize exact blocks (probe: 44 751 edges vs 44 800 expected per local E-E block).
 
 ## Steps (each closes on its check)
 

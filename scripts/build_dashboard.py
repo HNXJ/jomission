@@ -67,7 +67,8 @@ def results_inventory() -> list[dict]:
     reg = json.loads((ROOT / "manifests/sealed_artifacts.json").read_text(encoding="utf-8"))
     sealed = {a["path"] for a in reg["artifacts"]}
     rows = []
-    for f in sorted((ROOT / "results").glob("*.json")):
+    # Case-insensitive key: Windows path order, so the page is byte-identical on every OS.
+    for f in sorted((ROOT / "results").glob("*.json"), key=lambda p: p.name.lower()):
         rel = f.relative_to(ROOT).as_posix()
         raw = f.read_bytes()
         enc, parsed, verdict = "utf-8", None, "-"

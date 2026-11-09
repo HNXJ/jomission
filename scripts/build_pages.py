@@ -420,7 +420,7 @@ def check_vocabulary(manifest):
 
     for pid, panel in manifest.get("panels", {}).items():
         check(f"panel {pid}", panel.get("evidence_class"), panel.get("status"))
-    for section in ("results_allowlist", "results_manifests_allowlist", "plotly_allowlist"):
+    for section in ("results_allowlist", "results_manifests_allowlist", "plotly_allowlist", "viz_allowlist"):
         for fn, e in manifest.get(section, {}).items():
             check(f"{section} {fn}", e.get("evidence_class"), e.get("status"))
     for g in manifest.get("gates", []) + manifest.get("gates_historical", []):
@@ -443,6 +443,12 @@ def build(out_dir, commit=None):
         p = os.path.join(REPO, "docs", "_static", "plotly", fn)
         if not os.path.isfile(p):
             raise FileNotFoundError(f"plotly allowlist missing: {fn}")
+    for key in manifest.get("viz_allowlist", {}):
+        if ".." in key or os.path.isabs(key):
+            raise ValueError(f"viz allowlist escapes results/viz: {key!r}")
+        p = os.path.join(REPO, "results", "viz", key)
+        if not os.path.exists(p):
+            raise FileNotFoundError(f"viz allowlist missing: {key}")
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
     os.makedirs(out_dir)
@@ -462,6 +468,16 @@ def build(out_dir, commit=None):
         d = os.path.join(out_dir, manifest["build"]["plotly_subdir"])
         os.makedirs(d, exist_ok=True)
         shutil.copy(os.path.join(REPO, "docs", "_static", "plotly", fn), os.path.join(d, fn))
+    for key in manifest.get("viz_allowlist", {}):
+        src = os.path.join(REPO, "results", "viz", key)
+        dst = os.path.join(out_dir, manifest["build"]["viz_subdir"], key)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        if os.path.isdir(src):
+            # manifest.json is a build receipt with a machine-local path; it stays
+            # sealed in results/ and is not published.
+            shutil.copytree(src, dst, ignore=shutil.ignore_patterns("manifest.json"))
+        else:
+            shutil.copy(src, dst)
     os.makedirs(os.path.join(out_dir, manifest["build"]["svg_subdir"]), exist_ok=True)
     pages = manifest["pages"]
     titles = {}
@@ -546,6 +562,25 @@ def render_panel(panel, ctx):
         rel = ctx["manifest"]["build"]["plotly_subdir"] + "/" + fn
         note = panel.get("note", "")
         inner = f'<iframe src="{rel}" loading="lazy"></iframe>' + (
+            f'<div class="status-note">{esc(note)}</div>' if note else ""
+        )
+        return panel_html(panel, inner, ctx["commit"])
+    if ptype == "viz":
+        key = panel.get("viz", "")
+        if key not in ctx["manifest"].get("viz_allowlist", {}):
+            raise ValueError(f"panel {panel.get('id')}: viz {key!r} not allowlisted")
+        rel = ctx["manifest"]["build"]["viz_subdir"] + "/" + key
+        inner = f'<figure><img src="{rel}" alt="{esc(panel.get("title", ""))}"></figure>'
+        if panel.get("note"):
+            inner += f'<div class="status-note">{esc(panel["note"])}</div>'
+        return panel_html(panel, inner, ctx["commit"])
+    if ptype == "atlas":
+        key = panel.get("atlas", "")
+        if key not in ctx["manifest"].get("viz_allowlist", {}):
+            raise ValueError(f"panel {panel.get('id')}: atlas {key!r} not allowlisted")
+        rel = ctx["manifest"]["build"]["viz_subdir"] + "/" + key + "/index.html"
+        note = panel.get("note", "")
+        inner = f'<p><a href="{rel}">Open lineage atlas</a></p>' + (
             f'<div class="status-note">{esc(note)}</div>' if note else ""
         )
         return panel_html(panel, inner, ctx["commit"])

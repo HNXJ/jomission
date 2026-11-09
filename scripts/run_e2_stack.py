@@ -1,7 +1,9 @@
 """E2 stack run (docs/laminar_motif/PLAN_LANSA_E2.md, owner rulings 2026-11-09).
 
 Usage:
-  python scripts/run_e2_stack.py SEED T_S TAG [P_INTER]
+  python scripts/run_e2_stack.py SEED T_S TAG [LAYOUT]
+
+LAYOUT is a caminos_stack.layout name: e2_3unit (default), unit1600, e2_21bin.
 
 Writes results/laminar_e2/<TAG>.npz (untracked: block counts, LFP proxy, raster sample) and
 results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions). JaxFNE 0.5.9 must be importable;
@@ -32,16 +34,18 @@ RASTER_N = {"E": 200, "PV": 50, "SOM": 50}  # cells per block kept for the raste
 CHUNK = 10000
 
 
-def main(seed: int, T_s: float, tag: str, p_inter: float) -> None:
+def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     import jax
     import jaxfne as jtfne
 
     OUT.mkdir(parents=True, exist_ok=True)
-    sizes = cs.module_sizes()
+    sizes, rho, p_inter, depth = cs.layout(lay)
+    names = list(sizes)
     t0 = time.time()
     model, rows = cs.construct(seed, sizes, p_inter)
     t_construct = time.time() - t0
-    sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(cs.P_LOCAL, seed))
+    # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
+    sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
     if str(sim.resolved_runtime.actual_dtype) != "float32":
         raise RuntimeError(f"runtime resolved {sim.resolved_runtime.actual_dtype}, float32 required")
     t1 = time.time()
@@ -52,10 +56,10 @@ def main(seed: int, T_s: float, tag: str, p_inter: float) -> None:
     n_steps = spikes.shape[0]
 
     sl = cs.block_slices(sizes)
-    keys = [(m, t) for m in cs.MODULES for t in cs.POPS]
+    keys = [(m, t) for m in names for t in cs.POPS]
     counts = np.stack([spikes[:, sl[k]].sum(axis=1) for k in keys], axis=1).astype(np.int32)
 
-    W = cs.lfp_weights(model, rows).astype(np.float32)
+    W = cs.lfp_weights(model, rows, names).astype(np.float32)
     X = np.empty((n_steps, W.shape[1]), dtype=np.float32)
     for a in range(0, n_steps, CHUNK):
         X[a:a + CHUNK] = spikes[a:a + CHUNK].astype(np.float32) @ W
@@ -68,7 +72,7 @@ def main(seed: int, T_s: float, tag: str, p_inter: float) -> None:
         g[t] = acc
     drive = np.array([V_REF_MV - c0.REV_E_MV if j % 2 == 0 else V_REF_MV - c0.REV_I_MV for j in range(W.shape[1])])
     I = np.abs(g * drive)  # pA per module and receptor
-    lfp = np.stack([I[:, 2 * k] + I[:, 2 * k + 1] for k in range(len(cs.MODULES))], axis=1).astype(np.float32)
+    lfp = np.stack([I[:, 2 * k] + I[:, 2 * k + 1] for k in range(len(names))], axis=1).astype(np.float32)
 
     rng = np.random.default_rng(0)
     raster = {}
@@ -84,8 +88,9 @@ def main(seed: int, T_s: float, tag: str, p_inter: float) -> None:
     sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     rec = {
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
-        "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_local": cs.P_LOCAL, "p_inter": p_inter,
-        "rho": cs.RHO, "sizes": sizes, "edges": cs.edge_table(model, rows),
+        "layout": lay, "units": names, "depth_rel_L4": depth,
+        "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_inter": p_inter, "k_inter": cs.K_INTER if p_inter is None else None,
+        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model),
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},
         "jaxfne_version": jtfne.__version__, "jaxfne_file": str(jtfne.__file__),
@@ -99,4 +104,4 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     if len(a) not in (3, 4):
         raise SystemExit(__doc__)
-    main(int(a[0]), float(a[1]), a[2], float(a[3]) if len(a) == 4 else cs.P_INTER)
+    main(int(a[0]), float(a[1]), a[2], a[3] if len(a) == 4 else "e2_3unit")

@@ -21,7 +21,23 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
-from scipy.signal import welch  # noqa: E402
+from scipy.signal.windows import dpss  # noqa: E402
+
+SMOOTH_HZ = 2.0  # multitaper half-bandwidth, as the published analysis (1 s windows, 2 Hz smoothing)
+
+
+def multitaper(sig: np.ndarray, fs: float, nper: int) -> tuple[np.ndarray, np.ndarray]:
+    """[time, channel] -> (f, P[channel, f]): non-overlapping windows of nper samples, DPSS NW = W*T,
+    K = 2NW - 1 tapers, power averaged over tapers and windows; each window demeaned."""
+    nw = SMOOTH_HZ * nper / fs
+    tapers = dpss(nper, nw, Kmax=max(1, int(2 * nw) - 1))  # [K, nper]
+    nwin = sig.shape[0] // nper
+    acc = 0.0
+    for i in range(nwin):
+        x = sig[i * nper:(i + 1) * nper]
+        x = x - x.mean(axis=0)
+        acc = acc + (np.abs(np.fft.rfft(tapers[:, :, None] * x[None], axis=1)) ** 2).mean(axis=0)
+    return np.fft.rfftfreq(nper, 1.0 / fs), (acc / max(nwin, 1)).T
 
 ROOT = Path(__file__).resolve().parents[1]
 D = ROOT / "results" / "laminar_e2"
@@ -125,9 +141,7 @@ def main(tag: str, discard_s: float) -> None:
 
     def probe_psd(amp):
         sig = (lfp * amp[None, :]) @ K.T  # [time, channel]
-        sig = sig - sig.mean(axis=0)
-        f, p = welch(sig, fs=fs, window="hann", nperseg=nper, noverlap=nper // 2, axis=0)
-        return f, p.T
+        return multitaper(sig, fs, nper)
 
     f, P = probe_psd(np.ones(len(MODS)))
     _, Pw = probe_psd(np.array([w[m] for m in MODS]))

@@ -3,7 +3,11 @@
 Owner order (Hamm, 2026-11-09): replicate the model of Herrera et al. 2026 (bioRxiv 10.64898/2026.11.04.763717)
 1:1 in structure, with our cells, our synapses and the CAMINOS hypothesis as mechanism; readout is our LFP proxy
 with the published spectrolaminar analysis. Unsealed first pass (owner relaxation 2026-11-09: simulations first).
-Status: **values below await approval; no run beyond a ≤1 s smoke until approved.**
+Status: **approved as recommended (Hamm 2026-11-09: "Approve as recommended"; D1–D5 take the recommended column).**
+Amendment after approval (realization only): silencing sets VT_mV +500 and Vpeak_mV +1000 instead of EL −90. Reason
+(D): under the CAMINOS drive (560·4 Hz·2 ms·2.5 nS = 11.2 nS mean AMPA) a cell with EL −90 settles near
+(10·(−90) + 11.2·0)/21.2 ≈ −42 mV, above VT −50, and still fires; with VT +500 the exponential term vanishes and V
+stays below E_AMPA 0 mV < Vpeak.
 
 ## Sources
 
@@ -106,7 +110,7 @@ P/max_c P, bands 10–30 and 50–150 Hz, panels d–i layout. Depth axis rel. m
 | Id | Condition | Realization |
 |---|---|---|
 | X0 | baseline, spontaneous | H and A0 |
-| X1 | silence PV / SST / VIP (all layers) | `param_overrides` EL → −90 mV on the triple (stands in for P's hyperpolarizing current); check: 0 spikes in the silenced population |
+| X1 | silence PV / SST / VIP (all layers) | `param_overrides` VT → +500, Vpeak → +1000 mV on the triple (stands in for P's hyperpolarizing current; see amendment); check: 0 spikes in the silenced population |
 | X2 | silence one layer (each of 5) | same override on all its populations |
 | X3 | isolated layer (L2/3, L4, L5, L6) | all other layers silenced |
 | X4 | L4↔L6 swap | L4 takes L6's counts and within-layer p_eff (and vice versa), run isolated as P Suppl Fig 9 |
@@ -134,3 +138,17 @@ Run plan: 20 s, discard 2 s, seed 1 (E2 convention); X0 first, inspect, then X1�
 | D3 | weights | W1 (CAMINOS total conductance per class) |
 | D4 | wiring | H primary, A0 control |
 | D5 | gratings / layer-specific LGN drive | defer; spontaneous first |
+
+## 11. Build and smoke (2026-11-09T23:44Z, parent 3f3ee7f)
+
+Code: `scripts/allen_v1_import.py` → `data/allen_v1_blocks.json` (N 66552, g as in 2, MC seed 0);
+`jomission/laminar/allen_v1_replica.py`; `scripts/run_allen_v1_replica.py`. Smoke at scale 0.1 (6656 cells,
+full-size in-degree kept, no block capped), wiring H, seed 1, 0.5 s, JaxFNE 0.5.9, CPU:
+
+| Run | Edge check | Silencing | Rates (Hz) | Wall |
+|---|---|---|---|---|
+| baseline | 353 blocks examined (361 − 8 H zeros), 0 with abs z > 5; 2 386 493 edges vs 2 386 008 expected | – | E 1.6–4.7 (L5 NP 12.8); PV 20.0–22.8; SST 5.4–12.7; VIP 5.5–12.7; L1 10.4 | construct 54 s, simulate 21 s |
+| PV silenced | same | PV 0 spikes | E 73–173, SST 74–172 (runaway without PV) | construct 406 s (cold), simulate 24 s |
+
+Full-size cost (inferred, linear in edges and in cells × steps): construct ~10× the warm 54 s; simulate 20 s at
+66552 cells ~ 21 s × 10 × 40 ≈ 2.3 h per condition on this CPU.

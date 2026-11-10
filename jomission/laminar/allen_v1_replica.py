@@ -248,7 +248,8 @@ def lfp_weights(model, rows, pl: dict) -> tuple[np.ndarray, list[str]]:
     """[N, 2 * n_E_layers] summed outgoing weight onto each layer's E cells (AMPA, GABA); L5 = ET + IT + NP."""
     e_pops = [p for p in pl["pops"] if kind(p) == "E"]
     W = cs.lfp_weights(model, rows, [tag(p) for p in e_pops])
-    out = np.zeros((W.shape[0], 2 * len(E_LAYERS)))
+    W = W[0] if isinstance(W, tuple) else W  # (W, cols, tau, rev) since a168181; the array before it
+    out =np.zeros((W.shape[0], 2 * len(E_LAYERS)))
     for k, p in enumerate(e_pops):
         j = E_LAYERS.index(layer_of(p))
         out[:, 2 * j:2 * j + 2] += W[:, 2 * k:2 * k + 2]

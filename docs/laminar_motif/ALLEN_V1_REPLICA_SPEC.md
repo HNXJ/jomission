@@ -164,4 +164,24 @@ arrays of the first smoke exactly.
 X0 full size (2026-11-10, `x0_H_s1_T20`, parent 478c34e): 66552 cells, wiring H, seed 1, 20 s. Edge check 353
 blocks, 0 failed; 23 854 994 edges vs 23 847 017 expected. Rates (Hz): E 0.67–2.25 (L5 NP 10.8); PV 13.7–19.9;
 SST 0.4–1.4 in L2/3–L5, 7.7 in L6; VIP 0.95–1.4 in L2/3–L5, 5.7 in L6; L1 5.4. Construct 72 s, simulate 3.40 h.
-Spectra not yet computed (figure script pending).
+Spectra: `scripts/allen_v1_figure.py x0_H_s1_T20` (2026-11-10). Units: 4 E layers at mid-depths 263/431/585/747 µm;
+RWS proxy and analysis from `e2_motif_figure.py` (imported); 2 s discard, 17 one-second windows; 21 contacts 50–829 µm,
+σ 0.15 (117 µm). Bands as the E2 image set (alpha-beta 10–30, gamma 50–150 Hz).
+
+| Row | M (per thickness unit) | jackknife z | shuffle p (24 exhaustive) | crossing |
+|---|---|---|---|---|
+| per E cell | +0.103 | +2.3 | 0.29 (7/24) | no |
+| sum over E cells | +0.174 | +4.6 | 0.375 (9/24) | no |
+
+Peak frequency is 34 Hz at every contact and every layer (outside both bands). Power is largest at the deepest contacts
+(normalized R = 1.0 at ~0.6 depth); the top contacts sit near 0. The null-tested motif is not established at X0.
+
+Review (workflow wf_a72de94b-2ac, 2026-11-10). Findings and status:
+- Provenance: X0 started about 19:20 on 2026-11-09, before commit a168181 (19:24) changed `caminos_stack.lfp_weights`
+  to return a tuple. The run used the array-returning version. The `git_sha` in `x0_H_s1_T20.json` (89a1272) is HEAD
+  at the end of the run, not the code at its start; the start code is the tree before a168181. Fixed for later runs:
+  `run_allen_v1_replica.py` records the SHA at start, and `allen_v1_replica.lfp_weights` accepts both return forms.
+  Regression: the 0.5 s, 0.1-scale smoke on the current code reproduces `smoke_s0p1_H.npz` (43 arrays identical).
+- Open (owner): §7 gives the sum-form proxy |g_AMPA·V| + |g_GABA·(V+80)| as run_e2_stack.py; the analysis line and
+  `e2_motif_figure.py` use RWS. The figure uses RWS. The run's stored `lfp_pA` is the sum form and is not plotted.
+- Open (check): the per-cell null mean (−0.10296) is almost exactly −M (+0.10291). Not yet explained.

@@ -39,6 +39,7 @@ def main(seed: int, T_s: float, tag: str, wiring: str, scale: float, silence: st
     import jaxfne as jtfne
 
     OUT.mkdir(parents=True, exist_ok=True)
+    sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     pl = av.plan(wiring, scale, swap)
     silenced = av.silence_targets(silence, pl["pops"])
     t0 = time.time()
@@ -90,8 +91,7 @@ def main(seed: int, T_s: float, tag: str, wiring: str, scale: float, silence: st
         raster[f"{av.tag(p)}_c"] = np.concatenate(rast[p][1]).astype(np.int16)
     np.savez_compressed(OUT / f"{tag}.npz", counts=counts, pops=np.array(pl["pops"]), lfp_pA=lfp,
                         lfp_layers=np.array(layers), g_nS=g.astype(np.float32), **raster)
-    sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
-    ok = not check["failed"] and silent_ok
+    ok =not check["failed"] and silent_ok
     rec = {
         "experiment": "Allen V1 replica (ALLEN_V1_REPLICA_SPEC.md; unsealed first pass)",
         "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "wiring": wiring, "scale": scale, "swap": swap,

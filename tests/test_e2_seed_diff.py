@@ -24,6 +24,14 @@ def test_ssim_symmetric_and_sensitive_to_structure_not_only_mean():
     assert sd.ssim(y, y[::-1]) < 0.5  # same mean and variance, inverted structure
 
 
+def test_ssim_pinned_on_constant_maps():
+    # Constant maps: variances and covariance 0, so SSIM = (2 a b + C1) / (a^2 + b^2 + C1), C1 = (0.01)^2.
+    a, b, c1 = 0.2, 0.6, 1e-4
+    want = (2 * a * b + c1) / (a * a + b * b + c1)
+    got = sd.ssim(np.full((21, 150), a), np.full((21, 150), b))
+    assert abs(got - want) < 1e-12, (got, want)
+
+
 def test_pearson():
     y = np.arange(12.0).reshape(3, 4)
     assert abs(sd.pearson(y, 2 * y + 1) - 1) < 1e-12 and abs(sd.pearson(y, -y) + 1) < 1e-12

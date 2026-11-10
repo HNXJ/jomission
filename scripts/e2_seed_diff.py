@@ -7,7 +7,9 @@ Usage:
 
 Runs: the nine ladder runs (e2_ladder_rule.tag). R is e2_scorer.rp_map of the sum-over-cells spectra (as the
 verdict). SSIM: Wang et al. 2004, Gaussian window sigma 1.5 (truncate 3.5, as the common 11-sample window), data
-range 1 (R is in [0, 1]), K1 0.01, K2 0.03, mean over the map. Pearson r over all 21 x 150 pixels.
+range 1 (R is in [0, 1]), K1 0.01, K2 0.03, mean over the whole map with reflect padding at the borders (the
+11-sample window spans about half of the 21 depth rows, so border handling matters; a valid-region-only SSIM is
+lower for model vs PROTO, 0.011 vs 0.079 for n4000 s1, review). Pearson r over all 21 x 150 pixels.
 Writes results/viz/paper_w6/seed_diff.json and seed_diff.png. Post hoc readout; no simulation.
 """
 from __future__ import annotations

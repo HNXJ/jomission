@@ -423,8 +423,8 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   K 76.4, w 10.53 nS; L2/3→L4 p 0.00103, K 17.2, w 10.53 nS; L4→L2/3 p 0.00243, K 42.3, w 6.49 nS. Weights are set by the
   post-synaptic K (`weights_w1`), so L4 receives larger per-synapse weights.
 - Cause of the M difference (x1_SST, read-only; `scratchpad/_temp_m_cause.py`): the RWS signals of the two paths are identical
-  (max |Δ| = 0.0). The whole difference is the contact grid. Scorer grid (`CHANNELS`, −0.6 to 0.4 step 0.03): M 0.010
-  ± 0.043. Probe grid (`probe_rel_mid_L4`, −0.49 to 0.51 step 0.039): M 0.169 ± 0.089, which reproduces the recorded figure M
+  (max |Δ| = 0.0). The whole difference is the contact grid. Scorer grid (`CHANNELS` = linspace(−0.6, 0.4, 21), step 0.05): M 0.010
+  ± 0.043. Probe grid (`probe_rel_mid_L4`, −0.489 to 0.511, 21 points, step 0.05, offset +0.011 from CHANNELS): M 0.169 ± 0.089, which reproduces the recorded figure M
   exactly. The grid alone changes M about 17×. Hypothesis, not tested: CHANNELS places contacts outside the unit depths (to −0.6),
   where the profile is flat, and the slope is taken over them.
 - Scorer-path sum-row numbers (the only M to quote; CHANNELS grid, per-unit RWS, 1 s windows; shuffle p over the 24 unit orders
@@ -446,7 +446,6 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   figure path. The positive contrast in the X0 record and the 5 s H record (+0.092, figure path) is a probe-grid artifact and is
   withdrawn. Only X1 PV (runaway) has a positive scorer-path contrast, 0.106 ± 0.069 (1.5 SE).
 - Flat-tail test (`scratchpad/_temp_flat_tail.py`, scorer inputs, per-unit RWS; span = outer unit depth ± σ = [−0.366, 0.556]).
-  Correction: the CHANNELS grid is 21 contacts at step 0.05 (−0.6 to 0.4), not step 0.03 as written above.
   Five CHANNELS contacts lie outside the span (−0.6 to −0.4); none lie above it.
   | run | M CHANNELS full | M CHANNELS in span (full-grid norm) | M CHANNELS in span (set norm) | M probe grid (scorer RWS) |
   |---|---|---|---|---|
@@ -454,7 +453,7 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   | x1_SST_H_s1_T5 | +0.010 | +0.282 | +0.282 | +0.169 |
   The five outer contacts have dlt = ab − gm of 0.000 to 0.023 (H) and −0.022 to 0.000 (SST), so they are near-flat, as
   hypothesised. Dropping them still flips the H sign. Mechanism (reasoned, not decomposed numerically): the least-squares slope
-  depends on the centre of the grid, and the removed points pull the centre from −0.10 to +0.03. Their near-zero values add to
+  depends on the centre of the grid, and the removed points pull the centre from −0.10 (full grid) to +0.025 (in-span grid). Their near-zero values add to
   the denominator and shift the centre, which can change the sign. So "dilution only" does not hold for this slope. The sign
   is not robust to the choice of contacts.
   Non-shared contacts (no contact is common to the two grids): the probe grid adds contacts at +0.46 and +0.51, where dlt

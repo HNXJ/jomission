@@ -34,10 +34,11 @@ arbitrary observation operator. The argument now in Methods ("From transmembrane
    each segment current I_n is a linear filter of the synaptic currents (with conductance synapses, to the extent
    driving-force fluctuations are small). Then φ_z(t) = Σ_u Σ_r (h_{z,u,r} * I_{u,r})(t): the LFP is a sum of
    linearly filtered unit-by-receptor synaptic currents.
-3. **RWS weights are validated; the separable depth kernel is assumed.** Mazzoni et al. reported that RWS
+3. **RWS weights are reported to fit; the separable depth kernel is assumed.** Mazzoni et al. reported that RWS
    (c_AMPA = 1, c_GABA = −1.65, τ_AMPA = 6 ms, τ_GABA = 0) explained > 90% of the variance of the multicompartment
-   LFP at the positions they tested and predicted its gamma peak frequency. They also reported that interneuron
-   inputs contributed negligibly (closed-field morphology), so pyramidal-cell synaptic currents set the LFP,
+   LFP over the positions they tested, including depths along the column axis (their Fig. 5). It did poorly only
+   where the LFP was small, near its inversion point. It predicted the gamma peak frequency (Fig. 7C). They also
+   reported that interneurons contributed negligibly (Figs. 3 and 8; closed-field stellate morphology), so pyramidal-cell synaptic currents set the LFP,
    including GABA currents supplied by interneurons. Our L_u uses exactly these currents. Extending RWS to a depth
    profile as h_{z,u,r}(t) = w_{zu} c_r δ(t − τ_r), with one w_zu shared by AMPA and GABA, is our assumption. Real
    AMPA and GABA sources sit at different places on the cell and can differ in sign above and below the soma.
@@ -117,7 +118,7 @@ without the in-degree rule. B is an assumption, scanned in T1.
 model of the extracellular potential (point 1.2). It would bound the readout dependence, not replace it. It needs a
 scorer extension and is listed as follow-up.
 
-**3.4.** 89 source hashes; scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
+**3.4.** 92 source hashes (now including the readout-sensitivity script and output); scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
 archive (code, run records, seeds, environment) is a submission item and is not done.
 
 **3.5.** Not done in this revision; a figure-layout pass precedes submission.

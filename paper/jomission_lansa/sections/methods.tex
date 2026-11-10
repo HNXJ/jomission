@@ -72,8 +72,8 @@ with the transmembrane currents as sources, and in an ohmic, homogeneous medium 
 \begin{equation*}
 \phi(\mathbf{r},t) = \frac{1}{4\pi\sigma_e}\sum_n \frac{I_n(t)}{|\mathbf{r}-\mathbf{r}_n|},
 \end{equation*}
-a sum over all membrane segments $n$. This is the forward model used by \citet{Mazzoni2015} to compute the
-reference LFP of multicompartment pyramidal cells. Two properties make a current-based proxy defensible. First,
+a sum over all membrane segments $n$. \citet{Mazzoni2015} computed their reference LFP of multicompartment
+pyramidal cells with the line-source form of this volume-conduction sum. Two properties make a current-based proxy defensible. First,
 $\phi$ is linear in the $I_n$, and if synaptic inputs are treated as current sources into passive dendrites, the
 $I_n$ are linear filters of those currents (the cable equation is linear); with conductance-based synapses this
 holds to the extent that driving-force fluctuations are small. The potential at a contact at depth $z$ is then
@@ -82,13 +82,16 @@ holds to the extent that driving-force fluctuations are small. The potential at 
 \end{equation*}
 where $I_{u,r}$ is the total synaptic current of receptor $r$ onto unit $u$'s pyramidal cells and $h_{z,u,r}$ is
 a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. Second, in the multicompartment network of
-\citet{Mazzoni2015} the contribution of synaptic inputs onto interneurons was negligible in amplitude and spectrum
-(their stellate-like dendrites form a closed field), so the LFP is set by the synaptic currents onto pyramidal cells,
+\citet{Mazzoni2015} the contribution of the interneurons was negligible (their Figs.~3 and 8: stellate
+dendrites with symmetrically placed synapses form a closed field), so the LFP is set by the synaptic currents onto pyramidal cells,
 including the GABA currents that interneurons supply. They reported that a weighted sum of delayed currents,
 $c_\text{AMPA} = 1$, $c_\text{GABA} = -1.65$, $\tau_\text{AMPA} = 6$ ms and $\tau_\text{GABA} = 0$ (the RWS proxy),
-explained more than 90\% of the variance of the multicompartment LFP at the recording positions they tested and
-predicted the LFP gamma peak frequency, and that the proxies tended to underestimate low frequencies and
-overestimate gamma. The weights were fitted to their morphology, synapse placement and positions. Using them as a
+explained more than 90\% of the variance of the multicompartment LFP time course over the recording positions
+they tested, including depths along the column axis (their Fig.~5), performing poorly only where the LFP itself
+was small, such as near its inversion point; that the proxies predicted the LFP gamma peak frequency (their
+Fig.~7C); and that they tended to underestimate low frequencies and overestimate gamma (their Fig.~7A--B). The
+weights were fitted to their morphology, synapse placement and positions ($\alpha = 1.65$ is the mean over depths of
+the optimal weight). Using them as a
 separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA
 and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so
 their contributions differ in profile and can differ in sign above and below the soma.
@@ -246,6 +249,6 @@ probe-geometry and stack code used here is as of commit 8519540, and the mid-gam
 \path{paper/jomission_lansa/data/}) are added with this draft.
 Seeds are given per run in the tables and run records. The run records and verdict
 files cited here live under \path{results/}, which is not under version control; their SHA-256 hashes are listed in
-\path{paper/jomission_lansa/data/sources_sha256.txt} (89 files), and the mid-depth gamma values in
+\path{paper/jomission_lansa/data/sources_sha256.txt} (92 files, including the readout-sensitivity script and output), and the mid-depth gamma values in
 \path{paper/jomission_lansa/data/mid_gamma.json}. The run records are not yet in a public archive; until they are
 deposited, the data behind the tables are available only on request.

@@ -46,8 +46,9 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     names = list(sizes)
     t0 = time.time()
     p_local = cs.local_p(lay, sizes)
+    tdrive = cs.drive_entries(lay, sizes)
     model, rows = cs.construct(seed, sizes, p_inter, p_local, tau_sst_e_ms=tau_sst_e, k_scale=mods.get("k", 1.0),
-                               deep_size=mods.get("dsz", 1.0))
+                               deep_size=mods.get("dsz", 1.0), gaba_scale=mods.get("gi", 1.0), triple_drive=tdrive)
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
     sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
@@ -99,6 +100,7 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "layout": lay, "units": names, "depth_rel_L4": depth,
         "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_inter": p_inter, "k_inter": cs.K_INTER if p_inter is None else None,
         "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e, "modifiers": mods, "p_local": p_local,
+        "triple_drive": tdrive,  # declared (area, layer, cell_type, drive) entries, pA; None when no ipv/isom
         "g_columns": [list(c) for c in gcols], "g_reversal_mV": grev.tolist(), "g_tau_ms": gtau.tolist(),
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},

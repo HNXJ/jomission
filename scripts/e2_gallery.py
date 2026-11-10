@@ -29,20 +29,10 @@ def fmt(x, p=3):
 
 
 def e_rates(tag: str, rec: dict) -> dict[str, float] | None:
-    npz = D / f"{tag}.npz"
-    if not npz.exists() or "sizes" not in rec:
-        return None
-    z = np.load(npz)
-    c = z["counts"][int(DISCARD_S * 1000 / rec["dt_ms"]):]
-    if c.shape[0] == 0:  # run shorter than the discard
-        return None
-    T =c.shape[0] * rec["dt_ms"] / 1000
-    out = {}
-    for k, key in enumerate(z["block_keys"]):
-        u, t = str(key).split("_")
-        if t == "E":
-            out[u] = float(c[:, k].sum() / T / rec["sizes"][u]["E"])
-    return out
+    from e2_select import rates
+
+    r = rates(tag, DISCARD_S, D) if "sizes" in rec else None  # None: missing run or shorter than the discard
+    return None if r is None else {u: v["E"] for u, v in r.items()}
 
 
 def similarity(tag: str) -> dict | None:

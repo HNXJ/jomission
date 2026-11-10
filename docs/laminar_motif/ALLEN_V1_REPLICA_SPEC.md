@@ -325,8 +325,13 @@ r_proto here is the `allen_v1_similarity.py` LANSA-bin probe, sum row (`<TAG>_si
 equals the e2_scorer sum-row r_proto exactly (0.15179058880856583 in both, x0rerun). Both use the same CHANNELS grid and
 unit spectra, so they are one number, not two; the scorer's pass rule is not applied to the replica here.
 
+r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif_figure.FIG_BANDS`): from the scorer verdict
+`results/allen_v1/scorer/<TAG>_verdict.json`. Manuscript band 31–150 Hz: from `<TAG>_similarity.json`
+(`lansa.sum_over_cells.r_gm`, which equals the scorer's `r_gm_manuscript`).
+
 - x0_H_s1_T20 (first X0, sha 89a1272 end-of-run, 20 s): see §14; M 0.174 ± 0.038, p 0.375, r_proto (sum, LANSA-bin probe)
-  0.152, gamma peak 0.000, r_gm −0.163; off-authority, exploratory.
-- x0rerun_H_s1_T20 (X0 rerun, sha 734fede, 20 s): wall 7866 s; M 0.174 ± 0.038; p 0.375; crossing false; r_proto
-  (sum, LANSA-bin probe) 0.152; gamma peak 0.000; r_gm −0.163; off-authority (0.5.9 side install), exploratory. Total
-  spikes 3 485 548, equal to the first X0 run.
+  0.152; gamma peak 0.000; r_gm image −0.163 (`x0_H_s1_T20_verdict.json`), manuscript −0.074; off-authority, exploratory.
+- x0rerun_H_s1_T20 (X0 rerun, sha 734fede, 20 s): wall 7866.5 s; M 0.1738 ± 0.0381; p 0.375; crossing false; r_proto
+  (sum, LANSA-bin probe) 0.152; gamma peak 0.000; r_gm image −0.163 (`x0rerun_H_s1_T20_verdict.json`, scorer run on the
+  rerun), manuscript −0.074; off-authority (0.5.9 side install), exploratory. Total spikes 3 485 548, equal to the first
+  X0 run.

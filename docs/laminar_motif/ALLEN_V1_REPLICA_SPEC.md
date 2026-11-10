@@ -340,3 +340,9 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   npz arrays identical; 151 017 spikes in each. No motif, shuffle, r_proto, gamma or r_gm: the figure step needs a
   2 s discard, and these runs are 0.5 s (figure log: reshape error on size 0). Scope: 0.5 s; equality beyond 0.5 s
   not tested (the 20 s equality is INFERRED).
+- x0rerun_H_s1_T5 (screening, 5 s; H, seed 1; sha 519f1ed; off-authority (0.5.9 side install), exploratory): wall 1835.5 s
+  (construct 43.6, simulate 1786.3). Sum-row M image 0.092 ± 0.126 (jackknife SE), shuffle p 0.333; manuscript band
+  M 0.108 ± 0.152, p 0.375. crossing_2se false; n_windows 2 (3 s analysed, 1 s windows). r_proto 0.079 (LANSA-bin
+  probe = scorer sum-row). Gamma peak depth 0.000 (contact 12). r_gm image −0.256 (`scorer/x0rerun_H_s1_T5_verdict.json`);
+  manuscript −0.150 (same file, `r_gm_manuscript`). Comparator x0rerun_H_s1_T20 (20 s): M 0.174 ± 0.038, p 0.375,
+  r_proto 0.152, r_gm −0.163. Not comparable across T: 5 s is a screen.

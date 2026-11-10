@@ -34,7 +34,9 @@ def e_rates(tag: str, rec: dict) -> dict[str, float] | None:
         return None
     z = np.load(npz)
     c = z["counts"][int(DISCARD_S * 1000 / rec["dt_ms"]):]
-    T = c.shape[0] * rec["dt_ms"] / 1000
+    if c.shape[0] == 0:  # run shorter than the discard
+        return None
+    T =c.shape[0] * rec["dt_ms"] / 1000
     out = {}
     for k, key in enumerate(z["block_keys"]):
         u, t = str(key).split("_")

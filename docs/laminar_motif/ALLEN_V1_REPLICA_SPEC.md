@@ -272,3 +272,27 @@ Run status (additive; the records are not rewritten):
   per E cell −0.009, sum over E cells +0.152, null95 ≈ 0.25 (E2 method). Sum row: no similarity beyond chance (0.152
   below null95). The spec-probe values (0.335, 0.465) are not bin-aligned to the observed map and are not similarity
   results.
+- Cross-version identity, 0.5.8 against 0.5.9, on the full 19-population config (0.1 scale, 0.5 s, seed 1, H): 43 arrays
+  identical (`check_H` against `smoke_s0p1_H`, 15 452 spikes). Full-size pair (0.5 s, 66 552 cells) queued, not run.
+- Scorer units (x0_H_s1_T20, 0.5.9 side install, 20 s, discard 2 s; off-authority, exploratory): pass false. The
+  shared scorer (`scripts/e2_scorer.py`, unchanged) runs on four units, the E layers L2/3, L4, L5, L6 at depth
+  relative to mid-L4 {−0.216, 0, 0.198, 0.406} (thickness units; span 0.622). Interneurons are not units; they act
+  through the conductances onto E. Verdict: crossing false; r_ab 0.777; r_gm −0.163; unit-order rank 10 of 24;
+  r_proto 0.152 against smooth p95 0.675 and identical-unit control 0.135; halves agree (se1 0.075, se2 0.013).
+  The p95 is not comparable across unit sets: the 3-unit stack's p95 is 0.380, and this one is high because four
+  units span only 0.622 depth units. Adapter: `scripts/allen_v1_units.py` (commit pending review).
+
+## 15. Screening amendment: 5 s runs (2026-11-10; parent ruling; owner Hamm)
+
+- Purpose and label: 5 s runs are a screen. Label every record and figure "screening". A condition that appears to
+  move the motif gets a 20 s confirmation run before any claim.
+- Bracket (additive to §8 and §13; those stay the authority for any motif claim): T 5 s, seed 1, discard 2 s (not
+  shortened), dt 0.1 ms, 1 s windows, n_windows about 3 (5 s − 2 s = 3 s of data). Full size, 66 552 cells, wiring H
+  for the comparator; conditions as §8.
+- Comparator: the H run at 5 s (`x0rerun_H_s1_T5`) runs first and is the only comparator for the 5 s conditions.
+  Never compare a 5 s result with a 20 s result.
+- Reporting: every number with its jackknife SE (motif `jackknife_se`; scorer halves `se1`, `se2`, `se_diff`).
+- Units and pass rule: the four E-layer units above, the shared scorer unchanged, unit-order rank over 4! = 24. The
+  mapping is fixed: no interneuron units.
+- Authority: 0.5.9 runs are off-authority and exploratory (ruling R1); the authority verdict waits for OPEN-37.
+- Order: the 20 s X0 run first (running), then the full-size 0.5 s identity pair (0.5.8 and 0.5.9), then the 5 s queue.

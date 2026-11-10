@@ -371,5 +371,16 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   shuffle p 0.500; manuscript band M 0.060 ± 0.064, p 0.375. crossing_2se false; n_windows 2. r_proto 0.388 (LANSA-bin
   probe = scorer sum-row). Gamma peak depth −0.150 (contact 9). r_gm image +0.172 (`scorer/x1_PV_H_s1_T5_verdict.json`),
   manuscript +0.284. Against the H baseline (x0rerun_H_s1_T5: r_gm image −0.256, gamma peak 0.000): r_gm moves +0.43 and
-  the gamma peak moves to the upper L4/L2-3 side (−0.15). The r_gm shift is larger than the 0.25 resolution threshold of
-  M, but r_gm has no SE here, so it is not resolved; descriptive only at 5 s.
+  the gamma peak moves to the upper L4/L2-3 side (−0.15). r_gm has no SE at 5 s; the shift is unresolved. Descriptive only.
+- Gamma power check, X1 PV vs H vs A0 (5 s; `scratchpad/_temp_gamma_power.py`; the window-mean auto-spectra of the
+  four E-layer units; imaginary part of the spectra 1e-18 of the real part, so the real part is used). The r_gm readout
+  normalises each frequency across contacts (`e2_scorer.rp_map`), so r_gm does not depend on absolute power. Absolute
+  50–150 Hz power does not fall under PV silencing; it rises: L2/3 2.9e15 (H) → 3.4e17 (X1 PV), L4 8.8e15 → 1.1e17,
+  L5 1.5e15 → 5.6e16, L6 1.1e16 → 1.0e17. The 1–10 Hz share of 1–150 Hz power goes from 4–7% (H) to 67–93% (X1 PV);
+  the 50–150 Hz share from 25–51% to 1–3%. So the shift is a large slow component, not vanishing gamma. Whether the slow
+  component is a population state (e.g. synchronous bursting) is not yet checked; firing rates are the next check.
+- Queue (2026-11-10, parent request, spec §16 rule): a 20 s confirmation of x1_PV_H_s1_T5 (`x1_PV_H_s1_T20`, H, PV all
+  layers, seed 1) is queued after X1b, the last item. Not reordered. Launched by a waiter (`_temp_driver8.sh`) that
+  starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede); `jomission/laminar/caminos_stack.py`
+  changed between 734fede and the current HEAD (new modifiers and a probability guard, default path not changed by
+  reading, not verified by a run). The 20 s comparison waits for that check; no 20 s value is read before it.

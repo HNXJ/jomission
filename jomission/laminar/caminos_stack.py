@@ -55,19 +55,60 @@ def lansa_bins() -> tuple[np.ndarray, np.ndarray]:
     return np.round(np.asarray(d["axes"]["bin_center_rel_L4"]), 3), np.median(X.sum(axis=1), axis=1)
 
 
+DEEP_E = ("C", "D", "E")  # (area, layer, cell type) of the deep unit's E cells
+E_SIZE_FIELDS = ("C_pF", "gL_nS", "a_nS", "b_pA")  # scale with membrane area; tau_m unchanged
+
+
+def variant(name: str) -> tuple[str, dict[str, float]]:
+    """Split a layout name into (base, modifiers). Modifiers are '_'-separated tokens after the base
+    (e2_3unit, e2_21bin, unitNNNN); 'p' is the decimal point:
+      sstNN  SST->E decay NN ms on its own receptor, equal charge (build_config)
+      nNNNN  mean E cells per unit (3-unit stack)
+      dens   E cells per unit proportional to LANSA total density of the unit's bins (3-unit stack)
+      kX     inter-unit in-degree K_INTER * X
+      dszX   deep-unit E cells X times larger: C, gL, a, b scaled by X, synapses and drive unchanged
+    """
+    toks = name.split("_")
+    nb = 2 if name.startswith("e2_") else 1
+    base, mods = "_".join(toks[:nb]), {}
+    for t in toks[nb:]:
+        for key in ("sst", "dsz", "dens", "n", "k"):
+            if t.startswith(key):
+                rest = t[len(key):]
+                mods[key] = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
+                break
+        else:
+            raise ValueError(f"unknown layout modifier {t!r} in {name!r}")
+    return base, mods
+
+
 def sst_e_tau(name: str) -> float | None:
-    """SST->E decay (ms) from a layout suffix '_sstNN' (slow SST->E variant), else None (CAMINOS 8 ms)."""
-    head, _, tail = name.rpartition("_sst")
-    return float(tail) if head and tail.isdigit() else None
+    return variant(name)[1].get("sst")
+
+
+def unit_density(depth_groups: dict[str, np.ndarray]) -> dict[str, float]:
+    """Mean over the group's bins of the median-over-areas total LANSA density."""
+    z, dens = lansa_bins()
+    return {m: float(dens[g(z)].mean()) for m, g in depth_groups.items()}
+
+
+MODULE_BINS = {"S": lambda z: z < -0.175, "M": lambda z: (z >= -0.175) & (z <= 0.175), "D": lambda z: z > 0.175}
 
 
 def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], float | None, dict[str, float]]:
-    """(sizes, rho, p_inter, depth) for a named layout. depth is the unit's position rel. mid-L4.
-    A '_sstNN' suffix (see sst_e_tau) does not change the layout."""
-    if sst_e_tau(name) is not None:
-        name = name.rpartition("_sst")[0]
+    """(sizes, rho, p_inter, depth) for a named layout (see variant). depth is the unit's position rel.
+    mid-L4. The 3-unit stack keeps the owner's fixed p 0.01 unless n, dens or k is given; then the
+    inter-unit in-degree is K_INTER-based (p None)."""
+    name, mods = variant(name)
     if name == "e2_3unit":
-        return module_sizes(), dict(RHO), P_INTER, {"S": -0.4, "M": 0.0, "D": 0.3}
+        depth = {"S": -0.4, "M": 0.0, "D": 0.3}
+        if not ({"n", "dens", "k"} & set(mods)):
+            return module_sizes(), dict(RHO), P_INTER, depth
+        n_mean = mods.get("n", c0.NE)
+        dens = unit_density(MODULE_BINS) if "dens" in mods else {m: 1.0 for m in MODULES}
+        mean = np.mean(list(dens.values()))
+        sizes = {m: unit_sizes(int(round(n_mean * dens[m] / mean)), RHO[m]) for m in MODULES}
+        return sizes, dict(RHO), None, depth
     if name.startswith("unit") and name[4:].isdigit():  # one small unit at rho 1: finite-size check against E0
         return {"U": unit_sizes(int(name[4:]), 1.0)}, {"U": 1.0}, None, {"U": 0.0}
     if name == "e2_21bin":
@@ -92,7 +133,8 @@ def neuron_rows(sizes: dict[str, dict[str, int]]) -> list[dict]:
 
 
 def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-                 p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None):
+                 p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None,
+                 k_scale: float = 1.0):
     """p_local: per-unit within-unit probability (default K_E / N_E). p_inter: fixed inter-unit probability
     (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit. tau_sst_e_ms: SST->E synapses
     on their own receptor 'gaba_sst' with this decay, weight scaled by TAU_I / tau so the charge per spike
@@ -125,7 +167,7 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
     for i in range(len(names) - 1):
         for a, b in ((names[i], names[i + 1]), (names[i + 1], names[i])):
             # in-degree 2 K_INTER per target cell: an end unit takes 2 K_INTER from its one neighbour
-            p = p_inter if p_inter is not None else min(1.0, 2 * K_INTER / n_nb[b] / sizes[a]["E"])
+            p = p_inter if p_inter is not None else min(1.0, 2 * K_INTER * k_scale / n_nb[b] / sizes[a]["E"])
             if p <= 0:
                 continue
             for post, weight in (("E", c0.Q_E_E), ("PV", c0.Q_E_INH), ("SOM", c0.Q_E_INH)):
@@ -138,12 +180,17 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
 
 
 def construct(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-              p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None):
+              p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None,
+              k_scale: float = 1.0, deep_size: float = 1.0):
     from jaxfne._construct_adex import construct_adex_model
+    from jaxfne.emitters_adex import ADEX_CELL_TYPE_DEFAULTS
 
     rows = neuron_rows(sizes)
-    model = construct_adex_model(build_config(seed, sizes, p_inter, p_local, tau_sst_e_ms), neuron_rows=rows,
-                                 positions=np.zeros((len(rows), 3)))
+    over = None
+    if deep_size != 1.0:
+        over = {DEEP_E: {f: ADEX_CELL_TYPE_DEFAULTS["E"][f] * deep_size for f in E_SIZE_FIELDS}}
+    model = construct_adex_model(build_config(seed, sizes, p_inter, p_local, tau_sst_e_ms, k_scale),
+                                 neuron_rows=rows, positions=np.zeros((len(rows), 3)), param_overrides=over)
     labels = tuple(model.params["emitter"].labels)
     if labels != tuple(r["cell_type"] for r in rows):
         raise RuntimeError("emitter labels do not follow the row order")

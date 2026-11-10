@@ -3,8 +3,8 @@
 Usage:
   python scripts/run_e2_stack.py SEED T_S TAG [LAYOUT]
 
-LAYOUT is a caminos_stack.layout name: e2_3unit (default), unitNNNN, e2_21bin; suffix _sstNN puts
-SST->E on a slow receptor with decay NN ms at equal charge (caminos_stack.build_config).
+LAYOUT is a caminos_stack.layout name: e2_3unit (default), unitNNNN, e2_21bin, with modifiers
+(caminos_stack.variant), e.g. e2_3unit_n4000_dens_k3_dsz2_sst30.
 
 Writes results/laminar_e2/<TAG>.npz (untracked: block counts, LFP proxy, raster sample) and
 results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions). JaxFNE 0.5.9 must be importable;
@@ -41,10 +41,12 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
 
     OUT.mkdir(parents=True, exist_ok=True)
     sizes, rho, p_inter, depth = cs.layout(lay)
-    tau_sst_e = cs.sst_e_tau(lay)
+    mods = cs.variant(lay)[1]
+    tau_sst_e = mods.get("sst")
     names = list(sizes)
     t0 = time.time()
-    model, rows = cs.construct(seed, sizes, p_inter, tau_sst_e_ms=tau_sst_e)
+    model, rows = cs.construct(seed, sizes, p_inter, tau_sst_e_ms=tau_sst_e, k_scale=mods.get("k", 1.0),
+                               deep_size=mods.get("dsz", 1.0))
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
     sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
@@ -93,7 +95,7 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
         "layout": lay, "units": names, "depth_rel_L4": depth,
         "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_inter": p_inter, "k_inter": cs.K_INTER if p_inter is None else None,
-        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e,
+        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e, "modifiers": mods,
         "g_columns": [list(c) for c in gcols], "g_reversal_mV": grev.tolist(), "g_tau_ms": gtau.tolist(),
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},

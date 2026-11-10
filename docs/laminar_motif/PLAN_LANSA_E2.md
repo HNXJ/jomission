@@ -70,6 +70,19 @@ Readout `scripts/e2_motif_figure.py` at 5c74999: RWS proxy per E cell, 21-contac
 
 Contrast M = +0.064 +- 0.005 (jackknife z 11.9; 3-unit null SD of z is 1.6 on synthetic data), depth-shuffle p 1/3 (6 orders), no crossing: both bands peak at D. The frequency ordering follows rho; the amplitude ordering (D loudest in every band) blocks the relative-power motif. Status: no motif, single seed, unsealed.
 
+## Owner review 2026-11-09 (chat) and sweeps
+
+- D 21x louder in gamma than S means the units are too isolated; superficial and deep must interact.
+- Free parameters are swept logarithmically, not asked.
+- Gamma source: the L2/3 E-PV loop (PING; Kopell and others), not L4 drive alone (many areas have a weak L4);
+  L4 E-PV gives L4 gamma. Against Herrera et al. 2026 (gamma from L4 PV->E; alpha-beta intrinsic to every layer).
+- Deep layers: larger, sparser neurons; dense small superficial cells synchronize at gamma more easily.
+
+Sweep (`scripts/run_e2_sweep.sh`, seed 1, 8 s, 2 s discarded): 3-unit stack, E per unit from LANSA total
+density (S 5785, M 3668, D 2547; mean 4000), K_INTER-based coupling with end-unit compensation.
+k (inter in-degree x 80) in {0.1, 0.3, 1, 3, 10} at dsz 1; deep E-cell size dsz (C, gL, a, b x dsz; synapses
+and drive unchanged) in {0.5, 2, 4} at k 1.
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

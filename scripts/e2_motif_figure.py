@@ -229,8 +229,11 @@ def main(tag: str, discard_s: float) -> None:
         P = probe_power(Sm, K)
         scores = {b: score(f, S, K, CHANNELS, BANDS[b]) for b in BANDS}
         unit_pow = np.einsum("fuu->uf", Sm).real
+        (a0, a1), (g0, g1) = BANDS[FIG_BANDS]
         out[key] = {"scores": scores, "peak_hz_contact": peak_freq(f, P).tolist(),
-                    "peak_hz_unit": dict(zip(units, peak_freq(f, unit_pow).tolist()))}
+                    "peak_hz_unit": dict(zip(units, peak_freq(f, unit_pow).tolist())),
+                    "unit_power_ab": dict(zip(units, unit_pow[:, (f >= a0) & (f <= a1)].mean(axis=1).tolist())),
+                    "unit_power_gamma": dict(zip(units, unit_pow[:, (f >= g0) & (f <= g1)].mean(axis=1).tolist()))}
         row(axs[r], f, P, CHANNELS, scores[FIG_BANDS], letters,
             f"Model LFP proxy (RWS, {label}); {rec.get('layout', 'e2_3unit')}, seed {rec['seed']}, {rec['T_s']:g} s")
     fig.savefig(D / f"{tag}_motif.png", dpi=150, bbox_inches="tight")

@@ -39,14 +39,14 @@ per type and depth bin (bars) against the LANSA profiles (lines), each divided b
 Before stacking, one isolated module was checked against the JaxFNE reference (E0, sealed). Over five seeds the
 E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and the
 E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its sealed margin (Table~\ref{tab:e0e1};
-\path{results/laminar_e0/e0_result.json}). This is a pipeline-equality check, not a test of the motif.
+\rec{R1}). This is a pipeline-equality check, not a test of the motif.
 % e0_result.json: f_pk mean 34.0; lag 7.16; rates 1.07955, 11.28056, 6.77608; verdict PASS
 
 Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, sealed): seed means
 46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per seed
 $-6.6$, $-5.9$, $-6.3$; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws reached the observed slope). At $\rho = 4$ no seed oscillated, so
 the sealed frequency-drop criterion is undefined and the E1 verdict is INCONCLUSIVE
-(\path{results/laminar_e1/e1_result.json}). The frequency effect holds over the oscillating range only.
+(\rec{R2}). The frequency effect holds over the oscillating range only.
 % e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
 
 \begin{table}[tbp]
@@ -69,32 +69,30 @@ E1 & all & 3 seeds & & INCONCLUSIVE \\
 \end{tabular}
 \caption{The single module. E0: five seeds, 12 s, 2 s discarded. E1: three seeds, $\rho \in \{0.25, 0.5, 1, 2, 4\}$;
 $p_\text{MC}$ is the one-sided Monte Carlo permutation $p$ (10\,000 draws, resolution $1/10\,001$).
-Sources: \texttt{results/laminar\_e0/e0\_result.json}, \texttt{results/laminar\_e1/e1\_result.json}.}
+Records \rec{R1}, \rec{R2}.}
 \label{tab:e0e1}
 \end{table}
 
 \subsection{The stacked column places alpha-beta deep but leaves mid-depth gamma weak}
 
 The reference stack (density-scaled units, local E in-degree $560\,D_u/\bar D$, about 810, 513 and 356 per cell in S, M and D, SOM$\to$E decay 15 ms) produced
-alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}, top; the bottom panel is the later T1 winner). Its relative
+alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}; Fig.~\ref{fig:scorer} shows the later T1 winner). Its relative
 gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some frequencies, at D ($+0.2$ to $+0.35$, about 90--150
 Hz; read from the figure). Averaged over 50--150 Hz and the contacts from $-0.2$ to 0, where the observed gamma is
 broadest, relative gamma was 0.19--0.31 in the nine ladder runs and the three confirmation runs, against 0.85 in the
 observed map; from $-0.6$ to $-0.3$ it was 0.66 in every run, the value the kernel gives when S carries the most
-power at every gamma frequency (observed 0.80; \path{paper/jomission_lansa/data/mid_gamma.json},
-\path{scripts/e2_mid_gamma.py}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E
+power at every gamma frequency (observed 0.80; \rec{D1}, \rec{C3}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E
 0.39--0.41, 0.73--0.75 and 1.45--1.58 Hz at S, M and D; PV 5.6--5.7, 11.8--11.9 and 22.1--22.6 Hz; SOM 4.7--5.0,
-6.8--6.9 and 9.0--9.4 Hz (\path{results/laminar_e2/t1_kd_n4000_selection.json}, level 1).
+6.8--6.9 and 9.0--9.4 Hz (\rec{R3}, axis 1, level 1).
 
 The isolated module's peak (27--46 Hz over $\rho$ 0.25--2, E1) lies below the scored gamma band (50--150 Hz). In
 the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$ seed means;
-\path{results/laminar_e2/lfs_rule.json}), not the 46, 34 and 27 Hz that the isolated-module values at the units'
+\rec{R4}), not the 46, 34 and 27 Hz that the isolated-module values at the units'
 $\rho$ would give: coupling and density scaling move M and D to alpha-beta (inferred).
 
 \textit{Where the mid-depth deficit sits.} Because the readout is linear in the unit signals (Methods), the contact
 power splits exactly into auto-spectral terms $K_{zu}^2 S_{uu}$ and cross terms $K_{zu}K_{zv}\,\mathrm{Re}\,S_{uv}$
-(identity checked to $10^{-9}$; \path{scripts/e2_readout_sensitivity.py},
-\path{paper/jomission_lansa/data/readout_sensitivity.json}). Over the 12 runs, cross terms carried 0--12\% of the
+(identity checked to $10^{-9}$; \rec{C4}, \rec{D2}). Over the 12 runs, cross terms carried 0--12\% of the
 50--150 Hz power at $-0.2$ to 0, and the auto-only map gave mid-depth relative gamma 0.19--0.30, so the deficit is
 not cancellation between units. M supplied 72--81\% of the auto power there, S the rest. The per-frequency maximum
 that normalizes the map sat at S ($-0.4$) for 97--101 of the 101 frequencies from 50 to 150 Hz in every run. The
@@ -106,19 +104,27 @@ continuous mean over the interval is 0.625).
 
 \textit{What the readout can represent.} The 0.615 bound holds for M alone. To separate the readout's limits from
 the circuit's, we searched the source covariances of the three declared sources without any simulation
-(\path{scripts/e2_readout_capacity.py}, \path{paper/jomission_lansa/data/readout_capacity.json}). For the scorer's
+(\rec{C5}, \rec{D3}). Admissible covariances are $C = LL^\top$ with $L$ real lower-triangular, so every
+$C$ is symmetric positive semidefinite by construction; only $\mathrm{Re}\,C$ enters the contact power, and the
+real part of a Hermitian PSD cross-spectral matrix is PSD, so no admissible spectral covariance is excluded. The
+$r$ maxima and the joint test below use one covariance for the whole 50--150 Hz band; the mid-depth ceiling is
+per frequency. The smallest eigenvalue of every reported optimum, relative to the trace, lies between
+$-4\times10^{-19}$ and $9\times10^{-4}$: zero to rounding at the $r$ maxima, which are rank one at
+$\sigma \leq 0.20$, so the optima lie on the boundary of the PSD set. For the scorer's
 gamma statistic, the depth correlation with the observed 50--150 Hz band-mean profile, the largest value one
 covariance can reach at $\sigma = 0.15$ is 0.853 with cross terms and 0.657 without them (independent S and M
 gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98 and 0.84. The readout can therefore pass the
 $r_{gm} \geq 0.6$ criterion at the declared width without any coherence between units, so the model's failure of
 that criterion (0.14--0.51) lies in its spectra, consistent with its gamma at D, not in the readout. These are in-sample upper bounds for one target. Fitted
-on 10 areas and scored on the held-out eleventh (\path{scripts/e2_readout_capacity_loao.py}, $n = 11$ folds;
+on 10 areas and scored on the held-out eleventh (\rec{C6}, \rec{D4}, $n = 11$ folds;
 Table~\ref{tab:loao}), the covariance reached $r$ $0.81 \pm 0.05$ (SD over folds; 11 of 11 $\geq 0.6$) with cross
-terms and $0.62 \pm 0.09$ (7 of 11) without at $\sigma = 0.15$. The 10-area mean profile itself predicts the
+terms and $0.62 \pm 0.09$ (7 of 11) without at $\sigma = 0.15$. The folds share 9 of their 10 training areas,
+so they are not independent samples and the SD is descriptive. The check shows that the readout's capacity
+carries over to held-out target profiles; it tests the fit to the target, not the circuit's mechanism. The 10-area mean profile itself predicts the
 held-out area at $0.93 \pm 0.06$, so the three-source kernel bound sits below what between-area similarity alone
 gives. Without coherence, passing at the declared width is marginal across areas. The main-text width is
 $\sigma = 0.15$, the width declared in the readout code (an assumption, not chosen among alternatives) and used
-for the T1 seal's readout ceilings before any T1 run (\path{docs/laminar_motif/SEAL_T1.md}); the other widths were
+for the T1 seal's readout ceilings before any T1 run (seal \rec{S4}); the other widths were
 added after review and are reported, not selected.
 
 \begin{table}[tbp]
@@ -137,8 +143,9 @@ $\sigma$ & full, in-sample & full, held-out & full $\geq0.6$ & auto, in-sample &
 \caption{Leave-one-area-out check of the readout's capacity for the observed 50--150 Hz depth profile. In-sample:
 mean over folds of the upper bound $\max_C r$ on the 10-area training profile. Held-out: $r$ of that fixed profile
 with the held-out area, mean $\pm$ SD over $n = 11$ folds. Full: cross terms allowed; auto: none. Baseline, the
-10-area mean profile against the held-out area: $0.93 \pm 0.06$ at every width. Source:
-\texttt{paper/jomission\_lansa/data/readout\_capacity\_loao.json}.}
+10-area mean profile against the held-out area: $0.93 \pm 0.06$ at every width. The folds overlap in 9 of 10
+training areas, so the SD is descriptive. The check concerns the readout's capacity for the target profile,
+not the circuit's mechanism. Record \rec{D4}.}
 \label{tab:loao}
 \end{table}
 
@@ -154,6 +161,54 @@ below that of a least-squares fit (which gives 0.45 at 0.15 and understates the 
 model, 41 sources from $-0.6$ to 0.4, reached $r$ 0.997--0.999; with 41 non-negative weights for 21 contacts this
 is a capacity check, not a validation. These limits belong to the three-source, positive-Gaussian readout. They do not constrain where gamma is generated in macaque
 cortex; signed lead fields, receptor-specific source depths and distributed dendritic currents are not modelled.
+
+\textit{Profile and level together.} Maximizing $r$ subject to mid-depth relative gamma within 0.02 of a
+target (\rec{C7}, \rec{D5}; one covariance for the band, penalty method, 48 starts; the case without cross
+terms checked on a 400-step grid of power shares) separates the two observed levels. At $\sigma = 0.15$ the
+map's level, 0.848, is reachable with cross terms at $r = 0.845$ (mid-depth 0.828; S, M and D 46, 49 and 5\%
+of power; S and M coherent, D in antiphase), barely below the unconstrained 0.853, and not without them: no
+diagonal covariance exceeds mid-depth 0.665. The band-mean profile's own level, 0.946, lies above the
+per-frequency ceiling 0.853 and is out of reach at 0.15 with or without cross terms. At $\sigma = 0.20$ both
+levels are reachable with cross terms ($r$ 0.978 and 0.981) and the map's level without them ($r$ 0.830;
+largest diagonal mid-depth 0.865). At the declared width, matching the map's mid-depth level therefore needs
+coherent sources in this readout, and with them the profile and the level can be met together. The circuit
+is far from that optimum (Table~\ref{tab:circuitopt}): it puts 63--78\% of its 50--150 Hz power at S and
+17--19\% at M, against 46 and 49\%, and the real parts of its source coherences are $-0.06$ to 0.27, against
+$\pm 1$.
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+ & reference, seeds 1--3 & T1 winner, seeds 4--6 & readout optimum \\
+\midrule
+power share S & 0.63--0.71 & 0.74--0.78 & 0.46 \\
+power share M & 0.18--0.19 & 0.17--0.19 & 0.49 \\
+power share D & 0.11--0.18 & 0.05--0.08 & 0.05 \\
+$|$coh$|$ S--M & 0.22--0.25 & 0.18 & 1 \\
+$|$coh$|$ S--D & 0.21--0.26 & 0.16--0.18 & 1 \\
+$|$coh$|$ M--D & 0.26--0.29 & 0.20--0.34 & 1 \\
+Re coh S--M & $-0.06$--0.08 & $-0.03$--0.02 & 1 \\
+Re coh S--D & $-0.01$--0.02 & $-0.01$--0.04 & $-1$ \\
+Re coh M--D & 0.10--0.19 & 0.08--0.27 & $-1$ \\
+$r_\gamma$ & 0.32--0.48 & 0.48--0.51 & 0.845 \\
+mid-depth gamma, band-mean profile & 0.21--0.24 & 0.18--0.21 & 0.828 \\
+$r_{gm}$ & 0.14--0.41 & 0.46--0.50 & 0.845 \\
+mid-depth gamma, map & 0.23--0.26 & 0.19--0.23 & 0.828 \\
+$r_\text{proto}$ & 0.21--0.40 & 0.37--0.38 & -- \\
+\bottomrule
+\end{tabular}
+\caption{The circuit against the readout optimum, 50--150 Hz, $\sigma = 0.15$. Circuit columns: ranges over seeds
+of the window-mean unit cross-spectra (2 s discarded); power shares from the diagonal summed over the band;
+coherence $S_{uv}/\sqrt{S_{uu}S_{vv}}$ averaged over the band, its modulus and its real part (only the real part
+enters the contact power). $r_\gamma$: Pearson $r$ of the band-mean contact power with the observed band-mean
+profile; $r_{gm}$, $r_\text{proto}$ and the map's mid-depth value as scored (equal to the verdict files). Optimum:
+one covariance for the band, maximum $r$ with mid-depth relative gamma within 0.02 of the observed 0.848; with one
+covariance $r_{gm} = r_\gamma$; $r_\text{proto}$ is not defined because the optimum has no alpha-beta. Observed:
+mid-depth 0.848 (map) and 0.946 (band-mean profile). Records \rec{C7}, \rec{D5}.}
+\label{tab:circuitopt}
+\end{table}
 
 \textit{Kernel width.} The kernel width is assumed, so we rescored the same 12 runs at four widths
 (Table~\ref{tab:sigma}). The band-correlation result depends on it: $r_{gm}$ reached 0.6 in 9 of 12 runs at
@@ -178,7 +233,7 @@ $\sigma$ & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & $r_{gm}\geq0.6$ / both $\geq
 \end{tabular}
 \caption{Kernel-width sensitivity, post hoc, same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
 counts out of 12. Observed mid-depth relative gamma ($-0.2$ to 0, 50--150 Hz) is 0.85. At 0.15 the values equal
-the verdict files. Source: \texttt{paper/jomission\_lansa/data/readout\_sensitivity.json}.}
+the verdict files. Record \rec{D2}.}
 \label{tab:sigma}
 \end{table}
 
@@ -187,19 +242,24 @@ depth correlations of the two bands must each reach 0.6 ($r_{ab}$, $r_{gm}$), th
 the whole-map correlation $r_\text{proto}$ must beat a smooth-spectrum null and an identical-unit control, and the
 two halves of the run must agree. The thresholds are reachable: the best a three-unit model can reach through the
 readout kernel is $r_\text{proto}$ 0.854 (coherent units) or 0.693 (incoherent), $r_{gm}$ 0.853 or 0.657
-(\path{results/laminar_e2/readout_ceiling.json}).
+(\rec{R5}).
 
 \begin{figure}[tbp]
 \centering
-\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=0.78\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}\\[0.6em]
-\IfFileExists{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}}{\pendingbox{scorer panel}}
-\caption{Reference column, seed 1, 8 s, 2 s discarded. Top (block file; letters are the file's own): A raster,
-B RWS LFP traces, C per-type rate spectra, D model relative-power map (RWS proxy), E firing-rate map, F observed
-11-area map. Bottom: the scorer's view of the T1 axis-1 winner (local in-degree exponent 1.41, SOM$\to$E 15 ms in every unit),
-seed 1: A observed map,
-B model map on the same 21 $\times$ 150 grid, C band depth profiles (solid model, dashed observed), D settings and
-scores. Model power is stationary; LANSA power is from 1 s peri-stimulus windows.}
+\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
+\caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C per-type rate spectra,
+D model relative-power map (RWS proxy), E firing-rate map, F observed 11-area map. Model power is stationary;
+LANSA power is from 1 s peri-stimulus windows.}
 \label{fig:reference}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}}{\pendingbox{scorer panel}}
+\caption{The scorer's view of the T1 axis-1 winner (local in-degree exponent 1.41, SOM$\to$E 15 ms in every
+unit), seed 1: A observed map, B model map on the same 21 $\times$ 150 grid, C band depth profiles (solid model,
+dashed observed), D settings and scores.}
+\label{fig:scorer}
 \end{figure}
 
 \subsection{Network size changes alpha-beta, not gamma}
@@ -208,7 +268,7 @@ At 1000, 2000 and 4000 E cells per unit (3562, 7125 and 14\,251 cells; three see
 passed (Table~\ref{tab:ladder}). Every run failed $r_{gm} \geq 0.6$. Seed means of $r_{ab}$ rose with size (0.15,
 0.64, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31). Three seeds per size support a trend, not a test.
 The S unit's gamma peak formed only at $N \geq 2000$ (seed-mean S peak 8, 31 and 43 Hz), so the ladder rule set
-the T1 size to $N = 4000$ (\path{results/laminar_e2/lfs_rule.json}). Seeds agreed with each other far more than
+the T1 size to $N = 4000$ (\rec{R4}). Seeds agreed with each other far more than
 with the data: seed pairs gave SSIM 0.62--0.71 and pixel $r$ 0.87--0.93, each seed against the observed map SSIM
 0.04--0.12 and $r$ 0.20--0.43 (Fig.~\ref{fig:seeds}).
 % FINDINGS §2 table and bullets; results/viz/paper_w6/seed_diff.json
@@ -232,14 +292,14 @@ $N$ (E/unit) & cells & seed & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing 
 \bottomrule
 \end{tabular}
 \caption{Finite-size ladder (lineage L-FS), 8 s, 2 s discarded. No run passes; every run fails $r_{gm} \geq 0.6$.
-Source: \texttt{results/laminar\_e2/lfs\_n\{N\}\_s\{seed\}\_T8\_verdict.json} and FINDINGS \S2.}
+Records \rec{R6}, \rec{N1}~\S2.}
 \label{tab:ladder}
 \end{table}
 
 \subsection{Sealed fine-tuning of in-degree and SOM kinetics does not reach the gamma criterion}
 
 T1 varied one axis at a time, seven log-spaced levels by three seeds, carrying each axis winner forward
-(\path{docs/laminar_motif/SEAL_T1.md}). No level passed on any seed: 63 level-seed scores from 54 new simulations, each axis's
+(seal \rec{S4}). No level passed on any seed: 63 level-seed scores from 54 new simulations, each axis's
 reference level reusing earlier runs (Fig.~\ref{fig:t1},
 Table~\ref{tab:t1}).
 
@@ -279,16 +339,16 @@ SOM$\to$E decay, deep & 21 ms & 0.372 & 0.32--0.47 & 0.48--0.50 & 0/21 \\
 \end{tabular}
 \caption{T1 axes at $N = 4000$, seeds 1--3, 8 s. Rows 1 and 2 are the same runs: the axis-2 winner, 15 ms, is the
 reference level carried from axis 1. $r_\text{proto}$ is the winner's seed mean; ranges are over the
-winner's three seeds. Sources: \texttt{results/laminar\_e2/t1\_\{kd,sst,sstd\}\_n4000\_selection.json} and the per-run
-verdict files; per-level tables in FINDINGS \S2b--2c.}
+winner's three seeds. Records \rec{R3}, \rec{R7};
+per-level tables in \rec{N1}~\S2b--2c.}
 \label{tab:t1}
 \end{table}
 
 \begin{figure}[tbp]
 \centering
-\IfFileExists{../../results/viz/t1/V3_kd_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_kd_n4000_atlas.png}}{\pendingbox{kd atlas}}\\[0.3em]
-\IfFileExists{../../results/viz/t1/V3_sst_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_sst_n4000_atlas.png}}{\pendingbox{sst atlas}}\\[0.3em]
-\IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
+\IfFileExists{../../results/viz/t1/V3_kd_n4000_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t1/V3_kd_n4000_atlas.png}}{\pendingbox{kd atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sst_n4000_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t1/V3_sst_n4000_atlas.png}}{\pendingbox{sst atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
 \caption{T1 atlases. Each panel is the mean of three seeds' relative-power maps at one level; titles give seed
 means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay in
 all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read from the figure).}
@@ -334,7 +394,7 @@ E$\to$E 2 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.42 & 0.89 & 0.48 & yes \\
 \bottomrule
 \end{tabular}
 \caption{Per-unit weight scaling, exploratory: seed 1, 8 s, event delivery, T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as base; no setting passes.
-Source: \texttt{results/laminar\_e2/e2x\_*\_kd1p41\_n4000\_s1\_T8\_verdict.json}; FINDINGS \S2d.}
+Records \rec{R8}, \rec{N1}~\S2d.}
 \label{tab:weights}
 \end{table}
 
@@ -345,7 +405,7 @@ Source: \texttt{results/laminar\_e2/e2x\_*\_kd1p41\_n4000\_s1\_T8\_verdict.json}
 \caption{The middle-unit trade-off, exploratory. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
 0.5): gamma reaches mid-depth but alpha-beta peaks at M, so the profiles do not cross. Bottom: most even setting
 (adds M PV$\to$E 1.25, without M E$\to$SOM): the crossing returns and M gamma weakens. Panels as in
-Fig.~\ref{fig:reference}, bottom.}
+Fig.~\ref{fig:scorer}.}
 \label{fig:weights}
 \end{figure}
 
@@ -353,7 +413,7 @@ Fig.~\ref{fig:reference}, bottom.}
 
 Holding each run's unit spectra fixed and moving only the readout depths (1330 placements) raised $r_\text{proto}$
 from 0.38 to 0.720 on the selection run, and the selected depths (S $-0.25$, M $-0.05$, D 0.20) gave $r_{gm}$
-0.64--0.84 on the 8 other ladder runs, though $r_{ab}$ reached 0.6 on only one of them (FINDINGS \S7). This does not show that the model's spectra carry the
+0.64--0.84 on the 8 other ladder runs, though $r_{ab}$ reached 0.6 on only one of them (\rec{N1}~\S7). This does not show that the model's spectra carry the
 observed gamma. In the spectral-shift null each unit's spectral shape was circularly shifted in frequency (power
 kept) and the same search was rerun on the incoherent (diagonal) spectra, whose unshifted best was $r_\text{proto}$
 0.725 with 70 passing placements. In 12 of 20 draws no placement met both band thresholds; of the 8 that did, 3
@@ -388,6 +448,6 @@ current-based CSD of the reference run, averaged on alpha-band troughs; source p
 
 Delivering AdEx synaptic events only for spiking presynaptic cells gave all 22 output arrays of an 8 s T1 run
 bitwise equal to the dense route (248\,116 spikes; equal edge tables), and simulated it in 140 s instead of 1387 s on
-the same machine (9.9-fold, one timed pair; FINDINGS \S5). Equality is shown for one seed and one layout; a
+the same machine (9.9-fold, one timed pair; \rec{N1}~\S5). Equality is shown for one seed and one layout; a
 different layout differed in 21 of 22 arrays, as it should. T1 axis 3, the confirmation and the weight runs used
 this route; the ladder and T1 axes 1--2 used the dense route (Methods).

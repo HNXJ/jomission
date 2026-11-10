@@ -26,6 +26,7 @@ per-unit weights do not close the gap, and readout controls show that depth geom
 | C8 | Event delivery: bitwise-equal outputs, 9.9x faster at T1 length | FINDINGS §5 | one seed, one layout |
 | C9 | The RWS readout rests on the linear volume-conductor solution with validated weights and an assumed separable depth kernel; mid-depth deficit holds at sigma 0.10-0.25 (0.44-0.62 at 0.25); cross terms 0-12%, normalizing max at S | Methods derivation; data/readout_sensitivity.json (scripts/e2_readout_sensitivity.py, 12 runs) | r_gm is sigma-dependent; full scorer not rerun per sigma |
 | C10 | Readout capacity (no simulation), sigma 0.15: max r with the observed gamma band-mean profile 0.853 (full C), 0.657 (no cross terms; S+M, no D) -> r_gm >= 0.6 reachable without coherence, so the model's r_gm failure is in its spectra; mid-depth level ceiling 0.853 at one frequency, at an optimum with S-M coherence 1.00 and D near antiphase (about -0.98; optimum not unique); r-maximizing profiles have mid 0.49 (auto) and 0.72 (full); leave-one-area-out (n 11): held-out r 0.81 +- 0.05 full (11/11 >= 0.6), 0.62 +- 0.09 auto (7/11), template 0.93 (data/readout_capacity_loao.json) | data/readout_capacity.json (scripts/e2_readout_capacity.py; self-recovery r >= 0.99999, negative r 0.07-0.14, order asserts) | limits of the observation model, not of macaque sources; an L2 fit (r 0.45) understated capacity and was corrected 2026-11-10 |
+| C11 | Joint constraint, sigma 0.15: max r with mid within 0.02 of 0.848 is 0.845 with cross terms (S 46%, M 49%, D 5%, coherent), infeasible without (diagonal mid ceiling 0.665, grid-checked); 0.946 infeasible at 0.15. Circuit vs optimum: circuit gamma S 63-78%, M 17-19%, Re coherence -0.06..0.27; r_gm/r_proto equal verdict files | data/readout_joint.json (scripts/e2_readout_joint.py) | observation-model property; LOAO tests the target fit, not the mechanism; density not causally tested (needs fixed-total-count flatten/permute) |
 
 Counter-evidence: Mackey et al. 2026 (Nat Neurosci) dispute the motif's ubiquity; our target is the 11-area
 LANSA mean and V1, so the claim is conditional on that map.
@@ -34,20 +35,21 @@ LANSA mean and V1, so the claim is conditional on that map.
 
 - Abstract: question, model, scorer, C3/C4/C5, C7, implication.
 - Introduction: motif and dispute; densities (LANSA); models (CAMINOS, Herrera); gap; question.
-- Results: R1 data and circuit (Fig 1); R2 module (C1, C2; Table 1); R3 reference stack (Fig 2, ceilings);
-  R4 size ladder and seeds (Table 2); R5 T1 axes and confirmation (Fig 3, Table 3); R6 per-unit weights (Table 4);
-  R7 readout controls: depth placement, probe geometry, CSD (Fig 4); R8 engine speed.
+- Results: R1 data and circuit (Fig 1); R2 module (C1, C2; Table 1); R3 reference stack (Figs 2-3, ceilings; readout capacity, joint constraint, circuit vs optimum);
+  R4 size ladder and seeds (Table 2); R5 T1 axes and confirmation (Fig 4, Table 3); R6 per-unit weights (Fig 5);
+  R7 readout controls: depth placement, probe geometry, CSD (Fig 6); R8 engine speed.
 - Discussion: what is shown; middle-unit coupling; limits; next sealed test (rate-matched M-gamma intervention).
 - Methods: existing text, connectivity filled, scorer, T1 seal, weight modifier, event delivery, figures.
-- Supplement: per-model blocks, ladder maps, T1 atlases, sealed-not-run table.
+- Supplement: per-model blocks, ladder maps, T1 atlases, sealed-not-run table, records table (code, seals, data, run records by identifier; no paths in the text).
 
 ## Figures
 
 | Fig | Message | Source |
 |---|---|---|
 | 1 | Data and model as built (no simulation) | results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png |
-| 2 | Reference run: architecture/raster/spectra/maps; observed vs model | results/viz/paper_w3/..._block.png; spectrolaminar/runs/t1_kd1p41... |
-| 3 | T1 axes: no level reaches r_gm 0.6 | results/viz/t1/V3_{kd,sst,sstd}_n4000_atlas.png |
-| 4 | Weight trade-off: most-even and best-r_proto exploratory runs | spectrolaminar/runs/e2x_*.png |
-| 5 | Readout controls: probe geometry summary; CSD | paper_w5/probe_summary.png; paper_w4/..._csd.png |
+| 2 | Reference run: architecture/raster/spectra/maps | results/viz/paper_w3/..._block.png |
+| 3 | Scorer view of the T1 axis-1 winner | spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png |
+| 4 | T1 axes: no level reaches r_gm 0.6 | results/viz/t1/V3_{kd,sst,sstd}_n4000_atlas.png |
+| 5 | Weight trade-off: most-even and best-r_proto exploratory runs | spectrolaminar/runs/e2x_*.png |
+| 6 | Readout controls: probe geometry summary; CSD | paper_w5/probe_summary.png; paper_w4/..._csd.png |
 | S | seeds, ladder maps, per-run panels | paper_w6/seed_diff.png, laminar_e2/*_motif.png |

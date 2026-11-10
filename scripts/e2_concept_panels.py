@@ -81,7 +81,7 @@ def panel(tag: str, out: Path = OUT) -> dict:
     row = config_row(tag, rec, v)
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False})
-    fig = plt.figure(figsize=(7.2, 2.6), constrained_layout=True)
+    fig = plt.figure(figsize=(6.8, 2.7), constrained_layout=True)  # print size: full text width
     gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 0.75, 1.3])
     a = fig.add_subplot(gs[0])
     _map(a, sc.PROTO, "observed, 11-area mean")
@@ -97,8 +97,8 @@ def panel(tag: str, out: Path = OUT) -> dict:
     c.set_xlabel("relative power")
     c.set_title("band profiles", fontsize=PT + 0.5)
     c.tick_params(labelleft=False)
-    c.legend(frameon=False, fontsize=PT - 1, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2,
-             handlelength=1.2, columnspacing=0.6, title="solid model, dashed observed", title_fontsize=PT - 1)
+    c.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2,
+             handlelength=1.2, columnspacing=0.6, title="solid model, dashed observed", title_fontsize=PT - 0.5)
     d = fig.add_subplot(gs[3])
     d.axis("off")
     k = tag.find("_kd") if len(tag) > 34 else -1  # wrap long tags before the base-layout tokens
@@ -116,7 +116,7 @@ def panel(tag: str, out: Path = OUT) -> dict:
         ax_.set_title("")
         ax_.set_title(rf"$\bf{{{letter}}}$  {t}", loc="left", fontsize=PT + 0.5)
     (out / "runs").mkdir(parents=True, exist_ok=True)
-    fig.savefig(out / "runs" / f"{tag}.png", dpi=150)
+    fig.savefig(out / "runs" / f"{tag}.png", dpi=300)
     plt.close(fig)
     return row
 

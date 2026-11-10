@@ -1,7 +1,7 @@
 # Response to review (Sol, 2026-11-10, Major revision)
 
-Reviewed draft: commit 12842de. Revised sources: `sections/*.tex`, `main.tex`, `main.md`. New analysis:
-`scripts/e2_readout_sensitivity.py` → `data/readout_sensitivity.json` (12 runs: 9 ladder, 3 confirmation).
+Reviewed draft: commit 12842de. New analysis: readout sensitivity, records C4 and D2 of Supplementary Table S6 (12 runs: 9 ladder,
+3 confirmation).
 "Done" = changed in the manuscript; "Deferred" = needs a new sealed simulation, with the reason.
 
 ## Summary
@@ -54,7 +54,7 @@ arbitrary observation operator. The argument now in Methods ("From transmembrane
    The defense is therefore that the readout is a physically motivated estimate of the LFP's depth structure, not a
    calibrated potential, with its assumptions stated and its spatial ones tested.
 
-**Sensitivity (new, `data/readout_sensitivity.json`).** σ ∈ {0.10, 0.15, 0.20, 0.25} on all 12 runs. Mid-depth
+**Sensitivity (new, record D2).** σ ∈ {0.10, 0.15, 0.20, 0.25} on all 12 runs. Mid-depth
 (−0.2 to 0) relative gamma: 0.10–0.19 at σ = 0.10, 0.19–0.31 at 0.15, 0.31–0.47 at 0.20, 0.44–0.62 at 0.25. The
 observed value is 0.85. The deficit holds at every width. r_gm rises with σ (≥ 0.6 in most runs at σ ≥ 0.20), so the
 gamma correlation is readout-dependent; we say so (Table `tab:sigma`). Depth placement was already shown to move
@@ -85,7 +85,7 @@ marker density a proxy that does not preserve absolute abundance.
 
 **1.3.** Agreed. Discussion: SOM/PV, size and in-degree co-vary, so the paper does not claim the ratio gradient
 produces the deep α-β. Flat and reversed controls at fixed size and connectivity are needed. *Correction
-(round 2):* this reply first said they were sealed as T3. That was wrong. T3 (`docs/laminar_motif/SEAL_T2_T3.md`)
+(round 2):* this reply first said they were sealed as T3. That was wrong. T3 (seal S5)
 scales the whole ramp by s ∈ {0.25…4} and keeps its shape. The flat and reversed controls are not sealed; T3 is
 unchanged.
 
@@ -138,7 +138,7 @@ archive (code, run records, seeds, environment) is a submission item and is not 
 # Round 2 (second review, 2026-11-10, "Major revision, narrowed")
 
 Title is now "Testing Cell-Type Density as a Circuit Mechanism of Primate Spectrolaminar Oscillations" (owner),
-framed as a test. New analysis: `scripts/e2_readout_capacity.py` → `data/readout_capacity.json` (geometry only,
+framed as a test. New analysis: readout capacity, records C5 and D3 (geometry only,
 no simulation).
 
 | # | Point | Response |
@@ -146,7 +146,7 @@ no simulation).
 | M1 | Normalization overstated | Done: abstract, Methods, Discussion now say only a gain common to units and depths cancels; receptor- and unit-dependent filtering (AMPA/GABA weight and delay set within-unit interference) is unvalidated |
 | M2 | 0.615 ceiling conditional | Done: stated as a property of the three-source positive-Gaussian readout, not of macaque sources; your known-answer test was run (below). It shows the readout can pass r_gm at σ 0.15, so that failure is the circuit's |
 | M3 | T3 is not flat/reversed | Agreed, our error. Response 1.3 and Methods corrected: flat/reversed controls are not sealed; T3 unchanged |
-| — | 65g − 24.75g is pA | Fixed (pA; g in nS, coefficients in mV). The code (`e2_motif_figure.rws`) already returns pA |
+| — | 65g − 24.75g is pA | Fixed (pA; g in nS, coefficients in mV). The code already returns pA |
 | — | "sized and connected from densities" | Fixed: "sized from the cell densities … with an assumed density-scaled in-degree rule" |
 | — | "smallest mechanistic model" | Fixed: "a three-unit model" |
 | — | 0.615 convention | Stated: mean of e^{−z²/σ²} over the five contacts −0.2…0 (0.615); continuous interval mean 0.625 |
@@ -190,7 +190,7 @@ At σ = 0.15:
   criterion. The model's r_gm failure (0.14–0.51) is therefore mainly in its spectra, consistent with its gamma at
   D, not in the readout. The r-maximizing profiles reach mid-depth gamma of only 0.49 (auto) and 0.72 (full), so
   passing r_gm is separate from reaching the observed mid-depth level.
-- **Held-out areas** (`scripts/e2_readout_capacity_loao.py`, `data/readout_capacity_loao.json`). The maxima above
+- **Held-out areas** (records C6, D4). The maxima above
   are in-sample for one target, so we fitted C on 10 areas and scored it on the held-out 11th (n = 11 folds):
 
   | σ | full, in-sample bound | full, held-out | auto, in-sample bound | auto, held-out |
@@ -205,7 +205,7 @@ At σ = 0.15:
   below what between-area similarity alone gives. Without coherence, passing at that width is marginal across
   areas. σ = 0.15 is the main-text value: it is the width declared in the readout code (an assumption, not
   chosen among alternatives) and used for the T1 seal's readout ceilings before any T1 run
-  (`docs/laminar_motif/SEAL_T1.md`). The other widths were added after review and are reported, not selected.
+  (seal S4). The other widths were added after review and are reported, not selected.
 - **Mid-depth level.** M alone is bounded at 0.615. The single-frequency ceiling 0.853 is just above 0.848. It is
   reached at an optimum with S and M fully coherent and D in antiphase (coherences 1.00, −0.98). This is one optimum,
   not a shown necessity, and it is less demanding at σ = 0.20 (S–D coherence 0.13). The model's cross terms were
@@ -219,3 +219,67 @@ depths and distributed dendritic currents were not modelled.
 - Flat/reversed SOM/PV controls: need a new seal for owner approval; not prepared here.
 - Rate-matched PV→E kinetics test: not prepared here.
 - Population-rate readout control, public archive, figure layout: before submission.
+
+# Round 3 (third review, 2026-11-10, "Major revision, limited")
+
+File paths are removed from the manuscript. Code, seals, derived data and run records are cited by identifier
+(C, S, D, R, N) from Supplementary Table S6, which gives each file and commit; the repository and JaxFNE are cited as
+software. No archive DOI exists yet, and the run records are not deposited (stated in Methods and Table S6). New
+analysis: joint constraint and circuit against optimum, records C7 and D5.
+
+| # | Point | Response |
+|---|---|---|
+| M1 | PSD set, eigenvalues | Done: Results state the admissible set (C = L L^T, L real lower-triangular, PSD by construction; only Re C enters, and Re of a Hermitian PSD matrix is PSD). Smallest eigenvalue / trace of every reported optimum: −4×10⁻¹⁹ to 9×10⁻⁴, zero to rounding at the r maxima (rank one at σ ≤ 0.20); the optima sit on the PSD boundary. The rerun with eigenvalues recorded reproduced every earlier value exactly |
+| M2 | LOAO validates the fit, not the mechanism | Done: Table 2 caption, Results and Discussion say so; folds share 9 of 10 training areas, so the SD is descriptive |
+| M3 | Joint constraint | Done (below, and Results "Profile and level together") |
+| M4 | Density not causally tested | Done: Discussion states that no run tests density as a cause; the test is a fixed-total-count column with densities flattened or permuted across units. Not run |
+| M5 | Circuit against optimum | Done: new Table 3 (below) |
+| — | Abstract capacity detail | Trimmed to one sentence |
+| — | Covariance across the band | Stated: one covariance for the whole band for the r maxima and the joint test; the mid-depth ceiling is per frequency |
+| — | Mazzoni 90% | Methods: external validation in their model, not validation for this model or the macaque LFP |
+| — | LOAO folds not independent | Stated (M2) |
+| — | T1 selects on r_proto | Methods: a selection rule declared in the seal, optimizing whole-map similarity, not the band criteria |
+| — | Run files not archived | Stated in Methods and Table S6; hashes of 98 files in record D6 |
+| — | Figure labels | Figs 3–6 redrawn at print width (T1 atlases, scorer panels, probe summary; text 6–7.5 pt at print size); old Fig 2 split into Fig 2 (reference block, now full width) and Fig 3 (scorer view). The CSD panel is unchanged |
+| — | "density-built" | Fixed: "density-informed" |
+| — | Discussion paragraphs | "Other models" and "Limits" split |
+
+## Joint constraint (M3)
+
+Maximum Pearson r with the observed 50–150 Hz band-mean profile, subject to mid-depth relative gamma within 0.02
+of a target, one covariance for the band (penalty method, 48 starts; the no-cross-term case checked independently
+on a 400-step grid of power shares, which agreed: largest diagonal mid-depth 0.665 at σ 0.15, 0.865 at 0.20;
+best feasible r 0.829 against 0.830).
+
+| σ | target | full: r, mid, feasible | auto: r, mid, feasible |
+|---|---|---|---|
+| 0.15 | 0.848 (map) | 0.845, 0.828, yes | 0.631, 0.665, no |
+| 0.15 | 0.946 (band-mean profile) | 0.808, 0.851, no | 0.631, 0.665, no |
+| 0.20 | 0.848 | 0.981, 0.868, yes | 0.830, 0.828, yes |
+| 0.20 | 0.946 | 0.978, 0.926, yes | 0.821, 0.865, no |
+
+At the declared width the map's mid-depth level and the profile can be met together only with coherent sources
+(S 46%, M 49%, D 5%; S–M coherence 1, D in antiphase), at r 0.845, barely below the unconstrained 0.853. The
+band-mean profile's own level (0.946) is above the per-frequency ceiling (0.853), so it is out of reach at 0.15.
+
+## Circuit against the optimum (M5), 50–150 Hz, σ 0.15
+
+| | reference, seeds 1–3 | T1 winner, fresh seeds 4–6 | optimum (map level) |
+|---|---|---|---|
+| power share S / M / D | 0.63–0.71 / 0.18–0.19 / 0.11–0.18 | 0.74–0.78 / 0.17–0.19 / 0.05–0.08 | 0.46 / 0.49 / 0.05 |
+| Re coherence S–M, S–D, M–D | −0.06–0.08, −0.01–0.02, 0.10–0.19 | −0.03–0.02, −0.01–0.04, 0.08–0.27 | 1, −1, −1 |
+| r_γ (band-mean profile) | 0.32–0.48 | 0.48–0.51 | 0.845 |
+| r_gm (scored) | 0.14–0.41 | 0.46–0.50 | 0.845 |
+| mid-depth gamma, map | 0.23–0.26 | 0.19–0.23 | 0.828 |
+| r_proto | 0.21–0.40 | 0.37–0.38 | — |
+
+r_gm, r_proto and the map value equal the verdict files on all six runs (checked). The circuit puts most gamma at
+S, too little at M, and its sources are close to incoherent; the optimum needs about equal S and M power, fully
+coherent.
+
+## Not changed
+
+- Flat/reversed SOM/PV and fixed-total-count density controls, rate-matched PV kinetics: not run; the text makes no
+  causal claim about density or the SOM/PV gradient.
+- Title: kept as set by the owner; the Discussion states that density was not tested as a cause.
+- Public archive with DOI: not yet.

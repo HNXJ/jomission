@@ -4,7 +4,9 @@ Usage: python scripts/e2_readout_capacity.py OUT_JSON
 
 Geometry only: 21 contacts (mf.CHANNELS), Gaussian kernel K_zu = exp(-(z - z_u)^2 / 2 sigma^2), unit depths S -0.4,
 M 0, D 0.3. A source model gives contact power P_z = k_z^T C k_z for a source covariance C >= 0 (one frequency, or
-one covariance for a band-mean profile); the scored quantity is R_z = P_z / max_z P_z. "mid" = mean of R over the
+one covariance for a band-mean profile). Admissible set: C = L L^T with L real lower-triangular, so C is symmetric
+PSD by construction. With real K only Re C enters P, and the real part of a Hermitian PSD cross-spectral matrix is
+itself PSD, so every admissible spectral covariance is covered; each reported C carries its eigenvalues / trace; the scored quantity is R_z = P_z / max_z P_z. "mid" = mean of R over the
 five contacts -0.2..0.
 Targets: map_mid = mean over 50-150 Hz and the mid contacts of the observed per-frequency relative map (0.848);
 y = the observed 50-150 Hz band-mean profile divided by its maximum, the profile the scorer's r_gm correlates with.
@@ -74,8 +76,10 @@ def describe(L: np.ndarray) -> dict:
     C = L @ L.T
     dg = np.sqrt(np.diag(C))
     coh = C / np.outer(dg, dg)
+    ev = np.linalg.eigvalsh(C) / np.trace(C)
     return {"share": (np.diag(C) / np.trace(C)).round(4).tolist(),
-            "coh_SM": float(coh[0, 1]), "coh_SD": float(coh[0, 2]), "coh_MD": float(coh[1, 2])}
+            "coh_SM": float(coh[0, 1]), "coh_SD": float(coh[0, 2]), "coh_MD": float(coh[1, 2]),
+            "eig_over_trace": ev.tolist()}
 
 
 def best_of(obj, n: int, rng: np.random.Generator) -> np.ndarray:

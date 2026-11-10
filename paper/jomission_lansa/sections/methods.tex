@@ -3,7 +3,7 @@
 \subsection{Model}
 
 The model is a three-unit stack (S, M, D) of AdEx populations E, PV and SOM per unit (CAMINOS;
-\path{jomission/laminar/caminos_stack.py}). Cell and synapse parameters come from the JaxFNE \texttt{PORT\_SPEC}
+\rec{C1}). Cell and synapse parameters come from the JaxFNE \texttt{PORT\_SPEC}
 tables of the published module \citep{Tahvili2025,Tahvili2026}; PING is the gamma mechanism assumed for the E--PV
 loop \citep{Borgers2003}.
 
@@ -43,19 +43,19 @@ Tables~S1--S4 give its counts, edges and parameters with sources.
 $N = 4000$ seed-1 reference ran on a 0.5.9 side install with dense delivery; the other ladder runs and T1 axes 1--2
 on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at commit 351f6048 (unreleased) with event delivery.
 The software authority is 0.5.8; 0.5.8 and 0.5.9 gave identical per-step spike counts on the $N = 4000$ stack over
-0.5 s (\path{docs/laminar_motif/SEAL_LFS.md}), and event delivery equals 0.5.8 dense bitwise on one 8 s run
+0.5 s (seal \rec{S3}), and event delivery equals 0.5.8 dense bitwise on one 8 s run
 (Results). E2 is declared exploration except where a seal is named.
 
 \subsection{Single-module tests E0 and E1}
 
-\textbf{E0} (\path{docs/laminar_motif/E0_SEAL.md}) builds the published module (8000 E, 750 PV, 750 SOM, $p = 0.07$,
+\textbf{E0} (seal \rec{S1}) builds the published module (8000 E, 750 PV, 750 SOM, $p = 0.07$,
 no PV$\to$SOM or SOM$\to$SOM edges) and runs seeds 1--5 for 12 s at $dt = 0.1$ ms, discarding 2 s. JaxFNE's own
 CAMINOS analysis, unchanged, gives the E-population peak frequency $f_\text{pk}$ (1 s Welch windows, 1 Hz bins), the
 PV-to-SOM lag and the mean rates. References and margins are JaxFNE's: $f_\text{pk}$ 33.8 Hz $\pm$ 1 Hz, lag 7.04
 $\pm$ 0.34 ms, rates 1.106, 11.37 and 7.05 Hz $\pm$ 6.1, 1.2 and 8.2\%. PASS needs all five seed means inside their
 margins; a rate-matched Poisson raster scored by the same analysis must not oscillate.
 
-\textbf{E1} (\path{docs/laminar_motif/E1_SEAL.md}) keeps E0 fixed and sets $\rho = N_\text{SOM}/N_\text{PV}$ to 0.25,
+\textbf{E1} (seal \rec{S2}) keeps E0 fixed and sets $\rho = N_\text{SOM}/N_\text{PV}$ to 0.25,
 0.5, 1, 2 and 4 at $N_\text{PV} + N_\text{SOM} = 1500$, seeds 1--3. A run oscillates when its spectral peak excess
 is at least 4; otherwise $f_\text{pk}$ is undefined. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
 (2) the fitted slope of $f_\text{pk}$ on $\log_2\rho$ over the oscillating points is negative in every
@@ -94,7 +94,9 @@ weights were fitted to their morphology, synapse placement and positions ($\alph
 the optimal weight). Using them as a
 separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA
 and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so
-their contributions differ in profile and can differ in sign above and below the soma.
+their contributions differ in profile and can differ in sign above and below the soma. The 90\% figure
+validates the proxy against Mazzoni et al.'s own multicompartment model; it is external evidence, not a
+validation of the proxy for this model's cells and synapses or for the macaque LFP.
 
 \textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
 1.65\,|I_{\text{GABA},u}(t)|$, summed over the unit's E cells, and the spatial weights $w_{zu} = K_{zu} =
@@ -114,7 +116,7 @@ G(f)P_{z'}(f) = R(z,f)$. What the relative map does depend on is the depth weigh
 depths, and filtering that differs between receptors or units: the AMPA/GABA weight and delay set the interference
 within each $L_u$, and they remain unvalidated for this model. We therefore report the readout as an estimate of
 the LFP's depth structure, not a calibrated potential, and test its two spatial parts: unit depths (Results, depth placement)
-and $\sigma$ (Results; $\sigma \in \{0.10, 0.15, 0.20, 0.25\}$, \path{scripts/e2_readout_sensitivity.py}).
+and $\sigma$ (Results; $\sigma \in \{0.10, 0.15, 0.20, 0.25\}$, \rec{C4}).
 
 \textbf{CSD.} The CSD is current-based, not kernel-based. The saved per-unit, per-receptor currents become current
 sources at declared depths, each with an equal return current. Placements are ASSUMED, not measured:
@@ -137,7 +139,7 @@ is below $-2$ jackknife SE (over windows) at the top contact and above $+2$ SE a
 null gives each unit a random smooth log spectrum (six Gaussian bumps in $\log f$ plus a $-a\log f$ slope, $a \sim
 U(0,2)$; 1000 draws, seed 0) and takes the 95th percentile of the resulting $r_\text{proto}$; the identical-unit
 control gives every unit unit S's spectrum. Unit-order rank compares $r_\text{proto}$ for all six assignments of the
-unit spectra to the three depths. The pass rule was fixed at commit 88d282d (\path{docs/laminar_motif/SEAL_T1.md}).
+unit spectra to the three depths. The pass rule was fixed at commit 88d282d (seal \rec{S4}).
 What each control keeps and destroys: the smooth-spectrum null keeps the geometry (kernel, depths, normalization) and
 replaces the spectra with random smooth ones without cross-terms, so it asks whether any smooth spectra on this
 geometry reach the score; the identical-unit control keeps one real spectrum and removes all differences between
@@ -146,7 +148,7 @@ depth-placement analysis keeps each unit's power and spectral shape but moves it
 150 pixels of a map are strongly dependent, so $r_\text{proto}$ is a similarity score, not a test with 3150 samples;
 inference uses seeds and the nulls above.
 
-A result counts only if all of the following hold (\path{scripts/e2_scorer.py}, plan section 2):
+A result counts only if all of the following hold (scorer \rec{C2}):
 \begin{enumerate}
 \item \texttt{crossing\_2se} is true on the sum-over-cells row and verdict bands.
 \item $r_{ab} \geq 0.6$ and $r_{gm} \geq 0.6$.
@@ -162,7 +164,7 @@ is not a hold-out.
 \subsection{Readout ceilings}
 
 Ceilings are the similarity of the observed map with a coherent and an incoherent model map at $\sigma = 0.15$
-(\path{results/laminar_e2/readout_ceiling.json}, rounded to three decimals as in \path{docs/laminar_motif/SEAL_T1.md}).
+(\rec{R5}, rounded to three decimals as in seal \rec{S4}).
 
 \begin{table}[tbp]
 \centering
@@ -183,7 +185,7 @@ $r_{gm}$, manuscript 31--150 Hz & 0.849 & 0.640 \\
 
 \subsection{Finite-size ladder}
 
-Lineage L-FS (\path{docs/laminar_motif/SEAL_LFS.md}). The question is the smallest $N$ E cells per unit at which
+Lineage L-FS (seal \rec{S3}). The question is the smallest $N$ E cells per unit at which
 \texttt{kd1\_sst15} keeps its map. The unit-specific in-degree rule ($K_u = 560\,D_u/\bar D$, $B = 1$) and $K_\text{INTER}$
 are held fixed across $N$; only $p_u$ changes. $N \in \{4000, 2000, 1000\}$,
 seeds 1--3, 8 s with 2 s discarded. Rule: accept the smallest $N$ whose seed-mean $r_\text{proto}$ is within
@@ -195,8 +197,10 @@ lineage and is not run here.
 \subsection{Test designs}
 
 \begin{description}
-\item[T1 motif fine-tune] (\path{docs/laminar_motif/SEAL_T1.md}). Three local axes, one at a time, 7 log-spaced
-levels each, seeds 1--3 at 8 s. The axis winner is the highest seed-mean $r_\text{proto}$.
+\item[T1 motif fine-tune] (seal \rec{S4}). Three local axes, one at a time, 7 log-spaced
+levels each, seeds 1--3 at 8 s. The axis winner is the highest seed-mean $r_\text{proto}$, a selection rule
+declared in the seal: the search optimizes whole-map similarity, not the band criteria, so a winner can lose
+$r_{ab}$ (Results).
 
 \begin{center}
 \begin{tabular}{llp{0.5\linewidth}}
@@ -213,15 +217,15 @@ Axis & Modifier & Levels (ms or exponent) \\
 The winner is confirmed on seeds 4--6 at 12 s against the shared scorer. The sealed 0.95 target is above every
 $r_\text{proto}$ ceiling, so no run can reach it; the pass rule above decides.
 
-\item[T2 E/I, planned] (sealed, not run; \path{docs/laminar_motif/SEAL_T2_T3.md}). Every GABA weight times $g$, $g \in \{0.25, 0.5, 1, 2, 4\}$,
+\item[T2 E/I, planned] (sealed, not run; seal \rec{S5}). Every GABA weight times $g$, $g \in \{0.25, 0.5, 1, 2, 4\}$,
 seeds 1--3, 8 s. A dose-response measurement with no pass criterion; the effect is the slope on $\log_2(g)$.
 
-\item[T3 PV/SST ratio, planned] (sealed, not run; \path{docs/laminar_motif/SEAL_T2_T3.md}). Every unit's $N_\text{SST}/N_\text{PV}$ times $s$,
+\item[T3 PV/SST ratio, planned] (sealed, not run; seal \rec{S5}). Every unit's $N_\text{SST}/N_\text{PV}$ times $s$,
 $s \in \{0.25, 0.5, 1, 2, 4\}$, keeping the ramp shape and each unit's inhibitory total. CB/PV is not used as SST/PV
 (OPEN-38). Because it scales the whole ramp, T3 is not a flat-ratio or reversed-ratio control; those are not
 sealed.
 
-\item[T4 PV/SST silencing and stimulation, planned] (sealed, not run; \path{docs/laminar_motif/SEAL_T4.md}). Silencing is a hyperpolarizing
+\item[T4 PV/SST silencing and stimulation, planned] (sealed, not run; seal \rec{S6}). Silencing is a hyperpolarizing
 current through \texttt{tensor\_triple\_drive}, the only $I_\text{ext}$ path into the AdEx kernel in 0.5.8.
 Dose calibration: $-100 \cdot 2^k$ pA, $k = 0,\ldots,5$. Stimulation: $+50$ pA. Acceptance: zero spikes in the
 silenced cells after the discard, and edge counts equal to the reference's. A failed silencing is rerun once at
@@ -231,7 +235,7 @@ twice the dose.
 (OPEN-36).
 
 \item[T6 probe geometry] Post hoc readout, no simulation. Units get a declared lateral extent
-of half-width 0.5 depth units (ASSUMED; \texttt{scripts/e2\_probe\_geometry.py}, \texttt{--extent}); contacts map
+of half-width 0.5 depth units (ASSUMED; \rec{C8}); contacts map
 to depth bins by linear interpolation of their projected depth, over covered bins only (ASSUMED). Two crossing definitions: oblique through one sheet, $\theta \in \{0, 30, 60, 90\}^\circ$;
 and lateral offset $\in \{0, 0.25, 0.5\}$. Estimands: contrast $M$ and $r_\text{proto}$ minus the identical-unit control.
 \end{description}
@@ -242,18 +246,14 @@ Per-unit weight runs (\texttt{e2x\_w}$RUX$\ldots, Table~\ref{tab:weights}) start
 $N = 4000$, seed 1, 8 s; each setting was chosen by hand after the previous result, so none is a test. Depth
 placement re-reads saved runs with the three unit depths moved over a grid (1330 placements) and compares against a
 null in which each unit's spectrum is circularly shifted in frequency with its total power kept (20 draws;
-\path{results/laminar_e2/depth_placement.json}). Event-driven delivery computes AdEx synaptic input only from
+\rec{R9}). Event-driven delivery computes AdEx synaptic input only from
 presynaptic cells that spiked in the step; it was checked against the dense route on all 22 saved output arrays of one 8 s run (layout \texttt{kd1p41}, seed 1); the axis-3, confirmation and weight runs on other layouts and at 12 s rely on that one check.
 
 \subsection{Data and code}
 
-Scripts are in the project repository (\path{scripts/}, \path{jomission/laminar/}); the scorer, depth-placement,
-probe-geometry and stack code used here is as of commit 8519540, and the mid-gamma, readout-sensitivity and
-readout-capacity scripts (\path{scripts/e2_mid_gamma.py}, \path{scripts/e2_readout_sensitivity.py},
-\path{scripts/e2_readout_capacity.py}, \path{scripts/e2_readout_capacity_loao.py}; outputs in
-\path{paper/jomission_lansa/data/}) are added with this draft.
-Seeds are given per run in the tables and run records. The run records and verdict
-files cited here live under \path{results/}, which is not under version control; their SHA-256 hashes are listed in
-\path{paper/jomission_lansa/data/sources_sha256.txt} (96 files, including the readout-sensitivity and readout-capacity scripts and outputs), and the mid-depth gamma values in
-\path{paper/jomission_lansa/data/mid_gamma.json}. The run records are not yet in a public archive; until they are
-deposited, the data behind the tables are available only on request.
+Code, pre-registration seals, derived data and run records are cited in the text by the identifiers of
+Table~\ref{tab:records} (C code, S seals, D derived data, R run records, N notes), with the commit of each code
+and seal file. All are in the project repository \citep{Jomission}; the simulator is JaxFNE \citep{JaxFNE}.
+Seeds are given per run in the tables and run records. The run records are not under version control and are
+not yet in a public archive (no DOI); their SHA-256 hashes are in record \rec{D6} (98 files), and until they are
+deposited the data behind the tables are available on request.

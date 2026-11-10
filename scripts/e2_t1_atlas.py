@@ -47,7 +47,9 @@ def level_maps(axis: str, n: int, level: str, d: Path = mf.D) -> tuple[list[int]
 def main(axis: str, n: int, out: Path = OUT) -> Path:
     out.mkdir(parents=True, exist_ok=True)
     levels = sel.LEVELS[axis]
-    fig, axes = plt.subplots(2, 4, figsize=(13, 6.2), sharex=True, sharey=True, constrained_layout=True)
+    plt.rcParams.update({"font.size": 7, "axes.labelsize": 7, "xtick.labelsize": 6, "ytick.labelsize": 6})
+    # drawn at print size (full text width, 6.8 in) so 6-7 pt text stays 6-7 pt in the paper
+    fig, axes = plt.subplots(2, 4, figsize=(6.8, 2.9), sharex=True, sharey=True, constrained_layout=True)
     ext = [float(sc.F[0]), float(sc.F[-1]), float(mf.CHANNELS[-1]), float(mf.CHANNELS[0])]
     panels = [("observed (PROTO)", sc.PROTO)]
     for lv in levels:
@@ -62,16 +64,16 @@ def main(axis: str, n: int, out: Path = OUT) -> Path:
     for ax, (title, R) in zip(axes.flat, panels):
         if R is not None:
             im = ax.imshow(R, aspect="auto", cmap="viridis", vmin=0, vmax=1, extent=ext)
-        ax.set_title(title, fontsize=8.5)
+        ax.set_title(title, fontsize=6.5)
     for ax in axes[:, 0]:
         ax.set_ylabel("depth rel. mid-L4")
     for ax in axes[-1]:
         ax.set_xlabel("frequency (Hz)")
-    fig.colorbar(im, ax=axes, shrink=0.6, label="relative power (P / max over depth)")
-    fig.suptitle(f"T1 V3 atlas, axis {axis}, N {n}: map = mean of the seeds' maps; r, ab, gm = mean of per-seed "
-                 "verdict values", fontsize=10)
+    fig.colorbar(im, ax=axes, shrink=0.6, label="relative power\n(P / max over depth)")
+    fig.suptitle(f"T1 atlas, axis {axis}, N {n}: seed-mean maps; r, ab, gm = seed means of verdict values",
+                 fontsize=7.5)
     path = out / f"V3_{axis}_n{n}_atlas.png"
-    fig.savefig(path, dpi=180)
+    fig.savefig(path, dpi=300)
     return path
 
 

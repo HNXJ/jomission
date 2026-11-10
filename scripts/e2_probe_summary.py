@@ -52,9 +52,10 @@ def summarise(cells: dict) -> list[dict]:
 
 
 def main(d: Path = D) -> dict:
+    plt.rcParams.update({"font.size": 7, "xtick.labelsize": 6.5, "ytick.labelsize": 6.5})
     out = {str(n): summarise(load(n, d)) for n in lr.NS}
     (d / "probe_summary.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
-    fig, axes = plt.subplots(2, 3, figsize=(10, 5.6), sharex=True, constrained_layout=True)
+    fig, axes = plt.subplots(2, 3, figsize=(6.7, 4.0), sharex=True, constrained_layout=True)  # print size
     offs = sorted({r["offset"] for r in out[str(lr.NS[0])]})
     for j, n in enumerate(lr.NS):
         for i, k in enumerate(KEYS):
@@ -65,13 +66,13 @@ def main(d: Path = D) -> dict:
                 ax.errorbar([r["theta_deg"] + dodge for r in rr], [r[k]["mean"] for r in rr],
                             yerr=[r[k]["sd"] for r in rr], marker=mk, capsize=3, label=f"offset {off}")
             ax.axhline(0, color="0.6", lw=0.8)
-            ax.set_title(f"N = {n}, {k}", fontsize=10)
+            ax.set_title(f"N = {n}, {k}", fontsize=7.5)
             if j == 0:
                 ax.set_ylabel("M_arc (contrast)" if k == "M_arc" else "r_proto - r_ctrl")
             if i == 1:
                 ax.set_xlabel("tilt theta (deg)")
-    axes[0, 0].legend(fontsize=8, frameon=False)
-    fig.suptitle("Probe geometry, seed mean +- SD (seeds 1-3); theta 90 delta_r undefined", fontsize=10)
+    axes[0, 0].legend(fontsize=6.5, frameon=False)
+    fig.suptitle("Probe geometry, seed mean +- SD (seeds 1-3); theta 90 delta_r undefined", fontsize=8)
     fig.savefig(d / "probe_summary.png", dpi=200)
     return out
 

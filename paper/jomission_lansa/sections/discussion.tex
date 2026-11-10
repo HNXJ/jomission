@@ -19,7 +19,10 @@ not show that density-based or CAMINOS-based models in general cannot produce th
 cannot contradict, the PV$\to$E kinetics that \citet{Herrera2026} found to control layer-4 gamma. What it shows is
 that densities and SOM kinetics alone were not sufficient here. Because the SOM/PV ratio, unit size and in-degree
 vary together across depth, it also does not show that the SOM/PV gradient produces the deep alpha-beta; a
-flat-ratio and a reversed-ratio column at fixed sizes and connectivity are needed for that.
+flat-ratio and a reversed-ratio column at fixed sizes and connectivity are needed for that. Nor does any run
+test density itself as a cause: densities set unit sizes and in-degrees in every run, and the causal test is
+a column with the same total cell count whose densities are flattened or permuted across units. Until it is
+run, density is a construction input here, not a tested mechanism.
 
 \textbf{What is missing.} The first explanation is a band mismatch, and it may be the central one. The isolated
 CAMINOS module oscillates at 27--46 Hz depending on $\rho$, below the scored 50--150 Hz band, and in the stack the
@@ -52,9 +55,13 @@ interference within each unit's signal, and they are unvalidated for this model'
 macaque LFP. Of the uncalibrated parts, we tested the spatial ones, the unit depths and the kernel width. Both
 matter for the band correlations (depth placement; Table~\ref{tab:sigma}), and neither removes the mid-depth gamma
 deficit, which held at every width tested. Within this readout, more gamma in the middle unit alone cannot close the
-deficit (bound 0.615), and the observed level was reached at an optimum that used coherence between units; that
-is a property of the three-source observation model, not of the physical source distribution. The same readout
-can pass the gamma depth criterion without coherence (Results), so that failure belongs to the circuit's spectra. The circuit's latent spectra are thus constrained
+deficit (bound 0.615); at the declared width the observed mid-depth level needs coherent sources (no incoherent
+covariance exceeds 0.665), and with them the level and the profile can be met together ($r$ 0.845 at mid-depth
+0.83). That is a property of the three-source observation model, not of the physical source distribution. The
+circuit is far from that optimum, with most of its gamma at S and source coherences near zero
+(Table~\ref{tab:circuitopt}). The same readout can pass the gamma depth criterion without coherence (Results),
+so that failure belongs mainly to the circuit's spectra. The leave-one-area-out check shows that this capacity
+holds for held-out areas; it validates the readout's fit to the target, not the circuit's mechanism. The circuit's latent spectra are thus constrained
 more firmly than its probe-level similarity scores.
 
 \textbf{Readout as a confound.} Moving only the contact depths raised $r_\text{proto}$ from 0.38 to 0.72 and
@@ -70,6 +77,7 @@ placements.
 \textbf{Other models.} In the mouse V1 model of \citet{Herrera2026}, SOM cells also shaped low-frequency power,
 which fits the deep alpha-beta of our SOM-rich D unit, but the model differs from ours in species, cell types and
 drive, so the correspondence is qualitative.
+
 \textbf{Limits.} The column has three units, so depth resolution comes from the readout kernel, not from the
 model; a deep-unit change also moves power at mid-depth. LANSA densities are relative per marker, so they set depth
 profiles, not ratios across types; calbindin is not a specific SOM marker. The SOM/PV ramp (0.25, 1, 2) was

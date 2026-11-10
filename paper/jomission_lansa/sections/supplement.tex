@@ -24,7 +24,7 @@ on alpha troughs. Tables~S1--S4 give the modules, edges per rule, run record and
 \centering
 \IfFileExists{../../results/viz/paper_w6/seed_diff.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w6/seed_diff.png}}{\pendingbox{seed differences}}
 \caption{Seed agreement on the finite-size ladder. Seed pairs: SSIM 0.62--0.71, pixel $r$ 0.87--0.93; each seed
-against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\texttt{results/viz/paper\_w6/seed\_diff.json}).}
+against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}).}
 \label{fig:seeds}
 \end{figure}
 
@@ -39,7 +39,7 @@ against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\texttt{results/viz/p
 \panel{N4000 s1}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
 \panel{N4000 s2}{../../results/laminar_e2/lfs_n4000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
 \panel{N4000 s3}{../../results/laminar_e2/lfs_n4000_s3_T8_motif.png}{0.32\linewidth}{missing}
-\caption{Finite-size ladder motif maps, one per $N$ and seed; scores in Table~\ref{tab:ladder}. Ladder rule (\texttt{results/laminar\_e2/lfs\_rule.json}): seed-mean
+\caption{Finite-size ladder motif maps, one per $N$ and seed; scores in Table~\ref{tab:ladder}. Ladder rule (\rec{R4}): seed-mean
 $r_\text{proto}$ 0.334, 0.387, 0.328 for $N$ = 1000, 2000, 4000; both smaller $N$ are within 2 SD of $N = 4000$ in
 $r_\text{proto}$ but fail the 3 Hz peak test on the S unit (seed-mean S peak 8, 31, 43 Hz), so the T1 size is
 $N = 4000$.}
@@ -53,12 +53,65 @@ $N = 4000$.}
 \toprule
 Test & Manipulation & Seal & Status \\
 \midrule
-T2 & every GABA weight $\times g$, $g \in \{0.25,\ldots,4\}$ & \path{SEAL_T2_T3.md} & sealed, not run \\
-T3 & every unit's $N_\text{SOM}/N_\text{PV} \times s$, $s \in \{0.25,\ldots,4\}$ & \path{SEAL_T2_T3.md} & sealed, not run \\
-T4 & PV or SOM silencing and $+50$ pA stimulation per unit & \path{SEAL_T4.md} & sealed, not run \\
+T2 & every GABA weight $\times g$, $g \in \{0.25,\ldots,4\}$ & \rec{S5} & sealed, not run \\
+T3 & every unit's $N_\text{SOM}/N_\text{PV} \times s$, $s \in \{0.25,\ldots,4\}$ & \rec{S5} & sealed, not run \\
+T4 & PV or SOM silencing and $+50$ pA stimulation per unit & \rec{S6} & sealed, not run \\
 T5 & VIP population & none & deferred (AdEx has no VIP) \\
 \bottomrule
 \end{tabular}
-\caption{Sealed or planned tests not run for this report (seals in \texttt{docs/laminar\_motif/}).}
+\caption{Sealed or planned tests not run for this report (seals in Table~\ref{tab:records}).}
 \label{tab:notrun}
+\end{table}
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\begin{tabular}{@{}lp{0.40\linewidth}p{0.44\linewidth}@{}}
+\toprule
+ID & Content & Repository file \\
+\midrule
+\multicolumn{3}{@{}l}{\textit{Code} (commit of last change)} \\
+C1 & three-unit stack builder (8519540) & \path{jomission/laminar/caminos_stack.py} \\
+C2 & scorer and pass rule (9681fc5) & \path{scripts/e2_scorer.py} \\
+C3 & mid-depth relative gamma (12842de) & \path{scripts/e2_mid_gamma.py} \\
+C4 & readout cross-term split and kernel width (8155f90) & \path{scripts/e2_readout_sensitivity.py} \\
+C5 & readout capacity (this revision) & \path{scripts/e2_readout_capacity.py} \\
+C6 & capacity, leave-one-area-out (9c69eb6) & \path{scripts/e2_readout_capacity_loao.py} \\
+C7 & joint constraint, circuit vs optimum (this revision) & \path{scripts/e2_readout_joint.py} \\
+C8 & probe geometry (2a6e879) & \path{scripts/e2_probe_geometry.py} \\
+C9 & depth placement (42f0e8d) & \path{scripts/e2_depth_placement.py} \\
+C10 & readout ceilings (e78fdcf) & \path{scripts/e2_readout_ceiling.py} \\
+\multicolumn{3}{@{}l}{\textit{Seals} (pre-registration; commit first added)} \\
+S1 & E0 (757c6a7) & \path{docs/laminar_motif/E0_SEAL.md} \\
+S2 & E1 (e944198) & \path{docs/laminar_motif/E1_SEAL.md} \\
+S3 & finite-size ladder L-FS (1d91096) & \path{docs/laminar_motif/SEAL_LFS.md} \\
+S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
+S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
+S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
+\multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
+D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
+D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
+D3 & readout capacity & \path{paper/jomission_lansa/data/readout_capacity.json} \\
+D4 & leave-one-area-out & \path{paper/jomission_lansa/data/readout_capacity_loao.json} \\
+D5 & joint constraint, circuit vs optimum & \path{paper/jomission_lansa/data/readout_joint.json} \\
+D6 & SHA-256 of every file cited & \path{paper/jomission_lansa/data/sources_sha256.txt} \\
+\multicolumn{3}{@{}l}{\textit{Run records, not version-controlled, hashed in D6}} \\
+R1 & E0 result & \path{results/laminar_e0/e0_result.json} \\
+R2 & E1 result & \path{results/laminar_e1/e1_result.json} \\
+R3 & T1 selections, axes 1--3 & \path{results/laminar_e2/t1_{kd,sst,sstd}_n4000_selection.json} \\
+R4 & ladder rule & \path{results/laminar_e2/lfs_rule.json} \\
+R5 & readout ceilings & \path{results/laminar_e2/readout_ceiling.json} \\
+R6 & ladder verdicts & \path{results/laminar_e2/lfs_n{N}_s{seed}_T8_verdict.json} \\
+R7 & T1 per-run verdicts & \path{results/laminar_e2/t1_*_verdict.json} \\
+R8 & per-unit weight verdicts & \path{results/laminar_e2/e2x_*_kd1p41_n4000_s1_T8_verdict.json} \\
+R9 & depth placement & \path{results/laminar_e2/depth_placement.json} \\
+R10 & seed agreement & \path{results/viz/paper_w6/seed_diff.json} \\
+\multicolumn{3}{@{}l}{\textit{Notes}} \\
+N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
+\bottomrule
+\end{tabular}
+\caption{Code, pre-registration seals, data and run records cited by identifier in the text. Files are in the
+project repository \citep{Jomission}; the model runs on JaxFNE \citep{JaxFNE}. No archive DOI exists yet; run
+records (R) are hashed in D6 and available on request until deposited.}
+\label{tab:records}
 \end{table}

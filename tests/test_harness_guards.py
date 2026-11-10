@@ -190,6 +190,7 @@ PASS_ASSERT_ALLOWLIST = {
     "tests/test_t2_readiness.py": "numerical stability precondition for exposure (finite state), not a scientific gate",
     "tests/test_v2_operation_prospective.py": "known-answer verdict label on synthetic windows; runs no simulation and reads no result verdict",
     "tests/test_regime_atlas.py": "atlas-integrity, not a gate: it asserts the rendered page reproduces the sealed pass value, whatever that value is. A scientific FAIL keeps it green; a rendering that disagreed with the seal would not",
+    "tests/test_e2_scorer.py": "known-answer tests of the shared motif scorer's pass rule on synthetic planted spectra (tmp_path runs); runs no simulation and reads no result verdict",
     "tests/test_ei_recruitment.py": "EQUAL_G realization acceptance is a construction precondition for the read-only measurement, not a scientific verdict; the lineage verdict is UNRESOLVED either way",
 }
 

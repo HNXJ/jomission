@@ -83,6 +83,21 @@ density (S 5785, M 3668, D 2547; mean 4000), K_INTER-based coupling with end-uni
 k (inter in-degree x 80) in {0.1, 0.3, 1, 3, 10} at dsz 1; deep E-cell size dsz (C, gL, a, b x dsz; synapses
 and drive unchanged) in {0.5, 2, 4} at k 1.
 
+Coupling result (per E cell, bands 10-30/50-150; peaks S/M/D in Hz; D/S = deep over superficial unit power):
+
+| k | peaks | gamma D/S | ab D/S | M | z | crossing | rates E S/M/D (Hz) |
+|---|---|---|---|---|---|---|---|
+| 0.1 | 52/15/22 | 19 | 1650 | +0.051 | +3.7 | no | 0.83/1.11/1.63 |
+| 0.3 | 46/22/13 | 22 | 806 | +0.053 | +5.2 | no | - |
+| 1 | 37/17/16 | 17 | 236 | +0.096 | +7.4 | no | 0.76/1.02/1.57 |
+| 3 | 8/7/18 | 2.1 | 2 | -0.055 | -0.8 | no | 1.41/1.85/2.64 |
+| 10 | 20/21/20 | 1.2 | 1 | -0.037 | -3.7 | no | 196 everywhere (saturated, discard) |
+
+Coupling up to k 1 leaves D dominant; k 3 equalizes amplitude but collapses every unit to slow rhythms; k 10
+saturates. No coupling value gives the motif. Diagnosis (20 s run): S is coherent with M (E counts 0.43 at
+30-50 Hz) but weakly synchronized (E var/mean 3.9 vs D 32; SST volleys drive D, var/mean 169). Next: local
+in-degree scaled by density (kd 0.5, 1) and deep cell size (dsz), queued.
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

@@ -19,7 +19,8 @@ def _model(name: str, sizes=SIZES):
     """(model, rows) of a layout name on the test fixture, with the arguments run_e2_stack passes."""
     mods = cs.variant(name)[1]
     return cs.construct(0, sizes, 0.01, P_LOCAL, tau_sst_e_ms=cs.sst_taus(name, sizes), k_scale=mods.get("k", 1.0),
-                        gaba_scale=mods.get("gi", 1.0), triple_drive=cs.drive_entries(name, sizes))
+                        gaba_scale=mods.get("gi", 1.0), triple_drive=cs.drive_entries(name, sizes),
+                        w_scales=mods.get("w"))
 
 
 def _edge_sha(st) -> str:
@@ -107,6 +108,39 @@ def test_pv_current_moves_pv_spikes_with_its_sign():
     assert base > 0, "fixture must spike: baseline PV spikes = 0"
     lo, hi = _pv_spikes("e2_3unit_ipvam400"), _pv_spikes("e2_3unit_ipva400")
     assert lo < base < hi, (lo, base, hi)
+
+
+@pytest.mark.parametrize("tok,pre,post,unit,x", [("weeS2", "E", "E", "S", 2.0), ("wseD0p5", "SOM", "E", "D", 0.5)])
+def test_w_scales_one_rule_in_one_unit(tok, pre, post, unit, x):
+    pytest.importorskip("jaxfne")
+    base = "e2_3unit_sst15"  # sst15: SOM->E carries the charge rescale, which w must compose with
+    a, rows = _model(base)
+    b, _ = _model(f"{base}_{tok}")
+    a, b = a.static["adex"], b.static["adex"]
+    for key in ("pre", "post", "rule_id", "receptor"):
+        np.testing.assert_array_equal(a[key], b[key])  # same seed: identical edges
+    typ = np.array([r["cell_type"] for r in rows])
+    lay = np.array([r["layer"] for r in rows])
+    pr, po = np.asarray(a["pre"]), np.asarray(a["post"])
+    hit = (typ[pr] == pre) & (typ[po] == post) & (lay[pr] == unit) & (lay[po] == unit)
+    assert hit.sum() > 0 and (~hit).sum() > 0, "fixture must have target and other edges"
+    wa, wb = np.asarray(a["weight_nS"]), np.asarray(b["weight_nS"])
+    np.testing.assert_array_equal(wb[hit], x * wa[hit])
+    np.testing.assert_array_equal(wb[~hit], wa[~hit])
+
+
+def test_w_refusals():
+    assert cs.variant("e2_3unit_weeS2_wpeM0p5")[1]["w"] == {"e_e:S": 2.0, "pv_e:M": 0.5}
+    with pytest.raises(ValueError, match="declared twice"):
+        cs.variant("e2_3unit_weeS2_weeS3")
+    with pytest.raises(ValueError, match="want w"):
+        cs.variant("e2_3unit_wxxS2")
+    with pytest.raises(ValueError, match="want w"):
+        cs.variant("e2_3unit_weeQ2")
+    with pytest.raises(ValueError, match="not a number"):  # no minus sign in w: a weight factor is >= 0
+        cs.variant("e2_3unit_weeSm1")
+    with pytest.raises(ValueError, match="finite"):
+        cs.variant("e2_3unit_weeSinf")
 
 
 def test_drive_and_rhos_refusals():

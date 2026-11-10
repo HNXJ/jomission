@@ -60,7 +60,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     p_local = cs.local_p(lay, sizes)
     tdrive = cs.drive_entries(lay, sizes)
     model, rows = cs.construct(seed, sizes, p_inter, p_local, tau_sst_e_ms=tau_sst_e, k_scale=mods.get("k", 1.0),
-                               deep_size=mods.get("dsz", 1.0), gaba_scale=mods.get("gi", 1.0), triple_drive=tdrive)
+                               deep_size=mods.get("dsz", 1.0), gaba_scale=mods.get("gi", 1.0), triple_drive=tdrive,
+                               w_scales=mods.get("w"))
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
     sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed),

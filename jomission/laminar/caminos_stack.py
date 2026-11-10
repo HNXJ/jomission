@@ -85,6 +85,23 @@ def _drive_token(rest: str, tok: str) -> tuple[str, float]:
     return rest[0], value
 
 
+W_RULES = {"ee": "e_e", "ep": "e_pv", "es": "e_sst", "pe": "pv_e", "pp": "pv_pv", "se": "sst_e", "sp": "sst_pv"}
+
+
+def _w_token(rest: str, tok: str) -> tuple[str, float]:
+    """('rule:unit', X) of a wRUX token; rest is the text after 'w'."""
+    code, unit, num = rest[:2], rest[2:3], rest[3:]
+    if code not in W_RULES or unit not in ("S", "M", "D"):
+        raise ValueError(f"weight modifier {tok!r}: want w + one of {'/'.join(W_RULES)} + S/M/D + value")
+    try:
+        value = float(num.replace("p", "."))
+    except ValueError:
+        raise ValueError(f"weight modifier {tok!r}: {num!r} is not a number") from None
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(f"weight modifier {tok!r}: value must be finite and >= 0")
+    return f"{W_RULES[code]}:{unit}", value
+
+
 def variant(name: str) -> tuple[str, dict]:
     """Split a layout name into (base, modifiers). Modifiers are '_'-separated tokens after the base
     (e2_3unit, e2_21bin, unitNNNN); 'p' is the decimal point, 'm' a minus sign (ipv, isom only):
@@ -103,16 +120,24 @@ def variant(name: str) -> tuple[str, dict]:
       kdB    local in-degree K_E * (density / mean density)^B per unit: denser units get more synapses
              per cell (3-unit stack; see local_p)
       dszX   deep-unit E cells X times larger: C, gL, a, b scaled by X, synapses and drive unchanged
+      wRUX   within-unit rule R of unit U: weight times X, after sstNN and giX (w_scales). R in ee, ep, es, pe, pp,
+             se, sp (E->E, E->PV, E->SOM, PV->E, PV->PV, SOM->E, SOM->PV); U in S, M, D. Stored as
+             {"e_e:S": X}; a (rule, unit) given twice is refused. weeS2 doubles E->E inside S.
     """
     toks = name.split("_")
     nb = 2 if name.startswith("e2_") else 1
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
         # longer keys first: sstd before sst, kd before k (the other keys do not share a prefix)
-        for key in ("sstd", "isom", "rhos", "rhod", "dens", "sst", "ipv", "dsz", "gi", "kd", "n", "k"):
+        for key in ("sstd", "isom", "rhos", "rhod", "dens", "sst", "ipv", "dsz", "gi", "kd", "n", "k", "w"):
             if t.startswith(key):
                 rest = t[len(key):]
-                if key in ("isom", "ipv"):
+                if key == "w":
+                    rk, value = _w_token(rest, t)
+                    if rk in mods.get("w", {}):
+                        raise ValueError(f"w declared twice for {rk!r} in {name!r}")
+                    mods.setdefault("w", {})[rk] = value
+                elif key in ("isom", "ipv"):
                     unit, value = _drive_token(rest, t)
                     if unit in mods.get(key, {}):
                         raise ValueError(f"{key} declared twice for unit {unit!r} in {name!r}")
@@ -221,8 +246,10 @@ def neuron_rows(sizes: dict[str, dict[str, int]]) -> list[dict]:
 
 def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
                  p_local: dict[str, float] | None = None, tau_sst_e_ms: float | dict[str, float] | None = None,
-                 k_scale: float = 1.0, gaba_scale: float = 1.0, triple_drive: list[dict] | None = None):
-    """p_local: per-unit within-unit probability (default K_E / N_E). p_inter: fixed inter-unit probability
+                 k_scale: float = 1.0, gaba_scale: float = 1.0, triple_drive: list[dict] | None = None,
+                 w_scales: dict[str, float] | None = None):
+    """w_scales: {'rule:unit': X} from the wRUX modifier, applied last to that unit's within-unit rule.
+    p_local: per-unit within-unit probability (default K_E / N_E). p_inter: fixed inter-unit probability
     (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit. tau_sst_e_ms (one value, or per
     unit): SST->E synapses on their own receptor with this decay ('gaba_sst' when one value, else
     'gaba_sstNN'), weight scaled by TAU_I / tau so the charge per spike is unchanged; units without one keep
@@ -246,6 +273,10 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
     rname = {t: "gaba_sst" if len(distinct) == 1 else f"gaba_sst{t:g}".replace(".", "p") for t in distinct}
     for t in distinct:
         cfg = cfg.mechanisms(name=rname[t], kind="receptor", params={"tau_ms": t, "reversal_mV": c0.REV_I_MV})
+    ws = dict(w_scales or {})
+    for k in ws:
+        if k.split(":")[1] not in names:
+            raise ValueError(f"weight modifier {k!r}: unit not in {names}")
     for m in names:
         p = (p_local or {}).get(m)
         if p is None:
@@ -256,7 +287,7 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
                 weight, mech = weight * c0.TAU_I_MS / taus[m], rname[float(taus[m])]
             cfg = cfg.connections(
                 name=f"{name}_{m}", source={"cell_type": pre, "layer": m}, target={"cell_type": post, "layer": m},
-                probability=float(p), weight=weight * scale, mechanism=mech, delay_ms=c0.DELAY_MS, sampling="bernoulli",
+                probability=float(p), weight=weight * scale * ws.get(f"{name}:{m}", 1.0), mechanism=mech, delay_ms=c0.DELAY_MS, sampling="bernoulli",
             )
     n_nb = {m: (len(names) > 1) * (2 - (m in (names[0], names[-1]))) for m in names}
     for i in range(len(names) - 1):
@@ -280,7 +311,7 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
 def construct(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
               p_local: dict[str, float] | None = None, tau_sst_e_ms: float | dict[str, float] | None = None,
               k_scale: float = 1.0, deep_size: float = 1.0, gaba_scale: float = 1.0,
-              triple_drive: list[dict] | None = None):
+              triple_drive: list[dict] | None = None, w_scales: dict[str, float] | None = None):
     from jaxfne._construct_adex import construct_adex_model
     from jaxfne.emitters_adex import ADEX_CELL_TYPE_DEFAULTS
 
@@ -289,7 +320,7 @@ def construct(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None
     if deep_size != 1.0:
         over = {DEEP_E: {f: ADEX_CELL_TYPE_DEFAULTS["E"][f] * deep_size for f in E_SIZE_FIELDS}}
     model = construct_adex_model(build_config(seed, sizes, p_inter, p_local, tau_sst_e_ms, k_scale, gaba_scale,
-                                              triple_drive),
+                                              triple_drive, w_scales),
                                  neuron_rows=rows, positions=np.zeros((len(rows), 3)), param_overrides=over)
     labels = tuple(model.params["emitter"].labels)
     if labels != tuple(r["cell_type"] for r in rows):

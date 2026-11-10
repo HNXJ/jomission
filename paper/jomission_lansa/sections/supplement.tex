@@ -1,0 +1,72 @@
+\clearpage
+\section*{Supplement}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0}
+
+% One block per model. Row 1: architecture, raster, details table. Row 2: LFP and SL map, CSD.
+% Each slot names its expected file; a missing file renders a pending stub. A slot with a planned name but no
+% file yet has an ASSUMED file name (convention only, not in any seal); it is replaced when the file is written.
+\newcommand{\cell}[3]{\begin{minipage}[t]{#1}\centering\IfFileExists{#2}{\includegraphics[width=\linewidth]{#2}}{\pendingbox{#3}}\end{minipage}}
+
+\begin{figure}[tbp]
+\centering
+\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\hfill
+\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_raster.png}{raster (only inside the block file, panel A)}\hfill
+\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_details_table.png}{details table in LaTeX form (source: \_details.md)}\\[0.8em]
+\cell{0.48\linewidth}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{LFP and SL map}\hfill
+\cell{0.48\linewidth}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{CSD}
+\caption{Model 1: reference \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, exploratory E2 run.}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\cell{0.31\linewidth}{../../results/viz/paper_w3/lfs_n1000_s1_T8_V0_architecture.png}{architecture (V0 for n1000 not written)}\hfill
+\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n1000_s1_T8_raster.png}{V1 raster, n1000 seed 1 (not written)}\hfill
+\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n1000_s1_T8_details_table.png}{details table, n1000 (not written)}\\[0.8em]
+\cell{0.48\linewidth}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{LFP and SL map}\hfill
+\cell{0.48\linewidth}{../../results/viz/paper_w4/lfs_n1000_s1_T8_csd.png}{CSD}
+\caption{Model 2: L-FS ladder, $N = 1000$ E per unit, seed 1.}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\cell{0.31\linewidth}{../../results/viz/paper_w3/lfs_n2000_s1_T8_V0_architecture.png}{architecture (not written)}\hfill
+\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n2000_s1_T8_raster.png}{raster (not written)}\hfill
+\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n2000_s1_T8_details_table.png}{details table (not written)}\\[0.8em]
+\cell{0.48\linewidth}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{LFP and SL map}\hfill
+\cell{0.48\linewidth}{../../results/viz/paper_w4/lfs_n2000_s1_T8_csd.png}{CSD (not written)}
+\caption{Model 3: L-FS ladder, $N = 2000$ E per unit, seed 1.}
+\end{figure}
+
+\subsection*{Finite-size ladder, motif maps}
+
+\begin{figure}[tbp]
+\centering
+\panel{N4000 s1}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.48\linewidth}{missing}\hfill
+\panel{N2000 s1}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
+\panel{N2000 s2}{../../results/laminar_e2/lfs_n2000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
+\panel{N1000 s1}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
+\caption{Finite-size ladder motif maps, exploratory (1 of 2): N4000 seed 1 and N2000 and N1000 seed 1.}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\panel{N1000 s2}{../../results/laminar_e2/lfs_n1000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
+\panel{N1000 s3}{../../results/laminar_e2/lfs_n1000_s3_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
+\stub{N4000 s2, s3}{L-FS N4000 seeds 2 and 3 (motif not written; a log exists for seed 2)}\hfill
+\stub{Ladder verdict}{ladder accept rule applied to seed means (not run)}
+\caption{Finite-size ladder motif maps (2 of 2), one file per $N$ and seed, exploratory. The N4000 seed 1 run is the
+reference model of Model 1. The accept rule is in Methods.}
+\end{figure}
+
+\subsection*{Plan supplement list}
+
+\begin{figure}[tbp]
+\centering
+\stub{Rate boxplots (S3/S5/S7 analogues)}{rate boxplots (not written)}\hfill
+\stub{S1 analogue: undriven vs driven}{undriven vs driven and raw laminar power map (not written)}\\[0.8em]
+\stub{Controls: $\sigma$, swapped units}{$\sigma$ and swapped-unit controls (not run)}\hfill
+\stub{Controls: identical units, smooth null}{identical-unit control and smooth-spectrum null summary (not written)}\\[0.8em]
+\stub{Seeds and wall times}{seeds and wall times table (not written)}
+\caption{Plan supplement list. All panels are pending.}
+\end{figure}

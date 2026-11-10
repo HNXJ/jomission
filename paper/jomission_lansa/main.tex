@@ -1,0 +1,39 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+% Figure paths are relative to this directory (paper/jomission_lansa); result files live at ../../results/.
+% A missing file renders a boxed "pending" stub instead of failing the build.
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\pendingbox}[1]{\fbox{\begin{minipage}[c][3.2cm][c]{0.92\linewidth}\centering\small\textbf{pending:} #1\end{minipage}}}
+% #1 panel letter, #2 file (relative path), #3 width, #4 text of the pending stub
+\newcommand{\panel}[4]{%
+  \begin{minipage}[t]{#3}\centering
+  \IfFileExists{#2}{\includegraphics[width=\linewidth]{#2}}{\pendingbox{#4}}\\[0.3em]
+  \textbf{#1}
+  \end{minipage}}
+
+\title{Laminar-cellular architecture sets the spectrolaminar motif in a primate model of the cortical hierarchy}
+\author{\todo{author list}}
+\date{Skeleton draft, 2026-11-10}
+
+\begin{document}
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/methods}
+\input{sections/supplement}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

@@ -396,6 +396,7 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   that starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede). Given the runaway state
   above, this run may not be informative beyond stability; the parent decides whether to keep it.
 - Queue records, 5 s screening (all off-authority (0.5.9 side install), exploratory; gamma peak on the scorer contact grid, 0 = mid-L4):
+  [superseded: M from the figure path, see the scorer-path table below; p_tol floor 1/24]
   - x3_iso_L4_H_s1_T5 (isolate L4): wall 1827.5 s; image M 0.020 ± 0.007 (p 0.417), manuscript M −0.010 ± 0.002 (p 0.500);
     r_proto 0.432; gamma peak −0.05; r_gm image 0.334, manuscript 0.407. E pooled 0.59 Hz.
   - x2_L4_H_s1_T5 (layer L4 silenced): wall 1811.2 s; image M −0.035 ± 0.042 (p 0.500), manuscript M −0.040 ± 0.050 (p 0.458);
@@ -452,10 +453,12 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   | x0rerun_H_s1_T20 | −0.084 | +0.079 | +0.079 | +0.174 |
   | x1_SST_H_s1_T5 | +0.010 | +0.282 | +0.282 | +0.169 |
   The five outer contacts have dlt = ab − gm of 0.000 to 0.023 (H) and −0.022 to 0.000 (SST), so they are near-flat, as
-  hypothesised. Dropping them still flips the H sign. Mechanism (reasoned, not decomposed numerically): the least-squares slope
-  depends on the centre of the grid, and the removed points pull the centre from −0.10 (full grid) to +0.025 (in-span grid). Their near-zero values add to
-  the denominator and shift the centre, which can change the sign. So "dilution only" does not hold for this slope. The sign
-  is not robust to the choice of contacts.
+  hypothesised. Dropping them still flips the H sign. Mechanism (`scratchpad/_temp_slope_decomp.py`): the OLS slope cov(x, y)/var(x) is invariant to translating x (checked:
+  shift ≤ 1e-16), so the grid centre alone cannot change it. Dropping contacts changes the slope only because dlt is not linear in
+  depth: it is near 0 at −0.6…−0.4 and rises to 0.34 at +0.40 (CHANNELS). A quadratic fit dlt = a + b·x + c·x² on CHANNELS gives
+  c = 1.55 (H) and 1.19 (SST). The fit implies an in-span slope of 0.31 for SST (0.28 measured) but 0.30 for H (0.08 measured; fit RMS 0.17
+  against dlt RMS 0.23). So the H sign flip needs more curvature than a quadratic; its shape is not established. The sign of M is
+  grid-sensitive and not robust to the choice of contacts.
   Non-shared contacts (no contact is common to the two grids): the probe grid adds contacts at +0.46 and +0.51, where dlt
   declines (H: 0.336 and 0.246; SST: 0.103 and 0.075). CHANNELS stops at +0.40 (H: 0.341), where the profile is still
   rising. So the top of the profile is sampled differently by the two grids, as well as the bottom.

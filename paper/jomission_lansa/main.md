@@ -5,8 +5,8 @@ Venue: bioRxiv preprint, computational neuroscience reader (cortical circuits, L
 
 Title (calibrated to the evidence; owner's working title "Laminar-cellular architecture sets the spectrolaminar
 motif..." is not supported by a passing run and is kept as the question, not the claim):
-"A density-informed three-unit E/PV/SOM column reproduces part of the primate spectrolaminar
-motif but leaves mid-depth gamma weak".
+"Testing Cell-Type Density as a Circuit Mechanism of Primate Spectrolaminar Oscillations" (owner's wording
+2026-11-10, framed as a test because no run passed and the mechanism is not causally identified).
 
 Message: a three-unit AdEx E/PV/SOM column, built from LANSA depth densities and the validated CAMINOS module,
 places alpha-beta deep but leaves relative gamma weak between -0.2 and 0; size, in-degree, SOM kinetics and

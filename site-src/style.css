@@ -63,9 +63,11 @@ h2 { font-size: 22px; margin-top: 2em; border-bottom: 1px solid var(--border); p
   border-radius: 6px;
   padding: 16px 18px;
   margin: 18px 0;
+  overflow-x: auto;
 }
 .panel h3 { margin-top: 0; }
 .panel figure { margin: 12px 0 4px; }
+.panel figure img { max-width: 100%; height: auto; background: #fff; }
 .panel svg { max-width: 100%; height: auto; }
 .panel iframe { width: 100%; height: 560px; border: 1px solid var(--border); border-radius: 6px; background: #0d1117; }
 .badge {

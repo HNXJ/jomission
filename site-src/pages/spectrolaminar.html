@@ -1,27 +1,87 @@
 <h1>Spectrolaminar motif from cell densities</h1>
-<p class="status-note">Draft for review. Not published. This page holds method and status only; it shows no results.</p>
-<h2>Question</h2>
-<p>Does one column per cortical area, built from that area's laminar cell-type densities and wired by declared rules only, reproduce the spectrolaminar LFP motif: gamma power above alpha–beta, with a depth profile that follows the densities?</p>
-<h2>Method</h2>
-<ol>
-<li>Densities: PV, CB, CR and NG cell densities and LFP relative power from LANSA (Mulvey et al.), 11 macaque areas, 21 depth bins.</li>
-<li>One JaxFNE column per area, 1050 Izhikevich neurons, with E, PV, SST and VIP fractions per depth bin taken from that area's densities.</li>
-<li>Canonical type-to-type wiring, shared by all areas. Connectivity is explicit; the engine's default all-to-all graph is off.</li>
-<li>Drives set within a physiological firing regime. The circuit is chosen in that regime and held out by area.</li>
-<li>Simulated LFP is analysed with the paper's PCA and PLSR pipeline, ported to NumPy.</li>
-<li>MEG and EEG come from the same runs: a column dipole, then a head model.</li>
-</ol>
-<h2>Status</h2>
-<table>
-<thead><tr><th>Item</th><th>Status</th></tr></thead>
-<tbody>
-<tr><td>Anatomy to column, per area</td><td>implemented and checked</td></tr>
-<tr><td>Port of the analysis pipeline</td><td>implemented; checked on observed data</td></tr>
-<tr><td>Physiological regime, circuit held out by area</td><td>implemented; results not on this page</td></tr>
-<tr><td>Schizophrenia knockdown comparison</td><td>run; results not on this page</td></tr>
-<tr><td>Edge depth bins and alpha–beta depth profile</td><td>open</td></tr>
-<tr><td>Irregular firing without losing fit</td><td>open</td></tr>
-</tbody>
-</table>
-<h2>Scope</h2>
-<p>The pilot depends on JaxFNE core changes recorded in the JaxFNE repository. It does not change the jomission network, its gates or its results.</p>
+<p class="status-note">Unsealed working figures (layout after Herrera 2026: data and circuit, then observed vs model relative-power maps). 58 scored runs, 0 pass the six-part scorer; highest r_proto 0.543 (e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8). Scorer and bands: docs/laminar_motif/FINDINGS_2026-11-10.md.</p>
+<h2>Data and circuit</h2>
+<div class="panel-slot" data-panel="sl-001"></div>
+<h2>Architecture and reference run</h2>
+<div class="panel-slot" data-panel="sl-002"></div>
+<div class="panel-slot" data-panel="sl-003"></div>
+<div class="panel-slot" data-panel="sl-004"></div>
+<div class="panel-slot" data-panel="sl-005"></div>
+<h2>All scored runs: configuration and verdict</h2>
+<div class="panel-slot" data-panel="sl-table"></div>
+<h2>CSD, probe geometry, seed differences</h2>
+<div class="panel-slot" data-panel="sl-006"></div>
+<div class="panel-slot" data-panel="sl-007"></div>
+<div class="panel-slot" data-panel="sl-008"></div>
+<div class="panel-slot" data-panel="sl-009"></div>
+<div class="panel-slot" data-panel="sl-010"></div>
+<div class="panel-slot" data-panel="sl-011"></div>
+<div class="panel-slot" data-panel="sl-012"></div>
+<div class="panel-slot" data-panel="sl-013"></div>
+<div class="panel-slot" data-panel="sl-014"></div>
+<div class="panel-slot" data-panel="sl-015"></div>
+<div class="panel-slot" data-panel="sl-016"></div>
+<div class="panel-slot" data-panel="sl-017"></div>
+<div class="panel-slot" data-panel="sl-018"></div>
+<h2>T1 axes (kd, sst), n4000, three seeds</h2>
+<div class="panel-slot" data-panel="sl-019"></div>
+<div class="panel-slot" data-panel="sl-020"></div>
+<div class="panel-slot" data-panel="sl-021"></div>
+<div class="panel-slot" data-panel="sl-022"></div>
+<div class="panel-slot" data-panel="sl-023"></div>
+<div class="panel-slot" data-panel="sl-024"></div>
+<div class="panel-slot" data-panel="sl-025"></div>
+<div class="panel-slot" data-panel="sl-026"></div>
+<div class="panel-slot" data-panel="sl-027"></div>
+<div class="panel-slot" data-panel="sl-028"></div>
+<div class="panel-slot" data-panel="sl-029"></div>
+<div class="panel-slot" data-panel="sl-030"></div>
+<div class="panel-slot" data-panel="sl-031"></div>
+<div class="panel-slot" data-panel="sl-032"></div>
+<div class="panel-slot" data-panel="sl-033"></div>
+<div class="panel-slot" data-panel="sl-034"></div>
+<div class="panel-slot" data-panel="sl-035"></div>
+<div class="panel-slot" data-panel="sl-036"></div>
+<div class="panel-slot" data-panel="sl-037"></div>
+<div class="panel-slot" data-panel="sl-038"></div>
+<div class="panel-slot" data-panel="sl-039"></div>
+<div class="panel-slot" data-panel="sl-040"></div>
+<div class="panel-slot" data-panel="sl-041"></div>
+<div class="panel-slot" data-panel="sl-042"></div>
+<div class="panel-slot" data-panel="sl-043"></div>
+<div class="panel-slot" data-panel="sl-044"></div>
+<div class="panel-slot" data-panel="sl-045"></div>
+<div class="panel-slot" data-panel="sl-046"></div>
+<div class="panel-slot" data-panel="sl-047"></div>
+<div class="panel-slot" data-panel="sl-048"></div>
+<div class="panel-slot" data-panel="sl-049"></div>
+<div class="panel-slot" data-panel="sl-050"></div>
+<div class="panel-slot" data-panel="sl-051"></div>
+<div class="panel-slot" data-panel="sl-052"></div>
+<div class="panel-slot" data-panel="sl-053"></div>
+<div class="panel-slot" data-panel="sl-054"></div>
+<div class="panel-slot" data-panel="sl-055"></div>
+<div class="panel-slot" data-panel="sl-056"></div>
+<h2>Size ladder (n1000-n4000)</h2>
+<div class="panel-slot" data-panel="sl-057"></div>
+<div class="panel-slot" data-panel="sl-058"></div>
+<div class="panel-slot" data-panel="sl-059"></div>
+<div class="panel-slot" data-panel="sl-060"></div>
+<div class="panel-slot" data-panel="sl-061"></div>
+<div class="panel-slot" data-panel="sl-062"></div>
+<div class="panel-slot" data-panel="sl-063"></div>
+<div class="panel-slot" data-panel="sl-064"></div>
+<h2>First-pass sweep (k, kd, dsz, rho)</h2>
+<div class="panel-slot" data-panel="sl-065"></div>
+<h2>Exploratory per-unit weights (seed 1, unsealed)</h2>
+<div class="panel-slot" data-panel="sl-066"></div>
+<div class="panel-slot" data-panel="sl-067"></div>
+<div class="panel-slot" data-panel="sl-068"></div>
+<div class="panel-slot" data-panel="sl-069"></div>
+<div class="panel-slot" data-panel="sl-070"></div>
+<div class="panel-slot" data-panel="sl-071"></div>
+<div class="panel-slot" data-panel="sl-072"></div>
+<div class="panel-slot" data-panel="sl-073"></div>
+<div class="panel-slot" data-panel="sl-074"></div>
+<div class="panel-slot" data-panel="sl-075"></div>
+<div class="panel-slot" data-panel="sl-076"></div>

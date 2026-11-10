@@ -956,6 +956,741 @@
       "source": "results/v21c_boundary.json",
       "title": "V2.1c intrinsic-heterogeneity boundary: infeasible",
       "type": "table"
+    },
+    "sl-001": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png",
+      "title": "LANSA densities, observed motif, model column and built vs LANSA depth profiles",
+      "type": "viz",
+      "viz": "schema/t1_kd1p41_n4000_s1_T8_schema.png",
+      "note": "Rows: data (no simulation); the model as built. LANSA densities are relative per type: depth profiles are compared, never fractions across types."
+    },
+    "sl-002": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/t1/V0_reference_architecture.png",
+      "title": "V0 reference architecture",
+      "type": "viz",
+      "viz": "t1/V0_reference_architecture.png"
+    },
+    "sl-003": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/t1/V1_reference_block.png",
+      "title": "V1 reference block",
+      "type": "viz",
+      "viz": "t1/V1_reference_block.png"
+    },
+    "sl-004": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/t1/V3_kd_n4000_atlas.png",
+      "title": "V3 kd n4000 atlas",
+      "type": "viz",
+      "viz": "t1/V3_kd_n4000_atlas.png"
+    },
+    "sl-005": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/t1/V3_sst_n4000_atlas.png",
+      "title": "V3 sst n4000 atlas",
+      "type": "viz",
+      "viz": "t1/V3_sst_n4000_atlas.png"
+    },
+    "sl-table": {
+      "evidence_class": "DERIVED",
+      "keys": [
+        "runs"
+      ],
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs.json",
+      "title": "E2 runs: sizes E/PV/SOM per unit, p, SOM->E tau, weight modifiers, scores",
+      "type": "table"
+    },
+    "sl-006": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w4/lfs_n1000_s1_T8_csd.png",
+      "title": "lfs n1000 s1 T8 csd",
+      "type": "viz",
+      "viz": "paper_w4/lfs_n1000_s1_T8_csd.png"
+    },
+    "sl-007": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png",
+      "title": "sw n4000 dens k1 kd1 sst15 s1 T8 csd",
+      "type": "viz",
+      "viz": "paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png"
+    },
+    "sl-008": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n1000_s1_T8_probe_geometry.png",
+      "title": "lfs n1000 s1 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n1000_s1_T8_probe_geometry.png"
+    },
+    "sl-009": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n1000_s2_T8_probe_geometry.png",
+      "title": "lfs n1000 s2 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n1000_s2_T8_probe_geometry.png"
+    },
+    "sl-010": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n1000_s3_T8_probe_geometry.png",
+      "title": "lfs n1000 s3 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n1000_s3_T8_probe_geometry.png"
+    },
+    "sl-011": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n2000_s1_T8_probe_geometry.png",
+      "title": "lfs n2000 s1 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n2000_s1_T8_probe_geometry.png"
+    },
+    "sl-012": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n2000_s2_T8_probe_geometry.png",
+      "title": "lfs n2000 s2 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n2000_s2_T8_probe_geometry.png"
+    },
+    "sl-013": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n2000_s3_T8_probe_geometry.png",
+      "title": "lfs n2000 s3 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n2000_s3_T8_probe_geometry.png"
+    },
+    "sl-014": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n4000_s2_T8_probe_geometry.png",
+      "title": "lfs n4000 s2 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n4000_s2_T8_probe_geometry.png"
+    },
+    "sl-015": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/lfs_n4000_s3_T8_probe_geometry.png",
+      "title": "lfs n4000 s3 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/lfs_n4000_s3_T8_probe_geometry.png"
+    },
+    "sl-016": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/probe_summary.png",
+      "title": "probe summary",
+      "type": "viz",
+      "viz": "paper_w5/probe_summary.png"
+    },
+    "sl-017": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w5/sw_n4000_dens_k1_kd1_sst15_s1_T8_probe_geometry.png",
+      "title": "sw n4000 dens k1 kd1 sst15 s1 T8 probe geometry",
+      "type": "viz",
+      "viz": "paper_w5/sw_n4000_dens_k1_kd1_sst15_s1_T8_probe_geometry.png"
+    },
+    "sl-018": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/paper_w6/seed_diff.png",
+      "title": "seed diff",
+      "type": "viz",
+      "viz": "paper_w6/seed_diff.png"
+    },
+    "sl-019": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p25_n4000_s1_T8.png",
+      "title": "t1_kd0p25_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p25_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.036, r_ab 0.924, r_gm -0.339, crossing False; w -"
+    },
+    "sl-020": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p25_n4000_s2_T8.png",
+      "title": "t1_kd0p25_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p25_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.025, r_ab 0.928, r_gm -0.375, crossing False; w -"
+    },
+    "sl-021": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p25_n4000_s3_T8.png",
+      "title": "t1_kd0p25_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p25_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.034, r_ab 0.915, r_gm -0.376, crossing True; w -"
+    },
+    "sl-022": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p35_n4000_s1_T8.png",
+      "title": "t1_kd0p35_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p35_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.032, r_ab 0.935, r_gm -0.232, crossing True; w -"
+    },
+    "sl-023": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p35_n4000_s2_T8.png",
+      "title": "t1_kd0p35_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p35_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.110, r_ab 0.929, r_gm -0.059, crossing True; w -"
+    },
+    "sl-024": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p35_n4000_s3_T8.png",
+      "title": "t1_kd0p35_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p35_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.040, r_ab 0.928, r_gm -0.238, crossing False; w -"
+    },
+    "sl-025": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p5_n4000_s1_T8.png",
+      "title": "t1_kd0p5_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p5_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.269, r_ab 0.938, r_gm 0.206, crossing True; w -"
+    },
+    "sl-026": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p5_n4000_s2_T8.png",
+      "title": "t1_kd0p5_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p5_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.229, r_ab 0.926, r_gm 0.143, crossing True; w -"
+    },
+    "sl-027": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p5_n4000_s3_T8.png",
+      "title": "t1_kd0p5_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p5_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.159, r_ab 0.915, r_gm 0.029, crossing True; w -"
+    },
+    "sl-028": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p71_n4000_s1_T8.png",
+      "title": "t1_kd0p71_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p71_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.300, r_ab 0.926, r_gm 0.273, crossing True; w -"
+    },
+    "sl-029": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p71_n4000_s2_T8.png",
+      "title": "t1_kd0p71_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p71_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.206, r_ab 0.920, r_gm 0.114, crossing True; w -"
+    },
+    "sl-030": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd0p71_n4000_s3_T8.png",
+      "title": "t1_kd0p71_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd0p71_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.366, r_ab 0.901, r_gm 0.352, crossing True; w -"
+    },
+    "sl-031": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png",
+      "title": "t1_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.362, r_ab 0.750, r_gm 0.423, crossing True; w -"
+    },
+    "sl-032": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s2_T8.png",
+      "title": "t1_kd1p41_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd1p41_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.381, r_ab 0.793, r_gm 0.450, crossing True; w -"
+    },
+    "sl-033": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s3_T8.png",
+      "title": "t1_kd1p41_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd1p41_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.338, r_ab 0.581, r_gm 0.445, crossing True; w -"
+    },
+    "sl-034": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd2_n4000_s1_T8.png",
+      "title": "t1_kd2_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd2_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.255, r_ab 0.255, r_gm 0.427, crossing False; w -"
+    },
+    "sl-035": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd2_n4000_s2_T8.png",
+      "title": "t1_kd2_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd2_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.238, r_ab -0.109, r_gm 0.461, crossing False; w -"
+    },
+    "sl-036": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_kd2_n4000_s3_T8.png",
+      "title": "t1_kd2_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_kd2_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.213, r_ab -0.384, r_gm 0.478, crossing False; w -"
+    },
+    "sl-037": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst10p6_n4000_s1_T8.png",
+      "title": "t1_sst10p6_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst10p6_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.192, r_ab 0.784, r_gm 0.125, crossing False; w -"
+    },
+    "sl-038": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst10p6_n4000_s2_T8.png",
+      "title": "t1_sst10p6_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst10p6_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.359, r_ab 0.777, r_gm 0.361, crossing True; w -"
+    },
+    "sl-039": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst10p6_n4000_s3_T8.png",
+      "title": "t1_sst10p6_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst10p6_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.306, r_ab 0.742, r_gm 0.284, crossing False; w -"
+    },
+    "sl-040": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst21_n4000_s1_T8.png",
+      "title": "t1_sst21_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst21_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.256, r_ab -0.213, r_gm 0.486, crossing True; w -"
+    },
+    "sl-041": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst21_n4000_s2_T8.png",
+      "title": "t1_sst21_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst21_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.271, r_ab -0.130, r_gm 0.490, crossing False; w -"
+    },
+    "sl-042": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst21_n4000_s3_T8.png",
+      "title": "t1_sst21_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst21_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.266, r_ab -0.236, r_gm 0.490, crossing False; w -"
+    },
+    "sl-043": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst30_n4000_s1_T8.png",
+      "title": "t1_sst30_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst30_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.232, r_ab -0.684, r_gm 0.568, crossing False; w -"
+    },
+    "sl-044": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst30_n4000_s2_T8.png",
+      "title": "t1_sst30_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst30_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.208, r_ab -0.621, r_gm 0.520, crossing False; w -"
+    },
+    "sl-045": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst30_n4000_s3_T8.png",
+      "title": "t1_sst30_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst30_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.230, r_ab -0.668, r_gm 0.569, crossing False; w -"
+    },
+    "sl-046": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst42_n4000_s1_T8.png",
+      "title": "t1_sst42_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst42_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.292, r_ab -0.223, r_gm 0.509, crossing False; w -"
+    },
+    "sl-047": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst42_n4000_s2_T8.png",
+      "title": "t1_sst42_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst42_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.275, r_ab -0.092, r_gm 0.464, crossing False; w -"
+    },
+    "sl-048": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst42_n4000_s3_T8.png",
+      "title": "t1_sst42_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst42_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.326, r_ab -0.128, r_gm 0.539, crossing False; w -"
+    },
+    "sl-049": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst5p3_n4000_s1_T8.png",
+      "title": "t1_sst5p3_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst5p3_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.180, r_ab -0.682, r_gm 0.509, crossing False; w -"
+    },
+    "sl-050": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst5p3_n4000_s2_T8.png",
+      "title": "t1_sst5p3_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst5p3_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.213, r_ab -0.655, r_gm 0.512, crossing False; w -"
+    },
+    "sl-051": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst5p3_n4000_s3_T8.png",
+      "title": "t1_sst5p3_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst5p3_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.217, r_ab -0.673, r_gm 0.538, crossing False; w -"
+    },
+    "sl-052": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst7p5_n4000_s1_T8.png",
+      "title": "t1_sst7p5_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst7p5_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.069, r_ab 0.437, r_gm -0.202, crossing False; w -"
+    },
+    "sl-053": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst7p5_n4000_s2_T8.png",
+      "title": "t1_sst7p5_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst7p5_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.100, r_ab 0.168, r_gm -0.251, crossing False; w -"
+    },
+    "sl-054": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sst7p5_n4000_s3_T8.png",
+      "title": "t1_sst7p5_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sst7p5_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.113, r_ab 0.465, r_gm -0.309, crossing False; w -"
+    },
+    "sl-055": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sstd7p5_n4000_s1_T8.png",
+      "title": "t1_sstd7p5_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sstd7p5_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.074, r_ab 0.924, r_gm -0.327, crossing False; w -"
+    },
+    "sl-056": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/t1_sstd7p5_n4000_s2_T8.png",
+      "title": "t1_sstd7p5_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/t1_sstd7p5_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto -0.108, r_ab 0.921, r_gm -0.367, crossing False; w -"
+    },
+    "sl-057": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n1000_s1_T8.png",
+      "title": "lfs_n1000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n1000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.293, r_ab -0.199, r_gm 0.506, crossing False; w -"
+    },
+    "sl-058": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n1000_s2_T8.png",
+      "title": "lfs_n1000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n1000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.342, r_ab 0.274, r_gm 0.450, crossing False; w -"
+    },
+    "sl-059": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n1000_s3_T8.png",
+      "title": "lfs_n1000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n1000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.367, r_ab 0.384, r_gm 0.490, crossing True; w -"
+    },
+    "sl-060": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n2000_s1_T8.png",
+      "title": "lfs_n2000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n2000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.434, r_ab 0.786, r_gm 0.501, crossing True; w -"
+    },
+    "sl-061": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n2000_s2_T8.png",
+      "title": "lfs_n2000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n2000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.316, r_ab 0.453, r_gm 0.420, crossing True; w -"
+    },
+    "sl-062": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n2000_s3_T8.png",
+      "title": "lfs_n2000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n2000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.410, r_ab 0.666, r_gm 0.470, crossing False; w -"
+    },
+    "sl-063": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n4000_s2_T8.png",
+      "title": "lfs_n4000_s2_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n4000_s2_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.211, r_ab 0.857, r_gm 0.137, crossing False; w -"
+    },
+    "sl-064": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/lfs_n4000_s3_T8.png",
+      "title": "lfs_n4000_s3_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/lfs_n4000_s3_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.396, r_ab 0.827, r_gm 0.407, crossing True; w -"
+    },
+    "sl-065": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/sw_n4000_dens_k1_kd1_sst15_s1_T8.png",
+      "title": "sw_n4000_dens_k1_kd1_sst15_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/sw_n4000_dens_k1_kd1_sst15_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.376, r_ab 0.839, r_gm 0.400, crossing True; w -"
+    },
+    "sl-066": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p2_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p2_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p2_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.301, r_ab 0.544, r_gm 0.380, crossing True; w e_e:Mx1.2"
+    },
+    "sl-067": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p41_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p41_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p41_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.273, r_ab -0.464, r_gm 0.536, crossing False; w e_e:Mx1.41"
+    },
+    "sl-068": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p41_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p41_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p41_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.403, r_ab 0.590, r_gm 0.419, crossing False; w e_e:Mx1.41 e_sst:Sx0.5 e_sst:Dx1.5"
+    },
+    "sl-069": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.420, r_ab 0.286, r_gm 0.644, crossing False; w e_e:Mx1.68"
+    },
+    "sl-070": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.486, r_ab 0.568, r_gm 0.530, crossing False; w e_e:Mx1.68 e_sst:Sx0.5"
+    },
+    "sl-071": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.416, r_ab 0.262, r_gm 0.626, crossing False; w e_e:Mx1.68 e_sst:Sx0.5 e_sst:Dx1.5"
+    },
+    "sl-072": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.543, r_ab 0.553, r_gm 0.643, crossing False; w e_e:Mx1.68 e_sst:Sx0.5 e_sst:Mx0.5"
+    },
+    "sl-073": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_wesM0p5_wpeM1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.451, r_ab 0.890, r_gm 0.505, crossing True; w e_e:Mx1.68 e_sst:Sx0.5 e_sst:Mx0.5 pv_e:Mx1.5"
+    },
+    "sl-074": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.455, r_ab 0.921, r_gm 0.501, crossing True; w e_e:Mx1.68 e_sst:Sx0.5 pv_e:Mx1.5"
+    },
+    "sl-075": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_wepM1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM1p68_wesS0p5_wpeM1p5_wepM1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_wepM1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.438, r_ab 0.920, r_gm 0.468, crossing True; w e_e:Mx1.68 e_sst:Sx0.5 pv_e:Mx1.5 e_pv:Mx1.5"
+    },
+    "sl-076": {
+      "evidence_class": "OBSERVED",
+      "page": "spectrolaminar",
+      "source": "results/viz/spectrolaminar/runs/e2x_weeM2_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "title": "e2x_weeM2_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8: observed vs model map",
+      "type": "viz",
+      "viz": "spectrolaminar/runs/e2x_weeM2_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png",
+      "status": "FAIL",
+      "note": "r_proto 0.418, r_ab 0.886, r_gm 0.480, crossing True; w e_e:Mx2 e_sst:Sx0.5 pv_e:Mx1.5"
     }
   },
   "viz_allowlist": {
@@ -1020,6 +1755,237 @@
       "evidence_class": "OBSERVED"
     },
     "SCI-EI-INTERACTION-1/atlas": {
+      "evidence_class": "OBSERVED"
+    },
+    "schema/t1_kd1p41_n4000_s1_T8_schema.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "t1/V0_reference_architecture.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "t1/V1_reference_block.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "t1/V3_kd_n4000_atlas.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "t1/V3_sst_n4000_atlas.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs.json": {
+      "evidence_class": "DERIVED"
+    },
+    "paper_w4/lfs_n1000_s1_T8_csd.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n1000_s1_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n1000_s2_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n1000_s3_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n2000_s1_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n2000_s2_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n2000_s3_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n4000_s2_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/lfs_n4000_s3_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/probe_summary.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w5/sw_n4000_dens_k1_kd1_sst15_s1_T8_probe_geometry.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "paper_w6/seed_diff.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p25_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p25_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p25_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p35_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p35_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p35_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p5_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p5_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p5_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p71_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p71_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd0p71_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd1p41_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd1p41_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd2_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd2_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_kd2_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst10p6_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst10p6_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst10p6_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst21_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst21_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst21_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst30_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst30_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst30_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst42_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst42_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst42_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst5p3_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst5p3_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst5p3_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst7p5_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst7p5_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sst7p5_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sstd7p5_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/t1_sstd7p5_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n1000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n1000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n1000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n2000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n2000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n2000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n4000_s2_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/lfs_n4000_s3_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/sw_n4000_dens_k1_kd1_sst15_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p2_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p41_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p41_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_wpeM1p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p5_wepM1p5_kd1p41_n4000_s1_T8.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "spectrolaminar/runs/e2x_weeM2_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.png": {
       "evidence_class": "OBSERVED"
     }
   },

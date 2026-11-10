@@ -362,3 +362,7 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   (`scorer/x0rerun_A0_s1_T5_verdict.json`), manuscript −0.456. Sha check: H (519f1ed) and A0 (0bf4b62) differ only in
   `docs/laminar_motif/FINDINGS_2026-11-10.md`, `scripts/e2_t1_atlas.py` and `tests/test_e2_t1_atlas.py`; no replica code
   changed, so H and A0 are comparable as runs. The 5 s resolution in the paragraph above applies to every value here.
+  Notes (parent review, ACCEPT): manuscript p 0.042 = 1/24 is the floor of the exhaustive shuffle, the smallest p this test
+  can give, not a strong result. The SEs 0.012 and 0.024 have 1 df at n_windows 2, so they are no more trustworthy than
+  H's 0.126. sha 0bf4b62 is a local dev commit of the parent, pushed after its own review. Reading, descriptive only at
+  5 s: A0 puts gamma deepest (+0.40) and r_gm −0.57, worse than H (r_gm −0.26); consistent with H as the better wiring.

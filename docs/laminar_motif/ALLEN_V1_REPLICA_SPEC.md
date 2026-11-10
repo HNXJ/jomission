@@ -373,14 +373,24 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   manuscript +0.284. Against the H baseline (x0rerun_H_s1_T5: r_gm image −0.256, gamma peak 0.000): r_gm moves +0.43 and
   the gamma peak moves to the upper L4/L2-3 side (−0.15). r_gm has no SE at 5 s; the shift is unresolved. Descriptive only.
 - Gamma power check, X1 PV vs H vs A0 (5 s; `scratchpad/_temp_gamma_power.py`; the window-mean auto-spectra of the
-  four E-layer units; imaginary part of the spectra 1e-18 of the real part, so the real part is used). The r_gm readout
+  four E-layer units; imaginary part of the spectra at most 1e-17 of the real part, so the real part is used). The r_gm readout
   normalises each frequency across contacts (`e2_scorer.rp_map`), so r_gm does not depend on absolute power. Absolute
   50–150 Hz power does not fall under PV silencing; it rises: L2/3 2.9e15 (H) → 3.4e17 (X1 PV), L4 8.8e15 → 1.1e17,
   L5 1.5e15 → 5.6e16, L6 1.1e16 → 1.0e17. The 1–10 Hz share of 1–150 Hz power goes from 4–7% (H) to 67–93% (X1 PV);
   the 50–150 Hz share from 25–51% to 1–7%. So the shift is a large slow component, not vanishing gamma. Whether the slow
   component is a population state (e.g. synchronous bursting) is not yet checked; firing rates are the next check.
+- Firing rates and E synchrony, 5 s runs, 3 s analysed (`scratchpad/_temp_rates_sync.py`; rate = spikes / (size × 3 s);
+  Fano = var/mean of the pooled E count in 1 ms bins). H: E pooled 1.88 Hz, Fano 50.2; PV 13–20 Hz in every layer;
+  SST and VIP 0.0–7.8 Hz. A0: E 1.76 Hz, Fano 14.8. X1 PV: E pooled 82.2 Hz (×44 H), Fano 4263; E cells 46–101 Hz in
+  every layer; L1_Inh, SST and VIP 46–98 Hz; the silenced PV cells at 0 Hz. This is a runaway, disinhibited state, not a
+  gamma state. The X1 PV profile (r_proto 0.39, gamma peak −0.15, r_gm +0.17) is therefore not evidence that the observed
+  superficial gamma needs no PV: the model is not in a physiological state under PV silence. Read X1 PV as a stability
+  failure first. The H value of Fano 50 at 1 ms is also above a Poisson value of 1, so the pooled E count is already
+  synchronous under H; this is descriptive only.
+- Identity check (default path after `caminos_stack.py` changed, 734fede → HEAD): `git archive 734fede` extracted to
+  scratchpad `code_734fede`, run at 0.5 s (`id734_full_H_s1_T0p5`) and at HEAD (`idHEAD_full_H_s1_T0p5`), npz compared
+  bitwise. Runs in sequence after X1b, before the 20 s run; one simulation at a time.
 - Queue (2026-11-10, parent request, spec §16 rule): a 20 s confirmation of x1_PV_H_s1_T5 (`x1_PV_H_s1_T20`, H, PV all
-  layers, seed 1) is queued after X1b, the last item. Not reordered. Launched by a waiter (`_temp_driver8.sh`) that
-  starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede); `jomission/laminar/caminos_stack.py`
-  changed between 734fede and the current HEAD (new modifiers and a probability guard, default path not changed by
-  reading, not verified by a run). The 20 s comparison waits for that check; no 20 s value is read before it.
+  layers, seed 1) is queued after X1b, the last item, behind the identity check. Launched by a waiter (`_temp_driver9.sh`)
+  that starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede). Given the runaway state
+  above, this run may not be informative beyond stability; the parent decides whether to keep it.

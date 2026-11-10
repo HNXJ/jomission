@@ -92,7 +92,7 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     np.savez_compressed(OUT / f"{tag}.npz", counts=counts, block_keys=np.array([f"{m}_{t}" for m, t in keys]),
                         lfp_pA=lfp, g_nS=g.astype(np.float32), **raster)
     sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
-    st = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"], capture_output=True, text=True)
+    st = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "--untracked-files=no"], capture_output=True, text=True)
     src = Path(jtfne.__file__).resolve().parent.parent / "SOURCE.txt"  # beside the jaxfne package dir
     rec = {
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",

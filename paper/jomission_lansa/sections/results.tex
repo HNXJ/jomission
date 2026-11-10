@@ -117,8 +117,9 @@ Table~\ref{tab:loao}), the covariance reached $r$ $0.81 \pm 0.05$ (SD over folds
 terms and $0.62 \pm 0.09$ (7 of 11) without at $\sigma = 0.15$. The 10-area mean profile itself predicts the
 held-out area at $0.93 \pm 0.06$, so the three-source kernel bound sits below what between-area similarity alone
 gives. Without coherence, passing at the declared width is marginal across areas. The main-text width is
-$\sigma = 0.15$ because it was fixed in the T1 seal (\path{docs/laminar_motif/SEAL_T1.md}) before the search; the
-other widths were added after review and are reported, not selected.
+$\sigma = 0.15$, the width declared in the readout code (an assumption, not chosen among alternatives) and used
+for the T1 seal's readout ceilings before any T1 run (\path{docs/laminar_motif/SEAL_T1.md}); the other widths were
+added after review and are reported, not selected.
 
 \begin{table}[tbp]
 \centering
@@ -139,8 +140,9 @@ with the held-out area, mean $\pm$ SD over $n = 11$ folds. Full: cross terms all
 10-area mean profile against the held-out area: $0.93 \pm 0.06$ at every width. Source:
 \texttt{paper/jomission\_lansa/data/readout\_capacity\_loao.json}.}
 \label{tab:loao}
-\end{table} The two
-statistics are separate: the profiles that maximize $r$ have mid-depth relative gamma of only 0.49 (no cross
+\end{table}
+
+The two statistics are separate: the profiles that maximize $r$ have mid-depth relative gamma of only 0.49 (no cross
 terms) and 0.72 (full), below the observed 0.85 on the map and 0.95 on the band-mean profile. For the
 mid-depth level, the largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at $\sigma = 0.15$,
 just above the observed 0.848; the maximizing covariance has S and M fully coherent and D in antiphase

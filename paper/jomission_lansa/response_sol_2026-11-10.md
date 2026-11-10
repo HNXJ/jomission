@@ -203,8 +203,9 @@ At σ = 0.15:
   Held-out values are mean ± SD over n = 11 folds. The baseline, the 10-area mean profile scored against the
   held-out area, is 0.93 ± 0.06. At σ = 0.15 the three-source kernel bound (0.81 held-out with cross terms) sits
   below what between-area similarity alone gives. Without coherence, passing at that width is marginal across
-  areas. σ = 0.15 is the main-text value because it was fixed in the T1 seal (`docs/laminar_motif/SEAL_T1.md`)
-  before the search. The other widths were added after review and are reported, not selected.
+  areas. σ = 0.15 is the main-text value: it is the width declared in the readout code (an assumption, not
+  chosen among alternatives) and used for the T1 seal's readout ceilings before any T1 run
+  (`docs/laminar_motif/SEAL_T1.md`). The other widths were added after review and are reported, not selected.
 - **Mid-depth level.** M alone is bounded at 0.615. The single-frequency ceiling 0.853 is just above 0.848. It is
   reached at an optimum with S and M fully coherent and D in antiphase (coherences 1.00, −0.98). This is one optimum,
   not a shown necessity, and it is less demanding at σ = 0.20 (S–D coherence 0.13). The model's cross terms were

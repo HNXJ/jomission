@@ -6,7 +6,7 @@ Usage:
 Owns, and rewrites on every call: site-src/pages/spectrolaminar.html, manifest panels whose id starts with "sl-",
 and viz_allowlist keys under OWNED_DIRS. Everything else in the manifest is left as is. Figures are copied by
 scripts/build_pages.py from results/viz/; this script only lists those present on disk (sorted, so the output is
-deterministic). Run scripts/e2_concept_panels.py first for results/viz/spectrolaminar/runs/ and runs.json.
+deterministic). Run scripts/e2_concept_panels.py first for results/viz/spectrolaminar/runs/ and TABLE.
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VIZ = ROOT / "results" / "viz"
 MAN = ROOT / "site-src" / "manifest.json"
 PAGE = ROOT / "site-src" / "pages" / "spectrolaminar.html"
+TABLE = "site-src/data/spectrolaminar_runs.json"  # written by e2_concept_panels.py
 OWNED_DIRS = ("schema/", "t1/", "paper_w4/", "paper_w5/", "paper_w6/", "spectrolaminar/")
 RUN_FAMILIES = (("t1_", "T1 axes (kd, sst), n4000, three seeds"), ("lfs_", "Size ladder (n1000-n4000)"),
                 ("sw_", "First-pass sweep (k, kd, dsz, rho)"), ("e2x_", "Exploratory per-unit weights (seed 1, unsealed)"),
@@ -43,7 +44,7 @@ def main() -> None:
              if dump(man, kw, nl, tail) == raw]
     if not forms:
         sys.exit("manifest.json is not in a json.dumps(indent=2) form; refusing to rewrite it")
-    runs = json.loads((VIZ / "spectrolaminar" / "runs.json").read_text(encoding="utf-8"))["runs"]
+    runs = json.loads((ROOT / TABLE).read_text(encoding="utf-8"))["runs"]
     by_tag = {r["tag"]: r for r in runs}
     man["panels"] = {k: v for k, v in man["panels"].items() if not k.startswith("sl-")}
     man["viz_allowlist"] = {k: v for k, v in man["viz_allowlist"].items() if not k.startswith(OWNED_DIRS)}
@@ -82,10 +83,9 @@ def main() -> None:
     body += ["<h2>All scored runs: configuration and verdict</h2>",
              '<div class="panel-slot" data-panel="sl-table"></div>']
     man["panels"]["sl-table"] = {"evidence_class": "DERIVED", "keys": ["runs"], "page": "spectrolaminar",
-                                 "source": "results/viz/spectrolaminar/runs.json",
+                                 "source": TABLE,
                                  "title": "E2 runs: sizes E/PV/SOM per unit, p, SOM->E tau, weight modifiers, scores",
                                  "type": "table"}
-    man["viz_allowlist"]["spectrolaminar/runs.json"] = {"evidence_class": "DERIVED"}
     body.append("<h2>CSD, probe geometry, seed differences</h2>")
     for k in figs("paper_w4/") + figs("paper_w5/") + figs("paper_w6/"):
         add(k, Path(k).stem.replace("_", " "))

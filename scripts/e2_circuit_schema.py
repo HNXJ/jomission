@@ -89,7 +89,8 @@ def main(tag: str, out: Path = OUT) -> Path:
     ax.set_xlabel("density / max (median of 11 areas)")
     ax.set_ylabel("depth from mid-L4 (fraction of thickness)")
     ax.set_title("cell densities (LANSA)", fontsize=PT + 0.5)
-    ax.legend(frameon=False, fontsize=PT - 0.5, loc="lower right")
+    ax.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=2,
+              handlelength=1.5, columnspacing=0.8)
     # B, C: observed maps
     axb = fig.add_subplot(gs[0, 1], sharey=ax)
     _map(axb, Y.mean(axis=2), z, "observed motif (mean of 11 areas)")
@@ -133,7 +134,6 @@ def main(tag: str, out: Path = OUT) -> Path:
     axd.set_xlim(0, 1.25)
     axd.set_xticks([])
     axd.spines["bottom"].set_visible(False)
-    axd.tick_params(labelleft=False)
     taus = rec.get("tau_sst_e_ms") or {}
     taus = taus if isinstance(taus, dict) else {"all": taus}  # older records: one scalar
     axd.set_title(f"model column ({tag})", fontsize=PT + 0.5, loc="left")
@@ -152,7 +152,6 @@ def main(tag: str, out: Path = OUT) -> Path:
             axe.plot(Xm[:, i] / Xm[:, i].max(), z, color=col, ls=ls, lw=1.2)
     axe.set_xlabel("cells / max per type (bars: built; lines: LANSA)")
     axe.set_title("built vs LANSA depth profile", fontsize=PT + 0.5)
-    axe.tick_params(labelleft=False)
     axe.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=3,
                handlelength=1, columnspacing=0.8)
     for a, letter in zip((ax, axb, axc, axd, axe), "ABCDE"):

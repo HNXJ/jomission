@@ -6,7 +6,7 @@ Usage:
 Per run, one 7.2 x 2.6 in figure: A observed map (PROTO, mean of 11 LANSA areas); B model map, the scorer's rp_map of
 the run (same 21 x 150 grid, same viridis scale); C depth profiles of the alpha-beta (10-30 Hz) and gamma (50-150 Hz)
 band means, model solid and observed dashed; D the run's configuration and verdict. Writes
-results/viz/spectrolaminar/runs/{TAG}.png (150 dpi) and results/viz/spectrolaminar/runs.json, one row per run with
+results/viz/spectrolaminar/runs/{TAG}.png (150 dpi) and site-src/data/spectrolaminar_runs.json, one row per run with
 its configuration and verdict (the dashboard's table). Reads results/laminar_e2/{TAG}.json, .npz, _verdict.json.
 No number is computed here that the scorer does not compute: B is e2_scorer.rp_map of e2_scorer.unit_spectra.
 """
@@ -27,6 +27,8 @@ import e2_motif_figure as mf  # noqa: E402
 import e2_scorer as sc  # noqa: E402
 
 OUT = mf.ROOT / "results" / "viz" / "spectrolaminar"
+# a site table, not a result: kept out of results/ (every tracked results/*.json must be a registered result)
+TABLE = mf.ROOT / "site-src" / "data" / "spectrolaminar_runs.json"
 PT = 7
 C_AB, C_GM = "#1565c0", "#e53935"
 
@@ -80,7 +82,7 @@ def panel(tag: str, out: Path = OUT) -> dict:
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False})
     fig = plt.figure(figsize=(7.2, 2.6), constrained_layout=True)
-    gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 0.75, 1.15])
+    gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 0.75, 1.3])
     a = fig.add_subplot(gs[0])
     _map(a, sc.PROTO, "observed, 11-area mean")
     a.set_ylabel("depth from mid-L4")
@@ -99,16 +101,20 @@ def panel(tag: str, out: Path = OUT) -> dict:
              handlelength=1.2, columnspacing=0.6, title="solid model, dashed observed", title_fontsize=PT - 1)
     d = fig.add_subplot(gs[3])
     d.axis("off")
-    lines = [tag, f"seed {row['seed']}, {row['T_s']:g} s, N {row['N']:,}, {row['edge_delivery']}",
+    k = tag.find("_kd") if len(tag) > 34 else -1  # wrap long tags before the base-layout tokens
+    lines = [tag[:k], "  " + tag[k:]] if k > 0 else [tag]
+    lines += [f"seed {row['seed']}, {row['T_s']:g} s, N {row['N']:,}, {row['edge_delivery']}",
              "E/PV/SOM per unit", *("  " + s for s in row["sizes"].split()), "p " + row["p_local"], "SOM->E tau " + row["tau_sst_ms"] + " ms",
              "w " + row["w_mods"], "",
              f"r_proto {row['r_proto']:.3f} (null p95 {row['smooth_p95']:.3f})",
              f"r_ab {row['r_ab']:.3f}   r_gm {row['r_gm']:.3f}  (>= 0.6)",
              f"crossing {row['crossing_2se']}   perm rank {row['perm_rank']}",
              f"verdict: {'PASS' if row['pass'] else 'FAIL'}"]
-    d.text(0, 1, "\n".join(lines), va="top", fontsize=PT - 0.5, family="DejaVu Sans Mono", transform=d.transAxes)
+    d.text(0, 1, "\n".join(lines), va="top", fontsize=PT - 1, family="DejaVu Sans Mono", transform=d.transAxes)
     for ax_, letter in zip((a, b, c, d), "ABCD"):
-        ax_.set_title(letter, loc="left", fontsize=9, fontweight="bold", x=-0.12)
+        t = ax_.get_title()
+        ax_.set_title("")
+        ax_.set_title(rf"$\bf{{{letter}}}$  {t}", loc="left", fontsize=PT + 0.5)
     (out / "runs").mkdir(parents=True, exist_ok=True)
     fig.savefig(out / "runs" / f"{tag}.png", dpi=150)
     plt.close(fig)
@@ -116,15 +122,18 @@ def panel(tag: str, out: Path = OUT) -> dict:
 
 
 def main(tags: list[str]) -> None:
-    if not tags:
+    full = not tags  # the table is written only from the full run set, never from a named subset
+    if full:
         # symlinked verdicts are axis aliases of a carried winner (e.g. t1_sst15 -> t1_kd1p41): one panel per run
         tags = sorted(p.name[: -len("_verdict.json")] for p in mf.D.glob("*_verdict.json") if not p.is_symlink())
     rows = []
     for t in tags:
         rows.append(panel(t))
         print(t, rows[-1]["r_proto"], rows[-1]["pass"], flush=True)
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "runs.json").write_text(json.dumps({"runs": rows}, indent=1), encoding="utf-8")
+    if not full:
+        return
+    TABLE.parent.mkdir(parents=True, exist_ok=True)
+    TABLE.write_text(json.dumps({"runs": rows}, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

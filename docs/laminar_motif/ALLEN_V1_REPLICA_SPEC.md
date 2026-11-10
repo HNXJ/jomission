@@ -377,7 +377,7 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   normalises each frequency across contacts (`e2_scorer.rp_map`), so r_gm does not depend on absolute power. Absolute
   50–150 Hz power does not fall under PV silencing; it rises: L2/3 2.9e15 (H) → 3.4e17 (X1 PV), L4 8.8e15 → 1.1e17,
   L5 1.5e15 → 5.6e16, L6 1.1e16 → 1.0e17. The 1–10 Hz share of 1–150 Hz power goes from 4–7% (H) to 67–93% (X1 PV);
-  the 50–150 Hz share from 25–51% to 1–3%. So the shift is a large slow component, not vanishing gamma. Whether the slow
+  the 50–150 Hz share from 25–51% to 1–7%. So the shift is a large slow component, not vanishing gamma. Whether the slow
   component is a population state (e.g. synchronous bursting) is not yet checked; firing rates are the next check.
 - Queue (2026-11-10, parent request, spec §16 rule): a 20 s confirmation of x1_PV_H_s1_T5 (`x1_PV_H_s1_T20`, H, PV all
   layers, seed 1) is queued after X1b, the last item. Not reordered. Launched by a waiter (`_temp_driver8.sh`) that

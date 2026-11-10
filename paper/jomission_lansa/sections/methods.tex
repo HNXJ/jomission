@@ -102,7 +102,7 @@ their contributions differ in profile and can differ in sign above and below the
 (bottom); unit depths are S $-0.4$, M 0, D $+0.3$. Currents are taken at $V_\text{ref} = -65$ mV, so $I_{u,r} =
 g_{u,r}(V_\text{ref} - E_r)$ with $E_\text{AMPA} = 0$ and $E_\text{GABA} = -80$ mV; both currents keep one sign, the
 absolute values only fix the sign convention, and $L_u = 65\,g_{\text{AMPA},u}(t-6\,\text{ms}) - 24.75\,
-g_{\text{GABA},u}(t)$ (mV) is, by construction of the proxy, exactly linear in the conductances. Hence the contact power is exactly
+g_{\text{GABA},u}(t)$ (pA, with $g$ in nS and the coefficients in mV) is, by construction of the proxy, exactly linear in the conductances. Hence the contact power is exactly
 \begin{equation*}
 P_z(f) = \sum_{u,v} K_{zu} K_{zv}\, S_{uv}(f),
 \end{equation*}
@@ -111,8 +111,9 @@ $R(z,f) = P_z(f)/\max_{z'} P_{z'}(f)$, so any frequency-dependent gain $G(f)$ co
 independent of contact depth, such as the proxy's spectral bias above if it is uniform, cancels exactly
 (depth-dependent filtering, which the separable kernel already neglects, would not): $G(f)P_z(f)/\max_{z'}
 G(f)P_{z'}(f) = R(z,f)$. What the relative map does depend on is the depth weighting $K$, i.e.\ $\sigma$ and the unit
-depths, and gains that differ between units. We therefore report the readout as an estimate of the LFP's depth
-structure, not a calibrated potential, and test its two uncalibrated parts: unit depths (Results, depth placement)
+depths, and filtering that differs between receptors or units: the AMPA/GABA weight and delay set the interference
+within each $L_u$, and they remain unvalidated for this model. We therefore report the readout as an estimate of
+the LFP's depth structure, not a calibrated potential, and test its two spatial parts: unit depths (Results, depth placement)
 and $\sigma$ (Results; $\sigma \in \{0.10, 0.15, 0.20, 0.25\}$, \path{scripts/e2_readout_sensitivity.py}).
 
 \textbf{CSD.} The CSD is current-based, not kernel-based. The saved per-unit, per-receptor currents become current
@@ -151,7 +152,8 @@ A result counts only if all of the following hold (\path{scripts/e2_scorer.py}, 
 \item $r_{ab} \geq 0.6$ and $r_{gm} \geq 0.6$.
 \item The identity unit order ranks 1 of all unit orders (ties count for the identity).
 \item $r_\text{proto}$ is above both the p95 of the max-over-grid smooth-spectrum null and the identical-unit control.
-\item The two halves agree: $|r_1 - r_2| \leq 2\,\text{SE}_\text{diff}$, with jackknife SEs over windows in each half.
+\item The two halves agree: $|r_1 - r_2| \leq 2\,\text{SE}_\text{diff}$, with jackknife SEs over windows in each half. This is
+a consistency check: passing it means no difference was detected, not that the run is stationary.
 \item The result is finite and complete: all 150 frequencies enter $r_\text{over\,bins}$.
 \end{enumerate}
 Selection uses seeds 1--3. Confirmation uses seeds 4--6 at 12 s, with the config frozen. The even/odd area split
@@ -182,7 +184,8 @@ $r_{gm}$, manuscript 31--150 Hz & 0.849 & 0.640 \\
 \subsection{Finite-size ladder}
 
 Lineage L-FS (\path{docs/laminar_motif/SEAL_LFS.md}). The question is the smallest $N$ E cells per unit at which
-\texttt{kd1\_sst15} keeps its map. In-degrees $K_E$ and $K_\text{INTER}$ are preserved. $N \in \{4000, 2000, 1000\}$,
+\texttt{kd1\_sst15} keeps its map. The unit-specific in-degree rule ($K_u = 560\,D_u/\bar D$, $B = 1$) and $K_\text{INTER}$
+are held fixed across $N$; only $p_u$ changes. $N \in \{4000, 2000, 1000\}$,
 seeds 1--3, 8 s with 2 s discarded. Rule: accept the smallest $N$ whose seed-mean $r_\text{proto}$ is within
 2 seed SD of $N = 4000$ and whose per-unit peaks are within 3 Hz. That $N$ is the T1 size.
 
@@ -215,7 +218,8 @@ seeds 1--3, 8 s. A dose-response measurement with no pass criterion; the effect 
 
 \item[T3 PV/SST ratio, planned] (sealed, not run; \path{docs/laminar_motif/SEAL_T2_T3.md}). Every unit's $N_\text{SST}/N_\text{PV}$ times $s$,
 $s \in \{0.25, 0.5, 1, 2, 4\}$, keeping the ramp shape and each unit's inhibitory total. CB/PV is not used as SST/PV
-(OPEN-38).
+(OPEN-38). Because it scales the whole ramp, T3 is not a flat-ratio or reversed-ratio control; those are not
+sealed.
 
 \item[T4 PV/SST silencing and stimulation, planned] (sealed, not run; \path{docs/laminar_motif/SEAL_T4.md}). Silencing is a hyperpolarizing
 current through \texttt{tensor\_triple\_drive}, the only $I_\text{ext}$ path into the AdEx kernel in 0.5.8.
@@ -244,11 +248,12 @@ presynaptic cells that spiked in the step; it was checked against the dense rout
 \subsection{Data and code}
 
 Scripts are in the project repository (\path{scripts/}, \path{jomission/laminar/}); the scorer, depth-placement,
-probe-geometry and stack code used here is as of commit 8519540, and the mid-gamma and readout-sensitivity scripts
-(\path{scripts/e2_mid_gamma.py}, \path{scripts/e2_readout_sensitivity.py}; outputs in
+probe-geometry and stack code used here is as of commit 8519540, and the mid-gamma, readout-sensitivity and
+readout-capacity scripts (\path{scripts/e2_mid_gamma.py}, \path{scripts/e2_readout_sensitivity.py},
+\path{scripts/e2_readout_capacity.py}; outputs in
 \path{paper/jomission_lansa/data/}) are added with this draft.
 Seeds are given per run in the tables and run records. The run records and verdict
 files cited here live under \path{results/}, which is not under version control; their SHA-256 hashes are listed in
-\path{paper/jomission_lansa/data/sources_sha256.txt} (92 files, including the readout-sensitivity script and output), and the mid-depth gamma values in
+\path{paper/jomission_lansa/data/sources_sha256.txt} (94 files, including the readout-sensitivity and readout-capacity scripts and outputs), and the mid-depth gamma values in
 \path{paper/jomission_lansa/data/mid_gamma.json}. The run records are not yet in a public archive; until they are
 deposited, the data behind the tables are available only on request.

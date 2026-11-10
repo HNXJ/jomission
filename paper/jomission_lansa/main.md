@@ -25,6 +25,7 @@ per-unit weights do not close the gap, and readout controls show that depth geom
 | C7 | Depth placement alone reaches r_proto 0.72, but a spectral-shift null is not rejected (p = (3+1)/21 on r_proto; 12 of 20 shifted draws had no passing placement) | FINDINGS §7, depth_placement.json | a negative control, not support |
 | C8 | Event delivery: bitwise-equal outputs, 9.9x faster at T1 length | FINDINGS §5 | one seed, one layout |
 | C9 | The RWS readout rests on the linear volume-conductor solution with validated weights and an assumed separable depth kernel; mid-depth deficit holds at sigma 0.10-0.25 (0.44-0.62 at 0.25); cross terms 0-12%, normalizing max at S | Methods derivation; data/readout_sensitivity.json (scripts/e2_readout_sensitivity.py, 12 runs) | r_gm is sigma-dependent; full scorer not rerun per sigma |
+| C10 | Readout capacity (no simulation): three Gaussian sources reach the observed mid-depth level (ceiling 0.853 at sigma 0.15) only at an optimum with S-M coherence 1 and D antiphase, and fit the observed gamma profile at r <= 0.46 at sigma 0.15; a 41-source distributed model fits at r 0.999 | data/readout_capacity.json (scripts/e2_readout_capacity.py; positive and optimizer controls pass) | limits of the observation model, not of macaque sources |
 
 Counter-evidence: Mackey et al. 2026 (Nat Neurosci) dispute the motif's ubiquity; our target is the 11-area
 LANSA mean and V1, so the claim is conditional on that map.

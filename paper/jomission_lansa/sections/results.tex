@@ -61,13 +61,14 @@ E0 & PV$\to$SOM lag & 7.16 ms & $7.04 \pm 0.34$ ms & in \\
 E0 & E / PV / SOM rate & 1.08 / 11.28 / 6.78 Hz & $\pm$6.1 / 1.2 / 8.2\% & in \\
 E0 & all & 5 seeds & all in margin & PASS \\
 \addlinespace
-E1 & $f_\text{pk}$ vs $\log_2\rho$ & $-6.27$ Hz/oct, $p\leq10^{-4}$ & negative per seed & met \\
+E1 & $f_\text{pk}$ vs $\log_2\rho$ & $-6.27$ Hz/oct, $p_\text{MC}\leq1/10\,001$ & negative per seed & met \\
 E1 & oscillating $\rho$ & 4 of 5 per seed & $\geq 4$ & met \\
 E1 & drop $\rho$ 0.25$\to$4 & undefined ($\rho$ 4 silent) & $\geq 3$ Hz & undefined \\
 E1 & all & 3 seeds & & INCONCLUSIVE \\
 \bottomrule
 \end{tabular}
-\caption{The single module. E0: five seeds, 12 s, 2 s discarded. E1: three seeds, $\rho \in \{0.25, 0.5, 1, 2, 4\}$.
+\caption{The single module. E0: five seeds, 12 s, 2 s discarded. E1: three seeds, $\rho \in \{0.25, 0.5, 1, 2, 4\}$;
+$p_\text{MC}$ is the one-sided Monte Carlo permutation $p$ (10\,000 draws, resolution $1/10\,001$).
 Sources: \texttt{results/laminar\_e0/e0\_result.json}, \texttt{results/laminar\_e1/e1\_result.json}.}
 \label{tab:e0e1}
 \end{table}
@@ -100,8 +101,25 @@ that normalizes the map sat at S ($-0.4$) for 97--101 of the 101 frequencies fro
 relative deficit is therefore M's 50--150 Hz power being small compared with S's, which is both a weak M and a
 strong S. Raising M's power alone did not close it: scaling M's spectrum by up to $10^4$ never brought mid-depth
 relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel of a source at 0,
-whose mean over $-0.2$ to 0 is 0.615 at $\sigma = 0.15$ (derived). The observed breadth needs gamma
-generated above 0 or over a wider depth range.
+$e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615 at $\sigma = 0.15$ (derived; the
+continuous mean over the interval is 0.625).
+
+\textit{What the readout can represent.} The 0.615 bound holds for M alone. To separate the readout's limits from
+the circuit's, we fitted source models to the observed 50--150 Hz profile without any simulation
+(\path{scripts/e2_readout_capacity.py}, \path{paper/jomission_lansa/data/readout_capacity.json}). With the three
+declared sources and any source covariance, cross terms included, the largest possible mid-depth relative gamma
+at one frequency is 0.853 at $\sigma = 0.15$, above the observed 0.848. The maximizing covariance has S and M
+gamma fully coherent and in phase and D in antiphase (coherences 1.00 and $-1.00$), so it uses interference
+between units; the model's cross terms were 0--12\% of mid-depth power, far from that regime. One
+covariance fitted to the band-mean observed profile reached a depth correlation of only 0.45 at $\sigma = 0.15$
+(0.71 at 0.20, 0.84 at 0.25). A distributed model, 41 sources from $-0.6$ to 0.4 with the same kernel, fitted the
+profile with correlation 0.997--0.999 at every width (positive control). Refitted to the distributed model's own
+profile, a target it represents exactly (residual $< 10^{-15}$), the three-source model again reached only 0.46
+at 0.15, and it recovered its own randomly generated profiles exactly (optimizer control, $r = 1.000$). So at the
+declared width the observed gamma profile is out of reach of three Gaussian sources with one covariance
+across the band, while its mid-depth level is reachable, at the optimum, through strong coherence between units. These limits
+belong to the three-source, positive-Gaussian readout. They do not constrain where gamma is generated in macaque
+cortex; signed lead fields, receptor-specific source depths and distributed dendritic currents are not modelled.
 
 \textit{Kernel width.} The kernel width is assumed, so we rescored the same 12 runs at four widths
 (Table~\ref{tab:sigma}). The band-correlation result depends on it: $r_{gm}$ reached 0.6 in 9 of 12 runs at

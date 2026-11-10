@@ -10,7 +10,7 @@ Reviewed draft: commit 12842de. Revised sources: `sections/*.tex`, `main.tex`, `
 |---|---|---|
 | 1.1 | Density-derived overstated | Done: title, abstract and Discussion say "density-informed"; imposed parts named |
 | 1.2 | Readout not a validated LFP | Done: derivation from Poisson's equation (Methods), σ sensitivity, decomposition; we defend the proxy as a physically motivated estimate of depth structure, state its assumptions and say what it cannot carry |
-| 1.3 | SOM/PV effect unidentified | Conceded in text; flat and reversed controls deferred (sealed as T3, not run) |
+| 1.3 | SOM/PV effect unidentified | Conceded in text; flat and reversed controls deferred and **not sealed** (corrected in round 2: T3 scales the ramp) |
 | 1.4 | α-β claim needs qualification | Done: in-sample qualifier; winner's loss of α-β on its own selection seeds stated as a primary result |
 | 1.5 | Gamma generator is a hypothesis | Done: auto/cross decomposition run; abstract reworded to "consistent with" |
 | 1.6 | Density vs kinetics | Done: specificity paragraph; no contradiction with Herrera claimed |
@@ -84,8 +84,10 @@ which are imposed (ρ ramp, E:I, weights, depths, inter-unit coupling). It calls
 marker density a proxy that does not preserve absolute abundance.
 
 **1.3.** Agreed. Discussion: SOM/PV, size and in-degree co-vary, so the paper does not claim the ratio gradient
-produces the deep α-β. Flat and reversed controls at fixed size and connectivity are sealed (T3,
-`docs/laminar_motif/SEAL_T2_T3.md`) and listed as planned, not run.
+produces the deep α-β. Flat and reversed controls at fixed size and connectivity are needed. *Correction
+(round 2):* this reply first said they were sealed as T3. That was wrong. T3 (`docs/laminar_motif/SEAL_T2_T3.md`)
+scales the whole ramp by s ∈ {0.25…4} and keeps its shape. The flat and reversed controls are not sealed; T3 is
+unchanged.
 
 **1.4.** The reference column's r_ab 0.83–0.86 is labelled in-sample (selection seeds; the reference was not rerun
 on fresh seeds). The T1 winner, selected on r_proto, has r_ab 0.32–0.47 on its own selection seeds and 0.35–0.47 on
@@ -118,7 +120,7 @@ without the in-degree rule. B is an assumption, scanned in T1.
 model of the extracellular potential (point 1.2). It would bound the readout dependence, not replace it. It needs a
 scorer extension and is listed as follow-up.
 
-**3.4.** 92 source hashes (now including the readout-sensitivity script and output); scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
+**3.4.** 94 source hashes (now including the readout-sensitivity and readout-capacity scripts and outputs); scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
 archive (code, run records, seeds, environment) is a submission item and is not done.
 
 **3.5.** Not done in this revision; a figure-layout pass precedes submission.
@@ -129,3 +131,60 @@ archive (code, run records, seeds, environment) is a submission item and is not 
   before run). Your order (analysis first, then simulations) is followed: items 1–3 of your plan are done.
 - **Your title:** we kept "density-informed" rather than "CAMINOS-derived". The density scaling of size and
   in-degree is the tested manipulation, and "minimal" is not defined by a test.
+
+---
+
+# Round 2 (second review, 2026-11-10, "Major revision, narrowed")
+
+Title is now "Testing Cell-Type Density as a Circuit Mechanism of Primate Spectrolaminar Oscillations" (owner),
+framed as a test. New analysis: `scripts/e2_readout_capacity.py` → `data/readout_capacity.json` (geometry only,
+no simulation).
+
+| # | Point | Response |
+|---|---|---|
+| M1 | Normalization overstated | Done: abstract, Methods, Discussion now say only a gain common to units and depths cancels; receptor- and unit-dependent filtering (AMPA/GABA weight and delay set within-unit interference) is unvalidated |
+| M2 | 0.615 ceiling conditional | Done: stated as a property of the three-source positive-Gaussian readout, not of macaque sources; your known-answer test was run (below) |
+| M3 | T3 is not flat/reversed | Agreed, our error. Response 1.3 and Methods corrected: flat/reversed controls are not sealed; T3 unchanged |
+| — | 65g − 24.75g is pA | Fixed (pA; g in nS, coefficients in mV). The code (`e2_motif_figure.rws`) already returns pA |
+| — | "sized and connected from densities" | Fixed: "sized from the cell densities … with an assumed density-scaled in-degree rule" |
+| — | "smallest mechanistic model" | Fixed: "a three-unit model" |
+| — | 0.615 convention | Stated: mean of e^{−z²/σ²} over the five contacts −0.2…0 (0.615); continuous interval mean 0.625 |
+| — | Finite-size in-degree | Fixed: the unit-specific rule K_u = 560·D_u/D̄ and K_INTER are held fixed across N; only p_u changes |
+| — | Table 1 p | Fixed: Monte Carlo p ≤ 1/10 001 in table and text |
+| — | Half-agreement | Fixed: stated as a consistency check; passing is no detected difference, not stationarity |
+| — | Band mismatch central | Done: Discussion now says the model may lack a strong oscillatory mode in 50–150 Hz at any depth |
+| — | Figures, machine-readable S1–S4 | Not done; submission layout pass and archive |
+
+## Known-answer test of the observation model (M2)
+
+Target: the observed 50–150 Hz relative profile. Contacts and kernel as declared; σ ∈ {0.10, 0.15, 0.20, 0.25}.
+
+| σ | single M, mid | 3-source ceiling, mid | 3 sources, r with target | distributed (41 sources), r | 3 sources on distributed target, r |
+|---|---|---|---|---|---|
+| 0.10 | 0.454 | 0.479 | −0.08 | 0.999 | −0.08 |
+| 0.15 | 0.615 | 0.853 | 0.45 | 0.999 | 0.46 |
+| 0.20 | 0.731 | 0.996 | 0.71 | 0.997 | 0.72 |
+| 0.25 | 0.808 | 1.000 | 0.84 | 0.997 | 0.85 |
+
+Observed mid-depth level: 0.848 (map mean).
+
+Controls:
+- The distributed model refits its own profile with relative residual < 1e-15 (positive control).
+- The three-source optimizer recovers random three-source profiles with r = 1.000 (optimizer control).
+
+At σ = 0.15:
+- The three-source ceiling (0.853) is above the observed level. The maximizing covariance has S and M fully coherent
+  and D in antiphase (coherences 1.00, −1.00), so it relies on interference between units. The model's cross
+  terms were 0–12% of mid-depth power.
+- No single three-source covariance reproduces the observed gamma depth profile (r ≤ 0.46), while a distributed
+  source does (r 0.999).
+
+The readout can reach the observed level only through coherence the circuit does not show. It cannot reach the
+observed shape at the declared width. Both are limits of this observation model. Signed lead fields,
+receptor-specific depths and distributed dendritic currents were not modelled.
+
+## Still not done
+
+- Flat/reversed SOM/PV controls: need a new seal for owner approval; not prepared here.
+- Rate-matched PV→E kinetics test: not prepared here.
+- Population-rate readout control, public archive, figure layout: before submission.

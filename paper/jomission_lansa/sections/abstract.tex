@@ -1,8 +1,8 @@
 \begin{abstract}
 Local field potentials across primate cortex show a spectrolaminar motif: relative gamma power peaks above
 layer 4 and alpha-beta power below it. We asked whether a density-informed laminar column reproduces this map.
-Three AdEx E/PV/SOM units of the CAMINOS model, sized and connected from the cell densities of 11 macaque areas in
-the LANSA data set, with a declared SOM/PV ratio rising with depth, were read out on a 21-contact probe through a
+Three AdEx E/PV/SOM units of the CAMINOS model, sized from the cell densities of 11 macaque areas in the LANSA
+data set, with an assumed density-scaled in-degree rule and a declared SOM/PV ratio rising with depth, were read out on a 21-contact probe through a
 current-based LFP proxy and scored against the area-mean map by a sealed six-part rule. The single unit matched its
 reference (peak 34.0 Hz, 5 seeds), and its peak frequency fell with the SOM/PV ratio ($-6.3$ Hz per octave, 3
 seeds; formally inconclusive because the highest ratio did not oscillate). At 4000 E cells per unit the reference
@@ -15,10 +15,12 @@ the deep alpha-beta (0.32--0.47 on its selection seeds, 0.35--0.47 on three fres
 exploratory runs, scaling middle-unit weights reached the gamma criterion only by losing deep alpha-beta or the
 band crossing. The readout follows from the linear volume-conductor solution through a
 current-based proxy reported to explain over 90\% of multicompartment LFP variance, with an assumed separable
-depth kernel; a spectral bias common to units and depths cancels in
-the per-frequency normalization, so its uncalibrated parts are spatial. Widening the kernel from 0.10 to 0.25 of thickness raised the gamma depth correlation but left
+depth kernel; a spectral gain common to units and depths cancels in
+the per-frequency normalization, while receptor- and unit-dependent filtering remains unvalidated. Widening the kernel from 0.10 to 0.25 of thickness raised the gamma depth correlation but left
 mid-depth gamma at 0.44--0.62, and moving only the readout depths raised the in-sample map correlation from 0.38
-to 0.72 without rejecting a frequency-shift null. The deficit is consistent with missing mid-depth 50--150 Hz
-power above the module's own 27--46 Hz rhythm, a hypothesis testable by a rate-matched intervention on the middle
+to 0.72 without rejecting a frequency-shift null. A simulation-free fit showed that the three-source readout can reach
+the observed mid-depth level, at its optimum through fully coherent superficial and middle gamma, which the model
+lacked, but cannot match the observed gamma depth profile at the declared kernel width. The deficit
+is consistent with missing 50--150 Hz power, above the module's own 27--46 Hz rhythm, a hypothesis testable by a rate-matched intervention on the middle
 unit.
 \end{abstract}

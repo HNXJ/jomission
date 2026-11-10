@@ -21,10 +21,11 @@ that densities and SOM kinetics alone were not sufficient here. Because the SOM/
 vary together across depth, it also does not show that the SOM/PV gradient produces the deep alpha-beta; a
 flat-ratio and a reversed-ratio column at fixed sizes and connectivity are needed for that.
 
-\textbf{What is missing.} The first explanation is a band mismatch. The isolated CAMINOS module oscillates at
-27--46 Hz depending on $\rho$, below the scored 50--150 Hz band, and in the stack the M and D units peak at 11--12
-Hz. Relative 50--150 Hz power in the model therefore comes from the tails of these rhythms and from S, not from a
-dedicated fast generator, and because power is normalized per frequency across depth, weak mid-depth values can
+\textbf{What is missing.} The first explanation is a band mismatch, and it may be the central one. The isolated
+CAMINOS module oscillates at 27--46 Hz depending on $\rho$, below the scored 50--150 Hz band, and in the stack the
+M and D units peak at 11--12 Hz. The model may therefore lack a strong oscillatory mode in the scored band at
+any depth, not merely place one at the wrong depth: its relative 50--150 Hz power comes from the tails of these
+rhythms and from S, not from a dedicated fast generator, and because power is normalized per frequency across depth, weak mid-depth values can
 also reflect excess S or D power rather than missing M power. A model built from this module may need a faster
 generator near layer 4 whatever its densities. A second, compatible reading concerns the middle unit. The model's
 gamma is bimodal, at S and at D, and the per-unit power suggests why changing
@@ -44,13 +45,16 @@ extends above layer 4, as the observed map shows.
 \textbf{The readout: what it can and cannot carry.} The RWS-kernel readout is not a calibrated potential, but it is
 not an arbitrary score either. The quasi-static volume-conductor solution is linear in the membrane currents, and
 the readout approximates it with a current-based proxy whose weights were fitted to, and reported to explain
-over 90\% of the variance of, multicompartment LFPs \citep{Mazzoni2015}, combined with an assumed separable depth kernel. A spectral bias common
+over 90\% of the variance of, multicompartment LFPs \citep{Mazzoni2015}, combined with an assumed separable depth kernel. A spectral gain common
 to all units and depths cancels in the per-frequency normalization that both the data and the model maps use
-(Methods). Its uncalibrated parts are spatial: the unit
-depths and the kernel width. Both matter for the band correlations (depth placement; Table~\ref{tab:sigma}), and
-neither removes the mid-depth gamma deficit, which held at every width tested and needs gamma generated above 0 or
-spread in depth, not only more gamma in the middle unit. The circuit's latent spectra are thus constrained more
-firmly than its probe-level similarity scores.
+(Methods). Receptor- and unit-dependent filtering does not cancel: the AMPA/GABA weight and delay set the
+interference within each unit's signal, and they are unvalidated for this model's geometry, synapses and the
+macaque LFP. Of the uncalibrated parts, we tested the spatial ones, the unit depths and the kernel width. Both
+matter for the band correlations (depth placement; Table~\ref{tab:sigma}), and neither removes the mid-depth gamma
+deficit, which held at every width tested. Within this readout, closing the deficit needs gamma that is coherent across
+units or spread in depth, not only more gamma in the middle unit; that is a constraint on the three-source
+observation model, not on the physical source distribution. The circuit's latent spectra are thus constrained
+more firmly than its probe-level similarity scores.
 
 \textbf{Readout as a confound.} Moving only the contact depths raised $r_\text{proto}$ from 0.38 to 0.72 and
 transferred to other runs, but with each unit's spectrum shifted in frequency 8 of 20 draws still reached a placement

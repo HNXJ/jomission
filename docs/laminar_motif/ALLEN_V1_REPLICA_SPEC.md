@@ -395,3 +395,16 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   layers, seed 1) is queued after X1b, the last item, behind the identity check. Launched by a waiter (`_temp_driver9.sh`)
   that starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede). Given the runaway state
   above, this run may not be informative beyond stability; the parent decides whether to keep it.
+- Queue records, 5 s screening (all off-authority (0.5.9 side install), exploratory; gamma peak on the scorer contact grid, 0 = mid-L4):
+  - x3_iso_L4_H_s1_T5 (isolate L4): wall 1827.5 s; image M 0.020 ± 0.007 (p 0.417), manuscript M −0.010 ± 0.002 (p 0.500);
+    r_proto 0.432; gamma peak −0.05; r_gm image 0.334, manuscript 0.407. E pooled 0.59 Hz.
+  - x2_L4_H_s1_T5 (layer L4 silenced): wall 1811.2 s; image M −0.035 ± 0.042 (p 0.500), manuscript M −0.040 ± 0.050 (p 0.458);
+    r_proto −0.353; gamma peak +0.40; r_gm image −0.740, manuscript −0.690. E pooled 1.35 Hz.
+  - x4_swap_iso_L4_H_s1_T5 (isolate L4, L4 and L6 swapped): wall 1734.1 s; image M 0.053 ± 0.038 (p 0.417), manuscript M 0.015 ± 0.040
+    (p 0.458); r_proto 0.428; gamma peak −0.05; r_gm image 0.352, manuscript 0.421. E pooled 0.25 Hz.
+  - x1_SST_H_s1_T5 (SST silenced): wall 1825.2 s; image M 0.169 ± 0.089 (p 0.042), manuscript M 0.210 ± 0.079 (p 0.000);
+    r_proto −0.071; gamma peak +0.40; r_gm image −0.500, manuscript −0.362. E pooled 1.77 Hz.
+  - Shuffle p convention (correction to the notes above): p = mean(null ≥ observed) over the exhaustive 24 permutations, with no +1
+    (`scripts/e2_motif_figure.py:142`). p values are k/24, and 0.000 is attained (x1_SST manuscript). So the floor is 0, not 1/24;
+    the earlier "1/24 floor" note is withdrawn.
+  - Isolated-L4 states (E 0.25–0.59 Hz) are very quiet; their r_gm/r_proto are descriptive only.

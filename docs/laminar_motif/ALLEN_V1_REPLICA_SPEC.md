@@ -335,3 +335,7 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   (sum, LANSA-bin probe) 0.152; gamma peak 0.000; r_gm image −0.163 (`x0rerun_H_s1_T20_verdict.json`, scorer run on the
   rerun), manuscript −0.074; off-authority (0.5.9 side install), exploratory. Total spikes 3 485 548, equal to the first
   X0 run.
+- Identity pair (full size, 0.5 s, 66 552 cells, seed 1, H; sha 519f1ed in the dev checkout): id58_full_H_s1_T0p5
+  (jaxfne 0.5.8, authority) wall 211.8 s; id59_full_H_s1_T0p5 (0.5.9, off-authority, exploratory) wall 229.7 s. All 43
+  npz arrays identical; 151 017 spikes in each. No motif, shuffle, r_proto, gamma or r_gm: the figure step needs a
+  2 s discard, and these runs are 0.5 s (figure log: reshape error on size 0).

@@ -143,7 +143,7 @@ no simulation).
 | # | Point | Response |
 |---|---|---|
 | M1 | Normalization overstated | Done: abstract, Methods, Discussion now say only a gain common to units and depths cancels; receptor- and unit-dependent filtering (AMPA/GABA weight and delay set within-unit interference) is unvalidated |
-| M2 | 0.615 ceiling conditional | Done: stated as a property of the three-source positive-Gaussian readout, not of macaque sources; your known-answer test was run (below) |
+| M2 | 0.615 ceiling conditional | Done: stated as a property of the three-source positive-Gaussian readout, not of macaque sources; your known-answer test was run (below). It shows the readout can pass r_gm at σ 0.15, so that failure is the circuit's |
 | M3 | T3 is not flat/reversed | Agreed, our error. Response 1.3 and Methods corrected: flat/reversed controls are not sealed; T3 unchanged |
 | — | 65g − 24.75g is pA | Fixed (pA; g in nS, coefficients in mV). The code (`e2_motif_figure.rws`) already returns pA |
 | — | "sized and connected from densities" | Fixed: "sized from the cell densities … with an assumed density-scaled in-degree rule" |
@@ -157,31 +157,41 @@ no simulation).
 
 ## Known-answer test of the observation model (M2)
 
-Target: the observed 50–150 Hz relative profile. Contacts and kernel as declared; σ ∈ {0.10, 0.15, 0.20, 0.25}.
+Geometry only; contacts, unit depths and kernel as declared; σ ∈ {0.10, 0.15, 0.20, 0.25}.
 
-| σ | single M, mid | 3-source ceiling, mid | 3 sources, r with target | distributed (41 sources), r | 3 sources on distributed target, r |
+Two targets:
+- **map_mid**: observed mean relative gamma at −0.2…0 on the per-frequency map, 0.848.
+- **y**: the observed 50–150 Hz band-mean profile, which the scorer's r_gm correlates with.
+
+| σ | single M, mid | ceiling, mid (one frequency) | max r with y, full C | max r with y, no cross terms | distributed (41 sources), r |
 |---|---|---|---|---|---|
-| 0.10 | 0.454 | 0.479 | −0.08 | 0.999 | −0.08 |
-| 0.15 | 0.615 | 0.853 | 0.45 | 0.999 | 0.46 |
-| 0.20 | 0.731 | 0.996 | 0.71 | 0.997 | 0.72 |
-| 0.25 | 0.808 | 1.000 | 0.84 | 0.997 | 0.85 |
+| 0.10 | 0.454 | 0.479 | 0.47 | 0.45 | 0.999 |
+| 0.15 | 0.615 | 0.853 | 0.85 | 0.66 | 0.999 |
+| 0.20 | 0.731 | 0.996 | 0.98 | 0.84 | 0.997 |
+| 0.25 | 0.808 | 1.000 | 0.99 | 0.94 | 0.997 |
 
-Observed mid-depth level: 0.848 (map mean).
+Controls, asserted in the script:
+- The search recovers 5 random three-source profiles per width with r ≥ 0.99999.
+- On an alternating profile no kernel can follow, it stays at r 0.07–0.14 (negative control).
+- Its r is never below the no-cross-term r or a least-squares fit's r.
 
-Controls:
-- The distributed model refits its own profile with relative residual < 1e-15 (positive control).
-- The three-source optimizer recovers random three-source profiles with r = 1.000 (optimizer control).
+The distributed fit uses 41 non-negative weights for 21 contacts, so it is a capacity check, not a validation.
+
+*Correction:* an earlier version of this test fitted by least squares and reported r 0.45 at σ = 0.15 as the
+three-source limit. Least squares does not maximise r. The corrected search gives 0.85 (full) and 0.66 (no cross
+terms). The claim that the readout "cannot match the observed profile" is withdrawn.
 
 At σ = 0.15:
-- The three-source ceiling (0.853) is above the observed level. The maximizing covariance has S and M fully coherent
-  and D in antiphase (coherences 1.00, −1.00), so it relies on interference between units. The model's cross
-  terms were 0–12% of mid-depth power.
-- No single three-source covariance reproduces the observed gamma depth profile (r ≤ 0.46), while a distributed
-  source does (r 0.999).
+- **Gamma profile.** Three sources without cross terms reach r 0.66 (S 58%, M 42%, no D power), above the 0.6
+  criterion. The model's r_gm failure (0.14–0.51) is therefore in its spectra, consistent with its gamma at D, not in
+  the readout.
+- **Mid-depth level.** M alone is bounded at 0.615. The single-frequency ceiling 0.853 is just above 0.848. It is
+  reached at an optimum with S and M fully coherent and D in antiphase (coherences 1.00, −0.98). This is one optimum,
+  not a shown necessity, and it is less demanding at σ = 0.20 (S–D coherence 0.13). The model's cross terms were
+  0–12% of mid-depth power.
 
-The readout can reach the observed level only through coherence the circuit does not show. It cannot reach the
-observed shape at the declared width. Both are limits of this observation model. Signed lead fields,
-receptor-specific depths and distributed dendritic currents were not modelled.
+These are limits of the three-source positive-Gaussian observation model. Signed lead fields, receptor-specific
+depths and distributed dendritic currents were not modelled.
 
 ## Still not done
 

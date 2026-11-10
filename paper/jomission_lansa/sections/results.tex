@@ -105,20 +105,22 @@ $e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615
 continuous mean over the interval is 0.625).
 
 \textit{What the readout can represent.} The 0.615 bound holds for M alone. To separate the readout's limits from
-the circuit's, we fitted source models to the observed 50--150 Hz profile without any simulation
-(\path{scripts/e2_readout_capacity.py}, \path{paper/jomission_lansa/data/readout_capacity.json}). With the three
-declared sources and any source covariance, cross terms included, the largest possible mid-depth relative gamma
-at one frequency is 0.853 at $\sigma = 0.15$, above the observed 0.848. The maximizing covariance has S and M
-gamma fully coherent and in phase and D in antiphase (coherences 1.00 and $-1.00$), so it uses interference
-between units; the model's cross terms were 0--12\% of mid-depth power, far from that regime. One
-covariance fitted to the band-mean observed profile reached a depth correlation of only 0.45 at $\sigma = 0.15$
-(0.71 at 0.20, 0.84 at 0.25). A distributed model, 41 sources from $-0.6$ to 0.4 with the same kernel, fitted the
-profile with correlation 0.997--0.999 at every width (positive control). Refitted to the distributed model's own
-profile, a target it represents exactly (residual $< 10^{-15}$), the three-source model again reached only 0.46
-at 0.15, and it recovered its own randomly generated profiles exactly (optimizer control, $r = 1.000$). So at the
-declared width the observed gamma profile is out of reach of three Gaussian sources with one covariance
-across the band, while its mid-depth level is reachable, at the optimum, through strong coherence between units. These limits
-belong to the three-source, positive-Gaussian readout. They do not constrain where gamma is generated in macaque
+the circuit's, we searched the source covariances of the three declared sources without any simulation
+(\path{scripts/e2_readout_capacity.py}, \path{paper/jomission_lansa/data/readout_capacity.json}). For the scorer's
+gamma statistic, the depth correlation with the observed 50--150 Hz band-mean profile, the largest value one
+covariance can reach at $\sigma = 0.15$ is 0.853 with cross terms and 0.657 without them (independent S and M
+gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98 and 0.84. The readout can therefore pass the
+$r_{gm} \geq 0.6$ criterion at the declared width without any coherence between units, so the model's failure of
+that criterion (0.14--0.51) lies in its spectra, consistent with its gamma at D, not in the readout. For the
+mid-depth level, the largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at $\sigma = 0.15$,
+just above the observed 0.848; the maximizing covariance has S and M fully coherent and D in antiphase
+(coherences 1.00 and $-0.98$). That is one optimum of a single-frequency maximum, not a shown necessity, and it is
+less demanding at wider kernels (S--D coherence 0.13 at 0.20). The model's cross terms were 0--12\% of mid-depth
+power. Controls: the search recovered five random three-source profiles at each width ($r \geq 0.99999$); on an
+alternating profile that no kernel of these widths can follow it stayed at $r = 0.07$--0.14; and its $r$ was never
+below that of a least-squares fit (which gives 0.45 at 0.15 and understates the reachable value). A distributed
+model, 41 sources from $-0.6$ to 0.4, reached $r$ 0.997--0.999; with 41 non-negative weights for 21 contacts this
+is a capacity check, not a validation. These limits belong to the three-source, positive-Gaussian readout. They do not constrain where gamma is generated in macaque
 cortex; signed lead fields, receptor-specific source depths and distributed dendritic currents are not modelled.
 
 \textit{Kernel width.} The kernel width is assumed, so we rescored the same 12 runs at four widths

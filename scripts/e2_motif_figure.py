@@ -187,7 +187,7 @@ def row(axes, f, P, ys, sc, letters, title):
     se = sc["jackknife_se"]
     stat = f"M = {sc['contrast_M']:+.3f}" + (f" ± {se:.3f} (z {sc['z']:+.1f})" if se else "") \
         + f", shuffle p {sc['shuffle']['p_ge']:.3f} (n {sc['shuffle']['n']}), crossing {sc['crossing_2se']}"
-    ax_d.set_title(f"{title}\n{stat}", loc="left", fontsize=9, pad=38)
+    ax_d.figure.text(0.1, ax_d.get_position().y1 + 0.085, f"{title}\n{stat}", fontsize=9, va="bottom")
 
 
 def main(tag: str, discard_s: float) -> None:

@@ -8,8 +8,9 @@ tables of the published module \citep{Tahvili2025,Tahvili2026}; PING is the gamm
 loop \citep{Borgers2003}.
 
 \textbf{Within a unit.} The published module has 8000 E and 1500 inhibitory cells with connection probability
-0.07. A unit may be smaller; every within-unit rule keeps the published in-degree (560 E and 105 inhibitory inputs
-per cell) through $p = 0.07 \cdot 8000/N_E$, so E:I is 8000:1500 in every unit. The inhibitory cells split into PV
+0.07. A unit may be smaller. Without the in-degree rule below, a unit keeps the published in-degree (560 E and 105
+inhibitory inputs per cell) through $p = 0.07 \cdot 8000/N_E$; with it (every stack run here), the mean E in-degree
+over units is 560 and each unit's scales with its density (below). E:I is 8000:1500 in every unit. The inhibitory cells split into PV
 and SOM by $\rho = N_\text{SOM}/N_\text{PV}$: 0.25 (S), 1 (M), 2 (D). Synapses are conductance-based, AMPA decay
 2 ms and GABA decay 8 ms, with a 2 ms delay. Each E and PV cell receives $\text{round}(0.07 \cdot 8000) = 560$
 private Poisson inputs at 4 Hz (weight 2.5 nS); SOM cells receive no external drive.
@@ -19,8 +20,20 @@ the 2 ms delay, at an in-degree of $K_\text{INTER} = 80$ per neighbour; an end u
 one neighbour, so every cell receives 160 inter-unit E inputs.
 
 \textbf{Modifiers.} A layout name lists its modifiers. \texttt{n}$N$: $N$ E cells per unit on average.
-\texttt{dens}: E cells per unit proportional to the LANSA density summed over PV, CB, CR and NG and over the unit's depth bins (median over areas); the sum is a size proxy, since each marker's density is relative.
-\texttt{kd}$B$: local in-degree $K_E (\text{dens}_u/\overline{\text{dens}})^B$. \texttt{sst}$NN$: SOM$\to$E decay
+\texttt{dens}: E cells per unit proportional to $D_u$, the LANSA density summed over PV, CB, CR and NG and over the
+unit's depth bins (median over areas). The sum is a size proxy only, since each marker's density is relative to its
+own maximum, so the model is density-informed, not density-derived: unit sizes and the in-degree scaling come
+from LANSA; the SOM/PV ramp, E:I, weights, unit depths and inter-unit coupling are imposed. \texttt{kd}$B$: local in-degree scaled by
+density. Together,
+\begin{equation*}
+N_{E,u} = 3N\,\frac{D_u}{\sum_v D_v}, \qquad K_u = K_E\Bigl(\frac{D_u}{\bar D}\Bigr)^{B}, \qquad
+p_u = \frac{K_u}{N_{E,u}},
+\end{equation*}
+with $\bar D$ the mean of $D_u$ over units, $K_E = 560$ and counts rounded to integers. Without \texttt{kd},
+$K_u = K_E$ and $p_u = 0.07\cdot 8000/N_{E,u}$. With $B = 1$, $K_u \propto N_{E,u}$, so $p_u = K_E/N = 0.14$ in
+every unit at $N = 4000$ (Table~S4); with $B = 1.41$, $p_u$ is 0.163, 0.135 and 0.116 at S, M and D (Fig.~\ref{fig:schema}D).
+Neither rule is an anatomical measurement: denser units receiving more local synapses is an assumption that T1
+varied. \texttt{sst}$NN$: SOM$\to$E decay
 $NN$ ms in every unit, weight scaled by $8/NN$ so the charge per spike is unchanged; \texttt{sstd}$NN$: the same in
 D only. \texttt{w}$RUX$: rule $R$'s weight in unit $U$ times $X$ (\texttt{ee} E$\to$E, \texttt{es} E$\to$SOM,
 \texttt{ep} E$\to$PV, \texttt{pe} PV$\to$E). The reference is \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15};
@@ -28,7 +41,7 @@ Tables~S1--S4 give its counts, edges and parameters with sources.
 
 \textbf{Software.} All runs use JaxFNE with $dt = 0.1$ ms; the version is read from each run record. E0, E1 and the
 $N = 4000$ seed-1 reference ran on a 0.5.9 side install with dense delivery; the other ladder runs and T1 axes 1--2
-on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at commit 351f6048 with event delivery.
+on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at commit 351f6048 (unreleased) with event delivery.
 The software authority is 0.5.8; 0.5.8 and 0.5.9 gave identical per-step spike counts on the $N = 4000$ stack over
 0.5 s (\path{docs/laminar_motif/SEAL_LFS.md}), and event delivery equals 0.5.8 dense bitwise on one 8 s run
 (Results). E2 is declared exploration except where a seal is named.
@@ -47,18 +60,52 @@ margins; a rate-matched Poisson raster scored by the same analysis must not osci
 is at least 4; otherwise $f_\text{pk}$ is undefined. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
 (2) the fitted slope of $f_\text{pk}$ on $\log_2\rho$ over the oscillating points is negative in every
 seed; (3) $f_\text{pk}$ drops by at least 3 Hz from $\rho$ 0.25 to 4; (4) one-sided permutation $p < 0.05$ for
-the mean slope, permuting $\rho$ labels within seeds (10\,000 draws). Failing (1) or an undefined criterion gives
+the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws, a Monte Carlo test whose resolution
+is $1/10\,001$). Failing (1) or an undefined criterion gives
 INCONCLUSIVE. The $\rho = 1$ runs reuse E0 seeds 1--3 (same configuration), so only 12 of the 15 runs are new.
 
 \subsection{Readouts}
 
-\textbf{LFP proxy.} The LFP proxy is the RWS measure \citep{Mazzoni2015}, $|I_\text{AMPA}(t - 6\,\text{ms})| -
-1.65\,|I_\text{GABA}(t)|$ onto each unit's E cells, with currents taken at $V_\text{ref} = -65$ mV; the scorer uses
-the sum over E cells (sum-over-cells row).
+\textbf{From transmembrane currents to the LFP.} At LFP frequencies the extracellular medium is quasi-static: the
+displacement and inductive terms of Maxwell's equations are negligible, so the potential obeys Poisson's equation
+with the transmembrane currents as sources, and in an ohmic, homogeneous medium of conductivity $\sigma_e$
+\begin{equation*}
+\phi(\mathbf{r},t) = \frac{1}{4\pi\sigma_e}\sum_n \frac{I_n(t)}{|\mathbf{r}-\mathbf{r}_n|},
+\end{equation*}
+a sum over all membrane segments $n$. This is the forward model used by \citet{Mazzoni2015} to compute the
+reference LFP of multicompartment pyramidal cells. Two properties make a current-based proxy defensible. First,
+$\phi$ is linear in the $I_n$, and in passive dendrites the $I_n$ are linear filters of the synaptic currents (the
+cable equation is linear), so the potential at a contact at depth $z$ is
+\begin{equation*}
+\phi_z(t) = \sum_u \sum_{r\in\{\text{AMPA},\text{GABA}\}} \bigl(h_{z,u,r} * I_{u,r}\bigr)(t),
+\end{equation*}
+where $I_{u,r}$ is the total synaptic current of receptor $r$ onto unit $u$'s pyramidal cells and $h_{z,u,r}$ is
+a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. Second, in the multicompartment network of
+\citet{Mazzoni2015} the contribution of synaptic inputs onto interneurons was negligible in amplitude and spectrum
+(their stellate-like dendrites form a closed field), so the LFP is set by the synaptic currents onto pyramidal cells,
+including the GABA currents that interneurons supply. They found that a separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$ with
+$c_\text{AMPA} = 1$, $c_\text{GABA} = -1.65$, $\tau_\text{AMPA} = 6$ ms and $\tau_\text{GABA} = 0$ (the RWS proxy),
+explained more than 90\% of the variance of the multicompartment LFP across a wide range of recording positions, and
+that it predicted the LFP gamma peak frequency; like the other proxies they tested, it tended to underestimate low
+frequencies and overestimate gamma.
 
-\textbf{Probe.} The 21-contact probe covers depth from the L4 centre, superficial at $-0.6$ (top) to deep at $+0.4$
-(bottom). Contact weights are Gaussian with $\sigma = 0.15$ (ASSUMED volume-conduction width). Unit depths are S $-0.4$, M $0.0$, D $0.3$
-(\path{results/laminar_e2/readout_ceiling.json}).
+\textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
+1.65\,|I_{\text{GABA},u}(t)|$, summed over the unit's E cells, and the spatial weights $w_{zu} = K_{zu} =
+\exp\bigl(-(z-z_u)^2/2\sigma^2\bigr)$, $\sigma = 0.15$ (ASSUMED), on 21 contacts from $-0.6$ (top) to $+0.4$
+(bottom); unit depths are S $-0.4$, M 0, D $+0.3$. Currents are taken at $V_\text{ref} = -65$ mV, so $I_{u,r} =
+g_{u,r}(V_\text{ref} - E_r)$ with $E_\text{AMPA} = 0$ and $E_\text{GABA} = -80$ mV; both currents keep one sign, the
+absolute values only fix the sign convention, and $L_u = 65\,g_{\text{AMPA},u}(t-6\,\text{ms}) - 24.75\,
+g_{\text{GABA},u}(t)$ (mV) is exactly linear in the conductances. Hence the contact power is exactly
+\begin{equation*}
+P_z(f) = \sum_{u,v} K_{zu} K_{zv}\, S_{uv}(f),
+\end{equation*}
+with $S_{uv}$ the cross-spectra of the $L_u$. The scored map divides by the maximum over depth at each frequency,
+$R(z,f) = P_z(f)/\max_{z'} P_{z'}(f)$, so any frequency-dependent gain $G(f)$ common to all units, such as the
+proxy's spectral bias above or dendritic filtering shared across units, cancels exactly: $G(f)P_z(f)/\max_{z'}
+G(f)P_{z'}(f) = R(z,f)$. What the relative map does depend on is the depth weighting $K$, i.e.\ $\sigma$ and the unit
+depths, and gains that differ between units. We therefore report the readout as an estimate of the LFP's depth
+structure, not a calibrated potential, and test its two uncalibrated parts: unit depths (Results, depth placement)
+and $\sigma$ (Results; $\sigma \in \{0.10, 0.15, 0.20, 0.25\}$, \path{scripts/e2_readout_sensitivity.py}).
 
 \textbf{CSD.} The CSD is current-based, not kernel-based. The saved per-unit, per-receptor currents become current
 sources at declared depths, each with an equal return current. Placements are ASSUMED, not measured:
@@ -82,6 +129,13 @@ null gives each unit a random smooth log spectrum (six Gaussian bumps in $\log f
 U(0,2)$; 1000 draws, seed 0) and takes the 95th percentile of the resulting $r_\text{proto}$; the identical-unit
 control gives every unit unit S's spectrum. Unit-order rank compares $r_\text{proto}$ for all six assignments of the
 unit spectra to the three depths. The pass rule was fixed at commit 88d282d (\path{docs/laminar_motif/SEAL_T1.md}).
+What each control keeps and destroys: the smooth-spectrum null keeps the geometry (kernel, depths, normalization) and
+replaces the spectra with random smooth ones without cross-terms, so it asks whether any smooth spectra on this
+geometry reach the score; the identical-unit control keeps one real spectrum and removes all differences between
+units; the unit-order rank keeps the spectra and the geometry and tests their pairing; the spectral-shift null of the
+depth-placement analysis keeps each unit's power and spectral shape but moves its frequency content. The 21 $\times$
+150 pixels of a map are strongly dependent, so $r_\text{proto}$ is a similarity score, not a test with 3150 samples;
+inference uses seeds and the nulls above.
 
 A result counts only if all of the following hold (\path{scripts/e2_scorer.py}, plan section 2):
 \begin{enumerate}

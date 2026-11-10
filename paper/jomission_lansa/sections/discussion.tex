@@ -1,14 +1,25 @@
 \section{Discussion}
 
-A column built from LANSA cell densities and a CAMINOS module that reproduces its reference placed alpha-beta in
+A column sized from LANSA cell densities, with an imposed SOM/PV ramp, and a CAMINOS module that reproduces its reference placed alpha-beta in
 its deep half on its selection seeds, with the band profiles crossing on 2 of 3, but left relative gamma between $-0.2$ and 0
 of cortical thickness at a quarter to a third of the observed level, where the observed gamma is broadest. No run passed the shared scorer: not the nine ladder runs, not the
 63 level-seed scores of the sealed search, and not the frozen winner on three fresh seeds. Every ladder and T1 run
 failed the gamma depth criterion; only exploratory weight runs reached it, each losing the alpha-beta criterion or
-the crossing. The alpha-beta criterion itself held at $N = 4000$ on the selection seeds but not for the T1 winner on
-fresh seeds (0.35--0.47), so deep alpha-beta is reproduced only in part. At the declared unit depths the readout
+the crossing. The alpha-beta criterion held for the reference column at $N = 4000$ on its three selection seeds
+(in-sample; the reference was not rerun on fresh seeds), but not for the T1 winner, on its own selection seeds
+(0.32--0.47) or on fresh seeds (0.35--0.47), so deep alpha-beta is reproduced only in part. At the declared unit depths the readout
 kernel is not the limit (ceilings 0.854 and 0.693), but moving the depths changes the scores substantially
-(Results), so readout depth remains a confound rather than a ruled-out cause.
+(Results), so readout depth remains a confound rather than a ruled-out cause. The drop in $r_{ab}$ from the reference
+(0.83--0.86) to the T1 winner (0.32--0.47) is itself a primary result: the alpha-beta placement of the reference
+does not survive the sealed tuning, which selected on $r_\text{proto}$.
+
+The negative result is specific. It holds for this three-unit E/PV/SOM column with density-scaled sizes and
+in-degrees, the declared SOM/PV ramp, the tested SOM$\to$E kinetics and network sizes, and stationary drive. It does
+not show that density-based or CAMINOS-based models in general cannot produce the motif, and it does not test, so
+cannot contradict, the PV$\to$E kinetics that \citet{Herrera2026} found to control layer-4 gamma. What it shows is
+that densities and SOM kinetics alone were not sufficient here. Because the SOM/PV ratio, unit size and in-degree
+vary together across depth, it also does not show that the SOM/PV gradient produces the deep alpha-beta; a
+flat-ratio and a reversed-ratio column at fixed sizes and connectivity are needed for that.
 
 \textbf{What is missing.} The first explanation is a band mismatch. The isolated CAMINOS module oscillates at
 27--46 Hz depending on $\rho$, below the scored 50--150 Hz band, and in the stack the M and D units peak at 11--12
@@ -30,6 +41,16 @@ the M unit the first candidate. There, gamma (50--80 Hz) is generated mainly in 
 corresponds to our M unit at 0; a primate column may need such a generator but with gamma that
 extends above layer 4, as the observed map shows.
 
+\textbf{The readout: what it can and cannot carry.} The RWS-kernel readout is not a calibrated potential, but it is
+not an arbitrary score either. It is the separable, first-order form of the quasi-static volume-conductor solution:
+exactly linear in the unit conductances here, with temporal weights validated against multicompartment LFPs
+\citep{Mazzoni2015}, and its known spectral bias is common to all units and cancels in the per-frequency
+normalization that both the data and the model maps use (Methods). Its uncalibrated parts are spatial: the unit
+depths and the kernel width. Both matter for the band correlations (depth placement; Table~\ref{tab:sigma}), and
+neither removes the mid-depth gamma deficit, which held at every width tested and needs gamma generated above 0 or
+spread in depth, not only more gamma in the middle unit. The circuit's latent spectra are thus constrained more
+firmly than its probe-level similarity scores.
+
 \textbf{Readout as a confound.} Moving only the contact depths raised $r_\text{proto}$ from 0.38 to 0.72 and
 transferred to other runs, but with each unit's spectrum shifted in frequency 8 of 20 draws still reached a placement
 meeting both band thresholds and 3 exceeded the unshifted $r_\text{proto}$, so the spectral-shift null was not
@@ -42,10 +63,7 @@ placements.
 
 \textbf{Other models.} In the mouse V1 model of \citet{Herrera2026}, SOM cells also shaped low-frequency power,
 which fits the deep alpha-beta of our SOM-rich D unit, but the model differs from ours in species, cell types and
-drive, so the correspondence is qualitative. A separate replica of an Allen-V1-based laminar model, run on another
-branch of this project and scored by the same rule, has been reported to fail the gamma criterion the other way,
-with gamma peaked at L4 and too narrow above it; we did not reproduce it here and draw no conclusion from it.
-
+drive, so the correspondence is qualitative.
 \textbf{Limits.} The column has three units, so depth resolution comes from the readout kernel, not from the
 model; a deep-unit change also moves power at mid-depth. LANSA densities are relative per marker, so they set depth
 profiles, not ratios across types; calbindin is not a specific SOM marker. The SOM/PV ramp (0.25, 1, 2) was

@@ -33,8 +33,8 @@ DATA = ROOT / "docs" / "laminar_motif" / "data"
 RES = ROOT / "results" / "laminar_e2"
 OUT = ROOT / "results" / "viz" / "schema"
 TYPE_COLOR = {"E": "#8e24aa", "PV": "#1565c0", "SOM": "#ff9800"}  # as e2_paper_block.py
-LANSA_STYLE = {"NG": ("E (NG)", "#8e24aa", "-"), "PV": ("PV", "#1565c0", "-"),
-               "CB": ("SST (CB)", "#ff9800", "--"), "CR": ("VIP (CR), not modelled", "#9e9e9e", ":")}
+LANSA_STYLE = {"NG": ("NG (pyramidal proxy)", "#8e24aa", "-"), "PV": ("PV", "#1565c0", "-"),
+               "CB": ("CB (not SST-specific)", "#ff9800", "--"), "CR": ("CR, not modelled", "#9e9e9e", ":")}
 LANSA_TO_MODEL = {"NG": "E", "PV": "PV", "CB": "SOM"}
 DOT = 20  # cells per dot in panel D
 PT = 7

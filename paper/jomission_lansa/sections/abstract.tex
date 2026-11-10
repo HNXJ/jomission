@@ -1,19 +1,23 @@
 \begin{abstract}
 Local field potentials across primate cortex show a spectrolaminar motif: relative gamma power peaks above
-layer 4 and alpha-beta power below it. We asked whether a laminar column built from measured cell-type depth
-densities reproduces this map. Three AdEx E/PV/SOM units of the CAMINOS model, sized from the cell densities of 11
-macaque areas in the LANSA data set, with an SOM/PV ratio rising with depth and read out on a 21-contact probe,
-were scored against the area-mean map by a sealed six-part rule. The single unit matched its reference (peak
-34.0 Hz, 5 seeds), and its peak frequency fell with the SOM/PV ratio ($-6.3$ Hz per octave, 3 seeds; formally
-inconclusive because the highest ratio did not oscillate). At 4000 E cells per unit the column placed alpha-beta
-deep on its three selection seeds (band depth correlation 0.83--0.86; band crossing on 2 of 3), but relative
-gamma (50--150 Hz) between $-0.2$ and 0 of cortical thickness, where the observed gamma is broadest, was
-0.19--0.31 across the 12 ladder and confirmation runs against 0.85 observed. The gamma depth correlation stayed
-below 0.6 in all 9 ladder runs and all 63 level-seed scores of a sealed three-axis search over local in-degree and
-SOM$\to$E kinetics, and the search's winner failed on three fresh seeds (0 of 3 passing). In exploratory runs,
-scaling middle-unit weights reached the gamma criterion only by losing deep alpha-beta or the band crossing.
-Moving only the readout depths raised the map correlation from 0.38 to 0.72, and a frequency-shift null was not
-rejected, so readout geometry can mimic part of a fit. The missing piece is mid-depth power at 50--150 Hz, above
-the module's own 27--46 Hz rhythm; whether a faster mid-depth generator supplies it can be tested by a
-rate-matched intervention on the middle unit.
+layer 4 and alpha-beta power below it. We asked whether a density-informed laminar column reproduces this map.
+Three AdEx E/PV/SOM units of the CAMINOS model, sized and connected from the cell densities of 11 macaque areas in
+the LANSA data set, with a declared SOM/PV ratio rising with depth, were read out on a 21-contact probe through a
+current-based LFP proxy and scored against the area-mean map by a sealed six-part rule. The single unit matched its
+reference (peak 34.0 Hz, 5 seeds), and its peak frequency fell with the SOM/PV ratio ($-6.3$ Hz per octave, 3
+seeds; formally inconclusive because the highest ratio did not oscillate). At 4000 E cells per unit the reference
+column placed alpha-beta deep on its three selection seeds (in-sample band depth correlation 0.83--0.86; band
+crossing on 2 of 3), but relative gamma (50--150 Hz) between $-0.2$ and 0 of cortical thickness, where the
+observed gamma is broadest, was 0.19--0.31 across the 12 ladder and confirmation runs against 0.85 observed. The
+gamma depth correlation stayed below 0.6 in all 9 ladder runs and all 63 level-seed scores of a sealed three-axis
+search over local in-degree and SOM$\to$E kinetics; the search's winner, selected on overall map similarity, lost
+the deep alpha-beta (0.32--0.47 on its selection seeds, 0.35--0.47 on three fresh seeds) and passed on none of them. In
+exploratory runs, scaling middle-unit weights reached the gamma criterion only by losing deep alpha-beta or the
+band crossing. The readout is the separable first-order form of the volume-conductor solution, linear in the
+synaptic conductances, and its shared spectral bias cancels in the per-frequency normalization; its uncalibrated
+parts are spatial. Widening the kernel from 0.10 to 0.25 of thickness raised the gamma depth correlation but left
+mid-depth gamma at 0.44--0.62, and moving only the readout depths raised the in-sample map correlation from 0.38
+to 0.72 without rejecting a frequency-shift null. The deficit is consistent with missing mid-depth 50--150 Hz
+power above the module's own 27--46 Hz rhythm, a hypothesis testable by a rate-matched intervention on the middle
+unit.
 \end{abstract}

@@ -18,14 +18,16 @@ the LANSA bins of its depth range (Fig.~\ref{fig:schema}D). E cells per unit fol
 the unit's bins; PV and SOM counts follow a ramp of $\rho = N_\text{SOM}/N_\text{PV}$ that is low superficially
 and high deep (0.25, 1, 2). At 4000 E cells per unit on average the column holds 14\,251 cells (S 6870, M 4356,
 D 3025; Table~S1). The built E and PV depth profiles follow LANSA's NG and PV profiles in coarse form, and the SOM
-profile follows the ramp, not CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker.
+profile follows the ramp, not CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker. The ramp is
+therefore an imposed assumption, and it runs against the measured CB/PV profile, which is highest superficially:
+the column is density-informed in its unit sizes and in-degrees, not in its SOM/PV ratios.
 
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}{\includegraphics[width=\linewidth]{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}}{\pendingbox{data and circuit schema}}
 \caption{Data and circuit; no panel is simulated (layout after \citet{Herrera2026}). A: LANSA cell densities
-against depth, median of 11 areas, each type divided by its maximum (CB plotted as SST, CR as VIP, NG as the
-pyramidal proxy). B, C: observed relative power (power divided by its maximum over depth at each frequency), mean
+against depth, median of 11 areas, each marker divided by its maximum and labelled by the measured marker (CB is not
+SST-specific; CR is not modelled; NG is the pyramidal proxy). B, C: observed relative power (power divided by its maximum over depth at each frequency), mean
 of the 11 areas and V1. D: the T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as built, one dot per 20 cells in each unit's depth bins, with the
 within-unit E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. E: built cells
 per type and depth bin (bars) against the LANSA profiles (lines), each divided by its own maximum.}
@@ -42,7 +44,7 @@ E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its sealed margin (Tabl
 
 Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, sealed): seed means
 46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per seed
-$-6.6$, $-5.9$, $-6.3$; one-sided permutation $p \leq 10^{-4}$: none of 10\,000 draws reached the observed slope). At $\rho = 4$ no seed oscillated, so
+$-6.6$, $-5.9$, $-6.3$; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws reached the observed slope). At $\rho = 4$ no seed oscillated, so
 the sealed frequency-drop criterion is undefined and the E1 verdict is INCONCLUSIVE
 (\path{results/laminar_e1/e1_result.json}). The frequency effect holds over the oscillating range only.
 % e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
@@ -72,8 +74,8 @@ Sources: \texttt{results/laminar\_e0/e0\_result.json}, \texttt{results/laminar\_
 
 \subsection{The stacked column places alpha-beta deep but leaves mid-depth gamma weak}
 
-The reference stack (density-scaled units, local in-degree 560 E inputs per cell, SOM$\to$E decay 15 ms) produced
-alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}). Its relative
+The reference stack (density-scaled units, local E in-degree $560\,D_u/\bar D$, about 810, 513 and 356 per cell in S, M and D, SOM$\to$E decay 15 ms) produced
+alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}, top; the bottom panel is the later T1 winner). Its relative
 gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some frequencies, at D ($+0.2$ to $+0.35$, about 90--150
 Hz; read from the figure). Averaged over 50--150 Hz and the contacts from $-0.2$ to 0, where the observed gamma is
 broadest, relative gamma was 0.19--0.31 in the nine ladder runs and the three confirmation runs, against 0.85 in the
@@ -86,7 +88,47 @@ power at every gamma frequency (observed 0.80; \path{paper/jomission_lansa/data/
 The isolated module's peak (27--46 Hz over $\rho$ 0.25--2, E1) lies below the scored gamma band (50--150 Hz). In
 the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$ seed means;
 \path{results/laminar_e2/lfs_rule.json}), not the 46, 34 and 27 Hz that the isolated-module values at the units'
-$\rho$ would give: coupling and density scaling move M and D to alpha-beta.
+$\rho$ would give: coupling and density scaling move M and D to alpha-beta (inferred).
+
+\textit{Where the mid-depth deficit sits.} Because the readout is linear in the unit signals (Methods), the contact
+power splits exactly into auto-spectral terms $K_{zu}^2 S_{uu}$ and cross terms $K_{zu}K_{zv}\,\mathrm{Re}\,S_{uv}$
+(identity checked to $10^{-9}$; \path{scripts/e2_readout_sensitivity.py},
+\path{paper/jomission_lansa/data/readout_sensitivity.json}). Over the 12 runs, cross terms carried 0--12\% of the
+50--150 Hz power at $-0.2$ to 0, and the auto-only map gave mid-depth relative gamma 0.19--0.30, so the deficit is
+not cancellation between units. M supplied 72--81\% of the auto power there, S the rest. The per-frequency maximum
+that normalizes the map sat at S ($-0.4$) for 97--101 of the 101 frequencies from 50 to 150 Hz in every run. The
+relative deficit is therefore M's 50--150 Hz power being small compared with S's, which is both a weak M and a
+strong S. Raising M's power alone did not close it: scaling M's spectrum by up to $10^4$ never brought mid-depth
+relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel of a source at 0,
+whose mean over $-0.2$ to 0 is 0.615 at $\sigma = 0.15$ (derived). The observed breadth needs gamma
+generated above 0 or over a wider depth range.
+
+\textit{Kernel width.} The kernel width is assumed, so we rescored the same 12 runs at four widths
+(Table~\ref{tab:sigma}). The band-correlation result depends on it: $r_{gm}$ reached 0.6 in 9 of 12 runs at
+$\sigma = 0.20$ and 11 of 12 at 0.25, and $r_{ab}$ and $r_{gm}$ were both at least 0.6 in 2 and 4 runs. The full
+scorer was not rerun at other widths, and its nulls and ceilings were computed at 0.15, so these are not passes.
+The mid-depth deficit did not depend on the width: relative gamma at $-0.2$ to 0 stayed between 0.10 and 0.62
+against 0.85 observed. We therefore treat the weak mid-depth gamma, not the failed $r_{gm}$ threshold, as the
+robust result.
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+$\sigma$ & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & $r_{gm}\geq0.6$ / both $\geq0.6$ & mid-depth gamma \\
+\midrule
+0.10 & 0.13--0.26 & $-0.12$--0.66 & 0.06--0.36 & 0 / 0 & 0.10--0.19 \\
+0.15 (declared) & 0.21--0.43 & $-0.20$--0.86 & 0.14--0.51 & 0 / 0 & 0.19--0.31 \\
+0.20 & 0.29--0.59 & $-0.22$--0.88 & 0.28--0.70 & 9 / 2 & 0.31--0.47 \\
+0.25 & 0.40--0.69 & $-0.16$--0.89 & 0.50--0.83 & 11 / 4 & 0.44--0.62 \\
+\bottomrule
+\end{tabular}
+\caption{Kernel-width sensitivity, post hoc, same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
+counts out of 12. Observed mid-depth relative gamma ($-0.2$ to 0, 50--150 Hz) is 0.85. At 0.15 the values equal
+the verdict files. Source: \texttt{paper/jomission\_lansa/data/readout\_sensitivity.json}.}
+\label{tab:sigma}
+\end{table}
 
 Similarity to the observed map is scored by one shared rule (Methods): the band crossing must exceed 2 SE, the
 depth correlations of the two bands must each reach 0.6 ($r_{ab}$, $r_{gm}$), the true unit order must rank first,
@@ -150,8 +192,8 @@ reference level reusing earlier runs (Fig.~\ref{fig:t1},
 Table~\ref{tab:t1}).
 
 \textit{Local in-degree exponent} $B$ (denser units receive more local synapses, $K \propto
-\text{density}^B$): $r_{gm}$ rose with $B$ from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.93 to $-0.08$ (seed
-means); no level had both above 0.6. Raising $B$ removed the D unit's 90--150 Hz lobe but did not raise gamma at
+\text{density}^B$): $r_{gm}$ rose with $B$ from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.92 to $-0.08$ (seed
+means; peak 0.93 at $B = 0.35$); no level had both above 0.6. Raising $B$ removed the D unit's 90--150 Hz lobe but did not raise gamma at
 $-0.2$ to 0 (read from the atlas). The winner, $B = 1.41$ ($r_\text{proto}$ 0.361, SD 0.021), carried forward.
 Per-unit absolute power showed why: from $B$ 0.25 to 2, 50--150 Hz power rose at S (220 to 395, units $10^{12}$)
 and fell at D (116 to 32) while M stayed at 67--88; the M/S gamma ratio fell from 0.40 to 0.17.

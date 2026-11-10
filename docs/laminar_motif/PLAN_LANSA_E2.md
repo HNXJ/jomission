@@ -42,6 +42,7 @@ Two consequences for E2 (INFERRED from isolated modules):
 - Coupling: adjacent modules (S-M, M-D), both directions, E to E, PV and SST, p 0.01, local weights (2.0 nS to E, 3.0 nS to inhibitory), 2 ms delay.
 - C6: 20 s, 2 s discarded, seed 1, then inspect.
 - Verdict bands: alpha-beta 10-30 Hz, gamma 50-150 Hz (published panel; manuscript 8-30/31-150 is scored as secondary only).
+- Amplitude: unit power is not equalized; the depth gradient of LFP amplitude is a model result.
 - Route: JaxFNE 0.5.9 AdEx through `construct_adex_model(neuron_rows=...)`; the public `column()` path is refused for AdEx. Layer selectors realize exact blocks (probe: 44 751 edges vs 44 800 expected per local E-E block).
 
 ## Steps (each closes on its check)
@@ -55,6 +56,18 @@ Two consequences for E2 (INFERRED from isolated modules):
 | 5 | One figure: per-module rasters (E, PV, SST), PSD per module, relative power by depth (gamma, alpha-beta) | V2 raster; figure measured per `match-visual-style` | step 4 |
 | 6 | Interpret: E2 vs E1 frequencies (coupling effect), vs in-vivo motif | in-vivo comparison needs Y (observed LFP, OPEN-38, not imported); without Y, report the simulated profile only | Y import |
 | 7 | Next smallest delta, chosen after step 5: E4 (flat) and E3 (reversed) are the falsifiers, one run each | separate seal each | owner |
+
+## First result (unsealed): e2_stack_s1_T20, seed 1, 20 s, 2 s discarded
+
+Readout `scripts/e2_motif_figure.py` at 5c74999: RWS proxy per E cell, 21-contact probe, sigma 0.15, bands 10-30/50-150 Hz.
+
+| Unit | Peak (Hz) | ab/gamma power | gamma power vs S | ab power vs S |
+|---|---|---|---|---|
+| S (rho 0.25) | 44 | 0.5 | 1x | 1x |
+| M (rho 1) | 15 | 32 | 2.4x | 145x |
+| D (rho 2) | 15 | 26 | 21x | 1000x |
+
+Contrast M = +0.064 +- 0.005 (jackknife z 11.9; 3-unit null SD of z is 1.6 on synthetic data), depth-shuffle p 1/3 (6 orders), no crossing: both bands peak at D. The frequency ordering follows rho; the amplitude ordering (D loudest in every band) blocks the relative-power motif. Status: no motif, single seed, unsealed.
 
 ## Out of scope
 

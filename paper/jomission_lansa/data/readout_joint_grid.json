@@ -1,0 +1,32 @@
+{
+ "grid_step": 0.0025,
+ "eps": 0.02,
+ "targets": {
+  "y_mid": 0.9459344263034739,
+  "map_mid": 0.8480494579657966
+ },
+ "sigma": {
+  "0.15": {
+   "auto_mid_max": 0.6649682275052293,
+   "auto_best_feasible": {
+    "y_mid": null,
+    "map_mid": null
+   }
+  },
+  "0.20": {
+   "auto_mid_max": 0.8649287623138486,
+   "auto_best_feasible": {
+    "y_mid": null,
+    "map_mid": {
+     "r": 0.8293292527989905,
+     "mid": 0.8306319705936179,
+     "share": [
+      0.5125,
+      0.4875,
+      0.0
+     ]
+    }
+   }
+  }
+ }
+}

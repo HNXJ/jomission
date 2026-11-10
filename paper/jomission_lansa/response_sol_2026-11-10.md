@@ -229,17 +229,17 @@ analysis: joint constraint and circuit against optimum, records C7 and D5.
 
 | # | Point | Response |
 |---|---|---|
-| M1 | PSD set, eigenvalues | Done: Results state the admissible set (C = L L^T, L real lower-triangular, PSD by construction; only Re C enters, and Re of a Hermitian PSD matrix is PSD). Smallest eigenvalue / trace of every reported optimum: −4×10⁻¹⁹ to 9×10⁻⁴, zero to rounding at the r maxima (rank one at σ ≤ 0.20); the optima sit on the PSD boundary. The rerun with eigenvalues recorded reproduced every earlier value exactly |
+| M1 | PSD set, eigenvalues | Done: Results state the admissible set (C = L L^T, L real lower-triangular, PSD by construction; only Re C enters, and Re of a Hermitian PSD matrix is PSD). Smallest eigenvalue / trace of every reported full-covariance optimum: −4×10⁻¹⁹ to 9×10⁻⁴, zero to rounding at the r maxima (rank one at σ ≤ 0.20); the optima sit on the PSD boundary. The rerun with eigenvalues recorded reproduced every earlier value exactly |
 | M2 | LOAO validates the fit, not the mechanism | Done: Table 2 caption, Results and Discussion say so; folds share 9 of 10 training areas, so the SD is descriptive |
 | M3 | Joint constraint | Done (below, and Results "Profile and level together") |
 | M4 | Density not causally tested | Done: Discussion states that no run tests density as a cause; the test is a fixed-total-count column with densities flattened or permuted across units. Not run |
 | M5 | Circuit against optimum | Done: new Table 3 (below) |
-| — | Abstract capacity detail | Trimmed to one sentence |
+| — | Abstract capacity detail | Trimmed to one sentence, scoped to the r_gm criterion |
 | — | Covariance across the band | Stated: one covariance for the whole band for the r maxima and the joint test; the mid-depth ceiling is per frequency |
 | — | Mazzoni 90% | Methods: external validation in their model, not validation for this model or the macaque LFP |
 | — | LOAO folds not independent | Stated (M2) |
 | — | T1 selects on r_proto | Methods: a selection rule declared in the seal, optimizing whole-map similarity, not the band criteria |
-| — | Run files not archived | Stated in Methods and Table S6; hashes of 98 files in record D6 |
+| — | Run files not archived | Stated in Methods and Table S6; hashes of 100 files in record D6 |
 | — | Figure labels | Figs 3–6 redrawn at print width (T1 atlases, scorer panels, probe summary; text 6–7.5 pt at print size); old Fig 2 split into Fig 2 (reference block, now full width) and Fig 3 (scorer view). The CSD panel is unchanged |
 | — | "density-built" | Fixed: "density-informed" |
 | — | Discussion paragraphs | "Other models" and "Limits" split |
@@ -248,7 +248,7 @@ analysis: joint constraint and circuit against optimum, records C7 and D5.
 
 Maximum Pearson r with the observed 50–150 Hz band-mean profile, subject to mid-depth relative gamma within 0.02
 of a target, one covariance for the band (penalty method, 48 starts; the no-cross-term case checked independently
-on a 400-step grid of power shares, which agreed: largest diagonal mid-depth 0.665 at σ 0.15, 0.865 at 0.20;
+on a 400-step grid of power shares (records C11, D7), which agreed: largest diagonal mid-depth 0.665 at σ 0.15, 0.865 at 0.20;
 best feasible r 0.829 against 0.830).
 
 | σ | target | full: r, mid, feasible | auto: r, mid, feasible |

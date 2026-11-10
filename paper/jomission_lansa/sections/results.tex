@@ -108,7 +108,7 @@ the circuit's, we searched the source covariances of the three declared sources 
 $C$ is symmetric positive semidefinite by construction; only $\mathrm{Re}\,C$ enters the contact power, and the
 real part of a Hermitian PSD cross-spectral matrix is PSD, so no admissible spectral covariance is excluded. The
 $r$ maxima and the joint test below use one covariance for the whole 50--150 Hz band; the mid-depth ceiling is
-per frequency. The smallest eigenvalue of every reported optimum, relative to the trace, lies between
+per frequency. The smallest eigenvalue of every reported full-covariance optimum, relative to the trace, lies between
 $-4\times10^{-19}$ and $9\times10^{-4}$: zero to rounding at the $r$ maxima, which are rank one at
 $\sigma \leq 0.20$, so the optima lie on the boundary of the PSD set. For the scorer's
 gamma statistic, the depth correlation with the observed 50--150 Hz band-mean profile, the largest value one
@@ -164,7 +164,7 @@ cortex; signed lead fields, receptor-specific source depths and distributed dend
 
 \textit{Profile and level together.} Maximizing $r$ subject to mid-depth relative gamma within 0.02 of a
 target (\rec{C7}, \rec{D5}; one covariance for the band, penalty method, 48 starts; the case without cross
-terms checked on a 400-step grid of power shares) separates the two observed levels. At $\sigma = 0.15$ the
+terms checked on a 400-step grid of power shares, \rec{C11}, \rec{D7}) separates the two observed levels. At $\sigma = 0.15$ the
 map's level, 0.848, is reachable with cross terms at $r = 0.845$ (mid-depth 0.828; S, M and D 46, 49 and 5\%
 of power; S and M coherent, D in antiphase), barely below the unconstrained 0.853, and not without them: no
 diagonal covariance exceeds mid-depth 0.665. The band-mean profile's own level, 0.946, lies above the

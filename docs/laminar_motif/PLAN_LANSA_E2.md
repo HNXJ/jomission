@@ -111,6 +111,20 @@ falls below S's because D stops firing, not because S gains gamma. dsz 0.5 raise
 gives the only crossing (sum row), with no deep alpha-beta peak. None is the motif mechanism; a size model
 that also scales synapse count and drive with membrane area is the faithful version (inferred).
 
+Density-scaled local in-degree result (k 1; in-degree K_E x (density/mean)^kd, every local rule):
+
+| kd | peaks | gamma D/S cell / sum | ab D/S cell / sum | M cell (z) | M sum (z) | rates E S/M/D (Hz) | coh S-M 30-50 |
+|---|---|---|---|---|---|---|---|
+| 0 | 37/17/16 | 16.9 / 3.3 | 236 / 46 | +0.096 (+7.4) | +0.262 (+19.6) | 0.76/1.02/1.57 | - |
+| 0.5 | 39/24/16 | 6.9 / 1.3 | 52 / 10 | +0.155 (+11.3) | +0.460 (+8.5) | 0.59/1.09/2.00 | 0.58 |
+| 1 | 45/17/16 | 3.5 / 0.7 | 22 / 4 | +0.231 (+11.3) | +0.682 (+11.8) | 0.48/1.12/2.53 | 0.57 |
+
+kd 1, sum over cells: gamma relative power peaks superficial (0.84 at -0.4), alpha-beta peaks mid-deep (0.93
+at 0.05); the profiles cross at -0.19 and alpha-beta exceeds gamma by about 0.37 (SE 0.03) at mid depths.
+By the predeclared rule the crossing is False: at the bottom contact (0.4) the two are equal (0.49 vs 0.50)
+because D also carries gamma. First motif-shaped profile; one seed, 8 s, unsealed. Queued: kd 2 (seed 1),
+kd 1 (seed 2).
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

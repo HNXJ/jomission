@@ -5,7 +5,7 @@ Usage:
 
 Power = the real part of the window-mean unit auto-spectrum (diagonal of e2_scorer.unit_spectra, the scorer's
 own input), summed over 1 Hz bins in each band: ab 10-30 Hz, gm 50-150 Hz, lo 1-10 Hz, tot 1-150 Hz (image bands
-of the scorer). Units are those of the run (S, M, D for the 3-unit stack). Writes {tag: {unit: {band: power,
+of the scorer; edges inclusive, so lo and ab share the 10 Hz bin). Units are those of the run (S, M, D for the 3-unit stack). Writes {tag: {unit: {band: power,
 gm_frac, ab_frac}}} plus the max |imag|/|real| of the diagonal as a check that the real part is the power.
 """
 from __future__ import annotations

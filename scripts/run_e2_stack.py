@@ -8,7 +8,9 @@ LAYOUT is a caminos_stack.layout name: e2_3unit (default), unitNNNN, e2_21bin, w
 
 Writes results/laminar_e2/<TAG>.npz (untracked: block counts, LFP proxy, raster sample) and
 results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions, git dirty flag, JaxFNE source). JaxFNE 0.5.9 must be importable;
-set JAXFNE_SITE to a side-install directory to put it first on sys.path. Exit 0 when both files are written.
+set JAXFNE_SITE to a side-install directory to put it first on sys.path. JAXFNE_EDGE_DELIVERY=event selects
+RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event") (owner go 2026-11-10, after a bitwise raster match
+with the 0.5.8 dense path); unset keeps the default route. Exit 0 when both files are written.
 """
 from __future__ import annotations
 
@@ -35,6 +37,16 @@ RASTER_N = {"E": 200, "PV": 50, "SOM": 50}  # cells per block kept for the raste
 CHUNK = 10000
 
 
+def runtime_kw(jtfne) -> dict:
+    """Simulation kwargs for JAXFNE_EDGE_DELIVERY: {} when unset (default route), the event runtime for 'event'."""
+    mode = os.environ.get("JAXFNE_EDGE_DELIVERY", "")
+    if not mode:
+        return {}
+    if mode != "event":
+        raise SystemExit(f"JAXFNE_EDGE_DELIVERY={mode!r}: only 'event' or unset")
+    return {"runtime": jtfne.RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event")}
+
+
 def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     import jax
     import jaxfne as jtfne
@@ -51,7 +63,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
                                deep_size=mods.get("dsz", 1.0), gaba_scale=mods.get("gi", 1.0), triple_drive=tdrive)
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
-    sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
+    sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed),
+                           **runtime_kw(jtfne))
     if str(sim.resolved_runtime.actual_dtype) != "float32":
         raise RuntimeError(f"runtime resolved {sim.resolved_runtime.actual_dtype}, float32 required")
     t1 = time.time()
@@ -105,6 +118,9 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},
         "jaxfne_version": jtfne.__version__, "jaxfne_file": str(jtfne.__file__),
+        "edge_delivery": os.environ.get("JAXFNE_EDGE_DELIVERY") or "default",
+        "jaxfne_git_sha": subprocess.run(["git", "-C", str(Path(jtfne.__file__).resolve().parent), "rev-parse", "HEAD"],
+                                         capture_output=True, text=True).stdout.strip() or None,
         "jax_devices": [str(x) for x in jax.devices()], "git_sha": sha,
         "git_dirty": bool(st.stdout.strip()) if st.returncode == 0 else None,  # None: git failed, unknown
         "jaxfne_source": src.read_text(encoding="utf-8") if src.is_file() else None,

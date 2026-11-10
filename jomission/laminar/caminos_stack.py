@@ -4,7 +4,9 @@ A unit is a CAMINOS module (caminos_e0.py) whose cell counts may be smaller than
 1500 inhibitory: every within-unit block keeps the published in-degree (560 E inputs, 105 inhibitory
 inputs per cell, split by rho) through p = 0.07 * 8000 / N_E, so E/I = 8000:1500 is kept in every unit.
 Adjacent units (i, i+1) are coupled both ways from E to E, PV and SST with in-degree K_INTER per
-neighbour (p = K_INTER / N_E of the source unit), the local weights and the 2 ms delay.
+neighbour (p = K_INTER / N_E of the source unit), the local weights and the 2 ms delay; an end unit takes
+2 K_INTER from its one neighbour, so every unit receives 2 K_INTER inter-unit E inputs per cell. The 3-unit
+stack keeps the owner's fixed p 0.01 per adjacent pair instead.
 
 JaxFNE 0.5.9 refuses column() for the AdEx family, so the network is built with construct_adex_model and
 per-neuron rows whose layer label is the unit name; connection selectors then compile per unit.
@@ -57,8 +59,8 @@ def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], floa
     """(sizes, rho, p_inter, depth) for a named layout. depth is the unit's position rel. mid-L4."""
     if name == "e2_3unit":
         return module_sizes(), dict(RHO), P_INTER, {"S": -0.4, "M": 0.0, "D": 0.3}
-    if name == "unit1600":  # one small unit at rho 1: finite-size check against E0
-        return {"U": unit_sizes(MEAN_NE_BIN, 1.0)}, {"U": 1.0}, None, {"U": 0.0}
+    if name.startswith("unit") and name[4:].isdigit():  # one small unit at rho 1: finite-size check against E0
+        return {"U": unit_sizes(int(name[4:]), 1.0)}, {"U": 1.0}, None, {"U": 0.0}
     if name == "e2_21bin":
         z, dens = lansa_bins()
         frac = (z - z[0]) / (z[-1] - z[0])
@@ -103,9 +105,11 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
                 name=f"{name}_{m}", source={"cell_type": pre, "layer": m}, target={"cell_type": post, "layer": m},
                 probability=float(p), weight=weight, mechanism=mech, delay_ms=c0.DELAY_MS, sampling="bernoulli",
             )
+    n_nb = {m: (len(names) > 1) * (2 - (m in (names[0], names[-1]))) for m in names}
     for i in range(len(names) - 1):
         for a, b in ((names[i], names[i + 1]), (names[i + 1], names[i])):
-            p = p_inter if p_inter is not None else min(1.0, K_INTER / sizes[a]["E"])
+            # in-degree 2 K_INTER per target cell: an end unit takes 2 K_INTER from its one neighbour
+            p = p_inter if p_inter is not None else min(1.0, 2 * K_INTER / n_nb[b] / sizes[a]["E"])
             if p <= 0:
                 continue
             for post, weight in (("E", c0.Q_E_E), ("PV", c0.Q_E_INH), ("SOM", c0.Q_E_INH)):

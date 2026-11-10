@@ -1,16 +1,28 @@
-"""Spectrolaminar motif figure for a model run, in the layout of the published panels d-i.
+"""Spectrolaminar motif figure for a model stack run, in the layout of the published panels d-i, with a
+null-tested score (revision after the 2026-11-09 review).
 
 Usage:
   python scripts/e2_motif_figure.py TAG [DISCARD_S]
 
-Row 1 (d-f): model LFP proxy per module as recorded. Row 2 (g-i): the same proxy with each module's
-amplitude weighted by the LANSA NG (pyramidal proxy) mean density of its bins, median over the 11 areas
-(module bins as scripts/lansa_module_density.py; weights normalized to D = 1; power scales by weight^2).
-Relative power: P(d, f) / max_d P(d, f). Bands as in the published figure: alpha-beta 10-30 Hz,
-gamma 50-150 Hz. Writes results/laminar_e2/<TAG>_motif.png and <TAG>_motif.json.
+LFP proxy per unit (Mazzoni et al. 2015 RWS form): |I_ampa(t - 6 ms)| - 1.65 |I_gaba(t)| onto the unit's E
+cells, I = g (V - E_rev) at V fixed -65 mV, from the recorded recurrent conductances g_nS. Row 1 (d-f):
+mean per E cell. Row 2 (g-i): sum over E cells (unit size enters through the model's own cell counts; no
+post-hoc density weight). A virtual 21-contact probe at the LANSA bin centers sees each unit through a
+Gaussian volume-conduction kernel (sigma 0.15). Spectra: multitaper, 1 s windows, 2 Hz smoothing, from the
+unit cross-spectra, so P(c, f) = sum_uv K_cu K_cv S_uv(f). Relative power R(c, f) = P / max_c P.
+
+Score per band set, on R averaged in each band:
+  contrast M = slope over depth of (alpha-beta - gamma); M > 0 means alpha-beta deeper than gamma (motif).
+  SE: jackknife over 1 s windows; z = M / SE (flat null M = 0: identical units give R independent of f).
+  Depth-shuffle null: M over unit-depth permutations (all when U <= 6, else 2000 draws, seed 0); p = share >= M.
+  Crossing: (ab - gm) below -2 SE at the top contact and above +2 SE at the bottom contact; depth = first
+  zero of the full-data difference.
+Peak frequency per contact and per unit: argmax of absolute power in 5-150 Hz.
+Writes results/laminar_e2/<TAG>_motif.png and <TAG>_motif.json.
 """
 from __future__ import annotations
 
+import itertools
 import json
 import sys
 from pathlib import Path
@@ -23,54 +35,115 @@ import numpy as np  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
 from scipy.signal.windows import dpss  # noqa: E402
 
-SMOOTH_HZ = 2.0  # multitaper half-bandwidth, as the published analysis (1 s windows, 2 Hz smoothing)
-
-
-def multitaper(sig: np.ndarray, fs: float, nper: int) -> tuple[np.ndarray, np.ndarray]:
-    """[time, channel] -> (f, P[channel, f]): non-overlapping windows of nper samples, DPSS NW = W*T,
-    K = 2NW - 1 tapers, power averaged over tapers and windows; each window demeaned."""
-    nw = SMOOTH_HZ * nper / fs
-    tapers = dpss(nper, nw, Kmax=max(1, int(2 * nw) - 1))  # [K, nper]
-    nwin = sig.shape[0] // nper
-    acc = 0.0
-    for i in range(nwin):
-        x = sig[i * nper:(i + 1) * nper]
-        x = x - x.mean(axis=0)
-        acc = acc + (np.abs(np.fft.rfft(tapers[:, :, None] * x[None], axis=1)) ** 2).mean(axis=0)
-    return np.fft.rfftfreq(nper, 1.0 / fs), (acc / max(nwin, 1)).T
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from jomission.laminar import caminos_e0 as c0  # noqa: E402
+from jomission.laminar import caminos_stack as cs  # noqa: E402
+
 D = ROOT / "results" / "laminar_e2"
-MODS = ("S", "M", "D")
-AB, GM = (10.0, 30.0), (50.0, 150.0)
+SMOOTH_HZ = 2.0  # multitaper half-bandwidth, as the published analysis (1 s windows, 2 Hz smoothing)
+BANDS = {"image": ((10.0, 30.0), (50.0, 150.0)), "manuscript": ((8.0, 30.0), (31.0, 150.0))}
+FIG_BANDS = "image"  # bands drawn in the figure (published panel); both sets are scored
+PEAK_RANGE = (5.0, 150.0)
+V_REF_MV = -65.0
+RWS_DELAY_MS, RWS_ALPHA = 6.0, 1.65  # Mazzoni et al. 2015
 CHANNELS = np.round(np.linspace(-0.6, 0.4, 21), 3)  # virtual probe at the LANSA bin centers
 SIGMA = 0.15  # volume-conduction kernel width (assumption, relative depth units)
-C_SUP, C_DEEP ="#D9822B", "#7030A0"  # panel d/g superficial orange, deep purple
+N_SHUFFLE = 2000
+C_SUP, C_DEEP = "#D9822B", "#7030A0"  # panel d/g superficial orange, deep purple
 C_AB, C_GM = "#0000FF", "#FF0000"  # band bars and panel f/i profiles
 # MATLAB parula, 9 anchors (approximation of the published colormap)
 PARULA = LinearSegmentedColormap.from_list("parula", [
     "#352A87", "#0F5CDD", "#1481D6", "#06A4CA", "#2EB7A4", "#87BF77", "#D1BB59", "#FEC832", "#F9FB0E"])
 
 
-def lansa_weights() -> tuple[dict[str, float], dict[str, float]]:
-    d = json.loads((ROOT / "docs/laminar_motif/data/lansa_density_X.json").read_text(encoding="utf-8"))
-    X = np.asarray(d["X"], dtype=float)  # [bin, type, area]
-    z = np.round(np.asarray(d["axes"]["bin_center_rel_L4"]), 3)
-    ng = d["axes"]["types"].index("NG")
-    groups = {"S": z < -0.175, "M": (z >= -0.175) & (z <= 0.175), "D": z > 0.175}
-    dens = {m: float(np.median(X[g, ng, :].mean(axis=0))) for m, g in groups.items()}
-    depth = {m: float(z[g].mean()) for m, g in groups.items()}
-    return {m: dens[m] / dens["D"] for m in MODS}, depth
+def rws(g: np.ndarray, dt_ms: float) -> np.ndarray:
+    """g [T, 2U] (AMPA, GABA per unit, nS summed onto E cells) -> [T - d, U] pA, RWS proxy."""
+    d = int(round(RWS_DELAY_MS / dt_ms))
+    ia = np.abs(g[:, 0::2] * (V_REF_MV - c0.REV_E_MV))
+    ig = np.abs(g[:, 1::2] * (V_REF_MV - c0.REV_I_MV))
+    return ia[:-d] - RWS_ALPHA * ig[d:]
 
 
-def band_mean(f, P, lo, hi):
-    s = (f >= lo) & (f <= hi)
-    return P[:, s].mean(axis=1)
+def cross_spectra(x: np.ndarray, fs: float, nper: int) -> tuple[np.ndarray, np.ndarray]:
+    """[T, U] -> (f, S[window, f, U, U]); DPSS NW = W*T, K = 2NW - 1 tapers, each window demeaned."""
+    nw = SMOOTH_HZ * nper / fs
+    tapers = dpss(nper, nw, Kmax=max(1, int(2 * nw) - 1))  # [K, nper]
+    S = []
+    for i in range(x.shape[0] // nper):
+        seg = x[i * nper:(i + 1) * nper]
+        F = np.fft.rfft(tapers[:, :, None] * (seg - seg.mean(axis=0))[None], axis=1)  # [K, f, U]
+        S.append(np.einsum("kfu,kfv->fuv", F, F.conj()) / F.shape[0])
+    return np.fft.rfftfreq(nper, 1.0 / fs), np.asarray(S)
 
 
-def row(axes, f, P, depth, letters, title):
+def probe_power(S: np.ndarray, K: np.ndarray) -> np.ndarray:
+    """S [..., f, U, U], K [C, U] -> P [..., C, f]."""
+    return np.einsum("cu,...fuv,cv->...cf", K, S, K).real
+
+
+def band_profiles(f, P, bands):
+    R = P / P.max(axis=-2, keepdims=True)
+    (a0, a1), (g0, g1) = bands
+    return R[..., (f >= a0) & (f <= a1)].mean(axis=-1), R[..., (f >= g0) & (f <= g1)].mean(axis=-1)
+
+
+def slope(ys, v):
+    """Least-squares slope of v[..., C] over depth ys[C]."""
+    yc = ys - ys.mean()
+    return (v * yc).sum(axis=-1) / (yc ** 2).sum()
+
+
+def score(f, S, K, ys, bands) -> dict:
+    """Contrast, jackknife SE, depth-shuffle null and crossing for one band set."""
+    Sm = S.mean(axis=0)
+    ab, gm = band_profiles(f, probe_power(Sm, K), bands)
+    dlt = ab - gm
+    M = float(slope(ys, dlt))
+    n = S.shape[0]
+    se_M, se_d = None, None
+    if n >= 2:
+        loo = (S.sum(axis=0)[None] - S) / (n - 1)
+        a_l, g_l = band_profiles(f, probe_power(loo, K), bands)
+        d_l = a_l - g_l
+        se_d = np.sqrt((n - 1) / n * ((d_l - d_l.mean(axis=0)) ** 2).sum(axis=0))
+        m_l = slope(ys, d_l)
+        se_M = float(np.sqrt((n - 1) / n * ((m_l - m_l.mean()) ** 2).sum()))
+    U = Sm.shape[-1]
+    if U <= 6:
+        perms = [np.array(p) for p in itertools.permutations(range(U))]
+    else:
+        rng = np.random.default_rng(0)
+        perms = [rng.permutation(U) for _ in range(N_SHUFFLE)]
+    null = []
+    for p in perms:
+        a_p, g_p = band_profiles(f, probe_power(Sm[:, p][:, :, p], K), bands)
+        null.append(float(slope(ys, a_p - g_p)))
+    null = np.asarray(null)
+    cross, cross_depth = None, None
+    if se_d is not None:
+        cross = bool(dlt[0] < -2 * se_d[0] and dlt[-1] > 2 * se_d[-1])
+    sc = np.nonzero(np.diff(np.sign(dlt)))[0]
+    if sc.size:
+        i = int(sc[0])
+        cross_depth = float(ys[i] + (ys[i + 1] - ys[i]) * dlt[i] / (dlt[i] - dlt[i + 1]))
+    return {"bands": bands, "alpha_beta_profile": ab.tolist(), "gamma_profile": gm.tolist(),
+            "diff_se": None if se_d is None else se_d.tolist(),
+            "contrast_M": M, "jackknife_se": se_M, "z": None if not se_M else M / se_M,
+            "shuffle": {"n": len(perms), "exhaustive": U <= 6, "p_ge": float((null >= M).mean()),
+                        "null_mean": float(null.mean()), "null_sd": float(null.std())},
+            "crossing_2se": cross, "zero_depth_first": cross_depth, "n_windows": n}
+
+
+def peak_freq(f, P):
+    s = (f >= PEAK_RANGE[0]) & (f <= PEAK_RANGE[1])
+    return f[s][np.argmax(P[..., s], axis=-1)]
+
+
+def row(axes, f, P, ys, sc, letters, title):
     ax_d, ax_e, ax_f = axes
-    R = P / P.max(axis=0, keepdims=True)  # relative power per frequency across depth
+    AB, GM = BANDS[FIG_BANDS]
+    R = P / P.max(axis=0, keepdims=True)
     s = (f >= 0) & (f <= 150)
     ax_d.plot(f[s], R[0, s], c=C_SUP, lw=1.6)
     ax_d.plot(f[s], R[-1, s], c=C_DEEP, lw=1.6)
@@ -81,16 +154,16 @@ def row(axes, f, P, depth, letters, title):
     ax_d.set_xticks([0, 50, 100, 150])
     ax_d.set_xlabel("Frequency (Hz)")
     ax_d.set_ylabel("Relative power")
-    ys = np.asarray(depth, dtype=float)
-    edges =np.concatenate([[ys[0] - (ys[1] - ys[0]) / 2], (ys[:-1] + ys[1:]) / 2, [ys[-1] + (ys[-1] - ys[-2]) / 2]])
+    edges = np.concatenate([[ys[0] - (ys[1] - ys[0]) / 2], (ys[:-1] + ys[1:]) / 2, [ys[-1] + (ys[-1] - ys[-2]) / 2]])
     im = ax_e.imshow(R[:, s], aspect="auto", cmap=PARULA, vmin=0.3, vmax=1.0, interpolation="nearest",
                      extent=(0, 150, edges[-1], edges[0]))
+    ax_e.plot(peak_freq(f, P), ys, "o", ms=3, mfc="w", mec="k", mew=0.5)  # absolute peak per contact
     ax_e.set_xticks([0, 50, 100, 150])
     ax_e.set_xlabel("Frequency (Hz)")
     ax_e.set_ylabel("Laminar depth (rel. mid-L4)")
     cb = plt.colorbar(im, ax=ax_e, fraction=0.05, pad=0.03, ticks=[0.3, 1])
     cb.set_label("Relative power", rotation=270, labelpad=10)
-    ab, gm = band_mean(f, R, *AB), band_mean(f, R, *GM)  # band mean of relative power, not renormalized
+    ab, gm = np.asarray(sc["alpha_beta_profile"]), np.asarray(sc["gamma_profile"])
     ax_f.plot(ab, ys, c=C_AB, lw=1.8)
     ax_f.plot(gm, ys, c=C_GM, lw=1.8)
     ax_f.axhline(0, c="k", lw=1.6)
@@ -110,53 +183,54 @@ def row(axes, f, P, depth, letters, title):
         ax.text(np.mean(GM), 1.07, "Gamma", transform=tr, ha="center", va="bottom", fontsize=10)
     for ax, L in zip(axes, letters):
         ax.text(-0.22, 1.18, L, transform=ax.transAxes, fontsize=16, fontweight="bold")
-    for ax in axes:
         ax.spines[["top", "right"]].set_visible(False)
-    ax_d.set_title(title, loc="left", fontsize=9, pad=38)
-    d = ab - gm
-    sign_change = np.nonzero(np.diff(np.sign(d)))[0]
-    cross = None
-    if sign_change.size:
-        i = int(sign_change[0])
-        cross = float(ys[i] + (ys[i + 1] - ys[i]) * d[i] / (d[i] - d[i + 1]))
-    return {"depth": ys.tolist(), "alpha_beta_profile": ab.tolist(), "gamma_profile": gm.tolist(),
-            "alpha_beta_peak_depth": float(ys[np.argmax(ab)]), "gamma_peak_depth": float(ys[np.argmax(gm)]),
-            "motif": bool(ys[np.argmax(gm)] < ys[np.argmax(ab)]), "crossing_depth": cross}
+    se = sc["jackknife_se"]
+    stat = f"M = {sc['contrast_M']:+.3f}" + (f" ± {se:.3f} (z {sc['z']:+.1f})" if se else "") \
+        + f", shuffle p {sc['shuffle']['p_ge']:.3f} (n {sc['shuffle']['n']}), crossing {sc['crossing_2se']}"
+    ax_d.set_title(f"{title}\n{stat}", loc="left", fontsize=9, pad=38)
 
 
 def main(tag: str, discard_s: float) -> None:
     z = np.load(D / f"{tag}.npz")
     rec = json.loads((D / f"{tag}.json").read_text(encoding="utf-8"))
-    dt = rec["dt_ms"] / 1000.0
-    lfp = z["lfp_pA"].astype(np.float64)[int(round(discard_s / dt)):]
-    k10 = int(round(1e-3 / dt))  # average to 1 kHz before the PSD
-    n1 = lfp.shape[0] // k10
-    lfp = lfp[: n1 * k10].reshape(n1, k10, -1).mean(axis=1)
-    fs = 1000.0
-    nper = min(1000, n1)
-    w, depth = lansa_weights()
-    zm = np.array([depth[m] for m in MODS])
-    chans = CHANNELS
-    K = np.exp(-((chans[:, None] - zm[None, :]) ** 2) / (2 * SIGMA ** 2))  # [channel, module] volume conduction
-
-    def probe_psd(amp):
-        sig = (lfp * amp[None, :]) @ K.T  # [time, channel]
-        return multitaper(sig, fs, nper)
-
-    f, P = probe_psd(np.ones(len(MODS)))
-    _, Pw = probe_psd(np.array([w[m] for m in MODS]))
+    units = list(rec.get("units", rec["sizes"]))  # runs before 128d6c2 record no units: 3-unit stack
+    depth = rec.get("depth_rel_L4") or cs.layout("e2_3unit")[3]
+    if len(units) < 2:
+        raise SystemExit("motif needs at least 2 units")
+    dt_ms = rec["dt_ms"]
+    x = rws(z["g_nS"].astype(np.float64), dt_ms)[int(round(discard_s * 1000.0 / dt_ms)):]
+    k = int(round(1.0 / dt_ms))  # average to 1 kHz before the spectra
+    n1 = x.shape[0] // k
+    x = x[: n1 * k].reshape(n1, k, -1).mean(axis=1)
+    fs, nper = 1000.0, min(1000, n1)
+    n_e = np.array([rec["sizes"][u]["E"] for u in units], dtype=float)
+    zu = np.array([depth[u] for u in units])
+    K = np.exp(-((CHANNELS[:, None] - zu[None, :]) ** 2) / (2 * SIGMA ** 2))  # [contact, unit]
 
     plt.rcParams.update({"font.family": "sans-serif", "font.size": 11})
-    fig, axs = plt.subplots(2, 3, figsize=(14, 10.5), gridspec_kw={"width_ratios": [1, 1.35, 0.9], "hspace": 0.6, "wspace": 0.42})
-    r1 = row(axs[0], f, P, chans, "def", f"Model LFP proxy (E2 stack, seed {rec['seed']}, {rec['T_s']:g} s)")
-    r2 = row(axs[1], f, Pw, chans, "ghi", "Same run, module amplitude x LANSA NG density "
-             + ", ".join(f"{m} {w[m]:.2f}" for m in MODS))
+    fig, axs = plt.subplots(2, 3, figsize=(14, 11), gridspec_kw={"width_ratios": [1, 1.35, 0.9], "hspace": 0.7, "wspace": 0.42})
+    out = {"tag": tag, "discard_s": discard_s, "units": units, "unit_depth_rel_L4": zu.tolist(),
+           "probe": {"channels_rel_L4": CHANNELS.tolist(), "gaussian_sigma": SIGMA},
+           "proxy": f"RWS |I_ampa(t-{RWS_DELAY_MS:g} ms)| - {RWS_ALPHA} |I_gaba(t)| onto E, V {V_REF_MV} mV",
+           "fig_bands": FIG_BANDS}
+    for r, (key, scale, letters, label) in enumerate((("per_cell_mean", 1.0 / n_e, "def", "mean per E cell"),
+                                                      ("sum_over_cells", np.ones_like(n_e), "ghi", "sum over E cells"))):
+        f, S = cross_spectra(x * scale[None], fs, nper)
+        Sm = S.mean(axis=0)
+        P = probe_power(Sm, K)
+        scores = {b: score(f, S, K, CHANNELS, BANDS[b]) for b in BANDS}
+        unit_pow = np.einsum("fuu->uf", Sm).real
+        out[key] = {"scores": scores, "peak_hz_contact": peak_freq(f, P).tolist(),
+                    "peak_hz_unit": dict(zip(units, peak_freq(f, unit_pow).tolist()))}
+        row(axs[r], f, P, CHANNELS, scores[FIG_BANDS], letters,
+            f"Model LFP proxy (RWS, {label}); {rec.get('layout', 'e2_3unit')}, seed {rec['seed']}, {rec['T_s']:g} s")
     fig.savefig(D / f"{tag}_motif.png", dpi=150, bbox_inches="tight")
-    out = {"tag": tag, "discard_s": discard_s, "bands": {"alpha_beta": AB, "gamma": GM},
-           "probe": {"channels_rel_L4": chans.tolist(), "gaussian_sigma": SIGMA, "module_depth_rel_L4": depth},
-           "lansa_ng_weight": w, "raw": r1, "lansa_weighted": r2}
     (D / f"{tag}_motif.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
-    print(json.dumps(out))
+    for key in ("per_cell_mean", "sum_over_cells"):
+        for b, sc in out[key]["scores"].items():
+            print(key, b, {k: sc[k] for k in ("contrast_M", "jackknife_se", "z", "crossing_2se", "zero_depth_first")},
+                  "shuffle_p", sc["shuffle"]["p_ge"])
+        print(key, "peak_hz_unit", out[key]["peak_hz_unit"])
 
 
 if __name__ == "__main__":

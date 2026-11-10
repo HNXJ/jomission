@@ -408,3 +408,17 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
     (`scripts/e2_motif_figure.py:142`). p values are k/24, and 0.000 is attained (x1_SST manuscript). So the floor is 0, not 1/24;
     the earlier "1/24 floor" note is withdrawn.
   - Isolated-L4 states (E 0.25–0.59 Hz) are very quiet; their r_gm/r_proto are descriptive only.
+- Correction to the p-convention note above (supersedes it). The 24 permutations include the identity
+  (`itertools.permutations`, `e2_motif_figure.py:121–142`). Under "≥", the identity counts, so the intended floor is 1/24.
+  A p of 0.000 (x1_SST manuscript, figure path) comes from float rounding: the identity's null value (slope of a−g over the
+  depth grid) and the observed M (slope of the band difference) differ by about 1e-17, so the identity can fall just below M
+  and drop out. The fix is a tolerance in the count (≥ M − 1e-12·|M|); not applied here (shared scorer code, needs review).
+  `e2_scorer.permutation_rank` uses ">" against the identity's own value, so the identity is never excluded there.
+- Open inconsistency, not resolved: the sum-row M of the same run differs between the figure path
+  (`results/allen_v1/<TAG>_motif.json`: probe grid `probe_rel_mid_L4`, `rws_layers`) and the scorer-input path
+  (`scorer/<TAG>`: `CHANNELS` grid, `mf.rws` per unit). x1_SST: image M 0.169 (figure) vs 0.010 (scorer path); manuscript
+  0.210 vs 0.020. The queue lines above use the figure path for M and the scorer path for r_gm and r_proto. Until one path is
+  chosen, the M values are not comparable with the r_gm values.
+- E→E wiring (replica H, full size, from `av.plan`; no runs): L2/3→L2/3 p 0.00646, K 108.5, w 6.49 nS; L4→L4 p 0.00439,
+  K 76.4, w 10.53 nS; L2/3→L4 p 0.00103, K 17.2, w 10.53 nS; L4→L2/3 p 0.00243, K 42.3, w 6.49 nS. Weights are set by the
+  post-synaptic K (`weights_w1`), so L4 receives larger per-synapse weights.

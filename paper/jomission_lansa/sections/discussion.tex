@@ -42,10 +42,11 @@ corresponds to our M unit at 0; a primate column may need such a generator but w
 extends above layer 4, as the observed map shows.
 
 \textbf{The readout: what it can and cannot carry.} The RWS-kernel readout is not a calibrated potential, but it is
-not an arbitrary score either. It is the separable, first-order form of the quasi-static volume-conductor solution:
-exactly linear in the unit conductances here, with temporal weights validated against multicompartment LFPs
-\citep{Mazzoni2015}, and its known spectral bias is common to all units and cancels in the per-frequency
-normalization that both the data and the model maps use (Methods). Its uncalibrated parts are spatial: the unit
+not an arbitrary score either. The quasi-static volume-conductor solution is linear in the membrane currents, and
+the readout approximates it with a current-based proxy whose temporal weights were validated against
+multicompartment LFPs \citep{Mazzoni2015}, combined with an assumed separable depth kernel. A spectral bias common
+to all units and depths cancels in the per-frequency normalization that both the data and the model maps use
+(Methods). Its uncalibrated parts are spatial: the unit
 depths and the kernel width. Both matter for the band correlations (depth placement; Table~\ref{tab:sigma}), and
 neither removes the mid-depth gamma deficit, which held at every width tested and needs gamma generated above 0 or
 spread in depth, not only more gamma in the middle unit. The circuit's latent spectra are thus constrained more

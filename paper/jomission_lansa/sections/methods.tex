@@ -9,8 +9,8 @@ loop \citep{Borgers2003}.
 
 \textbf{Within a unit.} The published module has 8000 E and 1500 inhibitory cells with connection probability
 0.07. A unit may be smaller. Without the in-degree rule below, a unit keeps the published in-degree (560 E and 105
-inhibitory inputs per cell) through $p = 0.07 \cdot 8000/N_E$; with it (every stack run here), the mean E in-degree
-over units is 560 and each unit's scales with its density (below). E:I is 8000:1500 in every unit. The inhibitory cells split into PV
+inhibitory inputs per cell) through $p = 0.07 \cdot 8000/N_E$; with it (every stack run here), each unit's in-degree
+scales with its density (below), with mean 560 over units at $B = 1$. E:I is 8000:1500 in every unit. The inhibitory cells split into PV
 and SOM by $\rho = N_\text{SOM}/N_\text{PV}$: 0.25 (S), 1 (M), 2 (D). Synapses are conductance-based, AMPA decay
 2 ms and GABA decay 8 ms, with a 2 ms delay. Each E and PV cell receives $\text{round}(0.07 \cdot 8000) = 560$
 private Poisson inputs at 4 Hz (weight 2.5 nS); SOM cells receive no external drive.
@@ -74,8 +74,9 @@ with the transmembrane currents as sources, and in an ohmic, homogeneous medium 
 \end{equation*}
 a sum over all membrane segments $n$. This is the forward model used by \citet{Mazzoni2015} to compute the
 reference LFP of multicompartment pyramidal cells. Two properties make a current-based proxy defensible. First,
-$\phi$ is linear in the $I_n$, and in passive dendrites the $I_n$ are linear filters of the synaptic currents (the
-cable equation is linear), so the potential at a contact at depth $z$ is
+$\phi$ is linear in the $I_n$, and if synaptic inputs are treated as current sources into passive dendrites, the
+$I_n$ are linear filters of those currents (the cable equation is linear); with conductance-based synapses this
+holds to the extent that driving-force fluctuations are small. The potential at a contact at depth $z$ is then
 \begin{equation*}
 \phi_z(t) = \sum_u \sum_{r\in\{\text{AMPA},\text{GABA}\}} \bigl(h_{z,u,r} * I_{u,r}\bigr)(t),
 \end{equation*}
@@ -83,11 +84,14 @@ where $I_{u,r}$ is the total synaptic current of receptor $r$ onto unit $u$'s py
 a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. Second, in the multicompartment network of
 \citet{Mazzoni2015} the contribution of synaptic inputs onto interneurons was negligible in amplitude and spectrum
 (their stellate-like dendrites form a closed field), so the LFP is set by the synaptic currents onto pyramidal cells,
-including the GABA currents that interneurons supply. They found that a separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$ with
+including the GABA currents that interneurons supply. They reported that a weighted sum of delayed currents,
 $c_\text{AMPA} = 1$, $c_\text{GABA} = -1.65$, $\tau_\text{AMPA} = 6$ ms and $\tau_\text{GABA} = 0$ (the RWS proxy),
-explained more than 90\% of the variance of the multicompartment LFP across a wide range of recording positions, and
-that it predicted the LFP gamma peak frequency; like the other proxies they tested, it tended to underestimate low
-frequencies and overestimate gamma.
+explained more than 90\% of the variance of the multicompartment LFP at the recording positions they tested and
+predicted the LFP gamma peak frequency, and that the proxies tended to underestimate low frequencies and
+overestimate gamma. The weights were fitted to their morphology, synapse placement and positions. Using them as a
+separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA
+and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so
+their contributions differ in profile and can differ in sign above and below the soma.
 
 \textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
 1.65\,|I_{\text{GABA},u}(t)|$, summed over the unit's E cells, and the spatial weights $w_{zu} = K_{zu} =
@@ -95,13 +99,14 @@ frequencies and overestimate gamma.
 (bottom); unit depths are S $-0.4$, M 0, D $+0.3$. Currents are taken at $V_\text{ref} = -65$ mV, so $I_{u,r} =
 g_{u,r}(V_\text{ref} - E_r)$ with $E_\text{AMPA} = 0$ and $E_\text{GABA} = -80$ mV; both currents keep one sign, the
 absolute values only fix the sign convention, and $L_u = 65\,g_{\text{AMPA},u}(t-6\,\text{ms}) - 24.75\,
-g_{\text{GABA},u}(t)$ (mV) is exactly linear in the conductances. Hence the contact power is exactly
+g_{\text{GABA},u}(t)$ (mV) is, by construction of the proxy, exactly linear in the conductances. Hence the contact power is exactly
 \begin{equation*}
 P_z(f) = \sum_{u,v} K_{zu} K_{zv}\, S_{uv}(f),
 \end{equation*}
 with $S_{uv}$ the cross-spectra of the $L_u$. The scored map divides by the maximum over depth at each frequency,
-$R(z,f) = P_z(f)/\max_{z'} P_{z'}(f)$, so any frequency-dependent gain $G(f)$ common to all units, such as the
-proxy's spectral bias above or dendritic filtering shared across units, cancels exactly: $G(f)P_z(f)/\max_{z'}
+$R(z,f) = P_z(f)/\max_{z'} P_{z'}(f)$, so any frequency-dependent gain $G(f)$ common to all units and
+independent of contact depth, such as the proxy's spectral bias above if it is uniform, cancels exactly
+(depth-dependent filtering, which the separable kernel already neglects, would not): $G(f)P_z(f)/\max_{z'}
 G(f)P_{z'}(f) = R(z,f)$. What the relative map does depend on is the depth weighting $K$, i.e.\ $\sigma$ and the unit
 depths, and gains that differ between units. We therefore report the readout as an estimate of the LFP's depth
 structure, not a calibrated potential, and test its two uncalibrated parts: unit depths (Results, depth placement)
@@ -236,7 +241,9 @@ presynaptic cells that spiked in the step; it was checked against the dense rout
 \subsection{Data and code}
 
 Scripts are in the project repository (\path{scripts/}, \path{jomission/laminar/}); the scorer, depth-placement,
-probe-geometry and stack code used here is as of commit 8519540, and the mid-gamma script is added with this draft.
+probe-geometry and stack code used here is as of commit 8519540, and the mid-gamma and readout-sensitivity scripts
+(\path{scripts/e2_mid_gamma.py}, \path{scripts/e2_readout_sensitivity.py}; outputs in
+\path{paper/jomission_lansa/data/}) are added with this draft.
 Seeds are given per run in the tables and run records. The run records and verdict
 files cited here live under \path{results/}, which is not under version control; their SHA-256 hashes are listed in
 \path{paper/jomission_lansa/data/sources_sha256.txt} (89 files), and the mid-depth gamma values in

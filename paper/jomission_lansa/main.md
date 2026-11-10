@@ -24,7 +24,7 @@ per-unit weights do not close the gap, and readout controls show that depth geom
 | C6 | Middle-unit weights trade gamma against alpha-beta (exploratory, 1 seed) | FINDINGS §2d table | hand-chosen, needs sealed confirmation |
 | C7 | Depth placement alone reaches r_proto 0.72, but a spectral-shift null is not rejected (p = (3+1)/21 on r_proto; 12 of 20 shifted draws had no passing placement) | FINDINGS §7, depth_placement.json | a negative control, not support |
 | C8 | Event delivery: bitwise-equal outputs, 9.9x faster at T1 length | FINDINGS §5 | one seed, one layout |
-| C9 | The RWS readout is the separable first-order volume-conductor model, exactly linear in conductances; mid-depth deficit holds at sigma 0.10-0.25 (0.44-0.62 at 0.25); cross terms 0-12%, normalizing max at S | Methods derivation; data/readout_sensitivity.json (scripts/e2_readout_sensitivity.py, 12 runs) | r_gm is sigma-dependent; full scorer not rerun per sigma |
+| C9 | The RWS readout rests on the linear volume-conductor solution with validated weights and an assumed separable depth kernel; mid-depth deficit holds at sigma 0.10-0.25 (0.44-0.62 at 0.25); cross terms 0-12%, normalizing max at S | Methods derivation; data/readout_sensitivity.json (scripts/e2_readout_sensitivity.py, 12 runs) | r_gm is sigma-dependent; full scorer not rerun per sigma |
 
 Counter-evidence: Mackey et al. 2026 (Nat Neurosci) dispute the motif's ubiquity; our target is the 11-area
 LANSA mean and V1, so the claim is conditional on that map.

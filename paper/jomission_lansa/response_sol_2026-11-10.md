@@ -9,7 +9,7 @@ Reviewed draft: commit 12842de. Revised sources: `sections/*.tex`, `main.tex`, `
 | # | Point | Response |
 |---|---|---|
 | 1.1 | Density-derived overstated | Done: title, abstract and Discussion say "density-informed"; imposed parts named |
-| 1.2 | Readout not a validated LFP | Done: derivation from Poisson's equation (Methods), σ sensitivity, decomposition; we defend the proxy as the first-order forward model and say what it cannot carry |
+| 1.2 | Readout not a validated LFP | Done: derivation from Poisson's equation (Methods), σ sensitivity, decomposition; we defend the proxy as a physically motivated estimate of depth structure, state its assumptions and say what it cannot carry |
 | 1.3 | SOM/PV effect unidentified | Conceded in text; flat and reversed controls deferred (sealed as T3, not run) |
 | 1.4 | α-β claim needs qualification | Done: in-sample qualifier; winner's loss of α-β on its own selection seeds stated as a primary result |
 | 1.5 | Gamma generator is a hypothesis | Done: auto/cross decomposition run; abstract reworded to "consistent with" |
@@ -30,22 +30,28 @@ arbitrary observation operator. The argument now in Methods ("From transmembrane
    Maxwell's equations are negligible (quasi-static limit), so ∇·(σ_e ∇φ) = −Σ I_n δ(r − r_n). In a homogeneous
    ohmic medium φ(r,t) = (1/4πσ_e) Σ_n I_n(t)/|r − r_n|. This is the forward model of Mazzoni et al. (2015) for
    their multicompartment reference LFP. φ is **linear** in the transmembrane currents.
-2. **Cable.** In passive dendrites the cable equation is linear, so each segment current I_n is a linear filter of
-   the synaptic currents. Composing, φ_z(t) = Σ_u Σ_r (h_{z,u,r} * I_{u,r})(t): the exact LFP is a sum of linearly
-   filtered unit-by-receptor synaptic currents.
-3. **RWS is the separable first-order kernel.** RWS sets h_{z,u,r}(t) = w_{zu} c_r δ(t − τ_r), with c_AMPA = 1,
-   c_GABA = −1.65, τ_AMPA = 6 ms, τ_GABA = 0. Mazzoni et al. found this explained > 90% of the variance of the
-   multicompartment LFP across a wide range of positions and predicted its gamma peak frequency. Interneuron
-   inputs contributed negligibly (closed-field morphology), so pyramidal-cell synaptic currents set the LFP, including
-   GABA currents supplied by interneurons. Our L_u uses exactly these currents.
-4. **Exact linearity in our model.** Currents are taken at V_ref = −65 mV, so
+2. **Cable.** If synaptic inputs act as current sources into passive dendrites, the cable equation is linear and
+   each segment current I_n is a linear filter of the synaptic currents (with conductance synapses, to the extent
+   driving-force fluctuations are small). Then φ_z(t) = Σ_u Σ_r (h_{z,u,r} * I_{u,r})(t): the LFP is a sum of
+   linearly filtered unit-by-receptor synaptic currents.
+3. **RWS weights are validated; the separable depth kernel is assumed.** Mazzoni et al. reported that RWS
+   (c_AMPA = 1, c_GABA = −1.65, τ_AMPA = 6 ms, τ_GABA = 0) explained > 90% of the variance of the multicompartment
+   LFP at the positions they tested and predicted its gamma peak frequency. They also reported that interneuron
+   inputs contributed negligibly (closed-field morphology), so pyramidal-cell synaptic currents set the LFP,
+   including GABA currents supplied by interneurons. Our L_u uses exactly these currents. Extending RWS to a depth
+   profile as h_{z,u,r}(t) = w_{zu} c_r δ(t − τ_r), with one w_zu shared by AMPA and GABA, is our assumption. Real
+   AMPA and GABA sources sit at different places on the cell and can differ in sign above and below the soma.
+   Methods now says so.
+4. **Linearity of the proxy.** Currents are taken at V_ref = −65 mV, so by construction
    L_u = 65·g_AMPA,u(t − 6 ms) − 24.75·g_GABA,u(t) mV. Hence contact power is exactly
    P_z(f) = Σ_{u,v} K_zu K_zv S_uv(f) (your 1.5 expression; K real), checked numerically to 1e-9.
-5. **Known bias cancels.** The proxy's known spectral bias (low frequencies under, gamma over) is a gain G(f)
-   shared by all units. The scored map is R_z(f) = P_z(f)/max_z P_z(f), so any common G(f) cancels exactly. The
-   same normalization is applied to the recorded maps. The frequency-wise comparison is therefore insensitive to the
-   proxy's best-documented error.
+5. **Shared bias cancels.** The scored map is R_z(f) = P_z(f)/max_z P_z(f), and the same normalization is applied
+   to the recorded maps. Any gain G(f) common to all units and independent of depth cancels exactly, including the
+   proxy's reported spectral bias if it is uniform. Depth-dependent filtering would not cancel; the separable
+   kernel already neglects it.
 6. **What remains uncalibrated is spatial**: unit depths and kernel width σ (w_zu). These are the parts we now test.
+   The defense is therefore that the readout is a physically motivated estimate of the LFP's depth structure, not a
+   calibrated potential, with its assumptions stated and its spatial ones tested.
 
 **Sensitivity (new, `data/readout_sensitivity.json`).** σ ∈ {0.10, 0.15, 0.20, 0.25} on all 12 runs. Mid-depth
 (−0.2 to 0) relative gamma: 0.10–0.19 at σ = 0.10, 0.19–0.31 at 0.15, 0.31–0.47 at 0.20, 0.44–0.62 at 0.25. The
@@ -90,7 +96,7 @@ stationary drive. It does not test M-unit PV→E kinetics, so it cannot contradi
 **2.**
 - E1 p is reported as a one-sided Monte Carlo p ≤ 1/10 001.
 - E1 stays INCONCLUSIVE.
-- Ladder trends are descriptive.
+- Ladder trends are descriptive (Results: "Three seeds per size support a trend, not a test.").
 - T1 FAIL is the confirmatory verdict.
 - Methods states what each null keeps and destroys.
 - Pixel dependence is noted; r_proto is a similarity score, not a test on 3150 samples.

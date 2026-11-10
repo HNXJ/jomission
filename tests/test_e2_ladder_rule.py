@@ -43,6 +43,20 @@ def test_peak_off_by_more_than_3hz_rejects(tmp_path):
     assert o["t1_size"] == 2000
 
 
+def test_sd_is_n4000_seed_sd_ddof1(tmp_path):
+    # n4000 r = 0.30, 0.40, 0.35: SD ddof=1 0.05 (2 SD 0.10), ddof=0 0.0408 (2 SD 0.0816).
+    # n1000: mean 0.50 (d 0.15) with its own SD 0.40; its own 2 SD would accept, n4000's rejects.
+    wide = [(0.10, dict(REF[0][1])), (0.50, dict(REF[1][1])), (0.90, dict(REF[2][1]))]
+    # n2000: d 0.09; accepted with ddof=1, rejected with ddof=0.
+    near = [(r + 0.09, dict(pk)) for r, pk in REF]
+    _write(tmp_path, {1000: wide, 2000: near, 4000: REF})
+    o = lr.rule(tmp_path)
+    assert abs(o["tests"]["1000"]["two_sd"] - 0.10) < 1e-12
+    assert not o["tests"]["1000"]["r_ok"]
+    assert o["tests"]["2000"]["r_ok"]
+    assert o["t1_size"] == 2000
+
+
 def test_r_off_and_none_pass_gives_n4000(tmp_path):
     far = [(r - 0.25, dict(pk)) for r, pk in REF]  # 0.25 > 2 SD = 0.10; peaks identical
     _write(tmp_path, {1000: far, 2000: far, 4000: REF})

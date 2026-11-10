@@ -7,6 +7,8 @@ Rule (seal, not retuned): accept the smallest N whose seed-mean r_proto is withi
 seed-mean and whose seed-mean per-unit LFP peak (sum row, `peak_hz_unit` in <TAG>_motif.json) is within 3 Hz of
 n4000's for every unit. If none, T1 runs at n4000. Reads <TAG>_verdict.json and <TAG>_motif.json; n4000 seed 1 is
 the earlier tag sw_n4000_dens_k1_kd1_sst15_s1_T8. Writes results/laminar_e2/lfs_rule.json and prints it.
+Choices the seal leaves open, fixed before the results were read: both tests use <=; SD is n4000's seed SD with
+ddof=1; seed-mean peaks are compared, not per-seed peaks.
 """
 from __future__ import annotations
 

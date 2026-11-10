@@ -68,7 +68,8 @@ def main(axis: str, n: int, out: Path = OUT) -> Path:
     for ax in axes[-1]:
         ax.set_xlabel("frequency (Hz)")
     fig.colorbar(im, ax=axes, shrink=0.6, label="relative power (P / max over depth)")
-    fig.suptitle(f"T1 V3 atlas, axis {axis}, N {n}: seed-mean SL map per level", fontsize=10)
+    fig.suptitle(f"T1 V3 atlas, axis {axis}, N {n}: map = mean of the seeds' maps; r, ab, gm = mean of per-seed "
+                 "verdict values", fontsize=10)
     path = out / f"V3_{axis}_n{n}_atlas.png"
     fig.savefig(path, dpi=180)
     return path

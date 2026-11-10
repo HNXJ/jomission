@@ -160,3 +160,8 @@ w_bounds 1e-3–50 nS) in 1 s chunks, carrying the full state; the runner reduce
 and raster samples. Known positive: 0.1 scale, 0.2 s, chunks of 700 steps (3, one uneven) gave spikes identical to
 `model.simulate` (7272 spikes); the 0.5 s baseline smoke through the chunked runner reproduced all 43 output
 arrays of the first smoke exactly.
+
+X0 full size (2026-11-10, `x0_H_s1_T20`, parent 478c34e): 66552 cells, wiring H, seed 1, 20 s. Edge check 353
+blocks, 0 failed; 23 854 994 edges vs 23 847 017 expected. Rates (Hz): E 0.67–2.25 (L5 NP 10.8); PV 13.7–19.9;
+SST 0.4–1.4 in L2/3–L5, 7.7 in L6; VIP 0.95–1.4 in L2/3–L5, 5.7 in L6; L1 5.4. Construct 72 s, simulate 3.40 h.
+Spectra not yet computed (figure script pending).

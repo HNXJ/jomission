@@ -152,3 +152,11 @@ full-size in-degree kept, no block capped), wiring H, seed 1, 0.5 s, JaxFNE 0.5.
 
 Full-size cost (inferred, linear in edges and in cells × steps): construct ~10× the warm 54 s; simulate 20 s at
 66552 cells ~ 21 s × 10 × 40 ≈ 2.3 h per condition on this CPU.
+
+Chunked runs (2026-11-10). `model.simulate` on AdEx records V every step: 20 s at 66552 cells is 53 GB of V plus
+13 GB of spikes, over this 64 GB machine. `allen_v1_replica.simulate_chunks` runs the resumable kernel
+`simulate_adex_hdp_registered` (identity rule `synthetic_presyn_gain`, no plastic edge; W1 1.3–28.6 nS inside its
+w_bounds 1e-3–50 nS) in 1 s chunks, carrying the full state; the runner reduces each chunk to counts, LFP inputs
+and raster samples. Known positive: 0.1 scale, 0.2 s, chunks of 700 steps (3, one uneven) gave spikes identical to
+`model.simulate` (7272 spikes); the 0.5 s baseline smoke through the chunked runner reproduced all 43 output
+arrays of the first smoke exactly.

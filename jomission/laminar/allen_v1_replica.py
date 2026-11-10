@@ -185,6 +185,35 @@ def construct(seed: int, pl: dict, silenced: list[str] = ()):
     return model, rows
 
 
+def simulate_chunks(model, sim, chunk_steps: int):
+    """Yield host spike blocks [steps, N] of run `sim`, chunk_steps at a time.
+
+    model.simulate records V for every step (53 GB for 66552 cells over 20 s); this route runs the resumable AdEx
+    kernel (simulate_adex_hdp_registered) with the identity rule synthetic_presyn_gain and no plastic edge, carrying
+    the full state between chunks. Weights must lie in the rule's w_bounds (1e-3, 50) nS; W1 spans 1.3-28.6 nS.
+    """
+    from jaxfne._construct_adex import adex_external_drive_kwargs, adex_kernel_args
+    from jaxfne.emitters_adex import simulate_adex_hdp_registered
+
+    kk = adex_kernel_args(model, sim.dt_ms, dtype=sim.resolved_runtime.compute_dtype)
+    w = np.asarray(kk["edge_weight_nS"])
+    if w.size and not (np.abs(w).min() >= 1e-3 and np.abs(w).max() <= 50.0):
+        raise ValueError("edge weights outside w_bounds (1e-3, 50) nS of the identity rule")
+    dk = adex_external_drive_kwargs(model, sim) if sim.poisson_drive is not None else {}
+    mask = np.zeros(w.size, dtype=np.float32)
+    state, done = None, 0
+    while done < sim.n_steps:
+        n = min(chunk_steps, sim.n_steps - done)
+        out = simulate_adex_hdp_registered(
+            **kk, **dk, n_steps=n, dt_ms=sim.dt_ms, record_v=False, hdp_rule="synthetic_presyn_gain",
+            plasticity_mask=mask, seed=0, record_w_trace=False, state=state, return_state=True)
+        state = out["state"]
+        spk = np.asarray(out["spikes"], dtype=bool)
+        del out
+        done += n
+        yield spk
+
+
 def pop_slices(pl: dict) -> dict[str, slice]:
     out, i = {}, 0
     for p in pl["pops"]:

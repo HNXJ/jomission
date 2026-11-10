@@ -48,23 +48,31 @@ def main(seed: int, T_s: float, tag: str, wiring: str, scale: float, silence: st
     sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
     if str(sim.resolved_runtime.actual_dtype) != "float32":
         raise RuntimeError(f"runtime resolved {sim.resolved_runtime.actual_dtype}, float32 required")
-    t1 = time.time()
-    sig = model.simulate(sim)
-    jax.block_until_ready(sig.spikes)
-    t_sim = time.time() - t1
-    spikes = np.asarray(sig.spikes, dtype=bool)
-    n_steps = spikes.shape[0]
-
     sl = av.pop_slices(pl)
-    counts = np.stack([spikes[:, sl[p]].sum(axis=1) for p in pl["pops"]], axis=1).astype(np.int32)
+    W, layers = av.lfp_weights(model, rows, pl)
+    W = W.astype(np.float32)
+    rng = np.random.default_rng(0)
+    picks = {p: np.sort(rng.choice(np.arange(sl[p].start, sl[p].stop), size=min(RASTER_N, pl["sizes"][p]),
+                                   replace=False)) for p in pl["pops"]}
+    n_steps = sim.n_steps
+    counts = np.empty((n_steps, len(pl["pops"])), dtype=np.int32)
+    X = np.empty((n_steps, W.shape[1]), dtype=np.float32)
+    rast = {p: ([], []) for p in pl["pops"]}
+    t1, a = time.time(), 0
+    for spk in av.simulate_chunks(model, sim, CHUNK):
+        b = a + spk.shape[0]
+        counts[a:b] = np.stack([spk[:, sl[p]].sum(axis=1) for p in pl["pops"]], axis=1)
+        X[a:b] = spk.astype(np.float32) @ W
+        for p in pl["pops"]:
+            st, cell = np.nonzero(spk[:, picks[p]])
+            rast[p][0].append(st + a)
+            rast[p][1].append(cell)
+        print(json.dumps({"steps_done": b, "of": n_steps, "wall_s": round(time.time() - t1, 1)}), flush=True)
+        a = b
+    t_sim = time.time() - t1
     rates = {p: float(counts[:, i].sum() / (pl["sizes"][p] * n_steps * c0.DT_MS / 1000.0)) for i, p in enumerate(pl["pops"])}
     silent_ok = all(counts[:, pl["pops"].index(p)].sum() == 0 for p in silenced)
 
-    W, layers = av.lfp_weights(model, rows, pl)
-    W = W.astype(np.float32)
-    X = np.empty((n_steps, W.shape[1]), dtype=np.float32)
-    for a in range(0, n_steps, CHUNK):
-        X[a:a + CHUNK] = spikes[a:a + CHUNK].astype(np.float32) @ W
     d = int(round(c0.DELAY_MS / c0.DT_MS))
     decay = np.array([np.exp(-c0.DT_MS / (c0.TAU_E_MS if j % 2 == 0 else c0.TAU_I_MS)) for j in range(W.shape[1])])
     g = np.zeros_like(X, dtype=np.float64)
@@ -76,14 +84,10 @@ def main(seed: int, T_s: float, tag: str, wiring: str, scale: float, silence: st
     I = np.abs(g * drive)
     lfp = np.stack([I[:, 2 * k] + I[:, 2 * k + 1] for k in range(len(layers))], axis=1).astype(np.float32)
 
-    rng = np.random.default_rng(0)
     raster = {}
     for p in pl["pops"]:
-        idx = np.arange(sl[p].start, sl[p].stop)
-        pick = np.sort(rng.choice(idx, size=min(RASTER_N, idx.size), replace=False))
-        st, cell = np.nonzero(spikes[:, pick])
-        raster[f"{av.tag(p)}_t"] = st.astype(np.int32)
-        raster[f"{av.tag(p)}_c"] = cell.astype(np.int16)
+        raster[f"{av.tag(p)}_t"] = np.concatenate(rast[p][0]).astype(np.int32)
+        raster[f"{av.tag(p)}_c"] = np.concatenate(rast[p][1]).astype(np.int16)
     np.savez_compressed(OUT / f"{tag}.npz", counts=counts, pops=np.array(pl["pops"]), lfp_pA=lfp,
                         lfp_layers=np.array(layers), g_nS=g.astype(np.float32), **raster)
     sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()

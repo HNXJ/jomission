@@ -59,9 +59,10 @@ def main(d: Path = D) -> dict:
     for j, n in enumerate(lr.NS):
         for i, k in enumerate(KEYS):
             ax = axes[i, j]
-            for off, mk in zip(offs, ("o", "s", "^")):
+            for q, (off, mk) in enumerate(zip(offs, ("o", "s", "^"))):
                 rr = [r for r in out[str(n)] if r["offset"] == off and r[k]["mean"] is not None]
-                ax.errorbar([r["theta_deg"] for r in rr], [r[k]["mean"] for r in rr],
+                dodge = 2.0 * (q - 1)  # deg; offsets 0 and 0.25 coincide at small tilt
+                ax.errorbar([r["theta_deg"] + dodge for r in rr], [r[k]["mean"] for r in rr],
                             yerr=[r[k]["sd"] for r in rr], marker=mk, capsize=3, label=f"offset {off}")
             ax.axhline(0, color="0.6", lw=0.8)
             ax.set_title(f"N = {n}, {k}", fontsize=10)

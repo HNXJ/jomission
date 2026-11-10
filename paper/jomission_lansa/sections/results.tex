@@ -42,10 +42,12 @@ Current-based CSD from paper\_w4; CSD placements are ASSUMED (Methods). Panel le
 \centering
 \stub{A: drive-rate sweep difference maps (SSIM, r)}{drive-rate sweep difference maps (SSIM, Pearson r); no difference maps written yet}
 \hfill
-\stub{B: seed difference maps}{seed difference maps; per-seed motif inputs exist for n1000 seeds 1--3 and n2000 seeds 1--3}\\[0.8em]
+\panel{B}{../../results/viz/paper_w6/seed_diff.png}{0.48\linewidth}{seed difference maps}\\[0.8em]
 \stub{C: LANSA hierarchy (T7)}{T7 LANSA hierarchy, deferred (plan section 5, OPEN-38)}
-\caption{Robustness. Panels A and B are difference maps; none is written. Inputs for B are the ladder motif files in
-\texttt{results/laminar\_e2/}. Panel C is deferred.}
+\caption{Robustness. A: drive-rate sweep, not written. B: seed difference maps $R_a - R_b$ of the relative-power map
+for each pair of seeds 1--3 at $N$ = 1000, 2000, 4000 (ladder runs), with SSIM and Pearson $r$ over all pixels
+(\texttt{paper\_w6/seed\_diff.png}). Seed pairs agree (SSIM 0.62--0.71, $r$ 0.87--0.93); each seed against the
+observed map gives SSIM 0.04--0.12 and $r$ 0.20--0.43. Panel C is deferred.}
 \end{figure}
 
 \subsection{Fig 3: interneuron manipulations}
@@ -105,6 +107,6 @@ Current-based CSD from paper\_w4; CSD placements are ASSUMED (Methods). Panel le
 \panel{C}{../../results/viz/paper_w5/probe_summary.png}{0.96\linewidth}{T6 score summary by $\theta$ and offset}
 \caption{Probe geometry, post hoc readout on saved runs. A: reference model; B: n1000 seed 1 (W5 readout outputs).
 C: contrast $M_\text{arc}$ and $r_\text{proto} - r_\text{ctrl}$ by tilt and lateral offset, seed mean $\pm$ SD over
-seeds 1--3 at each $N$ (\texttt{probe\_summary.png}). The rise of $r_\text{proto} - r_\text{ctrl}$ with tilt comes from
-the identical-unit control falling as fewer bins are covered, not from $r_\text{proto}$.}
+seeds 1--3 at each $N$ (\texttt{probe\_summary.png}). At offsets 0 and 0.25 the rise of $r_\text{proto} - r_\text{ctrl}$
+with tilt comes from the identical-unit control falling, not from $r_\text{proto}$, which falls at $\theta = 30^\circ$.}
 \end{figure}

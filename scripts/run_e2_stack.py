@@ -3,7 +3,8 @@
 Usage:
   python scripts/run_e2_stack.py SEED T_S TAG [LAYOUT]
 
-LAYOUT is a caminos_stack.layout name: e2_3unit (default), unit1600, e2_21bin.
+LAYOUT is a caminos_stack.layout name: e2_3unit (default), unitNNNN, e2_21bin; suffix _sstNN puts
+SST->E on a slow receptor with decay NN ms at equal charge (caminos_stack.build_config).
 
 Writes results/laminar_e2/<TAG>.npz (untracked: block counts, LFP proxy, raster sample) and
 results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions). JaxFNE 0.5.9 must be importable;
@@ -40,9 +41,10 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
 
     OUT.mkdir(parents=True, exist_ok=True)
     sizes, rho, p_inter, depth = cs.layout(lay)
+    tau_sst_e = cs.sst_e_tau(lay)
     names = list(sizes)
     t0 = time.time()
-    model, rows = cs.construct(seed, sizes, p_inter)
+    model, rows = cs.construct(seed, sizes, p_inter, tau_sst_e_ms=tau_sst_e)
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
     sim = jtfne.Simulation(duration_ms=T_s * 1000.0, dt_ms=c0.DT_MS, poisson_drive=c0.drive_spec(0.07, seed))
@@ -59,20 +61,21 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     keys = [(m, t) for m in names for t in cs.POPS]
     counts = np.stack([spikes[:, sl[k]].sum(axis=1) for k in keys], axis=1).astype(np.int32)
 
-    W = cs.lfp_weights(model, rows, names).astype(np.float32)
+    W, gcols, gtau, grev = cs.lfp_weights(model, rows, names)
+    W = W.astype(np.float32)
     X = np.empty((n_steps, W.shape[1]), dtype=np.float32)
     for a in range(0, n_steps, CHUNK):
         X[a:a + CHUNK] = spikes[a:a + CHUNK].astype(np.float32) @ W
     d = int(round(c0.DELAY_MS / c0.DT_MS))
-    decay = np.array([np.exp(-c0.DT_MS / (c0.TAU_E_MS if j % 2 == 0 else c0.TAU_I_MS)) for j in range(W.shape[1])])
+    decay = np.exp(-c0.DT_MS / gtau)
     g = np.zeros_like(X, dtype=np.float64)
     acc = np.zeros(W.shape[1])
     for t in range(n_steps):
         acc = acc * decay + (X[t - d] if t >= d else 0.0)
         g[t] = acc
-    drive = np.array([V_REF_MV - c0.REV_E_MV if j % 2 == 0 else V_REF_MV - c0.REV_I_MV for j in range(W.shape[1])])
-    I = np.abs(g * drive)  # pA per module and receptor
-    lfp = np.stack([I[:, 2 * k] + I[:, 2 * k + 1] for k in range(len(names))], axis=1).astype(np.float32)
+    I = np.abs(g * (V_REF_MV - grev))  # pA per unit and receptor
+    lfp = np.stack([I[:, [c for c, (m, _) in enumerate(gcols) if m == u]].sum(axis=1) for u in names],
+                   axis=1).astype(np.float32)
 
     rng = np.random.default_rng(0)
     raster = {}
@@ -90,7 +93,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
         "layout": lay, "units": names, "depth_rel_L4": depth,
         "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_inter": p_inter, "k_inter": cs.K_INTER if p_inter is None else None,
-        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model),
+        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e,
+        "g_columns": [list(c) for c in gcols], "g_reversal_mV": grev.tolist(), "g_tau_ms": gtau.tolist(),
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},
         "jaxfne_version": jtfne.__version__, "jaxfne_file": str(jtfne.__file__),

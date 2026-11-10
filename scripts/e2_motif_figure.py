@@ -57,11 +57,20 @@ PARULA = LinearSegmentedColormap.from_list("parula", [
     "#352A87", "#0F5CDD", "#1481D6", "#06A4CA", "#2EB7A4", "#87BF77", "#D1BB59", "#FEC832", "#F9FB0E"])
 
 
-def rws(g: np.ndarray, dt_ms: float) -> np.ndarray:
-    """g [T, 2U] (AMPA, GABA per unit, nS summed onto E cells) -> [T - d, U] pA, RWS proxy."""
+def rws(g: np.ndarray, dt_ms: float, rec: dict, units: list[str]) -> np.ndarray:
+    """g [T, columns] (nS summed onto E cells) -> [T - d, U] pA, RWS proxy. Columns from rec['g_columns']
+    (unit, receptor) with reversals; runs without it hold (ampa, gaba) per unit. Every receptor with
+    reversal below -40 mV counts as GABA."""
     d = int(round(RWS_DELAY_MS / dt_ms))
-    ia = np.abs(g[:, 0::2] * (V_REF_MV - c0.REV_E_MV))
-    ig = np.abs(g[:, 1::2] * (V_REF_MV - c0.REV_I_MV))
+    if "g_columns" in rec:
+        cols, rev = rec["g_columns"], np.asarray(rec["g_reversal_mV"])
+    else:
+        cols = [[u, r] for u in units for r in ("ampa", "gaba")]
+        rev = np.tile([c0.REV_E_MV, c0.REV_I_MV], len(units))
+    I = np.abs(g * (V_REF_MV - rev)[None])
+    unit = np.array([c[0] for c in cols])
+    ia = np.stack([I[:, (unit == u) & (rev > -40)].sum(axis=1) for u in units], axis=1)
+    ig = np.stack([I[:, (unit == u) & (rev <= -40)].sum(axis=1) for u in units], axis=1)
     return ia[:-d] - RWS_ALPHA * ig[d:]
 
 
@@ -198,7 +207,7 @@ def main(tag: str, discard_s: float) -> None:
     if len(units) < 2:
         raise SystemExit("motif needs at least 2 units")
     dt_ms = rec["dt_ms"]
-    x = rws(z["g_nS"].astype(np.float64), dt_ms)[int(round(discard_s * 1000.0 / dt_ms)):]
+    x = rws(z["g_nS"].astype(np.float64), dt_ms, rec, units)[int(round(discard_s * 1000.0 / dt_ms)):]
     k = int(round(1.0 / dt_ms))  # average to 1 kHz before the spectra
     n1 = x.shape[0] // k
     x = x[: n1 * k].reshape(n1, k, -1).mean(axis=1)

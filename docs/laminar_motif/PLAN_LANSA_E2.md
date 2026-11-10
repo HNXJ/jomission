@@ -43,6 +43,7 @@ Two consequences for E2 (INFERRED from isolated modules):
 - C6: 20 s, 2 s discarded, seed 1, then inspect.
 - Verdict bands: alpha-beta 10-30 Hz, gamma 50-150 Hz (published panel; manuscript 8-30/31-150 is scored as secondary only).
 - Amplitude: unit power is not equalized; the depth gradient of LFP amplitude is a model result.
+- Kinetics: slower SST->E next. Agent choices (owner gave no value): decay 30 ms (middle of the review's 20-40 ms), own receptor `gaba_sst`, weight 5 x 8/30 nS so the charge per spike equals CAMINOS; other synapses unchanged. Layout `e2_3unit_sst30`, 20 s, seed 1.
 - Route: JaxFNE 0.5.9 AdEx through `construct_adex_model(neuron_rows=...)`; the public `column()` path is refused for AdEx. Layer selectors realize exact blocks (probe: 44 751 edges vs 44 800 expected per local E-E block).
 
 ## Steps (each closes on its check)

@@ -55,8 +55,17 @@ def lansa_bins() -> tuple[np.ndarray, np.ndarray]:
     return np.round(np.asarray(d["axes"]["bin_center_rel_L4"]), 3), np.median(X.sum(axis=1), axis=1)
 
 
+def sst_e_tau(name: str) -> float | None:
+    """SST->E decay (ms) from a layout suffix '_sstNN' (slow SST->E variant), else None (CAMINOS 8 ms)."""
+    head, _, tail = name.rpartition("_sst")
+    return float(tail) if head and tail.isdigit() else None
+
+
 def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], float | None, dict[str, float]]:
-    """(sizes, rho, p_inter, depth) for a named layout. depth is the unit's position rel. mid-L4."""
+    """(sizes, rho, p_inter, depth) for a named layout. depth is the unit's position rel. mid-L4.
+    A '_sstNN' suffix (see sst_e_tau) does not change the layout."""
+    if sst_e_tau(name) is not None:
+        name = name.rpartition("_sst")[0]
     if name == "e2_3unit":
         return module_sizes(), dict(RHO), P_INTER, {"S": -0.4, "M": 0.0, "D": 0.3}
     if name.startswith("unit") and name[4:].isdigit():  # one small unit at rho 1: finite-size check against E0
@@ -83,9 +92,11 @@ def neuron_rows(sizes: dict[str, dict[str, int]]) -> list[dict]:
 
 
 def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-                 p_local: dict[str, float] | None = None):
+                 p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None):
     """p_local: per-unit within-unit probability (default K_E / N_E). p_inter: fixed inter-unit probability
-    (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit."""
+    (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit. tau_sst_e_ms: SST->E synapses
+    on their own receptor 'gaba_sst' with this decay, weight scaled by TAU_I / tau so the charge per spike
+    is unchanged; None keeps CAMINOS (gaba, 8 ms)."""
     import jaxfne as jtfne
 
     names = list(sizes)
@@ -98,9 +109,14 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
         .mechanisms(name="ampa", kind="receptor", params={"tau_ms": c0.TAU_E_MS, "reversal_mV": c0.REV_E_MV})
         .mechanisms(name="gaba", kind="receptor", params={"tau_ms": c0.TAU_I_MS, "reversal_mV": c0.REV_I_MV})
     )
+    if tau_sst_e_ms is not None:
+        cfg = cfg.mechanisms(name="gaba_sst", kind="receptor",
+                             params={"tau_ms": float(tau_sst_e_ms), "reversal_mV": c0.REV_I_MV})
     for m in names:
         p = (p_local or {}).get(m, min(1.0, K_E / sizes[m]["E"]))
         for name, pre, post, weight, mech in c0.RULES:
+            if name == "sst_e" and tau_sst_e_ms is not None:
+                weight, mech = weight * c0.TAU_I_MS / tau_sst_e_ms, "gaba_sst"
             cfg = cfg.connections(
                 name=f"{name}_{m}", source={"cell_type": pre, "layer": m}, target={"cell_type": post, "layer": m},
                 probability=float(p), weight=weight, mechanism=mech, delay_ms=c0.DELAY_MS, sampling="bernoulli",
@@ -122,11 +138,11 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
 
 
 def construct(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-              p_local: dict[str, float] | None = None):
+              p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None):
     from jaxfne._construct_adex import construct_adex_model
 
     rows = neuron_rows(sizes)
-    model = construct_adex_model(build_config(seed, sizes, p_inter, p_local), neuron_rows=rows,
+    model = construct_adex_model(build_config(seed, sizes, p_inter, p_local, tau_sst_e_ms), neuron_rows=rows,
                                  positions=np.zeros((len(rows), 3)))
     labels = tuple(model.params["emitter"].labels)
     if labels != tuple(r["cell_type"] for r in rows):
@@ -143,8 +159,9 @@ def block_slices(sizes: dict[str, dict[str, int]]) -> dict[tuple[str, str], slic
     return out
 
 
-def lfp_weights(model, rows, names) -> np.ndarray:
-    """[N, 2 * n_units] summed outgoing weight (nS) onto E cells of each unit, AMPA then GABA columns.
+def lfp_weights(model, rows, names) -> tuple[np.ndarray, list[tuple[str, str]], np.ndarray, np.ndarray]:
+    """(W [N, n_units * n_receptors], columns [(unit, receptor)], tau_ms, reversal_mV per column): summed
+    outgoing weight (nS) onto E cells of each unit, one column per declared receptor, unit-major.
 
     Conductance onto unit m's E cells is the exponential filter of spikes @ W[:, col] delayed by 2 ms;
     the external Poisson drive is not included (unrecorded, stationary).
@@ -155,15 +172,17 @@ def lfp_weights(model, rows, names) -> np.ndarray:
     w = np.abs(np.asarray(st["weight_nS"], dtype=np.float64))
     rec = np.asarray(st["receptor"])
     rnames = list(st["receptor_names"])
+    tau = np.asarray(st["receptor_tau_ms"], dtype=np.float64)
+    rev = np.asarray(st["receptor_reversal_mV"], dtype=np.float64)
     lay = np.array([r["layer"] for r in rows])
     typ = np.array([r["cell_type"] for r in rows])
-    W = np.zeros((len(rows), 2 * len(names)))
-    for k, m in enumerate(names):
-        on_e = (lay[post] == m) & (typ[post] == "E")
-        for j, rname in enumerate(("ampa", "gaba")):
-            sel = on_e & (rec == rnames.index(rname))
-            np.add.at(W[:, 2 * k + j], pre[sel], w[sel])
-    return W
+    cols = [(m, r) for m in names for r in rnames]
+    W = np.zeros((len(rows), len(cols)))
+    for c, (m, rname) in enumerate(cols):
+        sel = (lay[post] == m) & (typ[post] == "E") & (rec == rnames.index(rname))
+        np.add.at(W[:, c], pre[sel], w[sel])
+    ri = [rnames.index(r) for _, r in cols]
+    return W, cols, tau[ri], rev[ri]
 
 
 def edge_table(model) -> dict[str, int]:

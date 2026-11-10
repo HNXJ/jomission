@@ -53,17 +53,20 @@ def stop_state(r: dict[str, dict[str, float]], deep: str = "D") -> str | None:
     return None
 
 
-def select(axis: str, n: int, ref: str) -> dict:
+def select(axis: str, n: int, ref: str, d: Path = D) -> dict:
     rows = []
     for lv in LEVELS[axis]:
         seeds = []
         for s in (1, 2, 3):
             tag = f"t1_{axis}{lv}_n{n}_s{s}_T8"
-            vp = D / f"{tag}_verdict.json"
-            r = rates(tag)
+            vp = d / f"{tag}_verdict.json"
+            r = rates(tag, d=d)
             v = json.loads(vp.read_text(encoding="utf-8")) if vp.exists() else None
+            rpv = None if v is None else v.get("r_proto")
+            if rpv is not None and not np.isfinite(rpv):  # a non-finite r_proto counts as no verdict
+                v, rpv = None, None
             seeds.append({"seed": s, "tag": tag, "rates": r, "stop": None if r is None else stop_state(r),
-                          "r_proto": None if v is None else v["r_proto"], "pass": None if v is None else v["pass"]})
+                          "r_proto": rpv, "pass": None if v is None else v["pass"]})
         ok = all(x["rates"] is not None and x["r_proto"] is not None and x["stop"] is None for x in seeds)
         rp = [x["r_proto"] for x in seeds if x["r_proto"] is not None]
         rows.append({"level": lv, "counts": ok, "seeds": seeds,
@@ -79,7 +82,7 @@ def select(axis: str, n: int, ref: str) -> dict:
     out = {"axis": axis, "n": n, "ref_level": ref, "levels": rows,
            "winner": None if win is None else win["level"],
            "winner_passes_2of3": None if win is None else win["n_pass"] >= 2}
-    (D / f"t1_{axis}_n{n}_selection.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    (d / f"t1_{axis}_n{n}_selection.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     return out
 
 

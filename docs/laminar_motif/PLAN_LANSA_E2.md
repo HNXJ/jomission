@@ -125,6 +125,11 @@ By the predeclared rule the crossing is False: at the bottom contact (0.4) the t
 because D also carries gamma. First motif-shaped profile; one seed, 8 s, unsealed. Queued: kd 2 (seed 1),
 kd 1 (seed 2).
 
+Slow SST->E result (e2_sst30_s1_T20: 3 x 8000 E, p_inter 0.01, SST->E 30 ms at equal charge, 20 s): every
+unit's spikes lock to 7-8 Hz (E var/mean S 7.5, M 31, D 55; SST 20/118/138); LFP peaks S 42, M 7, D 7 Hz;
+gamma D/S 3.2 (was 21), alpha-beta D/S 9 (was 1037); M +0.040, z +0.5, no crossing. Slow SST->E reaches
+alpha but spreads it to the superficial unit too. Queued: kd 1 with SST->E 15 and 30 ms.
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

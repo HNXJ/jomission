@@ -3,8 +3,9 @@
 Usage:
   python scripts/details_md_to_tex.py results/viz/paper_w3/<TAG>_details.md paper/jomission_lansa/tables/<TAG>_details.tex
 
-Every markdown table under a '## <section>' heading becomes one booktabs tabular inside a table* float, captioned
-with the section name. Cell text is escaped; values are copied, never recomputed. Prose lines are dropped.
+Every markdown table under a '## <section>' heading becomes one booktabs table (Parameters: a longtable, last),
+captioned with the section name. Cell text is escaped; values are copied, never recomputed. Prose lines are dropped
+except 'Total ...' lines and the '## Notes' bullets, which follow the tables as a Notes list.
 """
 from __future__ import annotations
 
@@ -13,7 +14,8 @@ import sys
 from pathlib import Path
 
 ESC = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#", "_": r"\_", "{": r"\{",
-       "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}", "−": "$-$", "->": r"$\to$"}
+       "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}", "−": "$-$", "->": r"$\to$",
+       ">=": r"$\geq$", "<=": r"$\leq$", ">": r"\textgreater{}", "<": r"\textless{}"}
 
 
 def esc(s: str) -> str:
@@ -57,6 +59,16 @@ def to_tex(tag: str, md: str) -> str:
             f"\\caption{{{esc(tag)}: {esc(sec)}.}}\n"
             f"\\begin{{tabular}}{{{spec}}}\n\\toprule\n{head}\n\\midrule\n{body}\n\\bottomrule\n\\end{{tabular}}\n"
             "\\end{table}\n")
+    notes = [ln for ln in md.splitlines() if ln.startswith("Total ")]
+    sec = ""
+    for ln in md.splitlines():
+        sec = ln[3:].strip() if ln.startswith("## ") else sec
+        if sec == "Notes" and ln.startswith("- "):
+            notes.append(ln[2:])
+    if notes:
+        items = "\n".join(rf"\item {esc(n)}" for n in notes)
+        parts.append(f"\\paragraph{{Notes to the {esc(tag)} tables.}}\n{{\\small\\begin{{itemize}}\n{items}\n"
+                     "\\end{itemize}}\n")
     return "\n".join(parts)
 
 

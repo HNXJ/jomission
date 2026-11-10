@@ -124,7 +124,7 @@ neuron & SOM EL\_mV & -55 & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 neuron & E Vreset\_mV & -65 & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 neuron & PV Vreset\_mV & -65 & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 neuron & SOM Vreset\_mV & -65 & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
-neuron & spike registered at & V >= VT + 5 Delta & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
+neuron & spike registered at & V $\geq$ VT + 5 Delta & mV & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 synapse & tau\_delay & 2 & ms & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 synapse & tau\_E (AMPA) & 2 & ms & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
 synapse & tau\_I (GABA) & 8 & ms & PORT\_SPEC (Tahvili, Vinck, di Volo) \\
@@ -177,3 +177,14 @@ analysis & RWS alpha & 1.65 &  & Mazzoni et al. 2015 (e2\_motif\_figure.py; plan
 analysis & bands alpha-beta / gamma & 10-30 / 50-150 & Hz & owner ruling 2026-11-09 (PLAN\_LANSA\_E2.md, Owner rulings) \\
 analysis & probe contacts & 21 at -0.6 to 0.4 rel. L4 &  & LANSA bin centres (lansa\_density\_X.json axes; e2\_motif\_figure.CHANNELS) \\
 \end{longtable}}
+
+\paragraph{Notes to the sw\_n4000\_dens\_k1\_kd1\_sst15\_s1\_T8 tables.}
+{\small\begin{itemize}
+\item Total N = 14,251.
+\item Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is 0.5.9; PLAN\_LANSA\_E2.md section 0 and OPEN-37 name 0.5.8 as the project authority.
+\item Raster: sampled cells only (200 E, 50 PV and 50 SOM per module, a random sample by run\_e2\_stack.py).
+\item Module N is the sum of the recorded cell counts; the run JSON has no N key.
+\item Local p and the inter-module edges are as recorded; the inter-module autapse rule is not checked here.
+\item Run JSON has no git\_dirty, jaxfne\_source key (written by later runner versions); reported as not recorded.
+\item tau\_sst\_e\_ms is a scalar in the run JSON; the current runner writes a per-module dict (caminos\_stack.sst\_taus). Both are read the same way here.
+\end{itemize}}

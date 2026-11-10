@@ -58,10 +58,22 @@ table is Tables~S1--S4 (modules, edges per rule, run record, parameters with sou
 \centering
 \panel{N1000 s2}{../../results/laminar_e2/lfs_n1000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
 \panel{N1000 s3}{../../results/laminar_e2/lfs_n1000_s3_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
-\stub{N4000 s2, s3}{L-FS N4000 seeds 2 and 3 (motif not written; a log exists for seed 2)}\hfill
-\stub{Ladder verdict}{ladder accept rule applied to seed means (not run)}
+\panel{N4000 s2}{../../results/laminar_e2/lfs_n4000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
+\panel{N4000 s3}{../../results/laminar_e2/lfs_n4000_s3_T8_motif.png}{0.48\linewidth}{missing}
 \caption{Finite-size ladder motif maps (2 of 2), one file per $N$ and seed, exploratory. The N4000 seed 1 run is the
-reference model of Model 1. The accept rule is in Methods.}
+reference model of Model 1. Ladder rule (Methods; \texttt{lfs\_rule.json}): seed-mean $r_\text{proto}$
+0.334, 0.387, 0.328 for $N$ = 1000, 2000, 4000; both smaller $N$ are within 2 SD of $N$ = 4000 in $r_\text{proto}$ but
+fail the 3 Hz peak test on the S unit (seed-mean S peak 8, 31, 43 Hz), so the T1 size is $N$ = 4000.}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\panel{}{../../results/viz/t1/V3_kd_n4000_atlas.png}{\linewidth}{T1 kd atlas}
+\caption{T1 axis 1, local in-degree density exponent $B$ (\texttt{kd}), $N$ = 4000, seeds 1--3, 8 s, exploratory
+(\texttt{t1\_kd\_n4000\_selection.json}). Each panel is the seed mean of the relative-power map; titles
+give seed means of $r_\text{proto}$, $r_\text{ab}$, $r_\text{gm}$. No level passes on any seed. $r_\text{gm}$ rises
+with $B$ ($-0.36$ to 0.46) while $r_\text{ab}$ falls (0.93 to $-0.08$); $r_\text{gm} < 0.6$ at every level. The winner
+$B = 1.41$ ($r_\text{proto}$ 0.361, SD 0.021) carries to axis 2.}
 \end{figure}
 
 \subsection*{Plan supplement list}

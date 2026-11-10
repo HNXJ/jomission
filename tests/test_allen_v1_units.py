@@ -145,3 +145,78 @@ def test_end_to_end_write_inputs_then_verdict_puts_planted_gaba_tone_in_its_unit
     before = (dst / "e2e.npz").resolve()
     au.write_inputs("e2e", src, dst)  # re-run replaces the link; a dangling link must not raise
     assert (dst / "e2e.npz").resolve() == before
+
+
+UNITS = ["L2/3", "L4", "L5", "L6"]
+DT_MS, T_S = 0.1, 3.0
+
+
+def _tone_and_background():
+    n = int(round(T_S * 1000.0 / DT_MS))
+    t = np.arange(n) * DT_MS / 1000.0
+    rng = np.random.default_rng(0)
+    base = 5.0 + 0.01 * rng.standard_normal((n, 2 * len(UNITS)))  # nS, identical background in every run
+    return base, 5.0 + 2.0 * np.sin(2 * np.pi * 10.0 * t)
+
+
+def _truth_rec(swap_l4: bool) -> dict:
+    """The rws column labels of the file as written: per unit AMPA then GABA, with the L4 pair swapped if asked."""
+    cols = [[u, r] for u in UNITS for r in ("ampa", "gaba")]
+    if swap_l4:
+        i = 2 * UNITS.index("L4")
+        cols[i], cols[i + 1] = cols[i + 1], cols[i]
+    rev = [mf.c0.REV_E_MV if r == "ampa" else mf.c0.REV_I_MV for _, r in cols]
+    return {"g_columns": cols, "g_reversal_mV": rev}
+
+
+def _p10_from_rws(g: np.ndarray, rec: dict) -> np.ndarray:
+    """10 Hz power per unit from mf.rws's own output, with unit_spectra's binning (no discard)."""
+    x = mf.rws(g.astype(np.float64), DT_MS, rec, UNITS)
+    k = int(round(1.0 / DT_MS))
+    n1 = x.shape[0] // k
+    x = x[: n1 * k].reshape(n1, k, -1).mean(axis=1)
+    _, S = mf.cross_spectra(x, 1000.0, 1000)
+    return S.mean(axis=0)[10].real.diagonal()
+
+
+def _adapter_p10(tag: str, g: np.ndarray, root) -> np.ndarray:
+    src, dst = root / f"{tag}_src", root / f"{tag}_dst"
+    src.mkdir(parents=True)
+    np.savez(src / f"{tag}.npz", g_nS=g.astype(np.float32))
+    (src / f"{tag}.json").write_text(json.dumps({"dt_ms": DT_MS, "T_s": T_S, "seed": 1}), encoding="utf-8")
+    (src / f"{tag}_motif.json").write_text(json.dumps(
+        {"layers": UNITS, "depth_rel_mid_L4": list(ZU), "discard_s": 0.0}), encoding="utf-8")
+    au.write_inputs(tag, src, dst)
+    _, S, _ = sc.unit_spectra(tag, 0.0, dst)
+    return S.mean(axis=0)[10].real.diagonal()
+
+
+def test_ampa_vs_gaba_tone_ratio_matches_rws_prediction_and_swapped_order_fails(tmp_path):
+    """Same 10 Hz tone on L4 AMPA (run A) or on L4 GABA (run B), same background. The adapter's L4 power ratio A/B must
+    equal the ratio mf.rws predicts from the true column labels (rtol 1e-6). A file whose L4 pair is written GABA first
+    but read AMPA first must fail that check. Reversals are mf.c0's (AMPA 0 mV, GABA -80 mV) through rws's own formula."""
+    base, tone = _tone_and_background()
+    L4 = UNITS.index("L4")
+    gA, gB = base.copy(), base.copy()
+    gA[:, 2 * L4] = tone  # AMPA column of L4
+    gB[:, 2 * L4 + 1] = tone  # GABA column of L4
+
+    pA_adapter = _adapter_p10("ampaRun", gA, tmp_path)
+    pB_adapter = _adapter_p10("gabaRun", gB, tmp_path)
+    pA_pred = _p10_from_rws(gA, _truth_rec(swap_l4=False))
+    pB_pred = _p10_from_rws(gB, _truth_rec(swap_l4=False))
+    ratio_pred = pA_pred[L4] / pB_pred[L4]
+    ratio_adapter = pA_adapter[L4] / pB_adapter[L4]
+    assert abs(ratio_pred - 1.0) > 0.5, f"fixture: AMPA and GABA tones must differ in weight, ratio {ratio_pred:.3f}"
+    assert np.isclose(ratio_adapter, ratio_pred, rtol=1e-6, atol=0), (ratio_adapter, ratio_pred)
+
+    # Negative: the L4 pair written GABA first, read AMPA first. The tone sits in the file's column 2*L4 + 1, which
+    # is AMPA by the file's truth and GABA to the adapter.
+    gS = base.copy()
+    gS[:, 2 * L4 + 1] = tone
+    pS_adapter = _adapter_p10("swappedRun", gS, tmp_path)
+    pS_pred = _p10_from_rws(gS, _truth_rec(swap_l4=True))
+    ratio_swapped_adapter = pS_adapter[L4] / pB_adapter[L4]
+    ratio_swapped_pred = pS_pred[L4] / pB_pred[L4]
+    assert not np.isclose(ratio_swapped_adapter, ratio_swapped_pred, rtol=1e-6, atol=0), (
+        "swapped column order must fail the ratio check", ratio_swapped_adapter, ratio_swapped_pred)

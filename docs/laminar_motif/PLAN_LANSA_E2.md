@@ -98,6 +98,19 @@ saturates. No coupling value gives the motif. Diagnosis (20 s run): S is coheren
 30-50 Hz) but weakly synchronized (E var/mean 3.9 vs D 32; SST volleys drive D, var/mean 169). Next: local
 in-degree scaled by density (kd 0.5, 1) and deep cell size (dsz), queued.
 
+Deep E-cell size result (k 1; dsz scales C, gL, a, b of D's E cells; synapses and drive unchanged):
+
+| dsz | peaks | gamma D/S cell | M cell (z) | M sum (z) | crossing cell/sum | rates E S/M/D (Hz) |
+|---|---|---|---|---|---|---|
+| 0.5 | 46/34/34 | 1.6 | +0.456 (+5.5) | +0.485 (+4.9) | no/yes | 5.4/5.6/18.0 |
+| 2 | 36/18/15 | 0.4 | +0.254 (+11.6) | +0.694 (+25.7) | no/no | 0.76/1.06/0.06 |
+| 4 | 39/19/34 | 0.3 | +0.259 (+5.9) | +0.679 (+13.2) | no/no | 0.76/1.08/0.00 |
+
+Larger deep cells at unchanged synapses and drive silence D's E cells (0.06 Hz at dsz 2, 0 at 4); D's power
+falls below S's because D stops firing, not because S gains gamma. dsz 0.5 raises every rate (D_E 18 Hz) and
+gives the only crossing (sum row), with no deep alpha-beta peak. None is the motif mechanism; a size model
+that also scales synapse count and drive with membrane area is the faithful version (inferred).
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

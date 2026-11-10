@@ -342,7 +342,16 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   not tested (the 20 s equality is INFERRED).
 - x0rerun_H_s1_T5 (screening, 5 s; H, seed 1; sha 519f1ed; off-authority (0.5.9 side install), exploratory): wall 1835.5 s
   (construct 43.6, simulate 1786.3). Sum-row M image 0.092 ± 0.126 (jackknife SE), shuffle p 0.333; manuscript band
-  M 0.108 ± 0.152, p 0.375. crossing_2se false; n_windows 2 (3 s analysed, 1 s windows). r_proto 0.079 (LANSA-bin
+  M 0.108 ± 0.152, p 0.375. crossing_2se false; n_windows 2. Why 2, not 3: the 3 s after discard (30 000 samples at
+  0.1 ms) lose the RWS delay d = 6 ms at the end (`e2_motif_figure.rws` returns T − d samples), leaving 2 994 ms, so
+  only two whole 1 s windows. The 20 s run has the same effect: 17 windows for 17.994 s, not 18. r_proto 0.079 (LANSA-bin
   probe = scorer sum-row). Gamma peak depth 0.000 (contact 12). r_gm image −0.256 (`scorer/x0rerun_H_s1_T5_verdict.json`);
   manuscript −0.150 (same file, `r_gm_manuscript`). Comparator x0rerun_H_s1_T20 (20 s): M 0.174 ± 0.038, p 0.375,
   r_proto 0.152, r_gm −0.163. Not comparable across T: 5 s is a screen.
+- Screen resolution, 5 s screens (decision (a), spec's call; set before any X-vs-baseline read; no analysis change):
+  n_windows = 2 gives one jackknife df. Per-run 2·SE: image M 0.25 (0.126), manuscript M 0.30 (0.152). A 5 s screen
+  flags |ΔM| above about 0.25 for a single run against zero, and does not resolve an X-vs-H difference without its own
+  SE: the two runs share seed 1 and drive, so their SEs cannot be added as independent. r_gm has no SE in this record:
+  the scorer's halves have 1 window each, so se1/se2/se_diff are NaN and `agree` is false by rule. The 5 s scorer pass
+  is therefore not attainable as written; 5 s rows report r_gm and crossing as descriptive only. Any X condition that
+  moves M by less than about 0.25 (image) is reported as unresolved, not as no effect.

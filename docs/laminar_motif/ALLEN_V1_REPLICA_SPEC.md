@@ -422,3 +422,43 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
 - E→E wiring (replica H, full size, from `av.plan`; no runs): L2/3→L2/3 p 0.00646, K 108.5, w 6.49 nS; L4→L4 p 0.00439,
   K 76.4, w 10.53 nS; L2/3→L4 p 0.00103, K 17.2, w 10.53 nS; L4→L2/3 p 0.00243, K 42.3, w 6.49 nS. Weights are set by the
   post-synaptic K (`weights_w1`), so L4 receives larger per-synapse weights.
+- Cause of the M difference (x1_SST, read-only; `scratchpad/_temp_m_cause.py`): the RWS signals of the two paths are identical
+  (max |Δ| = 0.0). The whole difference is the contact grid. Scorer grid (`CHANNELS`, −0.6 to 0.4 step 0.03): M 0.010
+  ± 0.043. Probe grid (`probe_rel_mid_L4`, −0.49 to 0.51 step 0.039): M 0.169 ± 0.089, which reproduces the recorded figure M
+  exactly. The grid alone changes M about 17×. Hypothesis, not tested: CHANNELS places contacts outside the unit depths (to −0.6),
+  where the profile is flat, and the slope is taken over them.
+- Scorer-path sum-row numbers (the only M to quote; CHANNELS grid, per-unit RWS, 1 s windows; shuffle p over the 24 unit orders
+  with the identity counted under a tolerance, `p_tol`; `scratchpad/_temp_queue_scorer.py`):
+
+  | run | wall s | image M ± SE (p_tol) | manuscript M ± SE (p_tol) | r_proto | r_gm image / manuscript |
+  |---|---|---|---|---|---|
+  | x0rerun_H_s1_T20 (20 s) | 7866.5 | −0.084 ± 0.032 (0.417) | −0.070 ± 0.031 (0.417) | 0.152 | −0.163 / −0.074 |
+  | x0rerun_H_s1_T5 | 1835.5 | −0.175 ± 0.080 (0.417) | −0.127 ± 0.088 (0.417) | 0.079 | −0.256 / −0.150 |
+  | x0rerun_A0_s1_T5 | 1819.6 | −0.002 ± 0.038 (0.208) | −0.004 ± 0.042 (0.208) | −0.138 | −0.568 / −0.456 |
+  | x1_PV_H_s1_T5 (runaway) | 1820.6 | 0.106 ± 0.069 (0.583) | 0.113 ± 0.058 (0.500) | 0.388 | 0.172 / 0.284 |
+  | x3_iso_L4_H_s1_T5 | 1827.5 | 0.014 ± 0.002 (0.417) | −0.018 ± 0.007 (0.458) | 0.432 | 0.334 / 0.407 |
+  | x2_L4_H_s1_T5 | 1811.2 | −0.117 ± 0.017 (0.708) | −0.133 ± 0.023 (0.708) | −0.353 | −0.740 / −0.690 |
+  | x4_swap_iso_L4_H_s1_T5 | 1734.1 | 0.022 ± 0.051 (0.458) | −0.017 ± 0.051 (0.458) | 0.428 | 0.352 / 0.421 |
+  | x1_SST_H_s1_T5 | 1825.2 | 0.010 ± 0.043 (0.125) | 0.020 ± 0.035 (0.125) | −0.071 | −0.500 / −0.362 |
+
+  All runs: off-authority (0.5.9 side install), exploratory. Gamma peaks as recorded in the lines above (scorer contact grid).
+- Consequence: on the scorer path the X0 20 s H contrast is negative (−0.084 ± 0.032), not the positive 0.174 recorded from the
+  figure path. The positive contrast in the X0 record and the 5 s H record (+0.092, figure path) is a probe-grid artifact and is
+  withdrawn. Only X1 PV (runaway) has a positive scorer-path contrast, 0.106 ± 0.069 (1.5 SE).
+- Flat-tail test (`scratchpad/_temp_flat_tail.py`, scorer inputs, per-unit RWS; span = outer unit depth ± σ = [−0.366, 0.556]).
+  Correction: the CHANNELS grid is 21 contacts at step 0.05 (−0.6 to 0.4), not step 0.03 as written above.
+  Five CHANNELS contacts lie outside the span (−0.6 to −0.4); none lie above it.
+  | run | M CHANNELS full | M CHANNELS in span (full-grid norm) | M CHANNELS in span (set norm) | M probe grid (scorer RWS) |
+  |---|---|---|---|---|
+  | x0rerun_H_s1_T20 | −0.084 | +0.079 | +0.079 | +0.174 |
+  | x1_SST_H_s1_T5 | +0.010 | +0.282 | +0.282 | +0.169 |
+  The five outer contacts have dlt = ab − gm of 0.000 to 0.023 (H) and −0.022 to 0.000 (SST), so they are near-flat, as
+  hypothesised. Dropping them still flips the H sign. Mechanism (reasoned, not decomposed numerically): the least-squares slope
+  depends on the centre of the grid, and the removed points pull the centre from −0.10 to +0.03. Their near-zero values add to
+  the denominator and shift the centre, which can change the sign. So "dilution only" does not hold for this slope. The sign
+  is not robust to the choice of contacts.
+  Non-shared contacts (no contact is common to the two grids): the probe grid adds contacts at +0.46 and +0.51, where dlt
+  declines (H: 0.336 and 0.246; SST: 0.103 and 0.075). CHANNELS stops at +0.40 (H: 0.341), where the profile is still
+  rising. So the top of the profile is sampled differently by the two grids, as well as the bottom.
+  Reading: M on either grid is a grid-sensitive statistic, and its sign is not reliable. The scorer path is still the
+  authority for the seals (per parent ruling); the M values in this section should not be used to support a motif claim.

@@ -120,7 +120,7 @@ without the in-degree rule. B is an assumption, scanned in T1.
 model of the extracellular potential (point 1.2). It would bound the readout dependence, not replace it. It needs a
 scorer extension and is listed as follow-up.
 
-**3.4.** 94 source hashes (now including the readout-sensitivity and readout-capacity scripts and outputs); scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
+**3.4.** 96 source hashes (now including the readout-sensitivity and readout-capacity scripts and outputs); scripts at a named commit; the JaxFNE engine commit is named as unreleased. A public
 archive (code, run records, seeds, environment) is a submission item and is not done.
 
 **3.5.** Not done in this revision; a figure-layout pass precedes submission.
@@ -183,8 +183,18 @@ terms). The claim that the readout "cannot match the observed profile" is withdr
 
 At σ = 0.15:
 - **Gamma profile.** Three sources without cross terms reach r 0.66 (S 58%, M 42%, no D power), above the 0.6
-  criterion. The model's r_gm failure (0.14–0.51) is therefore in its spectra, consistent with its gamma at D, not in
-  the readout.
+  criterion. The model's r_gm failure (0.14–0.51) is therefore mainly in its spectra, consistent with its gamma at
+  D, not in the readout. The r-maximizing profiles reach mid-depth gamma of only 0.49 (auto) and 0.72 (full), so
+  passing r_gm is separate from reaching the observed mid-depth level.
+- **Held-out areas** (`scripts/e2_readout_capacity_loao.py`, `data/readout_capacity_loao.json`). The maxima above
+  are in-sample for one target, so we fitted C on 10 areas and scored it on the held-out 11th (n = 11 folds):
+
+  | σ | full, fitted | full, held-out | auto, fitted | auto, held-out | 10-area mean vs held-out |
+  |---|---|---|---|---|---|
+  | 0.15 | 0.853 ± 0.005 | 0.81 ± 0.05 (0.72–0.91; 11/11 ≥ 0.6) | 0.657 ± 0.010 | 0.62 ± 0.09 (0.46–0.76; 7/11) | 0.93 ± 0.06 |
+  | 0.20 | 0.981 ± 0.002 | 0.92 ± 0.04 (11/11) | 0.844 ± 0.007 | 0.80 ± 0.07 (11/11) | 0.93 ± 0.06 |
+
+  Mean ± SD over folds. Without coherence, passing at the declared width is marginal across areas.
 - **Mid-depth level.** M alone is bounded at 0.615. The single-frequency ceiling 0.853 is just above 0.848. It is
   reached at an optimum with S and M fully coherent and D in antiphase (coherences 1.00, −0.98). This is one optimum,
   not a shown necessity, and it is less demanding at σ = 0.20 (S–D coherence 0.13). The model's cross terms were

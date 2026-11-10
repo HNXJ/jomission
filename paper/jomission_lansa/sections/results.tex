@@ -111,7 +111,12 @@ gamma statistic, the depth correlation with the observed 50--150 Hz band-mean pr
 covariance can reach at $\sigma = 0.15$ is 0.853 with cross terms and 0.657 without them (independent S and M
 gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98 and 0.84. The readout can therefore pass the
 $r_{gm} \geq 0.6$ criterion at the declared width without any coherence between units, so the model's failure of
-that criterion (0.14--0.51) lies in its spectra, consistent with its gamma at D, not in the readout. The two
+that criterion (0.14--0.51) lies in its spectra, consistent with its gamma at D, not in the readout. These are in-sample maxima for one target. Fitted
+on 10 areas and scored on the held-out eleventh (\path{scripts/e2_readout_capacity_loao.py}, $n = 11$ folds), the
+covariance reached $r$ $0.81 \pm 0.05$ (SD; range 0.72--0.91, all 11 $\geq 0.6$) with cross terms and $0.62 \pm
+0.09$ (0.46--0.76, 7 of 11 $\geq 0.6$) without, against $0.93 \pm 0.06$ for the 10-area mean profile itself; at
+$\sigma = 0.20$ both passed in all 11. Without coherence, passing at the declared width is therefore marginal
+across areas. The two
 statistics are separate: the profiles that maximize $r$ have mid-depth relative gamma of only 0.49 (no cross
 terms) and 0.72 (full), below the observed 0.85 on the map and 0.95 on the band-mean profile. For the
 mid-depth level, the largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at $\sigma = 0.15$,

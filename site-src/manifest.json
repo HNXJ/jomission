@@ -4,7 +4,8 @@
     "out_dir": "site",
     "plotly_subdir": "assets/plotly",
     "results_subdir": "data/results",
-    "svg_subdir": "assets/svg"
+    "svg_subdir": "assets/svg",
+    "viz_subdir": "assets/viz"
   },
   "evidence_classes": [
     "OBSERVED",
@@ -203,6 +204,7 @@
   "owner": "generated",
   "pages": [
     "index",
+    "dashboard",
     "network",
     "activity",
     "dynamics",
@@ -215,6 +217,180 @@
     "spectrolaminar"
   ],
   "panels": {
+    "dash-osc1-v0": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-1/jaxfne_network_hspice.png",
+      "title": "SCI-WS-OSC-1 V0 construction schematic",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-1/jaxfne_network_hspice.png"
+    },
+    "dash-osc1-v1": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-1/raster_initial_1000ms.png",
+      "title": "SCI-WS-OSC-1 V1 initial 1 s raster",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-1/raster_initial_1000ms.png"
+    },
+    "dash-osc1-v2": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-1/raster_final.png",
+      "title": "SCI-WS-OSC-1 V2 final raster",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-1/raster_final.png"
+    },
+    "dash-osc1-v3": {
+      "evidence_class": "OBSERVED",
+      "note": "V3 final inspection: network, connectivity, raster, traces, spectral, operating point, field.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-1/atlas/index.html",
+      "title": "SCI-WS-OSC-1 V3 atlas",
+      "type": "atlas",
+      "atlas": "SCI-WS-OSC-1/atlas"
+    },
+    "dash-osc2-v0": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-2/jaxfne_network_hspice.png",
+      "title": "SCI-WS-OSC-2 V0 construction schematic",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-2/jaxfne_network_hspice.png"
+    },
+    "dash-osc2-v1": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-2/raster_initial_1000ms.png",
+      "title": "SCI-WS-OSC-2 V1 initial 1 s raster",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-2/raster_initial_1000ms.png"
+    },
+    "dash-osc2-v2": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-2/raster_final.png",
+      "title": "SCI-WS-OSC-2 V2 final raster",
+      "type": "viz",
+      "viz": "SCI-WS-OSC-2/raster_final.png"
+    },
+    "dash-osc2-v3": {
+      "evidence_class": "OBSERVED",
+      "note": "V3 final inspection: network, connectivity, raster, traces, spectral, operating point, field.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-WS-OSC-2/atlas/index.html",
+      "title": "SCI-WS-OSC-2 V3 atlas",
+      "type": "atlas",
+      "atlas": "SCI-WS-OSC-2/atlas"
+    },
+    "dash-regime1-v0": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-REGIME-1/jaxfne_network_hspice.png",
+      "title": "SCI-EI-REGIME-1 V0 construction schematic",
+      "type": "viz",
+      "viz": "SCI-EI-REGIME-1/jaxfne_network_hspice.png"
+    },
+    "dash-regime1-v1": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-REGIME-1/raster_initial_1000ms.png",
+      "title": "SCI-EI-REGIME-1 V1 initial 1 s raster",
+      "type": "viz",
+      "viz": "SCI-EI-REGIME-1/raster_initial_1000ms.png"
+    },
+    "dash-regime1-v2": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-REGIME-1/raster_final.png",
+      "title": "SCI-EI-REGIME-1 V2 final raster",
+      "type": "viz",
+      "viz": "SCI-EI-REGIME-1/raster_final.png"
+    },
+    "dash-regime1-v3": {
+      "evidence_class": "OBSERVED",
+      "note": "V3 final inspection: network, raster, membrane, field, connectivity, plasticity.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-REGIME-1/atlas/index.html",
+      "title": "SCI-EI-REGIME-1 V3 atlas",
+      "type": "atlas",
+      "atlas": "SCI-EI-REGIME-1/atlas"
+    },
+    "dash-nativestate1-v0": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-NATIVE-STATE-1/jaxfne_network_hspice.png",
+      "title": "SCI-EI-NATIVE-STATE-1 V0 construction schematic",
+      "type": "viz",
+      "viz": "SCI-EI-NATIVE-STATE-1/jaxfne_network_hspice.png"
+    },
+    "dash-nativestate1-v1": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png",
+      "title": "SCI-EI-NATIVE-STATE-1 V1 initial 1 s raster",
+      "type": "viz",
+      "viz": "SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png"
+    },
+    "dash-nativestate1-v2": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-NATIVE-STATE-1/raster_final.png",
+      "title": "SCI-EI-NATIVE-STATE-1 V2 final raster",
+      "type": "viz",
+      "viz": "SCI-EI-NATIVE-STATE-1/raster_final.png"
+    },
+    "dash-nativestate1-phase": {
+      "evidence_class": "OBSERVED",
+      "note": "Lineage diagnostic: native-resolution phase-plane record.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png",
+      "title": "SCI-EI-NATIVE-STATE-1 phase-plane diagnostic",
+      "type": "viz",
+      "viz": "SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png"
+    },
+    "dash-nativestate1-v3": {
+      "evidence_class": "OBSERVED",
+      "note": "V3 final inspection: network, raster, membrane, field, connectivity, plasticity.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-NATIVE-STATE-1/atlas/index.html",
+      "title": "SCI-EI-NATIVE-STATE-1 V3 atlas",
+      "type": "atlas",
+      "atlas": "SCI-EI-NATIVE-STATE-1/atlas"
+    },
+    "dash-interaction1-v0": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-INTERACTION-1/jaxfne_network_hspice.png",
+      "title": "SCI-EI-INTERACTION-1 V0 construction schematic",
+      "type": "viz",
+      "viz": "SCI-EI-INTERACTION-1/jaxfne_network_hspice.png"
+    },
+    "dash-interaction1-v1": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-INTERACTION-1/raster_initial_1000ms.png",
+      "title": "SCI-EI-INTERACTION-1 V1 initial 1 s raster",
+      "type": "viz",
+      "viz": "SCI-EI-INTERACTION-1/raster_initial_1000ms.png"
+    },
+    "dash-interaction1-v2": {
+      "evidence_class": "OBSERVED",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-INTERACTION-1/raster_final.png",
+      "title": "SCI-EI-INTERACTION-1 V2 final raster",
+      "type": "viz",
+      "viz": "SCI-EI-INTERACTION-1/raster_final.png"
+    },
+    "dash-interaction1-v3": {
+      "evidence_class": "OBSERVED",
+      "note": "V3 final inspection: network, raster, membrane, field, connectivity, plasticity.",
+      "page": "dashboard",
+      "source": "results/viz/SCI-EI-INTERACTION-1/atlas/index.html",
+      "title": "SCI-EI-INTERACTION-1 V3 atlas",
+      "type": "atlas",
+      "atlas": "SCI-EI-INTERACTION-1/atlas"
+    },
     "attractor-diagram": {
       "evidence_class": "DERIVED",
       "note": "Positions from sealed numbers; a diagram, not measured data.",
@@ -782,6 +958,71 @@
       "type": "table"
     }
   },
+  "viz_allowlist": {
+    "SCI-WS-OSC-1/jaxfne_network_hspice.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-1/raster_initial_1000ms.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-1/raster_final.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-1/atlas": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-2/jaxfne_network_hspice.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-2/raster_initial_1000ms.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-2/raster_final.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-WS-OSC-2/atlas": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-REGIME-1/jaxfne_network_hspice.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-REGIME-1/raster_initial_1000ms.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-REGIME-1/raster_final.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-REGIME-1/atlas": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-NATIVE-STATE-1/jaxfne_network_hspice.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-NATIVE-STATE-1/raster_initial_1000ms.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-NATIVE-STATE-1/raster_final.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-NATIVE-STATE-1/phase_plane_diagnostic.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-NATIVE-STATE-1/atlas": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-INTERACTION-1/jaxfne_network_hspice.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-INTERACTION-1/raster_initial_1000ms.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-INTERACTION-1/raster_final.png": {
+      "evidence_class": "OBSERVED"
+    },
+    "SCI-EI-INTERACTION-1/atlas": {
+      "evidence_class": "OBSERVED"
+    }
+  },
   "plotly_allowlist": {
     "network_3d.html": {
       "evidence_class": "OBSERVED"
@@ -995,6 +1236,7 @@
       "group": "Overview",
       "pages": [
         "index",
+        "dashboard",
         "lineage"
       ]
     },

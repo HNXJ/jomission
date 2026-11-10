@@ -139,9 +139,15 @@ def score(f, S, K, ys, bands) -> dict:
     return {"bands": bands, "alpha_beta_profile": ab.tolist(), "gamma_profile": gm.tolist(),
             "diff_se": None if se_d is None else se_d.tolist(),
             "contrast_M": M, "jackknife_se": se_M, "z": None if not se_M else M / se_M,
-            "shuffle": {"n": len(perms), "exhaustive": U <= 6, "p_ge": float((null >= M).mean()),
+            "shuffle": {"n": len(perms), "exhaustive": U <= 6, "p_ge": p_ge(null, M),
                         "null_mean": float(null.mean()), "null_sd": float(null.std())},
             "crossing_2se": cross, "zero_depth_first": cross_depth, "n_windows": n}
+
+
+def p_ge(null: np.ndarray, M: float) -> float:
+    """Share of the shuffle null >= M. A relative tolerance of 1e-12 keeps the identity permutation, whose value
+    equals M up to float rounding (~1e-17), in the count; exhaustive p then has floor 1/n, never 0."""
+    return float((np.asarray(null) >= M - 1e-12 * max(1.0, abs(M))).mean())
 
 
 def peak_freq(f, P):

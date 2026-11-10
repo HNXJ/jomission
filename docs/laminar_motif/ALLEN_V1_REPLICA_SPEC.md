@@ -355,3 +355,10 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   the scorer's halves have 1 window each, so se1/se2/se_diff are NaN and `agree` is false by rule. The 5 s scorer pass
   is therefore not attainable as written; 5 s rows report r_gm and crossing as descriptive only. Any X condition that
   moves M by less than about 0.25 (image) is reported as unresolved, not as no effect.
+- x0rerun_A0_s1_T5 (screening, 5 s; A0 control wiring, seed 1; sha 0bf4b62; off-authority (0.5.9 side install), exploratory):
+  wall 1819.6 s (construct 44.6, simulate 1769.4). Sum-row M image 0.159 ± 0.024 (jackknife SE), shuffle p 0.083
+  (exhaustive, 24 permutations); manuscript band M 0.184 ± 0.012, p 0.042. crossing_2se true; n_windows 2. r_proto −0.138
+  (LANSA-bin probe = scorer sum-row). Gamma peak depth +0.400 (contact 20, nearest unit L6). r_gm image −0.568
+  (`scorer/x0rerun_A0_s1_T5_verdict.json`), manuscript −0.456. Sha check: H (519f1ed) and A0 (0bf4b62) differ only in
+  `docs/laminar_motif/FINDINGS_2026-11-10.md`, `scripts/e2_t1_atlas.py` and `tests/test_e2_t1_atlas.py`; no replica code
+  changed, so H and A0 are comparable as runs. The 5 s resolution in the paragraph above applies to every value here.

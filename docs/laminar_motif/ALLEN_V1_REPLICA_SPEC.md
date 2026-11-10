@@ -366,3 +366,10 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   can give, not a strong result. The SEs 0.012 and 0.024 have 1 df at n_windows 2, so they are no more trustworthy than
   H's 0.126. sha 0bf4b62 is a local dev commit of the parent, pushed after its own review. Reading, descriptive only at
   5 s: A0 puts gamma deepest (+0.40) and r_gm −0.57, worse than H (r_gm −0.26); consistent with H as the better wiring.
+- x1_PV_H_s1_T5 (X1, screening, 5 s; H wiring, PV silenced at all layers, seed 1; sha 0bf4b62; off-authority (0.5.9 side
+  install), exploratory): wall 1820.6 s (construct 42.5, simulate 1772.6). Sum-row M image 0.048 ± 0.077 (jackknife SE),
+  shuffle p 0.500; manuscript band M 0.060 ± 0.064, p 0.375. crossing_2se false; n_windows 2. r_proto 0.388 (LANSA-bin
+  probe = scorer sum-row). Gamma peak depth −0.150 (contact 9). r_gm image +0.172 (`scorer/x1_PV_H_s1_T5_verdict.json`),
+  manuscript +0.284. Against the H baseline (x0rerun_H_s1_T5: r_gm image −0.256, gamma peak 0.000): r_gm moves +0.43 and
+  the gamma peak moves to the upper L4/L2-3 side (−0.15). The r_gm shift is larger than the 0.25 resolution threshold of
+  M, but r_gm has no SE here, so it is not resolved; descriptive only at 5 s.

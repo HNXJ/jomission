@@ -338,4 +338,5 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
 - Identity pair (full size, 0.5 s, 66 552 cells, seed 1, H; sha 519f1ed in the dev checkout): id58_full_H_s1_T0p5
   (jaxfne 0.5.8, authority) wall 211.8 s; id59_full_H_s1_T0p5 (0.5.9, off-authority, exploratory) wall 229.7 s. All 43
   npz arrays identical; 151 017 spikes in each. No motif, shuffle, r_proto, gamma or r_gm: the figure step needs a
-  2 s discard, and these runs are 0.5 s (figure log: reshape error on size 0).
+  2 s discard, and these runs are 0.5 s (figure log: reshape error on size 0). Scope: 0.5 s; equality beyond 0.5 s
+  not tested (the 20 s equality is INFERRED).

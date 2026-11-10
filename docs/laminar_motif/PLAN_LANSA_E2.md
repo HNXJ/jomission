@@ -147,9 +147,28 @@ about 0.
 | kd 2 | 0.163 | 0.24 | 0.17 | 0.28 | 1.2, 0.27 | 0.39, 0.24 |
 | kd 1, SST->E 15 ms | **0.376** | 0.26 | 0.83 | 0.38 | 6.1, 4.2 | 0.26, 0.15 |
 | kd 1, SST->E 30 ms | 0.273 | 0.26 | -0.35 | 0.51 | 0.64, 0.15 | 0.28, 0.087 |
+| kd 1, SST->E 15, deep 30 ms | 0.303 | 0.25 | 0.47 | 0.39 | 6.2, 0.56 | 0.36, 0.32 |
+| kd 1, SST->E 15, deep 60 ms | 0.299 | 0.27 | 0.18 | 0.45 | 0.43, 0.74 | 0.10, 0.079 |
+| kd 1, SST->E 15, deep 120 ms | 0.225 | 0.27 | -0.17 | 0.42 | 0.30, 0.58 | 0.064, 0.055 |
 
 kd 1 with SST->E 15 ms is the first run above null95. Remaining gaps: deep gamma not yet 0, deep alpha-beta
-below middle. Next: deep-only SST->E decay (`sstdNN`) 30/60/120 ms on kd 1 + SST->E 15 ms.
+below middle. A slower deep SST->E lowers deep power in both bands and moves the deep peak to 6-8 Hz; it does
+not help.
+
+Readout sigma (best run; fit on the even-area mean, scored on the odd-area mean; controls: S and D spectra
+swapped, and every unit given S's spectrum):
+
+| sigma | model even / odd | swapped S-D even / odd | flat even / odd |
+|---|---|---|---|
+| 0.15 | 0.391 / 0.353 | -0.428 / -0.397 | -0.005 / 0.045 |
+| 0.25 | 0.635 / 0.609 | -0.355 / -0.293 | 0.290 / 0.382 |
+| 0.4 | 0.776 / 0.782 | -0.204 / -0.116 | 0.396 / 0.494 |
+| 0.6 | 0.788 / 0.810 | -0.079 / 0.018 | 0.422 / 0.520 |
+
+A wider kernel raises the flat control too (unit geometry alone fits part of the map), so above sigma 0.15 the
+flat control, not the bin permutation, is the null. sigma must come from independent data (cross-contact
+coherence vs distance), not from r_proto; LANSA Y holds only relative power (UNKNOWN which value). Next: deep
+N_SST/N_PV (`rhodX`) 1/4/8 on kd 1 + SST->E 15 ms.
 
 ## Out of scope
 

@@ -12,6 +12,17 @@ def test_sst_taus_parse():
     assert cs.sst_taus("e2_3unit_sst15", SIZES) == {"S": 15.0, "M": 15.0, "D": 15.0}
     assert cs.sst_taus("e2_3unit_sst15_sstd60", SIZES) == {"S": 15.0, "M": 15.0, "D": 60.0}
     assert cs.sst_taus("e2_3unit_sstd30", SIZES) == {"D": 30.0}
+    assert cs.sst_taus("e2_3unit_sstd30", {"C": SIZES["S"], "E": SIZES["M"]}) is None  # not area/type names
+
+
+def test_rhod_sets_deep_ratio_only():
+    base, _, _, _ = cs.layout("e2_3unit_n4000_dens")
+    sizes, rho, _, _ = cs.layout("e2_3unit_n4000_dens_rhod8")
+    assert rho == {**cs.RHO, "D": 8.0}
+    assert sizes["S"] == base["S"] and sizes["M"] == base["M"]
+    d = sizes["D"]
+    assert d["E"] == base["D"]["E"] and d["PV"] + d["SOM"] == base["D"]["PV"] + base["D"]["SOM"]
+    assert abs(d["SOM"] / d["PV"] - 8.0) < 0.2 and d["SOM"] > base["D"]["SOM"]
 
 
 @pytest.mark.parametrize("lay", ["e2_3unit_sst15_sstd60", "e2_3unit_sstd30"])

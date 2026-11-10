@@ -55,7 +55,8 @@ def lansa_bins() -> tuple[np.ndarray, np.ndarray]:
     return np.round(np.asarray(d["axes"]["bin_center_rel_L4"]), 3), np.median(X.sum(axis=1), axis=1)
 
 
-DEEP_E = ("C", "D", "E")  # (area, layer, cell type) of the deep unit's E cells
+DEEP_UNIT = "D"  # the 3-unit stack's deep unit
+DEEP_E = ("C", DEEP_UNIT, "E")  # (area, layer, cell type) of the deep unit's E cells
 E_SIZE_FIELDS = ("C_pF", "gL_nS", "a_nS", "b_pA")  # scale with membrane area; tau_m unchanged
 
 
@@ -63,7 +64,8 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
     """Split a layout name into (base, modifiers). Modifiers are '_'-separated tokens after the base
     (e2_3unit, e2_21bin, unitNNNN); 'p' is the decimal point:
       sstNN  SST->E decay NN ms on its own receptor, equal charge (build_config)
-      sstdNN SST->E decay NN ms in the deep units (DEEP_E) only; overrides sstNN there (sst_taus)
+      sstdNN SST->E decay NN ms in the deep unit (DEEP_UNIT) only; overrides sstNN there (sst_taus)
+      rhodX  deep unit's N_SST / N_PV set to X (3-unit stack; default RHO["D"] 2)
       nNNNN  mean E cells per unit (3-unit stack)
       dens   E cells per unit proportional to LANSA total density of the unit's bins (3-unit stack)
       kX     inter-unit in-degree K_INTER * X
@@ -75,7 +77,7 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
     nb = 2 if name.startswith("e2_") else 1
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
-        for key in ("sstd", "sst", "dsz", "dens", "n", "kd", "k"):
+        for key in ("sstd", "sst", "rhod", "dsz", "dens", "n", "kd", "k"):
             if t.startswith(key):
                 rest = t[len(key):]
                 mods[key] = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
@@ -100,7 +102,7 @@ def sst_taus(name: str, units) -> dict[str, float] | None:
     """Per-unit SST->E decay (ms) from 'sstNN' and 'sstdNN'; units without one keep CAMINOS gaba. None if
     neither modifier is given."""
     mods = variant(name)[1]
-    taus = {m: mods.get("sstd", mods.get("sst")) if m in DEEP_E else mods.get("sst") for m in units}
+    taus = {m: mods.get("sstd", mods.get("sst")) if m == DEEP_UNIT else mods.get("sst") for m in units}
     taus = {m: t for m, t in taus.items() if t is not None}
     return taus or None
 
@@ -121,13 +123,14 @@ def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], floa
     name, mods = variant(name)
     if name == "e2_3unit":
         depth = {"S": -0.4, "M": 0.0, "D": 0.3}
+        rho = {**RHO, DEEP_UNIT: mods.get("rhod", RHO[DEEP_UNIT])}
         if not ({"n", "dens", "k"} & set(mods)):
-            return module_sizes(), dict(RHO), P_INTER, depth
+            return module_sizes(rho), rho, P_INTER, depth
         n_mean = mods.get("n", c0.NE)
         dens = unit_density(MODULE_BINS) if "dens" in mods else {m: 1.0 for m in MODULES}
         mean = np.mean(list(dens.values()))
-        sizes = {m: unit_sizes(int(round(n_mean * dens[m] / mean)), RHO[m]) for m in MODULES}
-        return sizes, dict(RHO), None, depth
+        sizes = {m: unit_sizes(int(round(n_mean * dens[m] / mean)), rho[m]) for m in MODULES}
+        return sizes, rho, None, depth
     if name.startswith("unit") and name[4:].isdigit():  # one small unit at rho 1: finite-size check against E0
         return {"U": unit_sizes(int(name[4:]), 1.0)}, {"U": 1.0}, None, {"U": 0.0}
     if name == "e2_21bin":

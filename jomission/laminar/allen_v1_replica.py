@@ -192,10 +192,19 @@ def simulate_chunks(model, sim, chunk_steps: int):
     kernel (simulate_adex_hdp_registered) with the identity rule synthetic_presyn_gain and no plastic edge, carrying
     the full state between chunks. Weights must lie in the rule's w_bounds (1e-3, 50) nS; W1 spans 1.3-28.6 nS.
     """
+    import inspect
+
     from jaxfne._construct_adex import adex_external_drive_kwargs, adex_kernel_args
     from jaxfne.emitters_adex import simulate_adex_hdp_registered
 
-    kk = adex_kernel_args(model, sim.dt_ms, dtype=sim.resolved_runtime.compute_dtype)
+    if "state" not in inspect.signature(simulate_adex_hdp_registered).parameters:
+        # jaxfne 0.5.8 has no resumable carry: one whole-run call. Refused above 2 GB of recorded V (the smoke fits).
+        n_cells = len(model.params["emitter"].labels)
+        if n_cells * sim.n_steps * 4 > 2e9:
+            raise RuntimeError("this jaxfne has no resumable kernel; the run is too large for one call")
+        yield np.asarray(model.simulate(sim).spikes, dtype=bool)
+        return
+    kk = adex_kernel_args(model, sim.dt_ms, dtype=sim.resolved_runtime.actual_dtype)  # 0.5.8 has no compute_dtype
     w = np.asarray(kk["edge_weight_nS"])
     if w.size and not (np.abs(w).min() >= 1e-3 and np.abs(w).max() <= 50.0):
         raise ValueError("edge weights outside w_bounds (1e-3, 50) nS of the identity rule")

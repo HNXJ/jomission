@@ -96,14 +96,18 @@ drive is not realizable in J 0.5.9's AdEx route**: `poisson_drive` takes one map
 IT 0.35, NP 0.053, L6 E 0.11, L4 PV 2.76, …; e4 LGN fraction 0.2) is recorded for a later grating condition, not
 used in the spontaneous baseline. Gratings: deferred (needs per-layer Poisson in J, or a DC stand-in, owner choice).
 
-## 7. Readout (owner: LFP, not rates)
+## 7. Readout (v2, parent ruling R5 2026-11-10; owner: LFP, not rates)
 
-LFP proxy per layer as `scripts/run_e2_stack.py`: |g_AMPA·(V−0)| + |g_GABA·(V+80)| onto that layer's E cells,
-V fixed −65 mV, recurrent input only; L5 E = ET+IT+NP. Sources at layer mid-depths (A): L2/3 263, L4 431, L5 585,
-L6 747 µm (L1 has no E). Virtual probe: 21 contacts evenly over 50–829 µm (38.95 µm pitch); Gaussian volume
-conduction σ = 0.15 × 779 µm = 117 µm (the E2 value 0.15 in cortical-thickness units; assumed). Analysis as
-`scripts/e2_motif_figure.py`: 1 kHz, non-overlapping 1 s windows, DPSS multitaper half-bandwidth 2 Hz, RP(c, f) =
-P/max_c P, bands 10–30 and 50–150 Hz, panels d–i layout. Depth axis rel. mid-L4 in cortical-thickness units.
+Primary proxy: RWS as `scripts/e2_motif_figure.py` (Mazzoni et al. 2015, the E2 proxy, so the two are comparable):
+|I_AMPA(t − 6 ms)| − 1.65 |I_GABA(t)| per layer, I = g (V − E_rev), V fixed −65 mV, summed onto that layer's E cells;
+recurrent input only; L5 E = ET+IT+NP. Secondary row, same analysis: the sum form |g_AMPA·(V−0)| + |g_GABA·(V+80)|
+as `scripts/run_e2_stack.py`. The v1 text (sum form as primary) is superseded; it stays in git (3f3ee7f).
+Sources at layer mid-depths (A): L2/3 263, L4 431, L5 585, L6 747 µm (L1 has no E). Virtual probe: 21 contacts evenly
+over 50–829 µm (38.95 µm pitch); Gaussian volume conduction σ = 0.15 × 779 µm = 117 µm (the E2 value 0.15 in
+cortical-thickness units; assumed). Analysis as `scripts/e2_motif_figure.py`: discard 2 s, 1 kHz, non-overlapping 1 s
+windows, DPSS multitaper half-bandwidth 2 Hz, RP(c, f) = P/max_c P, bands 10–30 and 50–150 Hz, panels d–i layout.
+Depth axis rel. mid-L4 in cortical-thickness units (779 µm). r_proto against the observed LANSA map (report only)
+uses a probe at the LANSA bin centres, because that map is bin-by-bin (§14).
 
 ## 8. Experiments (P, in our form)
 
@@ -185,3 +189,74 @@ Review (workflow wf_a72de94b-2ac, 2026-11-10). Findings and status:
 - Open (owner): §7 gives the sum-form proxy |g_AMPA·V| + |g_GABA·(V+80)| as run_e2_stack.py; the analysis line and
   `e2_motif_figure.py` use RWS. The figure uses RWS. The run's stored `lfp_pA` is the sum form and is not plotted.
 - Open (check): the per-cell null mean (−0.10296) is almost exactly −M (+0.10291). Not yet explained.
+
+## 12. Parent rulings (2026-11-10; the owner may override any)
+
+Route: owner order 2026-11-09 sends questions to the parent, not to Hamm. Recorded here, dated.
+- R1 JaxFNE. The 0.5.9 runs are off-authority and exploratory, as the E2 runs are; no sealed verdict comes from 0.5.9.
+  Acceptance runs use the execution authority 0.5.8 with no JAXFNE_SITE. If 0.5.8 cannot construct the model: STOP and
+  report. The authority is not edited.
+- R1a Acceptance adds r_proto of the X0 map against the observed LANSA map (`docs/laminar_motif/data/lansa_lfp_Y.json`).
+  Report only; not a gate.
+- R2 Authorization confirmed: SCI-LAMINAR-MOTIF-1 names the Allen replica beside E2. `next_authorized_task` stays
+  SCI-AGSDR-CALIBRATION.
+- R3 Seal the revised spec (criteria, brackets, stop states, readout) by commit and push before X1 to X4. X0 stays
+  unsealed and exploratory.
+- R4 Provenance: `x0_H_s1_T20` is annotated additively (§13 run status); its JSON is not rewritten. The first sealed
+  run is an X0 rerun at the sealed SHA.
+- R5 Readout: RWS primary, sum form secondary (§7 v2).
+- Acceptance: the reviewer ACCEPT covers this spec as revised by R3 and R5 (v2), not the v1 §7.
+
+## 13. Seal v2 (criteria, brackets, stops)
+
+Criteria: the replica build passes; these are not science verdicts.
+- C1 Edge check on jaxfne 0.5.8: `edge_check.failed` empty (|z| ≤ 5 per block).
+- C2 Silencing: each silenced population fires 0 spikes (X1 to X3).
+- C3 Smoke equality: `scripts/run_allen_v1_replica.py 1 0.5 check_H H 0.1` on 0.5.8 reproduces the 43 arrays of
+  `results/allen_v1/smoke_s0p1_H.npz` (0.5.9 run) exactly.
+- C4 Independent reviewer ACCEPT of the sealed commit (this spec, `allen_v1_replica.py`, `allen_v1_figure.py`,
+  `allen_v1_similarity.py`).
+- C5 r_proto reported for X0 (R1a). No threshold.
+
+Science predictions (§9, falsifiers as written) are sealed with this version. A result against one is a finding,
+not a retune.
+
+Brackets (fixed for X0 to X4): wiring H (A0 is the control in §8), seed 1, 20 s, discard 2 s, dt 0.1 ms, 66552 cells,
+E layers at 263/431/585/747 µm, σ 117 µm, probe 50–829 µm (21), bands 10–30 and 50–150 Hz, exhaustive shuffle (24),
+silencing VT +500 mV and Vpeak +1000 mV (§ amendment).
+
+Stops:
+- S1 A sealed run on jaxfne other than 0.5.8.
+- S2 Any of C1 to C4 fails. Stop at the first failure.
+- S3 Construct or simulate fails on 0.5.8. Status 2026-11-10: the 0.5.8 kernel has no resumable carry (no `state` or
+  `return_state` in `simulate_adex_hdp_registered`), and `Model.simulate` sets `record_v=True` for AdEx. Full-size
+  runs (X0 rerun, X1 to X4) are blocked; ruling needed (§14).
+- S4 A whole-run call that would record more than 2 GB of V is refused.
+- S5 Any parameter, criterion or bracket change is a new lineage, not an edit here.
+
+Run status (additive; the records are not rewritten):
+
+| Run | jaxfne | Status |
+|---|---|---|
+| `smoke_s0p1_H`, `smoke_s0p1_H_silPV` | 0.5.9 | exploratory, off-authority; reference for C3 |
+| `x0_H_s1_T20` | 0.5.9 | exploratory, off-authority; start tree predates a168181 (19:24); `git_sha` 89a1272 is end-of-run HEAD (R4) |
+| `check_H` | 0.5.8 | acceptance smoke (C1, C3 pass on 0.5.8, 2026-11-10); C2 vacuous here (no silenced population) |
+| X0 at sealed SHA | 0.5.8 | not run (S3). First sealed run |
+| X1 to X4 | 0.5.8 | not run (S3) |
+
+## 14. Results since v1 (2026-11-10)
+
+- 0.5.8 acceptance, `check_H` (0.1 scale, 0.5 s, seed 1, H): rc 0; edge check 353 blocks examined, 0 failed,
+  2 386 493 edges; 43 arrays identical to `smoke_s0p1_H` (15 452 spikes). Path: whole-run `model.simulate`, because
+  0.5.8 has no resumable kernel (S3).
+- 0.5.8 full size: blocked (S3). `simulate_adex_hdp_registered` on 0.5.8 has no `state`, and `Model.simulate` records V
+  for AdEx, 53 GB at X0 size. The 0.5.8 execution authority cannot run X0 to X4 as specified.
+- Null convention (recomputed; the code is `e2_motif_figure.score`): shuffle statistics are stored raw, and p is the
+  share of the 24 relabelings ≥ M. Recomputed p equals the code's p on X0 and on the checks below. Known positive
+  (planted alpha-beta rising with depth, gamma flat): M +0.411, raw null mean −0.157, p 1/24. Known negative (identical
+  flat spectra): M 0, p 1. The stored null is not centred on M and is not stored as differences, so the difference
+  hypothesis is refuted. The X0 mean −0.10296 ≈ −M is not structural: the positive case gives −0.157 against +0.411.
+  Its cause is unexplained; p is unaffected. With 4 units the smallest attainable p is 1/24.
+- r_proto, X0 against the observed map (report only; `scripts/allen_v1_similarity.py`, LANSA-bin probe):
+  per E cell −0.009, sum over E cells +0.152, null95 ≈ 0.25 (E2 method). The spec-probe values (0.335, 0.465) are not
+  bin-aligned to the observed map and are not similarity results.

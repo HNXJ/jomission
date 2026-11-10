@@ -4,7 +4,7 @@ Usage:
   python scripts/run_allen_v1_replica.py SEED T_S TAG [WIRING] [SCALE] [SILENCE] [SWAP]
 
 WIRING H (default) or A0. SCALE: fraction of the core counts, in-degree kept (default 1). SILENCE: '-' (default),
-PV, SST, VIP, layer:<L>, isolate:<L>. SWAP: 'swap' exchanges L4 and L6 counts and within-layer wiring.
+PV, SST, VIP, PV@L5,L6 (kind in the listed layers), layer:<L>, isolate:<L>. SWAP: 'swap' exchanges L4 and L6 counts and within-layer wiring.
 Writes results/allen_v1/<TAG>.npz (untracked: population counts, LFP proxy per E layer, raster sample) and
 <TAG>.json (plan, edge check, rates, silencing check, wall time, versions). Set JAXFNE_SITE to put JaxFNE 0.5.9
 first on sys.path. Exit 0 when both files are written and the edge and silencing checks pass; 1 otherwise.

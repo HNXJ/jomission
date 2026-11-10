@@ -75,14 +75,15 @@ def test_identical_units_give_zero_contrast_and_zero_delta_where_defined():
                 assert abs(row["delta_r"]) < 1e-12, row
 
 
-def test_opposite_two_unit_arc_contrast_falls_toward_90_and_vanishes():
+def test_opposite_two_unit_arc_contrast_below_theta0_at_60_and_zero_at_90():
     zu = np.array([-0.4, 0.4])
     S = spectra(two_unit_power())
     M = {th: pg.geometry_row(S, zu, th, 0.0, 0.5, FQ)["M_arc"] for th in (0, 30, 60, 90)}
     assert M[0] > 0, f"fixture: alpha-beta deep and gamma superficial must give M_arc > 0, got {M[0]:.3f}"
-    # Not monotone from 0: at 30 deg the contacts beyond the units' depth span (flat profile) are pulled
-    # inside it, which steepens the arc slope (observed 1.342 -> 1.410). From 30 deg on it falls.
-    assert abs(M[30]) > abs(M[60]) > abs(M[90]) and abs(M[60]) < abs(M[0]), M
+    # M_arc is NOT monotone in theta (review 2026-11-10, extent 0.5): 0: 1.342, 30: 1.410, 50: 1.135, 60: 0.94,
+    # 70: 1.05, 80: 1.456, 90: 0. Tilt pulls flat-tail contacts into the units' depth span (steeper slope)
+    # while compressing depth; theta 90 is the exact collapse (one z for all contacts), not a limit.
+    assert abs(M[60]) < abs(M[0]) and abs(M[90]) < 1e-9, M
     big = pg.geometry_row(S, zu, 90, 0.0, 1e6, FQ)["M_arc"]
     assert abs(big) < 0.05 * abs(M[0]), f"theta 90, offset 0, large extent: |M_arc| {abs(big):.4g} vs theta 0 {M[0]:.4g}"
 

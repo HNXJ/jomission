@@ -296,3 +296,8 @@ Run status (additive; the records are not rewritten):
   mapping is fixed: no interneuron units.
 - Authority: 0.5.9 runs are off-authority and exploratory (ruling R1); the authority verdict waits for OPEN-37.
 - Order: the 20 s X0 run first (running), then the full-size 0.5 s identity pair (0.5.8 and 0.5.9), then the 5 s queue.
+- Record, x0_H_s1_T20 (20 s, 0.5.9 side install, off-authority, exploratory): partial. The sum-row contrast is positive,
+  M 0.174 ± 0.038 (jackknife SE), z 4.56, but crossing is false. Gamma depth profile wrong: r_gm −0.163 (leg 2
+  fails), r_ab 0.777. Not a units or readout limit: a free diagonal four-unit fit reaches r_gm 0.835 against the observed
+  map (`tests/test_allen_v1_units.py`), and the parent's 3-unit sigma-0.15 ceilings are r_gm 0.853 (coherent) and 0.657
+  (incoherent). Read as the simulated spectra, not the readout.

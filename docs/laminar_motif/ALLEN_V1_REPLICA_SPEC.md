@@ -305,7 +305,7 @@ Run status (additive; the records are not rewritten):
   0.000 (mid-L4), 0.99; falls to 0.53 at +0.25 and rises again to 0.59 at +0.35 (deep shoulder); at −0.20 it is 0.51.
   Per-run lines from now on carry the gamma peak depth and r_gm (parent request, 2026-11-10).
 
-## 16. Condition X1b (2026-11-10; parent ruling; owner Hamm)
+## 16. Condition X1b (proposed by the jomission session, 2026-11-10; exploratory screen, no owner ruling)
 
 - X1b: PV silenced in L5 and L6 only (`SILENCE=PV@L5,L6`), 5 s, screening label, seed 1, wiring H, scale 1, discard 2 s.
   Silenced populations: L5_PV, L6_PV; all other populations, all edges and the drive spec unchanged. Silencing uses the

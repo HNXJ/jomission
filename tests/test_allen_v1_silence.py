@@ -1,5 +1,7 @@
 """Tests for the layer-and-type silence option (SILENCE=PV@L5,L6, condition X1b) of jomission/laminar/allen_v1_replica.py.
-Construction-level fixtures at 0.05 scale, 0.3 s; each test asserts its precondition."""
+Construction-level fixtures at 0.05 scale, 0.3 s; each test asserts its precondition.
+The Poisson drive is not part of construct(): the runner sets it on jtfne.Simulation (scripts/run_allen_v1_replica.py)
+with the same c0.drive_spec(0.07, seed) for every SILENCE value. The drive is therefore not tested here."""
 from __future__ import annotations
 
 import sys
@@ -62,9 +64,6 @@ def test_silencing_pv_l5_l6_changes_only_their_thresholds_and_keeps_edges_and_dr
                               equal_nan=True)  # Vpeak_mV is NaN for unsilenced AdEx cells
         assert same, (
             f"parameter {name} of unsilenced populations changed")
-
-    # Drive: the runner's Poisson drive is one spec for every cell; silencing does not touch it.
-    assert repr(c0.drive_spec(0.07, SEED)) == repr(c0.drive_spec(0.07, SEED))
 
 
 def test_silenced_pv_l5_l6_spike_zero_and_other_populations_still_spike():

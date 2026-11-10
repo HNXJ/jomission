@@ -39,7 +39,8 @@ def test_permutation_moves_cross_terms_with_units():
     S = A @ np.conj(np.transpose(A, (0, 2, 1)))  # Hermitian, off-diagonal cross terms present
     assert np.abs(S[:, 0, 1]).min() > 0, "fixture: cross terms"
     p = [2, 0, 1]
-    P = S[:, p][:, :, p]
+    P = dp.permute(S, p)
+    assert np.allclose(P[:, 0, 1], S[:, 2, 0]), "position 0 holds unit 2, position 1 holds unit 0"
     z = [-0.4, 0.0, 0.3]
     # Permuting spectra and permuting depths the same way give the same probe power.
     np.testing.assert_allclose(dp.mf.probe_power(P, dp.kernel(z)),

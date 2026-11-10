@@ -77,6 +77,12 @@ def spectra(tag: str, d: Path = mf.D) -> tuple[np.ndarray, dict]:
     return S_mean, {"own_depths": own, "own": {"r_proto": rp, "r_ab": rab, "r_gm": rgm}}
 
 
+def permute(S_mean: np.ndarray, p) -> np.ndarray:
+    """Position j gets original unit p[j], on both unit axes of S[f, u, v]."""
+    p = list(p)
+    return S_mean[:, p][:, :, p]
+
+
 def s_only(S_mean: np.ndarray, own: list[float]) -> dict:
     """Move S alone (above own M); M and D stay at their own depths."""
     rows = [(float(z), *scores(S_mean, [z, *own[1:]])) for z in GRID if z < own[1]]
@@ -122,7 +128,7 @@ def main(select_tag: str, tags: list[str], d: Path = mf.D) -> dict:
             out["held_out"][t] = {"r_proto": rp, "r_ab": rab, "r_gm": rgm}
     for p in itertools.permutations(range(S0.shape[1])):
         if p != tuple(range(S0.shape[1])):
-            out["perm_null"]["".join("SMD"[i] for i in p)] = select(table(S0[:, p][:, :, p]))
+            out["perm_null"]["".join("SMD"[i] for i in p)] = select(table(permute(S0, p)))
     (d / "depth_placement.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
     return out
 

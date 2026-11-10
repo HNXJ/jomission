@@ -42,7 +42,7 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     sizes, rho, p_inter, depth = cs.layout(lay)
     mods = cs.variant(lay)[1]
-    tau_sst_e = mods.get("sst")
+    tau_sst_e = cs.sst_taus(lay, sizes)
     names = list(sizes)
     t0 = time.time()
     p_local = cs.local_p(lay, sizes)

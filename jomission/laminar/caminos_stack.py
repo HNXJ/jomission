@@ -63,6 +63,7 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
     """Split a layout name into (base, modifiers). Modifiers are '_'-separated tokens after the base
     (e2_3unit, e2_21bin, unitNNNN); 'p' is the decimal point:
       sstNN  SST->E decay NN ms on its own receptor, equal charge (build_config)
+      sstdNN SST->E decay NN ms in the deep units (DEEP_E) only; overrides sstNN there (sst_taus)
       nNNNN  mean E cells per unit (3-unit stack)
       dens   E cells per unit proportional to LANSA total density of the unit's bins (3-unit stack)
       kX     inter-unit in-degree K_INTER * X
@@ -74,7 +75,7 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
     nb = 2 if name.startswith("e2_") else 1
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
-        for key in ("sst", "dsz", "dens", "n", "kd", "k"):
+        for key in ("sstd", "sst", "dsz", "dens", "n", "kd", "k"):
             if t.startswith(key):
                 rest = t[len(key):]
                 mods[key] = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
@@ -95,8 +96,13 @@ def local_p(name: str, sizes: dict[str, dict[str, int]]) -> dict[str, float] | N
     return {m: min(1.0, K_E * (dens[m] / mean) ** mods["kd"] / sizes[m]["E"]) for m in sizes}
 
 
-def sst_e_tau(name: str) -> float | None:
-    return variant(name)[1].get("sst")
+def sst_taus(name: str, units) -> dict[str, float] | None:
+    """Per-unit SST->E decay (ms) from 'sstNN' and 'sstdNN'; units without one keep CAMINOS gaba. None if
+    neither modifier is given."""
+    mods = variant(name)[1]
+    taus = {m: mods.get("sstd", mods.get("sst")) if m in DEEP_E else mods.get("sst") for m in units}
+    taus = {m: t for m, t in taus.items() if t is not None}
+    return taus or None
 
 
 def unit_density(depth_groups: dict[str, np.ndarray]) -> dict[str, float]:
@@ -146,12 +152,13 @@ def neuron_rows(sizes: dict[str, dict[str, int]]) -> list[dict]:
 
 
 def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-                 p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None,
+                 p_local: dict[str, float] | None = None, tau_sst_e_ms: float | dict[str, float] | None = None,
                  k_scale: float = 1.0):
     """p_local: per-unit within-unit probability (default K_E / N_E). p_inter: fixed inter-unit probability
-    (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit. tau_sst_e_ms: SST->E synapses
-    on their own receptor 'gaba_sst' with this decay, weight scaled by TAU_I / tau so the charge per spike
-    is unchanged; None keeps CAMINOS (gaba, 8 ms)."""
+    (the 3-unit stack's 0.01); None means K_INTER / N_E of the source unit. tau_sst_e_ms (one value, or per
+    unit): SST->E synapses on their own receptor with this decay ('gaba_sst' when one value, else
+    'gaba_sstNN'), weight scaled by TAU_I / tau so the charge per spike is unchanged; units without one keep
+    CAMINOS (gaba, 8 ms)."""
     import jaxfne as jtfne
 
     names = list(sizes)
@@ -164,14 +171,17 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
         .mechanisms(name="ampa", kind="receptor", params={"tau_ms": c0.TAU_E_MS, "reversal_mV": c0.REV_E_MV})
         .mechanisms(name="gaba", kind="receptor", params={"tau_ms": c0.TAU_I_MS, "reversal_mV": c0.REV_I_MV})
     )
-    if tau_sst_e_ms is not None:
-        cfg = cfg.mechanisms(name="gaba_sst", kind="receptor",
-                             params={"tau_ms": float(tau_sst_e_ms), "reversal_mV": c0.REV_I_MV})
+    taus = tau_sst_e_ms if isinstance(tau_sst_e_ms, dict) else (
+        {} if tau_sst_e_ms is None else {m: tau_sst_e_ms for m in names})
+    distinct = sorted({float(t) for t in taus.values()})
+    rname = {t: "gaba_sst" if len(distinct) == 1 else f"gaba_sst{t:g}".replace(".", "p") for t in distinct}
+    for t in distinct:
+        cfg = cfg.mechanisms(name=rname[t], kind="receptor", params={"tau_ms": t, "reversal_mV": c0.REV_I_MV})
     for m in names:
         p = (p_local or {}).get(m, min(1.0, K_E / sizes[m]["E"]))
         for name, pre, post, weight, mech in c0.RULES:
-            if name == "sst_e" and tau_sst_e_ms is not None:
-                weight, mech = weight * c0.TAU_I_MS / tau_sst_e_ms, "gaba_sst"
+            if name == "sst_e" and m in taus:
+                weight, mech = weight * c0.TAU_I_MS / taus[m], rname[float(taus[m])]
             cfg = cfg.connections(
                 name=f"{name}_{m}", source={"cell_type": pre, "layer": m}, target={"cell_type": post, "layer": m},
                 probability=float(p), weight=weight, mechanism=mech, delay_ms=c0.DELAY_MS, sampling="bernoulli",
@@ -193,7 +203,7 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
 
 
 def construct(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | None = None,
-              p_local: dict[str, float] | None = None, tau_sst_e_ms: float | None = None,
+              p_local: dict[str, float] | None = None, tau_sst_e_ms: float | dict[str, float] | None = None,
               k_scale: float = 1.0, deep_size: float = 1.0):
     from jaxfne._construct_adex import construct_adex_model
     from jaxfne.emitters_adex import ADEX_CELL_TYPE_DEFAULTS

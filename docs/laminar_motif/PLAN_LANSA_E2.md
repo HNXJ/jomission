@@ -130,6 +130,27 @@ unit's spikes lock to 7-8 Hz (E var/mean S 7.5, M 31, D 55; SST 20/118/138); LFP
 gamma D/S 3.2 (was 21), alpha-beta D/S 9 (was 1037); M +0.040, z +0.5, no crossing. Slow SST->E reaches
 alpha but spreads it to the superficial unit too. Queued: kd 1 with SST->E 15 and 30 ms.
 
+## Similarity to the observed LANSA map (owner 2026-11-09: fine-tune toward 95%+)
+
+Metric: r_proto = mean over 1..150 Hz of Pearson r over the 21 bins against the 11-area mean observed map
+(`scripts/e2_motif_similarity.py`, data `lansa_lfp_Y.json`). Target is well defined: even- vs odd-area means
+agree at r 0.978. Ceiling at the default readout (3 units at -0.4/0/0.3, sigma 0.15) when each unit's
+cross-spectrum is free per frequency: 0.854 (sigma 0.25: 0.994; 5 units at sigma 0.15: 0.997); with
+incoherent units 0.693 (sigma 0.25: 0.925). So 0.95 needs inter-unit coherence or a wider readout, not more
+units. The observed map asks, per unit relative to S: alpha-beta D > M > S, gamma M about 0.7-0.8 of S and D
+about 0.
+
+| run (k 1, sum over cells) | r_proto | null95 | r_ab | r_gm | ab M/S, D/S | gamma M/S, D/S |
+|---|---|---|---|---|---|---|
+| kd 1, seed 1 | -0.054 | 0.21 | 0.90 | -0.35 | 4.4, 4.2 | 0.51, 0.67 |
+| kd 1, seed 2 | -0.183 | 0.21 | 0.89 | -0.52 | - | - |
+| kd 2 | 0.163 | 0.24 | 0.17 | 0.28 | 1.2, 0.27 | 0.39, 0.24 |
+| kd 1, SST->E 15 ms | **0.376** | 0.26 | 0.83 | 0.38 | 6.1, 4.2 | 0.26, 0.15 |
+| kd 1, SST->E 30 ms | 0.273 | 0.26 | -0.35 | 0.51 | 0.64, 0.15 | 0.28, 0.087 |
+
+kd 1 with SST->E 15 ms is the first run above null95. Remaining gaps: deep gamma not yet 0, deep alpha-beta
+below middle. Next: deep-only SST->E decay (`sstdNN`) 30/60/120 ms on kd 1 + SST->E 15 ms.
+
 ## Out of scope
 
 VIP, H-state and HDP, Izhikevich-TFNE, parameter sweeps, omission (firewall), any project-wide JaxFNE move (OPEN-37).

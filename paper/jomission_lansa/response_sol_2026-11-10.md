@@ -97,6 +97,7 @@ seeds 4–6. Abstract and Discussion state this drop as a primary result. The co
 stationary drive. It does not test M-unit PV→E kinetics, so it cannot contradict Herrera et al. (2026).
 
 **2.**
+
 - E1 p is reported as a one-sided Monte Carlo p ≤ 1/10 001.
 - E1 stays INCONCLUSIVE.
 - Ladder trends are descriptive (Results: "Three seeds per size support a trend, not a test.").
@@ -160,6 +161,7 @@ no simulation).
 Geometry only; contacts, unit depths and kernel as declared; σ ∈ {0.10, 0.15, 0.20, 0.25}.
 
 Two targets:
+
 - **map_mid**: observed mean relative gamma at −0.2…0 on the per-frequency map, 0.848.
 - **y**: the observed 50–150 Hz band-mean profile, which the scorer's r_gm correlates with.
 
@@ -171,6 +173,7 @@ Two targets:
 | 0.25 | 0.808 | 1.000 | 0.99 | 0.94 | 0.997 |
 
 Controls, asserted in the script:
+
 - The search recovers 5 random three-source profiles per width with r ≥ 0.99999.
 - On an alternating profile no kernel can follow, it stays at r 0.07–0.14 (negative control).
 - Its r is never below the no-cross-term r or a least-squares fit's r.
@@ -182,6 +185,7 @@ three-source limit. Least squares does not maximise r. The corrected search give
 terms). The claim that the readout "cannot match the observed profile" is withdrawn.
 
 At σ = 0.15:
+
 - **Gamma profile.** Three sources without cross terms reach r 0.66 (S 58%, M 42%, no D power), above the 0.6
   criterion. The model's r_gm failure (0.14–0.51) is therefore mainly in its spectra, consistent with its gamma at
   D, not in the readout. The r-maximizing profiles reach mid-depth gamma of only 0.49 (auto) and 0.72 (full), so
@@ -189,12 +193,18 @@ At σ = 0.15:
 - **Held-out areas** (`scripts/e2_readout_capacity_loao.py`, `data/readout_capacity_loao.json`). The maxima above
   are in-sample for one target, so we fitted C on 10 areas and scored it on the held-out 11th (n = 11 folds):
 
-  | σ | full, fitted | full, held-out | auto, fitted | auto, held-out | 10-area mean vs held-out |
-  |---|---|---|---|---|---|
-  | 0.15 | 0.853 ± 0.005 | 0.81 ± 0.05 (0.72–0.91; 11/11 ≥ 0.6) | 0.657 ± 0.010 | 0.62 ± 0.09 (0.46–0.76; 7/11) | 0.93 ± 0.06 |
-  | 0.20 | 0.981 ± 0.002 | 0.92 ± 0.04 (11/11) | 0.844 ± 0.007 | 0.80 ± 0.07 (11/11) | 0.93 ± 0.06 |
+  | σ | full, in-sample bound | full, held-out | auto, in-sample bound | auto, held-out |
+  |---|---|---|---|---|
+  | 0.10 | 0.469 | 0.45 ± 0.09 (0/11 ≥ 0.6) | 0.446 | 0.43 ± 0.10 (0/11) |
+  | 0.15 (sealed) | 0.853 | 0.81 ± 0.05 (11/11) | 0.657 | 0.62 ± 0.09 (7/11) |
+  | 0.20 | 0.981 | 0.92 ± 0.04 (11/11) | 0.844 | 0.80 ± 0.07 (11/11) |
+  | 0.25 | 0.993 | 0.93 ± 0.05 (11/11) | 0.936 | 0.88 ± 0.06 (11/11) |
 
-  Mean ± SD over folds. Without coherence, passing at the declared width is marginal across areas.
+  Held-out values are mean ± SD over n = 11 folds. The baseline, the 10-area mean profile scored against the
+  held-out area, is 0.93 ± 0.06. At σ = 0.15 the three-source kernel bound (0.81 held-out with cross terms) sits
+  below what between-area similarity alone gives. Without coherence, passing at that width is marginal across
+  areas. σ = 0.15 is the main-text value because it was fixed in the T1 seal (`docs/laminar_motif/SEAL_T1.md`)
+  before the search. The other widths were added after review and are reported, not selected.
 - **Mid-depth level.** M alone is bounded at 0.615. The single-frequency ceiling 0.853 is just above 0.848. It is
   reached at an optimum with S and M fully coherent and D in antiphase (coherences 1.00, −0.98). This is one optimum,
   not a shown necessity, and it is less demanding at σ = 0.20 (S–D coherence 0.13). The model's cross terms were

@@ -2,88 +2,63 @@
 \section*{Supplement}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \setcounter{figure}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\setcounter{table}{0}
 
-% One block per model. Row 1: architecture, raster, details table. Row 2: LFP and SL map, CSD.
-% Each slot names its expected file; a missing file renders a pending stub. A slot with a planned name but no
-% file yet has an ASSUMED file name (convention only, not in any seal); it is replaced when the file is written.
 \newcommand{\cell}[3]{\begin{minipage}[t]{#1}\centering\IfFileExists{#2}{\includegraphics[width=\linewidth]{#2}}{\pendingbox{#3}}\end{minipage}}
 
 \begin{figure}[tbp]
 \centering
-\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\hfill
-\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_raster.png}{raster (only inside the block file, panel A)}\hfill
-\cell{0.31\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_details_table.png}{details table in LaTeX form (source: \_details.md)}\\[0.8em]
-\cell{0.48\linewidth}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{LFP and SL map}\hfill
-\cell{0.48\linewidth}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{CSD}
-\caption{Model 1: reference \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, exploratory E2 run. The details
-table is Tables~S1--S4 (modules, edges per rule, run record, parameters with sources).}
+\cell{0.42\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\\[0.8em]
+\cell{0.56\linewidth}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{LFP and SL map}\hfill
+\cell{0.42\linewidth}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{CSD}
+\caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s, exploratory. Top: architecture
+as built. Bottom left: model and observed relative-power maps and band profiles. Bottom right: current-based CSD
+on alpha troughs. Tables~S1--S4 give the modules, edges per rule, run record and parameters with sources.}
+\label{fig:s-reference}
 \end{figure}
 
-\renewcommand{\thetable}{S\arabic{table}}
-\setcounter{table}{0}
-\input{tables/sw_n4000_dens_k1_kd1_sst15_s1_T8_details}
+{\sloppy\input{tables/sw_n4000_dens_k1_kd1_sst15_s1_T8_details}}
 
 \begin{figure}[tbp]
 \centering
-\cell{0.31\linewidth}{../../results/viz/paper_w3/lfs_n1000_s1_T8_V0_architecture.png}{architecture (V0 for n1000 not written)}\hfill
-\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n1000_s1_T8_raster.png}{V1 raster, n1000 seed 1 (not written)}\hfill
-\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n1000_s1_T8_details_table.png}{details table, n1000 (not written)}\\[0.8em]
-\cell{0.48\linewidth}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{LFP and SL map}\hfill
-\cell{0.48\linewidth}{../../results/viz/paper_w4/lfs_n1000_s1_T8_csd.png}{CSD}
-\caption{Model 2: L-FS ladder, $N = 1000$ E per unit, seed 1.}
+\IfFileExists{../../results/viz/paper_w6/seed_diff.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w6/seed_diff.png}}{\pendingbox{seed differences}}
+\caption{Seed agreement on the finite-size ladder. Seed pairs: SSIM 0.62--0.71, pixel $r$ 0.87--0.93; each seed
+against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\texttt{results/viz/paper\_w6/seed\_diff.json}).}
+\label{fig:seeds}
 \end{figure}
 
 \begin{figure}[tbp]
 \centering
-\cell{0.31\linewidth}{../../results/viz/paper_w3/lfs_n2000_s1_T8_V0_architecture.png}{architecture (not written)}\hfill
-\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n2000_s1_T8_raster.png}{raster (not written)}\hfill
-\cell{0.31\linewidth}{../../results/viz/lfs/lfs_n2000_s1_T8_details_table.png}{details table (not written)}\\[0.8em]
-\cell{0.48\linewidth}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{LFP and SL map}\hfill
-\cell{0.48\linewidth}{../../results/viz/paper_w4/lfs_n2000_s1_T8_csd.png}{CSD (not written)}
-\caption{Model 3: L-FS ladder, $N = 2000$ E per unit, seed 1.}
+\panel{N1000 s1}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N1000 s2}{../../results/laminar_e2/lfs_n1000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N1000 s3}{../../results/laminar_e2/lfs_n1000_s3_T8_motif.png}{0.32\linewidth}{missing}\\[0.8em]
+\panel{N2000 s1}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N2000 s2}{../../results/laminar_e2/lfs_n2000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N2000 s3}{../../results/laminar_e2/lfs_n2000_s3_T8_motif.png}{0.32\linewidth}{missing}\\[0.8em]
+\panel{N4000 s1}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N4000 s2}{../../results/laminar_e2/lfs_n4000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
+\panel{N4000 s3}{../../results/laminar_e2/lfs_n4000_s3_T8_motif.png}{0.32\linewidth}{missing}
+\caption{Finite-size ladder motif maps, one per $N$ and seed; scores in Table~\ref{tab:ladder}. Ladder rule (\texttt{results/laminar\_e2/lfs\_rule.json}): seed-mean
+$r_\text{proto}$ 0.334, 0.387, 0.328 for $N$ = 1000, 2000, 4000; both smaller $N$ are within 2 SD of $N = 4000$ in
+$r_\text{proto}$ but fail the 3 Hz peak test on the S unit (seed-mean S peak 8, 31, 43 Hz), so the T1 size is
+$N = 4000$.}
+\label{fig:s-ladder}
 \end{figure}
 
-\subsection*{Finite-size ladder, motif maps}
-
-\begin{figure}[tbp]
+\begin{table}[tbp]
 \centering
-\panel{N4000 s1}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.48\linewidth}{missing}\hfill
-\panel{N2000 s1}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
-\panel{N2000 s2}{../../results/laminar_e2/lfs_n2000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
-\panel{N1000 s1}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
-\caption{Finite-size ladder motif maps, exploratory (1 of 2): N4000 seed 1 and N2000 and N1000 seed 1.}
-\end{figure}
-
-\begin{figure}[tbp]
-\centering
-\panel{N1000 s2}{../../results/laminar_e2/lfs_n1000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
-\panel{N1000 s3}{../../results/laminar_e2/lfs_n1000_s3_T8_motif.png}{0.48\linewidth}{missing}\\[0.8em]
-\panel{N4000 s2}{../../results/laminar_e2/lfs_n4000_s2_T8_motif.png}{0.48\linewidth}{missing}\hfill
-\panel{N4000 s3}{../../results/laminar_e2/lfs_n4000_s3_T8_motif.png}{0.48\linewidth}{missing}
-\caption{Finite-size ladder motif maps (2 of 2), one file per $N$ and seed, exploratory. The N4000 seed 1 run is the
-reference model of Model 1. Ladder rule (Methods; \texttt{lfs\_rule.json}): seed-mean $r_\text{proto}$
-0.334, 0.387, 0.328 for $N$ = 1000, 2000, 4000; both smaller $N$ are within 2 SD of $N$ = 4000 in $r_\text{proto}$ but
-fail the 3 Hz peak test on the S unit (seed-mean S peak 8, 31, 43 Hz), so the T1 size is $N$ = 4000.}
-\end{figure}
-
-\begin{figure}[tbp]
-\centering
-\panel{}{../../results/viz/t1/V3_kd_n4000_atlas.png}{\linewidth}{T1 kd atlas}
-\caption{T1 axis 1, local in-degree density exponent $B$ (\texttt{kd}), $N$ = 4000, seeds 1--3, 8 s, exploratory
-(\texttt{t1\_kd\_n4000\_selection.json}). Each panel is the seed mean of the relative-power map; titles
-give seed means of $r_\text{proto}$, $r_\text{ab}$, $r_\text{gm}$. No level passes on any seed. $r_\text{gm}$ rises
-with $B$ ($-0.36$ to 0.46) while $r_\text{ab}$ falls (0.93 to $-0.08$); $r_\text{gm} < 0.6$ at every level. The winner
-$B = 1.41$ ($r_\text{proto}$ 0.361, SD 0.021) carries to axis 2.}
-\end{figure}
-
-\subsection*{Plan supplement list}
-
-\begin{figure}[tbp]
-\centering
-\stub{Rate boxplots (S3/S5/S7 analogues)}{rate boxplots (not written)}\hfill
-\stub{S1 analogue: undriven vs driven}{undriven vs driven and raw laminar power map (not written)}\\[0.8em]
-\stub{Controls: $\sigma$, swapped units}{$\sigma$ and swapped-unit controls (not run)}\hfill
-\stub{Controls: identical units, smooth null}{identical-unit control and smooth-spectrum null summary (not written)}\\[0.8em]
-\stub{Seeds and wall times}{seeds and wall times table (not written)}
-\caption{Plan supplement list. All panels are pending.}
-\end{figure}
+\small
+\begin{tabular}{lp{0.42\linewidth}ll}
+\toprule
+Test & Manipulation & Seal & Status \\
+\midrule
+T2 & every GABA weight $\times g$, $g \in \{0.25,\ldots,4\}$ & \path{SEAL_T2_T3.md} & sealed, not run \\
+T3 & every unit's $N_\text{SOM}/N_\text{PV} \times s$, $s \in \{0.25,\ldots,4\}$ & \path{SEAL_T2_T3.md} & sealed, not run \\
+T4 & PV or SOM silencing and $+50$ pA stimulation per unit & \path{SEAL_T4.md} & sealed, not run \\
+T5 & VIP population & none & deferred (AdEx has no VIP) \\
+\bottomrule
+\end{tabular}
+\caption{Sealed or planned tests not run for this report (seals in \texttt{docs/laminar\_motif/}).}
+\label{tab:notrun}
+\end{table}

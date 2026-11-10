@@ -1,11 +1,24 @@
 \section{Introduction}
 
-The spectrolaminar motif is depth-resolved power: alpha-beta peaks in deep layers and gamma in superficial
-layers, with a crossing between them \citep{MendozaHalliday2024}.
-\todo{state the motif definition and the observed finding exactly as MendozaHalliday2024 gives them; check against the source}
+Laminar recordings across primate cortex show a spectrolaminar motif: relative LFP power in the gamma range is
+highest in superficial layers, relative alpha-beta power is highest in deep layers, and the two depth profiles
+cross near layer 4 \citep{MendozaHalliday2024}. Whether the motif is ubiquitous is disputed \citep{Mackey2026}. We take it here as an empirical target, the 11-area mean and V1 maps of the laminar
+cell-density and spectral data set of \citet{Mulvey2024} (LANSA below), without assuming it holds in every area or recording.
 
-\todo{the cortical hierarchy and the laminar question; what prior modelling of laminar spectra showed, including the
-SLM model paper \citep{Herrera2026}, whose gamma-source view differs from this project's (docs/laminar\_motif/PLAN\_LANSA\_E2.md)}
+LANSA measured, in 11 macaque areas, the laminar densities of parvalbumin, calbindin and calretinin interneurons
+and of pyramidal neurons alongside the LFP, and found that the motif could be predicted from these laminar cellular
+gradients by a regression whose coefficients were conserved across areas \citep{Mulvey2024}. A regression does not
+say how the gradients would produce the spectra. Mechanistically, feedback inhibition from fast interneurons supports gamma in
+E--I networks \citep{Borgers2003}, and conductance-based network and mean-field models with PV and SOM interneurons
+assign the two classes distinct roles in gamma oscillations and network stability \citep{Tahvili2025,Tahvili2026};
+we call the E/PV/SOM module of these papers CAMINOS. A bio-realistic model of mouse V1 reproduced the motif with alpha-beta
+intrinsic to every layer and gamma generated mainly in layer 4 and propagated across layers \citep{Herrera2026};
+whether this account carries over to primate cortex, where the observed gamma is broadest above layer 4, is open.
 
-We ask which laminar-cellular features of a three-unit JaxFNE stack set the motif. The estimand, the
-readouts and the test designs are in Methods. \todo{one-paragraph claim, stated after the seals are frozen}
+We built the smallest mechanistic model that links the primate densities to the spectra: three CAMINOS units at
+superficial, middle and deep depths, sized by the LANSA densities, with an SOM/PV ratio rising with depth, read out
+by a kernel probe and scored against the observed map by a single sealed rule. We ask whether this density-built
+column reproduces the motif and, where it fails, what it lacks. The column places alpha-beta deep on its selection
+seeds but leaves gamma weak between $-0.2$ and 0 of cortical thickness; network size, sealed fine-tuning and
+exploratory weight changes do not close the gap, and readout controls show that probe geometry alone can raise the
+similarity score without the spectra carrying the observed gamma.

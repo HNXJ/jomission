@@ -1,123 +1,299 @@
 \section{Results}
 
-% Result text is placeholder until its seal's run completes. No result number appears here unless it is copied
-% from a named file, and that file is cited in a comment beside it.
-% Figure files are referenced by relative path (../../results/...). A missing file renders a pending stub.
-\newcommand{\stub}[2]{\begin{minipage}[t]{0.48\linewidth}\centering\pendingbox{#2}\\[0.3em]\textbf{#1}\end{minipage}}
+% Every number below is copied from a named file, cited in a comment beside it. Figures are read by relative path
+% (../../results/...); a missing file renders a pending stub. E2 runs are exploration unless a seal is named.
 
-\subsection{Fig 1: reference model}
+\subsection{Data and circuit}
+
+LANSA gives, for 11 macaque areas, the density of PV, CB, CR and NG-positive cells and the LFP relative power in
+21 depth bins from $-0.6$ to $+0.4$ of cortical thickness about mid-L4 \citep{Mulvey2024}. Its area-mean map
+shows the motif of \citet{MendozaHalliday2024}: gamma (50--150 Hz) is relatively strongest above L4 and
+alpha-beta (10--30 Hz) below it, with a broad gamma maximum between $-0.2$ and 0 (Fig.~\ref{fig:schema}B, C).
+PV density peaks near mid-L4, CB and CR densities are highest superficially, and NG (the pyramidal proxy) is
+highest in the upper layers (Fig.~\ref{fig:schema}A). These densities are relative per type, so they set depth
+profiles, not ratios across types.
+
+The model is three CAMINOS units \citep{Tahvili2025,Tahvili2026}, S, M and D, at $-0.4$, 0 and $+0.3$, each covering
+the LANSA bins of its depth range (Fig.~\ref{fig:schema}D). E cells per unit follow the LANSA total density of
+the unit's bins; PV and SOM counts follow a ramp of $\rho = N_\text{SOM}/N_\text{PV}$ that is low superficially
+and high deep (0.25, 1, 2). At 4000 E cells per unit on average the column holds 14\,251 cells (S 6870, M 4356,
+D 3025; Table~S1). The built E and PV depth profiles follow LANSA's NG and PV profiles in coarse form, and the SOM
+profile follows the ramp, not CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker.
 
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}{\includegraphics[width=\linewidth]{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}}{\pendingbox{data and circuit schema}}
-\caption{Data and circuit (layout after Herrera 2026; \texttt{scripts/e2\_circuit\_schema.py}). A: LANSA cell densities
-per type against depth from mid-L4, median of 11 areas, each type divided by its maximum (CB taken as SST, CR as VIP,
-NG as the pyramidal proxy). B, C: observed relative power, mean of the 11 areas and V1. D: the T1 model
-(\texttt{e2\_3unit\_n4000\_dens\_k1\_kd1p41\_sst15}) as built, one dot per 20 cells in each unit's depth bins, with its
-within-unit loops and inter-unit E projections. E: built cells per type and depth bin against the LANSA profiles. LANSA
-densities are relative per type, so E compares depth profiles only. No panel is simulated.}
+\caption{Data and circuit; no panel is simulated (layout after \citet{Herrera2026}). A: LANSA cell densities
+against depth, median of 11 areas, each type divided by its maximum (CB plotted as SST, CR as VIP, NG as the
+pyramidal proxy). B, C: observed relative power (power divided by its maximum over depth at each frequency), mean
+of the 11 areas and V1. D: the T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as built, one dot per 20 cells in each unit's depth bins, with the
+within-unit E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. E: built cells
+per type and depth bin (bars) against the LANSA profiles (lines), each divided by its own maximum.}
+\label{fig:schema}
 \end{figure}
 
-\todo{Fig 1 text: the reference model kd1\_sst15 at n4000, seed 1; its architecture, raster, spectra, SL maps, LFP and CSD; the observed LANSA map.}
+\subsection{The CAMINOS module reproduces its reference, and SOM/PV lowers its frequency}
+
+Before stacking, one isolated module was checked against the JaxFNE reference (E0, sealed). Over five seeds the
+E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and the
+E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its sealed margin (Table~\ref{tab:e0e1};
+\path{results/laminar_e0/e0_result.json}). This is a pipeline-equality check, not a test of the motif.
+% e0_result.json: f_pk mean 34.0; lag 7.16; rates 1.07955, 11.28056, 6.77608; verdict PASS
+
+Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, sealed): seed means
+46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per seed
+$-6.6$, $-5.9$, $-6.3$; one-sided permutation $p \leq 10^{-4}$: none of 10\,000 draws reached the observed slope). At $\rho = 4$ no seed oscillated, so
+the sealed frequency-drop criterion is undefined and the E1 verdict is INCONCLUSIVE
+(\path{results/laminar_e1/e1_result.json}). The frequency effect holds over the oscillating range only.
+% e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{lllll}
+\toprule
+Test & Estimand & Result & Criterion & Verdict \\
+\midrule
+E0 & peak frequency & 34.0 Hz & $33.8 \pm 1$ Hz & in \\
+E0 & PV$\to$SOM lag & 7.16 ms & $7.04 \pm 0.34$ ms & in \\
+E0 & E / PV / SOM rate & 1.08 / 11.28 / 6.78 Hz & $\pm$6.1 / 1.2 / 8.2\% & in \\
+E0 & all & 5 seeds & all in margin & PASS \\
+\addlinespace
+E1 & $f_\text{pk}$ vs $\log_2\rho$ & $-6.27$ Hz/oct, $p\leq10^{-4}$ & negative per seed & met \\
+E1 & oscillating $\rho$ & 4 of 5 per seed & $\geq 4$ & met \\
+E1 & drop $\rho$ 0.25$\to$4 & undefined ($\rho$ 4 silent) & $\geq 3$ Hz & undefined \\
+E1 & all & 3 seeds & & INCONCLUSIVE \\
+\bottomrule
+\end{tabular}
+\caption{The single module. E0: five seeds, 12 s, 2 s discarded. E1: three seeds, $\rho \in \{0.25, 0.5, 1, 2, 4\}$.
+Sources: \texttt{results/laminar\_e0/e0\_result.json}, \texttt{results/laminar\_e1/e1\_result.json}.}
+\label{tab:e0e1}
+\end{table}
+
+\subsection{The stacked column places alpha-beta deep but leaves mid-depth gamma weak}
+
+The reference stack (density-scaled units, local in-degree 560 E inputs per cell, SOM$\to$E decay 15 ms) produced
+alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}). Its relative
+gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some frequencies, at D ($+0.2$ to $+0.35$, about 90--150
+Hz; read from the figure). Averaged over 50--150 Hz and the contacts from $-0.2$ to 0, where the observed gamma is
+broadest, relative gamma was 0.19--0.31 in the nine ladder runs and the three confirmation runs, against 0.85 in the
+observed map; from $-0.6$ to $-0.3$ it was 0.66 in every run, the value the kernel gives when S carries the most
+power at every gamma frequency (observed 0.80; \path{paper/jomission_lansa/data/mid_gamma.json},
+\path{scripts/e2_mid_gamma.py}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E
+0.39--0.41, 0.73--0.75 and 1.45--1.58 Hz at S, M and D; PV 5.6--5.7, 11.8--11.9 and 22.1--22.6 Hz; SOM 4.7--5.0,
+6.8--6.9 and 9.0--9.4 Hz (\path{results/laminar_e2/t1_kd_n4000_selection.json}, level 1).
+
+The isolated module's peak (27--46 Hz over $\rho$ 0.25--2, E1) lies below the scored gamma band (50--150 Hz). In
+the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$ seed means;
+\path{results/laminar_e2/lfs_rule.json}), not the 46, 34 and 27 Hz that the isolated-module values at the units'
+$\rho$ would give: coupling and density scaling move M and D to alpha-beta.
+
+Similarity to the observed map is scored by one shared rule (Methods): the band crossing must exceed 2 SE, the
+depth correlations of the two bands must each reach 0.6 ($r_{ab}$, $r_{gm}$), the true unit order must rank first,
+the whole-map correlation $r_\text{proto}$ must beat a smooth-spectrum null and an identical-unit control, and the
+two halves of the run must agree. The thresholds are reachable: the best a three-unit model can reach through the
+readout kernel is $r_\text{proto}$ 0.854 (coherent units) or 0.693 (incoherent), $r_{gm}$ 0.853 or 0.657
+(\path{results/laminar_e2/readout_ceiling.json}).
 
 \begin{figure}[tbp]
 \centering
-\panel{A}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{0.85\linewidth}{V0 architecture}
-\caption{Reference model \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s run, 2 s discarded; an exploratory
-E2 run (see the software status in Methods). A: architecture from the V0 file (paper\_w3). The details table (cell
-numbers and types per unit, edges per rule, parameters with their sources) is Tables~S1--S4.}
+\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=0.78\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}\\[0.6em]
+\IfFileExists{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}}{\pendingbox{scorer panel}}
+\caption{Reference column, seed 1, 8 s, 2 s discarded. Top (block file; letters are the file's own): A raster,
+B RWS LFP traces, C per-type rate spectra, D model relative-power map (RWS proxy), E firing-rate map, F observed
+11-area map. Bottom: the scorer's view of the T1 axis-1 winner (local in-degree exponent 1.41, SOM$\to$E 15 ms in every unit),
+seed 1: A observed map,
+B model map on the same 21 $\times$ 150 grid, C band depth profiles (solid model, dashed observed), D settings and
+scores. Model power is stationary; LANSA power is from 1 s peri-stimulus windows.}
+\label{fig:reference}
 \end{figure}
+
+\subsection{Network size changes alpha-beta, not gamma}
+
+At 1000, 2000 and 4000 E cells per unit (3562, 7125 and 14\,251 cells; three seeds each, in-degrees kept) no run
+passed (Table~\ref{tab:ladder}). Every run failed $r_{gm} \geq 0.6$. Seed means of $r_{ab}$ rose with size (0.15,
+0.64, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31). Three seeds per size support a trend, not a test.
+The S unit's gamma peak formed only at $N \geq 2000$ (seed-mean S peak 8, 31 and 43 Hz), so the ladder rule set
+the T1 size to $N = 4000$ (\path{results/laminar_e2/lfs_rule.json}). Seeds agreed with each other far more than
+with the data: seed pairs gave SSIM 0.62--0.71 and pixel $r$ 0.87--0.93, each seed against the observed map SSIM
+0.04--0.12 and $r$ 0.20--0.43 (Fig.~\ref{fig:seeds}).
+% FINDINGS §2 table and bullets; results/viz/paper_w6/seed_diff.json
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{rrrrrrc}
+\toprule
+$N$ (E/unit) & cells & seed & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
+\midrule
+1000 & 3562 & 1 & 0.293 & $-0.199$ & 0.506 & no \\
+1000 & 3562 & 2 & 0.342 & 0.274 & 0.450 & no \\
+1000 & 3562 & 3 & 0.367 & 0.384 & 0.490 & yes \\
+2000 & 7125 & 1 & 0.434 & 0.786 & 0.501 & yes \\
+2000 & 7125 & 2 & 0.316 & 0.453 & 0.420 & yes \\
+2000 & 7125 & 3 & 0.410 & 0.666 & 0.470 & no \\
+4000 & 14251 & 1 & 0.376 & 0.839 & 0.400 & yes \\
+4000 & 14251 & 2 & 0.211 & 0.857 & 0.137 & no \\
+4000 & 14251 & 3 & 0.396 & 0.827 & 0.407 & yes \\
+\bottomrule
+\end{tabular}
+\caption{Finite-size ladder (lineage L-FS), 8 s, 2 s discarded. No run passes; every run fails $r_{gm} \geq 0.6$.
+Source: \texttt{results/laminar\_e2/lfs\_n\{N\}\_s\{seed\}\_T8\_verdict.json} and FINDINGS \S2.}
+\label{tab:ladder}
+\end{table}
+
+\subsection{Sealed fine-tuning of in-degree and SOM kinetics does not reach the gamma criterion}
+
+T1 varied one axis at a time, seven log-spaced levels by three seeds, carrying each axis winner forward
+(\path{docs/laminar_motif/SEAL_T1.md}). No level passed on any seed: 63 level-seed scores from 54 new simulations, each axis's
+reference level reusing earlier runs (Fig.~\ref{fig:t1},
+Table~\ref{tab:t1}).
+
+\textit{Local in-degree exponent} $B$ (denser units receive more local synapses, $K \propto
+\text{density}^B$): $r_{gm}$ rose with $B$ from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.93 to $-0.08$ (seed
+means); no level had both above 0.6. Raising $B$ removed the D unit's 90--150 Hz lobe but did not raise gamma at
+$-0.2$ to 0 (read from the atlas). The winner, $B = 1.41$ ($r_\text{proto}$ 0.361, SD 0.021), carried forward.
+Per-unit absolute power showed why: from $B$ 0.25 to 2, 50--150 Hz power rose at S (220 to 395, units $10^{12}$)
+and fell at D (116 to 32) while M stayed at 67--88; the M/S gamma ratio fell from 0.40 to 0.17.
+% FINDINGS §2b table and per-unit power bullet; t1_kd_n4000_unit_power.json
+
+\textit{SOM$\to$E decay, all units} (5.3--42 ms, charge per spike fixed): $r_{ab}$ reached 0.6 only at 10.6 and 15 ms;
+$r_{gm}$ stayed below 0.6 at every level (largest seed value 0.57). The reference 15 ms won ($r_\text{proto}$ 0.361).
+
+\textit{SOM$\to$E decay, deep unit only} (7.5--60 ms): the winner was 21 ms ($r_\text{proto}$ 0.372); its $r_{gm}$
+was 0.48--0.50 and its $r_{ab}$ 0.32--0.47, and no level combined $r_{ab}$ and $r_{gm} \geq 0.6$ on any seed.
+% results/laminar_e2/t1_{sst,sstd}_n4000_selection.json; t1_sstd*_verdict.json
+
+\textit{Confirmation.} The carried setting ($B = 1.41$, SOM$\to$E 15 ms in S and M, 21 ms in D), frozen and run on
+fresh seeds 4--6 for 12 s, passed on none; the sealed rule needed all three, so T1 FAILS. $r_\text{proto}$ was
+0.377, 0.365 and 0.377, each below the smooth-null 95th percentile (0.380); $r_{ab}$ 0.47, 0.35, 0.37; $r_{gm}$
+0.46, 0.48, 0.50; the crossing exceeded 2 SE on seed 6 only. Unit order ranked first and the halves agreed on every
+seed, so the failure is in band placement, not noise.
+% results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{4,5,6}_T12_verdict.json; SEAL_T1.md line 25
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Axis & Winner & $r_\text{proto}$ & $r_{ab}$ range & $r_{gm}$ range & passes \\
+\midrule
+in-degree exponent $B$ & 1.41 & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
+SOM$\to$E decay, all & 15 ms & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
+SOM$\to$E decay, deep & 21 ms & 0.372 & 0.32--0.47 & 0.48--0.50 & 0/21 \\
+\bottomrule
+\end{tabular}
+\caption{T1 axes at $N = 4000$, seeds 1--3, 8 s. Rows 1 and 2 are the same runs: the axis-2 winner, 15 ms, is the
+reference level carried from axis 1. $r_\text{proto}$ is the winner's seed mean; ranges are over the
+winner's three seeds. Sources: \texttt{results/laminar\_e2/t1\_\{kd,sst,sstd\}\_n4000\_selection.json} and the per-run
+verdict files; per-level tables in FINDINGS \S2b--2c.}
+\label{tab:t1}
+\end{table}
 
 \begin{figure}[tbp]
 \centering
-\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
-\caption{Reference model, seed 1 (block file, paper\_w3). Its panels are mapped to the plan: file A (raster) = Fig 1B;
-file C (per-type spectra) = Fig 1C; files D (RWS SL map) and E (firing-rate SL map) = Fig 1D; file F (observed LANSA
-area map) = Fig 1E. File B (RWS traces) is not a plan panel. The letters in the image are the file's own.}
+\IfFileExists{../../results/viz/t1/V3_kd_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_kd_n4000_atlas.png}}{\pendingbox{kd atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sst_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_sst_n4000_atlas.png}}{\pendingbox{sst atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.8\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
+\caption{T1 atlases. Each panel is the mean of three seeds' relative-power maps at one level; titles give seed
+means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay in
+all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read from the figure).}
+\label{fig:t1}
 \end{figure}
+
+\subsection{Middle-unit weights trade gamma against alpha-beta}
+
+Because every within-unit rule shared one weight across units, we scaled one to four rules in chosen units,
+starting from the T1 axis-1 winner (one seed, 8 s; exploratory and chosen by hand after each result, so none counts
+until confirmed on fresh seeds; Table~\ref{tab:weights}, Fig.~\ref{fig:weights}). Raising M's E$\to$E weight
+1.68-fold lifted $r_{gm}$ to 0.64, but M's alpha-beta then dominated the column: with the E$\to$SOM weight also
+halved in S and M, 10--30 Hz power was 137\,016 at M against 10\,650 at D (units $10^{12}$), and the crossing broke.
+Doubling M's E$\to$E weight alone ran away (M E 36 Hz in a 2 s check). Adding M's PV$\to$E weight returned the
+alpha-beta peak to D and restored the crossing ($r_{ab}$ 0.92 at 1.5-fold) but cut M gamma (M/S 50--150 Hz ratio
+0.25, $r_{gm}$ 0.50). The most even setting, PV$\to$E 1.25-fold, gave crossing, $r_{ab}$ 0.78, $r_{gm}$ 0.54 and
+$r_\text{proto}$ 0.45. On top of PV$\to$E 1.5, raising M's E$\to$PV weight 1.5-fold lowered M's E rate to 0.25 Hz
+without raising its gamma. No setting passed. The
+reading we draw is that M's recurrent excitation sets both its gamma and its alpha-beta, so no single M rule tried
+here separates them (inferred).
+% FINDINGS §2d table and bullets
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{lrrrc}
+\toprule
+Scaled rules (unit) & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
+\midrule
+none (axis-1 winner, seed 1) & 0.36 & 0.75 & 0.42 & yes \\
+E$\to$E 1.2 (M) & 0.30 & 0.54 & 0.38 & yes \\
+E$\to$E 1.41 (M) & 0.27 & $-0.46$ & 0.54 & no \\
+E$\to$E 1.68 (M) & 0.42 & 0.29 & 0.64 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S) & 0.49 & 0.57 & 0.53 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S, M) & 0.54 & 0.55 & 0.64 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.42 & 0.26 & 0.63 & no \\
+E$\to$E 1.41 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.40 & 0.59 & 0.42 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.25 (M) & 0.45 & 0.78 & 0.54 & yes \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.45 & 0.92 & 0.50 & yes \\
+\quad + E$\to$SOM 0.5 (M) & 0.45 & 0.89 & 0.51 & yes \\
+\quad + E$\to$PV 1.5 (M) & 0.44 & 0.92 & 0.47 & yes \\
+E$\to$E 2 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.42 & 0.89 & 0.48 & yes \\
+\bottomrule
+\end{tabular}
+\caption{Per-unit weight scaling, exploratory: seed 1, 8 s, event delivery, T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as base; no setting passes.
+Source: \texttt{results/laminar\_e2/e2x\_*\_kd1p41\_n4000\_s1\_T8\_verdict.json}; FINDINGS \S2d.}
+\label{tab:weights}
+\end{table}
 
 \begin{figure}[tbp]
 \centering
-\panel{F}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.48\linewidth}{LFP proxy and band-depth profiles}
-\hfill
-\panel{F (CSD)}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.48\linewidth}{current-based CSD}
-\caption{Reference model, seed 1. F: LFP proxy traces and band-depth profiles from the motif file (its panels d--i).
-Current-based CSD from paper\_w4; CSD placements are ASSUMED (Methods). Panel letters in the image files are their own.}
+\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, best r\_proto}}\\[0.4em]
+\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, most even}}
+\caption{The middle-unit trade-off, exploratory. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
+0.5): gamma reaches mid-depth but alpha-beta peaks at M, so the profiles do not cross. Bottom: most even setting
+(adds M PV$\to$E 1.25, without M E$\to$SOM): the crossing returns and M gamma weakens. Panels as in
+Fig.~\ref{fig:reference}, bottom.}
+\label{fig:weights}
 \end{figure}
 
-\subsection{Fig 2: robustness}
+\subsection{Readout geometry alone can mimic a fit}
 
-\todo{Fig 2 text: drive-rate sweep and seed robustness as difference maps with SSIM and Pearson r; the hierarchy panel is deferred (T7, plan section 5).}
+Holding each run's unit spectra fixed and moving only the readout depths (1330 placements) raised $r_\text{proto}$
+from 0.38 to 0.720 on the selection run, and the selected depths (S $-0.25$, M $-0.05$, D 0.20) gave $r_{gm}$
+0.64--0.84 on the 8 other ladder runs, though $r_{ab}$ reached 0.6 on only one of them (FINDINGS \S7). This does not show that the model's spectra carry the
+observed gamma. In the spectral-shift null each unit's spectral shape was circularly shifted in frequency (power
+kept) and the same search was rerun on the incoherent (diagonal) spectra, whose unshifted best was $r_\text{proto}$
+0.725 with 70 passing placements. In 12 of 20 draws no placement met both band thresholds; of the 8 that did, 3
+exceeded 0.725 and 4 exceeded 70 placements, so the null was not rejected (on $r_\text{proto}$, $p = (3+1)/21
+\approx 0.19$; with 20 draws a weak test). Among the other unit orders, S--D--M reached 0.740 and D--S--M 0.692, and
+the three orders with M on top or D first and M second met no placement. Spectral content therefore contributes to
+the fit, but a geometry-only account is not excluded.
+% FINDINGS §7; results/laminar_e2/depth_placement.json
+
+Probe tilt confounds the contrast metric instead (Fig.~\ref{fig:readout}A). The seed-mean laminar contrast
+$M_\text{arc}$ (slope of the alpha-beta minus gamma relative-power profile along the probe, per unit of contact arc length) peaked at
+$30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at $0^\circ$), a
+difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at $30^\circ$ than at
+$0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in tilt. $r_\text{proto}$ minus the identical-unit control rises with tilt; we infer that this comes from
+the control falling as fewer bins are covered, not from the model. The current-based CSD reproduced the forward
+potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources independent
+(rank 9 of 9; Fig.~\ref{fig:readout}B); this is a consistency check, not a validation of source placement.
+% FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json
 
 \begin{figure}[tbp]
 \centering
-\stub{A: drive-rate sweep difference maps (SSIM, r)}{drive-rate sweep difference maps (SSIM, Pearson r); no difference maps written yet}
-\hfill
-\panel{B}{../../results/viz/paper_w6/seed_diff.png}{0.48\linewidth}{seed difference maps}\\[0.8em]
-\stub{C: LANSA hierarchy (T7)}{T7 LANSA hierarchy, deferred (plan section 5, OPEN-38)}
-\caption{Robustness. A: drive-rate sweep, not written. B: seed difference maps $R_a - R_b$ of the relative-power map
-for each pair of seeds 1--3 at $N$ = 1000, 2000, 4000 (ladder runs), with SSIM and Pearson $r$ over all pixels
-(\texttt{paper\_w6/seed\_diff.png}). Seed pairs agree (SSIM 0.62--0.71, $r$ 0.87--0.93); each seed against the
-observed map gives SSIM 0.04--0.12 and $r$ 0.20--0.43. Panel C is deferred.}
+\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.98\linewidth}{probe summary}\\[0.6em]
+\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.7\linewidth}{CSD}
+\caption{Readout controls, post hoc on saved runs. A: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
+identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$. B:
+current-based CSD of the reference run, averaged on alpha-band troughs; source placements are assumed (Methods).}
+\label{fig:readout}
 \end{figure}
 
-\subsection{Fig 3: interneuron manipulations}
 
-\todo{Fig 3 text: PV and SST silencing, whole population and per unit; PV/SST ratio scale; VIP is stage 2.}
+\subsection{Event-driven synaptic delivery gives equal output at a tenth of the time}
 
-\begin{figure}[tbp]
-\centering
-\stub{A: PV silencing, whole population}{T4 PV silencing, whole population (not run)}
-\hfill
-\stub{B: SST silencing, whole population}{T4 SST silencing, whole population (not run)}\\[0.8em]
-\stub{C: silencing per unit}{T4 per-unit silencing (not run)}
-\hfill
-\stub{D: PV/SST ratio scale}{T3 PV/SST ratio scale (not run)}\\[0.8em]
-\stub{E: VIP}{T5 VIP, stage 2 (deferred, OPEN-36)}
-\caption{Interneuron manipulations. All panels are pending; the T4 and T3 seals are in \texttt{docs/laminar\_motif/}.}
-\end{figure}
-
-\subsection{Fig 4: laminar source}
-
-\todo{Fig 4 text: unit silencing, isolated units, graded PV silencing inside the isolated gamma unit.}
-
-\begin{figure}[tbp]
-\centering
-\stub{A: unit silencing}{T4 unit silencing (not run)}
-\hfill
-\stub{B: isolated units}{isolated-unit runs (not run)}\\[0.8em]
-\stub{C: graded PV silencing, isolated gamma unit}{graded fractions 10/25/50/75/100\% (deferred; sub-population label not built)}
-\caption{Laminar source. All panels are pending.}
-\end{figure}
-
-\subsection{Fig 5: determinants}
-
-\todo{Fig 5 text: S$\leftrightarrow$D swaps of $\rho$, in-degree, N and SST$\to$E $\tau$ on isolated units; E/I $g$ in $\{0.5, 2\}$.}
-
-\begin{figure}[tbp]
-\centering
-\stub{A: S$\leftrightarrow$D swap, $\rho$}{swap of rho on isolated units (not run)}
-\hfill
-\stub{B: S$\leftrightarrow$D swap, in-degree}{swap of in-degree (not run)}\\[0.8em]
-\stub{C: S$\leftrightarrow$D swap, N}{swap of N (not run)}
-\hfill
-\stub{D: SST$\to$E $\tau$}{swap of SST$\to$E $\tau$ (not run)}\\[0.8em]
-\stub{E: E/I $g$}{T2 E/I, $g$ in $\{0.5, 2\}$ (not run)}
-\caption{Determinants. All panels are pending.}
-\end{figure}
-
-\subsection{Fig 6: probe geometry}
-
-\todo{Fig 6 text: tilted and offset probe readouts, scored by contrast M and by $r_\text{proto}$ minus the identical-unit control (T6; readout only, no simulation).}
-
-\begin{figure}[tbp]
-\centering
-\panel{A}{../../results/viz/paper_w5/sw_n4000_dens_k1_kd1_sst15_s1_T8_probe_geometry.png}{0.48\linewidth}{probe geometry}
-\hfill
-\panel{B}{../../results/viz/paper_w5/lfs_n1000_s1_T8_probe_geometry.png}{0.48\linewidth}{probe geometry, n1000}\\[0.8em]
-\panel{C}{../../results/viz/paper_w5/probe_summary.png}{0.96\linewidth}{T6 score summary by $\theta$ and offset}
-\caption{Probe geometry, post hoc readout on saved runs. A: reference model; B: n1000 seed 1 (W5 readout outputs).
-C: contrast $M_\text{arc}$ and $r_\text{proto} - r_\text{ctrl}$ by tilt and lateral offset, seed mean $\pm$ SD over
-seeds 1--3 at each $N$ (\texttt{probe\_summary.png}). At offsets 0 and 0.25 the rise of $r_\text{proto} - r_\text{ctrl}$
-with tilt comes from the identical-unit control falling, not from $r_\text{proto}$, which falls at $\theta = 30^\circ$.}
-\end{figure}
+Delivering AdEx synaptic events only for spiking presynaptic cells gave all 22 output arrays of an 8 s T1 run
+bitwise equal to the dense route (248\,116 spikes; equal edge tables), and simulated it in 140 s instead of 1387 s on
+the same machine (9.9-fold, one timed pair; FINDINGS \S5). Equality is shown for one seed and one layout; a
+different layout differed in 21 of 22 arrays, as it should. T1 axis 3, the confirmation and the weight runs used
+this route; the ladder and T1 axes 1--2 used the dense route (Methods).

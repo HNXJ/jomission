@@ -11,7 +11,8 @@ variants=(n4000_dens_k0p1 n4000_dens_k0p3 n4000_dens_k1 n4000_dens_k3 n4000_dens
 run_one() {
   local v=$1 tag=sw_${1}_s1_T8
   /usr/local/bin/python3 -u scripts/run_e2_stack.py 1 8 "$tag" "e2_3unit_${v}" > "results/laminar_e2/${tag}.log" 2>&1 \
-    && /usr/local/bin/python3 scripts/e2_motif_figure.py "$tag" 2 >> "results/laminar_e2/${tag}.log" 2>&1
+    && /usr/local/bin/python3 scripts/e2_motif_figure.py "$tag" 2 >> "results/laminar_e2/${tag}.log" 2>&1 \
+    && /usr/local/bin/python3 scripts/e2_gallery.py >> "results/laminar_e2/${tag}.log" 2>&1
   echo "${tag} rc=$?"
 }
 for v in $variants; do

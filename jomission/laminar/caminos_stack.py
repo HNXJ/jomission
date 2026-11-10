@@ -113,6 +113,9 @@ def variant(name: str) -> tuple[str, dict]:
       ipvUV  as isomUV, for the PV cells
       rhosX  every unit's rho times X (3-unit stack; applied after rhod, so PV+SOM per unit is unchanged)
       rhodX  deep unit's N_SST / N_PV set to X (3-unit stack; default RHO["D"] 2)
+      rhofX  every unit's N_SST / N_PV set to X: a flat ratio (3-unit stack; not with rhod, rhos or rhor)
+      rhor   the ratio ramp reversed, S and D exchanged (S 2, M 1, D 0.25; 3-unit stack; not with rhod, rhos)
+      densr  as dens, with the S and D unit densities exchanged; kdB then uses the exchanged densities too
       giX    every GABA rule weight (pv_e, pv_pv, sst_e, sst_pv) times X, after the sstNN charge rescale
       nNNNN  mean E cells per unit (3-unit stack)
       dens   E cells per unit proportional to LANSA total density of the unit's bins (3-unit stack)
@@ -129,7 +132,8 @@ def variant(name: str) -> tuple[str, dict]:
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
         # longer keys first: sstd before sst, kd before k (the other keys do not share a prefix)
-        for key in ("sstd", "isom", "rhos", "rhod", "dens", "sst", "ipv", "dsz", "gi", "kd", "n", "k", "w"):
+        for key in ("sstd", "isom", "rhos", "rhod", "rhof", "rhor", "densr", "dens", "sst", "ipv", "dsz", "gi", "kd",
+                    "n", "k", "w"):
             if t.startswith(key):
                 rest = t[len(key):]
                 if key == "w":
@@ -145,14 +149,28 @@ def variant(name: str) -> tuple[str, dict]:
                 else:
                     if key in mods:
                         raise ValueError(f"{key} declared twice in {name!r}")
-                    v = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
+                    if key in ("densr", "rhor") and rest:
+                        raise ValueError(f"modifier {t!r} in {name!r} takes no value")
+                    v = 1.0 if key in ("dens", "densr", "rhor") and not rest else float(rest.replace("p", "."))
                     if not math.isfinite(v):
                         raise ValueError(f"modifier {t!r} in {name!r}: value must be finite")
                     mods[key] = v
                 break
         else:
             raise ValueError(f"unknown layout modifier {t!r} in {name!r}")
+    for a, b in (("dens", "densr"), ("rhof", "rhod"), ("rhof", "rhos"), ("rhof", "rhor"), ("rhor", "rhod"),
+                 ("rhor", "rhos")):
+        if a in mods and b in mods:
+            raise ValueError(f"{a} and {b} cannot be combined in {name!r}")
     return base, mods
+
+
+def stack_density(mods: dict) -> dict[str, float]:
+    """Per-unit LANSA density of the 3-unit stack; S and D exchanged under densr."""
+    dens = unit_density(MODULE_BINS)
+    if "densr" in mods:
+        dens = {**dens, "S": dens["D"], "D": dens["S"]}
+    return dens
 
 
 def local_p(name: str, sizes: dict[str, dict[str, int]]) -> dict[str, float] | None:
@@ -161,7 +179,7 @@ def local_p(name: str, sizes: dict[str, dict[str, int]]) -> dict[str, float] | N
     mods = variant(name)[1]
     if "kd" not in mods:
         return None
-    dens = unit_density(MODULE_BINS)
+    dens = stack_density(mods)
     mean = np.mean([dens[m] for m in sizes])
     return {m: _prob(K_E * (dens[m] / mean) ** mods["kd"] / sizes[m]["E"], f"local p (kd) of unit {m}") for m in sizes}
 
@@ -214,10 +232,14 @@ def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], floa
         depth = {"S": -0.4, "M": 0.0, "D": 0.3}
         rho = {**RHO, DEEP_UNIT: mods.get("rhod", RHO[DEEP_UNIT])}
         rho = {m: r * mods.get("rhos", 1.0) for m, r in rho.items()}
-        if not ({"n", "dens", "k"} & set(mods)):
+        if "rhof" in mods:
+            rho = {m: mods["rhof"] for m in MODULES}
+        if "rhor" in mods:
+            rho = {**RHO, "S": RHO["D"], "D": RHO["S"]}
+        if not ({"n", "dens", "densr", "k"} & set(mods)):
             return module_sizes(rho), rho, P_INTER, depth
         n_mean = mods.get("n", c0.NE)
-        dens = unit_density(MODULE_BINS) if "dens" in mods else {m: 1.0 for m in MODULES}
+        dens = stack_density(mods) if ({"dens", "densr"} & set(mods)) else {m: 1.0 for m in MODULES}
         mean = np.mean(list(dens.values()))
         sizes = {m: unit_sizes(int(round(n_mean * dens[m] / mean)), rho[m]) for m in MODULES}
         return sizes, rho, None, depth

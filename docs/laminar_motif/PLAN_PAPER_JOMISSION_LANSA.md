@@ -117,6 +117,10 @@ deep) kept. LANSA CB/PV is not used as SST/PV (OPEN-38: CB is not SST). Estimand
 - Forward-model φ on the probe, then the second-difference CSD against the true sources.
 - Trigger: average triggered on the alpha-band trough (stationary runs have no evoked response).
 
+**T8: density and SOM/PV-ratio controls** (owner order 2026-11-10, after referee review 3; SEAL_T8.md).
+- Arms: reference, density flattened, density S/D exchanged, ratio flat, ratio reversed; seeds 1-3, 8 s.
+- Estimand: paired (same seed) reference minus control per outcome; primary r_ab.
+
 ## 3. Readouts each run writes
 
 - Raster counts.

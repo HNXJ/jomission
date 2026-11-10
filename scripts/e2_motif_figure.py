@@ -43,7 +43,7 @@ from jomission.laminar import caminos_stack as cs  # noqa: E402
 D = ROOT / "results" / "laminar_e2"
 SMOOTH_HZ = 2.0  # multitaper half-bandwidth, as the published analysis (1 s windows, 2 Hz smoothing)
 BANDS = {"image": ((10.0, 30.0), (50.0, 150.0)), "manuscript": ((8.0, 30.0), (31.0, 150.0))}
-FIG_BANDS = "image"  # bands drawn in the figure (published panel); both sets are scored
+FIG_BANDS = "image"  # verdict bands (owner ruling 2026-11-09); "manuscript" is scored as secondary only
 PEAK_RANGE = (5.0, 150.0)
 V_REF_MV = -65.0
 RWS_DELAY_MS, RWS_ALPHA = 6.0, 1.65  # Mazzoni et al. 2015

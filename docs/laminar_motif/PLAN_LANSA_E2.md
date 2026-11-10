@@ -41,6 +41,7 @@ Two consequences for E2 (INFERRED from isolated modules):
 - C1/C4: rho S 0.25, M 1, D 2 (ramp inside the E1 oscillating range). C2: 3 modules. C3: one CAMINOS unit per module (8000 E, 1500 inh).
 - Coupling: adjacent modules (S-M, M-D), both directions, E to E, PV and SST, p 0.01, local weights (2.0 nS to E, 3.0 nS to inhibitory), 2 ms delay.
 - C6: 20 s, 2 s discarded, seed 1, then inspect.
+- Verdict bands: alpha-beta 10-30 Hz, gamma 50-150 Hz (published panel; manuscript 8-30/31-150 is scored as secondary only).
 - Route: JaxFNE 0.5.9 AdEx through `construct_adex_model(neuron_rows=...)`; the public `column()` path is refused for AdEx. Layer selectors realize exact blocks (probe: 44 751 edges vs 44 800 expected per local E-E block).
 
 ## Steps (each closes on its check)

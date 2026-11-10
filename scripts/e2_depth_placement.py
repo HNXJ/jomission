@@ -8,8 +8,11 @@ unit cross-spectra (sum-over-cells row, `e2_scorer.unit_spectra`) stay fixed; on
 (zS < zM < zD on a 0.05 grid over the contacts' span -0.6..0.4; sigma 0.15 kept). Exploratory, post hoc: no model
 is changed and nothing here is a verdict.
 - sweep: per tag, best r_proto, r_ab, r_gm over placements and how many placements reach r_ab and r_gm >= 0.6.
-- held out: the placement is selected on SELECT_TAG alone (max r_proto with r_ab and r_gm >= 0.6) and scored
-  unchanged on every other TAG.
+- seed/N held out: the placement is selected on SELECT_TAG alone (max r_proto with r_ab and r_gm >= 0.6) and
+  scored unchanged on every other TAG (same layout family; tests seed and N robustness, not generality).
+- S only: S moved alone over the grid above M; M and D at their own depths.
+- shift null: diagonal spectra with each unit's power shape circularly shifted in frequency (power kept), 20 draws,
+  same search and selection; compared with the unshifted diagonal spectra.
 - permutation null: the same selection on SELECT_TAG with the unit spectra permuted (5 non-identity orders). An
   order that reaches the same r_proto shows which unit's position the fit needs.
 Control: own depths must reproduce each verdict file's r values (1e-9), else it raises.
@@ -74,15 +77,46 @@ def spectra(tag: str, d: Path = mf.D) -> tuple[np.ndarray, dict]:
     return S_mean, {"own_depths": own, "own": {"r_proto": rp, "r_ab": rab, "r_gm": rgm}}
 
 
+def s_only(S_mean: np.ndarray, own: list[float]) -> dict:
+    """Move S alone (above own M); M and D stay at their own depths."""
+    rows = [(float(z), *scores(S_mean, [z, *own[1:]])) for z in GRID if z < own[1]]
+    return {"rows": [[z, rp, rab, rgm] for z, rp, rab, rgm in rows],
+            "best_r_gm": max(([rgm, z] for z, _, _, rgm in rows), default=None)}
+
+
+def diag(S_mean: np.ndarray) -> np.ndarray:
+    return np.einsum("fu,uv->fuv", np.einsum("fuu->fu", S_mean), np.eye(S_mean.shape[1]))
+
+
+def shift_null(S_mean: np.ndarray, n: int = 20, seed: int = 0) -> dict:
+    """Null keeping each unit's power and destroying its spectral shape: diagonal (incoherent) spectra, each unit's
+    1..150 Hz power circularly shifted along frequency by its own random offset; same search and selection.
+    `diag_real` is the unshifted diagonal spectra through the same path (the comparator for the null)."""
+    rng = np.random.default_rng(seed)
+    D0 = diag(S_mean)
+    draws = []
+    for _ in range(n):
+        Dn = D0.copy()
+        for u in range(D0.shape[1]):
+            Dn[1:151, u, u] = np.roll(D0[1:151, u, u], int(rng.integers(1, 150)))
+        rows = table(Dn)
+        s = select(rows)
+        draws.append([None if s is None else s[0], sum(r[2] >= sc.R_MIN and r[3] >= sc.R_MIN for r in rows)])
+    real = table(D0)
+    return {"n": n, "seed": seed, "draws": draws, "diag_real": [select(real),
+            sum(r[2] >= sc.R_MIN and r[3] >= sc.R_MIN for r in real)]}
+
+
 def main(select_tag: str, tags: list[str], d: Path = mf.D) -> dict:
     S0, own0 = spectra(select_tag, d)
     rows0 = table(S0)
     sel = select(rows0)
-    out = {"select_on": select_tag, "sweep": {select_tag: {**own0, **summary(rows0)}}, "held_out": {},
-           "perm_null": {}}
+    out = {"select_on": select_tag, "sweep": {select_tag: {**own0, **summary(rows0),
+                                                           "s_only": s_only(S0, own0["own_depths"])}},
+           "held_out": {}, "perm_null": {}, "shift_null": shift_null(S0)}
     for t in tags:
         S, own = spectra(t, d)
-        out["sweep"][t] = {**own, **summary(table(S))}
+        out["sweep"][t] = {**own, **summary(table(S)), "s_only": s_only(S, own["own_depths"])}
         if sel is not None:
             rp, rab, rgm = scores(S, sel[1])
             out["held_out"][t] = {"r_proto": rp, "r_ab": rab, "r_gm": rgm}
@@ -96,4 +130,6 @@ def main(select_tag: str, tags: list[str], d: Path = mf.D) -> dict:
 if __name__ == "__main__":
     o = main(sys.argv[1], sys.argv[2:])
     print(json.dumps({"selected": o["sweep"][o["select_on"]]["selected"], "held_out": o["held_out"],
-                      "perm_null": o["perm_null"]}))
+                      "perm_null": o["perm_null"], "shift_null": o["shift_null"],
+                      "s_only_at_m0p25": {t: [r for r in v["s_only"]["rows"] if r[0] == -0.25]
+                                          for t, v in o["sweep"].items()}}))

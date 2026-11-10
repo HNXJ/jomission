@@ -1,141 +1,191 @@
-# Plan: jomission-LANSA paper draft, v1 (2026-11-10, owner order in chat)
+# Plan: jomission-LANSA paper draft, v2 (2026-11-10)
 
-Working title: "Laminar-cellular architecture sets the spectrolaminar motif in a primate model of the cortical
-hierarchy". Owner order: integrate the overnight results into a paper with the figure order and style of
-Herrera et al. 2026 (bioRxiv 10.64898/2026.11.04.763717, "SLM"). Data, conventions and statistics follow the
-LANSA manuscript (Mulvey, ..., Bastos, draft; "LANSA"). Every figure uses JaxFNE models and shows LFP, rasters
-and CSD. No cap on supplements. Every model gets four things, in the supplement at least: an architecture
-schematic, a raster, LFP and CSD panels, and a details table (cells per type and unit, connectivity,
-parameters, and the source of each, e.g. CAMINOS / Kopell lineage). Status: plan; nothing below is a result
-unless it cites a file.
+v1 was reviewed by Fable 5.2 (high, independent) with verdict REVISE: 4 blockers, 7 major, minor. v2 applies
+every finding; the decision on each is in §6. Owner order (chat 2026-11-10): a paper titled roughly
+"Laminar-cellular architecture sets the spectrolaminar motif in a primate model of the cortical hierarchy",
+with the figure order and style of Herrera et al. 2026 (bioRxiv 10.64898/2026.11.04.763717, "SLM") and the
+data, conventions and statistics of the LANSA draft (Mulvey ... Bastos). Panels show LFP, rasters and CSD
+from JaxFNE models. No cap on supplements. Every model gets an architecture schematic, a raster, LFP, CSD and
+a details table, at least in the supplement. Tests: a ~1000-neuron motif model, E/I, the PV/SST ratio, PV/SST
+stimulation and suppression, VIP, and perpendicular and crossing probes. Owner standing order (2026-11-09):
+"nothing needs my ruling ... just simulate, sweep, logarithmic sweep". Questions route to the parent, not the
+owner (todo.json SCI-LAMINAR-MOTIF-1, 734fede). Status: plan. Nothing below is a result unless it cites a file.
 
-## 0. Ground truth already in the repo
+## 0. Ground truth in the repo
 
-- **Observed target:** `docs/laminar_motif/data/lansa_lfp_Y.json`, Y [21 bins x 150 Hz x 11 areas], relative
-  power (LANSA Eq. 1). Densities X: `lansa_density_X.json` (PV, CB, CR, NG; 21 bins x 11 areas).
-- **Model:** `jomission/laminar/caminos_stack.py`, AdEx E/PV/SOM units in JaxFNE.
-  - Modifiers: k, kd, sst, sstd, rhod, dsz, n, dens.
-  - The RWS LFP proxy and the 21-contact probe are in `scripts/e2_motif_figure.py`.
-  - Similarity (r_proto, r_area, null95) is in `scripts/e2_motif_similarity.py`.
-- **Best 3-unit run so far:** kd1 + SST->E 15 ms, r_proto 0.376 (null95 0.26). The owner flags
-  kd1_sst15_sstd60 (0.299) as "almost there". The plateau and the r_ab/r_gm trade-off are recorded in
-  `PLAN_LANSA_E2.md`.
-- **Readout ceiling at default geometry:** 0.854; with incoherent units, 0.693.
-- **Allen V1 replica:** `allen_v1_replica.py`. X0 shows no motif, shuffle p 0.29. A separate session with
-  rulings handles it.
-- **JaxFNE:** the execution authority is 0.5.8. Every E2 run used the 0.5.9 side install, so all of them are
-  exploratory and off-authority (OPEN-37). The event-driven delivery branch `_temp_adex-event-delivery` is
-  about 7x faster and not merged.
+- **Observed data:** Y (`lansa_lfp_Y.json`, 21 x 150 x 11) and X (`lansa_density_X.json`).
+- **Model:** `caminos_stack.py`, with modifiers k, kd, sst, sstd, rhod, dsz, n and dens.
+- **Readout:** RWS proxy and 21-contact probe (`e2_motif_figure.py`); similarity in `e2_motif_similarity.py`.
+- **Best 3-unit run:** kd1_sst15, r_proto 0.376. Jackknife SE 0.059; the seed gap on kd1 is 0.13 (Fable probe).
+- **Owner start point:** kd1_sst15_sstd60 at 0.299 is unstable (halves -0.16 / +0.30, SE 0.41).
+- **Parameter sources:** every CAMINOS value is from Tahvili, Vinck and di Volo (JaxFNE PORT_SPEC Tables 1-2;
+  `caminos_e0.py:5`). Kopell is cited for the PING concept only. RWS is Mazzoni 2015.
+- **JaxFNE:** the authority is 0.5.8. The E2 runs used a 0.5.9 side install, so they are off-authority and
+  exploratory (OPEN-37, owner queue).
 
-## 1. Figure map (SLM order, LANSA conventions)
+## 1. Figures (SLM order; LANSA conventions)
 
-Conventions for every figure, taken from LANSA:
-- Depth on y as position from the L4 centre, superficial (-0.6) at the top, 21 bins.
-- Relative power colour range 0.5-1, parula-like map.
-- Alpha-beta 8-30 Hz in blue, gamma 31-150 Hz in red.
-- Cell colours: PV blue, SST(CB) orange-red, VIP(CR) amber, E(NG) purple.
-- Bands: delta 1-3, theta 4-7, alpha 8-12, beta 13-30, low gamma 31-90, high gamma 91-150.
-- Bands are dashed at 4/8/12/30/90 Hz. Uncertainty is shown as ±2 SEM bands.
+Conventions:
+- Depth: position from the L4 centre, superficial (-0.6) at the top, 21 bins.
+- Relative power 0.5-1, parula-like colour map.
+- Colours: PV blue, CB orange, CR yellow, NG/E purple.
+- Bands: alpha-beta blue, gamma red. The primary bands are 10-30 / 50-150 Hz (owner ruling,
+  PLAN_LANSA_E2.md). The LANSA 8-30 / 31-150 bands are reported beside them.
+- Band dashes at 4/8/12/30/90 Hz. ±2 SEM over seeds, with seeds averaged as probes are in LANSA.
+- Model power is stationary; LANSA power is from 1 s peri-stimulus windows. Both are stated in every legend.
 
-| Paper fig | SLM analogue | Content (model = JaxFNE) |
+| Fig | SLM | Content |
 |---|---|---|
-| 1 | SLM Fig 1 | A: architecture of the reference model (units S/M/D or 21 bins; E, PV, SST, VIP). B: raster, 6 s. C: per-unit, per-cell-type spectra. D: model SL map (21 bins x 1-150 Hz). E: observed LANSA prototype map (11-area mean). F: model and observed alpha-beta/gamma depth profiles, LFP traces, CSD. Text gives r_proto, null95 and the controls. |
-| 2 | SLM Fig 2 + LANSA Fig 2 | The hierarchy. 11 area models built from the LANSA densities of each area. Grid of areas (rows, V1 to PFC) x columns: density, model raster strip, model SL map, observed SL map. Cross-area matrices of model-observed r (LANSA S7 analogue). |
-| 3 | SLM Fig 3 | Interneuron manipulations: PV and SST silencing and stimulation (whole population and per unit), PV/SST ratio sweep, VIP added. Rasters, spectra, SL maps, delta maps vs the reference. |
-| 4 | SLM Fig 4 | Laminar source. Unit silencing, isolated units, graded PV/SST/VIP silencing in the gamma-generating unit. |
-| 5 | SLM Fig 5 | Synaptic determinants: SST->E and PV->E decay, E/I balance sweep (inhibitory weight g and N_I/N_E), heat maps of r_proto, r_ab, r_gm over the 2-D grids. |
-| 6 | new | Probe geometry: a perpendicular laminar probe vs crossing probes at 30/60/90 degrees and lateral offsets. LFP, CSD and SL maps per probe; motif r against angle. |
-| 7 | LANSA Fig 6 analogue (optional) | Schizophrenia-pattern density deficits applied to the model (LANSA Hedges' g multipliers), with the change in high gamma. Only if time remains. |
+| 1 | Fig 1 | Reference model. A: architecture with the details table. B: raster. C: per-unit, per-cell-type firing-rate spectra. D: model SL map, RWS LFP, plus a firing-rate SL map. E: observed LANSA prototype. F: band depth profiles, LFP traces, current-based CSD. |
+| 2 | Fig 2 | Robustness: drive-rate sweep (S4 analogue) and seeds, as difference maps with SSIM and Pearson r. The LANSA hierarchy (T7) panel is deferred (§5). |
+| 3 | Fig 3 | Interneuron manipulations: PV and SST silencing (whole population, per unit), one stimulation level each, PV/SST ratio scale, VIP (stage 2). |
+| 4 | Fig 4 | Laminar source: unit silencing, isolated units, graded PV silencing inside the isolated gamma unit. |
+| 5 | Fig 5 | Determinants: S↔D swaps of rho, in-degree, N and SST→E τ on isolated units (SLM-style swaps), plus E/I g in {0.5, 2}. |
+| 6 | new | Probe geometry, readout only (T6), scored by contrast M and by r_proto minus the identical-unit control. |
 
-The supplements give, for every model and condition that appears in any figure: the architecture, a 6 s
-raster, a 1 s LFP trace per contact, CSD, the SL map, and the details table. They also carry firing-rate
-boxplots per cell type and unit (SLM S3/S5/S7 analogue), the readout ceiling and controls (σ, swapped and flat
-controls), seeds, and wall times.
+Supplement:
+- One block per model and condition: architecture, raster, LFP, current-based CSD, SL map, details table.
+- Rate boxplots (S3/S5/S7 analogues).
+- S1 analogue: undriven vs driven, plus the raw laminar power map.
+- The finite-size ladder.
+- Controls: σ, swapped units, identical units, the smooth-spectrum null.
+- Seeds and wall times.
 
-## 2. Tests (owner list) with estimand, brackets and checks
+## 2. Tests: lineage, estimand and acceptance
 
-Each test seals a spec before its run: an estimand, a parameter bracket (log grid), stop states and the
-acceptance check. These are committed and pushed before the run that uses them. No retune after results; a
-changed bracket is a new lineage.
+Each test is its own lineage with a seal pushed before its first run. The seal fixes the estimand, the grid,
+the stop states and the V0-V3 paths `results/viz/<lineage_id>/` (visualization contract: V0 and V1 before any
+tuning). E2 stays declared exploration. No retune after results.
 
-- **T1. ~1000-neuron reference model with the SL motif.**
-  - Total about 1000 cells (3 units x about 270 E plus I, scaled in-degree K so the drive per cell is kept).
-  - Start from kd1_sst15 and kd1_sst15_sstd60 at n4000. Scale with n, keeping the in-degrees (K_E, K_INTER).
-  - Fine-tune on the axes that moved r_proto: kd, SST->E decay, deep SST->E decay, k, deep rho.
-  - Use a log grid, 3 seeds per point, fitted on the even-area mean and scored on the odd-area mean.
-  - Estimand: r_proto (sum row) on the odd-area mean, with null95 and the flat control.
-  - Accept: odd r_proto > max(null95, flat control) at 3 of 3 seeds, D E rate > 0.1 Hz, no unit above
-    50 Hz E rate.
-  - The 0.95 target is reported as reached or not; never claimed without the check.
-- **T2. E/I ratio and the SL motif.**
-  - Axes: inhibitory weight scale g ∈ {0.25, 0.5, 1, 2, 4} and N_I/N_E ∈ {0.5, 1, 2} x baseline, on the T1
-    reference.
-  - Estimand: r_proto, r_ab, r_gm and the per-unit peak frequency.
-- **T3. PV/SST ratio.**
-  - Global rho scale ∈ {0.25, 0.5, 1, 2, 4}, plus a per-unit ramp from LANSA PV:CB.
-- **T4. PV/SST stimulation and suppression.**
-  - Current step to all PV or all SST: -200 to +200 pA, 5 levels, log-symmetric around 0.
-  - Per unit, plus graded silencing fractions 10/25/50/75/100% (SLM Fig 4E analogue).
-  - Silencing is a hyperpolarizing current, as in SLM.
-- **T5. Add VIP.**
-  - A VIP population per unit: VIP->SST strong, VIP->PV weak.
-  - AdEx parameters with cited sources (worker inventory first; no number without a source).
-  - Density from LANSA CR.
-  - Estimand: change in r_proto and in the gamma/alpha-beta ratio; VIP silencing vs intact (SLM: power drop,
-    shape kept).
-- **T6. Perpendicular and crossing probe LFP.**
-  - Place units in (x, z); the volume-conduction kernel uses 3-D distance.
-  - The probe is a line at angle θ ∈ {0, 30, 60, 90}° with lateral offset ∈ {0, 0.25, 0.5}.
-  - Report LFP, CSD (second spatial difference of the potential, Vaknin padding) and the SL map per probe.
-  - Estimand: r_proto against θ. Prediction: the motif decays with the cosine of the depth span.
-- **T7. Hierarchy (Fig 2).**
-  - 11 area models, each built from the area's LANSA densities: NG->E, PV->PV, CB->SST, CR->VIP by
-    co-expression (LANSA p4; an assumption, labelled ASSUMED).
-  - Estimand: per-area r_area, the cross-area r matrix and held-out area prediction.
-  - Compare with the LANSA PLSR r_PRED of 0.71.
+**Shared scorer** (W2). A result counts only if all of these hold:
+1. `crossing_2se` is true.
+2. r_ab ≥ 0.6 and r_gm ≥ 0.6.
+3. The identity unit order ranks 1 of 6 permutations.
+4. r_proto is above the p95 of the max-over-grid smooth-spectrum null and above the identical-unit control.
+5. The two halves agree within 2 SE.
 
-## 3. Readouts every run writes
+Selection uses seeds 1-3; confirmation runs once, on seeds 4-6 at 12 s, with the config frozen. The even/odd
+area split is not a hold-out.
 
-- **Raster:** spikes per population.
-- **LFP:** the RWS proxy per unit, and the probe potential φ(c, t) = Σ_u K_cu x_u(t) on 21 contacts.
-- **CSD:** -∂²φ/∂z² on the probe grid.
-- **Spectra:** multitaper, 1 s windows, 2 Hz smoothing.
-- **SL map, scores and controls:**
-  - SL map: relative power on 21 bins x 1-150 Hz.
-  - Motif scores: M, z and crossing, as computed by e2_motif_figure.
-  - Similarity: r_proto, r_area, r_ab, r_gm and null95.
-  - Flat control and swapped control.
-  - E rate per unit.
-  - Details table: a JSON with the sizes, edges per rule, parameters and the source of each, the SHA, the
-    JaxFNE version and file, and the seed.
+**L-FS: finite-size ladder** (prerequisite for T1).
+- kd1_sst15 at n4000 (2 new seeds), n2000 and n1000 E per unit (3 seeds each). n1000 is 3562 cells.
+- Accept the smallest n whose r_proto is within 2 seed SD of n4000 and whose peaks are within 3 Hz.
+- "~1000 neurons" (owner): 1000 total cells forces every local p to 1, so the kd axis vanishes and D has 11 PV
+  cells. A run at 1000 total cells therefore uses a declared rule, weights × K_ref/K_real (charge per cell
+  kept), as its own lineage L-FS1k. It is reported beside the in-degree-preserving ladder. Both answer the
+  owner's question; neither is retuned.
+
+**T1: motif fine-tune** at the ladder's n.
+- One axis at a time on 3 axes (kd, SST→E τ, deep SST→E τ), 7 log-spaced levels × 3 seeds at 8 s.
+- The winner is confirmed on seeds 4-6 at 12 s against the shared scorer.
+- 0.95 is reported against the readout ceiling (0.854 coherent, 0.693 incoherent at σ 0.15). Never claimed
+  without the check.
+
+**T2: E/I.** On the frozen T1 reference:
+- inhibitory weight g ∈ {0.5, 2};
+- N_I/N_E deferred.
+- Estimands: r_proto, r_ab, r_gm, per-unit peak Hz, rates and absolute band power.
+
+**T3: PV/SST ratio.** Global rho scale ∈ {0.5, 2}, with the owner ruling's ramp shape (low superficial, high
+deep) kept. LANSA CB/PV is not used as SST/PV (OPEN-38: CB is not SST). Estimands as T2.
+
+**T4: PV/SST silencing and stimulation.**
+- Silencing is a hyperpolarizing current, as in SLM: per population, whole and per unit.
+- Stimulation: +50 pA.
+- Route: `triple_drive_pA`, the only `I_ext` path into the AdEx kernel in 0.5.8 and 0.5.9.
+- Acceptance: silenced spike count 0, edge counts unchanged.
+- Graded fractions of 10/25/50/75/100% run only inside the isolated gamma unit, at n ≥ 1000 E.
+
+**T5: VIP** (stage 2, main-model design).
+- AdEx accepts only E, PV and SOM labels. VIP needs its own layer label with `param_overrides`, and every
+  parameter cited (OPEN-36 is UNSET).
+- Estimands include absolute power and rates, since SLM assigns a gain effect to VIP.
+- Not tonight.
+
+**T6: probe geometry** (post hoc readout on saved runs; no simulation).
+- Units get a declared lateral extent.
+- Two crossing definitions, both run (sweep, not ask):
+  - oblique through one sheet, θ ∈ {0, 30, 60, 90}°;
+  - lateral offset ∈ {0, 0.25, 0.5}.
+- Estimands: contrast M, and r_proto minus the identical-unit control at the same geometry.
+- Contacts map to bins by their projected depth.
+
+**CSD** (every figure).
+- Built from the model's currents, not from the kernel. The saved `g_columns` (unit × receptor) become current
+  sources at declared depths, each with an equal return current. Placements (ASSUMED, cited): PV
+  perisomatic, SST distal apical, AMPA basal and apical.
+- Forward-model φ on the probe, then the second-difference CSD against the true sources.
+- Trigger: average triggered on the alpha-band trough (stationary runs have no evoked response).
+
+## 3. Readouts each run writes
+
+- Raster counts.
+- RWS LFP per unit.
+- Current sources per unit and receptor.
+- Probe φ and CSD.
+- Spectra, the SL map (RWS and firing rate) and motif scores (M, z, crossing).
+- Similarity (r_proto, r_area, r_ab, r_gm, null95, smooth null p95, identical-unit control, permutation rank,
+  halves).
+- E rate per unit.
+- Details table: sizes, edges per rule, every parameter with its PORT_SPEC row or "agent choice". Agent
+  choices: kd, sst15, K_INTER 80, σ 0.15, V_ref -65 mV, unit depths, MODULE_BINS.
+- Run identity: SHA, dirty flag, JaxFNE version, file and source SHA, seed.
 
 ## 4. Execution
 
-- **Orchestrator:** the parent session. It keeps the science calls: estimands, brackets and interpretation.
-- **Workers:** Haiku 5.5 (worker agent, high effort), one packet each, at most 3 at once, writers in their own
-  worktree `_temp_paper_<packet>`.
-- **Packets, in dependency order:**
-  1. P1 readout library: φ, CSD, details-table writer and a Herrera-style figure kit, with LANSA style and
-     tests.
-  2. P2 n-scaling of caminos_stack, a ~1000-cell layout `e2_3unit_n270`, and its test.
-  3. P3 T1 sweep driver plus scorer.
-  4. P4 VIP population with a sourced parameter table.
-  5. P5 stimulation/silencing current hooks.
-  6. P6 E/I and rho-scale modifiers.
-  7. P7 probe-geometry kernel.
-  8. P8 area-model builder from LANSA X.
-  9. P9 paper skeleton in LaTeX (flow-article skill) with figure stubs.
-- **Each packet:** a test that fails first, then passes. An independent reviewer reads the diff before the
-  parent merges into dev.
-- **Runs:** detached, checkpointed, at most 3 at once (machine load). Smoke with 0.5 s first. The SHA, config
-  and seed are recorded.
+The parent keeps the seals, the science calls and run launches. Workers are Haiku 5.5 (`worker`, high), one
+packet each, at most 3 at once. Each packet has a red-then-green test, a writer in its own worktree, and an
+independent review before the parent merges.
 
-## 5. Risks and open items
-
-| Item | Risk | Handling |
+| # | Packet | Acceptance |
 |---|---|---|
-| JaxFNE 0.5.9 off-authority | Paper runs are not on the execution authority | Rerun the final figure set on the authority, or the owner moves the authority (OPEN-37). Recorded; not decided here. |
-| 0.95 similarity | The 3-unit ceiling with incoherent units is 0.69 at σ 0.15 | Fix σ from independent data, or use 21 bins. Report the ceiling beside every score. |
-| CB/CR to SST/VIP mapping | Assumption | Label ASSUMED; sensitivity with an alternative mapping. |
-| σ readout | Wider σ inflates the flat control | σ fixed before the runs. Owner value needed, or derive it from LANSA probe data (UNKNOWN). |
-| Omission firewall | None: no omission data are used | - |
+| W0 | Stable 0.5.9 install of tag v0.5.9 (e0160dfc) outside the repo and outside scratch; 0.5 s smoke on 0.5.8 and 0.5.9; timing solo and 3 in parallel | Block spike counts compared; seconds per simulated second recorded; source SHA recorded |
+| W1 | `caminos_stack`: raise when a p clips at 1; run JSON gets dirty flag and JaxFNE source SHA | n270 raises, n1000 passes; the test fails on the old code |
+| W2 | Scorer: smooth-spectrum max-over-grid null, unit-permutation rank, identical-unit control, seed split, halves | Synthetic positive passes; identical units fail; random rank-3 spectra pass ≤ 5% |
+| W3 | Details table, V0 schematic, raster/LFP/spectra figure kit in LANSA style, firing-rate SL map; applied to kd1_sst15 | Table edges equal `edge_table`; sizes sum to N; figure measured (match-visual-style) |
+| W4 | Current-based CSD with forward φ, post hoc on saved npz | CSD sums to 0 over depth; planted dipole recovered at r ≥ 0.9; rank > 3 |
+| W5 | Tilted and offset probe readout, post hoc | Identical units give M = 0 and Δr = 0 at every θ; θ 0 reproduces the current map to 1e-12 |
+| W6 | Drivers: ladder, T1 axis search, T4 hooks, S↔D swaps, g and rho scale; 0.5 s smoke each | Smoke JSON written; silenced count 0; edges unchanged |
+| W7 | LaTeX skeleton in SLM order with stubs (flow-article) | Compiles; every panel cites a result file or "pending" |
+
+Order:
+1. W0 and W1.
+2. W2, W3, W4 and W5 (no simulation; at most 3 at once).
+3. W6.
+4. W7 at any time.
+5. Seals R0, then the runs.
+
+Compute (Fable, from recorded wall times): 3562 cells cost about 24 min per 8 s. About 30 slot-hours a night
+is about 70-90 runs. The Allen replica stream uses 1 slot, so this work gets 2 slots.
+
+Runs in priority order:
+1. Ladder: 11 runs.
+2. T1: 63 runs plus 3 confirmation runs. Over budget for one night; axes run in order and stop at the first
+   axis that passes.
+3. Perturbations: about 20 runs, 1 seed each; whole-population PV and SST silencing get 3 seeds.
+
+## 5. Deferred, with reason
+
+| Item | Reason |
+|---|---|
+| T5 VIP | No VIP AdEx label or sourced parameters (OPEN-36); main-model design first |
+| T7 hierarchy, LANSA X to area models | OPEN-38: CB is not SST, and X is relative per type (E:I cannot be read from it). If built later, it must test diagonal vs off-diagonal, since LANSA S7A already gives r ≥ 0.61 across areas. |
+| 21-bin stack | About 40k cells; one reference run at most, after the event-driven JaxFNE merge |
+| N_I/N_E, graded fractions outside the isolated unit, Fig 7 schizophrenia | Budget |
+
+## 6. v1 → v2 decisions (Fable findings)
+
+| Finding | Decision |
+|---|---|
+| B1 n270 clips p, so kd is a no-op | Ladder first; 1000 total cells runs as its own declared weight-scaling lineage; W1 guard |
+| B2 acceptance cannot fail; null anti-conservative | Shared scorer with seed split, smooth null and halves (W2) |
+| B3 T6 measures geometry | M and Δr vs the identical-unit control; lateral extent; both crossing definitions |
+| B4 kernel CSD has rank 3 | Current-based CSD (W4) |
+| M1 CB→SST conflicts with OPEN-38 | Ramp kept; T7 and the CB ramp deferred |
+| M2 authorization and seals | Order recorded (734fede); one seal per lineage with V0-V3 paths before any run |
+| M3 0.5.9 install in scratch | W0 stable install; 0.5.8 smoke tests the authority route |
+| M4 VIP not buildable | Stage 2, main model |
+| M5 current hook | `triple_drive_pA`; values stated |
+| M6 compute | Budgeted run list above |
+| M7 sources | PORT_SPEC rows; agent choices marked |
+| Minor | Swaps, isolated graded silencing, SSIM, S1/S4 analogues, firing-rate SL map, bands named, colours fixed, run JSON identity |

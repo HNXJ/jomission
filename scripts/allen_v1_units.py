@@ -51,8 +51,9 @@ def write_inputs(tag: str, src: Path, dst: Path) -> dict:
     units, depth = depth_map(fig)
     (dst / f"{tag}.json").write_text(json.dumps(dict(rec, units=units, depth_rel_L4=depth), indent=1), encoding="utf-8")
     link = dst / f"{tag}.npz"
-    if not link.exists():
-        os.symlink((src / f"{tag}.npz").resolve(), link)
+    if link.is_symlink() or link.exists():  # a dangling link is not link.exists(); replace it either way
+        link.unlink()
+    os.symlink((src / f"{tag}.npz").resolve(), link)
     discard = float(fig["discard_s"])
     f, S, K = sc.unit_spectra(tag, discard, dst)
     res = mf.score(f, S, K, mf.CHANNELS, mf.BANDS[mf.FIG_BANDS])

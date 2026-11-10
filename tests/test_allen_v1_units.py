@@ -2,6 +2,7 @@
 fixture precondition. Real PROTO is used only where stated; the planted comparator is built from the observed map."""
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -99,10 +100,48 @@ def test_identical_units_fail_the_control_leg(monkeypatch):
 
 def test_free_diagonal_four_unit_fit_reaches_gamma_leg_against_observed_map():
     """Attainability of leg 2 at these four depths, with the real observed map (no comparator swap). The best
-    free diagonal fit reaches r_gm 0.835 here; the 3-unit depths of tests/test_e2_scorer.py reached 0.31. So the
-    failing r_gm of x0_H_s1_T20 (-0.163) is a property of the simulated spectra, not a structural ceiling."""
+    free diagonal fit reaches r_gm 0.835 (asserted to 0.01). So the failing r_gm of x0_H_s1_T20 (-0.163) is a
+    property of the simulated spectra, not a structural ceiling of four diagonal units."""
     K = kernel(ZU)
     S = diag(diag_fit_to(sc.PROTO))
     rab, rgm = sc.band_r(sc.rp_map(S, K), BANDS)
     assert np.isfinite(rab) and np.isfinite(rgm)
-    assert rgm >= 0.6, f"free diagonal four-unit fit reaches r_gm {rgm:.3f} against the observed map"
+    assert abs(rgm - 0.835) < 0.01, f"free diagonal four-unit fit reaches r_gm {rgm:.4f}, measured 0.835"
+
+
+def test_end_to_end_write_inputs_then_verdict_puts_planted_gaba_tone_in_its_unit_only(tmp_path):
+    """The adapter path, not only the spectral helpers: a synthetic run npz with g_nS [T, 8] (per layer AMPA then GABA,
+    unit order), a 10 Hz tone planted on the GABA column of L4 only, then write_inputs and sc.verdict. Asserts the tone
+    is in unit L4's spectrum and in no other unit's, and that the verdict reads the four adapter units."""
+    dt_ms, T_s = 0.1, 3.0
+    n = int(round(T_s * 1000.0 / dt_ms))
+    t = np.arange(n) * dt_ms / 1000.0
+    units = ["L2/3", "L4", "L5", "L6"]
+    rng = np.random.default_rng(0)
+    g = 5.0 + 0.01 * rng.standard_normal((n, 2 * len(units)))  # nS, positive, background only
+    planted = units.index("L4")
+    g[:, 2 * planted + 1] = 5.0 + 2.0 * np.sin(2 * np.pi * 10.0 * t)  # GABA column of L4: 10 Hz on a positive offset
+    src, dst = tmp_path / "src", tmp_path / "dst"
+    src.mkdir()
+    np.savez(src / "e2e.npz", g_nS=g.astype(np.float32))
+    (src / "e2e.json").write_text(json.dumps({"dt_ms": dt_ms, "T_s": T_s, "seed": 1}), encoding="utf-8")
+    (src / "e2e_motif.json").write_text(json.dumps({
+        "layers": units, "depth_rel_mid_L4": list(ZU), "discard_s": 0.0}), encoding="utf-8")
+
+    summary = au.write_inputs("e2e", src, dst)
+    assert summary["units"] == units and (dst / "e2e.npz").is_symlink(), summary
+
+    f, S, _ = sc.unit_spectra("e2e", 0.0, dst)
+    assert f[10] == 10.0, "fixture: frequency index must equal Hz"
+    p10 = S.mean(axis=0)[10].real.diagonal()
+    assert p10[planted] > 0, "fixture: planted unit must carry 10 Hz power"
+    others = np.delete(p10, planted)
+    assert p10[planted] > 10 * others.max(), f"10 Hz power by unit {dict(zip(units, p10))}: tone must be L4 only"
+
+    out = sc.verdict("e2e", results_dir=dst)
+    assert out["units"] == units and out["n_windows"] >= 2, out
+    assert out["pass"] is False, "one tone in one layer is not the motif; the verdict must not pass"
+
+    before = (dst / "e2e.npz").resolve()
+    au.write_inputs("e2e", src, dst)  # re-run replaces the link; a dangling link must not raise
+    assert (dst / "e2e.npz").resolve() == before

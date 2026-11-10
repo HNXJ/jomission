@@ -25,9 +25,16 @@ were never tested as causes. Committed and pushed before the first T8 run.
 - **Outcomes per run (scorer verdict file):** r_ab, r_gm, r_proto, crossing_2se, verdict; mid-depth relative gamma
   of the map (50-150 Hz, contacts -0.2 to 0, `scripts/e2_mid_gamma.py` convention); unit E rates.
 - **Decision rule, per control arm c and outcome X:** d_s = X(ref, s) - X(c, s) for seeds s = 1, 2, 3. Report
-  every d_s, mean and SD. "ref higher" if all three d_s > 0 and mean d > 2 SD / sqrt(3); "control higher" if
-  all three d_s < 0 and mean d < -2 SD / sqrt(3); otherwise "no consistent difference". With n = 3 this is a
-  descriptive screen with no nominal error rate; it is reported as such.
+  every d_s, mean and SD (sample SD, ddof 1). "ref higher" if all three d_s > 0 and mean d > 2 SD / sqrt(3);
+  "control higher" if all three d_s < 0 and mean d < -2 SD / sqrt(3); otherwise "no consistent difference". With
+  n = 3 this is a descriptive screen with no nominal error rate, and the four primary comparisons are not
+  corrected for multiplicity; it is reported as such. crossing_2se and verdict are tabulated per seed without a
+  d_s rule; unit E rates are reported per unit, descriptively.
+- **Missing seeds:** if any of the 3 seeds of the ref arm or of a control arm hits a stop state or a W1 refusal,
+  that arm's outcomes are "not evaluable" (no replacement seed), and the stop state is reported as a result.
+- **Scope:** the density arms change unit E count and local in-degree together, and with them each unit's
+  inhibitory count (E:I is kept per unit); the ratio arms change SOM and PV counts and so the SOM->E in-degree.
+  The arms test these construction rules, not density or ratio apart from their consequences.
 - **Primary outcome:** r_ab (deep alpha-beta placement), for both the density arms (dflat, drev) and the ratio
   arms (rflat, rrev). Secondary: r_gm, mid-depth gamma, r_proto, crossing and verdict.
 - **Engine check:** ref seed s is compared array by array with the saved dense reference runs

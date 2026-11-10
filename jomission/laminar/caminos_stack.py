@@ -154,6 +154,8 @@ def variant(name: str) -> tuple[str, dict]:
                     v = 1.0 if key in ("dens", "densr", "rhor") and not rest else float(rest.replace("p", "."))
                     if not math.isfinite(v):
                         raise ValueError(f"modifier {t!r} in {name!r}: value must be finite")
+                    if key == "rhof" and v <= 0:
+                        raise ValueError(f"modifier {t!r} in {name!r}: ratio must be > 0")
                     mods[key] = v
                 break
         else:

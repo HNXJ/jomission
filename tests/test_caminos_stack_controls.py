@@ -49,7 +49,8 @@ def test_rhor_reverses_ramp():
 
 
 @pytest.mark.parametrize("bad", ["e2_3unit_dens_densr", "e2_3unit_rhof1_rhod2", "e2_3unit_rhof1_rhor",
-                                 "e2_3unit_rhor_rhos2", "e2_3unit_densr1", "e2_3unit_rhor2"])
+                                 "e2_3unit_rhor_rhos2", "e2_3unit_rhof1_rhos2", "e2_3unit_rhor_rhod2",
+                                 "e2_3unit_densr1", "e2_3unit_rhor2", "e2_3unit_rhof0", "e2_3unit_rhof-1"])
 def test_control_modifier_refusals(bad):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="cannot be combined|takes no value|must be > 0"):
         cs.variant(bad)

@@ -304,3 +304,15 @@ Run status (additive; the records are not rewritten):
   Gamma depth profile (50–150 Hz mean relative power, scorer contact grid, `scratchpad/_temp_gamma_peak.py`): peak at
   0.000 (mid-L4), 0.99; falls to 0.53 at +0.25 and rises again to 0.59 at +0.35 (deep shoulder); at −0.20 it is 0.51.
   Per-run lines from now on carry the gamma peak depth and r_gm (parent request, 2026-11-10).
+
+## 16. Condition X1b (2026-11-10; parent ruling; owner Hamm)
+
+- X1b: PV silenced in L5 and L6 only (`SILENCE=PV@L5,L6`), 5 s, screening label, seed 1, wiring H, scale 1, discard 2 s.
+  Silenced populations: L5_PV, L6_PV; all other populations, all edges and the drive spec unchanged. Silencing uses the
+  §8 thresholds (VT +500 mV, Vpeak +1000 mV).
+- Comparator: the H run at 5 s (`x0rerun_H_s1_T5`), and X1 PV at 5 s (all-layer PV) beside it. Never compare a 5 s
+  result with a 20 s one. Every number carries its jackknife SE.
+- Order: appended to the end of the queue, after X3 L6 at 5 s. The queue order is not changed.
+- Test: `tests/test_allen_v1_silence.py` (silence selection; edges, drive and non-silenced parameters identical to the
+  unsilenced build; silenced populations spike 0; other populations still spike).
+- Run from the worktree's code (`_temp_allen_v1_screen`), not the shared dev checkout, so the option is present.

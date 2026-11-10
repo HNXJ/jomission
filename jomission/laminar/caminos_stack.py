@@ -66,13 +66,15 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
       nNNNN  mean E cells per unit (3-unit stack)
       dens   E cells per unit proportional to LANSA total density of the unit's bins (3-unit stack)
       kX     inter-unit in-degree K_INTER * X
+      kdB    local in-degree K_E * (density / mean density)^B per unit: denser units get more synapses
+             per cell (3-unit stack; see local_p)
       dszX   deep-unit E cells X times larger: C, gL, a, b scaled by X, synapses and drive unchanged
     """
     toks = name.split("_")
     nb = 2 if name.startswith("e2_") else 1
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
-        for key in ("sst", "dsz", "dens", "n", "k"):
+        for key in ("sst", "dsz", "dens", "n", "kd", "k"):
             if t.startswith(key):
                 rest = t[len(key):]
                 mods[key] = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
@@ -80,6 +82,17 @@ def variant(name: str) -> tuple[str, dict[str, float]]:
         else:
             raise ValueError(f"unknown layout modifier {t!r} in {name!r}")
     return base, mods
+
+
+def local_p(name: str, sizes: dict[str, dict[str, int]]) -> dict[str, float] | None:
+    """Per-unit within-unit p for the 'kdB' modifier (None otherwise): in-degree K_E * rel^B, rel = the
+    unit's LANSA density over the mean of the 3 units; applies to every local rule (E and inhibitory)."""
+    mods = variant(name)[1]
+    if "kd" not in mods:
+        return None
+    dens = unit_density(MODULE_BINS)
+    mean = np.mean([dens[m] for m in sizes])
+    return {m: min(1.0, K_E * (dens[m] / mean) ** mods["kd"] / sizes[m]["E"]) for m in sizes}
 
 
 def sst_e_tau(name: str) -> float | None:

@@ -45,7 +45,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     tau_sst_e = mods.get("sst")
     names = list(sizes)
     t0 = time.time()
-    model, rows = cs.construct(seed, sizes, p_inter, tau_sst_e_ms=tau_sst_e, k_scale=mods.get("k", 1.0),
+    p_local = cs.local_p(lay, sizes)
+    model, rows = cs.construct(seed, sizes, p_inter, p_local, tau_sst_e_ms=tau_sst_e, k_scale=mods.get("k", 1.0),
                                deep_size=mods.get("dsz", 1.0))
     t_construct = time.time() - t0
     # Drive per E and PV cell as E0: 560 private 4 Hz Poisson sources (round(0.07 * 8000)), any unit size
@@ -95,7 +96,7 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
         "layout": lay, "units": names, "depth_rel_L4": depth,
         "seed": seed, "T_s": T_s, "dt_ms": c0.DT_MS, "p_inter": p_inter, "k_inter": cs.K_INTER if p_inter is None else None,
-        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e, "modifiers": mods,
+        "rho": rho, "sizes": sizes, "edges": cs.edge_table(model), "tau_sst_e_ms": tau_sst_e, "modifiers": mods, "p_local": p_local,
         "g_columns": [list(c) for c in gcols], "g_reversal_mV": grev.tolist(), "g_tau_ms": gtau.tolist(),
         "lfp_proxy": f"|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed {V_REF_MV} mV, recurrent only",
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},

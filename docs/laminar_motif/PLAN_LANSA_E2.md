@@ -167,8 +167,20 @@ swapped, and every unit given S's spectrum):
 
 A wider kernel raises the flat control too (unit geometry alone fits part of the map), so above sigma 0.15 the
 flat control, not the bin permutation, is the null. sigma must come from independent data (cross-contact
-coherence vs distance), not from r_proto; LANSA Y holds only relative power (UNKNOWN which value). Next: deep
-N_SST/N_PV (`rhodX`) 1/4/8 on kd 1 + SST->E 15 ms.
+coherence vs distance), not from r_proto; LANSA Y holds only relative power (UNKNOWN which value).
+
+Deep N_SST/N_PV (`rhodX`, base 2) on kd 1 + SST->E 15 ms, sum over cells:
+
+| rho D | r_proto | null95 | r_ab | r_gm | E rate S/M/D (Hz) | ab M/S, D/S | gamma M/S, D/S |
+|---|---|---|---|---|---|---|---|
+| 1 | 0.368 | 0.27 | 0.26 | 0.49 | 0.41/0.75/1.28 | 1.8, 0.41 | 0.25, 0.087 |
+| 2 | 0.376 | 0.26 | 0.83 | 0.38 | - | 6.1, 4.2 | 0.26, 0.15 |
+| 4 | -0.257 | 0.22 | 0.91 | -0.71 | 0.44/0.79/5.47 | 3.7, 5.4 | 0.78, 2.3 |
+| 8 | 0.251 | 0.27 | -0.41 | 0.47 | 5.46/6.50/14.01 | 0.37, 0.25 | 0.072, 0.038 |
+
+Not monotone; rho D 4 makes D louder in both bands (D gamma 2.3x S), rho D 8 raises every rate. Across all 3-unit
+runs so far r_ab and r_gm trade off: no run has both above 0.6 at sigma 0.15. Plateau r_proto 0.38 on the
+swept axes (k, kd, SST->E decay, deep SST->E decay, deep size, deep rho).
 
 ## Out of scope
 

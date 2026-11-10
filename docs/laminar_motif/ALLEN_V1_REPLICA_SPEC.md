@@ -211,11 +211,13 @@ Route: owner order 2026-11-09 sends questions to the parent, not to Hamm. Record
 
 Criteria: the replica build passes; these are not science verdicts.
 - C1 Edge check on jaxfne 0.5.8: `edge_check.failed` empty (|z| ≤ 5 per block).
-- C2 Silencing: each silenced population fires 0 spikes (X1 to X3).
+- C2 Silencing, non-vacuous: `scripts/run_allen_v1_replica.py 1 0.5 check_H_silPV H 0.1 PV` on 0.5.8 silences the four
+  PV populations (L2/3, L4, L5, L6) and must give 0 spikes in each. The unsilenced control `check_H` fires in those
+  populations (L2/3 PV 21.8 Hz, L5 PV 20.0 Hz), so the check can fail. Used for X1 to X3 as well.
 - C3 Smoke equality: `scripts/run_allen_v1_replica.py 1 0.5 check_H H 0.1` on 0.5.8 reproduces the 43 arrays of
   `results/allen_v1/smoke_s0p1_H.npz` (0.5.9 run) exactly.
-- C4 Independent reviewer ACCEPT of the sealed commit (this spec, `allen_v1_replica.py`, `allen_v1_figure.py`,
-  `allen_v1_similarity.py`).
+- C4 Independent reviewer ACCEPT of the sealed commit (this spec, `allen_v1_replica.py`, `run_allen_v1_replica.py`,
+  `allen_v1_figure.py`, `allen_v1_similarity.py`), and of every earlier commit in `origin/dev..dev` (parent, 2026-11-10).
 - C5 r_proto reported for X0 (R1a). No threshold.
 
 Science predictions (§9, falsifiers as written) are sealed with this version. A result against one is a finding,
@@ -226,11 +228,14 @@ E layers at 263/431/585/747 µm, σ 117 µm, probe 50–829 µm (21), bands 10�
 silencing VT +500 mV and Vpeak +1000 mV (§ amendment).
 
 Stops:
-- S1 A sealed run on jaxfne other than 0.5.8.
+- S1 A result on jaxfne other than 0.5.8 is never a verdict on the authority (R1, ruling b, 2026-11-10). The runner
+  records `authority: off-authority (0.5.9 side install), exploratory` for such runs. The authority verdict waits for
+  OPEN-37 (owner). When it lands, X0 to X4 are rerun at the authority under this same seal; the spec does not change.
 - S2 Any of C1 to C4 fails. Stop at the first failure.
 - S3 Construct or simulate fails on 0.5.8. Status 2026-11-10: the 0.5.8 kernel has no resumable carry (no `state` or
   `return_state` in `simulate_adex_hdp_registered`), and `Model.simulate` sets `record_v=True` for AdEx. Full-size
-  runs (X0 rerun, X1 to X4) are blocked; ruling needed (§14).
+  runs on 0.5.8 are blocked. Ruling (b), 2026-11-10: X0 rerun and X1 to X4 run on the 0.5.9 chunked route, labelled
+  off-authority; the authority verdict waits for OPEN-37 (S1).
 - S4 A whole-run call that would record more than 2 GB of V is refused.
 - S5 Any parameter, criterion or bracket change is a new lineage, not an edit here.
 
@@ -240,15 +245,21 @@ Run status (additive; the records are not rewritten):
 |---|---|---|
 | `smoke_s0p1_H`, `smoke_s0p1_H_silPV` | 0.5.9 | exploratory, off-authority; reference for C3 |
 | `x0_H_s1_T20` | 0.5.9 | exploratory, off-authority; start tree predates a168181 (19:24); `git_sha` 89a1272 is end-of-run HEAD (R4) |
-| `check_H` | 0.5.8 | acceptance smoke (C1, C3 pass on 0.5.8, 2026-11-10); C2 vacuous here (no silenced population) |
-| X0 at sealed SHA | 0.5.8 | not run (S3). First sealed run |
-| X1 to X4 | 0.5.8 | not run (S3) |
+| `check_H` | 0.5.8 | acceptance smoke (C1, C3 pass on 0.5.8, 2026-11-10); unsilenced control for C2 |
+| `check_H_silPV` | 0.5.8 | acceptance, PV silenced (C1, C2 pass; 0 spikes in the four PV populations) |
+| X0 rerun (`x0rerun_H_s1_T20`), X0 A0, X1 to X4 | 0.5.9 chunked | authority: off-authority (0.5.9 side install), exploratory; queued after the seal's reviewer ACCEPT (ruling b) |
 
 ## 14. Results since v1 (2026-11-10)
 
-- 0.5.8 acceptance, `check_H` (0.1 scale, 0.5 s, seed 1, H): rc 0; edge check 353 blocks examined, 0 failed,
-  2 386 493 edges; 43 arrays identical to `smoke_s0p1_H` (15 452 spikes). Path: whole-run `model.simulate`, because
-  0.5.8 has no resumable kernel (S3).
+- 0.5.8 acceptance, `check_H` (0.1 scale, 0.5 s, seed 1, H): `checks_pass` true in `check_H.json`; edge check 353
+  blocks examined, 0 failed, 2 386 493 edges; 43 arrays identical to `smoke_s0p1_H` (15 452 spikes). Path: whole-run
+  `model.simulate`, because 0.5.8 has no resumable kernel (S3).
+- 0.5.8 silencing, `check_H_silPV` (PV silenced): `checks_pass` true; silenced list the four PV populations; 0 spikes in
+  each (C2). The control `check_H` fires there. Replaces the vacuous C2 check on `check_H`.
+- Reviewer (read-only, 2026-11-10): b98d8fd ACCEPT with caveats; 3f3ee7f, f8cc9cf, 478c34e, b1d8b36, 672a963 each ACCEPT.
+  Caveats closed here: C2 (above); C4 names the runner; S1 has a runner label, not a code gate; §12 wording (the
+  owner-order route and the R2 authorization are recorded in the todo text for SCI-LAMINAR-MOTIF-1); "24.0·10⁶" is the
+  expected full-size count, realized 23 854 994 in X0.
 - 0.5.8 full size: blocked (S3). `simulate_adex_hdp_registered` on 0.5.8 has no `state`, and `Model.simulate` records V
   for AdEx, 53 GB at X0 size. The 0.5.8 execution authority cannot run X0 to X4 as specified.
 - Null convention (recomputed; the code is `e2_motif_figure.score`): shuffle statistics are stored raw, and p is the
@@ -258,5 +269,6 @@ Run status (additive; the records are not rewritten):
   hypothesis is refuted. The X0 mean −0.10296 ≈ −M is not structural: the positive case gives −0.157 against +0.411.
   Its cause is unexplained; p is unaffected. With 4 units the smallest attainable p is 1/24.
 - r_proto, X0 against the observed map (report only; `scripts/allen_v1_similarity.py`, LANSA-bin probe):
-  per E cell −0.009, sum over E cells +0.152, null95 ≈ 0.25 (E2 method). The spec-probe values (0.335, 0.465) are not
-  bin-aligned to the observed map and are not similarity results.
+  per E cell −0.009, sum over E cells +0.152, null95 ≈ 0.25 (E2 method). Sum row: no similarity beyond chance (0.152
+  below null95). The spec-probe values (0.335, 0.465) are not bin-aligned to the observed map and are not similarity
+  results.

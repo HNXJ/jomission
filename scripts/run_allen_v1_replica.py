@@ -103,6 +103,9 @@ def main(seed: int, T_s: float, tag: str, wiring: str, scale: float, silence: st
         "lfp_layers": layers,
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},
         "jaxfne_version": jtfne.__version__, "jaxfne_file": str(jtfne.__file__),
+        # parent ruling 2026-11-10: any run on jaxfne other than the execution authority 0.5.8 is exploratory
+        "authority": "authority (jaxfne 0.5.8)" if jtfne.__version__ == "0.5.8"
+        else "off-authority (0.5.9 side install), exploratory",
         "jax_devices": [str(x) for x in jax.devices()], "git_sha": sha, "checks_pass": ok,
     }
     (OUT / f"{tag}.json").write_text(json.dumps(rec, indent=1), encoding="utf-8")

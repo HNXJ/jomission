@@ -26,6 +26,9 @@ Under PLAN_PAPER_JOMISSION_LANSA.md v2 §2. Committed and pushed before the firs
 
 - **Acceptance of a silencing run:** zero spikes in the silenced cells after the discard, and edge counts equal
   to the reference's (`edges` in the run JSON). A run that fails this is reported as failed silencing.
+- **Fallback (review 2026-11-10):** a silencing run that fails acceptance is rerun once at twice the dose
+  (up to -6400 pA); both runs are reported, and the condition's result is the rerun. If that also fails, the
+  condition is reported as failed silencing.
 - **Estimands:** as SEAL_T2_T3.md, plus the change vs the reference (difference map, Pearson r, SSIM) and
   per-unit E rate.
 - **Deferred:** graded fractions (10/25/50/75/100%) inside the isolated gamma unit. `tensor_triple_drive`

@@ -118,7 +118,12 @@ def variant(name: str) -> tuple[str, dict]:
                         raise ValueError(f"{key} declared twice for unit {unit!r} in {name!r}")
                     mods.setdefault(key, {})[unit] = value
                 else:
-                    mods[key] = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
+                    if key in mods:
+                        raise ValueError(f"{key} declared twice in {name!r}")
+                    v = 1.0 if key == "dens" and not rest else float(rest.replace("p", "."))
+                    if not math.isfinite(v):
+                        raise ValueError(f"modifier {t!r} in {name!r}: value must be finite")
+                    mods[key] = v
                 break
         else:
             raise ValueError(f"unknown layout modifier {t!r} in {name!r}")

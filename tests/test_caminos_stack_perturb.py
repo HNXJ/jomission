@@ -118,5 +118,9 @@ def test_drive_and_rhos_refusals():
         cs.variant("e2_3unit_isomD5x")
     with pytest.raises(ValueError, match="driven twice"):  # a covers S PV; ipvS50 would add a second entry
         cs.drive_entries("e2_3unit_ipvam200_ipvS50", SIZES)
+    with pytest.raises(ValueError, match="declared twice"):
+        cs.variant("e2_3unit_gi2_gi3")
+    with pytest.raises(ValueError, match="must be finite"):
+        cs.variant("e2_3unit_rhosnan")
     with pytest.raises(ValueError, match="3-unit stack"):
         cs.layout("unit100_rhos2")

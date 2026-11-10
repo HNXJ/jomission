@@ -30,6 +30,13 @@ P_LOCAL = 0.07
 P_INTER = 0.01
 
 
+def _prob(x: float, what: str) -> float:
+    """x as a connection probability. Raises when x > 1: a clip at 1.0 would silently change the in-degree."""
+    if x <= 1.0:
+        return x
+    raise ValueError(f"{what} = {x:.6g} > 1: connection probability would clip at 1.0")
+
+
 def unit_sizes(n_e: int, rho: float) -> dict[str, int]:
     n_inh = int(round(n_e * INH_PER_E))
     n_sst = int(round(n_inh * rho / (1.0 + rho)))
@@ -95,7 +102,7 @@ def local_p(name: str, sizes: dict[str, dict[str, int]]) -> dict[str, float] | N
         return None
     dens = unit_density(MODULE_BINS)
     mean = np.mean([dens[m] for m in sizes])
-    return {m: min(1.0, K_E * (dens[m] / mean) ** mods["kd"] / sizes[m]["E"]) for m in sizes}
+    return {m: _prob(K_E * (dens[m] / mean) ** mods["kd"] / sizes[m]["E"], f"local p (kd) of unit {m}") for m in sizes}
 
 
 def sst_taus(name: str, units) -> dict[str, float] | None:
@@ -181,7 +188,9 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
     for t in distinct:
         cfg = cfg.mechanisms(name=rname[t], kind="receptor", params={"tau_ms": t, "reversal_mV": c0.REV_I_MV})
     for m in names:
-        p = (p_local or {}).get(m, min(1.0, K_E / sizes[m]["E"]))
+        p = (p_local or {}).get(m)
+        if p is None:
+            p = _prob(K_E / sizes[m]["E"], f"local p of unit {m}")
         for name, pre, post, weight, mech in c0.RULES:
             if name == "sst_e" and m in taus:
                 weight, mech = weight * c0.TAU_I_MS / taus[m], rname[float(taus[m])]
@@ -193,7 +202,8 @@ def build_config(seed: int, sizes: dict[str, dict[str, int]], p_inter: float | N
     for i in range(len(names) - 1):
         for a, b in ((names[i], names[i + 1]), (names[i + 1], names[i])):
             # in-degree 2 K_INTER per target cell: an end unit takes 2 K_INTER from its one neighbour
-            p = p_inter if p_inter is not None else min(1.0, 2 * K_INTER * k_scale / n_nb[b] / sizes[a]["E"])
+            p = p_inter if p_inter is not None else _prob(
+                2 * K_INTER * k_scale / n_nb[b] / sizes[a]["E"], f"inter-unit p {a}->{b}")
             if p <= 0:
                 continue
             for post, weight in (("E", c0.Q_E_E), ("PV", c0.Q_E_INH), ("SOM", c0.Q_E_INH)):

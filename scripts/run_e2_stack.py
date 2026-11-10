@@ -7,7 +7,7 @@ LAYOUT is a caminos_stack.layout name: e2_3unit (default), unitNNNN, e2_21bin, w
 (caminos_stack.variant), e.g. e2_3unit_n4000_dens_k3_dsz2_sst30.
 
 Writes results/laminar_e2/<TAG>.npz (untracked: block counts, LFP proxy, raster sample) and
-results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions). JaxFNE 0.5.9 must be importable;
+results/laminar_e2/<TAG>.json (sizes, edges, wall time, versions, git dirty flag, JaxFNE source). JaxFNE 0.5.9 must be importable;
 set JAXFNE_SITE to a side-install directory to put it first on sys.path. Exit 0 when both files are written.
 """
 from __future__ import annotations
@@ -92,6 +92,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
     np.savez_compressed(OUT / f"{tag}.npz", counts=counts, block_keys=np.array([f"{m}_{t}" for m, t in keys]),
                         lfp_pA=lfp, g_nS=g.astype(np.float32), **raster)
     sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    st = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"], capture_output=True, text=True)
+    src = Path(jtfne.__file__).resolve().parent.parent / "SOURCE.txt"  # beside the jaxfne package dir
     rec = {
         "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
         "layout": lay, "units": names, "depth_rel_L4": depth,
@@ -102,6 +104,8 @@ def main(seed: int, T_s: float, tag: str, lay: str) -> None:
         "wall_s": {"construct": t_construct, "simulate": t_sim, "total": time.time() - t0},
         "jaxfne_version": jtfne.__version__, "jaxfne_file": str(jtfne.__file__),
         "jax_devices": [str(x) for x in jax.devices()], "git_sha": sha,
+        "git_dirty": bool(st.stdout.strip()) if st.returncode == 0 else None,  # None: git failed, unknown
+        "jaxfne_source": src.read_text(encoding="utf-8") if src.is_file() else None,
     }
     (OUT / f"{tag}.json").write_text(json.dumps(rec, indent=1), encoding="utf-8")
     print(json.dumps({k: rec[k] for k in ("seed", "T_s", "wall_s", "jaxfne_version")}))

@@ -28,7 +28,8 @@ def test_rhod_sets_deep_ratio_only():
 @pytest.mark.parametrize("lay", ["e2_3unit_sst15_sstd60", "e2_3unit_sstd30"])
 def test_sstd_wires_deep_only(lay):
     pytest.importorskip("jaxfne")
-    model, rows = cs.construct(0, SIZES, 0.01, None, tau_sst_e_ms=cs.sst_taus(lay, SIZES))
+    p_local = {m: 0.5 for m in SIZES}  # small fixture: K_E / 40 would exceed 1 (refused since W1)
+    model, rows = cs.construct(0, SIZES, 0.01, p_local, tau_sst_e_ms=cs.sst_taus(lay, SIZES))
     st = model.static["adex"]
     pre, post = np.asarray(st["pre"]), np.asarray(st["post"])
     rec, names = np.asarray(st["receptor"]), list(st["receptor_names"])

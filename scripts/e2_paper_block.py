@@ -65,6 +65,9 @@ RASTER_GAP = 12  # blank rows between modules in the raster
 BAND_DASHES_HZ = (4.0, 8.0, 12.0, 30.0, 90.0)  # LANSA convention
 TYPE_COLOR = {"E": "#8e24aa", "PV": "#1565c0", "SOM": "#ff9800"}  # purple, blue, orange (match-visual-style)
 MODULE_LS = ("-", "--", ":")  # module line style in panel C: a second cue to the colour
+TYPE_MARKER = {"E": "o", "PV": "^", "SOM": "s"}  # panel C: a non-colour cue per cell type
+MARK_EVERY_HZ = 15  # panel C: one marker per 15 Hz on the 1 Hz grid
+STACK_GAP = 0.5  # panel B: z units added beyond 2 x max|z| so adjacent traces never touch
 FIG_W, FIG_H = 7.2, 6.7  # inches; 7.2 in is the full page width
 AX_W, AX_H = 1.75, 2.2  # inches, one panel
 COL_X = (0.95, 3.05, 5.15)  # left edge of each panel column, inches
@@ -231,8 +234,15 @@ def parameter_rows(rec: dict) -> list[dict]:
     return rows
 
 
+def _sha_line(src: str | None) -> str:
+    """First line of the recorded jaxfne_source that names a sha; 'not recorded' when there is none."""
+    for line in (src or "").splitlines():
+        if "sha" in line.lower():
+            return line.strip()
+    return "not recorded"
+
+
 def run_rows(rec: dict) -> list[dict]:
-    src = rec.get("jaxfne_source")
     return [
         {"key": "layout", "value": rec.get("layout", MISSING)},
         {"key": "experiment", "value": rec.get("experiment", MISSING)},
@@ -240,8 +250,7 @@ def run_rows(rec: dict) -> list[dict]:
         {"key": "T_s", "value": rec["T_s"]},
         {"key": "dt_ms", "value": rec["dt_ms"]},
         {"key": "jaxfne_version", "value": rec["jaxfne_version"]},
-        {"key": "jaxfne_file", "value": rec["jaxfne_file"]},
-        {"key": "jaxfne_source", "value": (f"recorded ({len(src)} characters)" if src else MISSING)},
+        {"key": "jaxfne_source sha", "value": _sha_line(rec.get("jaxfne_source"))},
         {"key": "jax_devices", "value": rec.get("jax_devices", MISSING)},
         {"key": "git_sha (run)", "value": rec["git_sha"]},
         {"key": "git_dirty", "value": rec.get("git_dirty", MISSING)},
@@ -365,7 +374,10 @@ def draw_v0(det: dict, path: Path) -> None:
             ax.add_patch(Circle((px, py), 0.12, color=TYPE_COLOR[pop], zorder=3))
             ax.text(px, py, pop, color="white", fontsize=5.5 if pop == "SOM" else TEXT_PT, ha="center",
                     va="center", zorder=4, weight="bold")
-            ax.text(px + 0.17, py, f"N {n:,}", fontsize=TEXT_PT, va="center")
+            if pop == "E":  # the E<->PV and E<->SOM arcs leave E on the right and below; the label goes above
+                ax.text(px, py + 0.2, f"N {n:,}", fontsize=TEXT_PT, va="center", ha="center")
+            else:
+                ax.text(px + 0.17, py, f"N {n:,}", fontsize=TEXT_PT, va="center")
         for a, b in (("E", "PV"), ("PV", "E"), ("E", "SOM"), ("SOM", "E")):
             pa, pb_ = nodes[a], nodes[b]
             rad = 0.25 if (a, b) in (("E", "PV"), ("E", "SOM")) else -0.25
@@ -395,6 +407,7 @@ def draw_v0(det: dict, path: Path) -> None:
         "Within-module p: " + ", ".join(f"{m['name']} {_fmt(pv[P_LOCAL_NAME.format(m['name'])])}" for m in mods)
         + f" (kd: {AGENT}).",
         f"Every value, its source and the edge counts: {det['tag']}_details.md.",
+        "Arcs: E<->PV and E<->SOM loops; all rules and counts are in the text column.",
     ]
     for i, line in enumerate(foot):
         ax.text(x0, 1.05 - i * 0.2, line, fontsize=TEXT_PT, va="center")
@@ -428,6 +441,13 @@ def relative_map(x: np.ndarray, depth: np.ndarray) -> tuple[np.ndarray, np.ndarr
     f, S = mf.cross_spectra(x, 1000.0, min(1000, x.shape[0]))
     P = mf.probe_power(S.mean(axis=0), K)
     return f, P / P.max(axis=0, keepdims=True)
+
+
+def stack_offsets(z: np.ndarray) -> np.ndarray:
+    """Vertical offset of each trace of z [T, U], unit 0 on top. Each trace spans +-max|z|, so a step above 2 max|z| keeps them apart."""
+    n_u = z.shape[1]
+    step = 2.0 * float(np.abs(z).max()) + STACK_GAP
+    return np.array([(n_u - 1 - i) * step for i in range(n_u)])
 
 
 def _panel(fig, col: int, row: int, dx: float = 0.0, w: float = AX_W):
@@ -514,7 +534,7 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     seg = rws[d0:w1]
     tt = (np.arange(seg.shape[0]) + d0) / 1000.0
     z = (seg - seg.mean(axis=0)) / seg.std(axis=0)
-    offs = [(n_u - 1 - i) * 3.0 for i in range(n_u)]
+    offs = stack_offsets(z)
     for i in range(n_u):
         axB.plot(tt, z[:, i] + offs[i], color="black", lw=0.6)
     axB.set_yticks(offs)
@@ -533,7 +553,8 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     sel = (f >= 1) & (f <= F_MAX_HZ)
     for j in range(pw.shape[0]):
         i, k = divmod(j, len(POPS))
-        axC.plot(f[sel], pw[j, sel], color=TYPE_COLOR[POPS[k]], ls=MODULE_LS[i], lw=1.0)
+        axC.plot(f[sel], pw[j, sel], color=TYPE_COLOR[POPS[k]], ls=MODULE_LS[i], lw=1.0,
+                 marker=TYPE_MARKER[POPS[k]], ms=2.2, markevery=MARK_EVERY_HZ)
     (a0, a1), (g0, g1) = mf.BANDS[mf.FIG_BANDS]
     axC.axvspan(a0, a1, color=mf.C_AB, alpha=0.10, lw=0)
     axC.axvspan(g0, g1, color=mf.C_GM, alpha=0.10, lw=0)
@@ -544,10 +565,11 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axC.set_xticks([50, 100, 150])
     axC.set_xlabel("Frequency (Hz)", fontsize=7)
     axC.set_ylabel("Firing-rate PSD (Hz²/Hz)", fontsize=7)
-    cell_handles = [Line2D([], [], color=TYPE_COLOR[p], lw=1.0) for p in POPS]
+    cell_handles = [Line2D([], [], color=TYPE_COLOR[p], lw=1.0, marker=TYPE_MARKER[p], ms=2.2, markevery=1)
+                    for p in POPS]
     mod_handles = [Line2D([], [], color="#444444", lw=1.0, ls=MODULE_LS[i]) for i in range(n_u)]
-    axC.legend(cell_handles + mod_handles, list(POPS) + units, loc="upper right", frameon=False, ncol=2,
-               handlelength=1.5, columnspacing=0.6, borderaxespad=0.1)
+    axC.legend(cell_handles + mod_handles, list(POPS) + units, loc="lower left", bbox_to_anchor=(0.0, 1.0),
+               frameon=False, ncol=3, handlelength=1.5, columnspacing=0.6, borderaxespad=0.1)
     _tidy(axC)
 
     # D and E: SL maps (RWS per E cell; firing rate of E cells), F: observed LANSA prototype

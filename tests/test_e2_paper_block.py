@@ -114,6 +114,39 @@ def test_every_parameter_row_has_a_source(run_dir):
         assert any(key in name for name in agent), f"{key} is not labelled agent choice"
 
 
+def test_panel_b_offsets_do_not_overlap():
+    rng = np.random.default_rng(2)
+    z = rng.standard_normal((500, 3))
+    z[0, 0], z[1, 2] = 4.0, -4.0  # large excursions on two traces
+    assert np.abs(z).max() > 3.5, "fixture must have large z excursions"
+    offs = pb.stack_offsets(z)
+    assert offs[0] > offs[1] > offs[2], "traces must stack top to bottom in unit order"
+    step = offs[0] - offs[1]
+    assert step > 2 * np.abs(z).max(), f"offset {step:g} does not exceed 2 x max|z| = {2 * np.abs(z).max():g}"
+    for i in range(z.shape[1] - 1):
+        assert (z[:, i] + offs[i]).min() > (z[:, i + 1] + offs[i + 1]).max(), f"traces {i} and {i + 1} overlap"
+
+
+def test_details_md_has_no_ephemeral_paths(run_dir):
+    rec, _ = pb.load_run(run_dir, TAG)
+    rec = copy.deepcopy(rec)
+    rec["jaxfne_file"] = "/private/tmp/scratch/jaxfne-0.5.9-site/jaxfne/__init__.py"
+    assert "/private/tmp" in rec["jaxfne_file"], "fixture must carry an ephemeral path"
+    assert "jaxfne_source" not in rec, "fixture must not record jaxfne_source"
+    md = pb.to_markdown(pb.build_details(rec, TAG))
+    assert "/private/" not in md and "/tmp/" not in md, "details MD prints an ephemeral path"
+    assert "| jaxfne_version | fixture |" in md, "JaxFNE version row missing"
+    assert "| jaxfne_source sha | not recorded |" in md, "sha row must read not recorded when absent"
+
+
+def test_jaxfne_sha_line_is_printed_when_recorded(run_dir):
+    rec, _ = pb.load_run(run_dir, TAG)
+    rec = copy.deepcopy(rec)
+    rec["jaxfne_source"] = "name: jaxfne\nsha: 0123456789abcdef0123456789abcdef01234567\n"
+    md = pb.to_markdown(pb.build_details(rec, TAG))
+    assert "| jaxfne_source sha | sha: 0123456789abcdef0123456789abcdef01234567 |" in md, "sha line not printed"
+
+
 def test_figure_and_v0_are_written_and_nonempty(run_dir, tmp_path):
     out = tmp_path / "out"
     rc = pb.main([TAG, "--results-dir", str(run_dir), "--out-dir", str(out), "--discard", "2"])

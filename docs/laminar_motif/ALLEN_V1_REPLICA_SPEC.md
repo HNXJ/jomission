@@ -301,3 +301,6 @@ Run status (additive; the records are not rewritten):
   fails), r_ab 0.777. Not a units or readout limit: a free diagonal four-unit fit reaches r_gm 0.835 against the observed
   map (`tests/test_allen_v1_units.py`), and the parent's 3-unit sigma-0.15 ceilings are r_gm 0.853 (coherent) and 0.657
   (incoherent). Read as the simulated spectra, not the readout.
+  Gamma depth profile (50–150 Hz mean relative power, scorer contact grid, `scratchpad/_temp_gamma_peak.py`): peak at
+  0.000 (mid-L4), 0.99; falls to 0.53 at +0.25 and rises again to 0.59 at +0.35 (deep shoulder); at −0.20 it is 0.51.
+  Per-run lines from now on carry the gamma peak depth and r_gm (parent request, 2026-11-10).

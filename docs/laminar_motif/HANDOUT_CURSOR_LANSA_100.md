@@ -7,6 +7,9 @@ Read `AGENTS.md`, then this file, then the files it names. Every statement here 
 re-read the source before you build on it. Status marks: OBSERVED (file or run you can open), INFERRED,
 PROPOSED (needs Hamm).
 
+**Resuming after the 2026-11-11 seal: read section 3 first.** It is the current state; section 4 is the earlier
+narrative kept for its warnings.
+
 ## 1. Where things are
 
 | What | Where |
@@ -40,7 +43,34 @@ PROPOSED (needs Hamm).
 - Critic loop for the manuscript: at most 3 rounds; the final ACCEPT from a reviewer that has not seen earlier rounds.
 - Shell: write scripts to files and run them by path; no `sed -i`; kill by PID only.
 
-## 3. State on 2026-11-10 (OBSERVED unless marked)
+## 3. State after the 2026-11-11 seal (OBSERVED unless marked)
+
+**Read this section first if you are resuming from the remote.** The seal below replaced the older handoff
+narrative; the paragraphs after it are kept because their warnings still hold.
+
+- **Sealed at `77dd152` plus the seal commit, branch `dev`.** `python3 scripts/project_check.py --offline --no-tests`
+  ends `PROJECT_CHECK_PASS`. Manuscript: 35 pages, 0 errors, 0 overfull, 0 float-too-large, 0 undefined references.
+- **The isolated gate is the one to trust:** `python3 scripts/verify_clone.py` reports import-inside-clone True and
+  **258 passed, 0 failed** (`VERIFY_CLONE_PASS`). `project_check.py` run inside a bare clone still shows 1 failure by
+  construction (the ambient editable install); that is not a defect and not the gate to quote.
+- **Three independent reviews ran; all returned REVISE.** Every finding is dispositioned in
+  `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`. Two are worth knowing before you trust this tree's history: I once
+  rejected a real finding by scoring the wrong run set (the confirmed setting is the `sstd21` circuit, r_ab
+  0.32-0.47 on its own selection seeds), and my first regression guard would have passed the defect it named.
+  `scripts/check_confirmed_runs.py` now fails on the pre-fix text and passes on the current one.
+- **No ACCEPT exists yet.** The final review at `1d7009c` was still running when this was sealed. Do not treat any
+  document here as an acceptance, and do not push `main` or submit on the strength of this seal.
+- **Owner gates open:** the nine A1 declarations
+  (`A1_DECLARATIONS_TEMPLATE.md`, every field `MISSING` until Hamm supplies the fact), the A2 archive and DOI
+  (Zenodo proposed; LANSA source data neither deposited nor redistributed pending an access-terms ruling), the
+  ruling on `OPEN-43` (see below), and authorization for `main` / bioRxiv.
+- **`OPEN-43`:** `manifests/current_state.json` is dated 2026-11-05, names `SCI-AGSDR-CALIBRATION` as
+  `next_authorized_task`, and never mentions LANSA. That pointer is an authorization, so it was recorded, not moved.
+  An agent resuming from the state file alone would start the wrong work: read this handout first.
+- **A push that was not this session's:** `origin/dev` moved `f4c7970 -> 4ecdda3` at 2026-11-10 20:20:14 CST by
+  another session, carrying this session's then-unreviewed commits. Recorded in the adjudication file.
+
+## 4. State on 2026-11-10 (superseded by section 3; kept for its warnings)
 
 - Handoff point, 2026-11-11T01:03Z (2026-11-10 19:03 CST): `dev` is 4 commits ahead of origin/dev (f4c7970), nothing pushed: 12fc805
   (revision), 2c51ab3 (critic round 1 fixes), 5aa809f (critic round 2 fixes and this handout), e36a566 (the state
@@ -88,7 +118,7 @@ PROPOSED (needs Hamm).
   editorial scores for the previous draft: rigor 88, clarity 79, naturalness 76, bioRxiv readiness 82.
 - Owner items outstanding: all declarations, LANSA access terms, run-record archive, Zenodo for jomission.
 
-## 4. What 100/100 means here (PROPOSED: Hamm confirms or edits the criteria)
+## 5. What 100/100 means here (PROPOSED: Hamm confirms or edits the criteria)
 
 Ten criteria, 10 points each: met 10, partial 5, open 0. Current status is the writer's assessment (INFERRED);
 this scale is for the research programme, not the bioRxiv-readiness score above.
@@ -108,7 +138,7 @@ this scale is for the research programme, not the bioRxiv-readiness score above.
 
 Total now 45/100 (INFERRED). 100 = every row met.
 
-## 5. Plan, in order (top = next). Each step: what, closing check, blocked by
+## 6. Plan, in order (top = next). Each step: what, closing check, blocked by
 
 ### Phase 0: close the review-4 round (this session may already have done it)
 0. **DONE to the limit the loop allows.** Round 3 ran on `e36a566` under a reviewer that saw neither earlier round
@@ -173,7 +203,7 @@ C4. More units: 5-7 depth units from the same LANSA bins, so depth resolution co
 D1. Merge phases B-C into a revised manuscript; per-area fits (11 areas) as generalization; respond to bioRxiv
     comments. Check: critic loop ACCEPT; Hamm chooses the journal (instructions read on the date of submission).
 
-## 6. Decisions only Hamm makes (ask one at a time, options ranked)
+## 7. Decisions only Hamm makes (ask one at a time, options ranked)
 
 1. Confirm or edit the 10 criteria in section 4.
 2. Declarations and metadata (A1); LANSA access statement; archive host and publish go (A2); `main` push and
@@ -181,7 +211,7 @@ D1. Merge phases B-C into a revised manuscript; per-area fits (11 areas) as gene
 3. Input model for C1; whether T2-T4 still run (B4); JaxFNE version authority (OPEN-37: 0.5.8 vs 0.5.9).
 4. Whether the HDP proposal becomes a lineage (it is unsealed; nothing runs from it).
 
-## 7. How to work
+## 8. How to work
 
 Loop per step: re-read sources -> smallest change -> its check -> independent review -> commit exact paths ->
 push `dev` -> delete the finished row here and update `manifests/todo.json` progress. Report to Hamm: result first,

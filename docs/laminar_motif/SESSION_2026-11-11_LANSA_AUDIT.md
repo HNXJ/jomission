@@ -94,3 +94,22 @@ Still open in A3, recorded rather than fixed:
   found and committed, or the atlases are redrawn by a new script under the visualization contract. Not guessed at.
 - A second, independent visual review of the four redrawn figures: running.
 
+## 7. Every main-text figure measured at print scale (2026-11-11)
+
+Read from each PNG's embedded dpi, not an assumed one; scale = printed width / native width.
+
+| Figure | dpi | native in | printed in | scale |
+|---|---|---|---|---|
+| Fig 1 schema | 300 | 6.77 | 6.77 | 1.000 |
+| Fig 2 block | 300 | 7.20 | 6.77 | 0.940 |
+| Fig 3 scorer | 300 | 6.77 | 6.77 | 1.000 |
+| Fig 5 weights, upper | 300 | 6.77 | 6.77 | 1.000 |
+| Fig 5 weights, lower | 300 | 6.77 | 6.77 | 1.000 |
+| Fig 6 T8 atlas | 300 | 6.80 | 6.77 | 0.995 |
+| Fig 7 probe summary | 200 | 6.70 | 6.77 | 1.010 |
+| Fig 8 CSD | 300 | 6.80 | 6.77 | 0.995 |
+
+No main-text figure is shrunk below 0.94, so no main-text type falls under its declared size. The only remaining
+shrinkage anywhere in the paper is the three T1 atlases at 0.896 (supplement).
+
+

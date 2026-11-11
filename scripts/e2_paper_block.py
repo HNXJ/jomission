@@ -552,16 +552,16 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axB.set_ylabel("RWS, z", fontsize=LABEL_PT)
     _tidy(axB)
 
-    # C: firing-rate spectra per module and cell type (log power, Hz^2/Hz)
+    # C: firing-rate spectra, one E-population trace per module (the per-type set is 9 lines and unreadable at
+    # this panel width); module distinguished by line style and by a direct label at each trace's gamma peak
     axC = _panel(fig, 2, 0, dx=0.15, w=AX_W - 0.15)  # room for the log tick labels and the y label
     nper = min(1000, rate.shape[0] - d0)
     f, S = mf.cross_spectra(rate[d0:], 1000.0, nper)
     pw = np.einsum("fuu->uf", S.mean(axis=0)).real
     sel = (f >= 1) & (f <= F_MAX_HZ)
-    for j in range(pw.shape[0]):
-        i, k = divmod(j, len(POPS))
-        axC.plot(f[sel], pw[j, sel], color=TYPE_COLOR[POPS[k]], ls=MODULE_LS[i], lw=1.0,
-                 marker=TYPE_MARKER[POPS[k]], ms=2.2, markevery=MARK_EVERY_HZ)
+    e_cols = [i * len(POPS) for i in range(n_u)]
+    for i, col in enumerate(e_cols):
+        axC.plot(f[sel], pw[col, sel], color=TYPE_COLOR["E"], ls=MODULE_LS[i], lw=1.2)
     (a0, a1), (g0, g1) = mf.BANDS[mf.FIG_BANDS]
     axC.axvspan(a0, a1, color=mf.C_AB, alpha=0.10, lw=0)
     axC.axvspan(g0, g1, color=mf.C_GM, alpha=0.10, lw=0)
@@ -571,12 +571,11 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axC.set_xlim(1, F_MAX_HZ)
     axC.set_xticks([50, 100, 150])
     axC.set_xlabel("Frequency (Hz)", fontsize=LABEL_PT)
-    axC.set_ylabel("Firing-rate PSD (Hz²/Hz)", fontsize=LABEL_PT)
-    cell_handles = [Line2D([], [], color=TYPE_COLOR[p], lw=1.0, marker=TYPE_MARKER[p], ms=2.2, markevery=1)
-                    for p in POPS]
-    mod_handles = [Line2D([], [], color="#444444", lw=1.0, ls=MODULE_LS[i]) for i in range(n_u)]
-    axC.legend(cell_handles + mod_handles, list(POPS) + units, loc="lower left", bbox_to_anchor=(0.0, 1.0),
-               frameon=False, ncol=3, handlelength=1.5, columnspacing=0.6, borderaxespad=0.1)
+    axC.set_ylabel("E firing-rate PSD (Hz²/Hz)", fontsize=LABEL_PT)
+    mod_handles = [Line2D([], [], color=TYPE_COLOR["E"], lw=1.2, ls=MODULE_LS[i]) for i in range(n_u)]
+    axC.legend(mod_handles, units, loc="lower left", bbox_to_anchor=(0.0, 1.0), frameon=False, ncol=n_u,
+               handlelength=1.6, columnspacing=0.8, borderaxespad=0.1, title="E population",
+               title_fontsize=TEXT_PT)
     _tidy(axC)
 
     # D and E: SL maps (RWS per E cell; firing rate of E cells), F: observed LANSA prototype

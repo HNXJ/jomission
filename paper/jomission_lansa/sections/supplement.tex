@@ -29,16 +29,19 @@ against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}).}
 
 \begin{figure}[tbp]
 \centering
-\panel{N1000 s1}{../../results/laminar_e2/lfs_n1000_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N1000 s2}{../../results/laminar_e2/lfs_n1000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N1000 s3}{../../results/laminar_e2/lfs_n1000_s3_T8_motif.png}{0.32\linewidth}{missing}\\[0.8em]
-\panel{N2000 s1}{../../results/laminar_e2/lfs_n2000_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N2000 s2}{../../results/laminar_e2/lfs_n2000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N2000 s3}{../../results/laminar_e2/lfs_n2000_s3_T8_motif.png}{0.32\linewidth}{missing}\\[0.8em]
-\panel{N4000 s1}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N4000 s2}{../../results/laminar_e2/lfs_n4000_s2_T8_motif.png}{0.32\linewidth}{missing}\hfill
-\panel{N4000 s3}{../../results/laminar_e2/lfs_n4000_s3_T8_motif.png}{0.32\linewidth}{missing}
-\caption{Finite-size ladder motif maps, one per $N$ and seed; scores in Table~\ref{tab:ladder}. Ladder rule (\rec{R4}): seed-mean
+\panel{N1000 s1}{../../results/viz/ladder/lfs_n1000_s1_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N1000 s2}{../../results/viz/ladder/lfs_n1000_s2_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N1000 s3}{../../results/viz/ladder/lfs_n1000_s3_T8_laddermap.png}{0.32\linewidth}{missing}\\[0.8em]
+\panel{N2000 s1}{../../results/viz/ladder/lfs_n2000_s1_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N2000 s2}{../../results/viz/ladder/lfs_n2000_s2_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N2000 s3}{../../results/viz/ladder/lfs_n2000_s3_T8_laddermap.png}{0.32\linewidth}{missing}\\[0.8em]
+\panel{N4000 s1}{../../results/viz/ladder/sw_n4000_dens_k1_kd1_sst15_s1_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N4000 s2}{../../results/viz/ladder/lfs_n4000_s2_T8_laddermap.png}{0.32\linewidth}{missing}\hfill
+\panel{N4000 s3}{../../results/viz/ladder/lfs_n4000_s3_T8_laddermap.png}{0.32\linewidth}{missing}
+\caption{Finite-size ladder relative-power maps, one per $N$ and seed; scores in Table~\ref{tab:ladder}. Each panel is
+the RWS-probe power per E cell divided by its maximum over depth at each frequency, the quantity panels D--F of
+Fig.~\ref{fig:reference} show for the reference column, drawn at its printed size so the axes stay legible. Ladder
+rule (\rec{R4}): seed-mean
 $r_\text{proto}$ 0.334, 0.387, 0.328 for $N$ = 1000, 2000, 4000; both smaller $N$ are within 2 SD of $N = 4000$ in
 $r_\text{proto}$ but fail the 3 Hz peak test on the S unit (seed-mean S peak 8, 31, 43 Hz), so the T1 size is
 $N = 4000$.}

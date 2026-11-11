@@ -48,7 +48,8 @@ The software authority is 0.5.8; 0.5.8 and 0.5.9 gave identical per-step spike c
 \textbf{Event-driven delivery.} The event route computes AdEx synaptic input only from presynaptic cells that
 spiked in the step. It was compared with the dense route on all 22 saved output arrays in two layouts: one 8 s T1
 run (\texttt{kd1p41}, seed 1; 248\,116 spikes, equal edge tables) and the three T8 reference runs
-(\texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seeds 1--3; \rec{D9}), all on JaxFNE 0.5.9 at 351f6048. All
+(\texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seeds 1--3; \rec{D9}). The event runs used JaxFNE 0.5.9 at
+351f6048; the dense runs they were compared with used 0.5.8, except reference seed 1 (0.5.9 side install). All
 arrays were bitwise equal; as negative controls, a different layout differed in 21 of 22 arrays, and different
 seeds of one layout in 21 of 22. One timed pair on one machine took 140 s against 1387 s dense (9.9-fold;
 \rec{N1}~\S5); the speed-up is specific to that configuration. T1 axis 3, the confirmation, the weight runs and

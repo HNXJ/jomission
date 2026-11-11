@@ -35,7 +35,8 @@ PANEL_W_IN = 0.32 * 489.10307 / 72.27  # 2.1664 in: the width this panel is prin
 PANEL_H_IN = 1.55
 
 
-def one(tag: str, discard_s: float, out_dir: Path) -> Path:
+def one(tag: str, discard_s: float, out_dir: Path, frac: float = 0.32, suffix: str = "laddermap",
+        height_in: float | None = None) -> Path:
     z = np.load(D / f"{tag}.npz")
     rec = json.loads((D / f"{tag}.json").read_text(encoding="utf-8"))
     units = list(rec.get("units", rec["sizes"]))
@@ -56,7 +57,9 @@ def one(tag: str, discard_s: float, out_dir: Path) -> Path:
                          "xtick.major.width": 0.5, "ytick.major.width": 0.5,
                          "xtick.labelsize": PT_TICK, "ytick.labelsize": PT_TICK,
                          "pdf.fonttype": 42, "savefig.dpi": 300})
-    fig, ax = plt.subplots(figsize=(PANEL_W_IN, PANEL_H_IN), layout="constrained")
+    w_in = frac * 489.10307 / 72.27
+    h_in = height_in if height_in is not None else PANEL_H_IN * (frac / 0.32)
+    fig, ax = plt.subplots(figsize=(w_in, h_in), layout="constrained")
     R = P / P.max(axis=0, keepdims=True)
     s = (f >= 0) & (f <= 150)
     ys = mf.CHANNELS
@@ -75,7 +78,7 @@ def one(tag: str, discard_s: float, out_dir: Path) -> Path:
     cb.ax.tick_params(labelsize=PT_TICK, length=2)
     cb.set_label("rel. power", fontsize=PT_LABEL, labelpad=1.5)
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"{tag}_laddermap.png"
+    path = out_dir / f"{tag}_{suffix}.png"
     fig.savefig(path, dpi=300)
     plt.close(fig)
     return path
@@ -87,6 +90,9 @@ def main(argv=None) -> int:
     ap.add_argument("--all", action="store_true", help="every ladder run lfs_n*_s*_T8 plus the n4000 s1 reference")
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--discard", type=float, default=2.0)
+    ap.add_argument("--frac", type=float, default=0.32, help="fraction of the text width this panel prints at")
+    ap.add_argument("--suffix", default="laddermap", help="output filename suffix")
+    ap.add_argument("--height", type=float, default=None, help="panel height in inches (default scales with frac)")
     a = ap.parse_args(argv)
     tags = ([t for t in ("lfs_n1000_s1_T8", "lfs_n1000_s2_T8", "lfs_n1000_s3_T8",
                          "lfs_n2000_s1_T8", "lfs_n2000_s2_T8", "lfs_n2000_s3_T8",
@@ -95,7 +101,7 @@ def main(argv=None) -> int:
     if not tags:
         ap.error("give a tag or --all")
     for t in tags:
-        p = one(t, a.discard, a.out_dir)
+        p = one(t, a.discard, a.out_dir, a.frac, a.suffix, a.height)
         print(f"{t} -> {p}", flush=True)
     return 0
 

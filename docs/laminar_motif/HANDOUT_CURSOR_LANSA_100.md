@@ -14,7 +14,7 @@ PROPOSED (needs Hamm).
 | Checkout | `/Users/hamednejat/workspace/dev/jomission`, branch `dev`, remote `origin` (SSH). Other agents work in this tree: never stage, stash or revert their files (e.g. `paper/jomission_lansa/deck/` is another session's) |
 | Python | `/usr/local/bin/python3` (3.13); JaxFNE 0.5.8 installed (execution authority); T1 axis 3, confirmation, weights and T8 ran on 0.5.9 at 351f6048 (tag v0.5.9, Zenodo 10.5281/zenodo.21448155) |
 | Manuscript | `paper/jomission_lansa/`: `main.tex`, `sections/*.tex`, `refs.bib`, plan `main.md`, build `latexmk -pdf -interaction=nonstopmode main.tex` (gate: 0 undefined, 0 overfull, no "Float too large") |
-| Evidence | Table S6 in `sections/supplement.tex` maps every C/S/D/R/N id to a file; `data/sources_sha256.txt` (D6) hashes 158 files; findings log `docs/laminar_motif/FINDINGS_2026-11-10.md` |
+| Evidence | Table S6 in `sections/supplement.tex` maps every C/S/D/R/N id to a file; `data/sources_sha256.txt` (D6) hashes every cited file (159 at `e6b33ac` and later; re-count it, the number moves as figures are added); findings log `docs/laminar_motif/FINDINGS_2026-11-10.md` |
 | Seals | `docs/laminar_motif/SEAL_*.md` (E0, E1, LFS, T1, T2_T3, T4, T8). Sealed-not-run: T2, T3, T4 |
 | Reviews | `paper/jomission_lansa/response_sol_2026-11-10.md`, `response_review4_2026-11-10.md`; `docs/reviews/JOMISSION_LANSA_PREFLIGHT_2026-11-10.md` |
 | Proposal, not authorized | `docs/designs/OMISSION_SPECTROLAMINAR_HDP_PROPOSAL_2026-11-10.md` (unsealed; run nothing from it) |

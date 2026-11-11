@@ -44,6 +44,11 @@ $N = 4000$ seed-1 reference ran on a 0.5.9 side install with dense delivery; the
 on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at commit 351f6048 (unreleased) with event delivery.
 The software authority is 0.5.8; 0.5.8 and 0.5.9 gave identical per-step spike counts on the $N = 4000$ stack over
 0.5 s (seal \rec{S3}). E2 is declared exploration except where a seal is named.
+Twenty-four of the run records carry a dirty-working-tree flag beside their commit (all 15 T8 runs, the 3
+confirmation runs, 4 of the 21 deep-unit-decay runs and 2 weight runs). The flag records that the checkout held
+uncommitted changes when the run started; the records do not enumerate them, so the paper cannot state their scope.
+Every file the paper cites is committed and hashed in \rec{D6}, and the analysis scripts that read these outputs are
+at the commits in Table~\ref{tab:records}.
 
 \textbf{Event-driven delivery.} The event route computes AdEx synaptic input only from presynaptic cells that
 spiked in the step. It was compared with the dense route on all 22 saved output arrays in two layouts: one 8 s T1

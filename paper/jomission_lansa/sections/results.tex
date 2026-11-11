@@ -29,9 +29,10 @@ its unit sizes and in-degrees, not in its SOM/PV ratios.
 \caption{Data and circuit; no panel is simulated (layout after \citet{Herrera2026}). A: LANSA cell densities
 against depth, median of 11 areas, each marker divided by its maximum and labelled by the measured marker (CB is not
 SST-specific; CR is not modelled; NG is the pyramidal proxy). B, C: observed relative power (power divided by its
-maximum over depth at each frequency), mean of the 11 areas and V1. D: the in-degree setting later selected in T1
-($B = 1.41$, SOM$\to$E 15 ms) as built, one dot per 20 cells in each unit's depth bins, with the within-unit
-E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. E: built cells per type and
+maximum over depth at each frequency), mean of the 11 areas and V1. D: the axis-1 search winner ($B = 1.41$,
+SOM$\to$E 15 ms in every unit) as built, one dot per 20 cells in each unit's depth bins, with the within-unit
+E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. The setting frozen for the
+fresh-seed test adds a 21 ms decay in D; Fig.~\ref{fig:scorer} shows that setting's scores. E: built cells per type and
 depth bin as bars, against the LANSA profiles as lines, each type divided by its own maximum; each colour's bars are
 read against the line of the same colour. SOM follows the imposed ramp, while the orange line is CB, which is not
 specific to SOM, so those two are expected to disagree: panel A's orange CB curve is the measured profile the ramp
@@ -83,14 +84,15 @@ Records \rec{R1}, \rec{R2}.}
 
 The reference stack (density-scaled units, local E in-degree about 810, 513 and 356 per cell in S, M and D,
 SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half and a crossing of the two band profiles
-(Fig.~\ref{fig:reference}). Its relative gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some
-frequencies, at D ($+0.2$ to $+0.35$, about 90--150 Hz; read from the figure). Averaged over 50--150 Hz and the
-contacts from $-0.2$ to 0, where the observed gamma is broadest, relative gamma was 0.19--0.31 in the nine ladder
-runs and the three confirmation runs, against 0.85 in the observed map; from $-0.6$ to $-0.3$ it was 0.66 in every
+(Fig.~\ref{fig:reference}). Its per-E-cell power was concentrated at S ($-0.4$, about 50--90 Hz; the scorer's own
+map, Fig.~\ref{fig:scorer}B, is the quantity every score uses and weights the units through the probe kernel).
+Averaged over 50--150 Hz and the
+contacts from $-0.2$ to 0, where the observed gamma is broadest, relative gamma was 0.19--0.31 across the twelve
+scored runs and 0.23--0.26 in the reference alone, against 0.85 in the observed map; from $-0.6$ to $-0.3$ it was 0.66 in every
 run, the value the kernel gives when S carries the most power at every gamma frequency (observed 0.80; \rec{D1},
 \rec{C3}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E 0.39--0.41, 0.73--0.75
 and 1.45--1.58 Hz at S, M and D; PV 5.6--5.7, 11.8--11.9 and 22.1--22.6 Hz; SOM 4.7--5.0, 6.8--6.9 and 9.0--9.4 Hz
-(\rec{R3}, axis 1, level 1). The scorer (Methods) compares the model and observed maps by the depth correlations
+($\rec{R3}$, axis 1, level $B = 1$, the reference level). The scorer (Methods) compares the model and observed maps by the depth correlations
 of the two band profiles, $r_{ab}$ and $r_{gm}$ (each must reach 0.6), the band crossing, the whole-map
 correlation $r_\text{proto}$ against two nulls, the unit order and the agreement of the two halves of a run
 (Fig.~\ref{fig:scorer}).
@@ -142,9 +144,11 @@ the scored runs. Record \rec{D2}.}
 \centering
 \IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
 \caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C E-population rate spectra
-per unit (shaded: the scored 10--30 and 50--150 Hz bands; line style gives the unit), D model relative-power map
-(RWS proxy), E firing-rate map, F observed 11-area map. Model power is stationary; LANSA power is from 1 s
-peri-stimulus windows.}
+per unit (shaded: the scored 10--30 and 50--150 Hz bands; line style gives the unit), D RWS power per E cell mapped
+to the contacts without the probe kernel, on a 0.5--1 colour scale, E firing-rate map, F observed 11-area map.
+Panels D--F are shown for the shape of the model's sources: they are not the scored quantity, which sums over cells
+and applies the $\sigma = 0.15$ Gaussian kernel and is drawn in Fig.~\ref{fig:scorer}B. Model power is stationary;
+LANSA power is from 1 s peri-stimulus windows.}
 \label{fig:reference}
 \end{figure}
 
@@ -184,8 +188,9 @@ maps of T1: Fig.~\ref{fig:t1}.}
 
 \textit{Network size.} At 1000, 2000 and 4000 E cells per unit (3562, 7125 and 14\,251 cells; three seeds each,
 in-degrees kept) no run passed and every run had $r_{gm} < 0.6$ (Table~\ref{tab:ladder}). Seed means of $r_{ab}$
-rose with size (0.15, 0.64, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31); with three seeds per size
-this is a description, not a test. The S unit's gamma peak formed only at $N \geq 2000$ (seed-mean S peak 8, 31 and
+rose with size (0.15, 0.63, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31); with three seeds per size
+this is a description, not a test. The S unit's gamma peak formed in 2 of 3 seeds at $N = 2000$ and in all 3 at
+$N = 4000$ (seed-mean S peak 8, 31 and
 43 Hz), so T1 used $N = 4000$ (\rec{R4}). Seeds agreed with each other far more than with the data: seed pairs
 gave SSIM 0.62--0.71 and pixel $r$ 0.87--0.93, each seed against the observed map SSIM 0.04--0.12 and $r$
 0.20--0.43 (Fig.~\ref{fig:seeds}).
@@ -384,9 +389,9 @@ sources (symmetric positive semidefinite, cross terms allowed; \rec{C5}, \rec{D3
 50--150 Hz band reaches a gamma depth correlation of 0.853 with the observed profile at $\sigma = 0.15$ with cross
 terms and 0.657 without them (independent S and M gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98
 and 0.84. The readout can therefore meet $r_{gm} \geq 0.6$ at the declared width without coherence between units,
-so under this observation model the circuit's $r_{gm}$ of 0.14--0.51 reflects its source spectra, consistent with
-its gamma at D. This conclusion is conditional on the three-source readout; it says nothing about where gamma is
-generated in macaque cortex.
+so under this observation model the circuit's $r_{gm}$ of 0.14--0.51 reflects its source spectra rather than any
+inter-unit coherence. This conclusion is conditional on the three-source readout; it says nothing about where gamma
+is generated in macaque cortex.
 
 The mid-depth level is harder. The largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at
 $\sigma = 0.15$, just above the observed 0.848, and needs S and M fully coherent with D in antiphase (coherences
@@ -480,8 +485,10 @@ Probe tilt confounds the laminar contrast metric (Fig.~\ref{fig:readout}). The s
 peaked at $30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
 $0^\circ$), a difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at
 $30^\circ$ than at $0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in
-tilt. $r_\text{proto}$ minus the identical-unit control rises with tilt; we infer that this comes from the
-control falling as fewer bins are covered, not from the model. A current-based CSD reproduced the forward
+tilt. $r_\text{proto}$ minus the identical-unit control rises from $0^\circ$ to $30^\circ$ at every $N$ and offset, then
+falls at $60^\circ$; at the lateral offset of 0.5 it falls with tilt at every $N$ (for example 0.405, 0.219 and
+0.168 at $0^\circ$, $30^\circ$ and $60^\circ$ at $N = 4000$). We infer that the control's own fall as fewer bins are
+covered drives the rise, not the model. A current-based CSD reproduced the forward
 potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources independent
 (rank 9 of 9; Fig.~\ref{fig:csd}); this checks internal consistency, not source placement.
 % FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json

@@ -1,17 +1,21 @@
 \section{Discussion}
 
 A column sized from LANSA cell densities, with an imposed SOM/PV ramp, placed alpha-beta in its deep half on its
-first seeds but left relative gamma just above mid-L4 at 0.22--0.36 of the observed level. No run passed
-the scorer, including the setting selected by the pre-registered search when rerun on fresh seeds: that setting
-never reached the reference's deep alpha-beta, at 0.32--0.47 on its own selection seeds against the reference's
-0.83--0.86, nor on the fresh seeds (0.35--0.47). Deep alpha-beta is therefore
-reproduced only by the unsearched reference, in-sample (it was not rerun on fresh seeds), and the search, which selected on whole-map similarity,
-did not preserve it.
+first seeds but left relative gamma just above mid-L4 at 0.27--0.31 of the observed level on those seeds. No run
+passed the scorer. The setting selected by the pre-registered search and rerun on fresh seeds never reached the
+reference's deep alpha-beta, at 0.32--0.47 on its own selection seeds against the reference's 0.83--0.86, nor on
+the fresh seeds (0.35--0.47). Deep alpha-beta did appear in searched levels: 17 of the 54 T1 selection runs had
+$r_{ab} \geq 0.83$, and the largest $r_{gm}$ among them was 0.35, still below the 0.6 threshold. The only runs that
+cleared both bands on one seed were the hand-chosen middle-unit weight settings, which are exploratory and were not
+scored on fresh seeds. Of the settings carried forward, only the unsearched reference kept both bands in view. The
+trade-off, rather than an absence, is what the search could not escape: it selected on whole-map similarity, and a
+level chosen that way gave up the deep alpha-beta placement to gain gamma agreement.
 
 The negative result is specific. It holds for this three-unit E/PV/SOM column with density-scaled sizes and
 in-degrees, the declared SOM/PV ramp, the tested SOM$\to$E kinetics and network sizes, and stationary drive. It does
 not show that density-based or CAMINOS-based models in general cannot produce the motif, and it does not test the
-PV$\to$E kinetics that \citet{Herrera2026} found to control layer-4 gamma. It shows that densities and SOM
+PV$\to$E kinetics that the model of \citet{Herrera2026} implicates in layer-4 gamma, as its abstract reports. It
+shows that densities and SOM
 kinetics alone were not sufficient here. The controls show that the reference map is fragile to either
 construction input, in opposite directions: changing the SOM/PV ramp handed the map to the superficial unit and
 changing the density profile handed it to the deep unit. Neither moved a single band, so the controls do not
@@ -29,8 +33,9 @@ gamma correlation but moved the alpha-beta peak to M, and adding PV$\to$E inhibi
 the cost of M's gamma. Inferred from hand-chosen single-seed runs, this is a hypothesis. It predicts that a change
 which raises M's gamma at a fixed M firing rate, for example in PV kinetics or PV$\to$PV coupling with the E rate
 matched, would raise $r_{gm}$ without breaking the crossing, and that a rate-matched control without the gamma
-change would not. In the mouse V1 model of \citet{Herrera2026} the temporal properties of layer-4 PV-to-excitatory
-synapses were especially influential and gamma (50--80 Hz) was generated mainly in layer 4, which corresponds to
+change would not. The mouse V1 model of \citet{Herrera2026} implicates layer-4 PV-to-excitatory dynamics in the
+motif, according to its abstract; the full text was not available to us, so we do not attribute specific kinetic
+results to it. That model corresponds to
 our M unit; a primate column may need such a generator with gamma that extends above layer 4, as the observed map
 shows. That test needs its own seal and is not run here. The readout comparison gives it a quantitative target: the
 circuit puts 17--19\% of its gamma power in M with real-part source coherences of at most 0.27, while the readout's constrained
@@ -59,6 +64,7 @@ not measured, and the controls separate it from the density profile only at thre
 correction across outcomes. VIP cells are absent because the AdEx kernel has no VIP type. The pre-registered tests
 of E/I balance, SOM/PV scaling and PV or SOM silencing (Table~\ref{tab:notrun}) were not run. The target map is the
 LANSA mean; the motif's generality is itself disputed \citep{Mackey2026}, and our conclusions are conditional on
-that target. In the mouse V1 model of \citet{Herrera2026}, SOM cells also shaped low-frequency power, which fits
-the deep alpha-beta of our SOM-rich D unit, but species, cell types and drive differ, so the correspondence is
+that target. \citet{Herrera2026} report that SOM cells shape low-frequency power in a mouse V1 model, which would
+fit the deep alpha-beta of our SOM-rich D unit, but we know that only from their abstract, and species, cell types
+and drive differ, so the correspondence is
 qualitative.

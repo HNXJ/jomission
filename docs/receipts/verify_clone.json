@@ -1,8 +1,8 @@
 {
  "kind": "verify_clone_receipt",
- "sha": "028d903043bf30905963d53174b862469f0b8186",
+ "sha": "6d6e052dfcff7a984d43f71f234d0856273f9e78",
  "import_inside_clone": true,
- "tier0_summary": "258 passed, 5 warnings in 24.74s",
+ "tier0_summary": "258 passed, 5 warnings in 23.43s",
  "tier0_returncode": 0,
  "tests_run": 33,
  "offline": false,

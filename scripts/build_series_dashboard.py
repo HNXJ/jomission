@@ -149,7 +149,6 @@ HANDOUT = "docs/laminar_motif/HANDOUT_CURSOR_LANSA_100.md"
 HDP_PROPOSAL = "docs/designs/OMISSION_SPECTROLAMINAR_HDP_PROPOSAL_2026-11-10.md"
 T8_ARMS = {"ref": "reference", "dflat": "density flat", "drev": "density S<->D",
            "rflat": "SOM/PV flat", "rrev": "SOM/PV reversed"}
-CRIT_POINTS = {"met": 10, "partial": 5, "open": 0}
 
 
 def _local_json(rel: str):
@@ -163,6 +162,10 @@ def _plain(s: str) -> str:
     return re.sub(r"\*\*|`", "", s).replace("$\\to$", "->").strip()
 
 
+def _evaluable(r: dict) -> bool:
+    return not (r["missing"] or r["refused"] or r["stop"])
+
+
 def lansa_tests() -> list[dict]:
     """One row per pre-registered test: seal file, and the status read from its run records."""
     e0 = _local_json("results/laminar_e0/e0_result.json")
@@ -170,24 +173,35 @@ def lansa_tests() -> list[dict]:
     lfs = _local_json("results/laminar_e2/lfs_rule.json")
     conf = [_local_json(f"results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{s}_T12_verdict.json") for s in (4, 5, 6)]
     t8 = _json(f"{LANSA_DIR}/data/t8_summary.json")
-    n8 = sum(1 for runs in t8["runs"].values() for r in runs if not (r["missing"] or r["refused"] or r["stop"]))
+    runs8 = [r for runs in t8["runs"].values() for r in runs]
+
+    def get(rec, key):
+        return None if rec is None else rec.get(key, "record unreadable")
+
+    if all(conf) and all("pass" in v for v in conf):
+        k = sum(bool(v["pass"]) for v in conf)
+        t1 = f"{'PASS' if k == len(conf) else 'FAIL'} ({k}/{len(conf)} confirmation seeds pass)"
+    else:
+        t1 = None
     rows = [
-        ("E0", "CAMINOS module vs JaxFNE reference", "E0_SEAL.md", e0 and e0["verdict"]),
-        ("E1", "SOM/PV ratio sweep in one module", "E1_SEAL.md", e1 and e1["verdict"]),
-        ("L-FS", "finite-size ladder N 1000-4000", "SEAL_LFS.md", lfs and f"T1 size N = {lfs['t1_size']}"),
-        ("T1", "in-degree and SOM kinetics search", "SEAL_T1.md",
-         all(conf) and ("FAIL" if not all(v["pass"] for v in conf) else "PASS")
-         and f"{'FAIL' if not all(v['pass'] for v in conf) else 'PASS'} ({sum(v['pass'] for v in conf)}/3 fresh seeds)"),
+        ("E0", "CAMINOS module vs JaxFNE reference", "E0_SEAL.md", get(e0, "verdict")),
+        ("E1", "SOM/PV ratio sweep in one module", "E1_SEAL.md", get(e1, "verdict")),
+        ("L-FS", "finite-size ladder N 1000-4000", "SEAL_LFS.md", lfs and f"rule output: T1 size N = {get(lfs, 't1_size')}"),
+        ("T1", "in-degree and SOM kinetics search", "SEAL_T1.md", t1),
         ("T2", "E/I dose-response", "SEAL_T2_T3.md", None),
         ("T3", "SOM/PV scaling", "SEAL_T2_T3.md", None),
         ("T4", "PV/SOM silencing and stimulation", "SEAL_T4.md", None),
-        ("T8", "density and SOM/PV controls", "SEAL_T8.md", f"DONE ({n8}/15 runs evaluable, descriptive)"),
+        ("T8", "density and SOM/PV controls", "SEAL_T8.md",
+         f"{sum(_evaluable(r) for r in runs8)}/{len(runs8)} runs evaluable"),
     ]
     out = []
     for tid, what, seal, status in rows:
         sealed = (ROOT / "docs/laminar_motif" / seal).is_file()
-        if status is None:
-            status = "SEALED, not run" if tid in ("T2", "T3", "T4") else "record not on this machine"
+        if status is None and tid in ("T2", "T3", "T4"):
+            recs = list((ROOT / "results").glob(f"laminar_e*/{tid.lower()}_*"))
+            status = f"{len(recs)} run records" if recs else "no run record on this machine"
+        elif status is None:
+            status = "verdict record not on this machine"
         out.append({"id": tid, "what": what, "seal": seal if sealed else "missing", "status": status})
     return out
 
@@ -196,10 +210,11 @@ def lansa_t8() -> list[dict]:
     t8 = _json(f"{LANSA_DIR}/data/t8_summary.json")
     rows = []
     for arm, label in T8_ARMS.items():
-        runs = t8["runs"][arm]
-        mean = lambda k: sum(r[k] for r in runs) / len(runs)  # noqa: E731
+        runs = [r for r in t8["runs"][arm] if _evaluable(r)]
+        mean = lambda k: sum(r[k] for r in runs) / len(runs) if runs else float("nan")  # noqa: E731
         cmp_ = t8["comparisons"].get(arm, {}).get("r_ab", {})
-        rows.append({"arm": label, "r_ab": mean("r_ab"), "r_gm": mean("r_gm"), "r_proto": mean("r_proto"),
+        seeds = ",".join(m.group(1) for r in runs if (m := re.search(r"_s(\d+)_", r["tag"])))
+        rows.append({"arm": label, "n": len(runs), "seeds": seeds, "r_ab": mean("r_ab"), "r_gm": mean("r_gm"), "r_proto": mean("r_proto"),
                      "mid": mean("mid_gamma"), "crossing": f"{sum(r['crossing_2se'] for r in runs)}/{len(runs)}",
                      "decision": cmp_.get("decision", "---")})
     return rows
@@ -220,16 +235,16 @@ def lansa_readout() -> dict:
 def handout_sections() -> dict:
     """Criteria table (section 4), plan steps (section 5) and owner decisions (section 6) of the handout."""
     lines = (ROOT / HANDOUT).read_text(encoding="utf-8").splitlines()
-    crit, phases, owner, sec = [], [], [], ""
+    crit, phases, owner, sec, stated = [], [], [], "", None
     for ln in lines:
         if ln.startswith("## "):
             sec = ln[3:5]
             continue
         if sec == "4." and re.match(r"^\| Q\d+ \|", ln):
             c = _cells(ln)
-            state = c[2].split()[0]
-            crit.append({"id": c[0], "criterion": _plain(c[1]), "state": state.upper(),
-                         "points": CRIT_POINTS.get(state, 0), "closes": _plain(c[3])})
+            pts = re.search(r"\((\d+)\)", c[2])
+            crit.append({"id": c[0], "criterion": _plain(c[1]), "state": c[2].split()[0].upper(),
+                         "points": int(pts.group(1)) if pts else 0, "closes": _plain(c[3])})
         elif sec == "5.":
             if ln.startswith("### "):
                 phases.append({"phase": _plain(ln[4:]), "steps": []})
@@ -238,11 +253,16 @@ def handout_sections() -> dict:
                 phases[-1]["steps"].append({"id": sid, "text": _plain(rest)})
             elif phases and phases[-1]["steps"] and ln.startswith("   "):
                 phases[-1]["steps"][-1]["text"] += " " + _plain(ln)
+        elif sec == "4." and (m := re.match(r"^Total now (\d+)/100", ln)):
+            stated = int(m.group(1))
         elif sec == "6." and re.match(r"^\d\. ", ln):
             owner.append(_plain(ln.split(". ", 1)[1]))
         elif sec == "6." and owner and ln.startswith("   "):
             owner[-1] += " " + _plain(ln)
-    return {"criteria": crit, "score": sum(r["points"] for r in crit), "phases": phases, "owner": owner}
+    score = sum(r["points"] for r in crit)
+    if stated is not None and stated != score:
+        raise SystemExit(f"handout criteria sum to {score} but the handout states {stated}/100")
+    return {"criteria": crit, "score": score, "phases": phases, "owner": owner}
 
 
 def lansa() -> dict:
@@ -271,9 +291,9 @@ def hdp() -> dict:
             kind = "eq" if ln.startswith("  ") and not ln.startswith("- ") else ("li" if ln.startswith("- ") else "p")
             secs[-1]["blocks"].append({"kind": kind, "text": _plain(ln[2:] if kind == "li" else ln)})
     td = _json("manifests/todo.json")["items"]
-    rel = [{"id": i["id"], "status": i["status"], "goal": i.get("goal", "")} for i in td
-           if "HDP" in i["id"] or "HDP" in i.get("goal", "")]
-    opens = [r for r in open_rows() if "HDP" in r["text"] or "h_b" in r["text"]]
+    stem = Path(HDP_PROPOSAL).stem
+    rel = [{"id": i["id"], "status": i["status"], "goal": i.get("goal", "")} for i in td if stem in json.dumps(i)]
+    opens = [r for r in open_rows() if stem in r["text"]]
     return {"title": title, "status": status, "source": HDP_PROPOSAL, "sections": secs, "todo": rel, "open": opens}
 
 
@@ -341,37 +361,37 @@ P.overview = s => {
   s.append(table(['status','count'], Object.entries(o.todo_by_status), r=>[pill(r[0]), r[1]]));
   const L=D.lansa; s.append(el('h2','','Programmes'));
   s.append(table(['programme','state','next'], [
-    ['jomission-LANSA', 'manuscript revised; '+L.missing+' [MISSING] declarations; road-map score '+L.score+' / 100', L.phases.length? L.phases[0].phase : ''],
+    ['jomission-LANSA', L.missing+' [MISSING] declarations; road-map score '+L.score+' / 100', L.phases.length? L.phases[0].phase : ''],
     ['jomission-HDP', D.hdp.status, 'owner decides whether it becomes a lineage']], r=>r));
   s.append(el('p','note','Pages: jomission-LANSA, jomission-HDP (upcoming), laminar plan (LM-0), omission paradigm, figures, gates and lineages, todo and open. Source files are named on each page.'));
 };
 P.lansa = s => {
   const L=D.lansa, R=L.readout, f=x=>Number(x).toFixed(2), k=el('div','kpis');
-  const t8ref=L.t8[0];
+  const t8ref=L.t8[0], T8n=[...new Set(L.t8.map(r=>r.n))].join('/');
   k.append(kpi('road-map score (criteria below)', L.score+' / 100'), kpi('declarations still [MISSING]', L.missing),
-    kpi('reference r_ab / r_gm (T8 seeds 1-3)', f(t8ref.r_ab)+' / '+f(t8ref.r_gm)),
+    kpi('T8 reference r_ab / r_gm (seeds '+t8ref.seeds+')', f(t8ref.r_ab)+' / '+f(t8ref.r_gm)),
     kpi('mid-depth relative gamma, reference vs observed', f(t8ref.mid)+' vs '+f(R.observed_mid['mid [-0.2,0]'])),
     kpi('readout optimum r at mid '+f(R.target_mid), R.opt_r.toFixed(4)+' (grid '+R.grid_r.toFixed(4)+')'),
     kpi('gamma power in M: circuit vs optimum', f(R.circuit_share_M[0])+'-'+f(R.circuit_share_M[1])+' vs '+f(R.opt_share[1])));
   s.append(el('p','',L.message.charAt(0).toUpperCase()+L.message.slice(1)));
   s.append(k, el('h2','','Pre-registered tests'));
   s.append(table(['test','question','seal','status'], L.tests, r=>[{id:r.id}, r.what, r.seal, pill(r.status)]));
-  s.append(el('h2','','T8: density and SOM/PV controls (seed means, n = 3 per condition, descriptive)'));
-  s.append(table(['condition','r_ab','r_gm','r_proto','mid-depth gamma','crossing','r_ab, reference vs control'], L.t8,
-    r=>[r.arm, f(r.r_ab), f(r.r_gm), f(r.r_proto), f(r.mid), r.crossing, r.decision]));
+  s.append(el('h2','','T8: density and SOM/PV controls (means over evaluable seeds, n = '+T8n+' per condition)'));
+  s.append(table(['condition','n','seeds','r_ab','r_gm','r_proto','mid-depth gamma','crossing','r_ab, reference vs control'], L.t8,
+    r=>[r.arm, r.n, r.seeds, f(r.r_ab), f(r.r_gm), f(r.r_proto), f(r.mid), r.crossing, r.decision]));
   s.append(el('h2','','What 100/100 means (proposed criteria; the owner confirms)'));
   s.append(table(['id','criterion','state','points','closes with'], L.criteria, r=>[{id:r.id}, r.criterion, pill(r.state), r.points, r.closes]));
   s.append(el('h2','','Road map'));
-  L.phases.forEach(ph=>{ s.append(el('h2','',ph.phase)); s.append(table(['step','what, check, blocked by'], ph.steps, r=>[{id:r.id}, cut(r.text,520)])); });
+  L.phases.forEach(ph=>{ s.append(el('h2','',ph.phase)); s.append(table(['step','what, check, blocked by'], ph.steps, r=>[{id:r.id}, r.text])); });
   s.append(el('h2','','Decisions only the owner makes'), table(['decision'], L.owner, d=>[d]));
   s.append(el('h2','','Reviews and responses'), table(['file'], [...L.reviews.map(x=>'docs/reviews/'+x), ...L.responses.map(x=>'paper/jomission_lansa/'+x)], x=>[x]));
   s.append(el('p','note','Source: paper/jomission_lansa/main.md (message); '+L.handout+'; paper/jomission_lansa/data (t8_summary.json, readout_joint.json, readout_joint_check.json, mid_gamma.json); seals in docs/laminar_motif; E0, E1, ladder and T1 run records are read on the build machine (hashed in D6, not version-controlled).'));
 };
 P.hdp = s => {
   const H=D.hdp, k=el('div','kpis');
-  k.append(kpi('status', 'UNSEALED, not authorized'), kpi('related todo items', H.todo.length), kpi('related open rows', H.open.length));
+  k.append(kpi('status (from the proposal)', H.status.replace(/^Status:\s*/,'').split('.')[0]), kpi('todo items citing the proposal', H.todo.length), kpi('open rows citing the proposal', H.open.length));
   s.append(el('p','',H.status), k);
-  s.append(el('p','note','Upcoming programme. Nothing has run from this proposal; it is shown so its design can be reviewed. It is separate from the LANSA preprint and keeps the omission firewall: no omission outcome appears here.'));
+  s.append(el('p','note','Dashboard note: the proposal is shown for design review. The omission firewall applies to this page as to every page (prohibited strings are checked at build).'));
   H.sections.forEach(sec=>{
     s.append(el('h2','',sec.title));
     let ul=null;
@@ -380,8 +400,8 @@ P.hdp = s => {
       ul=null; s.append(b.kind==='eq'? el('p','mono',b.text) : el('p','',b.text));
     });
   });
-  if(H.todo.length){ s.append(el('h2','','Related todo items'), table(['id','status','goal'], H.todo, r=>[{id:r.id}, pill(r.status), cut(r.goal,240)])); }
-  if(H.open.length){ s.append(el('h2','','Related open rows'), table(['id','kind','text'], H.open, r=>[{id:r.id}, r.kind, cut(r.text,320)])); }
+  if(H.todo.length){ s.append(el('h2','','Todo items citing the proposal'), table(['id','status','goal'], H.todo, r=>[{id:r.id}, pill(r.status), cut(r.goal,240)])); }
+  if(H.open.length){ s.append(el('h2','','Open rows citing the proposal'), table(['id','kind','text'], H.open, r=>[{id:r.id}, r.kind, cut(r.text,320)])); }
   s.append(el('p','note','Source: '+H.source+', manifests/todo.json, docs/OPEN.md.'));
 };
 P.omission = s => {

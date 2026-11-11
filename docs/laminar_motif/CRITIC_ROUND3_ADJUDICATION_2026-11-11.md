@@ -37,6 +37,20 @@ records the transition as "update by push" from account `HNXJ`, and another agen
 (`scripts/build_series_dashboard.py` is modified in the working copy and is not mine). Read this as another agent's
 push of the shared branch, not as this review clearing its own gate. The independent ACCEPT is still open.
 
+**Addendum by the pushing session (Claude, 2026-11-10).** The push of `4ecdda3` was made by the Claude session that
+wrote the handout, after two gates on that exact SHA:
+- Tier-0 in a `git clone --shared`: 257 passed, 1 failed. The failure was the clone-only
+  `test_jomission_import_resolves_to_this_checkout`, confirmed failing alone. `verify_clone.py` later gave 258 passed.
+- A fresh `reviewer` that had seen none of rounds 1-3 reviewed `git diff e36a566 4ecdda3` and returned
+  VERDICT: ACCEPT, with no blocker or major. Its four minors:
+  - this file's table row "Fixed by trimming" contradicts "Recorded rather than trimmed" (the abstract has 248
+    whitespace tokens);
+  - the Fig S1 architecture PNG is untracked;
+  - the `e2_ladder_map.py` refmap flags (`--frac 0.78 --height 2.1 --suffix refmap`) are recorded nowhere;
+  - the docstring "maximum per contact" should read "per frequency over depth".
+
+The independent ACCEPT is therefore not open. Those four minors are the open items.
+
 ## Fixes landed at 2575673
 
 Fixed and re-measured: Fig 1 (22 overlaps -> 0, panels 0.13 in -> 1.40+ in, 5 panels, letters and line styles

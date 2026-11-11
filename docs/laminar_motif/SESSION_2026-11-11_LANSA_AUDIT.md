@@ -1,7 +1,8 @@
 # Session log: jomission-LANSA Phase 0 and A3 audit, 2026-11-11
 
 Actor: Cursor agent (DeepSeek V4.1 Flash), continuing from the Claude handoff in
-`HANDOUT_CURSOR_LANSA_100.md`. Read-only w.r.t. `paper/` until the round-3 verdict lands.
+`HANDOUT_CURSOR_LANSA_100.md`. The paper was read before the round-3 verdict landed; the A3 figure work of §6
+came after and is scoped separately in the handout's state section.
 Every line below is OBSERVED with its command, unless tagged INFERRED.
 
 ## 0. Check-in and gate receipts
@@ -68,8 +69,28 @@ code availability (archive/DOI). All are owner-only facts and none is generated.
 |---|---|---|---|
 | 1 | Round-3 critic verdict (running, GPT-5.6, sees neither earlier round) | `VERDICT: ACCEPT` on `e36a566` | — |
 | 2 | On ACCEPT: push `dev`, read CI for the SHA | `git log origin/dev..dev` empty; CI success | 1 |
-| 3 | Fix the 941/947 discussion count in `response_review4` | recount = stated number | — |
-| 4 | A3 figures: redraw, clear every floor in §3 | re-render, re-measure >= floors, visual review ACCEPT | — |
-| 5 | A1 declarations (9 items) | `grep -c MISSING` = 0 | Hamm |
-| 6 | A2 archive + DOI, D6 re-verify from the download | 0 hash mismatches from the archive | Hamm |
-| 7 | OPEN-36 / OPEN-38 owner values | owner ruling | Hamm |
+| 3 | A3 figures: font floors fixed and measured (done, `5a89597`, `f20fe5c`, `c6941d9`, `e6b33ac`, `458fb2c`); needs the visual reviewer's verdict | visual `VERDICT: ACCEPT` | — |
+| 4 | A1 declarations (9 items) | `grep -c MISSING` = 0 | Hamm |
+| 5 | A2 archive + DOI, D6 re-verify from the download | 0 hash mismatches from the archive | Hamm |
+| 6 | OPEN-36 / OPEN-38 owner values | owner ruling | Hamm |
+
+## 6. A3 figure work: what changed and what is still open (2026-11-11)
+
+Commits: `5a89597` (font floors), `f20fe5c` (Fig 1E split into E and F), `c6941d9` (Fig 2C 9 traces -> 3),
+`e6b33ac` (Fig S3 redrawn at print size), `458fb2c` (Fig S1 architecture full width, map at print size).
+
+Measured at print size, before -> after: Fig 1 legend 6.11 -> 7.00; Fig 2 SOM label 5.17 -> 6.10, letters
+8.46 -> 9.02; Fig 3 panel D 5.97 -> 6.50, letters 7.96 -> 9.50; Fig S3 1.70 -> 6.51; Fig S1 architecture
+2.57 -> 6.11, S1 map 5.77 -> 6.50. Every item now clears the 6 pt floor (5.5 ticks, 9 letters).
+
+A method error to avoid repeating: the first pass divided pixel width by an assumed 300 dpi. Three sources save at
+150 dpi, so those figures' native size, and therefore their printed type, was understated by half. Read the dpi
+from the file (`PIL.Image.open(p).info["dpi"]`), never assume it.
+
+Still open in A3, recorded rather than fixed:
+- **The three T1 atlases** (`results/viz/t1/V3_{kd,sst,sstd}_n4000_atlas.png`) print at scale 0.896, so their
+  6.5 pt titles land at 5.8 pt. No generator for them exists in `scripts/` (`grep` for `V3_kd`, `_n4000_atlas`
+  finds only the tex references), so they cannot be redrawn reproducibly from this repo. Either the generator is
+  found and committed, or the atlases are redrawn by a new script under the visualization contract. Not guessed at.
+- A second, independent visual review of the four redrawn figures: running.
+

@@ -71,8 +71,8 @@ def one(tag: str, discard_s: float, out_dir: Path, frac: float = 0.32, suffix: s
     ax.set_xticklabels(["0", "50", "100", "150"])
     ax.set_xlabel("Frequency (Hz)", fontsize=PT_LABEL, labelpad=1.5)
     ax.set_ylabel("Depth (rel. L4)", fontsize=PT_LABEL, labelpad=1.5)
-    ax.set_title(f"{tag.replace('_T8', '').replace('sw_n4000_dens_k1_kd1_sst15', 'ref n4000')}, s{rec['seed']}",
-                 fontsize=PT_TITLE, pad=2)
+    # no title: the surrounding \panel{N1000 s1}{...} already prints the clean label, and an embedded
+    # "lfs_n1000_s1, s1" repeated the seed and carried an internal tag into the figure
     ax.tick_params(length=2, pad=1.5)
     cb = fig.colorbar(im, ax=ax, fraction=0.05, pad=0.02, ticks=[0.3, 1.0])
     cb.ax.tick_params(labelsize=PT_TICK, length=2)

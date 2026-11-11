@@ -409,7 +409,7 @@ Fig.~\ref{fig:scorer}.}
 \label{fig:weights}
 \end{figure}
 
-\subsection{The SOM/PV ramp places alpha-beta deep; the density profile shapes gamma}
+\subsection{Density and SOM/PV controls change which unit dominates the map}
 
 The reference column changes density and SOM/PV ratio together across depth, so neither was tested as a cause by
 the runs above. A sealed control (T8, seal \rec{S7}) rebuilt the reference with one construction rule changed at a
@@ -421,46 +421,50 @@ mean exceeds $2\,\text{SD}/\sqrt{3}$; with $n = 3$ it is a descriptive screen, u
 comparisons. All 15 runs were evaluable (no stop state, no refusal; \rec{D8}). The reference reruns equalled the
 saved reference runs bitwise on all 22 output arrays for each seed (\rec{D9}).
 
-Reversing or flattening the SOM/PV ramp moved alpha-beta from deep to superficial: $r_{ab}$ fell from 0.83--0.86 to
-$-0.74$ (reversed) and $-0.72$ (flat) on every seed (mean $d$ 1.58 and 1.56, SD 0.015 and 0.013; ref higher;
+Reversing or flattening the SOM/PV ramp turned the alpha-beta correlation negative: $r_{ab}$ fell from 0.83--0.86
+to $-0.74$ (reversed) and $-0.72$ (flat) on every seed (mean $d$ 1.58 and 1.56, SD 0.015 and 0.013; ref higher;
 Table~\ref{tab:t8}). Flattening density left $r_{ab}$ unchanged (mean $d$ 0.004, SD 0.038; no consistent
-difference), and permuting it lowered $r_{ab}$ to 0.70--0.71 (mean $d$ 0.13, SD 0.015; ref higher). Deep
-alpha-beta in this column therefore depends on the imposed SOM/PV ramp, not on the measured density profile.
-The density arms instead changed the gamma profile and the whole map: $r_{gm}$ fell from 0.14--0.41 to $-0.83$
-(flat) and $-0.85$ (permuted), and $r_\text{proto}$ from 0.21--0.40 to $-0.37$ and $-0.44$ (ref higher in both).
-The ratio arms raised $r_{gm}$ to about 0.5 (flat: control higher; reversed: all three $d_s < 0$ but the mean,
-$-0.178$, did not exceed the bound, so no consistent difference) while lowering $r_\text{proto}$. No control raised
-mid-depth relative gamma: it was 0.23--0.26 in the reference and 0.04--0.23 in the controls (ref higher in all
-four). No run of any arm passed the scorer, and none showed the band crossing.
+difference), and permuting it lowered $r_{ab}$ to 0.70--0.71 (mean $d$ 0.13, SD 0.015; ref higher). Both density
+arms turned the gamma and whole-map correlations negative: $r_{gm}$ fell from 0.14--0.41 to $-0.83$ (flat) and
+$-0.85$ (permuted), and $r_\text{proto}$ from 0.21--0.40 to $-0.37$ and $-0.44$ (ref higher in both). The ratio
+arms raised $r_{gm}$ to about 0.5 (flat: control higher; reversed: all three $d_s < 0$ but the mean, $-0.178$, did
+not exceed the bound, so no consistent difference) while lowering $r_\text{proto}$. No control raised mid-depth
+relative gamma: it was 0.23--0.26 in the reference and 0.04--0.23 in the controls (ref higher in all four). No run
+of any arm passed the scorer; the reference showed the band crossing on seeds 1 and 3, and no control run showed it.
 
-The maps show how (Fig.~\ref{fig:t8}). In the density arms the deep unit dominates relative power at every
-frequency; in the ratio arms the superficial unit does. The dominant unit is not the one with the highest E rate:
-in the permuted-density arm the deep unit fires at 0.45--0.51 Hz against 1.05--1.11 Hz superficially, and in the
-ratio arms the superficial unit fires at 0.38--0.47 Hz, the lowest of the three (\rec{D8}); which property sets
-dominance is not identified here. The band correlations then follow which unit dominates broadband power, not a
-band-specific rhythm placed at its depth (inferred from the maps). The reference's deep
-alpha-beta and superficial gamma arise from a balance between units that each control arm breaks. The arms change
-more than the named quantity: the density arms change unit sizes, in-degrees and the inhibitory counts that follow
-E:I, the ratio arms change the SOM$\to$E in-degree, and both change unit rates. They test these construction rules,
-not density or ratio apart from their consequences.
+The maps show what these scores measure (Fig.~\ref{fig:t8}). In the density arms the deep unit dominates relative
+power at most frequencies; in the ratio arms the superficial unit does. The band correlations then follow which
+unit dominates broadband power, not a band-specific rhythm placed at its depth (inferred from the maps): the unchanged $r_{ab}$ of the
+flat-density arm comes from deep dominance at all low frequencies, not from a preserved alpha-beta generator, and
+the positive $r_{gm}$ of the ratio arms comes from superficial dominance at all frequencies. The dominant unit is
+not the one with the highest E rate: in the permuted-density arm the deep unit fires at 0.45--0.51 Hz against
+1.05--1.11 Hz superficially, and in the ratio arms the superficial unit fires at 0.38--0.47 Hz, the lowest of the
+three (\rec{D8}); which property sets dominance is not identified here. We infer that the reference's frequency
+dependence, alpha-beta in M and D and gamma in S, needs a balance between units that each control arm breaks; the
+controls do not test that balance directly. The arms also change more than the named quantity: the density arms
+change unit sizes, in-degrees and the inhibitory counts that follow E:I, the ratio arms change the SOM$\to$E
+in-degree, and both change unit rates. They test these construction rules, not density or ratio apart from their
+consequences.
 
 \begin{table}[tbp]
 \centering
 \footnotesize
-\begin{tabular}{@{}lrrrrl@{}}
+\begin{tabular}{@{}lrrrrcl@{}}
 \toprule
-Control & $r_{ab}$ & $r_{gm}$ & $r_\text{proto}$ & mid-depth $\gamma$ & Decision on $r_{ab}$ (primary) \\
+Control & $r_{ab}$ & $r_{gm}$ & $r_\text{proto}$ & mid-depth $\gamma$ & crossing & Decision on $r_{ab}$ (primary) \\
 \midrule
-reference & 0.84 & 0.32 & 0.33 & 0.25 & --- \\
-density flat & 0.84 & $-0.83$ & $-0.37$ & 0.19 & no consistent difference \\
-density S$\leftrightarrow$D & 0.71 & $-0.85$ & $-0.44$ & 0.04 & ref higher \\
-SOM/PV flat & $-0.72$ & 0.51 & 0.17 & 0.21 & ref higher \\
-SOM/PV reversed & $-0.74$ & 0.49 & 0.15 & 0.09 & ref higher \\
+reference & 0.84 & 0.31 & 0.33 & 0.25 & 2/3 & --- \\
+density flat & 0.84 & $-0.83$ & $-0.37$ & 0.19 & 0/3 & no consistent difference \\
+density S$\leftrightarrow$D & 0.71 & $-0.85$ & $-0.44$ & 0.04 & 0/3 & ref higher \\
+SOM/PV flat & $-0.72$ & 0.51 & 0.17 & 0.21 & 0/3 & ref higher \\
+SOM/PV reversed & $-0.74$ & 0.49 & 0.15 & 0.09 & 0/3 & ref higher \\
 \bottomrule
 \end{tabular}
-\caption{T8 controls (seal \rec{S7}), seed means of seeds 1--3, 8 s. Mid-depth $\gamma$: relative 50--150 Hz power
-over the contacts from $-0.2$ to 0 (observed 0.85). Decision: the sealed paired rule on reference minus control;
-per-seed differences, SD and the decisions for the secondary outcomes are in \rec{D8}.}
+\caption{T8 controls (seal \rec{S7}), seed means of seeds 1--3, 8 s; crossing: seeds with the band crossing.
+Mid-depth $\gamma$: relative 50--150 Hz power over the contacts from $-0.2$ to 0 (observed 0.85). Decision: the
+sealed paired rule on reference minus control. Secondary decisions (Results text): $r_{gm}$ ref higher for both
+density arms, control higher for SOM/PV flat, no consistent difference for SOM/PV reversed; $r_\text{proto}$ and
+mid-depth $\gamma$ ref higher for all four. Per-seed values, differences and SD: \rec{D8}.}
 \label{tab:t8}
 \end{table}
 
@@ -470,8 +474,9 @@ per-seed differences, SD and the decisions for the secondary outcomes are in \re
 \caption{T8 controls: seed-mean relative-power maps (power divided by its maximum over depth at each frequency;
 seeds 1--3, 8 s, 2 s discarded) of the reference and the four control columns, beside the observed 11-area mean
 (A). Panel titles give the seed means of $r_{ab}$, $r_{gm}$ and $r_\text{proto}$. In B the alpha-beta maximum
-lies in M and D and the gamma maximum in S; in C and D the deep unit dominates every frequency, in E and F the
-superficial unit does. Per-arm architecture and 1 s rasters: \rec{R11}.}
+lies in M and D and the gamma maximum in S; in C and D the deep unit dominates most frequencies (in C a weaker
+superficial band remains above 40 Hz), in E and F the superficial unit does. Per-arm architecture and 1 s rasters:
+\rec{R11}.}
 \label{fig:t8}
 \end{figure}
 

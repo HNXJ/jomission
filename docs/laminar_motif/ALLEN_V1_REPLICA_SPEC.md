@@ -434,7 +434,12 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   and HEAD code paths give identical 0.5 s output.
 - X1b (`x1b_PVL56_H_s1_T5`, PV silenced in L5 and L6): the queue launch at 16:03Z failed before the simulation started (relative
   log paths in the worktree wrapper; rc 1, no simulation). Rerun from a clean clone at 5cf65ac9096dbc203f24f578a435814611c12582
-  (`scratchpad/_temp_run_clean.sh`), started 14:12Z 11-11 (one simulation at a time). Pending.
+  (`scratchpad/_temp_run_clean.sh`), started 14:12Z 11-11, finished 14:37Z (rc 0; checks_pass true; silenced_zero_spikes true;
+  edge check 353 examined, 0 failed; L5_PV and L6_PV 0.0 Hz). Scorer path (same method as above; off-authority, exploratory):
+  wall 1487.4 s; M image +0.245 ± 0.038 (p_tol 0.042 = 1/24), manuscript +0.203 ± 0.040 (p_tol 0.083); r_proto 0.122; r_gm
+  image −0.203 / manuscript −0.124; gamma peak 0.000 (contact 12). 2 scorer windows, one seed: the SE is unreliable and the
+  result is a single-seed screen. It is the largest positive 5 s scorer-path contrast so far (x1_PV 0.106), and it has to be
+  replicated (other seeds, and the 20 s length) before any reading.
 - Correction to the p-convention note above (supersedes it). The 24 permutations include the identity
   (`itertools.permutations`, `e2_motif_figure.py:121–142`). Under "≥", the identity counts, so the intended floor is 1/24.
   A p of 0.000 (x1_SST manuscript, figure path) comes from float rounding: the identity's null value (slope of a−g over the

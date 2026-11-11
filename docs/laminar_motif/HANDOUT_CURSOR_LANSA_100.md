@@ -48,22 +48,26 @@ narrative kept for its warnings.
 **Read this section first if you are resuming from the remote.** The seal below replaced the older handoff
 narrative; the paragraphs after it are kept because their warnings still hold.
 
-- **Sealed at `7f03f3f` (plus the commit that carries this line), branch `dev`.** Receipts at that tree:
+- **Sealed at `dc60f66`, branch `dev`.** Receipts at that tree:
   `python3 scripts/project_check.py --offline --no-tests` ends `PROJECT_CHECK_PASS`; manuscript 35 pages with
-  0 errors, 0 overfull, 0 float-too-large, 0 undefined references; D6 169/169 verified from disk; isolated gate
-  `python3 scripts/verify_clone.py` gives import-inside-clone True and **258 passed, 0 failed**
-  (`VERIFY_CLONE_PASS`).
+  0 errors, 0 overfull, 0 float-too-large, 0 undefined references and a 248-word abstract; D6 169/169 verified from
+  disk; isolated gate `python3 scripts/verify_clone.py` gives import-inside-clone True and **258 passed, 0 failed**
+  (`VERIFY_CLONE_PASS`). Re-run the isolated gate, not the quick check, before any push.
 - **The seal needed a fix that the quick check missed:** adding `OPEN-43` changed `docs/OPEN.md` without
   regenerating `docs/DASHBOARD.html`, which embeds the open stack, and two tier-0 tests failed on it. Only the
   isolated gate caught it (`project_check` in its `--no-tests` form does not run tests). Fixed at `7f03f3f` by
   rerunning `scripts/build_dashboard.py`. If you edit `docs/OPEN.md`, regenerate the dashboard in the same commit.
-- **Three independent reviews ran; all returned REVISE.** Every finding is dispositioned in
-  `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`. Two are worth knowing before you trust this tree's history: I once
-  rejected a real finding by scoring the wrong run set (the confirmed setting is the `sstd21` circuit, r_ab
-  0.32-0.47 on its own selection seeds), and my first regression guard would have passed the defect it named.
+- **Four independent reviews ran; all returned REVISE.** Every finding is dispositioned in
+  `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`. Three things worth knowing before you trust this tree's history: I
+  once rejected a real finding by scoring the wrong run set (the confirmed setting is the `sstd21` circuit, r_ab
+  0.32-0.47 on its own selection seeds); my first regression guard would have passed the defect it named; and the
+  last review found that Fig 2D plots per-E-cell power rather than the scored sum-over-cells map, which two
+  sentences had read findings from.
   `scripts/check_confirmed_runs.py` now fails on the pre-fix text and passes on the current one.
-- **No ACCEPT exists yet.** The final review at `1d7009c` was still running when this was sealed. Do not treat any
-  document here as an acceptance, and do not push `main` or submit on the strength of this seal.
+- **No ACCEPT exists yet.** The last review judged `1d7009c` and returned REVISE with ten findings; all ten were
+  reproduced and fixed at `dc60f66`, but **those fixes are unjudged**. Nothing in this repository is an acceptance,
+  and no push to `main` or submission may rest on this seal. The next step for whoever resumes: one review of
+  `dc60f66`, by a reader who has seen none of the earlier rounds.
 - **Owner gates open:** the nine A1 declarations
   (`A1_DECLARATIONS_TEMPLATE.md`, every field `MISSING` until Hamm supplies the fact), the A2 archive and DOI
   (Zenodo proposed; LANSA source data neither deposited nor redistributed pending an access-terms ruling), the

@@ -112,4 +112,18 @@ Read from each PNG's embedded dpi, not an assumed one; scale = printed width / n
 No main-text figure is shrunk below 0.94, so no main-text type falls under its declared size. The only remaining
 shrinkage anywhere in the paper is the three T1 atlases at 0.896 (supplement).
 
+## 8. Value-level verification of the Results tables and abstract
+
+- **T8 table (Results, five arms):** all 25 cells checked against `paper/jomission_lansa/data/t8_summary.json`
+  seed means — `r_ab`, `r_gm`, `r_proto`, mid-depth gamma and the crossing count for each of ref, dflat, drev,
+  rflat, rrev. **25 ok, 0 mismatches.** Note the table's `r_ab` for the reference is 0.84 as a seed mean over
+  seeds 1--3, consistent with the 0.83--0.86 range quoted in the text.
+- **Abstract numbers:** 5 numeric tokens, all present in the body with the same value. 0 orphans.
+- **Record ids:** 44 cited in the text, all 44 present in Table S6; 0 dangling. Five ids in Table S6 are never
+  cited (C9 plus the four unrun tests T2-T5), which is expected — they are declared, not referenced.
+- **Fig 4 counts:** 93 runs and 90 distinct simulations both verified; the three T8-reference runs are value-identical
+  to the ladder n4000 runs.
+- **D6:** every one of its entries re-hashed from disk, 0 mismatches, at each commit where a figure changed.
+
+
 

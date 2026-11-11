@@ -49,7 +49,9 @@ def main(axis: str, n: int, out: Path = OUT) -> Path:
     levels = sel.LEVELS[axis]
     plt.rcParams.update({"font.size": 7, "axes.labelsize": 7, "xtick.labelsize": 6, "ytick.labelsize": 6})
     # drawn at print size (full text width, 6.8 in) so 6-7 pt text stays 6-7 pt in the paper
-    fig, axes = plt.subplots(2, 4, figsize=(6.8, 2.9), sharex=True, sharey=True, constrained_layout=True)
+    fig, axes = plt.subplots(2, 4, figsize=(6.092, 2.6), sharex=True, sharey=True, constrained_layout=True)
+    # 6.092 in = 0.90 x the 6.7677 in text width, which is the width this figure prints at, so the declared
+    # point sizes are the printed ones (at the old 6.8 in canvas the scale was 0.896 and 6.5 pt titles made 5.8 pt)
     ext = [float(sc.F[0]), float(sc.F[-1]), float(mf.CHANNELS[-1]), float(mf.CHANNELS[0])]
     panels = [("observed (PROTO)", sc.PROTO)]
     for lv in levels:

@@ -104,6 +104,14 @@ A2. Archive: run records R1-R11 plus code at a frozen SHA to Zenodo (or Hamm's c
 A3. Figures: redraw Fig 1E (split built counts from LANSA profiles) and Fig 2C (fewer traces, larger band labels);
     supplement layout (Table S6 font, ladder maps). Check: render each page at 150 dpi, every label >= 6 pt at print
     size, independent visual review ACCEPT.
+    Measured floors at print size (2026-11-11, textwidth 489.10 pt = 6.7677 in; scripts as of `f60973c`):
+    Fig 1 `e2_circuit_schema.py` scale 0.940 -> legend 6.11 pt, ticks 6.58, `PT` = 7 native (passes 6 pt, no
+    margin); Fig 2 `e2_paper_block.py` scale 0.940 -> SOM in-cell label 5.17 pt, panel letters 8.46 pt (both under
+    floor); Fig 3 `e2_concept_panels.py` scale 0.995 -> panel D monospace 5.97 pt, panel letters 7.96 pt (both under
+    floor); Fig 4 `e2_band_scatter.py` scale 1.000 -> 6.0-7.0 pt (passes). Cheapest fix that clears every floor:
+    draw each canvas at 6.77 in wide instead of 7.2/6.8, keeping the pt values, so scale = 1.000; then bump Fig 2
+    SOM label to 6 pt and panel letters to 9 pt, and Fig 3 panel letters to 9 pt and panel D to 6.5 pt. Re-hash
+    every regenerated PNG in `data/sources_sha256.txt` (D6 is hand-maintained; no generator script exists).
 A4. Final PDF review, push `main` for the named SHA, post to bioRxiv. Check: Hamm's go per SHA; bioRxiv DOI recorded
     in `main.md`. Blocked by: A1-A3, Hamm.
 

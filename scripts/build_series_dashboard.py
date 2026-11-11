@@ -1,6 +1,7 @@
 """Build a multi-page project dashboard (one self-contained index.html, tabs as pages).
 
-Pages: overview, omission paradigm, LANSA and laminar motif, figures, gates and lineages, todo and open.
+Pages: overview, jomission-LANSA (manuscript and road to 100/100), jomission-HDP (upcoming, proposal),
+laminar plan (LM-0 checklist), omission paradigm, figures, gates and lineages, todo and open.
 Every value is read from a repo file by this script; nothing is typed into the page. Text from
 data enters the DOM through textContent. Style follows the omission Draft-S dashboard: colors and
 fonts from host CSS variables with fallbacks, light and dark, ids in monospace.
@@ -118,6 +119,8 @@ def collect() -> dict:
             "open": opens,
         },
         "figures": figures(),
+        "lansa": lansa(),
+        "hdp": hdp(),
     }
 
 
@@ -139,6 +142,139 @@ def figures() -> dict:
                          "proposed_mirror": f.get("proposed_mirror", "")} for f in figs],
         })
     return out
+
+
+LANSA_DIR = "paper/jomission_lansa"
+HANDOUT = "docs/laminar_motif/HANDOUT_CURSOR_LANSA_100.md"
+HDP_PROPOSAL = "docs/designs/OMISSION_SPECTROLAMINAR_HDP_PROPOSAL_2026-11-10.md"
+T8_ARMS = {"ref": "reference", "dflat": "density flat", "drev": "density S<->D",
+           "rflat": "SOM/PV flat", "rrev": "SOM/PV reversed"}
+CRIT_POINTS = {"met": 10, "partial": 5, "open": 0}
+
+
+def _local_json(rel: str):
+    """A run record that is hashed in D6 but not version-controlled; None when absent on this machine."""
+    f = ROOT / rel
+    return json.loads(f.read_text(encoding="utf-8")) if f.is_file() else None
+
+
+def _plain(s: str) -> str:
+    """Drop Markdown emphasis (**) and code ticks; keep a literal * such as a glob."""
+    return re.sub(r"\*\*|`", "", s).replace("$\\to$", "->").strip()
+
+
+def lansa_tests() -> list[dict]:
+    """One row per pre-registered test: seal file, and the status read from its run records."""
+    e0 = _local_json("results/laminar_e0/e0_result.json")
+    e1 = _local_json("results/laminar_e1/e1_result.json")
+    lfs = _local_json("results/laminar_e2/lfs_rule.json")
+    conf = [_local_json(f"results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{s}_T12_verdict.json") for s in (4, 5, 6)]
+    t8 = _json(f"{LANSA_DIR}/data/t8_summary.json")
+    n8 = sum(1 for runs in t8["runs"].values() for r in runs if not (r["missing"] or r["refused"] or r["stop"]))
+    rows = [
+        ("E0", "CAMINOS module vs JaxFNE reference", "E0_SEAL.md", e0 and e0["verdict"]),
+        ("E1", "SOM/PV ratio sweep in one module", "E1_SEAL.md", e1 and e1["verdict"]),
+        ("L-FS", "finite-size ladder N 1000-4000", "SEAL_LFS.md", lfs and f"T1 size N = {lfs['t1_size']}"),
+        ("T1", "in-degree and SOM kinetics search", "SEAL_T1.md",
+         all(conf) and ("FAIL" if not all(v["pass"] for v in conf) else "PASS")
+         and f"{'FAIL' if not all(v['pass'] for v in conf) else 'PASS'} ({sum(v['pass'] for v in conf)}/3 fresh seeds)"),
+        ("T2", "E/I dose-response", "SEAL_T2_T3.md", None),
+        ("T3", "SOM/PV scaling", "SEAL_T2_T3.md", None),
+        ("T4", "PV/SOM silencing and stimulation", "SEAL_T4.md", None),
+        ("T8", "density and SOM/PV controls", "SEAL_T8.md", f"DONE ({n8}/15 runs evaluable, descriptive)"),
+    ]
+    out = []
+    for tid, what, seal, status in rows:
+        sealed = (ROOT / "docs/laminar_motif" / seal).is_file()
+        if status is None:
+            status = "SEALED, not run" if tid in ("T2", "T3", "T4") else "record not on this machine"
+        out.append({"id": tid, "what": what, "seal": seal if sealed else "missing", "status": status})
+    return out
+
+
+def lansa_t8() -> list[dict]:
+    t8 = _json(f"{LANSA_DIR}/data/t8_summary.json")
+    rows = []
+    for arm, label in T8_ARMS.items():
+        runs = t8["runs"][arm]
+        mean = lambda k: sum(r[k] for r in runs) / len(runs)  # noqa: E731
+        cmp_ = t8["comparisons"].get(arm, {}).get("r_ab", {})
+        rows.append({"arm": label, "r_ab": mean("r_ab"), "r_gm": mean("r_gm"), "r_proto": mean("r_proto"),
+                     "mid": mean("mid_gamma"), "crossing": f"{sum(r['crossing_2se'] for r in runs)}/{len(runs)}",
+                     "decision": cmp_.get("decision", "---")})
+    return rows
+
+
+def lansa_readout() -> dict:
+    j = _json(f"{LANSA_DIR}/data/readout_joint.json")
+    c = _json(f"{LANSA_DIR}/data/readout_joint_check.json")
+    opt = j["joint"]["0.15"]["map_mid_full"]
+    grid = c["sigma"]["0.15"]["rank_one_grid"]["map_mid"]
+    circ = j["circuit"]["reference"]
+    share_m = [v["share"][1] for v in circ.values()]
+    return {"opt_r": opt["r"], "opt_mid": opt["mid"], "opt_share": opt["share"], "grid_r": grid["r"],
+            "target_mid": j["targets"]["map_mid"], "circuit_share_M": [min(share_m), max(share_m)],
+            "known_answer": len(c["known_answer"]), "observed_mid": _json(f"{LANSA_DIR}/data/mid_gamma.json")["observed"]}
+
+
+def handout_sections() -> dict:
+    """Criteria table (section 4), plan steps (section 5) and owner decisions (section 6) of the handout."""
+    lines = (ROOT / HANDOUT).read_text(encoding="utf-8").splitlines()
+    crit, phases, owner, sec = [], [], [], ""
+    for ln in lines:
+        if ln.startswith("## "):
+            sec = ln[3:5]
+            continue
+        if sec == "4." and re.match(r"^\| Q\d+ \|", ln):
+            c = _cells(ln)
+            state = c[2].split()[0]
+            crit.append({"id": c[0], "criterion": _plain(c[1]), "state": state.upper(),
+                         "points": CRIT_POINTS.get(state, 0), "closes": _plain(c[3])})
+        elif sec == "5.":
+            if ln.startswith("### "):
+                phases.append({"phase": _plain(ln[4:]), "steps": []})
+            elif phases and re.match(r"^([A-D]\d|\d)\. ", ln):
+                sid, rest = ln.split(". ", 1)
+                phases[-1]["steps"].append({"id": sid, "text": _plain(rest)})
+            elif phases and phases[-1]["steps"] and ln.startswith("   "):
+                phases[-1]["steps"][-1]["text"] += " " + _plain(ln)
+        elif sec == "6." and re.match(r"^\d\. ", ln):
+            owner.append(_plain(ln.split(". ", 1)[1]))
+        elif sec == "6." and owner and ln.startswith("   "):
+            owner[-1] += " " + _plain(ln)
+    return {"criteria": crit, "score": sum(r["points"] for r in crit), "phases": phases, "owner": owner}
+
+
+def lansa() -> dict:
+    tex = [ROOT / LANSA_DIR / "main.tex", *sorted((ROOT / LANSA_DIR / "sections").glob("*.tex"))]
+    missing = sum(f.read_text(encoding="utf-8").count("[MISSING") for f in tex)
+    responses = sorted(f.name for f in (ROOT / LANSA_DIR).glob("response_*.md"))
+    reviews = sorted(f.name for f in (ROOT / "docs/reviews").glob("*.md")) if (ROOT / "docs/reviews").is_dir() else []
+    plan = (ROOT / LANSA_DIR / "main.md").read_text(encoding="utf-8").split("\n\n")
+    message = next(b for b in plan if b.startswith("Message:"))[len("Message:"):].replace("\n", " ").strip()
+    return {"message": message, "tests": lansa_tests(), "t8": lansa_t8(), "readout": lansa_readout(), "missing": missing,
+            "responses": responses, "reviews": reviews, "handout": HANDOUT, **handout_sections()}
+
+
+def hdp() -> dict:
+    """The HDP proposal as sections of paragraphs, list items and equation lines; related todo and open rows."""
+    lines = (ROOT / HDP_PROPOSAL).read_text(encoding="utf-8").splitlines()
+    title, status, secs = _plain(lines[0].lstrip("# ")), "", []
+    for ln in lines[1:]:
+        if ln.startswith("Status:"):
+            status = _plain(ln)
+        elif ln.startswith("## "):
+            secs.append({"title": ln[3:].strip(), "blocks": []})
+        elif not ln.strip():
+            continue
+        elif secs:
+            kind = "eq" if ln.startswith("  ") and not ln.startswith("- ") else ("li" if ln.startswith("- ") else "p")
+            secs[-1]["blocks"].append({"kind": kind, "text": _plain(ln[2:] if kind == "li" else ln)})
+    td = _json("manifests/todo.json")["items"]
+    rel = [{"id": i["id"], "status": i["status"], "goal": i.get("goal", "")} for i in td
+           if "HDP" in i["id"] or "HDP" in i.get("goal", "")]
+    opens = [r for r in open_rows() if "HDP" in r["text"] or "h_b" in r["text"]]
+    return {"title": title, "status": status, "source": HDP_PROPOSAL, "sections": secs, "todo": rel, "open": opens}
 
 
 def prohibited() -> list[str]:
@@ -185,7 +321,7 @@ html,body{margin:0;background:var(--bg);color:var(--fg)}
 <script>
 "use strict";
 const D = JSON.parse(document.getElementById('data').textContent);
-const PAGES = [['overview','Overview'],['omission','Omission paradigm'],['laminar','LANSA and laminar motif'],['figures','Figures'],['gates','Gates and lineages'],['todo','Todo and open']];
+const PAGES = [['overview','Overview'],['lansa','jomission-LANSA'],['hdp','jomission-HDP (upcoming)'],['laminar','Laminar plan (LM-0)'],['omission','Omission paradigm'],['figures','Figures'],['gates','Gates and lineages'],['todo','Todo and open']];
 function el(tag, cls, text){const e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=String(text); return e;}
 function kpi(label, value){const k=el('div','kpi'); k.append(el('b','',value), el('span','',label)); return k;}
 function pill(s){return el('span','pill '+String(s).replace(/[^A-Za-z_]/g,''), s);}
@@ -203,7 +339,50 @@ P.overview = s => {
     kpi('laminar plan, builder score', o.builder_score+' / '+(o.plan_items*4)));
   s.append(k, el('h2','','Todo items by status'));
   s.append(table(['status','count'], Object.entries(o.todo_by_status), r=>[pill(r[0]), r[1]]));
-  s.append(el('p','note','Pages: omission paradigm, LANSA and laminar motif, figures, gates and lineages, todo and open. Source files are named on each page.'));
+  const L=D.lansa; s.append(el('h2','','Programmes'));
+  s.append(table(['programme','state','next'], [
+    ['jomission-LANSA', 'manuscript revised; '+L.missing+' [MISSING] declarations; road-map score '+L.score+' / 100', L.phases.length? L.phases[0].phase : ''],
+    ['jomission-HDP', D.hdp.status, 'owner decides whether it becomes a lineage']], r=>r));
+  s.append(el('p','note','Pages: jomission-LANSA, jomission-HDP (upcoming), laminar plan (LM-0), omission paradigm, figures, gates and lineages, todo and open. Source files are named on each page.'));
+};
+P.lansa = s => {
+  const L=D.lansa, R=L.readout, f=x=>Number(x).toFixed(2), k=el('div','kpis');
+  const t8ref=L.t8[0];
+  k.append(kpi('road-map score (criteria below)', L.score+' / 100'), kpi('declarations still [MISSING]', L.missing),
+    kpi('reference r_ab / r_gm (T8 seeds 1-3)', f(t8ref.r_ab)+' / '+f(t8ref.r_gm)),
+    kpi('mid-depth relative gamma, reference vs observed', f(t8ref.mid)+' vs '+f(R.observed_mid['mid [-0.2,0]'])),
+    kpi('readout optimum r at mid '+f(R.target_mid), R.opt_r.toFixed(4)+' (grid '+R.grid_r.toFixed(4)+')'),
+    kpi('gamma power in M: circuit vs optimum', f(R.circuit_share_M[0])+'-'+f(R.circuit_share_M[1])+' vs '+f(R.opt_share[1])));
+  s.append(el('p','',L.message.charAt(0).toUpperCase()+L.message.slice(1)));
+  s.append(k, el('h2','','Pre-registered tests'));
+  s.append(table(['test','question','seal','status'], L.tests, r=>[{id:r.id}, r.what, r.seal, pill(r.status)]));
+  s.append(el('h2','','T8: density and SOM/PV controls (seed means, n = 3 per condition, descriptive)'));
+  s.append(table(['condition','r_ab','r_gm','r_proto','mid-depth gamma','crossing','r_ab, reference vs control'], L.t8,
+    r=>[r.arm, f(r.r_ab), f(r.r_gm), f(r.r_proto), f(r.mid), r.crossing, r.decision]));
+  s.append(el('h2','','What 100/100 means (proposed criteria; the owner confirms)'));
+  s.append(table(['id','criterion','state','points','closes with'], L.criteria, r=>[{id:r.id}, r.criterion, pill(r.state), r.points, r.closes]));
+  s.append(el('h2','','Road map'));
+  L.phases.forEach(ph=>{ s.append(el('h2','',ph.phase)); s.append(table(['step','what, check, blocked by'], ph.steps, r=>[{id:r.id}, cut(r.text,520)])); });
+  s.append(el('h2','','Decisions only the owner makes'), table(['decision'], L.owner, d=>[d]));
+  s.append(el('h2','','Reviews and responses'), table(['file'], [...L.reviews.map(x=>'docs/reviews/'+x), ...L.responses.map(x=>'paper/jomission_lansa/'+x)], x=>[x]));
+  s.append(el('p','note','Source: paper/jomission_lansa/main.md (message); '+L.handout+'; paper/jomission_lansa/data (t8_summary.json, readout_joint.json, readout_joint_check.json, mid_gamma.json); seals in docs/laminar_motif; E0, E1, ladder and T1 run records are read on the build machine (hashed in D6, not version-controlled).'));
+};
+P.hdp = s => {
+  const H=D.hdp, k=el('div','kpis');
+  k.append(kpi('status', 'UNSEALED, not authorized'), kpi('related todo items', H.todo.length), kpi('related open rows', H.open.length));
+  s.append(el('p','',H.status), k);
+  s.append(el('p','note','Upcoming programme. Nothing has run from this proposal; it is shown so its design can be reviewed. It is separate from the LANSA preprint and keeps the omission firewall: no omission outcome appears here.'));
+  H.sections.forEach(sec=>{
+    s.append(el('h2','',sec.title));
+    let ul=null;
+    sec.blocks.forEach(b=>{
+      if(b.kind==='li'){ if(!ul){ul=el('ul'); s.append(ul);} ul.append(el('li','',b.text)); return; }
+      ul=null; s.append(b.kind==='eq'? el('p','mono',b.text) : el('p','',b.text));
+    });
+  });
+  if(H.todo.length){ s.append(el('h2','','Related todo items'), table(['id','status','goal'], H.todo, r=>[{id:r.id}, pill(r.status), cut(r.goal,240)])); }
+  if(H.open.length){ s.append(el('h2','','Related open rows'), table(['id','kind','text'], H.open, r=>[{id:r.id}, r.kind, cut(r.text,320)])); }
+  s.append(el('p','note','Source: '+H.source+', manifests/todo.json, docs/OPEN.md.'));
 };
 P.omission = s => {
   const m=D.omission;

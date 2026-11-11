@@ -596,12 +596,17 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     cb = fig.colorbar(im, cax=cax, orientation="horizontal", ticks=[0.5, 0.75, 1.0])
     cb.ax.set_xticklabels(["0.5", "0.75", "1"], fontsize=TEXT_PT)
     cb.outline.set_linewidth(0.5)
-    fig.text((COL_X[1] + AX_W + 0.1) / FIG_W, 0.55 / FIG_H, "Relative power", fontsize=LABEL_PT, va="center")
+    cb.set_label("Relative power", fontsize=LABEL_PT, labelpad=1.5)
     seed, T_s = rec["seed"], rec["T_s"]
-    note = (f"Run {tag} (seed {seed}, {T_s:g} s; first {discard_s:g} s discarded; n = 1 seed, no SEM).\n"
-            "Model: stationary power, 1 s windows, 2 Hz smoothing, 21-contact probe (sigma 0.15). "
-            "LANSA: area mean of relative power, 1 s peri-stimulus windows.")
-    fig.text(COL_X[0] / FIG_W, 0.04 / FIG_H, note, fontsize=TEXT_PT, va="bottom")
+    # The note sits in the band above the bottom edge, left of the colourbar's tick column, wrapped to four short
+    # lines so its right edge stays inside the canvas (a single wrapped line reached 19 px past the 720 px width).
+    note = (f"Run {tag} (seed {seed}, {T_s:g} s;\n"
+            f"first {discard_s:g} s discarded; n = 1 seed, no SEM).\n"
+            "Model: stationary power, 1 s windows, 2 Hz smoothing,\n"
+            "21-contact probe (sigma 0.15).\n"
+            "LANSA: area mean of relative power,\n"
+            "1 s peri-stimulus windows.")
+    fig.text(0.30 / FIG_W, 0.005 / FIG_H, note, fontsize=TEXT_PT - 0.5, va="bottom", linespacing=1.1)
     for ax, letter in zip((axA, axB, axC, axD, axE, axF), "ABCDEF"):
         _letter(fig, ax, letter)
     fig.savefig(path, dpi=300)

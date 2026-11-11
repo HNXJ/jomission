@@ -33,8 +33,8 @@ DATA = ROOT / "docs" / "laminar_motif" / "data"
 RES = ROOT / "results" / "laminar_e2"
 OUT = ROOT / "results" / "viz" / "schema"
 TYPE_COLOR = {"E": "#8e24aa", "PV": "#1565c0", "SOM": "#ff9800"}  # as e2_paper_block.py
-LANSA_STYLE = {"NG": ("NG (pyramidal proxy)", "#8e24aa", "-"), "PV": ("PV", "#1565c0", "-"),
-               "CB": ("CB (not SST-specific)", "#ff9800", "--"), "CR": ("CR, not modelled", "#9e9e9e", ":")}
+LANSA_STYLE = {"NG": ("NG (pyramidal proxy)", "#8e24aa", "-"), "PV": ("PV", "#1565c0", "--"),
+               "CB": ("CB (not SST-specific)", "#ff9800", "-."), "CR": ("CR, not modelled", "#9e9e9e", ":")}
 LANSA_TO_MODEL = {"NG": "E", "PV": "PV", "CB": "SOM"}
 DOT = 20  # cells per dot in panel D
 PT = 7
@@ -79,8 +79,10 @@ def main(tag: str, out: Path = OUT) -> Path:
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False, "pdf.fonttype": 42})
     fig = plt.figure(figsize=(6.7677, 6.4), constrained_layout=True)  # text width 489.10307 pt: scale 1.000 at print
-    # 2 x 4: top A | B | C (C spans two columns), bottom D spanning two | E | F
-    gs = fig.add_gridspec(2, 4, width_ratios=[1, 1.15, 0.95, 0.95])
+    # 2 x 3: A | B | C on top, D (two columns) | E on the bottom. A 2 x 4 grid was tried for an E/F split and
+    # squeezed E and F to 0.13 in each, because panel D's text overflows its axes and constrained_layout then
+    # starves the neighbours; one E panel with both encodings is the smaller layout that stays readable.
+    gs = fig.add_gridspec(2, 3, width_ratios=[1, 1.15, 1.15], height_ratios=[1, 1])
     # A: densities
     ax = fig.add_subplot(gs[0, 0])
     for i, t in enumerate(types):
@@ -95,7 +97,7 @@ def main(tag: str, out: Path = OUT) -> Path:
     # B, C: observed maps
     axb = fig.add_subplot(gs[0, 1], sharey=ax)
     _map(axb, Y.mean(axis=2), z, "observed motif (mean of 11 areas)")
-    axc = fig.add_subplot(gs[0, 2:4], sharey=ax)
+    axc = fig.add_subplot(gs[0, 2], sharey=ax)
     im = _map(axc, Y[:, :, areas.index("V1")], z, "observed motif, V1")
     for a in (axb, axc):
         a.tick_params(labelleft=False)
@@ -138,35 +140,31 @@ def main(tag: str, out: Path = OUT) -> Path:
     taus = rec.get("tau_sst_e_ms") or {}
     taus = taus if isinstance(taus, dict) else {"all": taus}  # older records: one scalar
     axd.set_title(f"model column ({tag})", fontsize=PT + 0.5, loc="left")
-    axd.set_xlabel(f"one dot per {DOT} cells; loops E<->PV, E<->SOM; purple arrows: E projections between\n"
-                   f"neighbouring units; SOM->E tau {', '.join(f'{k} {v:g}' for k, v in taus.items())} ms",
-                   fontsize=PT - 0.5, loc="left")
-    # E: built cell counts. F: the same built profiles against the LANSA lines, one colour per type.
+    axd.set_xlabel(f"one dot per {DOT} cells; loops E<->PV, E<->SOM;\n"
+                   f"purple arrows: E projections between units;\n"
+                   f"SOM->E tau {', '.join(f'{k} {v:g}' for k, v in taus.items())} ms",
+                   fontsize=PT - 1, loc="left", linespacing=1.15)
+    # E: built cell counts as bars, against the LANSA profiles as lines, one colour per type. The bars are drawn
+    # at alpha 0.55 with a darker edge so the two encodings stay separable and the bars clear contrast on white;
+    # each type's line style differs from the others, so the pair is readable without relying on hue alone.
     bp = built_profile(rec, z)
     off = {"E": -0.012, "PV": 0.0, "SOM": 0.012}
     axe = fig.add_subplot(gs[1, 2], sharey=ax)
     for t, col in TYPE_COLOR.items():
-        axe.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.85, label=t)
-    axe.set_xlabel("built cells / max per type")
-    axe.set_title("built, per depth bin", fontsize=PT + 0.5)
-    axe.tick_params(labelleft=False)
-    axe.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=1,
-               handlelength=1, columnspacing=0.6)
-    axf = fig.add_subplot(gs[1, 3], sharey=ax)
-    for t, col in TYPE_COLOR.items():
-        axf.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.30, lw=0,
-                 label=f"{t} built")
+        axe.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.55,
+                 edgecolor=col, lw=0.25, label=f"{t} built")
     for i, t in enumerate(types):
         if t in LANSA_TO_MODEL:
             lab, col, ls = LANSA_STYLE[t]
-            axf.plot(Xm[:, i] / Xm[:, i].max(), z, color=col, ls=ls, lw=1.5, label=lab)
-    axf.set_xlabel("cells / max per type")
-    axf.set_title("built vs LANSA", fontsize=PT + 0.5)
-    axf.tick_params(labelleft=False)
-    axf.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2,
-               handlelength=1.4, columnspacing=0.6)
-    for a, letter in zip((ax, axb, axc, axd, axe, axf), "ABCDEF"):
-        a.text(-0.02, 1.02, letter, transform=a.transAxes, fontsize=10, fontweight="bold", ha="right", va="bottom")
+            axe.plot(Xm[:, i] / Xm[:, i].max(), z, color=col, ls=ls, lw=1.6,
+                     label=lab.replace(" (not SST-specific)", ""))
+    axe.set_xlabel("cells / max per type")
+    axe.set_title("built vs LANSA", fontsize=PT + 0.5)
+    axe.tick_params(labelleft=False)
+    axe.legend(frameon=False, fontsize=PT - 1, loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2,
+               handlelength=1.3, columnspacing=0.5, borderaxespad=0.01)
+    for a, letter in zip((ax, axb, axc, axd, axe), "ABCDE"):
+        a.text(-0.06, 1.06, letter, transform=a.transAxes, fontsize=10, fontweight="bold", ha="left", va="bottom")
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"{tag}_schema.png"
     fig.savefig(path, dpi=300)

@@ -66,7 +66,7 @@ def _map(ax, R, title):
     ax.set_xticks([2, 10, 50, 150], ["2", "10", "50", "150"])
     ax.set_ylim(mf.CHANNELS[-1] + 0.025, mf.CHANNELS[0] - 0.025)
     ax.set_xlabel("frequency (Hz)")
-    ax.set_title(title, fontsize=PT + 0.5)
+    ax.set_title(title, fontsize=PT + 0.5, pad=9)  # pad leaves the strip where the panel letter sits
     return im
 
 
@@ -96,7 +96,7 @@ def panel(tag: str, out: Path = OUT) -> dict:
         c.plot(band_profile(sc.PROTO, band), mf.CHANNELS, color=col, ls="--", lw=1.2)
         c.plot(band_profile(R, band), mf.CHANNELS, color=col, lw=1.5, label=name)
     c.set_xlabel("relative power")
-    c.set_title("band profiles", fontsize=PT + 0.5)
+    c.set_title("band profiles", fontsize=PT + 0.5, pad=9)
     c.tick_params(labelleft=False)
     c.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2,
              handlelength=1.2, columnspacing=0.6, title="solid model, dashed observed", title_fontsize=PT - 0.5)
@@ -113,9 +113,10 @@ def panel(tag: str, out: Path = OUT) -> dict:
              f"verdict: {'PASS' if row['pass'] else 'FAIL'}"]
     d.text(0, 1, "\n".join(lines), va="top", fontsize=PT - 0.5, family="DejaVu Sans Mono", transform=d.transAxes)
     for ax_, letter in zip((a, b, c, d), "ABCD"):
-        t = ax_.get_title()
-        ax_.set_title("")
-        ax_.set_title(rf"$\bf{{{letter}}}$  {t}", loc="left", fontsize=LETTER_PT + 0.5)
+        # the title is already set once (by _map or above); re-setting it here added a second title artist,
+        # which the overlap probe then reported as the title colliding with itself
+        ax_.text(-0.02, 1.13, letter, transform=ax_.transAxes, fontsize=LETTER_PT, fontweight="bold",
+                 ha="left", va="bottom")
     (out / "runs").mkdir(parents=True, exist_ok=True)
     fig.savefig(out / "runs" / f"{tag}.png", dpi=300)
     plt.close(fig)

@@ -32,7 +32,7 @@ Status per comment: **done** (text or evidence changed), **partial**, **owner** 
 | R2.5 lead with the alpha-beta/gamma trade-off | done | R4 title and first sentences |
 | R2.7 lead with Fig 6 and the opposing dominance | done | R5 title and second paragraph; statistics paragraph follows |
 | Fewer audit terms (sealed, winner, arm, verdict) in Results | done | "pre-registered", "selected setting", "condition"; audit terms kept in Methods |
-| Discussion -20 to 25% | done | 1459 to 941 words; limits and the rate-matched M-gamma prediction kept; repeated numbers removed |
+| Discussion -20 to 25% | done, deeper cut | 1456 to 947 words (whitespace tokens, comment lines excluded; 973 counting them), a 35% cut rather than 20-25%: the round-2 removal of repeated numbers overshot. Limits and the rate-matched M-gamma prediction kept |
 
 ## Figures
 

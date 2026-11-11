@@ -79,7 +79,8 @@ def main(tag: str, out: Path = OUT) -> Path:
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False, "pdf.fonttype": 42})
     fig = plt.figure(figsize=(6.7677, 6.4), constrained_layout=True)  # text width 489.10307 pt: scale 1.000 at print
-    gs = fig.add_gridspec(2, 3, width_ratios=[1, 1.15, 1.15])
+    # 2 x 4: top A | B | C (C spans two columns), bottom D spanning two | E | F
+    gs = fig.add_gridspec(2, 4, width_ratios=[1, 1.15, 0.95, 0.95])
     # A: densities
     ax = fig.add_subplot(gs[0, 0])
     for i, t in enumerate(types):
@@ -94,7 +95,7 @@ def main(tag: str, out: Path = OUT) -> Path:
     # B, C: observed maps
     axb = fig.add_subplot(gs[0, 1], sharey=ax)
     _map(axb, Y.mean(axis=2), z, "observed motif (mean of 11 areas)")
-    axc = fig.add_subplot(gs[0, 2], sharey=ax)
+    axc = fig.add_subplot(gs[0, 2:4], sharey=ax)
     im = _map(axc, Y[:, :, areas.index("V1")], z, "observed motif, V1")
     for a in (axb, axc):
         a.tick_params(labelleft=False)
@@ -140,21 +141,31 @@ def main(tag: str, out: Path = OUT) -> Path:
     axd.set_xlabel(f"one dot per {DOT} cells; loops E<->PV, E<->SOM; purple arrows: E projections between\n"
                    f"neighbouring units; SOM->E tau {', '.join(f'{k} {v:g}' for k, v in taus.items())} ms",
                    fontsize=PT - 0.5, loc="left")
-    # E: built vs LANSA depth profile per type
-    axe = fig.add_subplot(gs[1, 2], sharey=ax)
+    # E: built cell counts. F: the same built profiles against the LANSA lines, one colour per type.
     bp = built_profile(rec, z)
     off = {"E": -0.012, "PV": 0.0, "SOM": 0.012}
+    axe = fig.add_subplot(gs[1, 2], sharey=ax)
     for t, col in TYPE_COLOR.items():
-        axe.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.75, label=f"{t} built")
+        axe.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.85, label=t)
+    axe.set_xlabel("built cells / max per type")
+    axe.set_title("built, per depth bin", fontsize=PT + 0.5)
+    axe.tick_params(labelleft=False)
+    axe.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=1,
+               handlelength=1, columnspacing=0.6)
+    axf = fig.add_subplot(gs[1, 3], sharey=ax)
+    for t, col in TYPE_COLOR.items():
+        axf.barh(z + off[t], bp[t] / bp[t].max(), height=0.011, color=col, alpha=0.30, lw=0,
+                 label=f"{t} built")
     for i, t in enumerate(types):
         if t in LANSA_TO_MODEL:
             lab, col, ls = LANSA_STYLE[t]
-            axe.plot(Xm[:, i] / Xm[:, i].max(), z, color=col, ls=ls, lw=1.2)
-    axe.set_xlabel("cells / max per type (bars: built; lines: LANSA)")
-    axe.set_title("built vs LANSA depth profile", fontsize=PT + 0.5)
-    axe.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=3,
-               handlelength=1, columnspacing=0.8)
-    for a, letter in zip((ax, axb, axc, axd, axe), "ABCDE"):
+            axf.plot(Xm[:, i] / Xm[:, i].max(), z, color=col, ls=ls, lw=1.5, label=lab)
+    axf.set_xlabel("cells / max per type")
+    axf.set_title("built vs LANSA", fontsize=PT + 0.5)
+    axf.tick_params(labelleft=False)
+    axf.legend(frameon=False, fontsize=PT - 0.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2,
+               handlelength=1.4, columnspacing=0.6)
+    for a, letter in zip((ax, axb, axc, axd, axe, axf), "ABCDEF"):
         a.text(-0.02, 1.02, letter, transform=a.transAxes, fontsize=10, fontweight="bold", ha="right", va="bottom")
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"{tag}_schema.png"

@@ -11,7 +11,13 @@ prints, so the type stays at its declared point size.
 Each panel is 2.166 in wide (0.32 of the 6.7677 in text width) and 1.55 in tall. Fonts: 6 pt ticks, 6.5 pt labels,
 7 pt title. Reads `results/laminar_e2/<tag>.npz` and `<tag>.json` (the same sources as e2_motif_figure.py) and
 writes `<tag>_laddermap.png`. Values are not recomputed: the map is the per-cell-mean RWS probe power divided by
-its maximum per contact, the same quantity e2_motif_figure.py plots in its middle column.
+its maximum over depth at each frequency (not per contact), the same quantity e2_motif_figure.py plots in its
+middle column.
+
+The Fig S1 reference map in the supplement is made with the non-default flags
+`--frac 0.78 --height 2.1 --suffix refmap`, i.e.
+`python3 scripts/e2_ladder_map.py sw_n4000_dens_k1_kd1_sst15_s1_T8 --out-dir results/viz/s1 --frac 0.78 --suffix refmap --height 2.1`
+(0.78 x the text width is the width that figure prints at, so its declared type sizes are its printed ones).
 """
 import argparse
 import json

@@ -41,7 +41,7 @@ where the "T1 selected, seeds 4-6" column is the confirmed setting and `r_gamma`
 from `r_gm`) all use the right runs. No other wrong-circuit number was found.
 
 
-| 2 | Abstract is 252 words, not 249/248 | major | **CONTESTED — rule-dependent** | Whitespace tokens with LaTeX commands stripped: 248 by two independent rules. Splitting every en-dash range adds up to 12. The paper is under 250 on the rule used in the response file and over on a range-splitting rule. Fixed by trimming, see below |
+| 2 | Abstract is 252 words, not 249/248 | major | **CONTESTED — rule-dependent, since closed by trimming** | Whitespace tokens with LaTeX commands stripped: 248 by two independent rules. Splitting every en-dash range adds up to 12. The abstract was later trimmed to 248 words on the plain rule (the final review round cut it from 262 back under the limit), so the disagreement about counting rules no longer changes any number the journal would see |
 | 3 | Discussion "a quarter to a third" should be 0.22-0.36 | minor | **CONFIRMED** | 0.19/0.85 = 0.224, 0.31/0.85 = 0.365 |
 | 4 | `data/mid_gamma.json` missing from D6 | minor | **CONFIRMED** | absent from `sources_sha256.txt` while `backmatter.tex` claims every derived file is hashed |
 
@@ -92,8 +92,10 @@ wrote the handout, after two gates on that exact SHA:
   `test_jomission_import_resolves_to_this_checkout`, confirmed failing alone. `verify_clone.py` later gave 258 passed.
 - A fresh `reviewer` that had seen none of rounds 1-3 reviewed `git diff e36a566 4ecdda3` and returned
   VERDICT: ACCEPT, with no blocker or major. Its four minors:
-  - this file's table row "Fixed by trimming" contradicts "Recorded rather than trimmed" (the abstract has 248
-    whitespace tokens);
+  - this file's table row said the abstract was fixed by trimming, which contradicted the section below saying it
+    was recorded rather than trimmed (the abstract stood at
+    248 whitespace tokens then). Resolved later: the final review round pushed the abstract to 262 words and it was
+    trimmed back to 248, so the row now reads "since closed by trimming" and no number depends on the counting rule;
   - the Fig S1 architecture PNG is untracked;
   - the `e2_ladder_map.py` refmap flags (`--frac 0.78 --height 2.1 --suffix refmap`) are recorded nowhere;
   - the docstring "maximum per contact" should read "per frequency over depth".

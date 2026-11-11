@@ -1,0 +1,10 @@
+{
+ "kind": "verify_clone_receipt",
+ "sha": "028d903043bf30905963d53174b862469f0b8186",
+ "import_inside_clone": true,
+ "tier0_summary": "258 passed, 5 warnings in 24.74s",
+ "tier0_returncode": 0,
+ "tests_run": 33,
+ "offline": false,
+ "verdict": "VERIFY_CLONE_PASS"
+}

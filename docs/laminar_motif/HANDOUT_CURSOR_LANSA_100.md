@@ -51,7 +51,8 @@ narrative; the paragraphs after it are kept because their warnings still hold.
 - **Sealed at `dc60f66`, branch `dev`.** Receipts at that tree:
   `python3 scripts/project_check.py --offline --no-tests` ends `PROJECT_CHECK_PASS`; manuscript 35 pages with
   0 errors, 0 overfull, 0 float-too-large, 0 undefined references and a 248-word abstract; D6 169/169 verified from
-  disk; isolated gate `python3 scripts/verify_clone.py` gives import-inside-clone True and **258 passed, 0 failed**
+  disk; isolated gate `python3 scripts/verify_clone.py` gives import-inside-clone True and **258 passed, 0 failed**,
+  with its tracked receipt at `docs/receipts/verify_clone.json`;
   (`VERIFY_CLONE_PASS`). Re-run the isolated gate, not the quick check, before any push.
 - **The seal needed a fix that the quick check missed:** adding `OPEN-43` changed `docs/OPEN.md` without
   regenerating `docs/DASHBOARD.html`, which embeds the open stack, and two tier-0 tests failed on it. Only the
@@ -111,9 +112,13 @@ narrative; the paragraphs after it are kept because their warnings still hold.
   install means every other test may import the main checkout too. The strong check is
   `python3 scripts/verify_clone.py`: it clones HEAD, builds a venv with system site-packages (jax, jaxfne, numpy,
   pytest, but no jomission), installs the clone editable into it, asserts the import resolves inside the clone, and
-  runs tier 0 with that interpreter. Receipt at `4ecdda3`: **import inside clone True, 258 passed, 0 failed**,
-  `VERIFY_CLONE_PASS`. Use this before any push; `project_check.py` inside a clone stays a weaker, ambient-environment
-  check.
+  runs tier 0 with that interpreter. The receipt is tracked at `docs/receipts/verify_clone.json` and names the SHA it
+  ran on, the tier-0 summary and the verdict; the run at `028d903` recorded **import inside clone True, 258 passed,
+  0 failed, `VERIFY_CLONE_PASS`**. (An earlier note here cited `4ecdda3`, but the script first exists at `1eb00a4`,
+  so that run used an uncommitted copy and is not a clean receipt; the tracked file supersedes it.) Use this before
+  any push; `project_check.py` inside a clone stays a weaker, ambient-environment check. The script refuses to delete
+  a non-empty directory it did not create, defaults to the system temp dir, and takes `--offline` to install with
+  `--no-build-isolation` when no network is available.
 - Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
   "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:

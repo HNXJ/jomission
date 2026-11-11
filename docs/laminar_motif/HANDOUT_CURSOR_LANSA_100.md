@@ -55,11 +55,17 @@ PROPOSED (needs Hamm).
   the shipped SHA needs either a reviewer pass over that diff or Hamm's acceptance of the split. Do not push on the
   round-3 ACCEPT alone without recording this.
 - Critic rounds: 1 on 12fc805 REVISE (fixed), 2 on 2c51ab3 REVISE (fixed: dense runs' engine 0.5.8 / ref s1 0.5.9;
-  selection vs fresh-seed r_ab wording; r_gm bound 0.1776 vs 0.1778). Round 3 not run: the loop allows 3 rounds and
-  the final ACCEPT must come from a reviewer that has seen none of them. Unfixed minor from round 2: Fig 3 panel D
-  monospace text is about 5-6 pt (redraw in A3).
-- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f and e36a566
-  changed only tex and docs, so that result still binds HEAD; rerun tier-0 before pushing if code changes.
+  selection vs fresh-seed r_ab wording; r_gm bound 0.1776 vs 0.1778). **Round 3 on `e36a566` returned REVISE**, by a
+  reviewer that saw neither earlier round; the findings were reproduced and 8 of 9 fixed at `2575673`, one rejected
+  on the evidence, and the abstract count left as is (see `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`). The loop's
+  three rounds are spent, so the next ACCEPT must come from a fresh reviewer pass on the fixed tree, which is the
+  owner's call. **Nothing is pushed.**
+- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f, e36a566 and every
+  later commit changed only tex, docs, figure PNGs and figure scripts, so that result still binds HEAD; rerun tier-0
+  before pushing if code changes. Rerun twice anyway this session (at `458fb2c` and at `2575673` after the round-3
+  fixes): **257 passed, 1 failed each time**, the failure being
+  `test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`, which fails in a clone by
+  construction.
 - Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
   "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:
@@ -95,12 +101,15 @@ Total now 45/100 (INFERRED). 100 = every row met.
 ## 5. Plan, in order (top = next). Each step: what, closing check, blocked by
 
 ### Phase 0: close the review-4 round (this session may already have done it)
-0. Critic round 3 on HEAD by a reviewer that has not seen rounds 1-2 (another model; brief it with the two
-   checklists `~/.claude/skills/flow-scientific-writing/eval.md` and
-   `~/.claude/skills/flow-scientific-review/references/analysis_checks.md`, the response file, and `git diff
-   f4c7970 HEAD -- paper/jomission_lansa/sections`). ACCEPT: push `dev` and read CI for that SHA. REVISE after
-   round 3: stop, fix nothing silently, give Hamm the open findings. Check: `git log origin/dev..dev` empty; CI
-   success for HEAD.
+0. **DONE to the limit the loop allows.** Round 3 ran on `e36a566` under a reviewer that saw neither earlier round
+   and returned REVISE. Its findings were reproduced: 8 were real and are fixed at `2575673` (Fig 1 layout and 22
+   overlaps, Fig 2 footer clipping, Fig 3 caption/F mismatch, Fig S3 caption mismatch, Fig 3/5 title collision,
+   Fig 1 CB-vs-ramp wording, the Discussion proportion, and two D6 omissions); 1 was rejected on the evidence (the
+   selection-seed `r_ab`, see the adjudication file). The round-3 findings that remain and the fact that the loop's
+   three rounds are spent mean **the next ACCEPT needs a fresh reviewer over the fixed tree, and that is Hamm's
+   call, not the agent's.** Do not push on the round-3 verdict.
+   Check at the point this is picked up: `git log origin/dev..dev` and `python3 scripts/project_check.py` in a
+   clone; the build is 35 pages with 0 undefined, 0 overfull.
 
 ### Phase A: preprint (bioRxiv), no new simulation
 A1. Declarations and metadata from Hamm into `main.tex` and `sections/backmatter.tex`. Check: `grep -c MISSING

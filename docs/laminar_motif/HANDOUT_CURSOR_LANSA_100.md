@@ -42,14 +42,19 @@ PROPOSED (needs Hamm).
 
 ## 3. State on 2026-11-10 (OBSERVED unless marked)
 
-- Handoff point: `dev` is 4 commits ahead of origin/dev (f4c7970): 12fc805 (revision), 2c51ab3 (critic round 1
-  fixes), 5aa809f (critic round 2 fixes and this handout), and the commit that adds this state line. None pushed.
+- Handoff point, 2026-11-11T01:03Z (2026-11-10 19:03 CST): `dev` is 4 commits ahead of origin/dev (f4c7970), nothing pushed: 12fc805
+  (revision), 2c51ab3 (critic round 1 fixes), 5aa809f (critic round 2 fixes and this handout), e36a566 (the state
+  section this commit corrects). **Manuscript content to review = `e36a566`**; this doc-only update does not change
+  it. Run `git log origin/dev..dev` and `git diff e36a566 HEAD -- paper/` before acting: an empty paper diff means
+  the round-3 review still binds `e36a566`.
 - Critic rounds: 1 on 12fc805 REVISE (fixed), 2 on 2c51ab3 REVISE (fixed: dense runs' engine 0.5.8 / ref s1 0.5.9;
   selection vs fresh-seed r_ab wording; r_gm bound 0.1776 vs 0.1778). Round 3 not run: the loop allows 3 rounds and
   the final ACCEPT must come from a reviewer that has seen none of them. Unfixed minor from round 2: Fig 3 panel D
   monospace text is about 5-6 pt (redraw in A3).
-- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f changed only
-  tex and docs; rerun tier-0 before pushing anyway if code changes.
+- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f and e36a566
+  changed only tex and docs, so that result still binds HEAD; rerun tier-0 before pushing if code changes.
+- Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
+  "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:
   r_ab 0.83-0.86 on seeds 1-3 (never rerun on fresh seeds); mid-depth relative gamma 0.19-0.31 vs 0.85 observed.
   T1 fails on fresh seeds. T8: density changes let D dominate, SOM/PV changes let S dominate; no band-specific effect.

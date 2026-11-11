@@ -3,6 +3,30 @@
 Owner: Hamm. Each row: id, status, what is open, evidence, who decides, next check. Rows are removed only on a check that shows them closed. Decision rule (Hamm, 2026-11-05): the agent takes its recommended option when it is reasonably optimal given the repo, goals and jaxfne, and logs it here as a delegated decision; it asks only for real unknowns or 50/50 trade-offs.
 Last reviewed 2026-11-11 (interim: OPEN-44 and OPEN-45 reopened; OPEN-46 to OPEN-49 added; checklist score not changed, see checklist-score.md). Earlier review 2026-11-05 (checklist v4 adopted; plan and results in docs/PROGRESS_REVIEW_2026-11-05.md).
 
+## Blocker register (audit 2026-11-11)
+
+Three projects, separate acceptance: (A) jomission science program, (B) LANSA preprint, (C) repository engineering and reproducibility. Checklist v4 (checklist-score.md, one 50-item table) is 69/100. Owner decisions are not replaced by agent work; a failed scientific result is not an administrative task. No merge, main push, scientific run, task-pointer change or publication is authorized by this register.
+
+| # | Blocker | Class | Project | Next step | Decides | Source |
+|---|---|---|---|---|---|---|
+| 1 | Tier-3 PV batteries (6 tests) | owner gate | A | memory-capped probe or larger-machine run | Hamm | OPEN-01, OPEN-28 |
+| 2 | V2 local operation FAIL | science gate | A | preserve FAIL; define the next hypothesis separately | Hamm | OPEN-03 |
+| 3 | H balance calibration | owner + science | A | keep H optional, or enter calibration | Hamm | OPEN-27 |
+| 4 | H4 unresolved | science result | A | do not claim the balance rule solves rho/Fano. E-only H reduces the rho rise without eliminating it; synchrony term failed sealed predictions; H-BALANCE-MECH verdict NEITHER_M1_NOR_M2 | Hamm | OPEN-27 |
+| 5 | PV drive scan (item 18) | owner gate | A | approve or retire a matched-state scan spec | Hamm | OPEN-31 |
+| 6 | Goals not ratified (item 33) | owner gate | A | ratify or revise docs/GOALS_PROPOSED.md | Hamm | checklist item 33 |
+| 7 | Compile-cache trust (item 35) | owner decision | C | user-owned cache directory, or accept a trusted cache | Hamm | OPEN-17 |
+| 8 | JaxFNE version conflict | owner + migration | A, C | keep 0.5.8 historical authority separate from a 0.5.9 migration lineage | Hamm | OPEN-37, OPEN-41 |
+| 9 | Canonical state stale (next_authorized_task = SCI-AGSDR-CALIBRATION) | owner authorization | B, C | Hamm chooses the next task; no silent change | Hamm | OPEN-43 |
+| 10 | origin/dev failures; 342279db not on origin | reproduction gate | C | recover the exact failing SHA, reproduce, then reconcile; no merge | Hamm (rulings), agent (reproduction) | OPEN-47 |
+| 11 | Deck candidate 076ffefb unreviewed; p3 "N" and p9 counts | owner + reviewer | B | fresh review; rule on p3 and p9 | Hamm, reviewer | OPEN-46 |
+| 12 | results.tex uncommitted change | ownership gate | B | identify the writer and inspect the diff before staging | Hamm | OPEN-49 |
+| 13 | OPEN-44 and OPEN-45 reopened | agent work | C | reproduce m2, m3 and the v4 receipt SHA | agent | OPEN-44, OPEN-45 |
+| 14 | Partial checklist items | agent work | C | work only from verified item-level deficits | agent | checklist-score.md |
+| 15 | f-I engine equivalence (item 8) | agent work | A, C | small equivalence test against JaxFNE | agent | checklist item 8 |
+
+Construction caveat (OPEN-38): the macaque dataset measured PV, CB, CR and NG, not SST or VIP; the CB/PV ratio trends opposite to the imposed deep-rising SOM/PV ramp, which is therefore an assumption. T8 controls test construction rules, not cell-type causality.
+
 | id | status | open | evidence | decides | next check |
 |---|---|---|---|---|---|
 | OPEN-01 | blocked | tier 3 (PV group, 6 tests) not run: owner declined authorization 2026-11-03 (docs/receipts/receipts.json); the PV-group scope question is unanswered; machine 15 GB vs ~32 GB per battery; all six write sealed results | checklist v4 item 1 (v2 item 29); results/v21_pv_*.json sealed; manifests/test_tiers.json tier 3 | Hamm | owner chooses: small memory-capped probe, or larger machine plus TODO |

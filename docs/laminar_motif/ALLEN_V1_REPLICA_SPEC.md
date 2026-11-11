@@ -409,6 +409,32 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
     (`scripts/e2_motif_figure.py:142`). p values are k/24, and 0.000 is attained (x1_SST manuscript). So the floor is 0, not 1/24;
     the earlier "1/24 floor" note is withdrawn.
   - Isolated-L4 states (E 0.25–0.59 Hz) are very quiet; their r_gm/r_proto are descriptive only.
+- Queue records, 5 s screening, remaining runs (11-10). Scorer path only (CHANNELS grid, per-unit RWS, 1 s windows); off-authority
+  (0.5.9 side install), exploratory. Scorer-input windows per 5 s run = 2, so jackknife SE rests on 2 halves: treat SE as
+  unreliable; p_tol takes values k/24. Source: `scripts/allen_v1_units.py` inputs, `scripts/e2_scorer.py` verdicts,
+  `scratchpad/_temp_queue_scorer.py`, `scratchpad/_temp_gamma_peak.py`.
+
+  | run | wall s | image M ± SE (p_tol) | manuscript M ± SE (p_tol) | r_proto | r_gm image / manuscript | gamma peak depth |
+  |---|---|---|---|---|---|---|
+  | x1_VIP_H_s1_T5 (VIP silenced) | 1945.4 | −0.036 ± 0.058 (0.417) | −0.042 ± 0.050 (0.458) | 0.166 | −0.130 / −0.050 | 0.000 |
+  | x2_L1_H_s1_T5 (L1 silenced) | 1887.2 | −0.089 ± 0.105 (0.417) | −0.104 ± 0.081 (0.500) | 0.140 | −0.150 / −0.081 | 0.000 |
+  | x2_L23_H_s1_T5 (L2/3 silenced) | 1837.6 | −0.106 ± 0.034 (0.417) | −0.081 ± 0.030 (0.417) | −0.123 | −0.487 / −0.418 | +0.400 |
+  | x2_L5_H_s1_T5 (L5 silenced) | 1876.8 | −0.137 ± 0.107 (0.750) | −0.156 ± 0.097 (0.833) | 0.143 | −0.112 / −0.027 | −0.050 |
+  | x2_L6_H_s1_T5 (L6 silenced) | 2220.9 | 0.037 ± 0.033 (0.167) | 0.040 ± 0.025 (0.125) | 0.440 | 0.286 / 0.362 | −0.050 |
+  | x3_iso_L23_H_s1_T5 (isolate L2/3) | 3097.2 | −0.157 ± 0.004 (0.917) | −0.150 ± 0.008 (0.917) | 0.615 | 0.757 / 0.811 | −0.200 |
+  | x3_iso_L5_H_s1_T5 (isolate L5) | 1727.2 | −0.601 ± 0.009 (0.833) | −0.639 ± 0.018 (0.917) | −0.095 | −0.434 / −0.370 | +0.100 |
+  | x3_iso_L6_H_s1_T5 (isolate L6) | 1882.0 | 0.020 ± 0.003 (0.292) | 0.028 ± 0.003 (0.250) | −0.434 | −0.767 / −0.744 | +0.400 |
+
+  Gamma peak = depth of the maximum of the mean 50–150 Hz relative power over contacts (`_temp_gamma_peak.py`). x3_iso_L5 M is
+  −0.60 with SE 0.009 on 2 windows: a large value on the scorer path with an SE that cannot be trusted; report it as observed, not
+  as a motif result. Reading: no significance claim. The SEs rest on 2 windows, so the positive values (x2_L6 0.037 ± 0.033, x3_iso_L6
+  0.020 ± 0.003, x1_PV 0.106 ± 0.069 from the earlier record) cannot be read as motif evidence until the 5 s SE is replaced.
+- Identity check (0.5 s, full size, seed 1, wiring H): `id734_full_H_s1_T0p5` (tree at 734fede, `scratchpad/code_734fede`) and
+  `idHEAD_full_H_s1_T0p5` (dev HEAD 965e7c1). The two `.npz` files are bitwise equal (`cmp`, both 266620 bytes). The 734fede
+  and HEAD code paths give identical 0.5 s output.
+- X1b (`x1b_PVL56_H_s1_T5`, PV silenced in L5 and L6): the queue launch at 16:03Z failed before the simulation started (relative
+  log paths in the worktree wrapper; rc 1, no simulation). Rerun from a clean clone at 5cf65ac9096dbc203f24f578a435814611c12582
+  (`scratchpad/_temp_run_clean.sh`), started 14:12Z 11-11 (one simulation at a time). Pending.
 - Correction to the p-convention note above (supersedes it). The 24 permutations include the identity
   (`itertools.permutations`, `e2_motif_figure.py:121–142`). Under "≥", the identity counts, so the intended floor is 1/24.
   A p of 0.000 (x1_SST manuscript, figure path) comes from float rounding: the identity's null value (slope of a−g over the

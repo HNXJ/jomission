@@ -88,11 +88,15 @@ A method error to avoid repeating: the first pass divided pixel width by an assu
 from the file (`PIL.Image.open(p).info["dpi"]`), never assume it.
 
 Still open in A3, recorded rather than fixed:
-- **The three T1 atlases** (`results/viz/t1/V3_{kd,sst,sstd}_n4000_atlas.png`) print at scale 0.896, so their
-  6.5 pt titles land at 5.8 pt. No generator for them exists in `scripts/` (`grep` for `V3_kd`, `_n4000_atlas`
-  finds only the tex references), so they cannot be redrawn reproducibly from this repo. Either the generator is
-  found and committed, or the atlases are redrawn by a new script under the visualization contract. Not guessed at.
-- A second, independent visual review of the four redrawn figures: running.
+- **The three T1 atlases**: FIXED at `d64deab`. An earlier note here claimed no generator existed in `scripts/`;
+  that was wrong (the generator is `scripts/e2_t1_atlas.py`, which writes exactly these three files). They were
+  drawn at 6.8 in and printed at 0.90\linewidth = 6.09 in, scale 0.896, so their 6.5 pt titles made 5.8 pt and 6 pt
+  ticks 5.4 pt. Redrawn at the 6.092 in printed width, scale 1.000, so 6.50 and 6.00 pt. Content is the same kd,
+  sst and sstd ladders with their recorded seed means.
+  Lesson: before writing that a generator does not exist, grep the repo for the output filename, not just for a
+  `scripts/` name that resembles it.
+- A second, independent visual review of the four redrawn figures: see §6.
+- A fresh full-manuscript review of `fa6f47d` after the round-3 fixes: running.
 
 ## 7. Every main-text figure measured at print scale (2026-11-11)
 

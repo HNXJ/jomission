@@ -17,12 +17,14 @@ The negative result is specific. It holds for this three-unit E/PV/SOM column wi
 in-degrees, the declared SOM/PV ramp, the tested SOM$\to$E kinetics and network sizes, and stationary drive. It does
 not show that density-based or CAMINOS-based models in general cannot produce the motif, and it does not test, so
 cannot contradict, the PV$\to$E kinetics that \citet{Herrera2026} found to control layer-4 gamma. What it shows is
-that densities and SOM kinetics alone were not sufficient here. Because the SOM/PV ratio, unit size and in-degree
-vary together across depth, it also does not show that the SOM/PV gradient produces the deep alpha-beta; a
-flat-ratio and a reversed-ratio column at fixed sizes and connectivity are needed for that. Nor does any run
-test density itself as a cause: densities set unit sizes and in-degrees in every run, and the causal test is
-a column with the same total cell count whose densities are flattened or permuted across units. Until it is
-run, density is a construction input here, not a tested mechanism.
+that densities and SOM kinetics alone were not sufficient here. The sealed controls separate the two construction
+inputs. The deep alpha-beta follows the imposed SOM/PV ramp: flattening or reversing it moved alpha-beta
+superficial on every seed, while flattening the density profile left it in place. The density profile shapes the
+gamma profile and the whole map: flattening or permuting it turned $r_{gm}$ and $r_\text{proto}$ negative. The
+model's best feature, deep alpha-beta, therefore rests on the declared ratio ramp, which runs against the measured
+CB/PV profile, rather than on the measured densities. The controls do not identify a band-specific mechanism:
+each arm let one unit dominate the map at every frequency, and they change sizes, in-degrees and rates along with
+the named quantity.
 
 \textbf{What is missing.} The first explanation is a band mismatch, and it may be the central one. The isolated
 CAMINOS module oscillates at 27--46 Hz depending on $\rho$, below the scored 50--150 Hz band, and in the stack the
@@ -81,12 +83,12 @@ drive, so the correspondence is qualitative.
 \textbf{Limits.} The column has three units, so depth resolution comes from the readout kernel, not from the
 model; a deep-unit change also moves power at mid-depth. LANSA densities are relative per marker, so they set depth
 profiles, not ratios across types; calbindin is not a specific SOM marker. The SOM/PV ramp (0.25, 1, 2) was
-declared, not measured, and it varies with depth together with the densities, so their effects are confounded; no
-flat-density or equal-unit column was run. Every unit receives the same stationary Poisson drive, while the observed
+declared, not measured; the T8 controls separate it from the density profile only at $n = 3$ seeds per arm with an
+uncorrected descriptive rule. Every unit receives the same stationary Poisson drive, while the observed
 maps come from peri-stimulus windows and cortical layers receive different inputs. VIP cells are absent because the
 AdEx kernel has no VIP type. The sealed tests of E/I balance, SOM/PV ratio and PV or SOM silencing
 (Table~\ref{tab:notrun}) were not run. The target map is the LANSA mean; the motif's generality is itself disputed
 \citep{Mackey2026}, and our conclusions are conditional on that target.
 
-Event-driven synaptic delivery reproduced the dense simulation bitwise in one test and ran 9.9 times faster in one
-timed comparison, which makes sealed multi-seed searches of this kind practical.
+Event-driven synaptic delivery reproduced the dense simulation bitwise on four runs (two layouts, three seeds of
+the reference) and ran 9.9 times faster in one timed comparison, which makes sealed multi-seed searches of this kind practical.

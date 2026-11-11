@@ -409,6 +409,72 @@ Fig.~\ref{fig:scorer}.}
 \label{fig:weights}
 \end{figure}
 
+\subsection{The SOM/PV ramp places alpha-beta deep; the density profile shapes gamma}
+
+The reference column changes density and SOM/PV ratio together across depth, so neither was tested as a cause by
+the runs above. A sealed control (T8, seal \rec{S7}) rebuilt the reference with one construction rule changed at a
+time, at fixed total cell count: density flattened (equal unit sizes, one in-degree rule), density permuted (S and
+D exchanged), SOM/PV flat (0.79 in every unit, the geometric mean of the ramp) and SOM/PV reversed (2, 1, 0.25 from
+S to D), each on seeds 1--3 at 8 s (Methods). The decision rule, fixed before the runs, takes the paired difference
+$d_s$ = reference minus control per seed and calls a difference only when all three $d_s$ share a sign and their
+mean exceeds $2\,\text{SD}/\sqrt{3}$; with $n = 3$ it is a descriptive screen, uncorrected across the four primary
+comparisons. All 15 runs were evaluable (no stop state, no refusal; \rec{D8}). The reference reruns equalled the
+saved reference runs bitwise on all 22 output arrays for each seed (\rec{D9}).
+
+Reversing or flattening the SOM/PV ramp moved alpha-beta from deep to superficial: $r_{ab}$ fell from 0.83--0.86 to
+$-0.74$ (reversed) and $-0.72$ (flat) on every seed (mean $d$ 1.58 and 1.56, SD 0.015 and 0.013; ref higher;
+Table~\ref{tab:t8}). Flattening density left $r_{ab}$ unchanged (mean $d$ 0.004, SD 0.038; no consistent
+difference), and permuting it lowered $r_{ab}$ to 0.70--0.71 (mean $d$ 0.13, SD 0.015; ref higher). Deep
+alpha-beta in this column therefore depends on the imposed SOM/PV ramp, not on the measured density profile.
+The density arms instead changed the gamma profile and the whole map: $r_{gm}$ fell from 0.14--0.41 to $-0.83$
+(flat) and $-0.85$ (permuted), and $r_\text{proto}$ from 0.21--0.40 to $-0.37$ and $-0.44$ (ref higher in both).
+The ratio arms raised $r_{gm}$ to about 0.5 (flat: control higher; reversed: all three $d_s < 0$ but the mean,
+$-0.178$, did not exceed the bound, so no consistent difference) while lowering $r_\text{proto}$. No control raised
+mid-depth relative gamma: it was 0.23--0.26 in the reference and 0.04--0.23 in the controls (ref higher in all
+four). No run of any arm passed the scorer, and none showed the band crossing.
+
+The maps show how (Fig.~\ref{fig:t8}). In the density arms the deep unit dominates relative power at every
+frequency; in the ratio arms the superficial unit does. The dominant unit is not the one with the highest E rate:
+in the permuted-density arm the deep unit fires at 0.45--0.51 Hz against 1.05--1.11 Hz superficially, and in the
+ratio arms the superficial unit fires at 0.38--0.47 Hz, the lowest of the three (\rec{D8}); which property sets
+dominance is not identified here. The band correlations then follow which unit dominates broadband power, not a
+band-specific rhythm placed at its depth (inferred from the maps). The reference's deep
+alpha-beta and superficial gamma arise from a balance between units that each control arm breaks. The arms change
+more than the named quantity: the density arms change unit sizes, in-degrees and the inhibitory counts that follow
+E:I, the ratio arms change the SOM$\to$E in-degree, and both change unit rates. They test these construction rules,
+not density or ratio apart from their consequences.
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Control & $r_{ab}$ & $r_{gm}$ & $r_\text{proto}$ & mid-depth $\gamma$ & Decision on $r_{ab}$ (primary) \\
+\midrule
+reference & 0.84 & 0.32 & 0.33 & 0.25 & --- \\
+density flat & 0.84 & $-0.83$ & $-0.37$ & 0.19 & no consistent difference \\
+density S$\leftrightarrow$D & 0.71 & $-0.85$ & $-0.44$ & 0.04 & ref higher \\
+SOM/PV flat & $-0.72$ & 0.51 & 0.17 & 0.21 & ref higher \\
+SOM/PV reversed & $-0.74$ & 0.49 & 0.15 & 0.09 & ref higher \\
+\bottomrule
+\end{tabular}
+\caption{T8 controls (seal \rec{S7}), seed means of seeds 1--3, 8 s. Mid-depth $\gamma$: relative 50--150 Hz power
+over the contacts from $-0.2$ to 0 (observed 0.85). Decision: the sealed paired rule on reference minus control;
+per-seed differences, SD and the decisions for the secondary outcomes are in \rec{D8}.}
+\label{tab:t8}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/t8/V3_t8_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t8/V3_t8_atlas.png}}{\pendingbox{T8 atlas}}
+\caption{T8 controls: seed-mean relative-power maps (power divided by its maximum over depth at each frequency;
+seeds 1--3, 8 s, 2 s discarded) of the reference and the four control columns, beside the observed 11-area mean
+(A). Panel titles give the seed means of $r_{ab}$, $r_{gm}$ and $r_\text{proto}$. In B the alpha-beta maximum
+lies in M and D and the gamma maximum in S; in C and D the deep unit dominates every frequency, in E and F the
+superficial unit does. Per-arm architecture and 1 s rasters: \rec{R11}.}
+\label{fig:t8}
+\end{figure}
+
 \subsection{Readout geometry alone can mimic a fit}
 
 Holding each run's unit spectra fixed and moving only the readout depths (1330 placements) raised $r_\text{proto}$
@@ -435,11 +501,15 @@ potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine uni
 
 \begin{figure}[tbp]
 \centering
-\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.98\linewidth}{probe summary}\\[0.6em]
-\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.7\linewidth}{CSD}
+\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.8\linewidth}{probe summary}\\[0.4em]
+\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.85\linewidth}{CSD}
 \caption{Readout controls, post hoc on saved runs. A: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
 identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$. B:
-current-based CSD of the reference run, averaged on alpha-band troughs; source placements are assumed (Methods).}
+current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); top, the
+first retained second; bottom, averages over 108 troughs of the 10--30 Hz band-passed $\phi$ at the contact with
+most band power, each contact's mean over the window removed. Source depths are assumed (PV perisomatic, SOM
+distal apical, AMPA basal and apical; Methods); the trigger contact is chosen on the same $\phi$, so its trace is
+circular; colour limits are per panel (99th percentile of $|\text{field}|$), in arbitrary units.}
 \label{fig:readout}
 \end{figure}
 
@@ -448,6 +518,8 @@ current-based CSD of the reference run, averaged on alpha-band troughs; source p
 
 Delivering AdEx synaptic events only for spiking presynaptic cells gave all 22 output arrays of an 8 s T1 run
 bitwise equal to the dense route (248\,116 spikes; equal edge tables), and simulated it in 140 s instead of 1387 s on
-the same machine (9.9-fold, one timed pair; \rec{N1}~\S5). Equality is shown for one seed and one layout; a
-different layout differed in 21 of 22 arrays, as it should. T1 axis 3, the confirmation and the weight runs used
-this route; the ladder and T1 axes 1--2 used the dense route (Methods).
+the same machine (9.9-fold, one timed pair; \rec{N1}~\S5). The T8 reference reruns, on the event route, were
+also bitwise equal to the dense reference runs on all 22 arrays for seeds 1--3 (\rec{D9}), so equality holds on
+two layouts and four runs; a different layout differed in 21 of 22 arrays, and different seeds of one layout in
+21 of 22, as they should. T1 axis 3, the confirmation, the weight runs and T8 used this route; the ladder and T1
+axes 1--2 used the dense route (Methods).

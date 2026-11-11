@@ -222,8 +222,7 @@ seeds 1--3, 8 s. A dose-response measurement with no pass criterion; the effect 
 
 \item[T3 PV/SST ratio, planned] (sealed, not run; seal \rec{S5}). Every unit's $N_\text{SST}/N_\text{PV}$ times $s$,
 $s \in \{0.25, 0.5, 1, 2, 4\}$, keeping the ramp shape and each unit's inhibitory total. CB/PV is not used as SST/PV
-(OPEN-38). Because it scales the whole ramp, T3 is not a flat-ratio or reversed-ratio control; those are not
-sealed.
+(OPEN-38). Because it scales the whole ramp, T3 is not a flat-ratio or reversed-ratio control; those are T8.
 
 \item[T4 PV/SST silencing and stimulation, planned] (sealed, not run; seal \rec{S6}). Silencing is a hyperpolarizing
 current through \texttt{tensor\_triple\_drive}, the only $I_\text{ext}$ path into the AdEx kernel in 0.5.8.
@@ -238,6 +237,22 @@ twice the dose.
 of half-width 0.5 depth units (ASSUMED; \rec{C8}); contacts map
 to depth bins by linear interpolation of their projected depth, over covered bins only (ASSUMED). Two crossing definitions: oblique through one sheet, $\theta \in \{0, 30, 60, 90\}^\circ$;
 and lateral offset $\in \{0, 0.25, 0.5\}$. Estimands: contrast $M$ and $r_\text{proto}$ minus the identical-unit control.
+
+\item[T8 density and SOM/PV controls] (seal \rec{S7}, committed and pushed before the first run). Five arms on the
+reference layout (\texttt{dens}, \texttt{k1}, \texttt{kd1}, \texttt{sst15}, $N = 4000$), seeds 1--3, 8 s, 2 s
+discarded, event delivery, JaxFNE 0.5.9: the reference; density flat (no \texttt{dens}, no \texttt{kd}: 4000 E
+cells and one in-degree rule per unit); density permuted (\texttt{densr}: S and D densities exchanged for size
+and in-degree); SOM/PV flat (\texttt{rhof}0.794 in every unit, keeping each unit's PV+SOM total); SOM/PV reversed
+(\texttt{rhor}: 2, 1, 0.25 from S to D). Built sizes per arm are in \rec{R11}. Estimand per control and outcome:
+the paired difference $d_s$ = reference minus control. Decision: ``ref higher'' if all three $d_s > 0$ and
+$\bar d > 2\,\text{SD}/\sqrt{3}$ (sample SD), ``control higher'' in the mirror case, otherwise ``no consistent
+difference''. Primary outcome $r_{ab}$; secondary $r_{gm}$, $r_\text{proto}$ and mid-depth relative gamma;
+crossing, verdict and unit rates tabulated. A stop state (as T1) or a refusal in any seed makes an arm not
+evaluable. The reference reruns are compared array by array with the saved dense reference runs (\rec{C13}).
+Summary \rec{C12}, atlas \rec{C14}, modifiers in \rec{C1} with tests that failed on the builder before them.
+Deviations: the launcher started all 15 runs at once instead of two at a time (a throttle bug, fixed after the
+runs; the reference reruns equal the earlier runs bitwise, \rec{D9}), and the V1 rasters were drawn after one
+verdict file (reference, seed 1) had been read, not before any.
 \end{description}
 
 \subsection{Exploratory runs}
@@ -247,13 +262,12 @@ $N = 4000$, seed 1, 8 s; each setting was chosen by hand after the previous resu
 placement re-reads saved runs with the three unit depths moved over a grid (1330 placements) and compares against a
 null in which each unit's spectrum is circularly shifted in frequency with its total power kept (20 draws;
 \rec{R9}). Event-driven delivery computes AdEx synaptic input only from
-presynaptic cells that spiked in the step; it was checked against the dense route on all 22 saved output arrays of one 8 s run (layout \texttt{kd1p41}, seed 1); the axis-3, confirmation and weight runs on other layouts and at 12 s rely on that one check.
+presynaptic cells that spiked in the step; it was checked against the dense route on all 22 saved output arrays of one 8 s run (layout \texttt{kd1p41}, seed 1) and of the three T8 reference runs (seeds 1--3, \rec{D9}); the axis-3, confirmation and weight runs on other layouts and at 12 s rely on these checks.
 
 \subsection{Data and code}
 
 Code, pre-registration seals, derived data and run records are cited in the text by the identifiers of
 Table~\ref{tab:records} (C code, S seals, D derived data, R run records, N notes), with the commit of each code
-and seal file. All are in the project repository \citep{Jomission}; the simulator is JaxFNE \citep{JaxFNE}.
-Seeds are given per run in the tables and run records. The run records are not under version control and are
-not yet in a public archive (no DOI); their SHA-256 hashes are in record \rec{D6} (100 files), and until they are
-deposited the data behind the tables are available on request.
+and seal file. Code and seals are in the project repository \citep{Jomission}; the simulator is JaxFNE 0.5.9
+\citep{JaxFNE}. Seeds are given per run in the tables and run records. The run records are not under version
+control; their SHA-256 hashes are in record \rec{D6} (153 files, including every figure shown). Availability is stated under Data availability.

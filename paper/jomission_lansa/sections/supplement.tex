@@ -10,11 +10,10 @@
 \begin{figure}[tbp]
 \centering
 \cell{0.42\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\\[0.8em]
-\cell{0.56\linewidth}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{LFP and SL map}\hfill
-\cell{0.42\linewidth}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{CSD}
+\cell{0.9\linewidth}{../../results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_motif.png}{LFP and SL map}
 \caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s, exploratory. Top: architecture
-as built. Bottom left: model and observed relative-power maps and band profiles. Bottom right: current-based CSD
-on alpha troughs. Tables~S1--S4 give the modules, edges per rule, run record and parameters with sources.}
+as built. Bottom: model and observed relative-power maps and band profiles. The current-based CSD of this run is
+Fig.~\ref{fig:readout}B. Tables~S1--S4 give the modules, edges per rule, run record and parameters with sources.}
 \label{fig:s-reference}
 \end{figure}
 
@@ -71,17 +70,20 @@ T5 & VIP population & none & deferred (AdEx has no VIP) \\
 ID & Content & Repository file \\
 \midrule
 \multicolumn{3}{@{}l}{\textit{Code} (commit of last change)} \\
-C1 & three-unit stack builder (8519540) & \path{jomission/laminar/caminos_stack.py} \\
+C1 & three-unit stack builder (8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
 C2 & scorer and pass rule (9681fc5) & \path{scripts/e2_scorer.py} \\
 C3 & mid-depth relative gamma (12842de) & \path{scripts/e2_mid_gamma.py} \\
 C4 & readout cross-term split and kernel width (8155f90) & \path{scripts/e2_readout_sensitivity.py} \\
-C5 & readout capacity (this revision) & \path{scripts/e2_readout_capacity.py} \\
+C5 & readout capacity (d8eb4da) & \path{scripts/e2_readout_capacity.py} \\
 C6 & capacity, leave-one-area-out (9c69eb6) & \path{scripts/e2_readout_capacity_loao.py} \\
-C7 & joint constraint, circuit vs optimum (this revision) & \path{scripts/e2_readout_joint.py} \\
+C7 & joint constraint, circuit vs optimum (d8eb4da) & \path{scripts/e2_readout_joint.py} \\
 C8 & probe geometry (2a6e879) & \path{scripts/e2_probe_geometry.py} \\
 C9 & depth placement (42f0e8d) & \path{scripts/e2_depth_placement.py} \\
 C10 & readout ceilings (e78fdcf) & \path{scripts/e2_readout_ceiling.py} \\
-C11 & joint constraint, grid check (this revision) & \path{scripts/e2_readout_joint_grid.py} \\
+C11 & joint constraint, grid check (cb2237c) & \path{scripts/e2_readout_joint_grid.py} \\
+C12 & T8 summary and decision rule (d49a8d0) & \path{scripts/e2_t8_summary.py} \\
+C13 & T8 engine check (d49a8d0) & \path{scripts/e2_t8_engine_check.py} \\
+C14 & T8 atlas (d49a8d0) & \path{scripts/e2_t8_atlas.py} \\
 \multicolumn{3}{@{}l}{\textit{Seals} (pre-registration; commit first added)} \\
 S1 & E0 (757c6a7) & \path{docs/laminar_motif/E0_SEAL.md} \\
 S2 & E1 (e944198) & \path{docs/laminar_motif/E1_SEAL.md} \\
@@ -89,6 +91,7 @@ S3 & finite-size ladder L-FS (1d91096) & \path{docs/laminar_motif/SEAL_LFS.md} \
 S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
 S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
 S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
+S7 & T8 density and SOM/PV controls (8aa14d5; final 6dc8a38) & \path{docs/laminar_motif/SEAL_T8.md} \\
 \multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
 D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
 D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
@@ -97,6 +100,8 @@ D4 & leave-one-area-out & \path{paper/jomission_lansa/data/readout_capacity_loao
 D5 & joint constraint, circuit vs optimum & \path{paper/jomission_lansa/data/readout_joint.json} \\
 D6 & SHA-256 of every file cited & \path{paper/jomission_lansa/data/sources_sha256.txt} \\
 D7 & joint constraint, grid check & \path{paper/jomission_lansa/data/readout_joint_grid.json} \\
+D8 & T8 per-run outcomes, rates and decisions & \path{paper/jomission_lansa/data/t8_summary.json} \\
+D9 & T8 engine check & \path{paper/jomission_lansa/data/t8_engine_check.json} \\
 \multicolumn{3}{@{}l}{\textit{Run records, not version-controlled, hashed in D6}} \\
 R1 & E0 result & \path{results/laminar_e0/e0_result.json} \\
 R2 & E1 result & \path{results/laminar_e1/e1_result.json} \\
@@ -108,12 +113,13 @@ R7 & T1 per-run verdicts & \path{results/laminar_e2/t1_*_verdict.json} \\
 R8 & per-unit weight verdicts & \path{results/laminar_e2/e2x_*_kd1p41_n4000_s1_T8_verdict.json} \\
 R9 & depth placement & \path{results/laminar_e2/depth_placement.json} \\
 R10 & seed agreement & \path{results/viz/paper_w6/seed_diff.json} \\
+R11 & T8 per-arm details, V0, V1 and V2 blocks, V3 atlas & \path{results/viz/t8/} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
 \bottomrule
 \end{tabular}
 \caption{Code, pre-registration seals, data and run records cited by identifier in the text. Files are in the
-project repository \citep{Jomission}; the model runs on JaxFNE \citep{JaxFNE}. No archive DOI exists yet; run
-records (R) are hashed in D6 and available on request until deposited.}
+project repository \citep{Jomission}; the model runs on JaxFNE 0.5.9 \citep{JaxFNE}. Run records (R) are not
+version-controlled and are hashed in D6; their availability is stated under Data availability.}
 \label{tab:records}
 \end{table}

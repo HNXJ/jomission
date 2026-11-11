@@ -1,24 +1,46 @@
 \section{Introduction}
 
-Laminar recordings across primate cortex show a spectrolaminar motif: relative LFP power in the gamma range is
-highest in superficial layers, relative alpha-beta power is highest in deep layers, and the two depth profiles
-cross near layer 4 \citep{MendozaHalliday2024}. Whether the motif is ubiquitous is disputed \citep{Mackey2026}. We take it here as an empirical target, the 11-area mean and V1 maps of the laminar
-cell-density and spectral data set of \citet{Mulvey2024} (LANSA below), without assuming it holds in every area or recording.
+Local field potentials (LFPs) recorded across the depth of primate cortex differ by layer
+\citep{Maier2010,Xing2012}. In macaque visual cortex, gamma activity is strongest in superficial layers and
+alpha-beta activity in deep layers \citep{Buffalo2011,vanKerkoerle2014}, alpha has laminar current generators in
+primary visual, auditory and somatosensory cortex \citep{Haegens2015}, and a similar superficial-gamma, deep-alpha-beta split appears in prefrontal
+cortex \citep{Bastos2020}. Across areas, gamma and alpha-beta also mark feedforward and feedback signalling between
+areas \citep{vanKerkoerle2014,Bastos2015}. \citet{MendozaHalliday2024} summarised these observations as a
+spectrolaminar motif: relative LFP power in the gamma range is highest in superficial layers, relative alpha-beta
+power is highest in deep layers, and the two depth profiles cross near layer 4. Whether the motif is ubiquitous is
+disputed \citep{Mackey2026}. We take it here as an empirical target, the 11-area mean and V1 maps of the laminar
+cell-density and spectral data set of \citet{Mulvey2024} (LANSA below), without assuming it holds in every area or
+recording.
 
 LANSA measured, in 11 macaque areas, the laminar densities of parvalbumin, calbindin and calretinin interneurons
 and of pyramidal neurons alongside the LFP, and found that the motif could be predicted from these laminar cellular
 gradients by a regression whose coefficients were conserved across areas \citep{Mulvey2024}. A regression does not
-say how the gradients would produce the spectra. Mechanistically, feedback inhibition from fast interneurons supports gamma in
-E--I networks \citep{Borgers2003}, and conductance-based network and mean-field models with PV and SOM interneurons
-assign the two classes distinct roles in gamma oscillations and network stability \citep{Tahvili2025,Tahvili2026};
-we call the E/PV/SOM module of these papers CAMINOS. A bio-realistic model of mouse V1 reproduced the motif with alpha-beta
-intrinsic to every layer and gamma generated mainly in layer 4 and propagated across layers \citep{Herrera2026};
-whether this account carries over to primate cortex, where the observed gamma is broadest above layer 4, is open.
+say how the gradients would produce the spectra. Two links are needed: from cells to population rhythms, and from
+population currents to the recorded field.
 
-We built a three-unit model that links the primate densities to the spectra: three CAMINOS units at
-superficial, middle and deep depths, sized by the LANSA densities, with an SOM/PV ratio rising with depth, read out
-by a kernel probe and scored against the observed map by a single sealed rule. We ask whether this density-informed
-column reproduces the motif and, where it fails, what it lacks. The column places alpha-beta deep on its selection
-seeds but leaves gamma weak between $-0.2$ and 0 of cortical thickness; network size, sealed fine-tuning and
-exploratory weight changes do not close the gap, and readout controls show that moving the probe contacts raises the
-similarity score substantially, so a geometry-only account of a fit is not excluded.
+For the first link, interneuron classes differ in their connectivity and in the rhythms they support
+\citep{Tremblay2016}. Feedback inhibition from fast interneurons supports gamma in excitatory-inhibitory networks
+\citep{Borgers2003}, and driving parvalbumin (PV) cells generates or amplifies gamma in mouse cortex
+\citep{Cardin2009,Sohal2009}; somatostatin (SOM) cells also contribute to visually induced gamma in mouse V1
+\citep{Veit2017}. Conductance-based network and mean-field models with PV and SOM interneurons assign the two
+classes distinct roles in gamma oscillations and network stability \citep{Tahvili2025,Tahvili2026}; we call the
+excitatory/PV/SOM module of these papers CAMINOS. Its cells follow the adaptive exponential (AdEx) integrate-and-fire
+model \citep{Brette2005}.
+
+For the second link, the LFP is a weighted sum of transmembrane currents filtered by the volume conductor
+\citep{Buzsaki2012,Einevoll2013}, so a laminar map depends on where the currents flow and how the contacts sample
+them, not only on which populations oscillate. A bio-realistic model of mouse V1 \citep{Billeh2020} reproduced the
+motif with alpha-beta intrinsic to every layer and gamma generated mainly in layer 4 and propagated across layers
+\citep{Herrera2026}. Whether this account carries over to primate cortex, where the observed gamma is broadest just
+above mid-layer 4, and whether the primate densities alone can set the map, are open.
+
+We built a three-unit model that links the primate densities to the spectra: three CAMINOS units at superficial,
+middle and deep depths, sized by the LANSA densities, with a SOM/PV ratio rising with depth, read out by a kernel
+probe and scored against the observed map by a single sealed rule. We ask whether this density-informed column
+reproduces the motif and, where it fails, what it lacks. The column places alpha-beta deep on its selection seeds
+but leaves gamma weak between $-0.2$ and 0 of cortical thickness; network size, sealed fine-tuning and exploratory
+weight changes do not close the gap. Sealed controls that flatten or permute one construction rule at a time show
+that the deep alpha-beta follows the assumed SOM/PV ramp, while the measured density profile shapes the gamma
+profile. Readout controls show that moving the probe contacts raises the similarity score substantially, so a geometry-only
+account of a fit is not excluded, while a simulation-free search shows that the readout itself can meet the gamma
+criterion, which places the failure in the circuit's spectra.

@@ -152,10 +152,10 @@ def load_run(results_dir: Path, tag: str) -> tuple[dict, np.ndarray, list, np.nd
     return rec, g, cols, rev
 
 
-CAPTION = ("Sources at ASSUMED depths: PV perisomatic, SST distal apical, AMPA basal + apical.\n"
-           "Trigger contact is chosen on the same phi, so its trace is circular. Colour limits are per panel "
-           "(99th percentile of |field|).\n"
-           "Trough-triggered panels: each contact's mean over the lag window is removed before plotting.")
+# The caption (assumed source depths, circular trigger contact, per-panel colour limits, demeaned trigger panels)
+# is in the manuscript's figure legend; the figure is drawn at print size (full text width).
+FIGSIZE_IN = (6.8, 4.6)
+FONT_PT = 7
 
 
 def _demean(field: np.ndarray) -> np.ndarray:
@@ -172,7 +172,7 @@ def _heat(ax, fig, field: np.ndarray, t0: float, t1: float, zc: np.ndarray, dz: 
                    extent=(t0, t1, zc[0] - dz / 2, zc[-1] + dz / 2))
     ax.invert_yaxis()
     ax.set_title(title)
-    ax.set_ylabel("Position from L4 (normalized depth)")
+    ax.set_ylabel("depth rel. mid-L4")
     cb = fig.colorbar(im, ax=ax)
     cb.set_ticks([-v, 0.0, v])
     cb.set_ticklabels(["sink", "0", "source"])
@@ -188,21 +188,20 @@ def plot(path: Path, tag: str, phi: np.ndarray, csd: np.ndarray, dz: float, trig
     win = slice(0, int(win_ms))
     n = int(trig["troughs"].size)
     lags = trig["lag_ms"]
-    fig, axs = plt.subplots(2, 2, figsize=(14, 10), layout="constrained")
+    plt.rcParams.update({"font.family": "Arial", "font.size": FONT_PT, "axes.titlesize": FONT_PT,
+                         "xtick.labelsize": FONT_PT - 1, "ytick.labelsize": FONT_PT - 1,
+                         "axes.spines.top": False, "axes.spines.right": False})
+    fig, axs = plt.subplots(2, 2, figsize=FIGSIZE_IN, layout="constrained")
     _heat(axs[0, 0], fig, phi[win], t0, t1, zc, dz, f"phi (forward model), {t0 / 1000:g}-{t1 / 1000:g} s")
     _heat(axs[0, 1], fig, csd[win], t0, t1, zc, dz, f"CSD estimate, {t0 / 1000:g}-{t1 / 1000:g} s")
     tl = (float(lags[0]), float(lags[-1]))  # trigger axis is lag, not run time
-    _heat(axs[1, 0], fig, _demean(trig["trig_phi"]), *tl, zc, dz,
-          f"phi, trough-triggered average (n = {n} troughs)")
-    _heat(axs[1, 1], fig, _demean(trig["trig_csd"]), *tl, zc, dz,
-          f"CSD estimate, trough-triggered average (n = {n} troughs)")
+    _heat(axs[1, 0], fig, _demean(trig["trig_phi"]), *tl, zc, dz, f"phi, trough-triggered (n = {n} troughs)")
+    _heat(axs[1, 1], fig, _demean(trig["trig_csd"]), *tl, zc, dz, f"CSD, trough-triggered (n = {n} troughs)")
     for ax in axs[0]:
         ax.set_xlabel("time (ms)")
     for ax in axs[1]:
         ax.set_xlabel("lag from trough (ms)")
-    fig.suptitle(tag)
-    fig.text(0.5, -0.07, CAPTION, ha="center", fontsize=10)
-    fig.savefig(path, dpi=150, bbox_inches="tight")
+    fig.savefig(path, dpi=300)
     plt.close(fig)
 
 

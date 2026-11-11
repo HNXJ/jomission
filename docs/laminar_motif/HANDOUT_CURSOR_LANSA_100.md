@@ -42,8 +42,14 @@ PROPOSED (needs Hamm).
 
 ## 3. State on 2026-11-10 (OBSERVED unless marked)
 
-- HEAD `2c51ab3` on `dev`, local, not yet pushed at the time of writing (origin/dev at f4c7970). Check `git log
-  origin/dev..dev` first; if unpushed, finish section 5 step 0.
+- Handoff point: `dev` is 4 commits ahead of origin/dev (f4c7970): 12fc805 (revision), 2c51ab3 (critic round 1
+  fixes), 5aa809f (critic round 2 fixes and this handout), and the commit that adds this state line. None pushed.
+- Critic rounds: 1 on 12fc805 REVISE (fixed), 2 on 2c51ab3 REVISE (fixed: dense runs' engine 0.5.8 / ref s1 0.5.9;
+  selection vs fresh-seed r_ab wording; r_gm bound 0.1776 vs 0.1778). Round 3 not run: the loop allows 3 rounds and
+  the final ACCEPT must come from a reviewer that has seen none of them. Unfixed minor from round 2: Fig 3 panel D
+  monospace text is about 5-6 pt (redraw in A3).
+- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f changed only
+  tex and docs; rerun tier-0 before pushing anyway if code changes.
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:
   r_ab 0.83-0.86 on seeds 1-3 (never rerun on fresh seeds); mid-depth relative gamma 0.19-0.31 vs 0.85 observed.
   T1 fails on fresh seeds. T8: density changes let D dominate, SOM/PV changes let S dominate; no band-specific effect.
@@ -77,8 +83,12 @@ Total now 45/100 (INFERRED). 100 = every row met.
 ## 5. Plan, in order (top = next). Each step: what, closing check, blocked by
 
 ### Phase 0: close the review-4 round (this session may already have done it)
-0. Critic round 2 on 2c51ab3, fix, final ACCEPT from a fresh reviewer; tier-0 in a clone (only the clone import
-   failure); push `dev`; CI on the SHA. Check: `git log origin/dev..dev` empty; CI conclusion success for HEAD.
+0. Critic round 3 on HEAD by a reviewer that has not seen rounds 1-2 (another model; brief it with the two
+   checklists `~/.claude/skills/flow-scientific-writing/eval.md` and
+   `~/.claude/skills/flow-scientific-review/references/analysis_checks.md`, the response file, and `git diff
+   f4c7970 HEAD -- paper/jomission_lansa/sections`). ACCEPT: push `dev` and read CI for that SHA. REVISE after
+   round 3: stop, fix nothing silently, give Hamm the open findings. Check: `git log origin/dev..dev` empty; CI
+   success for HEAD.
 
 ### Phase A: preprint (bioRxiv), no new simulation
 A1. Declarations and metadata from Hamm into `main.tex` and `sections/backmatter.tex`. Check: `grep -c MISSING

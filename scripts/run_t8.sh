@@ -17,9 +17,12 @@ for s in 1 2 3; do
     jobs_list+=("$s t8_${arm}_n4000_s${s}_T8 ${LAY[$arm]}")
   done
 done
+# $(jobs -r) runs in a subshell and sees no jobs, so the first T8 launch (2026-11-10) started all 15 at once;
+# zsh/parameter's jobstates is read in this shell.
+zmodload zsh/parameter
 for j in "${jobs_list[@]}"; do
   set -- ${=j}
-  while (( $(jobs -r | wc -l) >= P )); do sleep 5; done
+  while (( ${#jobstates} >= P )); do sleep 5; done
   zsh scripts/run_e2_scored.sh "$1" 8 "$2" "$3" &
 done
 wait

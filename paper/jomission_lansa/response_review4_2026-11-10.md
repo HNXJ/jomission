@@ -41,7 +41,7 @@ Status per comment: **done** (text or evidence changed), **partial**, **owner** 
 | Fig 4: compact r_ab vs r_gm scatter with acceptance region; atlases to supplement | done | New Fig 4 (C16): 93 runs, 7 groups, shaded both >= 0.6, drawn at print size (7 pt); T1 atlases now Fig S4 |
 | Fig 1E crowded | partial | Caption explains reading bars against same-colour lines; panel not redrawn |
 | Fig 2C dense, small annotations | partial | Caption names the shaded scored bands; panel not redrawn |
-| Fig 7 CSD units and source geometry | done | Caption gives source offsets, return currents, sigma_e 0.3 S/m and lateral distance 0.05 (both assumed) and why units are arbitrary |
+| Fig 7 CSD units and source geometry | done | Split into Fig 7 (probe geometry) and Fig 8 (CSD), each at full width so labels stay >= 6 pt; the CSD caption gives source offsets, return currents, sigma_e 0.3 S/m and lateral distance 0.05 (both assumed) and why units are arbitrary |
 
 ## Owner items (not generated)
 

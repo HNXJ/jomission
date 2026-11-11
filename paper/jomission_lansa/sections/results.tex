@@ -39,7 +39,7 @@ against the line of the same colour.}
 
 \subsection{The CAMINOS module reproduces its reference, and SOM/PV lowers its frequency}
 
-Before stacking, one isolated module was checked against the JaxFNE reference (E0, pre-registered). Over five seeds
+Before stacking, one isolated module was checked against the JaxFNE reference (E0, pre-registered: here and below, the rules were committed to the repository before the run). Over five seeds
 the E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and
 the E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its margin (Table~\ref{tab:e0e1}; \rec{R1}). This
 checks the pipeline, not the motif.
@@ -158,15 +158,16 @@ model, dashed observed), D settings and scores.}
 
 No change to the column brought both band correlations to 0.6 (Fig.~\ref{fig:scatter}). Gains in the gamma
 correlation came with losses in the alpha-beta correlation, and the setting selected for whole-map similarity,
-run frozen on three fresh seeds, failed the pre-registered test and lost the deep alpha-beta placement that the
-reference had shown on its first seeds. We separate three kinds of run below: the reference and size ladder
+failed the pre-registered test on three fresh seeds and lost, already on the selection seeds, the deep
+alpha-beta placement that the reference had shown on its first seeds; the reference itself was not rerun on fresh
+seeds. We separate three kinds of run below: the reference and size ladder
 (seeds 1--3, the baseline), the T1 search levels (seeds 1--3, used for selection) and the T1 confirmation (fresh
 seeds 4--6).
 
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/paper_w7/band_scatter.png}{\includegraphics[width=4.6in]{../../results/viz/paper_w7/band_scatter.png}}{\pendingbox{band scatter}}
-\caption{Alpha-beta against gamma depth correlation for every scored run (93 runs; T1 reference levels that
+\caption{Alpha-beta against gamma depth correlation for every scored run (93 runs, 90 distinct simulations; T1 reference levels that
 reuse earlier runs are plotted once). Shaded: both $\geq 0.6$, the band part of the pass rule. Grey: size ladder,
 $N$ = 1000, 2000, 4000, seeds 1--3; small blue: T1 levels on selection seeds; blue diamonds: the selected T1
 setting on fresh seeds; orange: hand-chosen middle-unit weights, seed 1; black, cyan, red: T8 reference
@@ -319,8 +320,8 @@ We compared each modified circuit with the reference on matched seeds. Because e
 these comparisons are descriptive and uncorrected across outcomes; the rule that labels a difference consistent
 is in Methods, and per-seed differences are in \rec{D8}. By that rule the reference had the higher $r_{ab}$ than
 the permuted-density and both ratio controls (mean differences 0.13, 1.56 and 1.58) and no consistent difference
-from flat density (0.004). For $r_{gm}$ the reversed-ratio control was lower than the reference on all three seeds
-but by less than the rule's bound ($-0.178$ against 0.178); for mid-depth gamma the flat-density difference was
+from flat density (0.004). For $r_{gm}$ the reversed-ratio control was higher than the reference on all three seeds
+but by less than the rule's bound (mean difference $-0.178$ against a bound of 0.178); for mid-depth gamma the flat-density difference was
 marginal (0.056 against 0.046). The reference reruns equalled the earlier reference runs bitwise (\rec{D9}).
 
 The dominant unit is not the one with the highest E rate: with permuted density the deep unit fired at 0.45--0.51
@@ -388,7 +389,7 @@ map's mid-depth level together (\rec{C7}, \rec{D5}), we found a numerical soluti
 0.828, the lower edge of the 0.02 tolerance, with S, M and D carrying 46, 49 and 5\% of the power and the sources
 fully coherent; without cross terms no covariance exceeds mid-depth 0.665. The band-mean profile's own level, 0.946,
 is out of reach at 0.15 with or without cross terms. This optimum is found numerically and is not a proven global
-maximum; it was recovered to 0.0002 by an independent grid over rank-one covariances, and the optimizer recovered
+maximum; an independent grid over rank-one covariances reached it within 0.0005 at both widths, and the optimizer recovered
 synthetic targets of known solution (Methods; \rec{C15}, \rec{D10}). The circuit is far from it
 (Table~\ref{tab:circuitopt}): it puts 63--78\% of its 50--150 Hz power at S and 17--19\% at M, against 46 and 49\%,
 and the real parts of its source coherences are $-0.06$ to 0.27, against $\pm 1$.
@@ -468,7 +469,7 @@ top or D first and M second met no placement. Spectral content contributes to th
 confound, not a ruled-out cause.
 % FINDINGS §7; results/laminar_e2/depth_placement.json
 
-Probe tilt confounds the laminar contrast metric (Fig.~\ref{fig:readout}A). The seed-mean contrast $M_\text{arc}$
+Probe tilt confounds the laminar contrast metric (Fig.~\ref{fig:readout}). The seed-mean contrast $M_\text{arc}$
 (slope of the alpha-beta minus gamma relative-power profile along the probe, per unit of contact arc length)
 peaked at $30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
 $0^\circ$), a difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at
@@ -476,16 +477,21 @@ $30^\circ$ than at $0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 ag
 tilt. $r_\text{proto}$ minus the identical-unit control rises with tilt; we infer that this comes from the
 control falling as fewer bins are covered, not from the model. A current-based CSD reproduced the forward
 potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources independent
-(rank 9 of 9; Fig.~\ref{fig:readout}B); this checks internal consistency, not source placement.
+(rank 9 of 9; Fig.~\ref{fig:csd}); this checks internal consistency, not source placement.
 % FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json
 
 \begin{figure}[tbp]
 \centering
-\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.74\linewidth}{probe summary}\\[0.4em]
-\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.74\linewidth}{CSD}
-\caption{Readout controls, post hoc on saved runs. A: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
-identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$. B:
-current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); top, the
+\IfFileExists{../../results/viz/paper_w5/probe_summary.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w5/probe_summary.png}}{\pendingbox{probe summary}}
+\caption{Probe geometry, post hoc on saved runs: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
+identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$.}
+\label{fig:readout}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}}{\pendingbox{CSD}}
+\caption{Current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); top, the
 first retained second; bottom, averages over 108 troughs of the 10--30 Hz band-passed $\phi$ at the contact with
 most band power, each contact's mean over the window removed. The sources are the saved synaptic currents of each
 unit's E cells, placed at assumed offsets from the unit depth $z_u$ (PV GABA perisomatic at $z_u$; SOM GABA distal
@@ -493,5 +499,5 @@ apical at $z_u - 0.15$; AMPA half at $z_u$, half at $z_u - 0.10$), each with an 
 in a homogeneous medium ($\sigma_e = 0.3$ S/m, lateral distance 0.05 depth units; both assumed; Methods). Depth is
 in fractions of cortical thickness, not metres, so $\phi$ and CSD are in arbitrary units; colour limits are per
 panel (99th percentile of $|\text{field}|$). The trigger contact is chosen on the same $\phi$, so its trace is circular.}
-\label{fig:readout}
+\label{fig:csd}
 \end{figure}

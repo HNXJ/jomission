@@ -78,7 +78,7 @@ def main(tag: str, out: Path = OUT) -> Path:
     z, types, Xm, Y, areas = lansa()
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False, "pdf.fonttype": 42})
-    fig = plt.figure(figsize=(7.2, 6.4), constrained_layout=True)
+    fig = plt.figure(figsize=(6.7677, 6.4), constrained_layout=True)  # text width 489.10307 pt: scale 1.000 at print
     gs = fig.add_gridspec(2, 3, width_ratios=[1, 1.15, 1.15])
     # A: densities
     ax = fig.add_subplot(gs[0, 0])

@@ -30,6 +30,7 @@ OUT = mf.ROOT / "results" / "viz" / "spectrolaminar"
 # a site table, not a result: kept out of results/ (every tracked results/*.json must be a registered result)
 TABLE = mf.ROOT / "site-src" / "data" / "spectrolaminar_runs.json"
 PT = 7
+LETTER_PT = 9  # panel letters (match-visual-style floor: 9 pt at print; canvas is the text width so scale 1.000)
 C_AB, C_GM = "#1565c0", "#e53935"
 
 
@@ -81,7 +82,7 @@ def panel(tag: str, out: Path = OUT) -> dict:
     row = config_row(tag, rec, v)
     plt.rcParams.update({"font.size": PT, "font.family": ["Arial", "Helvetica", "DejaVu Sans"],
                          "axes.spines.top": False, "axes.spines.right": False})
-    fig = plt.figure(figsize=(6.8, 2.7), constrained_layout=True)  # print size: full text width
+    fig = plt.figure(figsize=(6.7677, 2.7), constrained_layout=True)  # text width 489.10307 pt: scale 1.000 at print
     gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 0.75, 1.3])
     a = fig.add_subplot(gs[0])
     _map(a, sc.PROTO, "observed, 11-area mean")
@@ -110,11 +111,11 @@ def panel(tag: str, out: Path = OUT) -> dict:
              f"r_ab {row['r_ab']:.3f}   r_gm {row['r_gm']:.3f}  (>= 0.6)",
              f"crossing {row['crossing_2se']}   perm rank {row['perm_rank']}",
              f"verdict: {'PASS' if row['pass'] else 'FAIL'}"]
-    d.text(0, 1, "\n".join(lines), va="top", fontsize=PT - 1, family="DejaVu Sans Mono", transform=d.transAxes)
+    d.text(0, 1, "\n".join(lines), va="top", fontsize=PT - 0.5, family="DejaVu Sans Mono", transform=d.transAxes)
     for ax_, letter in zip((a, b, c, d), "ABCD"):
         t = ax_.get_title()
         ax_.set_title("")
-        ax_.set_title(rf"$\bf{{{letter}}}$  {t}", loc="left", fontsize=PT + 0.5)
+        ax_.set_title(rf"$\bf{{{letter}}}$  {t}", loc="left", fontsize=LETTER_PT + 0.5)
     (out / "runs").mkdir(parents=True, exist_ok=True)
     fig.savefig(out / "runs" / f"{tag}.png", dpi=300)
     plt.close(fig)

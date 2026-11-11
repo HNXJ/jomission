@@ -68,11 +68,18 @@ MODULE_LS = ("-", "--", ":")  # module line style in panel C: a second cue to th
 TYPE_MARKER = {"E": "o", "PV": "^", "SOM": "s"}  # panel C: a non-colour cue per cell type
 MARK_EVERY_HZ = 15  # panel C: one marker per 15 Hz on the 1 Hz grid
 STACK_GAP = 0.5  # panel B: z units added beyond 2 x max|z| so adjacent traces never touch
-FIG_W, FIG_H = 7.2, 6.7  # inches; 7.2 in is the full page width
+FIG_W, FIG_H = 7.2, 6.7  # inches; 7.2 in canvas printed at the 6.7677 in text width (scale 0.940), so fonts carry
+# FONT_SCALE below to reach their floors at print. The layout uses absolute inch positions (COL_X, AX_W), so the canvas
+# width is not shrunk to the text width: that would push the third column past the page edge.
+FONT_SCALE = 1.0638  # 7.2 / 6.7677: native pt x scale = pt at print
 AX_W, AX_H = 1.75, 2.2  # inches, one panel
 COL_X = (0.95, 3.05, 5.15)  # left edge of each panel column, inches
 ROW_Y = (4.1, 1.2)  # bottom edge of the top and bottom panel row, inches
-TEXT_PT = 6.5  # tick and note size; axis labels 7 pt; panel letters 9 pt (match-visual-style floors)
+# Every pt below is native to the 7.2 in canvas; x FONT_SCALE gives the size at print (scale 0.940).
+# Floors at print: 6 pt text, 5.5 pt ticks, 9 pt panel letters (match-visual-style).
+TEXT_PT = 6.5 * FONT_SCALE  # 6.91 native -> 6.5 pt at print (tick and note size)
+LABEL_PT = 7.0 * FONT_SCALE  # 7.45 native -> 7.0 pt at print (axis labels)
+LETTER_PT = 9.6 * FONT_SCALE  # 10.2 native -> 9.6 pt at print (panel letters, floor 9)
 
 
 def _sgn(d: float) -> str:
@@ -336,7 +343,7 @@ def to_markdown(det: dict) -> str:
 
 def _set_style() -> None:
     plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
-                         "font.size": TEXT_PT, "axes.labelsize": 7, "axes.linewidth": 0.6,
+                         "font.size": TEXT_PT, "axes.labelsize": LABEL_PT, "axes.linewidth": 0.6,
                          "xtick.major.width": 0.6, "ytick.major.width": 0.6,
                          "xtick.labelsize": TEXT_PT, "ytick.labelsize": TEXT_PT, "legend.fontsize": TEXT_PT})
 
@@ -367,12 +374,12 @@ def draw_v0(det: dict, path: Path) -> None:
         ax.add_patch(FancyBboxPatch((x0, yc - box_h / 2), box_w, box_h, boxstyle="round,pad=0,rounding_size=0.06",
                                     fc="none", ec="#555555", lw=0.8))
         ax.text(x0 + 0.12, yc + box_h / 2 - 0.18, f"{m}   depth {_sgn(mod['depth_rel_L4'])}   rho {mod['rho']:g}   "
-                f"N {mod['N']:,}", fontsize=7, weight="bold", va="center")
+                f"N {mod['N']:,}", fontsize=LABEL_PT, weight="bold", va="center")
         nodes = {"E": (x0 + 0.6, yc - 0.1, mod["N_E"]), "PV": (x0 + 1.75, yc + 0.08, mod["N_PV"]),
                  "SOM": (x0 + 1.75, yc - 0.3, mod["N_SOM"])}
         for pop, (px, py, n) in nodes.items():
             ax.add_patch(Circle((px, py), 0.12, color=TYPE_COLOR[pop], zorder=3))
-            ax.text(px, py, pop, color="white", fontsize=5.5 if pop == "SOM" else TEXT_PT, ha="center",
+            ax.text(px, py, pop, color="white", fontsize=6.9 if pop == "SOM" else TEXT_PT, ha="center",
                     va="center", zorder=4, weight="bold")
             if pop == "E":  # the E<->PV and E<->SOM arcs leave E on the right and below; the label goes above
                 ax.text(px, py + 0.2, f"N {n:,}", fontsize=TEXT_PT, va="center", ha="center")
@@ -456,7 +463,7 @@ def _panel(fig, col: int, row: int, dx: float = 0.0, w: float = AX_W):
 
 def _letter(fig, ax, letter: str) -> None:
     box = ax.get_position()
-    fig.text((box.x0 * FIG_W - 0.2) / FIG_W, (box.y1 * FIG_H + 0.1) / FIG_H, letter, fontsize=9, weight="bold",
+    fig.text((box.x0 * FIG_W - 0.2) / FIG_W, (box.y1 * FIG_H + 0.1) / FIG_H, letter, fontsize=LETTER_PT, weight="bold",
              va="bottom")
 
 
@@ -479,7 +486,7 @@ def _sl_map(ax, R: np.ndarray, depth_ch: np.ndarray, xlabel: str, show_y: bool):
     depth_ticks = [-0.6, -0.4, -0.2, 0.0, 0.2, 0.4]
     ax.set_yticks(depth_ticks)
     ax.set_yticklabels([f"{v:.1f}".replace("-", "−") for v in depth_ticks] if show_y else [])
-    ax.set_xlabel(xlabel, fontsize=7, linespacing=1.2)
+    ax.set_xlabel(xlabel, fontsize=LABEL_PT, linespacing=1.2)
     _band_bars(ax)
     _tidy(ax)
     return im
@@ -523,7 +530,7 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axA.set_yticks(ticks)
     axA.set_yticklabels(tick_labels)
     axA.set_xticks([t_lo, (t_lo + t_hi) / 2, t_hi])
-    axA.set_xlabel("Time (s); sampled cells", fontsize=7)
+    axA.set_xlabel("Time (s); sampled cells", fontsize=LABEL_PT)
     handles = [Line2D([], [], ls="", marker="|", ms=5, color=TYPE_COLOR[p]) for p in POPS]
     axA.legend(handles, list(POPS), loc="lower left", bbox_to_anchor=(0, 1.0), ncol=3, frameon=False,
                handletextpad=0.2, columnspacing=0.8, borderaxespad=0.1)
@@ -541,8 +548,8 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axB.set_yticklabels(units)
     axB.set_xlim(t_lo, t_hi)
     axB.set_xticks([t_lo, (t_lo + t_hi) / 2, t_hi])
-    axB.set_xlabel("Time (s)", fontsize=7)
-    axB.set_ylabel("RWS, z", fontsize=7)
+    axB.set_xlabel("Time (s)", fontsize=LABEL_PT)
+    axB.set_ylabel("RWS, z", fontsize=LABEL_PT)
     _tidy(axB)
 
     # C: firing-rate spectra per module and cell type (log power, Hz^2/Hz)
@@ -563,8 +570,8 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     axC.set_yscale("log")
     axC.set_xlim(1, F_MAX_HZ)
     axC.set_xticks([50, 100, 150])
-    axC.set_xlabel("Frequency (Hz)", fontsize=7)
-    axC.set_ylabel("Firing-rate PSD (Hz²/Hz)", fontsize=7)
+    axC.set_xlabel("Frequency (Hz)", fontsize=LABEL_PT)
+    axC.set_ylabel("Firing-rate PSD (Hz²/Hz)", fontsize=LABEL_PT)
     cell_handles = [Line2D([], [], color=TYPE_COLOR[p], lw=1.0, marker=TYPE_MARKER[p], ms=2.2, markevery=1)
                     for p in POPS]
     mod_handles = [Line2D([], [], color="#444444", lw=1.0, ls=MODULE_LS[i]) for i in range(n_u)]
@@ -581,7 +588,7 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
         raise RuntimeError("spectra are not on a 1 Hz grid")
     axD = _panel(fig, 0, 1)
     im = _sl_map(axD, R_rws[:, k_mod], mf.CHANNELS, "Frequency (Hz)\nRWS LFP (model)", True)
-    axD.set_ylabel("Position from L4", fontsize=7)
+    axD.set_ylabel("Position from L4", fontsize=LABEL_PT)
     axE = _panel(fig, 1, 1)
     _sl_map(axE, R_fr[:, k_mod], mf.CHANNELS, "Frequency (Hz)\nFiring rate, E (model)", False)
     axF = _panel(fig, 2, 1)
@@ -590,7 +597,7 @@ def draw_block(rec: dict, arrays: dict[str, np.ndarray], proto: np.ndarray, disc
     cb = fig.colorbar(im, cax=cax, orientation="horizontal", ticks=[0.5, 0.75, 1.0])
     cb.ax.set_xticklabels(["0.5", "0.75", "1"], fontsize=TEXT_PT)
     cb.outline.set_linewidth(0.5)
-    fig.text((COL_X[1] + AX_W + 0.1) / FIG_W, 0.55 / FIG_H, "Relative power", fontsize=7, va="center")
+    fig.text((COL_X[1] + AX_W + 0.1) / FIG_W, 0.55 / FIG_H, "Relative power", fontsize=LABEL_PT, va="center")
     seed, T_s = rec["seed"], rec["T_s"]
     note = (f"Run {tag} (seed {seed}, {T_s:g} s; first {discard_s:g} s discarded; n = 1 seed, no SEM).\n"
             "Model: stationary power, 1 s windows, 2 Hz smoothing, 21-contact probe (sigma 0.15). "

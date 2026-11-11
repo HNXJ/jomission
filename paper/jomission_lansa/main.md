@@ -32,27 +32,28 @@ per-unit weights do not close the gap, and readout controls show that depth geom
 | C9 | The RWS readout rests on the linear volume-conductor solution with validated weights and an assumed separable depth kernel; mid-depth deficit holds at sigma 0.10-0.25 (0.44-0.62 at 0.25); cross terms 0-12%, normalizing max at S | Methods derivation; data/readout_sensitivity.json (scripts/e2_readout_sensitivity.py, 12 runs) | r_gm is sigma-dependent; full scorer not rerun per sigma |
 | C10 | Readout capacity (no simulation), sigma 0.15: max r with the observed gamma band-mean profile 0.853 (full C), 0.657 (no cross terms; S+M, no D) -> r_gm >= 0.6 reachable without coherence, so the model's r_gm failure is in its spectra; mid-depth level ceiling 0.853 at one frequency, at an optimum with S-M coherence 1.00 and D near antiphase (about -0.98; optimum not unique); r-maximizing profiles have mid 0.49 (auto) and 0.72 (full); leave-one-area-out (n 11): held-out r 0.81 +- 0.05 full (11/11 >= 0.6), 0.62 +- 0.09 auto (7/11), template 0.93 (data/readout_capacity_loao.json) | data/readout_capacity.json (scripts/e2_readout_capacity.py; self-recovery r >= 0.99999, negative r 0.07-0.14, order asserts) | limits of the observation model, not of macaque sources; an L2 fit (r 0.45) understated capacity and was corrected 2026-11-10 |
 | C12 | T8 (sealed, confirmatory screen, n 3 seeds, uncorrected): primary r_ab, ref minus control: density flat +0.004 (no consistent difference), density S<->D +0.13, SOM/PV flat +1.56, reversed +1.58 (ref higher); density arms r_gm -0.83/-0.85, r_proto -0.37/-0.44; mid-depth gamma lower in all controls; crossing 2/3 ref, 0/3 every control; each control map is dominated by one unit at most frequencies (ratio arms S, density arms D), so no band-specific mechanism is identified for either input (critic round 1, 2026-11-10: wording narrowed from "ratio sets alpha-beta, density shapes gamma") | data/t8_summary.json (scripts/e2_t8_summary.py), data/t8_engine_check.json (22/22 equal x 3 seeds), results/viz/t8/V3_t8_atlas.png | arms change sizes, in-degrees and rates with the named rule; dominant unit not the highest-rate one; launcher ran 15 at once (results bitwise equal for ref); V1 drawn after one verdict was read |
-| C11 | Joint constraint, sigma 0.15: max r with mid within 0.02 of 0.848 is 0.845 with cross terms (S 46%, M 49%, D 5%, coherent), infeasible without (diagonal mid ceiling 0.665, grid-checked); 0.946 infeasible at 0.15. Circuit vs optimum: circuit gamma S 63-78%, M 17-19%, Re coherence -0.06..0.27; r_gm/r_proto equal verdict files | data/readout_joint.json (scripts/e2_readout_joint.py) | observation-model property; LOAO tests the target fit, not the mechanism; density not causally tested (needs fixed-total-count flatten/permute) |
+| C11 | Joint constraint, sigma 0.15: max r with mid within 0.02 of 0.848 is 0.845 with cross terms (S 46%, M 49%, D 5%, coherent), infeasible without (diagonal mid ceiling 0.665, grid-checked); 0.946 infeasible at 0.15. Circuit vs optimum: circuit gamma S 63-78%, M 17-19%, Re coherence -0.06..0.27; r_gm/r_proto equal verdict files | data/readout_joint.json (scripts/e2_readout_joint.py) | numerical solution at the lower feasibility edge, not a proven global maximum; known-answer recovery (4 synthetic targets r >= 0.9999, m = 1.2 infeasible) and rank-one grid 0.8450 vs optimizer 0.8452 (data/readout_joint_check.json, scripts/e2_readout_joint_check.py, review 4); observation-model property; LOAO is cross-area generalization of a fitted observation model, below the template baseline 0.93 |
 
 Counter-evidence: Mackey et al. 2026 (Nat Neurosci) dispute the motif's ubiquity; our target is the 11-area
 LANSA mean and V1, so the claim is conditional on that map.
 
 ## Sections
 
-- Abstract (249 words): question, model, scorer, C1-C5, C12, C7, C10, implication.
+- Abstract (249 words; review 4 narrative form): question, model with assumed density-to-connectivity rule, C1-C2, C5 (relative), C3-C4 (fresh-seed loss), C12, C10 conditional on the three-source readout, C7, implication.
 - Introduction: laminar LFP literature (Maier 2010, Xing 2012, Buffalo 2011, van Kerkoerle 2014, Haegens 2015,
   Bastos 2015, 2020); motif and dispute; densities (LANSA); cells to rhythms (Tremblay, Borgers, Cardin, Sohal, Veit,
   CAMINOS, AdEx); currents to field (Buzsaki 2012, Einevoll 2013); Billeh/Herrera; gap; question; C12 in the summary.
-- Results: R1 data and circuit (Fig 1); R2 module (C1, C2; Table 1); R3 reference stack (Figs 2-3, ceilings; readout capacity, joint constraint, circuit vs optimum);
-  R4 size ladder and seeds (Table 2); R5 T1 axes and confirmation (Fig 4, Table 3); R6 per-unit weights (Fig 5);
-  R6b T8 controls (C12; Table t8, Fig t8); R7 readout controls: depth placement, probe geometry, CSD (Fig 6);
-  R8 engine speed (C8 extended by the T8 engine check).
-- Discussion: what is shown; T8: either construction input, changed alone, gives one-unit broadband dominance; middle-unit
-  coupling; limits; next sealed test (rate-matched M-gamma intervention).
+- Results (review 4 order: reference, failure, interventions, readout identifiability): R1 data and circuit (Fig 1);
+  R2 module (C1, C2); R3 reference stack, relative mid-depth deficit and its three accounts, kernel width (Figs 2-3);
+  R4 size, T1 (trade-off first, baseline/selection/confirmation) and weights (Fig 4 scatter, Fig 5); R5 T8 (Fig 6
+  first, opposing one-unit dominance; decision rule in Methods); R6 readout: capacity, joint numerical solution, circuit
+  vs optimum, cross-area generalization, geometry, CSD (Fig 7). Event delivery (C8) moved to Methods.
+- Discussion (cut 1459 -> 941 words, review 4): what is shown; T8 opposing dominance; what is missing (relative deficit,
+  M coupling, rate-matched M-gamma prediction, 49% vs 17-19% target); readout conditional; limits led by stationary vs peri-stimulus.
 - Back matter: Data and Code availability, Acknowledgements, Author contributions, Competing interests, Funding,
   AI use: all [MISSING] except the parts sourced here (JaxFNE DOI 10.5281/zenodo.21448155 from its CITATION.cff).
-- Methods: existing text, connectivity filled, scorer, T1 seal, weight modifier, event delivery, figures.
-- Supplement: per-model blocks, ladder maps, T1 atlases, sealed-not-run table, records table (code, seals, data, run records by identifier; no paths in the text).
+- Methods: existing text, connectivity filled, scorer, readout capacity (parameterization, objectives, optimizer, checks; moved from Results), T1 seal, T8 rule, weight modifier, event delivery with layouts and SHA.
+- Supplement: per-model blocks, ladder maps, T1 atlases (Fig S4, moved from main text), sealed-not-run table, records table (code, seals, data, run records by identifier; no paths in the text).
 
 ## Figures
 
@@ -61,8 +62,8 @@ LANSA mean and V1, so the claim is conditional on that map.
 | 1 | Data and model as built (no simulation) | results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png |
 | 2 | Reference run: architecture/raster/spectra/maps | results/viz/paper_w3/..._block.png |
 | 3 | Scorer view of the T1 axis-1 winner | spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png |
-| 4 | T1 axes: no level reaches r_gm 0.6 | results/viz/t1/V3_{kd,sst,sstd}_n4000_atlas.png |
+| 4 | No run reaches both band correlations; gains in r_gm cost r_ab (93 runs) | results/viz/paper_w7/band_scatter.png (scripts/e2_band_scatter.py) |
 | 5 | Weight trade-off: most-even and best-r_proto exploratory runs | spectrolaminar/runs/e2x_*.png |
-| T8 | Controls: each construction input, changed alone, lets one unit dominate the map | results/viz/t8/V3_t8_atlas.png (scripts/e2_t8_atlas.py) |
-| 6 | Readout controls: probe geometry summary; CSD (redrawn at 6.8 in, 7 pt) | paper_w5/probe_summary.png; paper_w4/..._csd.png (scripts/e2_csd.py) |
-| S | seeds, ladder maps, per-run panels | paper_w6/seed_diff.png, laminar_e2/*_motif.png |
+| 6 | Controls: each construction input, changed alone, lets one unit dominate the map | results/viz/t8/V3_t8_atlas.png (scripts/e2_t8_atlas.py) |
+| 7 | Readout controls: probe geometry summary; CSD (redrawn at 6.8 in, 7 pt) | paper_w5/probe_summary.png; paper_w4/..._csd.png (scripts/e2_csd.py) |
+| S | seeds, ladder maps, T1 atlases, per-run panels | paper_w6/seed_diff.png, laminar_e2/*_motif.png |

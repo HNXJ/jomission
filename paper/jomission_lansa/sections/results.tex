@@ -15,38 +15,42 @@ profiles, not ratios across types.
 
 The model is three CAMINOS units \citep{Tahvili2025,Tahvili2026}, S, M and D, at $-0.4$, 0 and $+0.3$, each covering
 the LANSA bins of its depth range (Fig.~\ref{fig:schema}D). E cells per unit follow the LANSA total density of
-the unit's bins; PV and SOM counts follow a ramp of $\rho = N_\text{SOM}/N_\text{PV}$ that is low superficially
-and high deep (0.25, 1, 2). At 4000 E cells per unit on average the column holds 14\,251 cells (S 6870, M 4356,
-D 3025; Table~S1). The built E and PV depth profiles follow LANSA's NG and PV profiles in coarse form, and the SOM
-profile follows the ramp, not CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker. The ramp is
-therefore an imposed assumption, and it runs against the measured CB/PV profile, which is highest superficially:
-the column is density-informed in its unit sizes and in-degrees, not in its SOM/PV ratios.
+the unit's bins, and each unit's local in-degree scales with that density by an assumed rule (Methods). PV and SOM
+counts follow a ramp of $\rho = N_\text{SOM}/N_\text{PV}$ that is low superficially and high deep (0.25, 1, 2). At
+4000 E cells per unit on average the column holds 14\,251 cells (S 6870, M 4356, D 3025; Table~S1). The built E
+and PV depth profiles follow LANSA's NG and PV profiles in coarse form, and the SOM profile follows the ramp, not
+CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker. The ramp is therefore an imposed assumption,
+and it runs against the measured CB/PV profile, which is highest superficially: the column is density-informed in
+its unit sizes and in-degrees, not in its SOM/PV ratios.
 
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}{\includegraphics[width=\linewidth]{../../results/viz/schema/t1_kd1p41_n4000_s1_T8_schema.png}}{\pendingbox{data and circuit schema}}
 \caption{Data and circuit; no panel is simulated (layout after \citet{Herrera2026}). A: LANSA cell densities
 against depth, median of 11 areas, each marker divided by its maximum and labelled by the measured marker (CB is not
-SST-specific; CR is not modelled; NG is the pyramidal proxy). B, C: observed relative power (power divided by its maximum over depth at each frequency), mean
-of the 11 areas and V1. D: the T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as built, one dot per 20 cells in each unit's depth bins, with the
-within-unit E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. E: built cells
-per type and depth bin (bars) against the LANSA profiles (lines), each divided by its own maximum.}
+SST-specific; CR is not modelled; NG is the pyramidal proxy). B, C: observed relative power (power divided by its
+maximum over depth at each frequency), mean of the 11 areas and V1. D: the in-degree setting later selected in T1
+($B = 1.41$, SOM$\to$E 15 ms) as built, one dot per 20 cells in each unit's depth bins, with the within-unit
+E$\leftrightarrow$PV and E$\leftrightarrow$SOM loops and the inter-unit E projections. E: built cells per type
+and depth bin (bars) against the LANSA profiles (lines), each divided by its own maximum; read each colour's bars
+against the line of the same colour.}
 \label{fig:schema}
 \end{figure}
 
 \subsection{The CAMINOS module reproduces its reference, and SOM/PV lowers its frequency}
 
-Before stacking, one isolated module was checked against the JaxFNE reference (E0, sealed). Over five seeds the
-E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and the
-E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its sealed margin (Table~\ref{tab:e0e1};
-\rec{R1}). This is a pipeline-equality check, not a test of the motif.
+Before stacking, one isolated module was checked against the JaxFNE reference (E0, pre-registered). Over five seeds
+the E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and
+the E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its margin (Table~\ref{tab:e0e1}; \rec{R1}). This
+checks the pipeline, not the motif.
 % e0_result.json: f_pk mean 34.0; lag 7.16; rates 1.07955, 11.28056, 6.77608; verdict PASS
 
-Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, sealed): seed means
-46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per seed
-$-6.6$, $-5.9$, $-6.3$; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws reached the observed slope). At $\rho = 4$ no seed oscillated, so
-the sealed frequency-drop criterion is undefined and the E1 verdict is INCONCLUSIVE
-(\rec{R2}). The frequency effect holds over the oscillating range only.
+Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, pre-registered): seed
+means 46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per
+seed $-6.6$, $-5.9$, $-6.3$; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws
+reached the observed slope). At $\rho = 4$ no seed oscillated, so the planned frequency drop from $\rho$ 0.25 to 4
+is undefined and E1 is inconclusive as specified (\rec{R2}). The frequency effect holds over the oscillating range
+only.
 % e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
 
 \begin{table}[tbp]
@@ -75,113 +79,326 @@ Records \rec{R1}, \rec{R2}.}
 
 \subsection{The stacked column places alpha-beta deep but leaves mid-depth gamma weak}
 
-The reference stack (density-scaled units, local E in-degree $560\,D_u/\bar D$, about 810, 513 and 356 per cell in S, M and D, SOM$\to$E decay 15 ms) produced
-alpha-beta peaking in the deep half and a crossing of the two band profiles (Fig.~\ref{fig:reference}; Fig.~\ref{fig:scorer} shows the later T1 winner). Its relative
-gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some frequencies, at D ($+0.2$ to $+0.35$, about 90--150
-Hz; read from the figure). Averaged over 50--150 Hz and the contacts from $-0.2$ to 0, where the observed gamma is
-broadest, relative gamma was 0.19--0.31 in the nine ladder runs and the three confirmation runs, against 0.85 in the
-observed map; from $-0.6$ to $-0.3$ it was 0.66 in every run, the value the kernel gives when S carries the most
-power at every gamma frequency (observed 0.80; \rec{D1}, \rec{C3}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E
-0.39--0.41, 0.73--0.75 and 1.45--1.58 Hz at S, M and D; PV 5.6--5.7, 11.8--11.9 and 22.1--22.6 Hz; SOM 4.7--5.0,
-6.8--6.9 and 9.0--9.4 Hz (\rec{R3}, axis 1, level 1).
+The reference stack (density-scaled units, local E in-degree about 810, 513 and 356 per cell in S, M and D,
+SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half and a crossing of the two band profiles
+(Fig.~\ref{fig:reference}). Its relative gamma was concentrated at S ($-0.4$, about 50--90 Hz) and, at some
+frequencies, at D ($+0.2$ to $+0.35$, about 90--150 Hz; read from the figure). Averaged over 50--150 Hz and the
+contacts from $-0.2$ to 0, where the observed gamma is broadest, relative gamma was 0.19--0.31 in the nine ladder
+runs and the three confirmation runs, against 0.85 in the observed map; from $-0.6$ to $-0.3$ it was 0.66 in every
+run, the value the kernel gives when S carries the most power at every gamma frequency (observed 0.80; \rec{D1},
+\rec{C3}). At $N = 4000$ (seeds 1--3) the units fired sparsely after the 2 s discard: E 0.39--0.41, 0.73--0.75
+and 1.45--1.58 Hz at S, M and D; PV 5.6--5.7, 11.8--11.9 and 22.1--22.6 Hz; SOM 4.7--5.0, 6.8--6.9 and 9.0--9.4 Hz
+(\rec{R3}, axis 1, level 1). The scorer (Methods) compares the model and observed maps by the depth correlations
+of the two band profiles, $r_{ab}$ and $r_{gm}$ (each must reach 0.6), the band crossing, the whole-map
+correlation $r_\text{proto}$ against two nulls, the unit order and the agreement of the two halves of a run
+(Fig.~\ref{fig:scorer}).
 
-The isolated module's peak (27--46 Hz over $\rho$ 0.25--2, E1) lies below the scored gamma band (50--150 Hz). In
-the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$ seed means;
-\rec{R4}), not the 46, 34 and 27 Hz that the isolated-module values at the units'
-$\rho$ would give: coupling and density scaling move M and D to alpha-beta (inferred).
+The deficit is in relative power: each frequency's power is divided by its maximum over depth, as in LANSA, and
+LANSA gives no absolute power to compare. Three accounts of a low relative value at mid-depth differ: too little
+50--150 Hz power at M, too much at S or D in the per-frequency normalization, and cancellation between units.
+Because the readout is linear in the unit signals (Methods), the contact power splits exactly into auto-spectral
+terms $K_{zu}^2 S_{uu}$ and cross terms $K_{zu}K_{zv}\,\mathrm{Re}\,S_{uv}$ (identity checked to $10^{-9}$;
+\rec{C4}, \rec{D2}). Over the 12 runs, cross terms carried 0--12\% of the 50--150 Hz power at $-0.2$ to 0, and the
+auto-only map gave mid-depth relative gamma 0.19--0.30, which excludes cancellation. M supplied 72--81\% of the
+auto power there, S the rest, and the per-frequency maximum that sets the normalization sat at S ($-0.4$) for
+97--101 of the 101 frequencies from 50 to 150 Hz in every run. The deficit is therefore M's 50--150 Hz power being
+small relative to S's, which the data cannot split into a weak M and a strong S. Two observations favour a missing
+fast mode at M over a misplaced one. In the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$
+seed means; \rec{R4}), not the 46, 34 and 27 Hz that the isolated module gives at the units' $\rho$, so coupling
+and density scaling move M and D to alpha-beta (inferred), and even the isolated module (27--46 Hz) peaks below the
+scored band. And raising M's power alone does not close the gap: scaling M's spectrum by up to $10^4$ never brought
+mid-depth relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel
+of a source at 0, $e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615 at $\sigma =
+0.15$ (derived). Readout geometry, the third account, is examined below.
 
-\textit{Where the mid-depth deficit sits.} Because the readout is linear in the unit signals (Methods), the contact
-power splits exactly into auto-spectral terms $K_{zu}^2 S_{uu}$ and cross terms $K_{zu}K_{zv}\,\mathrm{Re}\,S_{uv}$
-(identity checked to $10^{-9}$; \rec{C4}, \rec{D2}). Over the 12 runs, cross terms carried 0--12\% of the
-50--150 Hz power at $-0.2$ to 0, and the auto-only map gave mid-depth relative gamma 0.19--0.30, so the deficit is
-not cancellation between units. M supplied 72--81\% of the auto power there, S the rest. The per-frequency maximum
-that normalizes the map sat at S ($-0.4$) for 97--101 of the 101 frequencies from 50 to 150 Hz in every run. The
-relative deficit is therefore M's 50--150 Hz power being small compared with S's, which is both a weak M and a
-strong S. Raising M's power alone did not close it: scaling M's spectrum by up to $10^4$ never brought mid-depth
-relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel of a source at 0,
-$e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615 at $\sigma = 0.15$ (derived; the
-continuous mean over the interval is 0.625).
-
-\textit{What the readout can represent.} The 0.615 bound holds for M alone. To separate the readout's limits from
-the circuit's, we searched the source covariances of the three declared sources without any simulation
-(\rec{C5}, \rec{D3}). Admissible covariances are $C = LL^\top$ with $L$ real lower-triangular, so every
-$C$ is symmetric positive semidefinite by construction; only $\mathrm{Re}\,C$ enters the contact power, and the
-real part of a Hermitian PSD cross-spectral matrix is PSD, so no admissible spectral covariance is excluded. The
-$r$ maxima and the joint test below use one covariance for the whole 50--150 Hz band; the mid-depth ceiling is
-per frequency. The smallest eigenvalue of every reported full-covariance optimum, relative to the trace, lies between
-$-4\times10^{-19}$ and $9\times10^{-4}$: zero to rounding at the $r$ maxima, which are rank one at
-$\sigma \leq 0.20$, so the optima lie on the boundary of the PSD set. For the scorer's
-gamma statistic, the depth correlation with the observed 50--150 Hz band-mean profile, the largest value one
-covariance can reach at $\sigma = 0.15$ is 0.853 with cross terms and 0.657 without them (independent S and M
-gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98 and 0.84. The readout can therefore pass the
-$r_{gm} \geq 0.6$ criterion at the declared width without any coherence between units, so the model's failure of
-that criterion (0.14--0.51) lies in its spectra, consistent with its gamma at D, not in the readout. These are in-sample upper bounds for one target. Fitted
-on 10 areas and scored on the held-out eleventh (\rec{C6}, \rec{D4}, $n = 11$ folds;
-Table~\ref{tab:loao}), the covariance reached $r$ $0.81 \pm 0.05$ (SD over folds; 11 of 11 $\geq 0.6$) with cross
-terms and $0.62 \pm 0.09$ (7 of 11) without at $\sigma = 0.15$. The folds share 9 of their 10 training areas,
-so they are not independent samples and the SD is descriptive. The check shows that the readout's capacity
-carries over to held-out target profiles; it tests the fit to the target, not the circuit's mechanism. The 10-area mean profile itself predicts the
-held-out area at $0.93 \pm 0.06$, so the three-source kernel bound sits below what between-area similarity alone
-gives. Without coherence, passing at the declared width is marginal across areas. The main-text width is
-$\sigma = 0.15$, the width declared in the readout code (an assumption, not chosen among alternatives) and used
-for the T1 seal's readout ceilings before any T1 run (seal \rec{S4}); the other widths were
-added after review and are reported, not selected.
+The kernel width $\sigma$ is assumed, so we rescored the same 12 runs at four widths (Table~\ref{tab:sigma}). The
+gamma depth correlation depends on it ($r_{gm} \geq 0.6$ in 9 of 12 runs at $\sigma = 0.20$, 11 of 12 at 0.25;
+these are not passes, because the scorer's nulls and ceilings were computed at 0.15), but the mid-depth deficit
+does not: relative gamma at $-0.2$ to 0 stayed between 0.10 and 0.62 against 0.85 observed. We therefore treat the
+weak mid-depth gamma, not the failed $r_{gm}$ threshold, as the robust result.
 
 \begin{table}[tbp]
 \centering
 \small
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccccc}
 \toprule
-$\sigma$ & full, in-sample & full, held-out & full $\geq0.6$ & auto, in-sample & auto, held-out & auto $\geq0.6$ \\
+$\sigma$ & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & $r_{gm}\geq0.6$ / both $\geq0.6$ & mid-depth gamma \\
 \midrule
-0.10 & 0.469 & $0.45 \pm 0.09$ & 0 / 11 & 0.446 & $0.43 \pm 0.10$ & 0 / 11 \\
-0.15 (sealed) & 0.853 & $0.81 \pm 0.05$ & 11 / 11 & 0.657 & $0.62 \pm 0.09$ & 7 / 11 \\
-0.20 & 0.981 & $0.92 \pm 0.04$ & 11 / 11 & 0.844 & $0.80 \pm 0.07$ & 11 / 11 \\
-0.25 & 0.993 & $0.93 \pm 0.05$ & 11 / 11 & 0.936 & $0.88 \pm 0.06$ & 11 / 11 \\
+0.10 & 0.13--0.26 & $-0.12$--0.66 & 0.06--0.36 & 0 / 0 & 0.10--0.19 \\
+0.15 (declared) & 0.21--0.43 & $-0.20$--0.86 & 0.14--0.51 & 0 / 0 & 0.19--0.31 \\
+0.20 & 0.29--0.59 & $-0.22$--0.88 & 0.28--0.70 & 9 / 2 & 0.31--0.47 \\
+0.25 & 0.40--0.69 & $-0.16$--0.89 & 0.50--0.83 & 11 / 4 & 0.44--0.62 \\
 \bottomrule
 \end{tabular}
-\caption{Leave-one-area-out check of the readout's capacity for the observed 50--150 Hz depth profile. In-sample:
-mean over folds of the upper bound $\max_C r$ on the 10-area training profile. Held-out: $r$ of that fixed profile
-with the held-out area, mean $\pm$ SD over $n = 11$ folds. Full: cross terms allowed; auto: none. Baseline, the
-10-area mean profile against the held-out area: $0.93 \pm 0.06$ at every width. The folds overlap in 9 of 10
-training areas, so the SD is descriptive. The check concerns the readout's capacity for the target profile,
-not the circuit's mechanism. Record \rec{D4}.}
-\label{tab:loao}
+\caption{Kernel-width sensitivity, post hoc, same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
+counts out of 12. Observed mid-depth relative gamma ($-0.2$ to 0, 50--150 Hz) is 0.85. At 0.15 the values equal
+the scored runs. Record \rec{D2}.}
+\label{tab:sigma}
 \end{table}
 
-The two statistics are separate: the profiles that maximize $r$ have mid-depth relative gamma of only 0.49 (no cross
-terms) and 0.72 (full), below the observed 0.85 on the map and 0.95 on the band-mean profile. For the
-mid-depth level, the largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at $\sigma = 0.15$,
-just above the observed 0.848; the maximizing covariance has S and M fully coherent and D in antiphase
-(coherences 1.00 and $-0.98$). That is one optimum of a single-frequency maximum, not a shown necessity, and it is
-less demanding at wider kernels (S--D coherence 0.13 at 0.20). The model's cross terms were 0--12\% of mid-depth
-power. Controls: the search recovered five random three-source profiles at each width ($r \geq 0.99999$); on an
-alternating profile that no kernel of these widths can follow it stayed at $r = 0.07$--0.14; and its $r$ was never
-below that of a least-squares fit (which gives 0.45 at 0.15 and understates the reachable value). A distributed
-model, 41 sources from $-0.6$ to 0.4, reached $r$ 0.997--0.999; with 41 non-negative weights for 21 contacts this
-is a capacity check, not a validation. These limits belong to the three-source, positive-Gaussian readout. They do not constrain where gamma is generated in macaque
-cortex; signed lead fields, receptor-specific source depths and distributed dendritic currents are not modelled.
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
+\caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C per-type rate spectra
+(shaded: the scored 10--30 and 50--150 Hz bands), D model relative-power map (RWS proxy), E firing-rate map, F
+observed 11-area map. Model power is stationary; LANSA power is from 1 s peri-stimulus windows.}
+\label{fig:reference}
+\end{figure}
 
-\textit{Profile and level together.} Maximizing $r$ subject to mid-depth relative gamma within 0.02 of a
-target (\rec{C7}, \rec{D5}; one covariance for the band, penalty method, 48 starts; the case without cross
-terms checked on a 400-step grid of power shares, \rec{C11}, \rec{D7}) separates the two observed levels. At $\sigma = 0.15$ the
-map's level, 0.848, is reachable with cross terms at $r = 0.845$ (mid-depth 0.828; S, M and D 46, 49 and 5\%
-of power; S and M coherent, D in antiphase), barely below the unconstrained 0.853, and not without them: no
-diagonal covariance exceeds mid-depth 0.665. The band-mean profile's own level, 0.946, lies above the
-per-frequency ceiling 0.853 and is out of reach at 0.15 with or without cross terms. At $\sigma = 0.20$ both
-levels are reachable with cross terms ($r$ 0.978 and 0.981) and the map's level without them ($r$ 0.830;
-largest diagonal mid-depth 0.865). At the declared width, matching the map's mid-depth level therefore needs
-coherent sources in this readout, and with them the profile and the level can be met together. The circuit
-is far from that optimum (Table~\ref{tab:circuitopt}): it puts 63--78\% of its 50--150 Hz power at S and
-17--19\% at M, against 46 and 49\%, and the real parts of its source coherences are $-0.06$ to 0.27, against
-$\pm 1$.
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}}{\pendingbox{scorer panel}}
+\caption{The scorer's view of the setting selected on T1 axis 1 (local in-degree exponent 1.41, SOM$\to$E 15 ms
+in every unit), seed 1: A observed map, B model map on the same 21 $\times$ 150 grid, C band depth profiles (solid
+model, dashed observed), D settings and scores.}
+\label{fig:scorer}
+\end{figure}
+
+\subsection{Size, tuning and middle-unit weights trade gamma against alpha-beta}
+
+No change to the column brought both band correlations to 0.6 (Fig.~\ref{fig:scatter}). Gains in the gamma
+correlation came with losses in the alpha-beta correlation, and the setting selected for whole-map similarity,
+run frozen on three fresh seeds, failed the pre-registered test and lost the deep alpha-beta placement that the
+reference had shown on its first seeds. We separate three kinds of run below: the reference and size ladder
+(seeds 1--3, the baseline), the T1 search levels (seeds 1--3, used for selection) and the T1 confirmation (fresh
+seeds 4--6).
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/paper_w7/band_scatter.png}{\includegraphics[width=4.6in]{../../results/viz/paper_w7/band_scatter.png}}{\pendingbox{band scatter}}
+\caption{Alpha-beta against gamma depth correlation for every scored run (93 runs; T1 reference levels that
+reuse earlier runs are plotted once). Shaded: both $\geq 0.6$, the band part of the pass rule. Grey: size ladder,
+$N$ = 1000, 2000, 4000, seeds 1--3; small blue: T1 levels on selection seeds; blue diamonds: the selected T1
+setting on fresh seeds; orange: hand-chosen middle-unit weights, seed 1; black, cyan, red: T8 reference
+(equal to the $N = 4000$ ladder runs), density and SOM/PV controls. No run passed. Values: \rec{C16}; per-level
+maps of T1: Fig.~\ref{fig:t1}.}
+\label{fig:scatter}
+\end{figure}
+
+\textit{Network size.} At 1000, 2000 and 4000 E cells per unit (3562, 7125 and 14\,251 cells; three seeds each,
+in-degrees kept) no run passed and every run had $r_{gm} < 0.6$ (Table~\ref{tab:ladder}). Seed means of $r_{ab}$
+rose with size (0.15, 0.64, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31); with three seeds per size
+this is a description, not a test. The S unit's gamma peak formed only at $N \geq 2000$ (seed-mean S peak 8, 31 and
+43 Hz), so T1 used $N = 4000$ (\rec{R4}). Seeds agreed with each other far more than with the data: seed pairs
+gave SSIM 0.62--0.71 and pixel $r$ 0.87--0.93, each seed against the observed map SSIM 0.04--0.12 and $r$
+0.20--0.43 (Fig.~\ref{fig:seeds}).
+% FINDINGS §2 table and bullets; results/viz/paper_w6/seed_diff.json
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{rrrrrrc}
+\toprule
+$N$ (E/unit) & cells & seed & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
+\midrule
+1000 & 3562 & 1 & 0.293 & $-0.199$ & 0.506 & no \\
+1000 & 3562 & 2 & 0.342 & 0.274 & 0.450 & no \\
+1000 & 3562 & 3 & 0.367 & 0.384 & 0.490 & yes \\
+2000 & 7125 & 1 & 0.434 & 0.786 & 0.501 & yes \\
+2000 & 7125 & 2 & 0.316 & 0.453 & 0.420 & yes \\
+2000 & 7125 & 3 & 0.410 & 0.666 & 0.470 & no \\
+4000 & 14251 & 1 & 0.376 & 0.839 & 0.400 & yes \\
+4000 & 14251 & 2 & 0.211 & 0.857 & 0.137 & no \\
+4000 & 14251 & 3 & 0.396 & 0.827 & 0.407 & yes \\
+\bottomrule
+\end{tabular}
+\caption{Finite-size ladder, 8 s, 2 s discarded. No run passes; every run has $r_{gm} < 0.6$.
+Records \rec{R6}, \rec{N1}~\S2.}
+\label{tab:ladder}
+\end{table}
+
+\textit{Pre-registered tuning (T1).} T1 varied one parameter at a time over seven log-spaced levels on seeds 1--3,
+carrying the level with the highest mean $r_\text{proto}$ forward (seal \rec{S4}; Table~\ref{tab:t1}). Along the
+local in-degree exponent $B$ (denser units receive more local synapses, $K \propto \text{density}^B$), $r_{gm}$
+rose from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.92 to $-0.08$ (seed means; peak 0.93 at $B = 0.35$), and no
+level had both above 0.6. Per-unit power shows why: from $B$ 0.25 to 2, 50--150 Hz power rose at S (220 to 395,
+units $10^{12}$) and fell at D (116 to 32) while M stayed at 67--88, so raising $B$ moved gamma from D to S
+without raising it at mid-depth (M/S gamma ratio 0.40 to 0.17). The level carried forward was $B = 1.41$. Varying
+the SOM$\to$E decay in all units (5.3--42 ms, charge per spike fixed) kept $r_{gm}$ below 0.6 at every level
+(largest seed value 0.57), and 15 ms was kept. Varying it in the deep unit only (7.5--60 ms) selected 21 ms, with
+$r_{gm}$ 0.48--0.50 but $r_{ab}$ only 0.32--0.47. In all, 63 level-seed scores from 54 new simulations, none
+passing. The selected setting ($B = 1.41$, SOM$\to$E 15 ms in S and M, 21 ms in D), frozen and run on fresh seeds
+4--6 for 12 s, passed on none, so T1 fails as pre-registered: $r_\text{proto}$ 0.377, 0.365 and 0.377 (each below
+the smooth-null 95th percentile, 0.380), $r_{ab}$ 0.47, 0.35, 0.37, $r_{gm}$ 0.46, 0.48, 0.50, and the crossing
+exceeded 2 SE on seed 6 only. Unit order ranked first and the halves agreed on every seed, so the failure is in
+band placement, not noise. The reference's $r_{ab}$ of 0.83--0.86 on seeds 1--3 therefore did not survive a search
+that selected on whole-map similarity.
+% FINDINGS §2b-2c; t1_kd_n4000_unit_power.json; t1_confirm_*_T12_verdict.json; SEAL_T1.md line 25
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Parameter & Selected & $r_\text{proto}$ & $r_{ab}$ range & $r_{gm}$ range & passes \\
+\midrule
+in-degree exponent $B$ & 1.41 & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
+SOM$\to$E decay, all & 15 ms & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
+SOM$\to$E decay, deep & 21 ms & 0.372 & 0.32--0.47 & 0.48--0.50 & 0/21 \\
+\bottomrule
+\end{tabular}
+\caption{T1 at $N = 4000$, seeds 1--3, 8 s. Rows 1 and 2 are the same runs: 15 ms, selected on the second
+parameter, is the reference level carried from the first. $r_\text{proto}$ is the selected level's seed mean;
+ranges are over its three seeds. Records \rec{R3}, \rec{R7}; per-level tables in \rec{N1}~\S2b--2c.}
+\label{tab:t1}
+\end{table}
+
+\textit{Middle-unit weights.} Because every within-unit rule shared one weight across units, we scaled one to four
+rules in chosen units, starting from $B = 1.41$ (seed 1, 8 s; each setting chosen by hand after the previous
+result, so these runs are exploratory; Table~\ref{tab:weights}, Fig.~\ref{fig:weights}). Raising M's E$\to$E
+weight 1.68-fold lifted $r_{gm}$ to 0.64, but M's alpha-beta then dominated the column: with the E$\to$SOM weight
+also halved in S and M, 10--30 Hz power was 137\,016 at M against 10\,650 at D (units $10^{12}$), and the crossing
+broke. Doubling M's E$\to$E weight alone ran away (M E 36 Hz in a 2 s check). Adding M's PV$\to$E weight returned
+the alpha-beta peak to D and restored the crossing ($r_{ab}$ 0.92 at 1.5-fold) but cut M gamma (M/S 50--150 Hz
+ratio 0.25, $r_{gm}$ 0.50). The most even setting, PV$\to$E 1.25-fold, gave the crossing, $r_{ab}$ 0.78, $r_{gm}$
+0.54 and $r_\text{proto}$ 0.45. On top of PV$\to$E 1.5, raising M's E$\to$PV weight 1.5-fold lowered M's E rate to
+0.25 Hz without raising its gamma. No setting passed. We read this as M's recurrent excitation setting both its
+gamma and its alpha-beta, so that no single M rule tried here separates them (inferred).
+% FINDINGS §2d table and bullets
+
+\begin{table}[tbp]
+\centering
+\small
+\begin{tabular}{lrrrc}
+\toprule
+Scaled rules (unit) & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
+\midrule
+none ($B = 1.41$, seed 1) & 0.36 & 0.75 & 0.42 & yes \\
+E$\to$E 1.2 (M) & 0.30 & 0.54 & 0.38 & yes \\
+E$\to$E 1.41 (M) & 0.27 & $-0.46$ & 0.54 & no \\
+E$\to$E 1.68 (M) & 0.42 & 0.29 & 0.64 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S) & 0.49 & 0.57 & 0.53 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S, M) & 0.54 & 0.55 & 0.64 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.42 & 0.26 & 0.63 & no \\
+E$\to$E 1.41 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.40 & 0.59 & 0.42 & no \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.25 (M) & 0.45 & 0.78 & 0.54 & yes \\
+E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.45 & 0.92 & 0.50 & yes \\
+\quad + E$\to$SOM 0.5 (M) & 0.45 & 0.89 & 0.51 & yes \\
+\quad + E$\to$PV 1.5 (M) & 0.44 & 0.92 & 0.47 & yes \\
+E$\to$E 2 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.42 & 0.89 & 0.48 & yes \\
+\bottomrule
+\end{tabular}
+\caption{Per-unit weight scaling, exploratory: seed 1, 8 s, event delivery, base $B = 1.41$, SOM$\to$E 15 ms; no
+setting passes. Records \rec{R8}, \rec{N1}~\S2d.}
+\label{tab:weights}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, best r\_proto}}\\[0.4em]
+\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, most even}}
+\caption{The middle-unit trade-off, exploratory. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
+0.5): gamma reaches mid-depth but alpha-beta peaks at M, so the profiles do not cross. Bottom: most even setting
+(adds M PV$\to$E 1.25, without M E$\to$SOM): the crossing returns and M gamma weakens. Panels as in
+Fig.~\ref{fig:scorer}.}
+\label{fig:weights}
+\end{figure}
+
+\subsection{Density and SOM/PV changes have opposing effects: one unit dominates at all frequencies}
+
+The reference column changes density and SOM/PV ratio together across depth, so the runs above do not separate
+them. We rebuilt the reference with one construction rule changed at a time, at fixed total cell count
+(T8, pre-registered, seal \rec{S7}): density flattened (equal unit sizes, one in-degree rule), density permuted (S
+and D exchanged), SOM/PV flat (0.79 in every unit, the geometric mean of the ramp) and SOM/PV reversed (2, 1, 0.25
+from S to D), each on seeds 1--3 at 8 s (Methods).
+
+The two kinds of change had opposite effects (Fig.~\ref{fig:t8}). With density flattened or permuted, the deep
+unit dominated relative power at most frequencies; with the SOM/PV ramp flattened or reversed, the superficial
+unit did. In both cases the reference's frequency-dependent split, alpha-beta in M and D and gamma in S, gave way to
+one unit dominating across frequencies, and the band correlations followed that unit's depth (Table~\ref{tab:t8}).
+The ratio changes turned the alpha-beta correlation from 0.83--0.86 to $-0.74$ (reversed) and $-0.72$ (flat) on
+every seed, while raising $r_{gm}$ to about 0.5 through superficial dominance at all frequencies. The density
+changes turned the gamma correlation from 0.14--0.41 to $-0.83$ (flat) and $-0.85$ (permuted) and the whole-map
+correlation from 0.21--0.40 to $-0.37$ and $-0.44$, while $r_{ab}$ stayed at 0.84 with flat density and fell to
+0.70--0.71 with permuted density. The unchanged $r_{ab}$ with flat density comes from deep dominance at all low
+frequencies, not from a preserved alpha-beta generator, so $r_{ab}$ is not band-specific. No change raised
+mid-depth relative gamma (reference 0.23--0.26, controls 0.04--0.23), no run passed the scorer, and the band
+crossing seen on reference seeds 1 and 3 appeared in no control run.
+
+We compared each modified circuit with the reference on matched seeds. Because each condition had three seeds,
+these comparisons are descriptive and uncorrected across outcomes; the rule that labels a difference consistent
+is in Methods, and per-seed differences are in \rec{D8}. By that rule the reference had the higher $r_{ab}$ than
+the permuted-density and both ratio controls (mean differences 0.13, 1.56 and 1.58) and no consistent difference
+from flat density (0.004). For $r_{gm}$ the reversed-ratio control was lower than the reference on all three seeds
+but by less than the rule's bound ($-0.178$ against 0.178); for mid-depth gamma the flat-density difference was
+marginal (0.056 against 0.046). The reference reruns equalled the earlier reference runs bitwise (\rec{D9}).
+
+The dominant unit is not the one with the highest E rate: with permuted density the deep unit fired at 0.45--0.51
+Hz against 1.05--1.11 Hz superficially, and with the ratio changes the superficial unit fired at 0.38--0.47 Hz, the
+lowest of the three (\rec{D8}); which property sets dominance is not identified here. Each control also changes
+more than its named quantity: density changes alter unit sizes, in-degrees and the inhibitory counts that follow
+E:I, ratio changes alter the SOM$\to$E in-degree, and all change unit rates. The controls therefore test these
+construction rules, not density or SOM/PV apart from their consequences. We infer that the reference's frequency
+split needs a balance between units that each control breaks; the controls do not test that balance directly.
+
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/t8/V3_t8_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t8/V3_t8_atlas.png}}{\pendingbox{T8 atlas}}
+\caption{Density and SOM/PV changes: seed-mean relative-power maps (power divided by its maximum over depth at each
+frequency; seeds 1--3, 8 s, 2 s discarded) of the reference and the four modified columns, beside the observed
+11-area mean (A). Panel titles give the seed means of $r_{ab}$, $r_{gm}$ and $r_\text{proto}$. In B the
+alpha-beta maximum lies in M and D and the gamma maximum in S; in C and D the deep unit dominates most frequencies
+(in C a weaker superficial band remains above 40 Hz), in E and F the superficial unit does. Per-condition
+architecture and 1 s rasters: \rec{R11}.}
+\label{fig:t8}
+\end{figure}
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\begin{tabular}{@{}lrrrrcl@{}}
+\toprule
+Condition & $r_{ab}$ & $r_{gm}$ & $r_\text{proto}$ & mid-depth $\gamma$ & crossing & $r_{ab}$, reference vs control \\
+\midrule
+reference & 0.84 & 0.31 & 0.33 & 0.25 & 2/3 & --- \\
+density flat & 0.84 & $-0.83$ & $-0.37$ & 0.19 & 0/3 & no consistent difference \\
+density S$\leftrightarrow$D & 0.71 & $-0.85$ & $-0.44$ & 0.04 & 0/3 & reference higher \\
+SOM/PV flat & $-0.72$ & 0.51 & 0.17 & 0.21 & 0/3 & reference higher \\
+SOM/PV reversed & $-0.74$ & 0.49 & 0.15 & 0.09 & 0/3 & reference higher \\
+\bottomrule
+\end{tabular}
+\caption{Density and SOM/PV changes (T8), seed means of seeds 1--3, 8 s; crossing: seeds with the band crossing.
+Mid-depth $\gamma$: relative 50--150 Hz power over the contacts from $-0.2$ to 0 (observed 0.85). Last column:
+the paired comparison on $r_{ab}$, the pre-registered primary outcome (Methods). Other outcomes: $r_{gm}$
+reference higher for both density changes, control higher for SOM/PV flat, no consistent difference for SOM/PV
+reversed; $r_\text{proto}$ and mid-depth $\gamma$ reference higher for all four. Per-seed values, differences and
+SD: \rec{D8}.}
+\label{tab:t8}
+\end{table}
+
+\subsection{What the readout can and cannot identify}
+
+The scores above are computed through an assumed observation model: three sources at fixed depths, a Gaussian
+kernel and a current-based proxy (Methods). We asked what this readout can represent without any simulation, how
+far the circuit is from that, and how much the scores depend on the readout's geometry.
+
+\textit{Capacity.} The 0.615 bound above holds for M alone. Over all source covariances of the three declared
+sources (symmetric positive semidefinite, cross terms allowed; \rec{C5}, \rec{D3}, Methods), one covariance for the
+50--150 Hz band reaches a gamma depth correlation of 0.853 with the observed profile at $\sigma = 0.15$ with cross
+terms and 0.657 without them (independent S and M gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98
+and 0.84. The readout can therefore meet $r_{gm} \geq 0.6$ at the declared width without coherence between units,
+so under this observation model the circuit's $r_{gm}$ of 0.14--0.51 reflects its source spectra, consistent with
+its gamma at D. This conclusion is conditional on the three-source readout; it says nothing about where gamma is
+generated in macaque cortex.
+
+The mid-depth level is harder. The largest mean relative gamma over $-0.2$ to 0 at one frequency is 0.853 at
+$\sigma = 0.15$, just above the observed 0.848, and needs S and M fully coherent with D in antiphase (coherences
+1.00 and $-0.98$); at 0.20 the S--D coherence needed falls to 0.13. Requiring the band's depth profile and the
+map's mid-depth level together (\rec{C7}, \rec{D5}), we found a numerical solution with $r = 0.845$ at mid-depth
+0.828, the lower edge of the 0.02 tolerance, with S, M and D carrying 46, 49 and 5\% of the power and the sources
+fully coherent; without cross terms no covariance exceeds mid-depth 0.665. The band-mean profile's own level, 0.946,
+is out of reach at 0.15 with or without cross terms. This optimum is found numerically and is not a proven global
+maximum; it was recovered to 0.0002 by an independent grid over rank-one covariances, and the optimizer recovered
+synthetic targets of known solution (Methods; \rec{C15}, \rec{D10}). The circuit is far from it
+(Table~\ref{tab:circuitopt}): it puts 63--78\% of its 50--150 Hz power at S and 17--19\% at M, against 46 and 49\%,
+and the real parts of its source coherences are $-0.06$ to 0.27, against $\pm 1$.
 
 \begin{table}[tbp]
 \centering
 \small
 \begin{tabular}{lccc}
 \toprule
- & reference, seeds 1--3 & T1 winner, seeds 4--6 & readout optimum \\
+ & reference, seeds 1--3 & T1 selected, seeds 4--6 & readout optimum \\
 \midrule
 power share S & 0.63--0.71 & 0.74--0.78 & 0.46 \\
 power share M & 0.18--0.19 & 0.17--0.19 & 0.49 \\
@@ -203,329 +420,78 @@ $r_\text{proto}$ & 0.21--0.40 & 0.37--0.38 & -- \\
 of the window-mean unit cross-spectra (2 s discarded); power shares from the diagonal summed over the band;
 coherence $S_{uv}/\sqrt{S_{uu}S_{vv}}$ averaged over the band, its modulus and its real part (only the real part
 enters the contact power). $r_\gamma$: Pearson $r$ of the band-mean contact power with the observed band-mean
-profile; $r_{gm}$, $r_\text{proto}$ and the map's mid-depth value as scored (equal to the verdict files). Optimum:
-one covariance for the band, maximum $r$ with mid-depth relative gamma within 0.02 of the observed 0.848; with one
-covariance $r_{gm} = r_\gamma$; $r_\text{proto}$ is not defined because the optimum has no alpha-beta. Observed:
-mid-depth 0.848 (map) and 0.946 (band-mean profile). Records \rec{C7}, \rec{D5}.}
+profile; $r_{gm}$, $r_\text{proto}$ and the map's mid-depth value as scored. Optimum: the numerical solution for
+one covariance across the band, maximum $r$ with mid-depth relative gamma within 0.02 of the observed 0.848; with
+one covariance $r_{gm} = r_\gamma$; $r_\text{proto}$ is not defined because the optimum has no alpha-beta.
+Observed: mid-depth 0.848 (map) and 0.946 (band-mean profile). Records \rec{C7}, \rec{D5}.}
 \label{tab:circuitopt}
 \end{table}
 
-\textit{Kernel width.} The kernel width is assumed, so we rescored the same 12 runs at four widths
-(Table~\ref{tab:sigma}). The band-correlation result depends on it: $r_{gm}$ reached 0.6 in 9 of 12 runs at
-$\sigma = 0.20$ and 11 of 12 at 0.25, and $r_{ab}$ and $r_{gm}$ were both at least 0.6 in 2 and 4 runs. The full
-scorer was not rerun at other widths, and its nulls and ceilings were computed at 0.15, so these are not passes.
-The mid-depth deficit did not depend on the width: relative gamma at $-0.2$ to 0 stayed between 0.10 and 0.62
-against 0.85 observed. We therefore treat the weak mid-depth gamma, not the failed $r_{gm}$ threshold, as the
-robust result.
+\textit{Generalization across areas.} The capacity above is fitted to the 11-area mean. Fitting the observation
+model on 10 areas and scoring it on the held-out eleventh (\rec{C6}, \rec{D4}; Table~\ref{tab:loao}), the fitted
+covariance reached $r$ $0.81 \pm 0.05$ (SD over $n = 11$ folds; 11 of 11 $\geq 0.6$) with cross terms and
+$0.62 \pm 0.09$ (7 of 11) without at $\sigma = 0.15$. This is cross-area generalization of a fitted observation
+model; it does not predict the profile from cell densities and does not test the circuit. The 10-area mean profile
+itself predicts the held-out area at $0.93 \pm 0.06$, so the fitted three-source readout carries less than
+between-area similarity alone. The folds share 9 of their 10 training areas, so the SD is descriptive.
 
 \begin{table}[tbp]
 \centering
 \small
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
-$\sigma$ & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & $r_{gm}\geq0.6$ / both $\geq0.6$ & mid-depth gamma \\
+$\sigma$ & full, in-sample & full, held-out & full $\geq0.6$ & auto, in-sample & auto, held-out & auto $\geq0.6$ \\
 \midrule
-0.10 & 0.13--0.26 & $-0.12$--0.66 & 0.06--0.36 & 0 / 0 & 0.10--0.19 \\
-0.15 (declared) & 0.21--0.43 & $-0.20$--0.86 & 0.14--0.51 & 0 / 0 & 0.19--0.31 \\
-0.20 & 0.29--0.59 & $-0.22$--0.88 & 0.28--0.70 & 9 / 2 & 0.31--0.47 \\
-0.25 & 0.40--0.69 & $-0.16$--0.89 & 0.50--0.83 & 11 / 4 & 0.44--0.62 \\
+0.10 & 0.469 & $0.45 \pm 0.09$ & 0 / 11 & 0.446 & $0.43 \pm 0.10$ & 0 / 11 \\
+0.15 (declared) & 0.853 & $0.81 \pm 0.05$ & 11 / 11 & 0.657 & $0.62 \pm 0.09$ & 7 / 11 \\
+0.20 & 0.981 & $0.92 \pm 0.04$ & 11 / 11 & 0.844 & $0.80 \pm 0.07$ & 11 / 11 \\
+0.25 & 0.993 & $0.93 \pm 0.05$ & 11 / 11 & 0.936 & $0.88 \pm 0.06$ & 11 / 11 \\
 \bottomrule
 \end{tabular}
-\caption{Kernel-width sensitivity, post hoc, same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
-counts out of 12. Observed mid-depth relative gamma ($-0.2$ to 0, 50--150 Hz) is 0.85. At 0.15 the values equal
-the verdict files. Record \rec{D2}.}
-\label{tab:sigma}
+\caption{Cross-area generalization of the fitted observation model for the 50--150 Hz depth profile. In-sample:
+mean over folds of $\max_C r$ on the 10-area training profile. Held-out: $r$ of that fitted profile with the
+held-out area, mean $\pm$ SD over $n = 11$ folds. Full: cross terms allowed; auto: none. Baseline, the 10-area mean
+profile against the held-out area: $0.93 \pm 0.06$ at every width. The folds overlap in 9 of 10 training areas, so
+the SD is descriptive. Record \rec{D4}.}
+\label{tab:loao}
 \end{table}
 
-Similarity to the observed map is scored by one shared rule (Methods): the band crossing must exceed 2 SE, the
-depth correlations of the two bands must each reach 0.6 ($r_{ab}$, $r_{gm}$), the true unit order must rank first,
-the whole-map correlation $r_\text{proto}$ must beat a smooth-spectrum null and an identical-unit control, and the
-two halves of the run must agree. The thresholds are reachable: the best a three-unit model can reach through the
-readout kernel is $r_\text{proto}$ 0.854 (coherent units) or 0.693 (incoherent), $r_{gm}$ 0.853 or 0.657
-(\rec{R5}).
-
-\begin{figure}[tbp]
-\centering
-\IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
-\caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C per-type rate spectra,
-D model relative-power map (RWS proxy), E firing-rate map, F observed 11-area map. Model power is stationary;
-LANSA power is from 1 s peri-stimulus windows.}
-\label{fig:reference}
-\end{figure}
-
-\begin{figure}[tbp]
-\centering
-\IfFileExists{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/t1_kd1p41_n4000_s1_T8.png}}{\pendingbox{scorer panel}}
-\caption{The scorer's view of the T1 axis-1 winner (local in-degree exponent 1.41, SOM$\to$E 15 ms in every
-unit), seed 1: A observed map, B model map on the same 21 $\times$ 150 grid, C band depth profiles (solid model,
-dashed observed), D settings and scores.}
-\label{fig:scorer}
-\end{figure}
-
-\subsection{Network size changes alpha-beta, not gamma}
-
-At 1000, 2000 and 4000 E cells per unit (3562, 7125 and 14\,251 cells; three seeds each, in-degrees kept) no run
-passed (Table~\ref{tab:ladder}). Every run failed $r_{gm} \geq 0.6$. Seed means of $r_{ab}$ rose with size (0.15,
-0.64, 0.84) while those of $r_{gm}$ did not (0.48, 0.46, 0.31). Three seeds per size support a trend, not a test.
-The S unit's gamma peak formed only at $N \geq 2000$ (seed-mean S peak 8, 31 and 43 Hz), so the ladder rule set
-the T1 size to $N = 4000$ (\rec{R4}). Seeds agreed with each other far more than
-with the data: seed pairs gave SSIM 0.62--0.71 and pixel $r$ 0.87--0.93, each seed against the observed map SSIM
-0.04--0.12 and $r$ 0.20--0.43 (Fig.~\ref{fig:seeds}).
-% FINDINGS §2 table and bullets; results/viz/paper_w6/seed_diff.json
-
-\begin{table}[tbp]
-\centering
-\small
-\begin{tabular}{rrrrrrc}
-\toprule
-$N$ (E/unit) & cells & seed & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
-\midrule
-1000 & 3562 & 1 & 0.293 & $-0.199$ & 0.506 & no \\
-1000 & 3562 & 2 & 0.342 & 0.274 & 0.450 & no \\
-1000 & 3562 & 3 & 0.367 & 0.384 & 0.490 & yes \\
-2000 & 7125 & 1 & 0.434 & 0.786 & 0.501 & yes \\
-2000 & 7125 & 2 & 0.316 & 0.453 & 0.420 & yes \\
-2000 & 7125 & 3 & 0.410 & 0.666 & 0.470 & no \\
-4000 & 14251 & 1 & 0.376 & 0.839 & 0.400 & yes \\
-4000 & 14251 & 2 & 0.211 & 0.857 & 0.137 & no \\
-4000 & 14251 & 3 & 0.396 & 0.827 & 0.407 & yes \\
-\bottomrule
-\end{tabular}
-\caption{Finite-size ladder (lineage L-FS), 8 s, 2 s discarded. No run passes; every run fails $r_{gm} \geq 0.6$.
-Records \rec{R6}, \rec{N1}~\S2.}
-\label{tab:ladder}
-\end{table}
-
-\subsection{Sealed fine-tuning of in-degree and SOM kinetics does not reach the gamma criterion}
-
-T1 varied one axis at a time, seven log-spaced levels by three seeds, carrying each axis winner forward
-(seal \rec{S4}). No level passed on any seed: 63 level-seed scores from 54 new simulations, each axis's
-reference level reusing earlier runs (Fig.~\ref{fig:t1},
-Table~\ref{tab:t1}).
-
-\textit{Local in-degree exponent} $B$ (denser units receive more local synapses, $K \propto
-\text{density}^B$): $r_{gm}$ rose with $B$ from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.92 to $-0.08$ (seed
-means; peak 0.93 at $B = 0.35$); no level had both above 0.6. Raising $B$ removed the D unit's 90--150 Hz lobe but did not raise gamma at
-$-0.2$ to 0 (read from the atlas). The winner, $B = 1.41$ ($r_\text{proto}$ 0.361, SD 0.021), carried forward.
-Per-unit absolute power showed why: from $B$ 0.25 to 2, 50--150 Hz power rose at S (220 to 395, units $10^{12}$)
-and fell at D (116 to 32) while M stayed at 67--88; the M/S gamma ratio fell from 0.40 to 0.17.
-% FINDINGS §2b table and per-unit power bullet; t1_kd_n4000_unit_power.json
-
-\textit{SOM$\to$E decay, all units} (5.3--42 ms, charge per spike fixed): $r_{ab}$ reached 0.6 only at 10.6 and 15 ms;
-$r_{gm}$ stayed below 0.6 at every level (largest seed value 0.57). The reference 15 ms won ($r_\text{proto}$ 0.361).
-
-\textit{SOM$\to$E decay, deep unit only} (7.5--60 ms): the winner was 21 ms ($r_\text{proto}$ 0.372); its $r_{gm}$
-was 0.48--0.50 and its $r_{ab}$ 0.32--0.47, and no level combined $r_{ab}$ and $r_{gm} \geq 0.6$ on any seed.
-% results/laminar_e2/t1_{sst,sstd}_n4000_selection.json; t1_sstd*_verdict.json
-
-\textit{Confirmation.} The carried setting ($B = 1.41$, SOM$\to$E 15 ms in S and M, 21 ms in D), frozen and run on
-fresh seeds 4--6 for 12 s, passed on none; the sealed rule needed all three, so T1 FAILS. $r_\text{proto}$ was
-0.377, 0.365 and 0.377, each below the smooth-null 95th percentile (0.380); $r_{ab}$ 0.47, 0.35, 0.37; $r_{gm}$
-0.46, 0.48, 0.50; the crossing exceeded 2 SE on seed 6 only. Unit order ranked first and the halves agreed on every
-seed, so the failure is in band placement, not noise.
-% results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{4,5,6}_T12_verdict.json; SEAL_T1.md line 25
-
-\begin{table}[tbp]
-\centering
-\small
-\begin{tabular}{llrrrr}
-\toprule
-Axis & Winner & $r_\text{proto}$ & $r_{ab}$ range & $r_{gm}$ range & passes \\
-\midrule
-in-degree exponent $B$ & 1.41 & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
-SOM$\to$E decay, all & 15 ms & 0.361 & 0.58--0.79 & 0.42--0.45 & 0/21 \\
-SOM$\to$E decay, deep & 21 ms & 0.372 & 0.32--0.47 & 0.48--0.50 & 0/21 \\
-\bottomrule
-\end{tabular}
-\caption{T1 axes at $N = 4000$, seeds 1--3, 8 s. Rows 1 and 2 are the same runs: the axis-2 winner, 15 ms, is the
-reference level carried from axis 1. $r_\text{proto}$ is the winner's seed mean; ranges are over the
-winner's three seeds. Records \rec{R3}, \rec{R7};
-per-level tables in \rec{N1}~\S2b--2c.}
-\label{tab:t1}
-\end{table}
-
-\begin{figure}[tbp]
-\centering
-\IfFileExists{../../results/viz/t1/V3_kd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_kd_n4000_atlas.png}}{\pendingbox{kd atlas}}\\[0.3em]
-\IfFileExists{../../results/viz/t1/V3_sst_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sst_n4000_atlas.png}}{\pendingbox{sst atlas}}\\[0.3em]
-\IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
-\caption{T1 atlases. Each panel is the mean of three seeds' relative-power maps at one level; titles give seed
-means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay in
-all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read from the figure).}
-\label{fig:t1}
-\end{figure}
-
-\subsection{Middle-unit weights trade gamma against alpha-beta}
-
-Because every within-unit rule shared one weight across units, we scaled one to four rules in chosen units,
-starting from the T1 axis-1 winner (one seed, 8 s; exploratory and chosen by hand after each result, so none counts
-until confirmed on fresh seeds; Table~\ref{tab:weights}, Fig.~\ref{fig:weights}). Raising M's E$\to$E weight
-1.68-fold lifted $r_{gm}$ to 0.64, but M's alpha-beta then dominated the column: with the E$\to$SOM weight also
-halved in S and M, 10--30 Hz power was 137\,016 at M against 10\,650 at D (units $10^{12}$), and the crossing broke.
-Doubling M's E$\to$E weight alone ran away (M E 36 Hz in a 2 s check). Adding M's PV$\to$E weight returned the
-alpha-beta peak to D and restored the crossing ($r_{ab}$ 0.92 at 1.5-fold) but cut M gamma (M/S 50--150 Hz ratio
-0.25, $r_{gm}$ 0.50). The most even setting, PV$\to$E 1.25-fold, gave crossing, $r_{ab}$ 0.78, $r_{gm}$ 0.54 and
-$r_\text{proto}$ 0.45. On top of PV$\to$E 1.5, raising M's E$\to$PV weight 1.5-fold lowered M's E rate to 0.25 Hz
-without raising its gamma. No setting passed. The
-reading we draw is that M's recurrent excitation sets both its gamma and its alpha-beta, so no single M rule tried
-here separates them (inferred).
-% FINDINGS §2d table and bullets
-
-\begin{table}[tbp]
-\centering
-\small
-\begin{tabular}{lrrrc}
-\toprule
-Scaled rules (unit) & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & crossing \\
-\midrule
-none (axis-1 winner, seed 1) & 0.36 & 0.75 & 0.42 & yes \\
-E$\to$E 1.2 (M) & 0.30 & 0.54 & 0.38 & yes \\
-E$\to$E 1.41 (M) & 0.27 & $-0.46$ & 0.54 & no \\
-E$\to$E 1.68 (M) & 0.42 & 0.29 & 0.64 & no \\
-E$\to$E 1.68 (M), E$\to$SOM 0.5 (S) & 0.49 & 0.57 & 0.53 & no \\
-E$\to$E 1.68 (M), E$\to$SOM 0.5 (S, M) & 0.54 & 0.55 & 0.64 & no \\
-E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.42 & 0.26 & 0.63 & no \\
-E$\to$E 1.41 (M), E$\to$SOM 0.5 (S), 1.5 (D) & 0.40 & 0.59 & 0.42 & no \\
-E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.25 (M) & 0.45 & 0.78 & 0.54 & yes \\
-E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.45 & 0.92 & 0.50 & yes \\
-\quad + E$\to$SOM 0.5 (M) & 0.45 & 0.89 & 0.51 & yes \\
-\quad + E$\to$PV 1.5 (M) & 0.44 & 0.92 & 0.47 & yes \\
-E$\to$E 2 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.42 & 0.89 & 0.48 & yes \\
-\bottomrule
-\end{tabular}
-\caption{Per-unit weight scaling, exploratory: seed 1, 8 s, event delivery, T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms) as base; no setting passes.
-Records \rec{R8}, \rec{N1}~\S2d.}
-\label{tab:weights}
-\end{table}
-
-\begin{figure}[tbp]
-\centering
-\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, best r\_proto}}\\[0.4em]
-\IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, most even}}
-\caption{The middle-unit trade-off, exploratory. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
-0.5): gamma reaches mid-depth but alpha-beta peaks at M, so the profiles do not cross. Bottom: most even setting
-(adds M PV$\to$E 1.25, without M E$\to$SOM): the crossing returns and M gamma weakens. Panels as in
-Fig.~\ref{fig:scorer}.}
-\label{fig:weights}
-\end{figure}
-
-\subsection{Density and SOM/PV controls change which unit dominates the map}
-
-The reference column changes density and SOM/PV ratio together across depth, so neither was tested as a cause by
-the runs above. A sealed control (T8, seal \rec{S7}) rebuilt the reference with one construction rule changed at a
-time, at fixed total cell count: density flattened (equal unit sizes, one in-degree rule), density permuted (S and
-D exchanged), SOM/PV flat (0.79 in every unit, the geometric mean of the ramp) and SOM/PV reversed (2, 1, 0.25 from
-S to D), each on seeds 1--3 at 8 s (Methods). The decision rule, fixed before the runs, takes the paired difference
-$d_s$ = reference minus control per seed and calls a difference only when all three $d_s$ share a sign and their
-mean exceeds $2\,\text{SD}/\sqrt{3}$; with $n = 3$ it is a descriptive screen, uncorrected across the four primary
-comparisons. All 15 runs were evaluable (no stop state, no refusal; \rec{D8}). The reference reruns equalled the
-saved reference runs bitwise on all 22 output arrays for each seed (\rec{D9}).
-
-Reversing or flattening the SOM/PV ramp turned the alpha-beta correlation negative: $r_{ab}$ fell from 0.83--0.86
-to $-0.74$ (reversed) and $-0.72$ (flat) on every seed (mean $d$ 1.58 and 1.56, SD 0.015 and 0.013; ref higher;
-Table~\ref{tab:t8}). Flattening density left $r_{ab}$ unchanged (mean $d$ 0.004, SD 0.038; no consistent
-difference), and permuting it lowered $r_{ab}$ to 0.70--0.71 (mean $d$ 0.13, SD 0.015; ref higher). Both density
-arms turned the gamma and whole-map correlations negative: $r_{gm}$ fell from 0.14--0.41 to $-0.83$ (flat) and
-$-0.85$ (permuted), and $r_\text{proto}$ from 0.21--0.40 to $-0.37$ and $-0.44$ (ref higher in both). The ratio
-arms raised $r_{gm}$ to about 0.5 (flat: control higher; reversed: all three $d_s < 0$ but the mean, $-0.178$, did
-not exceed the bound, so no consistent difference) while lowering $r_\text{proto}$. No control raised mid-depth
-relative gamma: it was 0.23--0.26 in the reference and 0.04--0.23 in the controls (ref higher in all four; for the flat-density arm marginally, mean $d$ 0.056
-against a bound of 0.046). No run
-of any arm passed the scorer; the reference showed the band crossing on seeds 1 and 3, and no control run showed it.
-
-The maps show what these scores measure (Fig.~\ref{fig:t8}). In the density arms the deep unit dominates relative
-power at most frequencies; in the ratio arms the superficial unit does. The band correlations then follow which
-unit dominates broadband power, not a band-specific rhythm placed at its depth (inferred from the maps): the unchanged $r_{ab}$ of the
-flat-density arm comes from deep dominance at all low frequencies, not from a preserved alpha-beta generator, and
-the positive $r_{gm}$ of the ratio arms comes from superficial dominance at all frequencies. The dominant unit is
-not the one with the highest E rate: in the permuted-density arm the deep unit fires at 0.45--0.51 Hz against
-1.05--1.11 Hz superficially, and in the ratio arms the superficial unit fires at 0.38--0.47 Hz, the lowest of the
-three (\rec{D8}); which property sets dominance is not identified here. We infer that the reference's frequency
-dependence, alpha-beta in M and D and gamma in S, needs a balance between units that each control arm breaks; the
-controls do not test that balance directly. The arms also change more than the named quantity: the density arms
-change unit sizes, in-degrees and the inhibitory counts that follow E:I, the ratio arms change the SOM$\to$E
-in-degree, and both change unit rates. They test these construction rules, not density or ratio apart from their
-consequences.
-
-\begin{table}[tbp]
-\centering
-\footnotesize
-\begin{tabular}{@{}lrrrrcl@{}}
-\toprule
-Control & $r_{ab}$ & $r_{gm}$ & $r_\text{proto}$ & mid-depth $\gamma$ & crossing & Decision on $r_{ab}$ (primary) \\
-\midrule
-reference & 0.84 & 0.31 & 0.33 & 0.25 & 2/3 & --- \\
-density flat & 0.84 & $-0.83$ & $-0.37$ & 0.19 & 0/3 & no consistent difference \\
-density S$\leftrightarrow$D & 0.71 & $-0.85$ & $-0.44$ & 0.04 & 0/3 & ref higher \\
-SOM/PV flat & $-0.72$ & 0.51 & 0.17 & 0.21 & 0/3 & ref higher \\
-SOM/PV reversed & $-0.74$ & 0.49 & 0.15 & 0.09 & 0/3 & ref higher \\
-\bottomrule
-\end{tabular}
-\caption{T8 controls (seal \rec{S7}), seed means of seeds 1--3, 8 s; crossing: seeds with the band crossing.
-Mid-depth $\gamma$: relative 50--150 Hz power over the contacts from $-0.2$ to 0 (observed 0.85). Decision: the
-sealed paired rule on reference minus control. Secondary decisions (Results text): $r_{gm}$ ref higher for both
-density arms, control higher for SOM/PV flat, no consistent difference for SOM/PV reversed; $r_\text{proto}$ and
-mid-depth $\gamma$ ref higher for all four. Per-seed values, differences and SD: \rec{D8}.}
-\label{tab:t8}
-\end{table}
-
-\begin{figure}[tbp]
-\centering
-\IfFileExists{../../results/viz/t8/V3_t8_atlas.png}{\includegraphics[width=\linewidth]{../../results/viz/t8/V3_t8_atlas.png}}{\pendingbox{T8 atlas}}
-\caption{T8 controls: seed-mean relative-power maps (power divided by its maximum over depth at each frequency;
-seeds 1--3, 8 s, 2 s discarded) of the reference and the four control columns, beside the observed 11-area mean
-(A). Panel titles give the seed means of $r_{ab}$, $r_{gm}$ and $r_\text{proto}$. In B the alpha-beta maximum
-lies in M and D and the gamma maximum in S; in C and D the deep unit dominates most frequencies (in C a weaker
-superficial band remains above 40 Hz), in E and F the superficial unit does. Per-arm architecture and 1 s rasters:
-\rec{R11}.}
-\label{fig:t8}
-\end{figure}
-
-\subsection{Readout geometry alone can mimic a fit}
-
-Holding each run's unit spectra fixed and moving only the readout depths (1330 placements) raised $r_\text{proto}$
-from 0.38 to 0.720 on the selection run, and the selected depths (S $-0.25$, M $-0.05$, D 0.20) gave $r_{gm}$
-0.64--0.84 on the 8 other ladder runs, though $r_{ab}$ reached 0.6 on only one of them (\rec{N1}~\S7). This does not show that the model's spectra carry the
-observed gamma. In the spectral-shift null each unit's spectral shape was circularly shifted in frequency (power
-kept) and the same search was rerun on the incoherent (diagonal) spectra, whose unshifted best was $r_\text{proto}$
-0.725 with 70 passing placements. In 12 of 20 draws no placement met both band thresholds; of the 8 that did, 3
-exceeded 0.725 and 4 exceeded 70 placements, so the null was not rejected (on $r_\text{proto}$, $p = (3+1)/21
-\approx 0.19$; with 20 draws a weak test). Among the other unit orders, S--D--M reached 0.740 and D--S--M 0.692, and
-the three orders with M on top or D first and M second met no placement. Spectral content therefore contributes to
-the fit, but a geometry-only account is not excluded.
+\textit{Geometry.} Holding each run's unit spectra fixed and moving only the readout depths (1330 placements)
+raised $r_\text{proto}$ from 0.38 to 0.720 on the selection run, and the selected depths (S $-0.25$, M $-0.05$, D
+0.20) gave $r_{gm}$ 0.64--0.84 on the 8 other ladder runs, though $r_{ab}$ reached 0.6 on only one of them
+(\rec{N1}~\S7). A geometry-only account is not excluded. When each unit's spectral shape was circularly shifted in
+frequency (power kept) and the search rerun on the incoherent spectra, whose unshifted best was $r_\text{proto}$
+0.725 with 70 passing placements, 12 of 20 draws found no placement meeting both band thresholds; of the 8 that
+did, 3 exceeded 0.725 and 4 exceeded 70 placements ($p = (3+1)/21 \approx 0.19$ on $r_\text{proto}$; with 20 draws
+a weak test). Among the other unit orders, S--D--M reached 0.740 and D--S--M 0.692, and the three orders with M on
+top or D first and M second met no placement. Spectral content contributes to the fit, but readout depth remains a
+confound, not a ruled-out cause.
 % FINDINGS §7; results/laminar_e2/depth_placement.json
 
-Probe tilt confounds the contrast metric instead (Fig.~\ref{fig:readout}A). The seed-mean laminar contrast
-$M_\text{arc}$ (slope of the alpha-beta minus gamma relative-power profile along the probe, per unit of contact arc length) peaked at
-$30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at $0^\circ$), a
-difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at $30^\circ$ than at
-$0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in tilt. $r_\text{proto}$ minus the identical-unit control rises with tilt; we infer that this comes from
-the control falling as fewer bins are covered, not from the model. The current-based CSD reproduced the forward
+Probe tilt confounds the laminar contrast metric (Fig.~\ref{fig:readout}A). The seed-mean contrast $M_\text{arc}$
+(slope of the alpha-beta minus gamma relative-power profile along the probe, per unit of contact arc length)
+peaked at $30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
+$0^\circ$), a difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at
+$30^\circ$ than at $0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in
+tilt. $r_\text{proto}$ minus the identical-unit control rises with tilt; we infer that this comes from the
+control falling as fewer bins are covered, not from the model. A current-based CSD reproduced the forward
 potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources independent
-(rank 9 of 9; Fig.~\ref{fig:readout}B); this is a consistency check, not a validation of source placement.
+(rank 9 of 9; Fig.~\ref{fig:readout}B); this checks internal consistency, not source placement.
 % FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json
 
 \begin{figure}[tbp]
 \centering
-\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.8\linewidth}{probe summary}\\[0.4em]
-\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.8\linewidth}{CSD}
+\panel{A}{../../results/viz/paper_w5/probe_summary.png}{0.74\linewidth}{probe summary}\\[0.4em]
+\panel{B}{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{0.74\linewidth}{CSD}
 \caption{Readout controls, post hoc on saved runs. A: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
 identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$. B:
 current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); top, the
 first retained second; bottom, averages over 108 troughs of the 10--30 Hz band-passed $\phi$ at the contact with
-most band power, each contact's mean over the window removed. Source depths are assumed (PV perisomatic, SOM
-distal apical, AMPA basal and apical; Methods); the trigger contact is chosen on the same $\phi$, so its trace is
-circular; colour limits are per panel (99th percentile of $|\text{field}|$), in arbitrary units.}
+most band power, each contact's mean over the window removed. The sources are the saved synaptic currents of each
+unit's E cells, placed at assumed offsets from the unit depth $z_u$ (PV GABA perisomatic at $z_u$; SOM GABA distal
+apical at $z_u - 0.15$; AMPA half at $z_u$, half at $z_u - 0.10$), each with an equal and opposite return current,
+in a homogeneous medium ($\sigma_e = 0.3$ S/m, lateral distance 0.05 depth units; both assumed; Methods). Depth is
+in fractions of cortical thickness, not metres, so $\phi$ and CSD are in arbitrary units; colour limits are per
+panel (99th percentile of $|\text{field}|$). The trigger contact is chosen on the same $\phi$, so its trace is circular.}
 \label{fig:readout}
 \end{figure}
-
-
-\subsection{Event-driven synaptic delivery gives equal output at a tenth of the time}
-
-Delivering AdEx synaptic events only for spiking presynaptic cells gave all 22 output arrays of an 8 s T1 run
-bitwise equal to the dense route (248\,116 spikes; equal edge tables), and simulated it in 140 s instead of 1387 s on
-the same machine (9.9-fold, one timed pair; \rec{N1}~\S5). The T8 reference reruns, on the event route, were
-also bitwise equal to the dense reference runs on all 22 arrays for seeds 1--3 (\rec{D9}), so equality holds on
-two layouts and four runs; a different layout differed in 21 of 22 arrays, and different seeds of one layout in
-21 of 22, as they should. T1 axis 3, the confirmation, the weight runs and T8 used this route; the ladder and T1
-axes 1--2 used the dense route (Methods).

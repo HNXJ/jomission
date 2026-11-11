@@ -36,10 +36,11 @@ above mid-layer 4, and whether the primate densities alone can set the map, are 
 
 We built a three-unit model that links the primate densities to the spectra: three CAMINOS units at superficial,
 middle and deep depths, sized by the LANSA densities, with a SOM/PV ratio rising with depth, read out by a kernel
-probe and scored against the observed map by a single sealed rule. We ask whether this density-informed column
-reproduces the motif and, where it fails, what it lacks. The column places alpha-beta deep on its selection seeds
-but leaves gamma weak between $-0.2$ and 0 of cortical thickness; network size, sealed fine-tuning and exploratory
-weight changes do not close the gap. Sealed controls that flatten or permute one construction rule at a time change
-which unit dominates the map in these constructions, without isolating a band-specific mechanism. Readout controls show that moving the probe contacts raises the similarity score substantially, so a geometry-only
-account of a fit is not excluded, while a simulation-free search shows that the readout itself can meet the gamma
-criterion, which places the failure in the circuit's spectra.
+probe and scored against the observed map by one pre-registered rule. We ask whether this density-informed column
+reproduces the motif and, where it fails, what it lacks. The column places alpha-beta deep on its first seeds but
+leaves gamma weak between $-0.2$ and 0 of cortical thickness; network size, pre-registered tuning and exploratory
+weight changes trade gamma against alpha-beta without closing the gap. Changing the density profile or the SOM/PV
+ramp one at a time has opposite effects, handing the map to the deep or the superficial unit at most frequencies,
+without isolating a band-specific mechanism. A simulation-free analysis shows that the readout itself can meet the
+gamma depth criterion, which places the failure in the circuit's spectra under this observation model, while moving
+the probe contacts raises the similarity score substantially, so a geometry-only account of a fit is not excluded.

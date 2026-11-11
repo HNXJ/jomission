@@ -1,17 +1,18 @@
 \begin{abstract}
-Local field potentials (LFPs) across primate cortex show a spectrolaminar motif: relative gamma power is highest
-superficially and relative alpha-beta power in deep layers. Laminar cell densities predict this motif across
-macaque areas; whether they generate it is untested. We built a column of three adaptive exponential (AdEx)
-units of excitatory, parvalbumin (PV) and somatostatin (SOM) cells, sized from the laminar densities of 11 macaque
-areas with an assumed SOM/PV ratio rising with depth, its LFP proxy scored by a sealed rule. In a single unit,
-gamma frequency fell as the SOM/PV ratio rose. The column placed alpha-beta deep (depth correlation 0.83--0.86, 3
-seeds) but left relative gamma just above mid-layer 4 at 0.19--0.31 in 12 runs, against 0.85 observed. Network
-size, a sealed in-degree and SOM-kinetics search and exploratory middle-unit weights did not raise the gamma depth
-correlation to criterion without losing deep alpha-beta. In sealed controls at fixed cell count (3 seeds),
-flattening or reversing the ratio ramp let the superficial unit dominate the maps and turned the alpha-beta
-correlation negative; flattening or permuting density let the deep unit dominate and turned the gamma correlation
-negative, while flat density kept the alpha-beta score, so that score is not band-specific. Moving only
-readout contacts raised map similarity from 0.38 to 0.72 without rejecting a frequency-shift null, and a
-simulation-free search showed the readout can meet the gamma criterion, so the failure lies in the circuit's
-spectra, consistent with missing 50--150 Hz power in the middle unit.
+Local field potentials (LFPs) across primate cortex show a spectrolaminar pattern: relative gamma power is
+strongest superficially and relative alpha-beta power in deep layers. Laminar cell densities predict this pattern
+across areas, but whether such gradients can generate it is untested. We built a three-unit cortical column of
+excitatory, parvalbumin (PV) and somatostatin (SOM) adaptive exponential populations. Unit sizes followed macaque
+laminar densities from 11 areas, local connectivity was scaled with density by an assumed rule, and the SOM/PV
+ratio was imposed to rise with depth. The single unit reproduced its published reference rhythm, and its gamma
+frequency fell as SOM/PV rose. The column placed alpha-beta deep but left relative gamma near layer 4 at 0.19--0.31
+of its per-frequency maximum, against 0.85 observed. Varying network size, connectivity and SOM kinetics did not
+resolve this deficit, and the setting selected for overall similarity lost the deep alpha-beta placement on fresh
+seeds. Flattening or reversing the density profile or the SOM/PV ramp did not shift single bands: each let one
+unit, deep or superficial, dominate at most frequencies, abolishing the frequency-dependent organization. Under the
+declared three-source readout, the readout could represent the observed gamma depth profile, so within that
+observation model the gamma failure lies in the circuit's source spectra; moving the readout depths alone nearly
+doubled map similarity, a gain not distinguished from a frequency-shift null. The tested density-informed circuit
+is insufficient to reproduce the primate motif, and middle-layer gamma generation and source geometry are the
+next targets.
 \end{abstract}

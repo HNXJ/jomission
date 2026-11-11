@@ -45,6 +45,18 @@ $N = 4000$.}
 \label{fig:s-ladder}
 \end{figure}
 
+\begin{figure}[tbp]
+\centering
+\IfFileExists{../../results/viz/t1/V3_kd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_kd_n4000_atlas.png}}{\pendingbox{kd atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sst_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sst_n4000_atlas.png}}{\pendingbox{sst atlas}}\\[0.3em]
+\IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
+\caption{T1 maps per level. Each panel is the mean of three seeds' relative-power maps at one level; titles give
+seed means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay
+in all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read
+from the figure). The same scores for every run are in Fig.~\ref{fig:scatter}.}
+\label{fig:t1}
+\end{figure}
+
 \begin{table}[tbp]
 \centering
 \small
@@ -84,6 +96,8 @@ C11 & joint constraint, grid check (cb2237c) & \path{scripts/e2_readout_joint_gr
 C12 & T8 summary and decision rule (d49a8d0) & \path{scripts/e2_t8_summary.py} \\
 C13 & T8 engine check (d49a8d0) & \path{scripts/e2_t8_engine_check.py} \\
 C14 & T8 atlas (d49a8d0) & \path{scripts/e2_t8_atlas.py} \\
+C15 & joint constraint, known-answer and independent bounds (this revision) & \path{scripts/e2_readout_joint_check.py} \\
+C16 & band-correlation scatter of every scored run (this revision) & \path{scripts/e2_band_scatter.py} \\
 \multicolumn{3}{@{}l}{\textit{Seals} (pre-registration; commit first added)} \\
 S1 & E0 (757c6a7) & \path{docs/laminar_motif/E0_SEAL.md} \\
 S2 & E1 (e944198) & \path{docs/laminar_motif/E1_SEAL.md} \\
@@ -102,6 +116,7 @@ D6 & SHA-256 of every file cited & \path{paper/jomission_lansa/data/sources_sha2
 D7 & joint constraint, grid check & \path{paper/jomission_lansa/data/readout_joint_grid.json} \\
 D8 & T8 per-run outcomes, rates and decisions & \path{paper/jomission_lansa/data/t8_summary.json} \\
 D9 & T8 engine check & \path{paper/jomission_lansa/data/t8_engine_check.json} \\
+D10 & joint constraint, known-answer and independent bounds & \path{paper/jomission_lansa/data/readout_joint_check.json} \\
 \multicolumn{3}{@{}l}{\textit{Run records, not version-controlled, hashed in D6}} \\
 R1 & E0 result & \path{results/laminar_e0/e0_result.json} \\
 R2 & E1 result & \path{results/laminar_e1/e1_result.json} \\

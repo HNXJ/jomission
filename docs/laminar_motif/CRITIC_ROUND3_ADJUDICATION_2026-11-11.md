@@ -57,6 +57,21 @@ Visual reviewer (Gemini, `/tmp/vis_r3/`), independently reproduced:
 | 6 | Fig 1F bars at alpha 0.30 have 1.27-1.68:1 contrast on white; NG/PV both solid under protan/deutan | **CONFIRMED** | colour arithmetic; NG and PV are 12.6 (protan) and 11.8 (deutan) apart, below the 20 threshold, with no second cue |
 | 7 | 9 ladder maps and `mid_gamma.json` absent from D6; duplicated `_s1, s1` panel titles | **CONFIRMED** | D6 has no `laddermap` rows; title string keeps the seed and appends it again |
 
+## Second re-review (after the r_ab correction), and what it caught
+
+That reviewer returned REVISE with three findings. Disposition:
+
+| Finding | Verdict | Action |
+|---|---|---|
+| Abstract still implies the setting retained deep alpha-beta | **ALREADY FIXED** | The review ran at `79d711e`; the abstract was corrected at `77cc27e`, which is a descendant. Verified by reading the current abstract |
+| `check_confirmed_runs.py` would pass the defect it names | **CONFIRMED — a real defect in my guard** | It collected the tau sets but never compared them, and its text test was a bare substring search that the pre-fix file satisfied in a different sentence. Rewritten, and proven both ways: exit 1 on the pre-fix text at `75f7d49^`, exit 0 on the current text |
+| Fig S3 repeats the seed in both titles | **CONFIRMED** | Embedded titles removed; the `\panel{N1000 s1}` label is the only one. Nine PNGs regenerated, re-hashed, page 33 inspected |
+
+The guard failure is the more instructive one: a check that names a class of defect and cannot fail on it is worse
+than no check, because it reads as protection. Every guard added here now has to show a red run against the defect
+it claims to catch.
+
+
 ## Consequence for the process
 
 The critic loop allows three rounds and requires the final ACCEPT to come from a reviewer that has seen none of

@@ -69,6 +69,13 @@ PROPOSED (needs Hamm).
   `/Users/hamednejat/workspace/dev/jomission`, so from a clone at `/tmp/...` the resolved path is outside the clone
   and the assertion must fail; the same file passes **2 passed** in the main checkout. Any other failure in a clone
   is real.
+- **A clone run with the ambient interpreter does not prove the clone was exercised**, because that same editable
+  install means every other test may import the main checkout too. The strong check is
+  `python3 scripts/verify_clone.py`: it clones HEAD, builds a venv with system site-packages (jax, jaxfne, numpy,
+  pytest, but no jomission), installs the clone editable into it, asserts the import resolves inside the clone, and
+  runs tier 0 with that interpreter. Receipt at `4ecdda3`: **import inside clone True, 258 passed, 0 failed**,
+  `VERIFY_CLONE_PASS`. Use this before any push; `project_check.py` inside a clone stays a weaker, ambient-environment
+  check.
 - Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
   "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:

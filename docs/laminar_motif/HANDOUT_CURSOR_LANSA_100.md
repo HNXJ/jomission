@@ -47,6 +47,13 @@ PROPOSED (needs Hamm).
   section this commit corrects). **Manuscript content to review = `e36a566`**; this doc-only update does not change
   it. Run `git log origin/dev..dev` and `git diff e36a566 HEAD -- paper/` before acting: an empty paper diff means
   the round-3 review still binds `e36a566`.
+- **Scope warning for the round-3 verdict (2026-11-11).** Round 3 was dispatched against `e36a566`, but A3 work
+  landed while it ran, so the paper has moved: `git diff e36a566 HEAD -- paper/` shows `results.tex` (two captions),
+  `supplement.tex` (Fig S3 sources and caption), `data/sources_sha256.txt` (six re-hashed PNGs) and the response
+  file. An ACCEPT therefore covers the text as of `e36a566`; the caption and figure-source edits after it are
+  mechanical (panel description, figure path, hash) and are named in their commits, but a strictly clean ACCEPT for
+  the shipped SHA needs either a reviewer pass over that diff or Hamm's acceptance of the split. Do not push on the
+  round-3 ACCEPT alone without recording this.
 - Critic rounds: 1 on 12fc805 REVISE (fixed), 2 on 2c51ab3 REVISE (fixed: dense runs' engine 0.5.8 / ref s1 0.5.9;
   selection vs fresh-seed r_ab wording; r_gm bound 0.1776 vs 0.1778). Round 3 not run: the loop allows 3 rounds and
   the final ACCEPT must come from a reviewer that has seen none of them. Unfixed minor from round 2: Fig 3 panel D

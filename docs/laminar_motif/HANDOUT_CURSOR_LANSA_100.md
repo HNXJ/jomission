@@ -60,12 +60,11 @@ PROPOSED (needs Hamm).
   on the evidence, and the abstract count left as is (see `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`). The loop's
   three rounds are spent, so the next ACCEPT must come from a fresh reviewer pass on the fixed tree, which is the
   owner's call. **Nothing is pushed.**
-- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). 5aa809f, e36a566 and every
-  later commit changed only tex, docs, figure PNGs and figure scripts, so that result still binds HEAD; rerun tier-0
-  before pushing if code changes. Rerun twice anyway this session (at `458fb2c` and at `2575673` after the round-3
-  fixes): **257 passed, 1 failed each time**, the failure being
-  `test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`, which fails in a clone by
-  construction.
+- Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). Later commits changed only
+  tex, docs, figure PNGs and figure scripts, so that result still binds HEAD; rerun tier-0 before pushing if code
+  changes. Rerun three times this session (`458fb2c`, `2575673`, `38f550d`): **257 passed, 1 failed each time**, the
+  failure being `test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`, which fails in a
+  clone by construction.
 - Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
   "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:

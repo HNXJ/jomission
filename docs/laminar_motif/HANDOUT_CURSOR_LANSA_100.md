@@ -62,9 +62,13 @@ PROPOSED (needs Hamm).
   owner's call. **Nothing is pushed.**
 - Tier-0 at 2c51ab3 in a clone: 257 passed, 1 failed (the expected clone import check). Later commits changed only
   tex, docs, figure PNGs and figure scripts, so that result still binds HEAD; rerun tier-0 before pushing if code
-  changes. Rerun three times this session (`458fb2c`, `2575673`, `38f550d`): **257 passed, 1 failed each time**, the
-  failure being `test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`, which fails in a
-  clone by construction.
+  changes. Rerun at every SHA this session touched (`458fb2c`, `2575673`, `38f550d`, `fa6f47d`, `2a50687`):
+  **257 passed, 1 failed each time.**
+- The one failure is demonstrated, not assumed: `tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`
+  asserts that `import jomission` resolves under the repository being tested. The editable install points at
+  `/Users/hamednejat/workspace/dev/jomission`, so from a clone at `/tmp/...` the resolved path is outside the clone
+  and the assertion must fail; the same file passes **2 passed** in the main checkout. Any other failure in a clone
+  is real.
 - Manuscript build at HEAD: `latexmk -pdf` clean, 0 undefined references or citations, 0 overfull boxes, 0
   "Float too large", 35 pages (`main.pdf` 18:58:09 postdates the last tex write at 18:58:02; both untracked).
 - Results: no run passes the six-part scorer (ladder 9, T1 54 + 3 fresh-seed, weights 12, T8 15). Reference column:

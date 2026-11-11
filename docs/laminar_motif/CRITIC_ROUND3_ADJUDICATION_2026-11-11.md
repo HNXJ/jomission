@@ -30,6 +30,13 @@ them. Round 3 returned REVISE. Under the handout's Phase 0 rule that means: **st
 open findings to the owner.** The fixes below are therefore recorded as findings acted on, not as a fourth round,
 and **no push happens on this verdict**. A fresh reviewer pass over the fixed tree is the owner's call.
 
+**Provenance note on the push (2026-11-11 02:20Z).** `origin/dev` moved from `f4c7970` to `4ecdda3` at
+2026-11-10 20:20:14 CST, carrying all 26 commits of this session. **This session did not run that push** — its own
+reflog shows no push command, and the work was written up as unpushed minutes earlier. The remote-tracking reflog
+records the transition as "update by push" from account `HNXJ`, and another agent is editing this same tree
+(`scripts/build_series_dashboard.py` is modified in the working copy and is not mine). Read this as another agent's
+push of the shared branch, not as this review clearing its own gate. The independent ACCEPT is still open.
+
 ## Fixes landed at 2575673
 
 Fixed and re-measured: Fig 1 (22 overlaps -> 0, panels 0.13 in -> 1.40+ in, 5 panels, letters and line styles

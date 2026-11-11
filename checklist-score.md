@@ -10,6 +10,8 @@ Review rule for this draft: every evidence entry is a path or commit sha that wa
 
 **Current score: 69/100** (v4, 2026-11-04). Against v3 (50): Science +12, Documentation +4, Dashboard +1, Rest +2. Owner ratified items 17, 19, 20 (Q14, 2026-11-04). PV drive scan (item 18) kept at 0 until a spec exists (Q15, 2026-11-04).
 
+**Interim 2026-11-11: score not changed (69/100), not rescored in this pass.** New evidence that bears on items: item 22 (fresh-clone reproduction): full-suite collection on a 0366d2b clone gives 4 errors (OPEN-47); item 25 (OPEN stack): rows 44 and 45 reopened, rows 46 to 49 added; item 28 (every claim has a receipt): the deck source and its reviewed build differ on 21 of 25 pages (OPEN-46). Items 22, 25 and 28 need a re-check before any rescore.
+
 ## By category
 | Category | Score | Items |
 |---|---|---|

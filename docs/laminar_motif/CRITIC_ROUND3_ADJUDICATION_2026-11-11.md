@@ -30,6 +30,17 @@ Every range was re-verified against `band_scatter.json` after the edit.
 Second finding, also fixed: the Fig S1 caption called the diagnostic montage "record R1", but Table S6 defines R1 as
 the E0 result. The caption now points at the per-run verdict records R6 and R7.
 
+Third site, found while auditing the same class: the Abstract said the selected setting "weakened the deep
+alpha-beta placement, which was lost on fresh seeds". That implies the setting once had the placement; it never did.
+It now gives both ranges (0.32-0.47 against the reference's 0.83-0.86). Word count unchanged at 248.
+
+Audit of the remaining sites where the setting's scores appear: every literal from the confirmed setting, its
+selection seeds and the axis-1 winner was located in the paper and checked in context. Table 3 (the setting's
+per-seed verdicts), Table 4 (per-level ranges, row 3 correct) and Table 5 (circuit against the readout optimum,
+where the "T1 selected, seeds 4-6" column is the confirmed setting and `r_gamma` is a separate band-mean quantity
+from `r_gm`) all use the right runs. No other wrong-circuit number was found.
+
+
 | 2 | Abstract is 252 words, not 249/248 | major | **CONTESTED — rule-dependent** | Whitespace tokens with LaTeX commands stripped: 248 by two independent rules. Splitting every en-dash range adds up to 12. The paper is under 250 on the rule used in the response file and over on a range-splitting rule. Fixed by trimming, see below |
 | 3 | Discussion "a quarter to a third" should be 0.22-0.36 | minor | **CONFIRMED** | 0.19/0.85 = 0.224, 0.31/0.85 = 0.365 |
 | 4 | `data/mid_gamma.json` missing from D6 | minor | **CONFIRMED** | absent from `sources_sha256.txt` while `backmatter.tex` claims every derived file is hashed |

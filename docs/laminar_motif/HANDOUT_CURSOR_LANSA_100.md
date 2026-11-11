@@ -48,11 +48,15 @@ narrative kept for its warnings.
 **Read this section first if you are resuming from the remote.** The seal below replaced the older handoff
 narrative; the paragraphs after it are kept because their warnings still hold.
 
-- **Sealed at `77dd152` plus the seal commit, branch `dev`.** `python3 scripts/project_check.py --offline --no-tests`
-  ends `PROJECT_CHECK_PASS`. Manuscript: 35 pages, 0 errors, 0 overfull, 0 float-too-large, 0 undefined references.
-- **The isolated gate is the one to trust:** `python3 scripts/verify_clone.py` reports import-inside-clone True and
-  **258 passed, 0 failed** (`VERIFY_CLONE_PASS`). `project_check.py` run inside a bare clone still shows 1 failure by
-  construction (the ambient editable install); that is not a defect and not the gate to quote.
+- **Sealed at `7f03f3f` (plus the commit that carries this line), branch `dev`.** Receipts at that tree:
+  `python3 scripts/project_check.py --offline --no-tests` ends `PROJECT_CHECK_PASS`; manuscript 35 pages with
+  0 errors, 0 overfull, 0 float-too-large, 0 undefined references; D6 169/169 verified from disk; isolated gate
+  `python3 scripts/verify_clone.py` gives import-inside-clone True and **258 passed, 0 failed**
+  (`VERIFY_CLONE_PASS`).
+- **The seal needed a fix that the quick check missed:** adding `OPEN-43` changed `docs/OPEN.md` without
+  regenerating `docs/DASHBOARD.html`, which embeds the open stack, and two tier-0 tests failed on it. Only the
+  isolated gate caught it (`project_check` in its `--no-tests` form does not run tests). Fixed at `7f03f3f` by
+  rerunning `scripts/build_dashboard.py`. If you edit `docs/OPEN.md`, regenerate the dashboard in the same commit.
 - **Three independent reviews ran; all returned REVISE.** Every finding is dispositioned in
   `CRITIC_ROUND3_ADJUDICATION_2026-11-11.md`. Two are worth knowing before you trust this tree's history: I once
   rejected a real finding by scoring the wrong run set (the confirmed setting is the `sstd21` circuit, r_ab

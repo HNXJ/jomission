@@ -1,0 +1,35 @@
+{
+ "cases": {
+  "0": {
+   "ms": "TypeError: population_rates() got an unexpected keyword argument 'dt_ms'",
+   "sec": {
+    "E": 1.12625,
+    "PV": 4.045599999999999,
+    "SOM": 3.312666666666667
+   },
+   "sec_warnings": [],
+   "short_run": "ValueError"
+  },
+  "1": {
+   "ms": "TypeError: population_rates() got an unexpected keyword argument 'dt_ms'",
+   "sec": {
+    "E": 1.1260125,
+    "PV": 4.018533333333333,
+    "SOM": 3.3413333333333335
+   },
+   "sec_warnings": [],
+   "short_run": "ValueError"
+  },
+  "2": {
+   "ms": "TypeError: population_rates() got an unexpected keyword argument 'dt_ms'",
+   "sec": {
+    "E": 1.126875,
+    "PV": 3.9742666666666664,
+    "SOM": 3.3214666666666663
+   },
+   "sec_warnings": [],
+   "short_run": "ValueError"
+  }
+ },
+ "jaxfne_file": "D:\\repos\\_work\\jaxfne_v058\\jaxfne\\analysis\\__init__.py"
+}

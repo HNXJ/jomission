@@ -37,7 +37,19 @@ The baseline and OPEN-47 runs had no path file, so `test_environment_provenance`
 |---|---|---|---|
 | tests/test_caminos_e0.py (3) | source defect (API mismatch) | TypeError on `dt_ms` at d1b5d27 | fixed by OPEN-47 change; passes |
 | tests/test_environment_provenance.py | environment (no checkout path) | fails without path file; passes with it | repaired in venv |
-| tests/test_dashboard_build.py (2) | stale generated artifact | committed page had 40 OPEN rows and OPEN-44 "closed"; `OPEN.md` has 45 and "closed (2026-11-11)" | repaired by regeneration in `f6d1d1f`; passes |
+| tests/test_dashboard_build.py (2) | stale generated artifact | committed page was generated from an older `OPEN.md`; see "Dashboard regeneration diff" below | repaired by regeneration in `f6d1d1f`; passes |
+
+## Dashboard regeneration diff (`f6d1d1f`)
+
+The regenerated `docs/DASHBOARD.html` differs from the previous committed page in more than the row count. All changes come from the current `docs/OPEN.md`:
+- Heading: "all 40 rows" becomes "all 45 rows".
+- OPEN-44 status: `closed` becomes `closed (2026-11-11)`.
+- OPEN-45 status: `closed` becomes `open (reopened 2026-11-11)`. The first commit message did not mention this.
+- Rows OPEN-46 to OPEN-50 are added.
+
+The page is generated, not edited by hand, and the change is consistent with `docs/OPEN.md`. The earlier wording ("40 rows and OPEN-44 closed") described only part of the change.
+
+Commits above `d1b5d27` at `f6d1d1f`: five (`ea72109`, `80660a1`, `245434e`, `52e5839`, `f6d1d1f`).
 | tests/test_allen_v1_units.py (2) | environment limitation (Windows privilege) | `WinError 1314` from `os.symlink` (`scripts/allen_v1_units.py:56`) | NOT repaired: needs Windows Developer Mode or elevation (system setting), or an owner-authorized alternative |
 | tests/test_project_memory.py | source content defect | `MEMORY.md` 6872 characters, budget 6000 | NOT repaired: owner decision on what to trim |
 | tests/test_series_dashboard.py | source content defect | absolute Windows path in text copied from `docs/OPEN.md` (row OPEN-50) into the series dashboard | NOT repaired: owner decision on rewording or builder redaction |

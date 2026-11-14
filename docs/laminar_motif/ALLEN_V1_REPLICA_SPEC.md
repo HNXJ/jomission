@@ -445,6 +445,8 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
   A p of 0.000 (x1_SST manuscript, figure path) comes from float rounding: the identity's null value (slope of a−g over the
   depth grid) and the observed M (slope of the band difference) differ by about 1e-17, so the identity can fall just below M
   and drop out. The fix is a tolerance in the count (≥ M − 1e-12·|M|); not applied here (shared scorer code, needs review).
+  [Superseded at integration, 2026-11-14: dev's `scripts/e2_motif_figure.py::p_ge` now applies a relative 1e-12 tolerance
+  (`null >= M − 1e-12·max(1, |M|)`), so the exhaustive p has floor 1/n; p values in lines recorded before that change may still show 0.000.]
   `e2_scorer.permutation_rank` uses ">" against the identity's own value, so the identity is never excluded there.
 - Open inconsistency, not resolved: the sum-row M of the same run differs between the figure path
   (`results/allen_v1/<TAG>_motif.json`: probe grid `probe_rel_mid_L4`, `rws_layers`) and the scorer-input path
@@ -477,6 +479,9 @@ r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif
 - Consequence: on the scorer path the X0 20 s H contrast is negative (−0.084 ± 0.032), not the positive 0.174 recorded from the
   figure path. The positive contrast in the X0 record and the 5 s H record (+0.092, figure path) is a probe-grid artifact and is
   withdrawn. Only X1 PV (runaway) has a positive scorer-path contrast, 0.106 ± 0.069 (1.5 SE).
+  [Superseded at integration, 2026-11-14: "only X1 PV" held when this line was written; the X1b record above (§17, PV silenced in
+  L5 and L6) later gave M image +0.245 ± 0.038 on the scorer path, so X1 PV is no longer the only positive contrast. Both remain
+  single-seed screens on 2 windows.]
 - Flat-tail test (`scratchpad/_temp_flat_tail.py`, scorer inputs, per-unit RWS; span = outer unit depth ± σ = [−0.366, 0.556]).
   Five CHANNELS contacts lie outside the span (−0.6 to −0.4); none lie above it.
   | run | M CHANNELS full | M CHANNELS in span (full-grid norm) | M CHANNELS in span (set norm) | M probe grid (scorer RWS) |

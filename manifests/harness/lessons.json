@@ -4,9 +4,9 @@
  "lessons": [
   {
    "id": "L1-DOMAIN-SKILL-NOT-LOADED",
-   "trigger": "qualification/intrinsic.py (V2.1c design numerics) written without loading the biophysical-modeling skill",
+   "trigger": "jomission/qualification/intrinsic.py (V2.1c design numerics) written without loading the biophysical-modeling skill",
    "cause": "no startup step routes modelling work to domain skills; skill loading depended on the agent noticing",
-   "repair": "jomission-gate-runner step 1 names the domain skills to load",
+   "repair": "jomission-gate-runner fronts every execution; its step 1 now names domain skills to load (added from this lesson)",
    "evidence": "manifests/harness/checkpoint_1.json skills.defect_found",
    "scope": "project procedure",
    "scientific_consequence": "none implied by this fact alone (reviewer 2026-09-16); V2.1c numerics stand on their own tests"
@@ -15,73 +15,73 @@
    "id": "L2-STATE-PINNED-IN-TEST",
    "trigger": "tier-0 failed after a legitimate TODO status change (SCI-V21C-BOUNDARY OPEN_AFTER_HARNESS -> OPEN)",
    "cause": "tests/test_harness_state.py::test_preserved_science_todo asserted checkpoint-time statuses and verdicts",
-   "repair": "asserts durable invariants only (items exist in a live status; LOCKED gates stay LOCKED); validate_current_state checks statuses against evidence",
-   "evidence": "pytest 2026-09-16: assert 'OPEN' == 'OPEN_AFTER_HARNESS'",
+   "repair": "test now asserts durable invariants only (items exist in a live status; LOCKED gates stay LOCKED); statuses validated against evidence by validate_current_state",
+   "evidence": "pytest output 2026-09-16: assert 'OPEN' == 'OPEN_AFTER_HARNESS'",
    "scope": "project tests: never encode current state in a test",
     "recurrence": "2026-09-16 V2.1c-boundary seal: test_verdict_status_follows_evidence_not_tests read the live V2.1c review_override; repaired to build overrides on copies of the sealed V2.1b entry. Remaining tier-0 tests read only sealed evidence or copies."
    },
    {
     "id": "L3-STATUS-PIN-RECURRENCE",
-    "trigger": "owner retired the V2 chain 2026-09-19; tier-0 failed on test_preserved_science_todo asserting V2.2-RECURRENCE and BLIND-OMISSION LOCKED",
+    "trigger": "owner retired the V2 chain 2026-09-19 and tier-0 failed on test_preserved_science_todo asserting V2.2-RECURRENCE and BLIND-OMISSION are LOCKED",
     "cause": "the test still encoded a current status despite its own durable-invariants comment; the L2 repair did not cover the chain assertion",
-    "repair": "chain assertion accepts the durable set {LOCKED, RETIRED}; a retired chain becomes executable only by new authorization",
+    "repair": "the chain assertion now accepts the durable set {LOCKED, RETIRED}; a retired chain can never become executable without a new authorization",
     "evidence": "commit acfc138; tier-0 green after",
-    "scope": "project tests: name the full terminal set, not the current value"
+    "scope": "project tests: status assertions must name the full terminal set, not the current value"
    },
    {
     "id": "L4-NPZFILE-CLOSE-BEFORE-TEMP-CLEANUP",
     "trigger": "WinError 32 on TemporaryDirectory cleanup in the t4_t5 and t7 artifact tests",
-    "cause": "the test's own np.load keeps the npz zip handle open on win32; no mmap exists in the analysis modules",
+    "cause": "the tests' own np.load of an npz keeps the zip handle open on win32; no mmap exists in the analysis modules",
     "repair": "close the NpzFile before the temp context exits; test-harness only, no quarantine",
-    "evidence": "commit 9aa6283; serial reruns 31.39 s and 26.70 s, no PermissionError",
+    "evidence": "commit 9aa6283; serial reruns 31.39s and 26.70s with no PermissionError",
     "scope": "windows test hygiene: every npz load in a temp dir"
    },
    {
     "id": "L5-DYNAMICSTATE-REPLACE-NOT-CONSTRUCT",
-    "trigger": "five Q8 tests failed: DynamicState.__new__() missing theta_S, aux, b after the 0.4.24 migration",
-    "cause": "state_replacement.py built the state from a hardcoded six-field list that predates the engine NamedTuple",
-    "repair": "rebuild through the namedtuple's _replace (undeclared fields preserved by construction); derive field lists from DynamicState._fields",
-    "evidence": "commit 8a0450f; test_q8_phenotype.py 10 passed, 2 skipped",
+    "trigger": "five Q8 tests failed with TypeError: DynamicState.__new__() missing theta_S, aux, b after the 0.4.24 migration",
+    "cause": "state_replacement.py constructed the state from a hardcoded six-field list that predates the engine's NamedTuple",
+    "repair": "rebuild through the namedtuple's own _replace (undeclared fields preserved by construction) and derive hash/shape/verify field lists from DynamicState._fields",
+    "evidence": "commit 8a0450f; tests/test_q8_phenotype.py 10 passed, 2 skipped",
     "scope": "any code that builds engine state: replace, never reconstruct"
    },
    {
     "id": "L6-NO-DETACHED-RUNS",
-    "trigger": "tier-2 foreground run aborted twice by the owner; detached relaunch killed by the harness (ChildProcess.kill on the spawning shell)",
+    "trigger": "tier-2 foreground run aborted twice by the owner; the detached relaunch was killed by the harness (ChildProcess.kill on the spawning shell)",
     "cause": "this environment has no background execution: long foreground runs get aborted and detached processes are reaped",
-    "repair": "run long batteries in the foreground with the owner present, or split them; do not relaunch detached",
-    "evidence": "2026-09-19: two owner aborts, one harness kill, zero output",
-    "scope": "this environment: minute-plus runs"
+    "repair": "run long batteries only in the foreground with the owner present, or split them; do not relaunch detached",
+    "evidence": "2026-09-19 session: two owner aborts, one harness kill, zero output",
+    "scope": "this environment: scheduling of minute-plus runs"
    },
    {
     "id": "L7-PY-EDIT-REFORMATS-FILE",
-    "trigger": "editing jomission/*.py: whole-file normalization on top of the intended change, four times (t4_t5_analysis.py, builder.py, hdp_attractor.py, q8_phenotype.py, run.py in 39e8c18)",
-    "cause": "edit-time formatter normalization (single-to-double quote flips, black-style rewrap, blank-line insertion): semantically null by construction; fires on the first edit per file, later edits stay small",
-    "repair": "treat the first .py diff per file as suspect: git diff -w must show only the intended hunks; covering tests arbitrate",
-    "evidence": "commits 78ab111, b9a6443, f8e1809, 39e8c18",
+    "trigger": "editing jomission/*.py produced whole-file normalization on top of the intended change, four times: t4_t5_analysis.py 293+/93-, builder.py 181+/49-, hdp_attractor.py 1045+/554-, q8_phenotype.py and run.py in 39e8c18",
+    "cause": "edit-time formatter normalization: single-to-double quote flips plus black-style rewrap and blank-line insertion, all semantically null by construction; fires once per file (first edit), later edits stay small",
+    "repair": "treat the first .py diff per file as suspect: confirm with git diff -w that the non-whitespace hunks are only the intended ones, then rely on the covering tests as the behavior arbiter",
+    "evidence": "commits 78ab111, b9a6443, f8e1809, 39e8c18 diff stats; quote-normalization tells in 39e8c18",
      "scope": "this environment: reviewing .py diffs"
     },
     {
      "id": "L8-ENGINE-MIGRATION-PROCEDURE",
      "trigger": "engine upgrade (jaxfne 0.4.24 to 0.4.25) with sealed results computed under the old engine",
-     "cause": "the pin alone cannot tell a safe upgrade from a semantics change; promotion without evidence silently re-baselines sealed receipts",
-     "repair": "read-only delta on touched surfaces; install; tier 0+1+2; seal migration evidence; promote authority and pin together; no tier-3 replay without an authorizing lineage",
-     "evidence": "commits acd4289, 3640fd7, 12bb6e1; tier-2 395 passed, 3 skipped, 516 s under 0.4.25",
+     "cause": "promotion without evidence would silently re-baseline every sealed execution receipt; the identity pin alone cannot distinguish a safe upgrade from a semantics change",
+     "repair": "read-only delta on touched surfaces first, then install, then tier 0+1+2, then seal the migration evidence and promote authority plus the pyproject pin together; no tier-3 replay without an authorizing lineage",
+     "evidence": "commits acd4289, 3640fd7, 12bb6e1; tier-2 395+3skip/516s under 0.4.25",
      "scope": "environment changes: engine upgrades"
     },
     {
      "id": "L9-TIER-BEFORE-RERUN",
      "trigger": "rerunning failed or timed-out test files from a full-suite baseline",
-     "cause": "13 of 14 queued files were tier 3 (owner-gated); a bisect worker and a rerun ran tier-3 files unauthorised",
-     "repair": "classify each file against manifests/test_tiers.json before any rerun; tier 3 only inside an authorising TODO",
+     "cause": "13 of 14 queued files were tier 3 (scientific execution, owner-gated); the bisect worker and a rerun ran tier-3 files unauthorised",
+     "repair": "classify every file against manifests/test_tiers.json before any rerun; tier 3 only inside an authorising TODO",
      "evidence": "OPEN-28 (2026-11-05); sealed-write guard blocked all writes",
      "scope": "test triage"
     },
     {
      "id": "L10-GATE-THEN-COMMIT",
      "trigger": "check and commit chained in one shell line",
-     "cause": "a ';' after pytest let a failing harness test reach a commit (stale spec path after a rename)",
-     "repair": "chain checks to commits with '&&' only; after a rename, grep manifests for the old path",
-     "evidence": "99da930, fix 6114c6b; fresh clone at 7249e96 failed tier 0",
+     "cause": "a ';' after pytest let a failing harness test through to a commit (stale spec path after a rename)",
+     "repair": "chain checks to commits with '&&' only; after renaming a file, grep manifests for the old path",
+     "evidence": "99da930 then fix 6114c6b; fresh clone at 7249e96 failed tier 0",
      "scope": "commits"
     }
    ],

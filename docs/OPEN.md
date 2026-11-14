@@ -12,7 +12,7 @@ Three projects, separate acceptance: (A) jomission science program, (B) LANSA pr
 | 1 | Tier-3 PV batteries (6 tests) | owner gate | A | memory-capped probe or larger-machine run | Hamm | OPEN-01, OPEN-28 |
 | 2 | V2 local operation FAIL | science gate | A | preserve FAIL; define the next hypothesis separately | Hamm | OPEN-03 |
 | 3 | H balance calibration | owner + science | A | keep H optional, or enter calibration | Hamm | OPEN-27 |
-| 4 | H4 unresolved | science result | A | do not claim the balance rule solves rho/Fano. E-only H reduces the rho rise without eliminating it; synchrony term failed sealed predictions; H-BALANCE-MECH verdict NEITHER_M1_NOR_M2 | Hamm | OPEN-27 |
+| 4 | H4 unresolved | science result | A | do not claim the balance rule solves rho/Fano. E-only H versus the rate-matched baseline and the interneuron control: numbers in OPEN-27, not restated here; synchrony term failed sealed predictions; H-BALANCE-MECH verdict NEITHER_M1_NOR_M2 | Hamm | OPEN-27 |
 | 5 | PV drive scan (item 18) | owner gate | A | approve or retire a matched-state scan spec | Hamm | OPEN-31 |
 | 6 | Goals not ratified (item 33) | owner gate | A | ratify or revise docs/GOALS_PROPOSED.md | Hamm | checklist item 33 |
 | 7 | Compile-cache trust (item 35) | owner decision | C | user-owned cache directory, or accept a trusted cache | Hamm | OPEN-17 |

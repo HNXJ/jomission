@@ -7,7 +7,7 @@ Scope: documentation-only navigation, not a new scientific authorization or a su
 - `AGENTS.md` directs execution through `python scripts/project_check.py`, `manifests/current_state.json`, `manifests/todo.json`, and the smallest authorized task. `manifests/sealed_artifacts.json` protects immutable evidence. Do not modify sealed artifacts.
 - GitHub `main@b0b7fb84` and `dev@0366d2ba` differ at inspection; latest inspected dev CI run completed SUCCESS. The successful baseline does not verify this documentation change.
 - `manifests/current_state.json` has `updated: 2026-11-05`, `jaxfne_version: 0.5.8`, and current gate `V2_LOCAL_OPERATION: FAIL`. Treat as recorded authority with its declared evidence, not proof of live installation. Other narrative references to 0.4.17/0.5.9 describe historical milestones or separate scientific lineages, not a reason to change engine identity.
-- `manifests/todo.json` currently has 49 DONE, 9 RETIRED, 2 OPEN, 1 LOCKED (parsed from the inspected file). The two OPEN items are `SCI-AGSDR-CALIBRATION` and `SCI-LAMINAR-MOTIF-1`. A status of OPEN does not itself grant permission to run a blocked stage.
+- `manifests/todo.json` is the live task list; read it, do not rely on counts quoted here (they go stale). At inspection the OPEN items were `SCI-AGSDR-CALIBRATION` and `SCI-LAMINAR-MOTIF-1`. A status of OPEN does not itself grant permission to run a blocked stage. `docs/OPEN.md` OPEN-43 records that `manifests/current_state.json` is stale.
 - Open scientific failures, inconclusive outcomes and unresolved variables remain evidence, not targets to retune. Simulation results are not empirical omission evidence.
 
 ## Short term — follow the authorized manifest, not this plan

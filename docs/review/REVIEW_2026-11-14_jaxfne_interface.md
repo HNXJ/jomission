@@ -62,10 +62,16 @@ Classification: read-only worker on a clone of `02cfc1f` (12 items; receipts in 
 
 Tier 0 receipt conflict (5 failed, 2 collection errors in the shared venv vs 258 passed in the old receipt): explained by the environment rows above. The 258 figure is now reproduced by a run at 93a8157, not only by the OPEN.md record.
 
-Tier 2 (compatibility; `manifests/test_tiers.json`): running in a fresh clone at 93a8157 (clean venv). Result to be recorded here.
+Tier 2 (compatibility, `manifests/test_tiers.json` command) at 93a8157, fresh clone, clean venv: 657 passed, 3 skipped, 3 failed, 0 collection errors. Tracked `results/` unchanged. Failures:
+
+- `test_allen_v1_units` x2: ENVIRONMENT (symlink privilege), open, see the table.
+- `test_environment_provenance::test_jomission_import_resolves_to_this_checkout`: artifact of the run location. The clone's tier-2 run used the editable install that points at the integration checkout, and the test (correctly) rejects that. Run in the integration tree: 2 passed.
+
+The OPEN-47 receipt numbers (626 passed, 7 failed, 3 skipped, 5 collection errors) are not reproduced; the clean venv has no collection errors.
 
 ## 7. Pending
 
-- Tier 2 result (above). Integration waits for it, and for the Allen decision if tier 2 includes those tests.
+- Allen pair: a privileged host or WSL run, or a TEST_DEFECT ruling (Hamm). Until then the OPEN-47 gate is not clean, so integration into dev waits.
+- ID collision and L11 decisions (OPEN-53, OPEN-55).
 - ID collision: "OPEN-47" also names the dev test-status row (`docs/OPEN.md:73`). OPEN-53.
 - Inventory row 14 (0.5.9 release-status conflict): resolved by owner ruling 2026-11-14, not by verification.

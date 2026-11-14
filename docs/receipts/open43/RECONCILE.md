@@ -24,7 +24,7 @@ Not changed: `next_authorized_task`, `current_program`, `jaxfne_version`, `execu
 | JSON parses | `json.load` on the file | ok |
 | Handoff not stale | `python -m jomission.harness.handoff --check` on the clone (import confirmed as the clone) | rc 0 |
 | Cited files exist | file tests on the four basis paths | all four present |
-| Tier 0 vs baseline | tier-0 list on this branch, compared with the same list on `6092f75` (OPEN-47 branch, same base) | 240 passed, 5 failed, 2 collection errors. Identical failing set to the baseline at `d1b5d27` (environment and path issues, see `docs/receipts/open47/VERIFICATION.md`). No new failures |
+| Tier 0 vs baseline | tier-0 list on this branch, compared with the same list on `6092f75` (OPEN-47 branch, same base) | 240 passed, 5 failed, 2 collection errors. The same 5 failures occur at `d1b5d27` (checked in the targeted baseline run, `docs/receipts/open47/VERIFICATION.md` check 6). The 2 collection errors were not run at `d1b5d27`; they are import errors in modules that do not touch the state file. No new failures |
 
 ## Not verified
 

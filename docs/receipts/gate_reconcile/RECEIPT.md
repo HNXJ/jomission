@@ -1,6 +1,6 @@
 # Gate reconciliation receipt (OPEN-47 + OPEN-43 candidate)
 
-Branch `_temp_gate_repair`, base `d1b5d27`. Code and state tip tested: `aab5c4b`. This file is committed on top of it; the commit that adds it records the gate results above. Not integrated into dev.
+Branch `_temp_gate_repair`, base `d1b5d27`. Code and state tip tested: `aab5c4b`. The gate results below are for `aab5c4b`; this file was committed after it (`62389ad`). Not integrated into dev.
 
 Commits `d1b5d27..aab5c4b` (cherry-picked from the pushed `_temp_open47_population_rates` and `_temp_open43_state_reconcile`, so SHAs differ from those originals):
 `ea72109` CAMINOS seconds-form fix; `80660a1` OPEN-47 receipts; `245434e` OPEN-43 state reconciliation; `52e5839` OPEN-43 receipt correction; `f6d1d1f` DASHBOARD.html regeneration; `6cbb6c7` gate receipt; `0906e5c` receipt correction; `943ea0a` OPEN-50 placeholders, dashboard regeneration, MEMORY.md compression (reverted in `9934535`); `9934535` lessons.json restored to base, MEMORY.md re-rendered; `65b160d` receipt at 9934535; `aab5c4b` L11 restored in lessons.json, MEMORY budget 7000.
@@ -11,7 +11,7 @@ Commits `d1b5d27..aab5c4b` (cherry-picked from the pushed `_temp_open47_populati
 - Site packages copied from the shared `C:\Python314\Lib\site-packages`, excluding: stray top-level `tests`, `docs`; jaxfne 0.4.25 and its metadata; jomission metadata; editable hooks; pip. Script: `scratchpad/copy_site_packages.py` (outside the repo).
 - Checkout under test selected by a path file `Lib\site-packages\_qual_checkout.pth` (one line: `D:/tmp/combined`). Needed for `test_environment_provenance`, which strips PYTHONPATH and expects jomission to import from a checkout on the path.
 - Network is unavailable from this host (pip cannot reach PyPI), so the venv was populated from the shared Python.
-- WSL Ubuntu (kernel 6.6, Python 3.12.3), venv `~/jq-venv`: numpy 2.4.6, scipy 1.18.0, jax/jaxlib 0.10.1, pytest 9.0.2; jaxfne 0.5.8 non-editable from `/mnt/d/tmp/jaxfne_v058_src` (`jaxfne.__version__` = 0.5.8). jomission imports from the clone `~/jomission-cand` at 9934535 (detached; `jomission.__file__` checked). WSL was not updated to `aab5c4b`.
+- WSL Ubuntu (kernel 6.6, Python 3.12.3), venv `~/jq-venv`: numpy 2.4.6, scipy 1.18.0, jax/jaxlib 0.10.1, pytest 9.0.2; jaxfne 0.5.8 non-editable from `/mnt/d/tmp/jaxfne_v058_src` (`jaxfne.__version__` = 0.5.8). jomission imports from the clone `~/jomission-cand`, detached: at 9934535 (`jomission.__file__` checked) and at `aab5c4b` (fetched from a bundle, because `/mnt/d/tmp/combined` has an alternate object path that WSL cannot resolve; `__file__` not rechecked).
 
 ## Reproduction of the collection errors
 
@@ -38,9 +38,9 @@ The two tier-2 failures at `aab5c4b` are both in `tests/test_allen_v1_units.py`:
 - `test_end_to_end_write_inputs_then_verdict_puts_planted_gaba_tone_in_its_unit_only`: `OSError: [WinError 1314] A required privilege is not held by the client` from `os.symlink` (`scripts/allen_v1_units.py:56`), at `e2e.npz`. The test fails before its assertion (`tests/test_allen_v1_units.py:132`, `assert summary["units"] == units and (dst / "e2e.npz").is_symlink()`).
 - `test_ampa_vs_gaba_tone_ratio_matches_rws_prediction_and_swapped_order_fails`: same `WinError 1314` at `ampaRun.npz`.
 
-Alternative evidence, not a Windows PASS: WSL Ubuntu, same file, `pytest -q -rs` on 9934535: 6 passed, 0 skipped (`allen_wsl_9934.log`). The test file is unchanged at `aab5c4b`, but WSL was not re-run there. These two tests are not executed on Windows.
+Alternative evidence, not a Windows PASS: WSL Ubuntu, same file, `pytest -q -rs`: 6 passed, 0 skipped at 9934535 (`allen_wsl_9934.log`) and at `aab5c4b` (`aab5c4b_allen_wsl.log`). These two tests are not executed on Windows.
 
-Logs: scratch folder, outside the repo (`aab5c4b_tier0.log`, `aab5c4b_tier2.log`; earlier `cand9934_*`, `cand943_*`, `repair_f6d1d1f_*`, `cand_02cfc1f_*`, `base_d1b5d27_*`; `allen_wsl_9934.log`).
+Logs: scratch folder, outside the repo (`aab5c4b_tier0.log`, `aab5c4b_tier2.log`; earlier `cand9934_*`, `cand943_*`, `repair_f6d1d1f_*`, `cand_02cfc1f_*`, `base_d1b5d27_*`; `allen_wsl_9934.log`, `aab5c4b_allen_wsl.log`).
 
 The baseline and OPEN-47 runs had no path file, so `test_environment_provenance` failed in them for environment reasons. With the path file it passes at `d1b5d27`, `f6d1d1f`, `9934535` and `aab5c4b`.
 
@@ -53,7 +53,7 @@ The baseline and OPEN-47 runs had no path file, so `test_environment_provenance`
 | tests/test_dashboard_build.py (2) | stale generated artifact | committed page generated from an older `OPEN.md` | repaired by regeneration in `f6d1d1f`; passes |
 | tests/test_series_dashboard.py | source content defect | absolute Windows path in the OPEN-50 row, copied into the series dashboard | repaired by placeholder swap in `943ea0a`; passes |
 | tests/test_project_memory.py | source content defect (stale file); L11 omission | base `MEMORY.md` 6872 chars, not a render of its lessons (see below) | repaired in `aab5c4b`: passes at 6872 chars, budget 7000, 11 lessons |
-| tests/test_allen_v1_units.py (2) | environment limitation (Windows privilege) | `WinError 1314` from `os.symlink` (`scripts/allen_v1_units.py:56`) | NOT repaired on Windows; WSL 6/6 passes at 9934535; owner decision |
+| tests/test_allen_v1_units.py (2) | environment limitation (Windows privilege) | `WinError 1314` from `os.symlink` (`scripts/allen_v1_units.py:56`) | NOT repaired on Windows; WSL 6/6 passes at 9934535 and `aab5c4b`; owner decision |
 | collection errors (5 tier 2, 2 tier 0) | environment (shared venv shadowing) | reproduced at d1b5d27 in the shared venv; collect in the isolated venv | repaired in venv |
 
 ## MEMORY.md and lesson L11 (resolved in `aab5c4b`; plugin budget open)
@@ -69,7 +69,7 @@ The baseline and OPEN-47 runs had no path file, so `test_environment_provenance`
 
 - First independent review (verdict REVISE): blockers were (a) L3 and L6 scope strings changed; (b) unique facts lost in the compression; (c) this receipt stale. (a) and (b) are resolved (lessons.json identical to base at 9934535). (c) is resolved by this file.
 - Second review of 9934535: items 1–6 PASS (lessons identical to base; render equals `--check`; 10 ids; not trimmed; no changed path in `manifests/sealed_artifacts.json`). It found the L11 omission, now resolved in `aab5c4b`.
-- `aab5c4b` has not been independently reviewed. Its changes are the L11 entry (checked by script, see above), the budget constant in two files, and the re-render (byte-identical to base).
+- `aab5c4b` was independently reviewed (read-only `reviewer` agent, 2026-11-14): PASS on 8 claims. Covered: the first ten lessons unchanged and the L11 fields rebuilding the base line; MEMORY diff empty and `--check` 0; budget 7000 with no other copy; both memory tests passing; unique ids; `manifests/sealed_artifacts.json` unchanged; the receipt matching the code. Flags: line 3 wording (corrected in the commit after `62389ad`); the reviewer did not rerun tier 0 or tier 2 (counts checked against the logs).
 - Fact-diff workflows (wf_ae76678b-d3c, wf_df5d98dc-a1a) checked the compressed text and are superseded: the compression is reverted.
 
 ## Gate status
@@ -81,13 +81,13 @@ The baseline and OPEN-47 runs had no path file, so `test_environment_provenance`
 
 ## Owner decisions needed
 
-1. Windows symlink privilege: enable Developer Mode or elevation (a system setting, owner only), or accept the WSL run (`tests/test_allen_v1_units.py`, 6/6 at 9934535) as the verification of record for the two Allen tests.
+1. Windows symlink privilege: enable Developer Mode or elevation (a system setting, owner only), or accept the WSL run (`tests/test_allen_v1_units.py`, 6/6 at 9934535 and `aab5c4b`) as the verification of record for the two Allen tests.
 2. Raise the global autocompact-memory plugin's project read budget from 6000 to 7000 (outside this repo).
 
 ## Not verified
 
 - Scientific numerical results on real data (no simulation run; the caminos tests use synthetic counts).
 - GitHub CI on `_temp_gate_repair` was not read.
-- Tier 0 and tier 2 were not run in WSL (only the Allen file, at 9934535).
+- Tier 0 and tier 2 were not run in WSL (only the Allen file, at 9934535 and `aab5c4b`).
 - The plugin's read budget and its enforcement were not checked (external).
-- `aab5c4b` was not independently reviewed.
+- Tier 0 and tier 2 counts at `aab5c4b` were not rerun by the reviewer; they are read from `aab5c4b_tier0.log` (258 passed) and `aab5c4b_tier2.log` (2 failed, 658 passed, 3 skipped).

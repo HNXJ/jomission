@@ -94,3 +94,16 @@ Independent review (reviewer agent, read-only, 2026-11-14): ACCEPT. Four minor d
 Integration rule (owner, 2026-11-14): the Allen pair passes on the candidate in a symlink-capable environment, tier 0 and tier 2 pass on the candidate apart from that environment's own failures, and the review is ACCEPT. The keeper merges to `dev`; this branch is not pushed to `dev`.
 
 Not verified: WSL tier 2 failures individually (attributed by message, not re-run); WSL run used a clone whose HEAD was unreliable in this session, so the Allen result is attributed to the code-identical tree.
+
+## 9. Checkpoint seal (2026-11-14)
+
+- Remote branch: `_temp_open47_integrate_20261114`. Its code is `05f9dec` (tier 0 and tier 2 record in section 8). `9737a5b` adds the section 8 gate record, retires L11 (OPEN-55), and corrects OPEN-47 wording. The commit that adds this section is the sealed head; `git ls-remote origin _temp_open47_integrate_20261114` reports it.
+- Verified: remote equal to local before this commit; a fresh clone of the remote branch resolves to the sealed head.
+- Remaining work, in order:
+  1. Keeper merges `_temp_open47_integrate_20261114` into `dev`. Only the keeper pushes `dev`. After the merge, verify `dev` and delete the merged branch locally and on origin.
+  2. OPEN-56: re-point the shared venv to the integration checkout once the `_work` lane on `_temp_p2_jomission` is retired or confirmed unused. Owner decision.
+  3. OPEN-57: close after the dev merge; the gate record in section 8 is the evidence.
+  4. Lane `_temp_ocma_17-143` at `6a11755a` (on `7897f381`), from session ocma-jnwb-omission. Not part of this branch; unpushed; reviewed ACCEPT by two reviewers. Owner direction needed before any push or merge.
+  5. `_temp_review_rulings_20261114` (`a7b4fd7`) is superseded by this branch; delete it when its merge state is confirmed (merged-branch rule).
+- Next check after the keeper's merge: `scripts/project_check.py --offline` on `dev` in the pinned venv (`PROJECT_CHECK_PASS`) and `tests/test_environment_provenance.py` passing from that checkout.
+

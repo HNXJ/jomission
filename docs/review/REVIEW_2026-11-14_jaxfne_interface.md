@@ -71,7 +71,26 @@ The OPEN-47 receipt numbers (626 passed, 7 failed, 3 skipped, 5 collection error
 
 ## 7. Pending
 
-- Allen pair: a privileged host or WSL run, or a TEST_DEFECT ruling (Hamm). Until then the OPEN-47 gate is not clean, so integration into dev waits.
-- ID collision and L11 decisions (OPEN-53, OPEN-55).
-- ID collision: "OPEN-47" also names the dev test-status row (`docs/OPEN.md:73`). OPEN-53.
+- Allen pair: passes in WSL (6 of 6; control fails 2 of 6). Fails on Windows with WinError 1314 (symlink privilege, environment). Resolved for the candidate as in section 8.
+- OPEN-53 closed; OPEN-55 closed (L11 retired 2026-11-14, owner ruling).
+- Dev test-status record is OPEN-57 (formerly the second "OPEN-47" at `docs/OPEN.md:73`).
 - Inventory row 14 (0.5.9 release-status conflict): resolved by owner ruling 2026-11-14, not by verification.
+
+## 8. Gate status at candidate 05f9dec (2026-11-14)
+
+Code identical to `05f9dec` in this commit; the commit that adds this section changes docs only. Check: `git diff 05f9dec HEAD -- jomission scripts tests manifests` is empty.
+
+| Gate | Environment | Result | Record |
+|---|---|---|---|
+| Tier 0 (`project_check.py --offline`) | Windows, pinned venv `jomission_pin058`, integration checkout | PROJECT_CHECK_PASS; 258 passed, 5 warnings | `scratchpad/t0_05f9dec.log` |
+| Tier 2 (manifest command) | Windows, `jomission_pin058` | 658 passed, 3 skipped, 2 failed: `test_allen_v1_units` x2, `[WinError 1314]` symlink privilege (environment) | `scratchpad/tier2_win.log` |
+| Tier 2 (manifest command) | WSL Ubuntu, venv with jaxfne 0.5.8 from PyPI | 645 passed, 3 skipped, 8 failed, 7 errors; the Allen pair passed. Failure messages point to commits and the worktree being unreadable from WSL (`fatal: not a git repository` on the worktree); not re-run individually | `scratchpad/tier2_wsl.log` |
+| Allen pair (6 tests) | WSL Ubuntu, clone of the bundle | 6 passed. Control (symlink write removed in a throwaway clone): 2 failed, 4 passed | `~/qual/*_allen.log`, `~/qual/control_allen.log` |
+
+Counts reconcile (H3): Windows 658 + 3 + 2 = 663; WSL 645 + 3 + 8 + 7 = 663; same collected set.
+
+Independent review (reviewer agent, read-only, 2026-11-14): ACCEPT. Four minor doc findings, fixed in this commit: OPEN-53 and OPEN-47 wording in section 7, the inventory mapping, the OPEN-47 line cite (105 dev, 106 candidate), and the 93a8157 receipt wording in OPEN-47.
+
+Integration rule (owner, 2026-11-14): the Allen pair passes on the candidate in a symlink-capable environment, tier 0 and tier 2 pass on the candidate apart from that environment's own failures, and the review is ACCEPT. The keeper merges to `dev`; this branch is not pushed to `dev`.
+
+Not verified: WSL tier 2 failures individually (attributed by message, not re-run); WSL run used a clone whose HEAD was unreliable in this session, so the Allen result is attributed to the code-identical tree.

@@ -1,5 +1,7 @@
 # Unverified inventory: map-phase candidates, 2026-11-14
 
+> Note (2026-11-14, after the candidate): "OPEN-47" in this inventory means the dev test-status row. That row was renumbered OPEN-57; OPEN-47 now names the `population_rates` item.
+
 Source: workflow wf_f4f71947-2eb, map phase (4 read-only audits: api, drift, tests, jaxside). Candidates are claims, not findings. The six with a verdict are listed in `REVIEW_2026-11-14_jaxfne_interface.md` and carry their verdict in the Status column. The other 37 are UNVERIFIED. Preserved as inventory per the owner ruling; not deduplicated across audits except where marked DUP. Row 14 is resolved by the owner ruling of 2026-11-14 (not by verification).
 
 Total map candidates: 43

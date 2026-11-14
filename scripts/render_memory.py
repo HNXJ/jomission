@@ -4,7 +4,8 @@ Deterministic. MEMORY.md is a read-optimized view for compaction injection:
 the global autocompact-memory plugin carries it verbatim into checkpoint
 summaries. Canonical truth stays in manifests/; this file holds verified
 reusable lessons only, never current state, secrets, or unverified claims.
-Budget matches the plugin's project read budget (6000 chars).
+Budget 7000 chars (owner decision 2026-11-14; was 6000). The plugin's project
+read budget must be raised to the same value.
 
     python scripts/render_memory.py            # rewrite MEMORY.md in place
     python scripts/render_memory.py --check    # exit 1 if stale
@@ -18,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MEMORY = ROOT / "MEMORY.md"
-BUDGET = 6000
+BUDGET = 7000
 
 
 def load(rel: str):

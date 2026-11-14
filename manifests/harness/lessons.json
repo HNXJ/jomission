@@ -83,6 +83,14 @@
      "repair": "chain checks to commits with '&&' only; after renaming a file, grep manifests for the old path",
      "evidence": "99da930 then fix 6114c6b; fresh clone at 7249e96 failed tier 0",
      "scope": "commits"
+    },
+    {
+     "id": "L11-STALE-SYSTEM-JAXFNE",
+     "trigger": "`project_check.py` FAIL \"jaxfne identity: installed 0.4.25, execution authority 0.5.8\" and \"editable install\" on vwin-pc",
+     "cause": "the shared `C:\\Python314\\Lib\\site-packages` holds a stale jaxfne 0.4.25 (pre-0.5.8 leftover), not a project defect; the authority is `manifests/current_state.json`",
+     "repair": "run every jomission command with `D:\\venvs\\jomission\\Scripts\\python.exe` (venv, system site-packages visible, editable jaxfne `v0.5.8` worktree `D:\\repos\\_work\\jaxfne_v058` and editable jomission; rebuild: `python -m venv --system-site-packages D:\\venvs\\jomission`, `pip install --no-deps --no-build-isolation -e <jaxfne@v0.5.8>` then `-e <jomission>`); never pip-install into the shared Python; do not investigate 0.4.25 further",
+     "evidence": "`project_check.py --offline --no-tests` ends PROJECT_CHECK_PASS in the venv, FAIL in the shared Python, identical FAIL on clean dev 0366d2b",
+     "scope": "vwin-pc"
     }
    ],
  "dogfood": {

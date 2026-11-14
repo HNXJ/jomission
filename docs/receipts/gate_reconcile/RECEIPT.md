@@ -27,7 +27,7 @@ The target modules exist in the repo at d1b5d27. The errors are import-resolutio
 | `02cfc1f` OPEN-47 candidate, no path file | 5 failed, 253 passed | 7 failed, 653 passed, 3 skipped |
 | `f6d1d1f` combined candidate, path file set | 2 failed, 256 passed | 4 failed, 656 passed, 3 skipped, 0 collection errors |
 
-Logs: `/d/tmp/qual_logs/{base_d1b5d27,cand_02cfc1f,repair_f6d1d1f}_tier{0,2}.log` (outside the repo).
+Logs: kept in the scratch folder, outside the repo (base_d1b5d27, cand_02cfc1f, repair_f6d1d1f; tiers 0 and 2).
 
 The baseline and OPEN-47 runs had no path file, so `test_environment_provenance` failed in them for environment reasons. With the path file, that test passes at `d1b5d27` (2 passed) and at `f6d1d1f` (2 passed).
 

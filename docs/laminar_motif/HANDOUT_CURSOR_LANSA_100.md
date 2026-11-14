@@ -105,7 +105,7 @@ narrative; the paragraphs after it are kept because their warnings still hold.
   **257 passed, 1 failed each time.**
 - The one failure is demonstrated, not assumed: `tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout`
   asserts that `import jomission` resolves under the repository being tested. The editable install points at
-  `/Users/hamednejat/workspace/dev/jomission`, so from a clone at `/tmp/...` the resolved path is outside the clone
+  `$JOMISSION_CHECKOUT` (the macOS checkout), so from a clone at `<scratch>/...` the resolved path is outside the clone
   and the assertion must fail; the same file passes **2 passed** in the main checkout. Any other failure in a clone
   is real.
 - **A clone run with the ambient interpreter does not prove the clone was exercised**, because that same editable

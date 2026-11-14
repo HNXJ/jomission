@@ -50,9 +50,22 @@ Yield: 6 candidates with a verdict (5 confirmed, 1 refuted as stated), covering 
 
 Plan, not run: repeat the same 43-candidate set with a smaller formation (for example one map audit plus one verifier per candidate) and compare unique verified findings per token. Repeat the 10-agent configuration only if the larger formation yields more unique verified findings per token. Owner decision: OPEN-52.
 
-## 6. Pending
+## 6. OPEN-47 gate classification and resolution
 
-- OPEN-47 native-gate classification (background worker): pending. Integration waits for it (owner ruling). Results to be folded into this record when received.
-- Tier 0 receipt conflict on the OPEN-47 branch (5 failed, 2 collection errors in shared venv) vs clean pinned run (258 passed, 0 failed, ddc0e9f): unresolved; environment vs code to be classified.
+Classification: read-only worker on a clone of `02cfc1f` (12 items; receipts in its run). Re-checked here: the dashboard and memory items (reproduced on d1b5d27 by a clean clone), the shared venv pointer (`_editable_impl_jomission.pth`, `pyvenv.cfg`), and the clean-venv tier-0 run.
+
+| Class | Items | Resolution |
+|---|---|---|
+| REPO_DEFECT | `test_rebuild_is_byte_identical`, `test_open_stack_rows_shown`, `test_no_innerhtml_and_no_absolute_paths` (drive-letter path in OPEN-50), `test_project_memory_current_and_within_budget` | Fixed on `_temp_open47_integrate_20261114` (342942c, 93a8157): OPEN-50 paths reworded; `docs/DASHBOARD.html` rebuilt; `MEMORY.md` re-rendered from `manifests/harness/lessons.json`. Gate code unchanged. |
+| ENVIRONMENT | `test_environment_provenance` (shared venv imports the `_work` clone); collection errors `test_activity_balance*` (stray `tests` package in system site-packages), `test_v21_pv_microstate`, `test_whole_system_ei_native_state` (`scripts` shadowed by the jaxfne_v058 tree on PYTHONPATH); `test_jaxfne_vis` (shared venv has matplotlib; clean venv needs the `dev` extra) | Clean venv `D:/venvs/jomission_pin058`: system site-packages off, jaxfne 0.5.8 from pyproject, jomission editable from the integration checkout, `[dev]` extras. Tier 0 at 93a8157: `PROJECT_CHECK_PASS`, 258 passed, 0 failed. |
+| ENVIRONMENT (open) | `test_allen_v1_units` x2 (WinError 1314, symlink privilege at `scripts/allen_v1_units.py:56`) | Not resolved. Needs a privileged host or WSL, or a TEST_DEFECT ruling (Hamm). |
+
+Tier 0 receipt conflict (5 failed, 2 collection errors in the shared venv vs 258 passed in the old receipt): explained by the environment rows above. The 258 figure is now reproduced by a run at 93a8157, not only by the OPEN.md record.
+
+Tier 2 (compatibility; `manifests/test_tiers.json`): running in a fresh clone at 93a8157 (clean venv). Result to be recorded here.
+
+## 7. Pending
+
+- Tier 2 result (above). Integration waits for it, and for the Allen decision if tier 2 includes those tests.
 - ID collision: "OPEN-47" also names the dev test-status row (`docs/OPEN.md:73`). OPEN-53.
 - Inventory row 14 (0.5.9 release-status conflict): resolved by owner ruling 2026-11-14, not by verification.

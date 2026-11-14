@@ -1,6 +1,6 @@
 {
  "schema": "jomission.current_state.v1",
- "updated": "2026-11-05",
+ "updated": "2026-11-14",
  "handoff_path": "docs/HANDOFF_CURRENT.md",
  "todo_path": "manifests/todo.json",
  "scientific_head": {
@@ -240,7 +240,7 @@
  "open_scientific_question": "what state-space event permits SST to spike repeatedly while PV/VIP almost never cross their spike/reset boundary under the same realized circuit: native-resolution (v_i, u_i, I_net) trajectories around firing opportunities, testing P(spike|v,u,I_net,class) to separate input delivery from the state-dependent transfer function",
  "stopped_because": "owner assessment 2026-09-19 accepted the terminal state at 100/100 and ordered the scientific program. SCI-EI-NATIVE-STATE-1 completed and sealed with verdict MIXED_STATE_MECHANISM (PV silence = DYNAMIC_RECRUITMENT_DEFICIT, VIP silence = INTRINSIC_STATE_VETO, SST hyperactivity = SST_STATE_ADVANTAGE; qualification status FAIL). Lineage classification accepted, final state reconciled; STOP for review; the STOP recorded here is superseded by next_authorized_task below (SCI-AGSDR-CALIBRATION, open); awaiting reviewer direction before downstream work beyond it",
  "next_authorized_task": "SCI-AGSDR-CALIBRATION",
- "next_authorized_task_note": "2026-11-05 seal: AGSDR stages 0 to 2 run under amendment 4 (Q16 to Q18, Q24); theta* AGS_S0_06 reported, ledger advancement pending owner (OPEN-34); network functionally near-uncoupled at operating weights (OPEN-35, docs/receipts/ei_meanfield). Head fa6616b; draft PR #2. open; stage 1 is blocked by the stop_condition in manifests/todo.json (rulings OPEN-18, 19, 23, 24, 25, 26; reviewer authorization). The pointer grants no run, re-score or rerun; stage 0 preceded the viable-regime ruling (OPEN-25)",
+ "next_authorized_task_note": "2026-11-14 reconciliation (OPEN-43): the pointer above is unchanged and awaits Hamm's ruling. The active preprint lineage is SCI-LAMINAR-MOTIF-1 (LANSA; docs/laminar_motif/HANDOUT_CURSOR_LANSA_100.md). The frozen execution baseline is jaxfne 0.5.8 (11957afa; results/jaxfne_058_migration.json). Laminar records (results/laminar_e0, results/allen_v1) and docs/laminar_motif/E0_PILOT_RECEIPT.json record jaxfne 0.5.9: a non-authority lane whose outputs are not comparable to 0.5.8 without a migration (OPEN-37; 0.5.9 changes VIP and I dynamics). 2026-11-05 seal: AGSDR stages 0 to 2 run under amendment 4 (Q16 to Q18, Q24); theta* AGS_S0_06 reported, ledger advancement pending owner (OPEN-34); network functionally near-uncoupled at operating weights (OPEN-35, docs/receipts/ei_meanfield). Head fa6616b; draft PR #2. open; stage 1 is blocked by the stop_condition in manifests/todo.json (rulings OPEN-18, 19, 23, 24, 25, 26; reviewer authorization). The pointer grants no run, re-score or rerun; stage 0 preceded the viable-regime ruling (OPEN-25)",
  "locked_gates": [],
  "retired_axes": [
   "RECURRENT_FAMILIES_7",

@@ -100,6 +100,10 @@ jomission/
   results/
 ```
 
+## Project status and plans
+
+The authoritative execution state and authorized work are in `manifests/current_state.json` and `manifests/todo.json`; [context audit and near-term dependencies](docs/CONTEXT_AUDIT_2026-11-13.md) provide navigation, not new scientific authorization.
+
 ## Provenance
 
 - Stale tree archived: `/tmp/jomission_stale_a526f58.tar.gz` (HEAD `a526f58d69060c1762fa86c0303c3b10b8dd3754`).

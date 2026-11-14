@@ -101,8 +101,9 @@ def analyze_run(counts, dt, sizes, pe_threshold=PE_THRESHOLD):
     arr = _as_float_counts(counts)
     keep = arr[kept_slice(arr.shape[0], dt)]
     spikes = {p: int(keep[:, i].sum()) for i, p in enumerate(POPS)}
-    # JaxFNE 0.5.9: milliseconds form (the seconds forms are deprecated).
-    rates = population_rates(arr, sizes=sizes, pops=POPS, dt_ms=dt * 1000.0, discard_ms=DISCARD_S * 1000.0)
+    # Seconds form: accepted by JaxFNE 0.5.8 (the pinned authority) and by 0.5.9,
+    # where it is deprecated. Same quantity as the ms form, equal up to rounding.
+    rates = population_rates(arr, dt=dt, sizes=sizes, pops=POPS, discard_s=DISCARD_S)
     out = {
         "rates_Hz": rates,
         "spikes_kept": spikes,

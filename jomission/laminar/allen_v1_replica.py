@@ -158,11 +158,21 @@ def build_config(seed: int, pl: dict):
 
 
 def silence_targets(spec: str | None, pops: list[str]) -> list[str]:
-    """None; 'PV' | 'SST' | 'VIP' (kind, all layers); 'layer:L4'; 'isolate:L4' (all other layers)."""
+    """None; 'PV' | 'SST' | 'VIP' (kind, all layers); 'PV@L5,L6' (kind in the listed layers); 'layer:L4';
+    'isolate:L4' (all other layers)."""
     if not spec:
         return []
     if spec in ("E", "PV", "SST", "VIP"):
         return [p for p in pops if kind(p) == spec]
+    if "@" in spec:
+        k, _, lays = spec.partition("@")
+        layers = lays.split(",")
+        if k not in ("E", "PV", "SST", "VIP"):
+            raise ValueError(f"unknown kind in silence spec {spec!r}")
+        bad = [x for x in layers if x not in {layer_of(p) for p in pops}]
+        if bad:
+            raise ValueError(f"unknown layer(s) {bad!r} in silence spec {spec!r}")
+        return [p for p in pops if kind(p) == k and layer_of(p) in layers]
     how, _, lay = spec.partition(":")
     if lay not in {layer_of(p) for p in pops}:
         raise ValueError(f"unknown layer {lay!r}")

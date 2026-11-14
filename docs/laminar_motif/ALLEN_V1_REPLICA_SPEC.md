@@ -272,3 +272,226 @@ Run status (additive; the records are not rewritten):
   per E cell −0.009, sum over E cells +0.152, null95 ≈ 0.25 (E2 method). Sum row: no similarity beyond chance (0.152
   below null95). The spec-probe values (0.335, 0.465) are not bin-aligned to the observed map and are not similarity
   results.
+- Cross-version identity, 0.5.8 against 0.5.9, on the full 19-population config (0.1 scale, 0.5 s, seed 1, H): 43 arrays
+  identical (`check_H` against `smoke_s0p1_H`, 15 452 spikes). Full-size pair (0.5 s, 66 552 cells) queued, not run.
+- Scorer units (x0_H_s1_T20, 0.5.9 side install, 20 s, discard 2 s; off-authority, exploratory): pass false. The
+  shared scorer (`scripts/e2_scorer.py`, unchanged) runs on four units, the E layers L2/3, L4, L5, L6 at depth
+  relative to mid-L4 {−0.216, 0, 0.198, 0.406} (thickness units; span 0.622). Interneurons are not units; they act
+  through the conductances onto E. Verdict: crossing false; r_ab 0.777; r_gm −0.163; unit-order rank 10 of 24;
+  r_proto 0.152 against smooth p95 0.675 and identical-unit control 0.135; halves agree (se1 0.075, se2 0.013).
+  The p95 is not comparable across unit sets: the 3-unit stack's p95 is 0.380, and this one is high because four
+  units span only 0.622 depth units. Adapter: `scripts/allen_v1_units.py` (commit pending review).
+
+## 15. Screening amendment: 5 s runs (2026-11-10; parent ruling; owner Hamm)
+
+- Purpose and label: 5 s runs are a screen. Label every record and figure "screening". A condition that appears to
+  move the motif gets a 20 s confirmation run before any claim.
+- Bracket (additive to §8 and §13; those stay the authority for any motif claim): T 5 s, seed 1, discard 2 s (not
+  shortened), dt 0.1 ms, 1 s windows, n_windows about 3 (5 s − 2 s = 3 s of data). Full size, 66 552 cells, wiring H
+  for the comparator; conditions as §8.
+- Comparator: the H run at 5 s (`x0rerun_H_s1_T5`) runs first and is the only comparator for the 5 s conditions.
+  Never compare a 5 s result with a 20 s result.
+- Reporting: every number with its jackknife SE (motif `jackknife_se`; scorer halves `se1`, `se2`, `se_diff`).
+- Units and pass rule: the four E-layer units above, the shared scorer unchanged, unit-order rank over 4! = 24. The
+  mapping is fixed: no interneuron units.
+- Authority: 0.5.9 runs are off-authority and exploratory (ruling R1); the authority verdict waits for OPEN-37.
+- Order: the 20 s X0 run first (running), then the full-size 0.5 s identity pair (0.5.8 and 0.5.9), then the 5 s queue.
+- Record, x0_H_s1_T20 (20 s, 0.5.9 side install, off-authority, exploratory): partial. The sum-row contrast is positive,
+  M 0.174 ± 0.038 (jackknife SE), z 4.56, but crossing is false. Gamma depth profile wrong: r_gm −0.163 (leg 2
+  fails), r_ab 0.777. Not a units or readout limit: a free diagonal four-unit fit reaches r_gm 0.835 against the observed
+  map (`tests/test_allen_v1_units.py`), and the parent's 3-unit sigma-0.15 ceilings are r_gm 0.853 (coherent) and 0.657
+  (incoherent). Read as the simulated spectra, not the readout.
+  Gamma depth profile (50–150 Hz mean relative power, scorer contact grid, `scratchpad/_temp_gamma_peak.py`): peak at
+  0.000 (mid-L4), 0.99; falls to 0.53 at +0.25 and rises again to 0.59 at +0.35 (deep shoulder); at −0.20 it is 0.51.
+  Per-run lines from now on carry the gamma peak depth and r_gm (parent request, 2026-11-10).
+
+## 16. Condition X1b (proposed by the jomission session, 2026-11-10; exploratory screen, no owner ruling)
+
+- X1b: PV silenced in L5 and L6 only (`SILENCE=PV@L5,L6`), 5 s, screening label, seed 1, wiring H, scale 1, discard 2 s.
+  Silenced populations: L5_PV, L6_PV; all other populations, all edges and the drive spec unchanged. Silencing uses the
+  §8 thresholds (VT +500 mV, Vpeak +1000 mV).
+- Comparator: the H run at 5 s (`x0rerun_H_s1_T5`), and X1 PV at 5 s (all-layer PV) beside it. Never compare a 5 s
+  result with a 20 s one. Every number carries its jackknife SE.
+- Order: appended to the end of the queue, after X3 L6 at 5 s. The queue order is not changed.
+- Test: `tests/test_allen_v1_silence.py` (silence selection; edges, drive and non-silenced parameters identical to the
+  unsilenced build; silenced populations spike 0; other populations still spike).
+- Run from the worktree's code (`_temp_allen_v1_screen`), not the shared dev checkout, so the option is present.
+
+## 17. Run records (2026-11-10)
+
+Each line: tag; wall time; sum-row M ± jackknife SE; shuffle p; r_proto (sum, LANSA-bin probe); gamma peak depth; r_gm;
+authority label. Records are the runner's `<TAG>.json` and `<TAG>_motif.json`, `<TAG>_similarity.json`.
+r_proto here is the `allen_v1_similarity.py` LANSA-bin probe, sum row (`<TAG>_similarity.json`). Checked: its value
+equals the e2_scorer sum-row r_proto exactly (0.15179058880856583 in both, x0rerun). Both use the same CHANNELS grid and
+unit spectra, so they are one number, not two; the scorer's pass rule is not applied to the replica here.
+
+r_gm is given with its band. Image band 50–150 Hz (the verdict band, `e2_motif_figure.FIG_BANDS`): from the scorer verdict
+`results/allen_v1/scorer/<TAG>_verdict.json`. Manuscript band 31–150 Hz: from `<TAG>_similarity.json`
+(`lansa.sum_over_cells.r_gm`, which equals the scorer's `r_gm_manuscript`).
+
+- x0_H_s1_T20 (first X0, sha 89a1272 end-of-run, 20 s): see §14; M 0.174 ± 0.038, p 0.375, r_proto (sum, LANSA-bin probe)
+  0.152; gamma peak 0.000; r_gm image −0.163 (`x0_H_s1_T20_verdict.json`), manuscript −0.074; off-authority, exploratory.
+- x0rerun_H_s1_T20 (X0 rerun, sha 734fede, 20 s): wall 7866.5 s; M 0.1738 ± 0.0381; p 0.375; crossing false; r_proto
+  (sum, LANSA-bin probe) 0.152; gamma peak 0.000; r_gm image −0.163 (`x0rerun_H_s1_T20_verdict.json`, scorer run on the
+  rerun), manuscript −0.074; off-authority (0.5.9 side install), exploratory. Total spikes 3 485 548, equal to the first
+  X0 run.
+- Identity pair (full size, 0.5 s, 66 552 cells, seed 1, H; sha 519f1ed in the dev checkout): id58_full_H_s1_T0p5
+  (jaxfne 0.5.8, authority) wall 211.8 s; id59_full_H_s1_T0p5 (0.5.9, off-authority, exploratory) wall 229.7 s. All 43
+  npz arrays identical; 151 017 spikes in each. No motif, shuffle, r_proto, gamma or r_gm: the figure step needs a
+  2 s discard, and these runs are 0.5 s (figure log: reshape error on size 0). Scope: 0.5 s; equality beyond 0.5 s
+  not tested (the 20 s equality is INFERRED).
+- x0rerun_H_s1_T5 (screening, 5 s; H, seed 1; sha 519f1ed; off-authority (0.5.9 side install), exploratory): wall 1835.5 s
+  (construct 43.6, simulate 1786.3). Sum-row M image 0.092 ± 0.126 (jackknife SE), shuffle p 0.333; manuscript band
+  M 0.108 ± 0.152, p 0.375. crossing_2se false; n_windows 2. Why 2, not 3: the 3 s after discard (30 000 samples at
+  0.1 ms) lose the RWS delay d = 6 ms at the end (`e2_motif_figure.rws` returns T − d samples), leaving 2 994 ms, so
+  only two whole 1 s windows. The 20 s run has the same effect: 17 windows for 17.994 s, not 18. r_proto 0.079 (LANSA-bin
+  probe = scorer sum-row). Gamma peak depth 0.000 (contact 12). r_gm image −0.256 (`scorer/x0rerun_H_s1_T5_verdict.json`);
+  manuscript −0.150 (same file, `r_gm_manuscript`). Comparator x0rerun_H_s1_T20 (20 s): M 0.174 ± 0.038, p 0.375,
+  r_proto 0.152, r_gm −0.163. Not comparable across T: 5 s is a screen.
+- Screen resolution, 5 s screens (decision (a), spec's call; set before any X-vs-baseline read; no analysis change):
+  n_windows = 2 gives one jackknife df. Per-run 2·SE: image M 0.25 (0.126), manuscript M 0.30 (0.152). A 5 s screen
+  flags |ΔM| above about 0.25 for a single run against zero, and does not resolve an X-vs-H difference without its own
+  SE: the two runs share seed 1 and drive, so their SEs cannot be added as independent. r_gm has no SE in this record:
+  the scorer's halves have 1 window each, so se1/se2/se_diff are NaN and `agree` is false by rule. The 5 s scorer pass
+  is therefore not attainable as written; 5 s rows report r_gm and crossing as descriptive only. Any X condition that
+  moves M by less than about 0.25 (image) is reported as unresolved, not as no effect.
+- x0rerun_A0_s1_T5 (screening, 5 s; A0 control wiring, seed 1; sha 0bf4b62; off-authority (0.5.9 side install), exploratory):
+  wall 1819.6 s (construct 44.6, simulate 1769.4). Sum-row M image 0.159 ± 0.024 (jackknife SE), shuffle p 0.083
+  (exhaustive, 24 permutations); manuscript band M 0.184 ± 0.012, p 0.042. crossing_2se true; n_windows 2. r_proto −0.138
+  (LANSA-bin probe = scorer sum-row). Gamma peak depth +0.400 (contact 20, nearest unit L6). r_gm image −0.568
+  (`scorer/x0rerun_A0_s1_T5_verdict.json`), manuscript −0.456. Sha check: H (519f1ed) and A0 (0bf4b62) differ only in
+  `docs/laminar_motif/FINDINGS_2026-11-10.md`, `scripts/e2_t1_atlas.py` and `tests/test_e2_t1_atlas.py`; no replica code
+  changed, so H and A0 are comparable as runs. The 5 s resolution in the paragraph above applies to every value here.
+  Notes (parent review, ACCEPT): manuscript p 0.042 = 1/24 is the floor of the exhaustive shuffle, the smallest p this test
+  can give, not a strong result. The SEs 0.012 and 0.024 have 1 df at n_windows 2, so they are no more trustworthy than
+  H's 0.126. sha 0bf4b62 is a local dev commit of the parent, pushed after its own review. Reading, descriptive only at
+  5 s: A0 puts gamma deepest (+0.40) and r_gm −0.57, worse than H (r_gm −0.26); consistent with H as the better wiring.
+- x1_PV_H_s1_T5 (X1, screening, 5 s; H wiring, PV silenced at all layers, seed 1; sha 0bf4b62; off-authority (0.5.9 side
+  install), exploratory): wall 1820.6 s (construct 42.5, simulate 1772.6). Sum-row M image 0.048 ± 0.077 (jackknife SE),
+  shuffle p 0.500; manuscript band M 0.060 ± 0.064, p 0.375. crossing_2se false; n_windows 2. r_proto 0.388 (LANSA-bin
+  probe = scorer sum-row). Gamma peak depth −0.150 (contact 9). r_gm image +0.172 (`scorer/x1_PV_H_s1_T5_verdict.json`),
+  manuscript +0.284. Against the H baseline (x0rerun_H_s1_T5: r_gm image −0.256, gamma peak 0.000): r_gm moves +0.43 and
+  the gamma peak moves to the upper L4/L2-3 side (−0.15). r_gm has no SE at 5 s; the shift is unresolved. Descriptive only.
+- Gamma power check, X1 PV vs H vs A0 (5 s; `scratchpad/_temp_gamma_power.py`; the window-mean auto-spectra of the
+  four E-layer units; imaginary part of the spectra at most 1e-17 of the real part, so the real part is used). The r_gm readout
+  normalises each frequency across contacts (`e2_scorer.rp_map`), so r_gm does not depend on absolute power. Absolute
+  50–150 Hz power does not fall under PV silencing; it rises: L2/3 2.9e15 (H) → 3.4e17 (X1 PV), L4 8.8e15 → 1.1e17,
+  L5 1.5e15 → 5.6e16, L6 1.1e16 → 1.0e17. The 1–10 Hz share of 1–150 Hz power goes from 4–7% (H) to 67–93% (X1 PV);
+  the 50–150 Hz share from 25–51% to 1–7%. So the shift is a large slow component, not vanishing gamma. Whether the slow
+  component is a population state (e.g. co-modulated bursting) is not yet checked; firing rates are the next check.
+- Firing rates and E synchrony, 5 s runs, 3 s analysed (`scratchpad/_temp_rates_sync.py`; rate = spikes / (size × 3 s);
+  Fano = var/mean of the pooled E count in 1 ms bins). H: E pooled 1.88 Hz, Fano 50.2; PV 13–20 Hz in every layer;
+  SST and VIP 0.0–7.8 Hz. A0: E 1.76 Hz, Fano 14.8. X1 PV: E pooled 82.2 Hz (×44 H), Fano 4263; E cells 46–101 Hz in
+  every layer; L1_Inh, SST and VIP 46–98 Hz; the silenced PV cells at 0 Hz. This is a runaway, disinhibited state, not a
+  gamma state. The X1 PV profile (r_proto 0.39, gamma peak −0.15, r_gm +0.17) is therefore not evidence that the observed
+  superficial gamma needs no PV: the model is not in a physiological state under PV silence. Read X1 PV as a stability
+  failure first. The H value of Fano 50 at 1 ms is also above a Poisson value of 1, so the pooled E count is already
+  co-modulated under H (shared rate fluctuations across cells); a Fano above 1 does not by itself show spike synchrony.
+  Descriptive only; no pairwise correlation is computed yet.
+- Identity check (default path after `caminos_stack.py` changed, 734fede → HEAD): `git archive 734fede` extracted to
+  scratchpad `code_734fede`, run at 0.5 s (`id734_full_H_s1_T0p5`) and at HEAD (`idHEAD_full_H_s1_T0p5`), npz compared
+  bitwise. Runs in sequence after X1b, before the 20 s run; one simulation at a time.
+- Queue (2026-11-10, parent request, spec §16 rule): a 20 s confirmation of x1_PV_H_s1_T5 (`x1_PV_H_s1_T20`, H, PV all
+  layers, seed 1) is queued after X1b, the last item, behind the identity check. Launched by a waiter (`_temp_driver9.sh`)
+  that starts when the queue driver exits. Its comparator is x0rerun_H_s1_T20 (sha 734fede). Given the runaway state
+  above, this run may not be informative beyond stability; the parent decides whether to keep it.
+- Queue records, 5 s screening (all off-authority (0.5.9 side install), exploratory; gamma peak on the scorer contact grid, 0 = mid-L4):
+  [superseded: M from the figure path, see the scorer-path table below; p_tol floor 1/24]
+  - x3_iso_L4_H_s1_T5 (isolate L4): wall 1827.5 s; image M 0.020 ± 0.007 (p 0.417), manuscript M −0.010 ± 0.002 (p 0.500);
+    r_proto 0.432; gamma peak −0.05; r_gm image 0.334, manuscript 0.407. E pooled 0.59 Hz.
+  - x2_L4_H_s1_T5 (layer L4 silenced): wall 1811.2 s; image M −0.035 ± 0.042 (p 0.500), manuscript M −0.040 ± 0.050 (p 0.458);
+    r_proto −0.353; gamma peak +0.40; r_gm image −0.740, manuscript −0.690. E pooled 1.35 Hz.
+  - x4_swap_iso_L4_H_s1_T5 (isolate L4, L4 and L6 swapped): wall 1734.1 s; image M 0.053 ± 0.038 (p 0.417), manuscript M 0.015 ± 0.040
+    (p 0.458); r_proto 0.428; gamma peak −0.05; r_gm image 0.352, manuscript 0.421. E pooled 0.25 Hz.
+  - x1_SST_H_s1_T5 (SST silenced): wall 1825.2 s; image M 0.169 ± 0.089 (p 0.042), manuscript M 0.210 ± 0.079 (p 0.000);
+    r_proto −0.071; gamma peak +0.40; r_gm image −0.500, manuscript −0.362. E pooled 1.77 Hz.
+  - Shuffle p convention (correction to the notes above): p = mean(null ≥ observed) over the exhaustive 24 permutations, with no +1
+    (`scripts/e2_motif_figure.py:142`). p values are k/24, and 0.000 is attained (x1_SST manuscript). So the floor is 0, not 1/24;
+    the earlier "1/24 floor" note is withdrawn.
+  - Isolated-L4 states (E 0.25–0.59 Hz) are very quiet; their r_gm/r_proto are descriptive only.
+- Queue records, 5 s screening, remaining runs (11-10). Scorer path only (CHANNELS grid, per-unit RWS, 1 s windows); off-authority
+  (0.5.9 side install), exploratory. Scorer-input windows per 5 s run = 2, so jackknife SE rests on 2 halves: treat SE as
+  unreliable; p_tol takes values k/24. Source: `scripts/allen_v1_units.py` inputs, `scripts/e2_scorer.py` verdicts,
+  `scratchpad/_temp_queue_scorer.py`, `scratchpad/_temp_gamma_peak.py`.
+
+  | run | wall s | image M ± SE (p_tol) | manuscript M ± SE (p_tol) | r_proto | r_gm image / manuscript | gamma peak depth |
+  |---|---|---|---|---|---|---|
+  | x1_VIP_H_s1_T5 (VIP silenced) | 1945.4 | −0.036 ± 0.058 (0.417) | −0.042 ± 0.050 (0.458) | 0.166 | −0.130 / −0.050 | 0.000 |
+  | x2_L1_H_s1_T5 (L1 silenced) | 1887.2 | −0.089 ± 0.105 (0.417) | −0.104 ± 0.081 (0.500) | 0.140 | −0.150 / −0.081 | 0.000 |
+  | x2_L23_H_s1_T5 (L2/3 silenced) | 1837.6 | −0.106 ± 0.034 (0.417) | −0.081 ± 0.030 (0.417) | −0.123 | −0.487 / −0.418 | +0.400 |
+  | x2_L5_H_s1_T5 (L5 silenced) | 1876.8 | −0.137 ± 0.107 (0.750) | −0.156 ± 0.097 (0.833) | 0.143 | −0.112 / −0.027 | −0.050 |
+  | x2_L6_H_s1_T5 (L6 silenced) | 2220.9 | 0.037 ± 0.033 (0.167) | 0.040 ± 0.025 (0.125) | 0.440 | 0.286 / 0.362 | −0.050 |
+  | x3_iso_L23_H_s1_T5 (isolate L2/3) | 3097.2 | −0.157 ± 0.004 (0.917) | −0.150 ± 0.008 (0.917) | 0.615 | 0.757 / 0.811 | −0.200 |
+  | x3_iso_L5_H_s1_T5 (isolate L5) | 1727.2 | −0.601 ± 0.009 (0.833) | −0.639 ± 0.018 (0.917) | −0.095 | −0.434 / −0.370 | +0.100 |
+  | x3_iso_L6_H_s1_T5 (isolate L6) | 1882.0 | 0.020 ± 0.003 (0.292) | 0.028 ± 0.003 (0.250) | −0.434 | −0.767 / −0.744 | +0.400 |
+
+  Gamma peak = depth of the maximum of the mean 50–150 Hz relative power over contacts (`_temp_gamma_peak.py`). x3_iso_L5 M is
+  −0.60 with SE 0.009 on 2 windows: a large value on the scorer path with an SE that cannot be trusted; report it as observed, not
+  as a motif result. Reading: no significance claim. The SEs rest on 2 windows, so the positive values (x2_L6 0.037 ± 0.033, x3_iso_L6
+  0.020 ± 0.003, x1_PV 0.106 ± 0.069 from the earlier record) cannot be read as motif evidence until the 5 s SE is replaced.
+- Identity check (0.5 s, full size, seed 1, wiring H): `id734_full_H_s1_T0p5` (tree at 734fede, `scratchpad/code_734fede`) and
+  `idHEAD_full_H_s1_T0p5` (dev HEAD 965e7c1). The two `.npz` files are bitwise equal (`cmp`, both 266620 bytes). The 734fede
+  and HEAD code paths give identical 0.5 s output.
+- X1b (`x1b_PVL56_H_s1_T5`, PV silenced in L5 and L6): the queue launch at 16:03Z failed before the simulation started (relative
+  log paths in the worktree wrapper; rc 1, no simulation). Rerun from a clean clone at 5cf65ac9096dbc203f24f578a435814611c12582
+  (`scratchpad/_temp_run_clean.sh`), started 14:12Z 11-11, finished 14:37Z (rc 0; checks_pass true; silenced_zero_spikes true;
+  edge check 353 examined, 0 failed; L5_PV and L6_PV 0.0 Hz). Scorer path (same method as above; off-authority, exploratory):
+  wall 1487.4 s; M image +0.245 ± 0.038 (p_tol 0.042 = 1/24), manuscript +0.203 ± 0.040 (p_tol 0.083); r_proto 0.122; r_gm
+  image −0.203 / manuscript −0.124; gamma peak 0.000 (contact 12). 2 scorer windows, one seed: the SE is unreliable and the
+  result is a single-seed screen. It is the largest positive 5 s scorer-path contrast so far (x1_PV 0.106), and it has to be
+  replicated (other seeds, and the 20 s length) before any reading.
+- Correction to the p-convention note above (supersedes it). The 24 permutations include the identity
+  (`itertools.permutations`, `e2_motif_figure.py:121–142`). Under "≥", the identity counts, so the intended floor is 1/24.
+  A p of 0.000 (x1_SST manuscript, figure path) comes from float rounding: the identity's null value (slope of a−g over the
+  depth grid) and the observed M (slope of the band difference) differ by about 1e-17, so the identity can fall just below M
+  and drop out. The fix is a tolerance in the count (≥ M − 1e-12·|M|); not applied here (shared scorer code, needs review).
+  `e2_scorer.permutation_rank` uses ">" against the identity's own value, so the identity is never excluded there.
+- Open inconsistency, not resolved: the sum-row M of the same run differs between the figure path
+  (`results/allen_v1/<TAG>_motif.json`: probe grid `probe_rel_mid_L4`, `rws_layers`) and the scorer-input path
+  (`scorer/<TAG>`: `CHANNELS` grid, `mf.rws` per unit). x1_SST: image M 0.169 (figure) vs 0.010 (scorer path); manuscript
+  0.210 vs 0.020. The queue lines above use the figure path for M and the scorer path for r_gm and r_proto. Until one path is
+  chosen, the M values are not comparable with the r_gm values.
+- E→E wiring (replica H, full size, from `av.plan`; no runs): L2/3→L2/3 p 0.00646, K 108.5, w 6.49 nS; L4→L4 p 0.00439,
+  K 76.4, w 10.53 nS; L2/3→L4 p 0.00103, K 17.2, w 10.53 nS; L4→L2/3 p 0.00243, K 42.3, w 6.49 nS. Weights are set by the
+  post-synaptic K (`weights_w1`), so L4 receives larger per-synapse weights.
+- Cause of the M difference (x1_SST, read-only; `scratchpad/_temp_m_cause.py`): the RWS signals of the two paths are identical
+  (max |Δ| = 0.0). The whole difference is the contact grid. Scorer grid (`CHANNELS` = linspace(−0.6, 0.4, 21), step 0.05): M 0.010
+  ± 0.043. Probe grid (`probe_rel_mid_L4`, −0.489 to 0.511, 21 points, step 0.05, offset +0.011 from CHANNELS): M 0.169 ± 0.089, which reproduces the recorded figure M
+  exactly. The grid alone changes M about 17×. Hypothesis, not tested: CHANNELS places contacts outside the unit depths (to −0.6),
+  where the profile is flat, and the slope is taken over them.
+- Scorer-path sum-row numbers (the only M to quote; CHANNELS grid, per-unit RWS, 1 s windows; shuffle p over the 24 unit orders
+  with the identity counted under a tolerance, `p_tol`; `scratchpad/_temp_queue_scorer.py`):
+
+  | run | wall s | image M ± SE (p_tol) | manuscript M ± SE (p_tol) | r_proto | r_gm image / manuscript |
+  |---|---|---|---|---|---|
+  | x0rerun_H_s1_T20 (20 s) | 7866.5 | −0.084 ± 0.032 (0.417) | −0.070 ± 0.031 (0.417) | 0.152 | −0.163 / −0.074 |
+  | x0rerun_H_s1_T5 | 1835.5 | −0.175 ± 0.080 (0.417) | −0.127 ± 0.088 (0.417) | 0.079 | −0.256 / −0.150 |
+  | x0rerun_A0_s1_T5 | 1819.6 | −0.002 ± 0.038 (0.208) | −0.004 ± 0.042 (0.208) | −0.138 | −0.568 / −0.456 |
+  | x1_PV_H_s1_T5 (runaway) | 1820.6 | 0.106 ± 0.069 (0.583) | 0.113 ± 0.058 (0.500) | 0.388 | 0.172 / 0.284 |
+  | x3_iso_L4_H_s1_T5 | 1827.5 | 0.014 ± 0.002 (0.417) | −0.018 ± 0.007 (0.458) | 0.432 | 0.334 / 0.407 |
+  | x2_L4_H_s1_T5 | 1811.2 | −0.117 ± 0.017 (0.708) | −0.133 ± 0.023 (0.708) | −0.353 | −0.740 / −0.690 |
+  | x4_swap_iso_L4_H_s1_T5 | 1734.1 | 0.022 ± 0.051 (0.458) | −0.017 ± 0.051 (0.458) | 0.428 | 0.352 / 0.421 |
+  | x1_SST_H_s1_T5 | 1825.2 | 0.010 ± 0.043 (0.125) | 0.020 ± 0.035 (0.125) | −0.071 | −0.500 / −0.362 |
+
+  All runs: off-authority (0.5.9 side install), exploratory. Gamma peaks as recorded in the lines above (scorer contact grid).
+- Consequence: on the scorer path the X0 20 s H contrast is negative (−0.084 ± 0.032), not the positive 0.174 recorded from the
+  figure path. The positive contrast in the X0 record and the 5 s H record (+0.092, figure path) is a probe-grid artifact and is
+  withdrawn. Only X1 PV (runaway) has a positive scorer-path contrast, 0.106 ± 0.069 (1.5 SE).
+- Flat-tail test (`scratchpad/_temp_flat_tail.py`, scorer inputs, per-unit RWS; span = outer unit depth ± σ = [−0.366, 0.556]).
+  Five CHANNELS contacts lie outside the span (−0.6 to −0.4); none lie above it.
+  | run | M CHANNELS full | M CHANNELS in span (full-grid norm) | M CHANNELS in span (set norm) | M probe grid (scorer RWS) |
+  |---|---|---|---|---|
+  | x0rerun_H_s1_T20 | −0.084 | +0.079 | +0.079 | +0.174 |
+  | x1_SST_H_s1_T5 | +0.010 | +0.282 | +0.282 | +0.169 |
+  The five outer contacts have dlt = ab − gm of 0.000 to 0.023 (H) and −0.022 to 0.000 (SST), so they are near-flat, as
+  hypothesised. Dropping them still flips the H sign. Mechanism (`scratchpad/_temp_slope_decomp.py`): the OLS slope cov(x, y)/var(x) is invariant to translating x (checked:
+  shift ≤ 1e-16), so the grid centre alone cannot change it. Dropping contacts changes the slope only because dlt is not linear in
+  depth: it is near 0 at −0.6…−0.4 and rises to 0.34 at +0.40 (CHANNELS). A quadratic fit dlt = a + b·x + c·x² on CHANNELS gives
+  c = 1.55 (H) and 1.19 (SST). The fit implies an in-span slope of 0.31 for SST (0.28 measured) but 0.30 for H (0.08 measured; fit RMS 0.17
+  against dlt RMS 0.23). So the H sign flip needs more curvature than a quadratic; its shape is not established. The sign of M is
+  grid-sensitive and not robust to the choice of contacts.
+  Non-shared contacts (no contact is common to the two grids): the probe grid adds contacts at +0.46 and +0.51, where dlt
+  declines (H: 0.336 and 0.246; SST: 0.103 and 0.075). CHANNELS stops at +0.40 (H: 0.341), where the profile is still
+  rising. So the top of the profile is sampled differently by the two grids, as well as the bottom.
+  Reading: M on either grid is a grid-sensitive statistic, and its sign is not reliable. The scorer path is still the
+  authority for the seals (per parent ruling); the M values in this section should not be used to support a motif claim.

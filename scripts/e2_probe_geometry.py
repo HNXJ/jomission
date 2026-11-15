@@ -51,8 +51,9 @@ F = es.F  # 1..150 Hz; frequency index = Hz on the 1 Hz grid
 FREQ = np.arange(501.0)  # full 0..500 Hz grid of unit_spectra
 BANDS = mf.BANDS[mf.FIG_BANDS]
 NAN = float("nan")
-RESULTS = Path("/Users/hamednejat/workspace/dev/jomission/results/laminar_e2")
-OUT_DIR = Path("/Users/hamednejat/workspace/dev/jomission/results/viz/paper_w5")
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "results/laminar_e2"
+OUT_DIR = ROOT / "results/viz/paper_w5"
 
 
 def contacts(theta_deg: float, offset: float) -> tuple[np.ndarray, np.ndarray]:

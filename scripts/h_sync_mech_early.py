@@ -1,5 +1,5 @@
 """EXPLORATORY (not pre-registered): early-time sigma and rate curves, sync vs fixref vs balance, A seed 0, 4 s. Output: docs/receipts/h_sync_mech/exploratory_early.txt"""
-import sys; sys.path.insert(0,"/home/user/jomission/scripts")
+import sys, pathlib; sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
 import numpy as np, h_active_test as T, h_balance_test as HB
 import jomission.dynamics.activity_balance as ab, jomission.dynamics.activity_balance_sync as sy, jomission.dynamics.activity_balance_sync_fixref as fx
 DUR=4000.0

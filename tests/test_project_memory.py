@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BUDGET = 7000  # owner decision 2026-11-14; must match scripts/render_memory.py
+BUDGET = 4000  # compact view ceiling; must match scripts/render_memory.py (injection limit unverified)
 
 
 def test_project_memory_current_and_within_budget():

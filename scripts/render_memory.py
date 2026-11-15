@@ -1,11 +1,11 @@
 """Render MEMORY.md from the verified lessons store.
 
-Deterministic. MEMORY.md is a read-optimized view for compaction injection:
-the global autocompact-memory plugin carries it verbatim into checkpoint
-summaries. Canonical truth stays in manifests/; this file holds verified
-reusable lessons only, never current state, secrets, or unverified claims.
-Budget 7000 chars (owner decision 2026-11-14; was 6000). The plugin's project
-read budget must be raised to the same value.
+Deterministic. MEMORY.md is a compact orientation view for compaction injection:
+the global autocompact-memory plugin carries it into checkpoint summaries. The
+plugin's injection limit is not verified (no plugin config found, 2026-11-14),
+so the view keeps only id, trigger and repair. Cause, evidence and scope stay in
+manifests/harness/lessons.json, by id. Never store current state, secrets or
+unverified claims here.
 
     python scripts/render_memory.py            # rewrite MEMORY.md in place
     python scripts/render_memory.py --check    # exit 1 if stale
@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MEMORY = ROOT / "MEMORY.md"
-BUDGET = 7000
+BUDGET = 4000  # compact view ceiling; the injection limit is unverified (see docstring)
 
 
 def load(rel: str):
@@ -28,24 +28,18 @@ def load(rel: str):
 
 def render() -> str:
     lessons = load("manifests/harness/lessons.json")["lessons"]
-    out = ["# MEMORY.md (jomission) — verified reusable lessons only",
+    out = ["# MEMORY.md (jomission) — compact orientation, verified lessons",
            "",
-           "Scope: this project. Global lessons live in the global MEMORY.md.",
-           "Never store current state, secrets, or unverified claims here.",
-           "Canonical truth stays in manifests/; this file is a compaction-injection view.",
-           "Format per lesson: {trigger, cause, repair, evidence, scope}.",
+           "Full fields (cause, evidence, scope) by id: manifests/harness/lessons.json.",
+           "Never store current state, secrets or unverified claims here.",
            "",
            "## Lessons",
            ""]
-    for le in lessons:
-        out.append(f"- {le['id']}: trigger: {le['trigger']} / cause: {le['cause']} / "
-                   f"repair: {le['repair']} / evidence: {le['evidence']} / scope: {le['scope']}")
+    out += [f"- {le['id']}: {le['trigger']} -> {le['repair']}" for le in lessons]
     text = "\n".join(out) + "\n"
     if len(text) > BUDGET:
-        keep = [ln for ln in out if ln.startswith("- ")]
-        while keep and len("\n".join(out[:9] + keep) + "\n") > BUDGET:
-            keep.pop(0)
-        text = "\n".join(out[:9] + keep) + "\n… (trimmed to budget; oldest lessons dropped first)\n"
+        raise SystemExit(f"MEMORY view is {len(text)} chars, over BUDGET {BUDGET}: "
+                         "shorten the view; never drop a lesson silently")
     return text
 
 

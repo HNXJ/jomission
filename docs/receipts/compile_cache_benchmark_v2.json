@@ -1,0 +1,39 @@
+{
+ "schema": "jomission.compile_cache_benchmark.v2",
+ "workload": "build_jomission_model(n_per_area=100, seed=0), separate processes",
+ "repeats": 3,
+ "settings": {
+  "min_compile_time_secs": 0,
+  "min_entry_size_bytes": -1
+ },
+ "machine": {
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.13.7",
+  "cpu_count": 10,
+  "jax_version": "0.10.1",
+  "jaxlib_version": "0.10.1",
+  "jaxfne_version": "0.5.8",
+  "git_sha": "fd6b8de87f16dd280b0a94075e751b76c8e293bd"
+ },
+ "results": {
+  "cold": {
+   "build_s": [
+    2.0233,
+    2.0654,
+    2.0592
+   ],
+   "median_s": 2.059,
+   "min_s": 2.023
+  },
+  "warm": {
+   "build_s": [
+    0.5531,
+    0.5559,
+    0.4998
+   ],
+   "median_s": 0.553,
+   "min_s": 0.5
+  }
+ },
+ "note": "Measured by this script; build time excludes import."
+}

@@ -120,6 +120,9 @@
      "tests/test_lite_model.py",
      "tests/test_within_area_sparse_coverage.py"
     ],
+    "single-neuron f-I engine equivalence (numpy + short JAX, 20000-step scans, writes nothing under results/)": [
+     "tests/test_fi_engine_equivalence.py"
+    ],
     "unclassified subsystems": "classify cost and writes on first use; add here"
    }
   },

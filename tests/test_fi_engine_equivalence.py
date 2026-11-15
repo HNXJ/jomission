@@ -90,5 +90,5 @@ def test_receipt_provenance_names_loaded_modules():
     pv = rec["provenance"]
     assert pv["jaxfne_version_metadata"] == "0.5.8"
     assert "site-packages" in pv["jaxfne_file"]
-    assert Path(pv["fi_single_neuron_file"]).resolve() == (ROOT / "scripts" / "fi_single_neuron.py").resolve()
+    assert pv["fi_single_neuron_relative_to_worktree"] == "scripts/fi_single_neuron.py"
     assert rec["engine"]["entry_point"] == "jaxfne.emitters.simulate_eig_izhikevich"

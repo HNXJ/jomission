@@ -1,0 +1,13 @@
+{
+ "python": "3.13.7",
+ "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+ "machine": "arm64",
+ "jax_version": "0.10.1",
+ "jaxlib_version": "0.10.1",
+ "numpy_version": "2.4.6",
+ "scipy_version": "1.17.1",
+ "jaxfne_version": "0.5.8",
+ "git_sha": "648194c8e68463a400fe413b4ec33f465109cc7b",
+ "git_dirty": false,
+ "generated_utc": "2026-11-15T20:12:22Z"
+}

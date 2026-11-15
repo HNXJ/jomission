@@ -64,6 +64,16 @@ def test_untracked_file_reports_dirty(tmp_path):
     assert rec["git_dirty"] is True, rec
 
 
+def test_modified_tracked_file_reports_dirty(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / "README.md").write_text("changed\n", encoding="utf-8")
+    assert git(repo, "status", "--porcelain").startswith(" M README.md"), "fixture: tracked change must show in status"
+    out = tmp_path / "out" / "x.json"
+    r = run_capture(repo, out)
+    assert r.returncode == 0, r.stderr
+    assert json.loads(out.read_text(encoding="utf-8"))["git_dirty"] is True
+
+
 def test_existing_out_is_refused_and_left_unchanged(tmp_path):
     repo = make_repo(tmp_path)
     out = tmp_path / "out" / "x.json"

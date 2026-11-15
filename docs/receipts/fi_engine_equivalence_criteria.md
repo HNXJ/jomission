@@ -30,6 +30,14 @@ E, PV, SST (engine preset), VIP (engine preset), SST (jomission b 0.21), VIP (jo
 - INVALID: G0 fails, or the negative control detects nothing, or E could not be run through a supported path.
 - A NOT_EQUIVALENT or INVALID outcome is kept as the result. Neither O1 nor E is altered to reach agreement; a change of the oracle or tolerance after seeing outcomes is a new declaration.
 
+## Amendment 1 (2026-11-15, before any result was received; informational, no gate or verdict changes)
+
+Exact count equality is necessary, not sufficient, for f-I equivalence. Added, reported separately from counts and never altering the verdict:
+- G4 rheobase-adjacent boundary: per set, O1 and E on a refined grid from rheobase_extra - 0.25 to rheobase_extra in steps of 0.01 (26 points); integer-count mismatches.
+- G5 timing: for the 486 G1 points with count > 0, first-spike step and full spike-time vectors (steps); number of points with any difference, max absolute difference in steps, per-set summary.
+- G6 f-I curve: rheobase_extra and positive-grid linear slope (the `summarize()` definitions) for O1 and E per set, and their differences.
+- The receipt records which `jaxfne` and `fi_single_neuron` files were imported (site-packages 0.5.8 and this worktree), so the lane's isolation is shown, not assumed.
+
 ## Outputs (the worker writes only these)
 
 - `tests/test_fi_engine_equivalence.py` (tier per `manifests/test_tiers.json`; the worker lists it there at the lowest tier that covers it; it must not write `results/*.json`).

@@ -1,6 +1,6 @@
-# f-I practical equivalence: criteria v2 (DRAFT 3, unsigned; no run before ratification)
+# f-I practical equivalence: criteria v2 (DRAFT 4, unsigned; candidate for final independent review, no run before ratification)
 
-Drafted 2026-11-15; draft 2 revised after Hamm's review (P3 and P4 held); draft 3 after an independent review (REVISE: P2 vacuous for three sets, P4 justification, undefined ISI, verdict gaps). Baseline: jomission `bba726a` on `_temp_swarm_fi_equiv_20261115`. Frozen engine: jaxfne 0.5.8 (unchanged).
+Drafted 2026-11-15; draft 2 revised after Hamm's review (P3 and P4 held); draft 3 after an independent review (REVISE: P2 vacuous for three sets, P4 justification, undefined ISI, verdict gaps); draft 4 after Hamm's second review (both-arms-undefined gain must not pass; P4 tolerance has no validated downstream link, so a tolerance-edge control and a stated scope for Claim B were added). Baseline: jomission `70a9445` on `_temp_swarm_fi_equiv_20261115`. Frozen engine: jaxfne 0.5.8 (unchanged).
 
 ## Relation to v1 and to checklist item 8
 
@@ -31,7 +31,7 @@ Scales. The f-I curve feeds per-class tonic calibration (rheobase and slope; the
 
 - P1 count. At every point of H: |N_E - N_O1| <= max(1, 0.01 N_O1). N_O1 = 0 permits N_E <= 1 by design; N_O1 = 0 with N_E >= 2, or N_E = 0 with N_O1 >= 2, fails. Onset location is constrained by P2.
 - P2 rheobase, evaluated on L. rheobase_arm = the smallest lattice extra with count > 0 in that arm (no assumption of monotonicity beyond this definition). Pass when both arms have a rheobase above the floor point (-4.995) and |difference| <= 0.05. If an arm fires at the floor point, or an arm never fires on L, or the two arms differ in either condition, P2 cannot be evaluated or fails as follows: both at the floor or both never firing, the claim is INVALID for that set (not a pass); exactly one arm in either condition, P2 fails. Rheobase is read from L, never from `summarize()` (which is bound to the v1 grid).
-- P3 gain. G = least-squares slope of rate (Hz) against extra over the points of H with count > 0 (the `summarize()` definition applied to H, `numpy.polyfit` degree 1). Pass when |G_E - G_O1| <= max(0.01 |G_O1|, 0.005) Hz per unit extra. The 0.005 floor is 0.1 Hz over a nominal 20-unit span (one fifth of a spike); the fitted span varies by set (fewer firing points for VIP_engine), so G on H is not comparable with v1's G. If fewer than two firing points in either arm, G is undefined: pass only if undefined in both, recorded `undefined`.
+- P3 gain. G = least-squares slope of rate (Hz) against extra over the points of H with count > 0 (the `summarize()` definition applied to H, `numpy.polyfit` degree 1). Pass when |G_E - G_O1| <= max(0.01 |G_O1|, 0.005) Hz per unit extra. The 0.005 floor is 0.1 Hz over a nominal 20-unit span (one fifth of a spike); the fitted span varies by set (fewer firing points for VIP_engine), so G on H is not comparable with v1's G. If G is undefined (fewer than two firing points) in exactly one arm, P3 fails. If G is undefined in both arms, P3 is NOT EVALUABLE for that set: it never counts as a pass, and Claim A is INCONCLUSIVE (verdict rule 2).
 - P4b rank-matched timing, points of H with N_E = N_O1 >= 1 (spike steps sorted ascending in both arms). tol(point) = 10 steps if N_O1 = 1; otherwise min(max(10 steps, 0.1 x ISI_med), 140 steps), where ISI_med is the median inter-spike interval of O1 at that point in steps. Pass when every rank pair differs by <= tol. The floor 10 steps (1 ms) and the cap 140 steps (14 ms) are stipulated; `LAG_WINDOW_MS = 14` (`jomission/laminar/caminos_analysis.py:32`) is the lag search half-range, not a timing resolution, and the link from this tolerance to the smoothing scale of the lag estimator is not established.
 - P4e binned timing (scores unequal-count points that rank matching cannot): at every point of H with max(N_E, N_O1) >= 1, spike counts in 20 consecutive 100 ms bins differ by <= 1 per bin. The bin width is stipulated.
 - P4c coverage = (points scored by P4b) / (points with N_O1 >= 1), per set. P4c < 0.90 for any set makes P4b UNDERPOWERED there; P4e still scores every firing point.
@@ -40,14 +40,15 @@ Scales. The f-I curve feeds per-class tonic calibration (rheobase and slope; the
 ## Controls (per set; a failed control makes the claim INVALID)
 
 - Negative control, all six sets: O1 with d increased by 0.5 versus E, same code, must fail at least one of P1 to P3 for Claim A, and at least one of P4b or P4e (where scored) for Claim B. The receipt records the detecting gate per set. Risk stated in advance: VIP_engine has counts of order 10 and a +/-1 count tolerance, so its detection may rest on P2 or P3; if it detects nowhere the claim is INVALID, and that outcome is informative about the assay, not about the engines.
+- Timing tolerance-edge control (tests the P4b implementation): at every point of H with N_O1 >= 1, E spike steps shifted by +tol(point) steps pass P4b, and shifted by +tol(point)+1 steps fail it, in all six sets. P4e blindness check: the same shift (applied within a 100 ms bin) is expected to pass P4e at points where no spike crosses a bin edge; the receipt records this, so Claim B is read as consistency at the stated tolerances, not as proof of within-bin timing equivalence.
 - Determinism: E run twice is bit-identical in counts and spike steps; O1 equals the scalar float64 oracle O2 in counts and spike steps at held-out points with zero-based index i mod 8 = 0 (i = 0, 8, ..., 72; 10 points) in all six sets.
 - Positive control: O1 compared with itself passes P1 to P4 for all six sets.
 
 ## Verdicts (checked in this order)
 
 1. INVALID (for a claim): any control fails, or P2 is INVALID for a set (Claim A), or E cannot run through a supported path. All sets and gates are still reported.
-2. Claim A: PRACTICALLY_EQUIVALENT if P1 to P3 hold for all six sets; otherwise NOT_PRACTICALLY_EQUIVALENT (failing set, point, sizes).
-3. Claim B: TIMING_INCONSISTENT if any scored P4b or P4e fails; else INCONCLUSIVE if P4c < 0.90 for any set (P4b underpowered); else TIMING_CONSISTENT.
+2. Claim A: NOT_PRACTICALLY_EQUIVALENT if any of P1 to P3 fails on any set (failing set, point, sizes); else INCONCLUSIVE if P3 is not evaluable on any set; else PRACTICALLY_EQUIVALENT (P1 to P3 hold on all six sets, evaluable).
+3. Claim B: TIMING_INCONSISTENT if any scored P4b or P4e fails; else INCONCLUSIVE if P4c < 0.90 for any set (P4b underpowered); else TIMING_CONSISTENT, meaning rank-matched timing on equal-count points within tol and 100 ms-binned counts within 1 elsewhere, nothing about within-bin timing at unequal-count points.
 - v1's NOT_EQUIVALENT stands whatever v2 returns. A change to any threshold, grid, or definition after a v2 run is a new declaration (v3).
 
 ## Dependencies and owner decisions

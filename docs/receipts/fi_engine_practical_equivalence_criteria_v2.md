@@ -1,43 +1,53 @@
-# f-I practical equivalence: criteria v2 (DRAFT, unsigned; no run before ratification)
+# f-I practical equivalence: criteria v2 (DRAFT 2, unsigned; no run before ratification)
 
-Drafted 2026-11-15 under Hamm's standing instruction to develop a prospective, separately versioned practical-equivalence specification. Baseline: jomission `e741270` on `_temp_swarm_fi_equiv_20261115`. Frozen engine: jaxfne 0.5.8 (unchanged).
+Drafted 2026-11-15, revised the same day after Hamm's review (P3 and P4 held). Baseline: jomission `9e4a8de` on `_temp_swarm_fi_equiv_20261115`. Frozen engine: jaxfne 0.5.8 (unchanged).
 
-## Relation to v1
+## Relation to v1 and to checklist item 8
 
-`fi_engine_equivalence_criteria.md` (v1, exact counts) and its receipt `fi_engine_equivalence_v1.json` stay as written: verdict NOT_EQUIVALENT (G1 12 of 486 points differ), checklist item 8 stays 0. v2 is a new declaration, not a repair of v1. It was written after v1's outcome was known, so v1's grid cannot serve as its confirmatory data (v1 informed the question, not the thresholds below, which come from the stated physical scales). v2 is scored only on the held-out grid below.
+`fi_engine_equivalence_criteria.md` (v1, exact counts) and `fi_engine_equivalence_v1.json` stay as written: NOT_EQUIVALENT (G1: 12 of 486 points differ), checklist item 8 = 0. v2 is a separate scientific claim, not a replacement. It was written after v1's outcome was known, so the v1 grid is not confirmatory data for it; v2 is scored only on the held-out grid. A passing v2 is recorded as supplementary evidence. Item 8 keeps its existing acceptance definition; its score changes only by Hamm's ruling.
+
+## Two claims, reported separately
+
+- Claim A, practical output equivalence: the f-I curve a downstream user reads (counts, rheobase, gain) agrees within tolerances set by what those outputs are used for. Gates P1 to P3.
+- Claim B, timing consistency: spike times agree, which probes implementation equivalence beyond the f-I outputs. Gate P4.
+A verdict names which claim it supports. Claim A can hold while B fails or is underpowered; neither implies the other, and neither implies v1's exact-count equality.
 
 ## Question and estimand
 
-Do the NumPy f-I assay (`scripts/fi_single_neuron.py::firing_rates`, O1) and the JaxFNE 0.5.8 dense Izhikevich kernel (E) agree within the practical tolerances below on inputs v1 never used? Estimand per parameter set (same 6 sets and arm definitions as v1): spike count N in 2000 ms, spike times, rheobase, and gain.
+Do the NumPy f-I assay (`scripts/fi_single_neuron.py::firing_rates`, O1) and the JaxFNE 0.5.8 dense Izhikevich kernel (E) agree on inputs v1 never used? Arms, six parameter sets, dt 0.1 ms, 2000 ms, float64, explicit v0 = c and u0 = b c as in v1. Estimands per set: count N, spike steps, rheobase, gain.
 
 ## Held-out grid
 
-extra = 0.125 + 0.25 k, k = 0..79 (0.125 to 19.875; 80 points; disjoint from the v1 grid 0, 0.25, ..., 20). Refined rheobase grid: step 0.01 from the O1 rheobase_extra minus 0.25 to plus 0.25 (v1 G4 used only the lower side).
+extra = 0.125 + 0.25 k, k = 0..79 (80 points, disjoint from the v1 grid). Refined rheobase grid: step 0.01 over O1 rheobase_extra +/- 0.25 (both sides; v1 G4 covered the lower side only).
 
 ## Gates (thresholds PROPOSED; Hamm rules before any run)
 
-- P1 count: |N_E - N_O1| <= max(1, 0.01 N_O1) at every held-out point of every set. Scale: one spike in 2 s is 0.5 Hz; 1% is far below the binning of any reported rate.
-- P2 rheobase: |rheobase_E - rheobase_O1| <= 0.05 on the refined grid, per set (one fifth of the v1 grid step).
-- P3 gain: relative difference of the positive-grid slope (`summarize()` definition) <= 1% per set.
-- P4 timing, on points with N_E = N_O1: every spike pair (matched by rank) differs by <= 10 steps (1 ms at dt 0.1 ms). Points with unequal counts are reported, not scored by P4.
-- Informational, no gate: number of held-out points with exact count equality; max absolute count difference; timing drift versus spike rank; float32 sensitivity.
+Justification scales. The f-I curve feeds per-class tonic calibration (rheobase and slope from `summarize()`; the BKG calibration inverts F-I toward ~10 Hz), so output tolerances are set against rate resolution: one spike in the 2000 ms window is 0.5 Hz. Timing is set against the neuron's own inter-spike interval and the estimator lag window (`LAG_WINDOW_MS = 14 ms`, `jomission/laminar/caminos_analysis.py`).
 
-## Controls (must hold or the verdict is INVALID)
+- P1 count. |N_E - N_O1| <= max(1, 0.01 N_O1) at every held-out point. Zero counts: N_O1 = 0 permits N_E <= 1 by design; the location of onset is constrained by P2. N_O1 = 0 with N_E >= 2, or the reverse, fails.
+- P2 rheobase. |rheobase_E - rheobase_O1| <= 0.05 on the refined grid, per set. Rheobase is the smallest extra with count > 0; if either arm never fires on the refined grid the set fails P2 unless both do not fire.
+- P3 gain. Gain G = positive-grid slope of rate against extra (`summarize()`). Pass when |G_E - G_O1| <= max(0.01 |G_O1|, 0.005) Hz per unit extra. The absolute floor 0.005 Hz/unit is 0.1 Hz over the 20-unit span, one fifth of a spike, so a near-zero slope cannot make a relative test vacuous or impossible. If G is undefined (fewer than two firing points) in either arm, P3 passes only if undefined in both and reports `undefined`.
+- P4 timing (Claim B). Report four numbers per set and gate on the first two:
+  - P4a first-spike latency: every point with N >= 1 in both arms differs by <= max(10 steps, 0.1 median ISI of O1) (10 steps = 1 ms).
+  - P4b rank-matched spikes: at points with N_E = N_O1, every spike pair differs by <= max(10 steps, 0.1 median ISI of O1).
+  - P4c coverage: fraction of firing points (N_O1 >= 1) scored by P4b. If P4c < 0.90 for any set, P4b is UNDERPOWERED for that set and Claim B is INCONCLUSIVE, not pass.
+  - P4d drift (no gate): for equal-count points, max |dt| against spike rank; for unequal-count points, the count difference and first-spike latency difference. Unequal-count points are reported here because rank matching cannot score them and would hide accumulated drift.
+  The 0.1 ISI term keeps the tolerance below the estimator lag window at every rate; 1 ms is a floor, not a scientific claim of sufficiency.
 
-- Negative control (must detect): O1 with d increased by 0.5 for the E set, compared with E by the same code, must fail P1 or P2 or P3 or P4. (v1 showed this perturbation moves counts by up to 5.)
-- Determinism: E run twice is bit-identical; O1 against the scalar float64 oracle O2 equals exactly at every 8th held-out point (11 points), as v1 G0.
-- Positive control: O1 against itself passes P1 to P4.
+## Controls (each set, or the set's verdict is INVALID)
+
+- Negative control, all six sets: O1 with d increased by 0.5, compared with E by the same code, must fail at least one of P1 to P3 for that set (and P4a/P4b where scored). The receipt records which gate detected, per set. A set where the perturbation is undetected makes that set INVALID, so the verdict is INVALID.
+- Determinism: E run twice is bit-identical; O1 equals the scalar float64 oracle O2 exactly at every 8th held-out point of all six sets.
+- Positive control: O1 compared with itself passes P1 to P4 for all six sets.
 
 ## Verdicts
 
-- PRACTICALLY_EQUIVALENT: P1 to P4 hold for all 6 sets and all controls hold.
-- NOT_PRACTICALLY_EQUIVALENT: all controls hold and at least one gate fails; report the failing set, point, and sizes.
-- INVALID: a control fails or E cannot run through a supported path.
-- Whatever the outcome, v1's NOT_EQUIVALENT stands. Item 8 is rescored only if Hamm rules that practical equivalence is what item 8 requires.
-- A change of any threshold or grid after a v2 run is a new declaration (v3).
+- Claim A, PRACTICALLY_EQUIVALENT: P1 to P3 hold for all six sets and all controls hold. Otherwise NOT_PRACTICALLY_EQUIVALENT (report failing set, point, sizes) or INVALID.
+- Claim B, TIMING_CONSISTENT: P4a and P4b hold for all six sets and P4c >= 0.90 for all sets. TIMING_INCONSISTENT if a scored P4 fails; INCONCLUSIVE if coverage is short.
+- v1's NOT_EQUIVALENT stands whatever v2 returns. A change of any threshold or the grid after a v2 run is a new declaration (v3).
 
 ## Dependencies and owner decisions
 
-- Thresholds P1 to P4 and the held-out grid are scientific tolerances; they are proposals until Hamm ratifies or edits them. No v2 run is authorized before that.
-- The run needs no tier-3 battery and writes no `results/*.json`; its output would be `docs/receipts/fi_engine_practical_equivalence_v2.json` (unsealed) from a new script, reusing the v1 harness.
-- Open attribution (untested): the v1 mismatches may be XLA versus CPython rounding at threshold crossings; v2 does not test the cause.
+- Thresholds and grid are scientific tolerances: proposals until Hamm ratifies. No v2 run is authorized before that.
+- The run needs no tier-3 battery, writes no `results/*.json`, and its output would be `docs/receipts/fi_engine_practical_equivalence_v2.json` (unsealed), from a new script reusing the v1 harness.
+- Untested: the cause of the v1 mismatches (inferred candidate: XLA versus CPython rounding at threshold crossings). v2 does not test the cause.

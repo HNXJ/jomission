@@ -81,6 +81,19 @@ Fields of the minimal table (animal, area, layer, SST_count, PVALB_count, sample
 Cost: one CSV per animal × slice × type (161 slices × 2 types = 322 exports), through the supported UI.
 Not a confirmatory dataset until the area-label table (§4/A1) is committed and the filter is confirmed.
 
+## Acquisition status (owner ruling 2026-11-16, Option 3)
+
+| Route | Priority | Owner action | State |
+|---|---|---|---|
+| Author request (`AUTHOR_REQUEST_DRAFT_2026-11-16.md`) | 1 | send (unsent until explicitly authorized) | waiting on owner |
+| BSDC per-cell TSV + README | 2 | register and download into `D:/_sources_open38/chen2023_bsdc/` | waiting on owner |
+
+On arrival, before any count is read: verify animal, section, region, layer and cell-type identifiers are
+recoverable; check section-to-animal correspondence against Table S3; layer assignment method; 7A nomenclature;
+and, if both routes deliver, whether they are the same observations (reconcile provenance and duplicates
+before combining). Confirmatory analysis resumes only with ≥ 2 independent animals for a comparison; sections
+and portal `-test` copies are never animals. No monkey #1 exploratory pilot meanwhile.
+
 ## Feasibility verdict
 
 The supplement cannot carry the primary test: S5 has neither layer nor animal resolution. The preregistered

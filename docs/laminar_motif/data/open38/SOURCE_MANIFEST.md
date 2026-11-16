@@ -55,6 +55,32 @@ Files listed on the page (first page of the list; sizes as shown):
 UNKNOWN until the README is read. The ND term restricts sharing adapted material: extracted per-layer count
 tables may not be redistributable in this repository without the authors' permission (owner to decide).
 
+## Public route without login: portal "Cell Summation" CSV (2026-11-16)
+
+Portal Help ("Show Gene Expression in Certain Layer of Brain Area"; Cell Summation panel: "The Num. of cells of
+all selected cell types in differ regions", with "Download as CSV") documents a per-slice export. Probe on the
+default view (Sample `monkey_f001`, Project Neocortex, slice 64/119, default cell-type selection), via the UI's
+own Download as CSV, **no login**:
+
+- Columns: `region`, `Cell Count`; 1002 rows.
+- Region labels are hierarchical and **layer-resolved**: lobe (`occipital`, `parietal`, ...), area (`V1`,
+  `V2`, `V3A`, `V4v`, `7op`, `AIP`, `DP`, ...), and area-layer rows `<area>-l1` ... `<area>-l6`.
+- Only labels were read; no count was read. The probe file stays in scratch, not in the repo.
+
+Fields of the minimal table (animal, area, layer, SST_count, PVALB_count, sampled cells, assay):
+
+| Field | Source | Status |
+|---|---|---|
+| animal | Sample selector (`monkey_f001`; S3 lists monkeys #1-#3) | other sample names not yet read (selector not opened by the probe) |
+| section | slice selector (n/119 for monkey #1; S3 Section IDs) | available |
+| area, layer | CSV `region` (`<area>-l1..l6`) | available; L2 and L3 separate (A1 merge rule: sum); **V1 L4 sublaminae not separated** (A1 V1 sublaminar report not possible) |
+| SST, PVALB count | CSV `Cell Count` after selecting the SST or PVALB subclass in "Select cell type" | filter behaviour not yet confirmed |
+| sampled cells | same export with all types selected | available |
+| assay | Stereo-seq cell typing (Spatial-ID) | transcriptomic abundance |
+
+Cost: one CSV per animal × slice × type (161 slices × 2 types = 322 exports), through the supported UI.
+Not a confirmatory dataset until the area-label table (§4/A1) is committed and the filter is confirmed.
+
 ## Feasibility verdict
 
 The supplement cannot carry the primary test: S5 has neither layer nor animal resolution. The preregistered

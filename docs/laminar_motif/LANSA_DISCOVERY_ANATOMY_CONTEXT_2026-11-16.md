@@ -22,3 +22,14 @@ Status: owner-approved scientific context and proposed future direction; **not**
 Owner clarification in conversation, 2026-11-16: the narrative is CAMINOS → widespread motif → SST/PV-based model inference → anatomical validation → further autonomous simulation. This note is additive context, not a change to `manifests/current_state.json`, `manifests/todo.json`, frozen tables, scientific verdicts, or the approved execution pointer. Current repository records still explicitly describe E2's prescribed ramp; retain that history.
 
 References for follow-up verification: CAMINOS original model; Mendoza et al. spectrolaminar motif; macaque spatial transcriptomics and Disney et al. marker-specificity work. Bibliographic and quantitative claims must be checked against the primary papers before use as model constraints.
+
+## Correction (owner order, 2026-11-16, later the same day)
+
+Additive; the text above is kept as the historical record. The provenance audit
+(`LANSA_SSTPV_PROVENANCE_AUDIT_2026-11-16.md`) found no lineage that estimates SST/PV: every value is prescribed.
+Stage 3 now reads:
+
+> **LANSA tests whether prescribed laminar SST/PV composition can reproduce the spectrolaminar motif.** Parameter sweeps and controls assess sensitivity; they do not estimate anatomical ratios.
+
+Stage 4 accordingly tests the prescribed ramp against macaque anatomy; it does not validate an inferred profile.
+No ratio optimization runs before anatomical constraints and an independent evaluation design exist.

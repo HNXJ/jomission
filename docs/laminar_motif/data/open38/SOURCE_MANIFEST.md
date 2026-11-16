@@ -30,6 +30,31 @@ Article PDF: not obtained (ScienceDirect and cell.com return a bot check to scri
 - S1: region hierarchy (Level 1-3) for 143 regions; used for the §4 area-label table.
 - S2: class, subclass, full name and abbreviation of 264 types; used for the A2 type assignment.
 
+## Official processed export (portal "Data download", 2026-11-16)
+
+The portal (`macaque.digital-brain.cn/spatial-omics`) menu item "Data download" opens the Brain Science Data
+Center (CAS) dataset "Cell type annotation dataset for the spatial transcriptome of the macaque cortex",
+Yidi Sun (2023), DOI 10.12412/BSDC.1685411291.30001, CSTR 33145.11.BSDC.1685409749.1663093488869060610,
+page `https://www.braindatacenter.cn/datacenter/web/#/dataSet/details?id=1663381185152036865`.
+License **CC BY-NC-ND 4.0**; 174 files, 564.16 GB; contact ydsun@ion.ac.cn.
+
+Files listed on the page (first page of the list; sizes as shown):
+
+| File | Size | Likely content (from the name; unverified) |
+|---|---|---|
+| /README-update20251117.md | 4 KB | schema |
+| /ST_result/ST.CellID.CellType.3monkeys.all.tsv | 1.58 GB | per-cell type calls, 3 monkeys |
+| /ST_result/ST.CellID.quality.3monkeys.all.tsv | 1.63 GB | per-cell quality |
+| /ST_result/SliceID_EBZ_info.xlsx | 13 KB | section-to-monkey map (cf. S3) |
+| /ST_result/cytpe_region_ration.xlsx | 425 KB | type-by-region ratios |
+| /ST_result/regions-macaque1.csv, -macaque2.csv, -macaque3.csv (+ a macaque2 contour2 variant) | 31-538 KB | region (possibly layer) contours per monkey |
+| /ST_result/20230503-macaque1-sct/total_gene_T*.type...contour2.round.txt | 1.5-3.9 GB each | per-section gene counts with type and contour |
+
+**Access restriction:** every Download button, including the 4 KB README, redirects to the BSDC login page
+(`braindatacenter.cn/iam/admin/#/login`). No file has been downloaded; whether a cortical-layer field exists is
+UNKNOWN until the README is read. The ND term restricts sharing adapted material: extracted per-layer count
+tables may not be redistributable in this repository without the authors' permission (owner to decide).
+
 ## Feasibility verdict
 
 The supplement cannot carry the primary test: S5 has neither layer nor animal resolution. The preregistered

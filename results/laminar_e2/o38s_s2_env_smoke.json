@@ -1,0 +1,188 @@
+{
+ "python": {
+  "executable": "D:\\venvs\\o38s_jaxfne059\\Scripts\\python.exe",
+  "version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0"
+ },
+ "flags": {
+  "dont_write_bytecode": true
+ },
+ "engine": {
+  "version": "0.5.9",
+  "file": "D:/repos/_work/_temp_jaxfne_351f6048/jaxfne/__init__.py",
+  "export": "D:/repos/_work/_temp_jaxfne_351f6048",
+  "source_commit": "351f6048c2f80b32dcaf27d47e59c3c22507eef6",
+  "ok": true
+ },
+ "deps": {
+  "jax": "0.10.2",
+  "jaxlib": "0.10.2",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "matplotlib": "3.11.2",
+  "ml_dtypes": "0.7.0",
+  "opt_einsum": "3.4.0"
+ },
+ "smoke": {
+  "jax_op": {
+   "ok": true
+  },
+  "v1": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584",
+   "rho": {
+    "S": 1.688,
+    "M": 0.558,
+    "D": 1.584
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 404,
+     "SOM": 681
+    },
+    "M": {
+     "E": 3668,
+     "PV": 442,
+     "SOM": 246
+    },
+    "D": {
+     "E": 2547,
+     "PV": 185,
+     "SOM": 293
+    }
+   },
+   "ok": true
+  },
+  "mt": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014",
+   "rho": {
+    "S": 1.28,
+    "M": 0.599,
+    "D": 1.014
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 476,
+     "SOM": 609
+    },
+    "M": {
+     "E": 3668,
+     "PV": 430,
+     "SOM": 258
+    },
+    "D": {
+     "E": 2547,
+     "PV": 237,
+     "SOM": 241
+    }
+   },
+   "ok": true
+  },
+  "mst": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103",
+   "rho": {
+    "S": 1.22,
+    "M": 0.615,
+    "D": 1.103
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 489,
+     "SOM": 596
+    },
+    "M": {
+     "E": 3668,
+     "PV": 426,
+     "SOM": 262
+    },
+    "D": {
+     "E": 2547,
+     "PV": 227,
+     "SOM": 251
+    }
+   },
+   "ok": true
+  },
+  "teo": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153",
+   "rho": {
+    "S": 1.409,
+    "M": 0.695,
+    "D": 1.153
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 450,
+     "SOM": 635
+    },
+    "M": {
+     "E": 3668,
+     "PV": 406,
+     "SOM": 282
+    },
+    "D": {
+     "E": 2547,
+     "PV": 222,
+     "SOM": 256
+    }
+   },
+   "ok": true
+  },
+  "chc": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178",
+   "rho": {
+    "S": 1.345,
+    "M": 0.595,
+    "D": 1.178
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 463,
+     "SOM": 622
+    },
+    "M": {
+     "E": 3668,
+     "PV": 431,
+     "SOM": 257
+    },
+    "D": {
+     "E": 2547,
+     "PV": 219,
+     "SOM": 259
+    }
+   },
+   "ok": true
+  },
+  "shape": {
+   "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942",
+   "rho": {
+    "S": 1.095,
+    "M": 0.485,
+    "D": 0.942
+   },
+   "sizes": {
+    "S": {
+     "E": 5785,
+     "PV": 518,
+     "SOM": 567
+    },
+    "M": {
+     "E": 3668,
+     "PV": 463,
+     "SOM": 225
+    },
+    "D": {
+     "E": 2547,
+     "PV": 246,
+     "SOM": 232
+    }
+   },
+   "ok": true
+  }
+ },
+ "pass": true
+}

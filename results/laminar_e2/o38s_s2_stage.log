@@ -1,0 +1,39 @@
+2026-11-17T12:49:54Z mode smoke
+2026-11-17T12:49:54Z HEAD 584922c80baa26a573ef90e3186e156b411b05d7
+2026-11-17T12:49:55Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T12:49:56Z freeze written (16 files)
+{"pass": true, "jaxfne": "0.5.9", "failed": []}
+2026-11-17T12:50:00Z environment check: PASS
+2026-11-17T12:50:39Z export manifest pre: PASS; files 2783; pycache 0
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584: PASS
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014: PASS
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103: PASS
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153: PASS
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178: PASS
+seed 1 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942: FAIL inh_rules
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584: PASS
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014: PASS
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103: PASS
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153: PASS
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178: PASS
+seed 2 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178: PASS
+seed 3 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178: PASS
+seed 4 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178: PASS
+seed 5 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942: PASS
+2026-11-17T12:59:18Z construction invariance: FAIL
+2026-11-17T12:59:18Z STOP: construction invariance failed; no run started

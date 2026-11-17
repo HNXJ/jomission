@@ -1,0 +1,8 @@
+2026-11-17T12:49:54Z mode smoke
+2026-11-17T12:49:54Z HEAD 584922c80baa26a573ef90e3186e156b411b05d7
+2026-11-17T12:49:55Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T12:49:56Z freeze written (16 files)
+2026-11-17T12:50:00Z environment check: PASS
+2026-11-17T12:50:39Z export manifest pre: PASS; files 2783; pycache 0
+2026-11-17T12:59:18Z construction invariance: FAIL
+2026-11-17T12:59:18Z STOP: construction invariance failed; no run started

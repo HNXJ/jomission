@@ -26,6 +26,16 @@ and `generated_utc` on the card.
 | BLOCKED | the driver logged STOP, or a phase passed and the next is not launched (`reason` says which) |
 | UNKNOWN | a needed receipt is missing or unreadable, a running log went stale, or tests were not run |
 
+Cross-commit consistency (owner 2026-11-17): a PASS never combines receipts from different source revisions. The
+driver-log HEAD, each run's `git_sha` and each integrity receipt's `head` must be one SHA. A receipt written at
+another revision counts only with an entry in `results/laminar_e2/o38s_receipt_compat.json` that names the paths
+that must be identical to the execution SHA, and `git diff` must confirm them. Otherwise the stage is UNKNOWN.
+The stage's `consistency` block lists any problem and each verified compatibility.
+
+Public view (owner 2026-11-17): cards render `public_status`. It equals `status` only when every receipt the stage
+reads is committed and unmodified at `source.sha`; otherwise it is UNKNOWN. A machine-local RUNNING is never shown
+as repository-verified, and `latest_verified_milestone` uses `public_status` only.
+
 A launched simulation is never PASS. A run counts only with its `TAG rc=0` log line, and a stage only with DONE plus
 its checker receipts. Owner acceptance and independent review live in the receipt docs (linked under `evidence`);
 they are not inferred here.
@@ -37,8 +47,8 @@ they are not inferred here.
 | `source.sha`, `source.branch`, `source.dirty_tracked`, `generated_utc` | provenance line |
 | `project.name`, `project.objective` | Labyrinth card header |
 | `current_stage` | dashboard headline |
-| `stage1.status`, `stage1.checks`, `stage1.runs_exit0` / `runs_expected` | stage 1 row |
-| `stage2.status`, `stage2.reason`, `stage2.phases[]` (mode, status, started, exit0, construction, integrity, last_line_utc), `stage2.runs_exit0` / `runs_expected` | stage 2 row and running attempts |
+| `stage1.public_status` (card), `stage1.status` (local), `stage1.checks`, `stage1.consistency`, `stage1.runs_exit0` / `runs_expected` | stage 1 row |
+| `stage2.public_status` (card), `stage2.status` (local), `stage2.reason`, `stage2.consistency`, `stage2.phases[]` (mode, status, started, exit0, construction, integrity, last_line_utc), `stage2.runs_exit0` / `runs_expected` | stage 2 row and running attempts |
 | `stage2.construction_gate.verdict`, `.family` (alpha, n_tests, per-test level, ruling) | construction-gate verdict |
 | `stage2.attempts[]` | earlier stopped attempts |
 | `tests.status`, `.passed`, `.failed`, `.defined` | test counts |

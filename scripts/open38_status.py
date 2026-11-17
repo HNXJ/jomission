@@ -12,7 +12,15 @@ Statuses: PASS, FAIL, RUNNING, BLOCKED, UNKNOWN.
   BLOCKED  the driver logged STOP, or a phase passed and the next is not launched (reason given)
   UNKNOWN  a needed receipt is missing or unreadable, or a running segment's log went stale
 A launched simulation is never PASS: a run counts only with its "TAG rc=0" line, and a stage only with DONE and its checks.
-The live log of a running stage is untracked until the stage closes; a refresh from a clone shows the last commit.
+
+Cross-commit consistency (owner 2026-11-17): a PASS never combines receipts from different source revisions. Every
+revision a stage's receipts carry (driver log HEAD, run git_sha, integrity "head") must be one SHA. A receipt written
+at another revision counts only if RESULTS/o38s_receipt_compat.json names it, with its source SHA and the paths that
+must be identical to the execution SHA, and `git diff` confirms those paths are identical. Otherwise the stage is
+UNKNOWN. Receipts written by the driver inside its own logged segment (construction, freeze) carry the segment's HEAD.
+
+Public view (owner 2026-11-17): `public_status` equals `status` only when every receipt the stage reads is committed
+and unmodified at the source SHA; otherwise it is UNKNOWN. The live (machine-local) state stays in `status`.
 """
 from __future__ import annotations
 
@@ -118,34 +126,93 @@ def _log(repo: Path, name: str) -> tuple[list[dict], float | None, str | None]:
     return parse_segments(p.read_text(encoding="utf-8")), age, _sha(p)
 
 
+def _git(repo: Path, *a) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", "-C", str(repo), *a], capture_output=True, text=True, stdin=subprocess.DEVNULL)
+
+
+def committed(repo: Path, rels: list[str]) -> bool | None:
+    """True if every path is tracked and unmodified at HEAD; None without git."""
+    if _git(repo, "rev-parse", "HEAD").returncode != 0:
+        return None
+    for rel in rels:
+        if _git(repo, "ls-files", "--error-unmatch", rel).returncode != 0:
+            return False
+        if _git(repo, "diff", "--quiet", "HEAD", "--", rel).returncode != 0:
+            return False
+    return True
+
+
+def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
+    """Is a receipt written at another revision declared and verified compatible with execution_sha?"""
+    man = _json(repo / R / "o38s_receipt_compat.json") or {}
+    ent = next((e for e in man.get("entries", []) if e.get("receipt") == rel), None)
+    if ent is None:
+        return False, f"{rel}: no compatibility entry"
+    if not str(ent.get("execution_sha", "")).startswith(execution_sha[:7]) or not ent.get("identical_paths"):
+        return False, f"{rel}: entry names execution {ent.get('execution_sha')} or no identical_paths"
+    r = _git(repo, "diff", "--quiet", ent["execution_sha"], ent["source_sha"], "--", *ent["identical_paths"])
+    if r.returncode == 0:
+        return True, f"{rel}: {ent['source_sha'][:7]} ~ {execution_sha[:7]} on {ent['identical_paths']}"
+    if r.returncode == 1:
+        return False, f"{rel}: declared paths differ between {ent['execution_sha'][:7]} and {ent['source_sha'][:7]}"
+    return None, f"{rel}: git could not verify ({r.stderr.strip()[:80]})"
+
+
+def consistency(repo: Path, heads: dict[str, set], foreign: list[str]) -> dict:
+    """One execution SHA across all revision-bearing receipts; foreign receipts need a verified compat entry."""
+    seen = set().union(*heads.values()) if heads else set()
+    probs = [f"revisions differ: { {k: sorted(v) for k, v in heads.items()} }"] if len(seen) != 1 or None in seen else []
+    exe = next(iter(seen)) if len(seen) == 1 else None
+    notes = []
+    for rel in foreign if exe else []:
+        ok, why = compat(repo, rel, exe)
+        (notes if ok else probs).append(why)  # ok None (git unavailable) counts as unverified
+    return {"ok": not probs, "execution_sha": exe, "problems": probs, "compatible": notes}
+
+
+def _apply(st: str, why: str, cons: dict) -> tuple[str, str]:
+    if st == "PASS" and not cons["ok"]:
+        return "UNKNOWN", "cross-commit receipts: " + "; ".join(cons["problems"])
+    return st, why
+
+
 def stage1(repo: Path, stale: float) -> dict:
     segs, age, lsha = _log(repo, "o38s_pc_stage.log")
-    rec = {k: _verdict(_json(repo / R / f)) for k, f in (
-        ("stage_check", "o38s_pc_stage1_check.json"), ("integrity", "o38s_pc_integrity.json"),
-        ("construction_frozen", "o38s_pc_construction.json"), ("construction_ruling_b", "o38s_pc_construction_rulingB.json"))}
+    files = {"stage_check": "o38s_pc_stage1_check.json", "integrity": "o38s_pc_integrity.json",
+             "construction_frozen": "o38s_pc_construction.json", "construction_ruling_b": "o38s_pc_construction_rulingB.json"}
+    js = {k: _json(repo / R / f) for k, f in files.items()}
+    rec = {k: _verdict(v) for k, v in js.items()}
     if not segs:
-        return {"status": "UNKNOWN", "reason": "no stage log", "checks": rec}
+        return {"status": "UNKNOWN", "public_status": "UNKNOWN", "reason": "no stage log", "checks": rec}
     st, why = segment_status(segs[-1], age, stale, ("stage_check",))
     if st == "PASS" and any(v != "PASS" for v in rec.values()):
         st, why = ("FAIL" if "FAIL" in rec.values() else "UNKNOWN"), f"checker receipts: {rec}"
     s = segs[-1]
-    return {"status": st, "reason": why, "head": s["head"], "runs_exit0": sum(v == 0 for v in s["rc"].values()),
-            "runs_expected": 15, "checks": rec, "log_sha256": lsha}
+    runs = (js["stage_check"] or {}).get("runs", {})
+    heads = {"log": {s["head"]}, "integrity": {(js["integrity"] or {}).get("head")},
+             "run_git_sha": {r.get("git_sha") for a in runs.values() for r in a.values()} or {None}}
+    cons = consistency(repo, heads, [f"{R}/{files['construction_ruling_b']}"])
+    st, why = _apply(st, why, cons)
+    pub = committed(repo, [f"{R}/o38s_pc_stage.log", f"{R}/o38s_receipt_compat.json",
+                           *(f"{R}/{f}" for f in files.values())])
+    return {"status": st, "public_status": st if pub else "UNKNOWN", "committed": pub, "reason": why,
+            "head": s["head"], "runs_exit0": sum(v == 0 for v in s["rc"].values()), "runs_expected": 15,
+            "checks": rec, "consistency": cons, "log_sha256": lsha}
 
 
 def stage2(repo: Path, stale: float) -> dict:
     segs, age, lsha = _log(repo, "o38s_s2_stage.log")
     att1, _, _ = _log(repo, "o38s_s2_attempt1_stage.log")
-    cons = _json(repo / R / "o38s_s2_construction.json")
+    cjs = _json(repo / R / "o38s_s2_construction.json")
     out = {"runs_expected": 30, "log_sha256": lsha,
            "attempts": [{"attempt": 1, "mode": s["mode"], "head": s["head"], "construction": s["construction"],
                          "stop": s["stop"]} for s in att1],
-           "construction_gate": {"verdict": _verdict(cons) if cons is not None else
+           "construction_gate": {"verdict": _verdict(cjs) if cjs is not None else
                                  ("RUNNING" if segs and segs[-1]["construction"] is None and not segs[-1]["stop"]
                                   and (age or 1e9) <= stale else "UNKNOWN"),
-                                 "family": (cons or {}).get("family")}}
+                                 "family": (cjs or {}).get("family")}}
     if not segs:
-        return {**out, "status": "UNKNOWN", "reason": "no stage-2 log", "phases": []}
+        return {**out, "status": "UNKNOWN", "public_status": "UNKNOWN", "reason": "no stage-2 log", "phases": []}
     phases = []
     for s in segs:
         st, why = segment_status(s, age if s is segs[-1] else 0.0, stale, ("integrity",))
@@ -163,7 +230,13 @@ def stage2(repo: Path, stale: float) -> dict:
     else:
         st, why = last["status"], last["reason"]
     runs = sum(p["exit0"] for p in phases)
-    return {**out, "status": st, "reason": why, "phases": phases, "runs_exit0": runs}
+    integ_files = [f for f in ("o38s_s2_smoke_integrity.json", "o38s_s2_integrity.json") if (repo / R / f).is_file()]
+    heads = {"log": {s["head"] for s in segs}, **{f: {(_json(repo / R / f) or {}).get("head")} for f in integ_files}}
+    cons = consistency(repo, heads, [])  # the construction receipt is written inside the logged smoke segment
+    st, why = _apply(st, why, cons)
+    pub = committed(repo, [f"{R}/o38s_s2_stage.log", f"{R}/o38s_s2_construction.json", *(f"{R}/{f}" for f in integ_files)])
+    return {**out, "status": st, "public_status": st if pub else "UNKNOWN", "committed": pub, "reason": why,
+            "phases": phases, "runs_exit0": runs, "consistency": cons}
 
 
 def tests(repo: Path, run: bool) -> dict:
@@ -191,11 +264,11 @@ def git(repo: Path) -> dict:
 def main(out: str, repo: Path, run_tests: bool, stale: float) -> int:
     s1, s2 = stage1(repo, stale), stage2(repo, stale)
     current = ("stage 2" if s2["status"] != "UNKNOWN" or s2.get("phases") else "stage 1")
-    milestone = None
-    if s1["status"] == "PASS":
+    milestone = None  # from committed receipts only (public_status), never from a machine-local state
+    if s1["public_status"] == "PASS":
         milestone = {"what": "stage 1 positive controls: 15/15 runs, frozen checker, integrity and construction "
                              "(frozen and ruling-B) receipts PASS", "evidence": EVIDENCE["stage1_receipt"]}
-    if s2["status"] == "PASS":
+    if s2["public_status"] == "PASS":
         milestone = {"what": "stage 2: 30/30 runs, integrity PASS", "evidence": EVIDENCE["stage2_receipt"]}
     blockers = [f"{k}: {v['reason']}" for k, v in (("stage 2", s2), ("stage 1", s1)) if v["status"] in ("BLOCKED", "FAIL")]
     rep = {"schema": "o38s_status/1", "generated_utc": _now(), "source": {**git(repo), "repo_url": REPO_URL},
@@ -206,7 +279,8 @@ def main(out: str, repo: Path, run_tests: bool, stale: float) -> int:
                      "recorded in the receipts, not here",
                      "a running stage's log is untracked until the stage closes"]}
     Path(out).write_text(json.dumps(rep, indent=1), encoding="utf-8")
-    print(json.dumps({"stage1": s1["status"], "stage2": s2["status"], "gate": s2["construction_gate"]["verdict"],
+    print(json.dumps({"stage1": s1["status"], "stage1_public": s1["public_status"], "stage2": s2["status"],
+                      "stage2_public": s2["public_status"], "gate": s2["construction_gate"]["verdict"],
                       "sha": rep["source"]["sha"]}))
     return 0
 

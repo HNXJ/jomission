@@ -1,0 +1,10 @@
+{"seed": 1, "T_s": 8.0, "wall_s": {"construct": 9.256773471832275, "simulate": 175.2415120601654, "total": 192.0116572380066}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.2366910366936357, 'jackknife_se': 0.05917080658429703, 'z': -4.000131996788593, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean manuscript {'contrast_M': -0.21799541034387826, 'jackknife_se': 0.0520969772052698, 'z': -4.184415719264173, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 11.0}
+sum_over_cells image {'contrast_M': -0.06303528623594415, 'jackknife_se': 0.014435732246352745, 'z': -4.36661508818649, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.6666666666666666
+sum_over_cells manuscript {'contrast_M': -0.058940128247572665, 'jackknife_se': 0.012786355091709353, 'z': -4.609611404096647, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.6666666666666666
+sum_over_cells peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 11.0}
+{"tag": "o38s_v1_n4000_s1_T8", "row": "per_cell_mean", "r_proto": 0.037, "r_area": 0.048, "r_map": 0.003, "r_ab": -0.651, "r_gm": 0.284, "null95": 0.244}
+{"tag": "o38s_v1_n4000_s1_T8", "row": "sum_over_cells", "r_proto": 0.145, "r_area": 0.147, "r_map": 0.137, "r_ab": -0.726, "r_gm": 0.434, "null95": 0.262}
+{"tag": "o38s_v1_n4000_s1_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.14478359679826505, "r_ab": -0.7262599453227955, "r_gm": 0.48554443648961587, "r_ab_manuscript": -0.7261780988703911, "r_gm_manuscript": 0.4341093319441131, "perm_rank": 3, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965236, "identity_r": 0.14478359679826505, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.1477100591761702, "r2": 0.14054990335413975, "se1": 0.003896576647713007, "se2": 0.02299603700113418, "se_diff": 0.023323829602555295, "agree": true}, "pass": false}

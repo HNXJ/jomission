@@ -1,0 +1,34 @@
+{
+ "tag": "o38s_teo_n4000_s4_T8",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 5,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.1540166146771872,
+ "r_ab": -0.7350130749508846,
+ "r_gm": 0.5015736258548248,
+ "r_ab_manuscript": -0.7338103283926376,
+ "r_gm_manuscript": 0.44894169707464426,
+ "perm_rank": 3,
+ "smooth_p95": 0.3801444538242714,
+ "identical_control": -0.07733331760965236,
+ "identity_r": 0.1540166146771872,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.1655316358089395,
+  "r2": 0.147861113467888,
+  "se1": 0.009241268084465418,
+  "se2": 0.010413673725240668,
+  "se_diff": 0.013922845839293308,
+  "agree": true
+ },
+ "pass": false
+}

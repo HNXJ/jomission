@@ -1,0 +1,18 @@
+{
+ "schema": "o38s_exec/1",
+ "tag": "o38s_v1_n4000_s4_T8",
+ "exec_id": "1bd0c57097f647aeb40c77eef02c2dd3",
+ "head": "0d7162210553127482659d758b102f3b8f5ea71c",
+ "host": "ASBL-BASTOSI9",
+ "driver_pid": 20468,
+ "start_utc": "2026-11-17T18:31:59.130316Z",
+ "rc": 0,
+ "end_utc": "2026-11-17T18:35:35.154905Z",
+ "outputs": {
+  ".json": "4fe9abbd6e78425f4db4cd9b6269f0aae351765bb08382401b056ea02abe4840",
+  ".npz": "bdcea52686437e577c53a26088bd1a260786f2db5a9b49ae8f8cd70e40879cc6",
+  "_verdict.json": "bc75fdba09db467406955da420ec1706945ea0e79c84f33853a80f4b064fe0c9",
+  "_similarity.json": "9636a79864c9118a6ee0745acac5f1d4eeea785e6131595ca0ad8a9eddaea87b",
+  "_motif.json": "be5eb4bd5975aeabf6f2642f677ca6df3f47f17196322772deb7093098deab60"
+ }
+}

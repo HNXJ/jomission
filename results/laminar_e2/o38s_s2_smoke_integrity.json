@@ -1,0 +1,45 @@
+{
+ "pass": true,
+ "stage": 2,
+ "head": "0d7162210553127482659d758b102f3b8f5ea71c",
+ "checks": {
+  "runs": {
+   "ok": true,
+   "failed": {}
+  },
+  "provenance_unique": {
+   "ok": true,
+   "shared_execution_record": [],
+   "shared_exec_id": [],
+   "meaning": "suspected duplication; independent review required before rejection"
+  },
+  "no_extra": {
+   "ok": true,
+   "extra": []
+  },
+  "propagation": {
+   "ok": true,
+   "stage_log": "results\\laminar_e2\\o38s_s2_stage.log",
+   "missing": []
+  }
+ },
+ "warnings": {
+  "identical_outputs": {
+   "npz_sha256": [],
+   "counts_sha256": []
+  },
+  "stop_states": {}
+ },
+ "runs": [
+  {
+   "tag": "o38s_v1_n4000_s1_T8",
+   "problems": [],
+   "exec_record": "{\"construct\": 9.256773471832275, \"simulate\": 175.2415120601654, \"total\": 192.0116572380066}",
+   "npz_sha256": "b23bc6339035f941f2a88ac1b788f1e662b380f7cac2189da4b1c045d5412a3d",
+   "counts_sha256": "2da0dfe29bfc627747f6fde0fd5dac629f4e5e7ae3355b0746ba6c2dfad53646",
+   "exec_id": "683bb70cb546437f814561e8d9260808",
+   "stop": null,
+   "ok": true
+  }
+ ]
+}

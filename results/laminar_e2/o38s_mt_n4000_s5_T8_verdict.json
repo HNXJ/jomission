@@ -1,0 +1,34 @@
+{
+ "tag": "o38s_mt_n4000_s5_T8",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 5,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.15748095912682872,
+ "r_ab": -0.7350855522295718,
+ "r_gm": 0.5048248989862594,
+ "r_ab_manuscript": -0.734436952175869,
+ "r_gm_manuscript": 0.4530395001914523,
+ "perm_rank": 3,
+ "smooth_p95": 0.3801444538242714,
+ "identical_control": -0.07733331760965233,
+ "identity_r": 0.15748095912682872,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.15886424709290778,
+  "r2": 0.1574244206931417,
+  "se1": 0.019545210427674653,
+  "se2": 0.005117789980252541,
+  "se_diff": 0.020204133857803834,
+  "agree": true
+ },
+ "pass": false
+}

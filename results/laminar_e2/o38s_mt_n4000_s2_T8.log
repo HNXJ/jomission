@@ -1,0 +1,10 @@
+{"seed": 2, "T_s": 8.0, "wall_s": {"construct": 9.576295137405396, "simulate": 171.60214591026306, "total": 188.6336464881897}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.3153573098127539, 'jackknife_se': 0.09773696763202938, 'z': -3.22659191760527, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean manuscript {'contrast_M': -0.3127976533693532, 'jackknife_se': 0.08473517600551854, 'z': -3.6914734601953465, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean peak_hz_unit {'S': 11.0, 'M': 39.0, 'D': 11.0}
+sum_over_cells image {'contrast_M': -0.08207293853229364, 'jackknife_se': 0.024460922540788136, 'z': -3.355267504544791, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+sum_over_cells manuscript {'contrast_M': -0.08158820109558894, 'jackknife_se': 0.021360063034269135, 'z': -3.8196610639534376, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+sum_over_cells peak_hz_unit {'S': 11.0, 'M': 39.0, 'D': 11.0}
+{"tag": "o38s_mt_n4000_s2_T8", "row": "per_cell_mean", "r_proto": 0.075, "r_area": 0.086, "r_map": 0.051, "r_ab": -0.715, "r_gm": 0.337, "null95": 0.246}
+{"tag": "o38s_mt_n4000_s2_T8", "row": "sum_over_cells", "r_proto": 0.148, "r_area": 0.15, "r_map": 0.142, "r_ab": -0.736, "r_gm": 0.439, "null95": 0.265}
+{"tag": "o38s_mt_n4000_s2_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.14785914841121733, "r_ab": -0.7367474721991663, "r_gm": 0.4921345309008636, "r_ab_manuscript": -0.7359630460373812, "r_gm_manuscript": 0.4386937743783081, "perm_rank": 3, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965233, "identity_r": 0.14785914841121733, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.14725303238818374, "r2": 0.14798345743461264, "se1": 0.015987791675455464, "se2": 0.010916373938102632, "se_diff": 0.01935915035879027, "agree": true}, "pass": false}

@@ -1,0 +1,10 @@
+{"seed": 4, "T_s": 8.0, "wall_s": {"construct": 9.90010952949524, "simulate": 174.8877854347229, "total": 192.59134483337402}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.14908756055431208, 'jackknife_se': 0.12258259447589011, 'z': -1.2162212848548823, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean manuscript {'contrast_M': -0.15811981123118712, 'jackknife_se': 0.10368203240489118, 'z': -1.5250454448434196, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+per_cell_mean peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 13.0}
+sum_over_cells image {'contrast_M': -0.03993282435992498, 'jackknife_se': 0.03174907788983663, 'z': -1.2577632805111512, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.6666666666666666
+sum_over_cells manuscript {'contrast_M': -0.042310737091632494, 'jackknife_se': 0.026785249954634358, 'z': -1.579628234319013, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.6666666666666666
+sum_over_cells peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 13.0}
+{"tag": "o38s_mst_n4000_s4_T8", "row": "per_cell_mean", "r_proto": 0.154, "r_area": 0.156, "r_map": 0.15, "r_ab": -0.7, "r_gm": 0.424, "null95": 0.26}
+{"tag": "o38s_mst_n4000_s4_T8", "row": "sum_over_cells", "r_proto": 0.161, "r_area": 0.161, "r_map": 0.164, "r_ab": -0.733, "r_gm": 0.453, "null95": 0.268}
+{"tag": "o38s_mst_n4000_s4_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.1608086929674661, "r_ab": -0.7332434746803097, "r_gm": 0.5057340346515623, "r_ab_manuscript": -0.732588036545731, "r_gm_manuscript": 0.4529712702160247, "perm_rank": 3, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965233, "identity_r": 0.1608086929674661, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.1595649257775766, "r2": 0.1683190276687147, "se1": 0.009330507398723237, "se2": 0.00927231052181305, "se_diff": 0.01315424306946447, "agree": true}, "pass": false}

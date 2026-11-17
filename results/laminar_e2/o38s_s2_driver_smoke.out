@@ -1,0 +1,12 @@
+2026-11-17T17:20:34Z mode smoke
+2026-11-17T17:20:34Z HEAD 0d7162210553127482659d758b102f3b8f5ea71c
+2026-11-17T17:20:35Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T17:20:36Z freeze written (16 files)
+2026-11-17T17:20:41Z environment check: PASS
+2026-11-17T17:21:15Z export manifest pre: PASS; files 2783; pycache 0
+2026-11-17T17:29:13Z construction invariance: PASS
+2026-11-17T17:29:14Z start o38s_v1_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584 exec=683bb70cb546437f814561e8d9260808
+2026-11-17T17:32:46Z o38s_v1_n4000_s1_T8 rc=0
+2026-11-17T17:33:20Z export manifest post: PASS; files 2783; pycache 0
+2026-11-17T17:33:21Z smoke integrity: PASS
+2026-11-17T17:33:21Z DONE smoke

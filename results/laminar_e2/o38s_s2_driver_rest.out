@@ -1,0 +1,68 @@
+2026-11-17T17:33:40Z mode rest
+2026-11-17T17:33:40Z HEAD 0d7162210553127482659d758b102f3b8f5ea71c
+2026-11-17T17:33:41Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T17:33:42Z freeze written (16 files)
+2026-11-17T17:33:46Z environment check: PASS
+2026-11-17T17:33:47Z export manifest pre: PASS; files 2783; pycache 0
+2026-11-17T17:33:47Z construction invariance: PASS at the smoke (identical freeze)
+2026-11-17T17:33:48Z start o38s_mt_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014 exec=9c70606efefc4930a8f1c0947fe0c631
+2026-11-17T17:37:14Z o38s_mt_n4000_s1_T8 rc=0
+2026-11-17T17:37:15Z start o38s_mst_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103 exec=3fe2995e763245e18045e75473525fb1
+2026-11-17T17:40:35Z o38s_mst_n4000_s1_T8 rc=0
+2026-11-17T17:40:36Z start o38s_teo_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153 exec=101407a7b2dc468da8a9b8aa7c0314ed
+2026-11-17T17:44:02Z o38s_teo_n4000_s1_T8 rc=0
+2026-11-17T17:44:03Z start o38s_chc_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178 exec=9b51c7d44fb244e3874f19c6b0beebd0
+2026-11-17T17:47:24Z o38s_chc_n4000_s1_T8 rc=0
+2026-11-17T17:47:25Z start o38s_shape_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942 exec=62e5427650214f0d9208e0bb47092b7a
+2026-11-17T17:50:49Z o38s_shape_n4000_s1_T8 rc=0
+2026-11-17T17:50:50Z start o38s_v1_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584 exec=6c144c97c01144c2bce46d5886ba2a9c
+2026-11-17T17:54:22Z o38s_v1_n4000_s2_T8 rc=0
+2026-11-17T17:54:22Z start o38s_mt_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014 exec=f9e76c872d134271b4d8d27340918ee0
+2026-11-17T17:57:48Z o38s_mt_n4000_s2_T8 rc=0
+2026-11-17T17:57:48Z start o38s_mst_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103 exec=2d2746df9df941bfa3d17fcc374f3ff1
+2026-11-17T18:01:09Z o38s_mst_n4000_s2_T8 rc=0
+2026-11-17T18:01:09Z start o38s_teo_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153 exec=3833019a93bf4f118d56db26b8a760e1
+2026-11-17T18:04:39Z o38s_teo_n4000_s2_T8 rc=0
+2026-11-17T18:04:40Z start o38s_chc_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178 exec=2bd2604f99114f229c21a508abe964b3
+2026-11-17T18:08:02Z o38s_chc_n4000_s2_T8 rc=0
+2026-11-17T18:08:03Z start o38s_shape_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942 exec=e15b305fc2154f5389eab06c04c2837f
+2026-11-17T18:11:26Z o38s_shape_n4000_s2_T8 rc=0
+2026-11-17T18:11:27Z start o38s_v1_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584 exec=2e8eb82a1a624d9aa3a62ef2c1162fce
+2026-11-17T18:14:54Z o38s_v1_n4000_s3_T8 rc=0
+2026-11-17T18:14:55Z start o38s_mt_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014 exec=d05303fcccb74310b4d674debd9b8f07
+2026-11-17T18:18:17Z o38s_mt_n4000_s3_T8 rc=0
+2026-11-17T18:18:18Z start o38s_mst_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103 exec=c2d69f3564f54c58958eb035dee851f9
+2026-11-17T18:21:41Z o38s_mst_n4000_s3_T8 rc=0
+2026-11-17T18:21:41Z start o38s_teo_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153 exec=2e1a39b50d3a4d0caf6ab0934c04ec24
+2026-11-17T18:25:08Z o38s_teo_n4000_s3_T8 rc=0
+2026-11-17T18:25:09Z start o38s_chc_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178 exec=b7c8c17a21db4ebdab4acd5de31053a5
+2026-11-17T18:28:30Z o38s_chc_n4000_s3_T8 rc=0
+2026-11-17T18:28:31Z start o38s_shape_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942 exec=fe7ef34bfd584e928c839ffed75680e4
+2026-11-17T18:31:58Z o38s_shape_n4000_s3_T8 rc=0
+2026-11-17T18:31:59Z start o38s_v1_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584 exec=1bd0c57097f647aeb40c77eef02c2dd3
+2026-11-17T18:35:34Z o38s_v1_n4000_s4_T8 rc=0
+2026-11-17T18:35:35Z start o38s_mt_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014 exec=b55c0ea3b62d42eb8ce5e8218ed8e17d
+2026-11-17T18:39:06Z o38s_mt_n4000_s4_T8 rc=0
+2026-11-17T18:39:06Z start o38s_mst_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103 exec=af4b29d150c64955969f34b025c6521d
+2026-11-17T18:42:36Z o38s_mst_n4000_s4_T8 rc=0
+2026-11-17T18:42:37Z start o38s_teo_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153 exec=7485f9a0fb034463807e2148d95f65b4
+2026-11-17T18:46:13Z o38s_teo_n4000_s4_T8 rc=0
+2026-11-17T18:46:13Z start o38s_chc_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178 exec=3d98ece9bd9346e0b8cab9dab09da182
+2026-11-17T18:49:38Z o38s_chc_n4000_s4_T8 rc=0
+2026-11-17T18:49:39Z start o38s_shape_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942 exec=bd7b952b520e428782e245d4513efe7e
+2026-11-17T18:53:05Z o38s_shape_n4000_s4_T8 rc=0
+2026-11-17T18:53:06Z start o38s_v1_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p688_rhouM0p558_rhouD1p584 exec=ad8e13f666b34adf9c77d2f89cb6f4bc
+2026-11-17T18:56:39Z o38s_v1_n4000_s5_T8 rc=0
+2026-11-17T18:56:40Z start o38s_mt_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p280_rhouM0p599_rhouD1p014 exec=df5ee74bd6c14f3dbc7d6b703f1498ac
+2026-11-17T19:00:06Z o38s_mt_n4000_s5_T8 rc=0
+2026-11-17T19:00:07Z start o38s_mst_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p220_rhouM0p615_rhouD1p103 exec=409cba30660c4a7797f0df463a1a4878
+2026-11-17T19:03:33Z o38s_mst_n4000_s5_T8 rc=0
+2026-11-17T19:03:34Z start o38s_teo_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p409_rhouM0p695_rhouD1p153 exec=e19289420f00488db00aa3bb4a6e170e
+2026-11-17T19:07:06Z o38s_teo_n4000_s5_T8 rc=0
+2026-11-17T19:07:07Z start o38s_chc_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p345_rhouM0p595_rhouD1p178 exec=0240f007ae8847f3bc2c7426d78865bb
+2026-11-17T19:10:31Z o38s_chc_n4000_s5_T8 rc=0
+2026-11-17T19:10:31Z start o38s_shape_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhouS1p095_rhouM0p485_rhouD0p942 exec=36f2ab85e124454d9f16881ac6df25bd
+2026-11-17T19:13:57Z o38s_shape_n4000_s5_T8 rc=0
+2026-11-17T19:14:32Z export manifest post: PASS; files 2783; pycache 0
+2026-11-17T19:14:36Z stage-2 integrity: PASS
+2026-11-17T19:14:36Z DONE rest

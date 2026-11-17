@@ -33,7 +33,13 @@ SST-versus-PV mechanism; interpretation keeps that distinction. The intervention
 Staging (owner 2026-11-16): stage 1 = ref, flat, rev × seeds 1-5 (tags `o38s_pc_*`, driver
 `scripts/run_o38s_stage1.sh`, checks `open38_construction_check.py`, `open38_stage1_check.py`); the remaining 30
 runs only after owner review of stage 1 and independent reviewer acceptance. Failed controls are kept and
-investigated, never met by retuning a threshold.
+investigated, never met by retuning a threshold. Stage 1 was accepted by the owner on 2026-11-17
+(`STAGE1_O38S_PC_2026-11-17.md`). Stage 2 = v1, mt, mst, teo, chc, shape × seeds 1-5 (30 runs, tags as in §3), authorized
+conditionally on the D6 clarification (§5b) and on verified execution IDs. The pre-launch requirements are
+environment recording, the OPEN-38 tests and a dependency smoke. The stage starts with one smoke run (v1 seed 1)
+whose manifest and execution ID are verified before the other 29 runs. Each run gets an execution manifest
+`{tag}_exec.json` (uuid4 execution ID, bound to the run's output hashes), written by the driver outside the
+scientific chain. Stage-2 outcomes are not interpreted until all 30 runs and the integrity checks are complete.
 
 ## 3. Arms (layouts frozen; tag `o38s_{arm}_n4000_s{seed}_T8`)
 
@@ -75,8 +81,12 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - **Positive (prescribed-ratio recovery):**
   (a) Realized N_SOM/N_PV per unit equals the arm's rho within the rounding of `unit_sizes` (one cell), every arm.
   (b) ref seeds 1-3 reproduce the T8 ref scores (`t8_summary.json`: r_ab 0.839, 0.857, 0.827): array equality with
-  the T8 runs if those arrays are obtained; otherwise every ref seed's r_ab lies in [0.7964, 0.8855] = T8 seed mean
-  0.8409 ± 3 × T8 seed SD 0.0148 (ddof 1, n = 3). Fixed 2026-11-16 from frozen evidence only:
+  the T8 runs if those arrays are obtained; otherwise the r_ab of each of ref seeds 1-3 (the seeds with a T8
+  counterpart) lies in [0.7964, 0.8855] = T8 seed mean 0.8409 ± 3 × T8 seed SD 0.0148 (ddof 1, n = 3). Gate: seeds
+  1-3 only. All five ref seeds are reported against the same band (`all_five_in_band`); seeds 4-5 are not gated.
+  Clarification D6 (owner 2026-11-17): the earlier wording "every ref seed" was broader than the gate the frozen
+  checker applied (`open38_stage1_check.py`, `BAND_SEEDS = (1, 2, 3)`). The band, the checker and the stage-1
+  acceptance are unchanged. Fixed 2026-11-16 from frozen evidence only:
   `paper/jomission_lansa/data/t8_summary.json` @ d49a8d0, sha256 4f64e360…, by `scripts/open38_t8_thresholds.py`. n = 3
   makes the band coarse. Spiking dynamics diverge across hosts, so per-seed equality is not expected without the arrays.
   (c) flat and rev reproduce T8's "ref higher" on r_ab under SEAL_T8's own rule, applied unchanged to n = 5: every

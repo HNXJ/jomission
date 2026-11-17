@@ -1,0 +1,34 @@
+{
+ "tag": "o38s_pc_rev_n4000_s5_T8",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 5,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.1424137096243335,
+ "r_ab": -0.738248253396382,
+ "r_gm": 0.4856837075696453,
+ "r_ab_manuscript": -0.7369646672528437,
+ "r_gm_manuscript": 0.4315968530317607,
+ "perm_rank": 3,
+ "smooth_p95": 0.3801444538242714,
+ "identical_control": -0.07733331760965233,
+ "identity_r": 0.1424137096243335,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.1485573290069977,
+  "r2": 0.13916280767014413,
+  "se1": 0.0016029994620281734,
+  "se2": 0.0028079437519812366,
+  "se_diff": 0.0032332886338143517,
+  "agree": false
+ },
+ "pass": false
+}

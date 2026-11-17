@@ -1,0 +1,10 @@
+{"seed": 2, "T_s": 8.0, "wall_s": {"construct": 9.611321687698364, "simulate": 182.67035746574402, "total": 200.0700409412384}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.12260398425657824, 'jackknife_se': 0.03811244440938042, 'z': -3.216901622463301, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean manuscript {'contrast_M': -0.12591569756216184, 'jackknife_se': 0.03439057554651268, 'z': -3.6613431314013036, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 45.0}
+sum_over_cells image {'contrast_M': -0.024210222662262405, 'jackknife_se': 0.008503703860788305, 'z': -2.847020905078659, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells manuscript {'contrast_M': -0.025281064377984944, 'jackknife_se': 0.007511427631232663, 'z': -3.365680349879933, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells peak_hz_unit {'S': 10.0, 'M': 11.0, 'D': 45.0}
+{"tag": "o38s_pc_rev_n4000_s2_T8", "row": "per_cell_mean", "r_proto": 0.142, "r_area": 0.146, "r_map": 0.151, "r_ab": -0.726, "r_gm": 0.423, "null95": 0.261}
+{"tag": "o38s_pc_rev_n4000_s2_T8", "row": "sum_over_cells", "r_proto": 0.15, "r_area": 0.153, "r_map": 0.161, "r_ab": -0.737, "r_gm": 0.444, "null95": 0.265}
+{"tag": "o38s_pc_rev_n4000_s2_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.15038151118211454, "r_ab": -0.7383483623029591, "r_gm": 0.49673948455563705, "r_ab_manuscript": -0.7371862564156666, "r_gm_manuscript": 0.4435227911620012, "perm_rank": 3, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965233, "identity_r": 0.15038151118211454, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.148925434497833, "r2": 0.15609225799304863, "se1": 0.006029573997006293, "se2": 0.0017621775269314399, "se_diff": 0.006281801670046313, "agree": true}, "pass": false}

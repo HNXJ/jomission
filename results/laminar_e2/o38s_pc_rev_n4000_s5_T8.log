@@ -1,0 +1,10 @@
+{"seed": 5, "T_s": 8.0, "wall_s": {"construct": 9.66434359550476, "simulate": 190.10902905464172, "total": 207.59740710258484}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.1747578897050893, 'jackknife_se': 0.047892903009204, 'z': -3.648930816983563, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean manuscript {'contrast_M': -0.17122137022414002, 'jackknife_se': 0.04521630404115113, 'z': -3.7867175094256336, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean peak_hz_unit {'S': 12.0, 'M': 11.0, 'D': 44.0}
+sum_over_cells image {'contrast_M': -0.03956753856925647, 'jackknife_se': 0.011662841376430536, 'z': -3.392615683620511, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells manuscript {'contrast_M': -0.038836728527973534, 'jackknife_se': 0.010988574784908393, 'z': -3.5342825878849675, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells peak_hz_unit {'S': 12.0, 'M': 11.0, 'D': 44.0}
+{"tag": "o38s_pc_rev_n4000_s5_T8", "row": "per_cell_mean", "r_proto": 0.113, "r_area": 0.121, "r_map": 0.119, "r_ab": -0.723, "r_gm": 0.386, "null95": 0.257}
+{"tag": "o38s_pc_rev_n4000_s5_T8", "row": "sum_over_cells", "r_proto": 0.142, "r_area": 0.146, "r_map": 0.151, "r_ab": -0.737, "r_gm": 0.432, "null95": 0.264}
+{"tag": "o38s_pc_rev_n4000_s5_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.1424137096243335, "r_ab": -0.738248253396382, "r_gm": 0.4856837075696453, "r_ab_manuscript": -0.7369646672528437, "r_gm_manuscript": 0.4315968530317607, "perm_rank": 3, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965233, "identity_r": 0.1424137096243335, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.1485573290069977, "r2": 0.13916280767014413, "se1": 0.0016029994620281734, "se2": 0.0028079437519812366, "se_diff": 0.0032332886338143517, "agree": false}, "pass": false}

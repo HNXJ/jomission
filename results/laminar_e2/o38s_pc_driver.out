@@ -1,0 +1,38 @@
+2026-11-17T04:00:27Z HEAD 53f8b89fdb1ec4d67e3c972dd24ee4c899a680cc
+2026-11-17T04:00:27Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T04:00:28Z freeze written (13 files)
+2026-11-17T04:01:05Z export manifest pre: PASS; files 2783; pycache 0
+2026-11-17T04:04:34Z construction invariance: PASS
+2026-11-17T04:04:34Z start o38s_pc_ref_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15
+2026-11-17T04:08:01Z o38s_pc_ref_n4000_s1_T8 rc=0
+2026-11-17T04:08:01Z start o38s_pc_flat_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794
+2026-11-17T04:11:35Z o38s_pc_flat_n4000_s1_T8 rc=0
+2026-11-17T04:11:35Z start o38s_pc_rev_n4000_s1_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhor
+2026-11-17T04:15:11Z o38s_pc_rev_n4000_s1_T8 rc=0
+2026-11-17T04:15:11Z start o38s_pc_ref_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15
+2026-11-17T04:18:50Z o38s_pc_ref_n4000_s2_T8 rc=0
+2026-11-17T04:18:50Z start o38s_pc_flat_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794
+2026-11-17T04:22:26Z o38s_pc_flat_n4000_s2_T8 rc=0
+2026-11-17T04:22:26Z start o38s_pc_rev_n4000_s2_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhor
+2026-11-17T04:26:03Z o38s_pc_rev_n4000_s2_T8 rc=0
+2026-11-17T04:26:04Z start o38s_pc_ref_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15
+2026-11-17T04:29:39Z o38s_pc_ref_n4000_s3_T8 rc=0
+2026-11-17T04:29:39Z start o38s_pc_flat_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794
+2026-11-17T04:33:07Z o38s_pc_flat_n4000_s3_T8 rc=0
+2026-11-17T04:33:07Z start o38s_pc_rev_n4000_s3_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhor
+2026-11-17T04:36:43Z o38s_pc_rev_n4000_s3_T8 rc=0
+2026-11-17T04:36:43Z start o38s_pc_ref_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15
+2026-11-17T04:40:14Z o38s_pc_ref_n4000_s4_T8 rc=0
+2026-11-17T04:40:14Z start o38s_pc_flat_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794
+2026-11-17T04:43:45Z o38s_pc_flat_n4000_s4_T8 rc=0
+2026-11-17T04:43:45Z start o38s_pc_rev_n4000_s4_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhor
+2026-11-17T04:47:22Z o38s_pc_rev_n4000_s4_T8 rc=0
+2026-11-17T04:47:22Z start o38s_pc_ref_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15
+2026-11-17T04:50:55Z o38s_pc_ref_n4000_s5_T8 rc=0
+2026-11-17T04:50:55Z start o38s_pc_flat_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794
+2026-11-17T04:54:33Z o38s_pc_flat_n4000_s5_T8 rc=0
+2026-11-17T04:54:33Z start o38s_pc_rev_n4000_s5_T8 e2_3unit_n4000_dens_k1_kd1_sst15_rhor
+2026-11-17T04:58:18Z o38s_pc_rev_n4000_s5_T8 rc=0
+2026-11-17T04:58:56Z export manifest post: PASS; files 2783; pycache 0
+2026-11-17T04:58:59Z stage check: PASS
+2026-11-17T04:58:59Z DONE

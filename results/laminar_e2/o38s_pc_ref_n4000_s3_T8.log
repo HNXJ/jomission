@@ -1,0 +1,10 @@
+{"seed": 3, "T_s": 8.0, "wall_s": {"construct": 9.470381498336792, "simulate": 178.0746865272522, "total": 195.29745984077454}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': 0.6989278588036895, 'jackknife_se': 0.07269953166962947, 'z': 9.613925189777659, 'crossing_2se': False, 'zero_depth_first': -0.1816907659187057} shuffle_p 0.3333333333333333
+per_cell_mean manuscript {'contrast_M': 0.6863496677379992, 'jackknife_se': 0.05488935336185279, 'z': 12.504240361756585, 'crossing_2se': False, 'zero_depth_first': -0.18104736938144927} shuffle_p 0.3333333333333333
+per_cell_mean peak_hz_unit {'S': 45.0, 'M': 12.0, 'D': 12.0}
+sum_over_cells image {'contrast_M': 1.104666305947911, 'jackknife_se': 0.09431962819709475, 'z': 11.711945085698897, 'crossing_2se': True, 'zero_depth_first': -0.2219584983909098} shuffle_p 0.3333333333333333
+sum_over_cells manuscript {'contrast_M': 1.0596316046637484, 'jackknife_se': 0.08556584755985178, 'z': 12.383814744808728, 'crossing_2se': True, 'zero_depth_first': -0.22025879771009516} shuffle_p 0.3333333333333333
+sum_over_cells peak_hz_unit {'S': 45.0, 'M': 12.0, 'D': 12.0}
+{"tag": "o38s_pc_ref_n4000_s3_T8", "row": "per_cell_mean", "r_proto": -0.077, "r_area": -0.085, "r_map": -0.037, "r_ab": 0.934, "r_gm": -0.431, "null95": 0.202}
+{"tag": "o38s_pc_ref_n4000_s3_T8", "row": "sum_over_cells", "r_proto": 0.381, "r_area": 0.347, "r_map": 0.37, "r_ab": 0.814, "r_gm": 0.378, "null95": 0.265}
+{"tag": "o38s_pc_ref_n4000_s3_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": true, "r_proto": 0.3813541848190771, "r_ab": 0.8268677818166609, "r_gm": 0.3975688798859495, "r_ab_manuscript": 0.814052670894195, "r_gm_manuscript": 0.3778812936509734, "perm_rank": 1, "smooth_p95": 0.3801444538242714, "identical_control": -0.07733331760965231, "identity_r": 0.3813541848190771, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.3894194397772626, "r2": 0.3442464366265067, "se1": 0.0200876064835534, "se2": 0.04116847486230548, "se_diff": 0.045807807814021995, "agree": true}, "pass": false}

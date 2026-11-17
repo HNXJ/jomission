@@ -147,7 +147,8 @@ def draw_raster(r: dict, path: Path, title: str, date: str) -> dict:
     view, spikes = raster_sample(r)
     n = {t: run.RASTER_N[t] for t in cs.POPS}
     sub = (f"{r['tag']}: recorded raster sample, {n['E']} E, {n['PV']} PV, {n['SOM']} SOM cells per unit "
-           f"(rng 0, as run_e2_stack.py); t 0 = simulation start; " + NOTE.format(date=date, exe=r["exec"][:7]))
+           f"(rng 0, as run_e2_stack.py); t 0 = simulation start, so this window is the start-up transient "
+           f"(the scorer discards the first {DISCARD_S:.0f} s); " + NOTE.format(date=date, exe=r["exec"][:7]))
     info = vis.network_raster(view, spikes, window_ms=WINDOW_MS, dt_ms=c0.DT_MS, areas=list(UNITS), title=title,
                               subtitle=sub, path=path, class_order=cs.POPS)
     info["n_steps_recorded"] = int(spikes.shape[0])
@@ -239,7 +240,10 @@ def main() -> None:
         view, inhibitory_receptors=inhib,
         x="Poisson drive to E and PV (c0.drive_spec)", y="LFP proxy per unit", stages=[list(UNITS)],
         title=(f"OPEN-38 reference (prescribed SOM/PV ramp), seed 1: construction of {ref1['tag']}\n"
-               f"units S, M, D drawn as blocks (the model holds them as layers of one area C); w = mean weight in nS; "
+               f"units S, M, D drawn as blocks (the model holds them as layers of one area C), so below 'within-area' "
+               f"means within a unit and 'across areas' between units; w = mean weight in nS;\n"
+               f"overlapping arrow labels hide 10 of the 12 inter-unit projections: the rule table is the full "
+               f"topology; "
                + NOTE.format(date=date, exe=ref1["exec"][:7])),
         path=OUT / "_hspice_blocks.png", class_order=cs.POPS)
     rule_rows = rule_table(model)
@@ -258,7 +262,8 @@ def main() -> None:
         v2_parts[a] = draw_raster(by[(a, 1)], p, f"{a}, seed 1, 0-1000 ms", date)
         tiles.append(p)
     tile(tiles, OUT / "raster_final.png",
-         "V2 after the composition intervention: every arm, seed 1, the V1 window and call (ref repeated top left); "
+         "V2 after the composition intervention: every arm, seed 1, the V1 window and call (ref repeated top left)\n"
+         "arm against arm at seed 1, not one model before and after; the window is the start-up transient; "
          + f"drawn retrospectively {date} from recorded raster samples")
 
     # V3: maps (scorer, seed means), metrics, rates, LFP proxy
@@ -337,6 +342,11 @@ them, and the model has no plasticity. Weights are the static constructed weight
         "lineage_id": LINEAGE, "created_utc": created, "generator": "scripts/open38_viz.py",
         "nature": "retrospective visualization of recorded evidence; no simulation was run to make it",
         "executions": {k: v["exec"] for k, v in STAGES.items()},
+        "raster_window_note": "0-1000 ms from simulation start (contract V1 'first 1000 ms'): the start-up "
+                              f"transient; the scored state begins after the {DISCARD_S:.0f} s discard. V2 compares "
+                              "arms with the reference at seed 1, not one model before and after.",
+        "v0_note": "the full topology is the rule table (all rules, edge counts, mean weights, receptors); the "
+                   "drawn arrows label 2 of the 12 inter-unit projections legibly",
         "V0": {"source_run": ref1["tag"], "procedure": "caminos_stack.construct from the run record's layout and "
                "seed; edge table equal to the recorded one", **{k: v0[k] for k in ("n_neurons", "n_edges_total",
                                                                                    "n_projections", "rules")}},

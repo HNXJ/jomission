@@ -1,12 +1,14 @@
 {
  "lineage_id": "SCI-OPEN38-O38S",
- "created_utc": "2026-11-17T22:28:03Z",
+ "created_utc": "2026-11-17T22:42:17Z",
  "generator": "scripts/open38_viz.py",
  "nature": "retrospective visualization of recorded evidence; no simulation was run to make it",
  "executions": {
   "stage1": "53f8b89fdb1ec4d67e3c972dd24ee4c899a680cc",
   "stage2": "0d7162210553127482659d758b102f3b8f5ea71c"
  },
+ "raster_window_note": "0-1000 ms from simulation start (contract V1 'first 1000 ms'): the start-up transient; the scored state begins after the 2 s discard. V2 compares arms with the reference at seed 1, not one model before and after.",
+ "v0_note": "the full topology is the rule table (all rules, edge counts, mean weights, receptors); the drawn arrows label 2 of the 12 inter-unit projections legibly",
  "V0": {
   "source_run": "o38s_pc_ref_n4000_s1_T8",
   "procedure": "caminos_stack.construct from the run record's layout and seed; edge table equal to the recorded one",

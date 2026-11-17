@@ -15,7 +15,7 @@ SPEC.loader.exec_module(cc)
 
 P = 0.139996605  # local E->PV p in unit S (independent review 2026-11-17)
 N_E, N_PV, N_SOM = 5785, 518, 567  # shape arm, unit S
-COUNT = 421511  # o38s_s2_construction.json, shape s1 e_pv_S
+COUNT = 421511  # o38s_s2_attempt1_construction.json, shape s1 e_pv_S
 
 
 def test_family_level():

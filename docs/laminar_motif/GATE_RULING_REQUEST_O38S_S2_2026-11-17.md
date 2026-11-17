@@ -35,7 +35,7 @@ because the failing count is deterministic. The ruling needed is one of:
 | Option | Gate | Stage-2 consequence | Detects |
 |---|---|---|---|
 | A | frozen, unchanged | stop stands; stage 2 does not run (no reseeding: seeds are frozen) | — |
-| B | add a family-wise level, 5 % over all 780 tests: per-test α 6.4e-5, \|z\| ≤ 4.00 (Bonferroni); independent of the inferred stream structure | 421 511 passes; smoke reruns at a new freeze | p, N or wiring errors ≥ about 0.6 % relative on this rule (80 % power); not smaller shifts, and not an offset shared by all arms |
+| B | add a family-wise level, 5 % over all 780 tests: per-test α 6.4e-5, \|z\| ≤ 4.00 (Bonferroni); independent of the inferred stream structure | 421 511 passes; smoke reruns at a new freeze | p, N or wiring errors ≥ about 0.7 % relative on this rule (80 % power; 0.57 % at 50 %; corrected from "0.6 %" by the ruling-B review); not smaller shifts, and not an offset shared by all arms |
 | C | as B over the about 130 effective streams: α 3.9e-4, \|z\| ≤ 3.55 | passes; smoke reruns | about 0.5 %; relies on the inferred stream structure |
 | D | the shape arm (or shape seed 1) is "not evaluable" under the frozen gate; the other 5 arms proceed | the primary family loses one comparison; Holm runs over 7 | — |
 

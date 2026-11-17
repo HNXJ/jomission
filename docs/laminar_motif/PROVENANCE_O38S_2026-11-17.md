@@ -94,3 +94,16 @@ for example by adding OPEN-38 to `grandfathered`.
 
 Precedent: `SCI-LAMINAR-MOTIF-1` (E0) and `SCI-LAMINAR-E1` both ran simulations, yet both carry the
 `NOT_A_MODEL_LINEAGE` exemption. Not corrected here.
+
+## Promotion receipt: `dev` at 520d5fb (owner-authorized 2026-11-17)
+
+| Item | Value |
+|---|---|
+| Authorization | owner 2026-11-17: promote `_temp_lansa-provenance` at 520d5fb to `dev`; nothing sealed; OPEN-51 stays open |
+| Before | `origin/dev` fcd8155c0ef7a01dc8c4f6d7a721e706da1b3b16 |
+| After | `origin/dev` 520d5fb4c249e66cd8a69177b4581a6a28e6f2a0; `git ls-remote` agrees; pushed 2026-11-17 about 23:10Z |
+| Mode | fast-forward: fcd8155 is an ancestor of 520d5fb, 66 commits; the promoted tree is the gated tree |
+| Gates on that tree | `project_check.py` (https remote via `JOMISSION_REMOTE`, accepted by the owner for this promotion) PROJECT_CHECK_PASS, tier 0 258 passed; `--no-tests` PASS at 520d5fb; OPEN-38 tests 39 passed; `test_harness_state.py` 6 passed |
+| CI | `project-check.yml` runs only on pull requests or manual dispatch, so the push started none. `pages.yml` builds on a push to `dev` and deploys from `main` only (ruling Q23), so nothing was published |
+| Delivered | `dev` SHA sent to main-vwin (status-generator dependency) |
+| Semantics | `SCI-OPEN38-O38S` is labelled `O38S_GATES_PASS_REGISTERED`: provenance and coverage registered, not scientific validation, nothing sealed |

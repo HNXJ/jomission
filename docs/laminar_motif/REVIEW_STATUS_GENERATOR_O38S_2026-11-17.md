@@ -1,0 +1,150 @@
+# Independent review 1 of the OPEN-38 status generator (2026-11-17)
+
+Reviewed SHA: c9b9224 (`_temp_o38s-status`). Reviewer: an independent read-only reviewer agent (it did not write the
+code). The owner's three points are recorded with the reviewer's verdict, then each defect and its repair.
+
+**Verdict: ACCEPT-WITH-CHANGES.** The stage-1 logic held. One defect could produce a stage-2 PASS.
+
+## Owner's points
+
+1. **Tolerances.** Measured over all 260 frozen vs ruling-B rule pairs:
+   - Centre shift is 0 to 1.0 edge. `binom.interval` returns integer bounds, so ±1 is expected.
+   - Width ratio deviates −0.69 % to +0.16 %. The binomial-vs-normal effect at p = 0.14 is −0.003 % to −0.10 % for N
+     between 3.7e4 and 3.5e6.
+   - The −0.69 % comes from one rule (pv_pv_D, rhor arm). There `rule_interval` takes the union of the N(N−1) and N²
+     intervals, and that union's centre offset does not scale with z. It is an artefact of how the interval is
+     computed, not a construction difference.
+   - Sizes are pinned by field equality and p·N by the centre check, so p, N and the pair set cannot move. The level
+     could drift within the 1 % width tolerance (n_tests from about 230 to 260). Intervals at n = 230 still failed on
+     pv_pv_S.
+2. **Independent derivation.** The reviewer took the pair counts from the receipt sizes and recovered p from the
+   frozen 99.9 % interval by grid fit, which reproduces it to 1 edge. It then computed `binom.interval` at
+   1 − 0.05/260. The maximum discrepancy against the ruling-B receipt was 2 edges, the grid-fit limit. The family block
+   matched.
+3. **Adversarial false-PASS.** About 15 forgeries were committed in a throwaway clone, and none reached public PASS:
+   - forged family;
+   - intervals at a different level;
+   - a count changed in one receipt;
+   - a flipped `pass` or `ok`;
+   - ignored keys in undeclared slots;
+   - an extended `ignore_keys`;
+   - a changed rule;
+   - a wrong execution SHA;
+   - a missing compat entry;
+   - a mixed integrity or run SHA;
+   - a non-boolean `pass`.
+
+   An uncommitted edit showed local PASS and public UNKNOWN, as designed.
+
+## Findings and repairs (repaired at 0f6258e)
+
+| Severity | Finding | Repair | Test (fails on c9b9224) |
+|---|---|---|---|
+| MAJOR | stage 2 PASS with the smoke segment unfinished: earlier segments were evaluated as live (RUNNING), and only FAIL blocked PASS | PASS needs phases exactly smoke PASS, rest PASS; an unfinished non-final segment is UNKNOWN | `test_stage2_pass_needs_finished_smoke` |
+| gap (a) | `identical_paths` such as `README.md` or a nonexistent path passed: `git diff --quiet` is 0 on a path absent at both SHAs | require `jomission` and `scripts/run_e2_stack.py`; every path must exist at both SHAs (`git cat-file -e`) | `test_identical_paths_must_cover_model_code_and_exist` |
+| gap (b) | a count forged consistently in both receipts passed: the frozen `ok` was not recomputed | frozen `ok` and `pass` recomputed from its own counts and intervals | `test_consistent_forgery_in_both_receipts_is_not_pass` |
+| gap (c) | a rule dropped from both receipts, with n_tests 259, passed | pairs = arms × seeds, one rule set across pairs, and n_tests = the entry's `expected_n_tests` (260) | same |
+| MINOR | `WIDTH_TOL` could be 0.75 %, or an exact recompute | not applied. Kept at 1 %. Residual slack: 1 % of a half-width plus 2 edges (≈ 0.04 SD at \|z\| = 4), documented in `STATUS_SOURCE_O38S.md` | — |
+
+Mutants killed after repair: `no_phase_order`, `no_frozen_shape`, `no_path_exist`, `no_min_paths`. Status tests: 17
+pass. Real stage-1 receipts still give PASS with no consistency problems.
+
+Remaining exposure: a forgery written consistently into both committed receipts that also stays inside the frozen
+interval would pass. Only git history binds the receipts to their builds.
+
+## Review 2 (2026-11-17): stage-2 closure at b9a2ee4 and the generator at 568e659
+
+Independent read-only reviewer agent; it did not write the code. Overall verdict: **REVISE**.
+
+**Part A, stage-2 closure: ACCEPT.** Each item was observed by the reviewer:
+
+- SHA 0d71622 throughout: log HEADs, 30 run `git_sha`, `git_dirty` false, both integrity heads.
+- `0d71622..b9a2ee4` adds evidence only and touches no frozen file.
+- 30/30 rc=0 and 30 unique exec IDs equal to the logged ones; all 150 output hashes (`.npz` included) match.
+- Construction: family 0.05/780; all 780 counts inside their intervals; `e_pv_S` recomputed with scipy for 30/30
+  pairs, 0 edges of difference. The other rules' intervals were not recomputed (the fit was too slow).
+- Freeze and export manifest `sha256sum -c`: 0 non-OK.
+- The 30 table rows equal `_verdict.json` and `o38s_s2_values.json`; E rates recomputed from the `.npz` for 7 runs
+  with 0 difference.
+- No interpretation found.
+- Not verified: the "64 passed" test count and the attempt-1 timeline beyond its HEAD and STOP lines.
+
+**Part B, generator: ACCEPT-WITH-CHANGES.**
+
+- 18 tests passed.
+- The merge simulation (568e659 into b9a2ee4) gave stage 1 PASS and stage 2 PASS with no problems; execution SHAs
+  stayed 53f8b89 and 0d71622.
+- Review 1's repairs held under forgery.
+- Owner checks (a) and (b) held for the stage-1 compat path.
+- Stage-2 forgeries that still gave public PASS:
+
+| Severity | Finding | Repair | Test |
+|---|---|---|---|
+| major | stage 2 never read its construction receipt (`pass` false, a forged family or a deleted file gave PASS) | `stage2_evidence`: pass true, ruling-B family over 780, `_receipt_shape` | `test_stage2_pass_is_rederived_from_its_receipts` |
+| major | no check of 30/30 runs (a run removed from the log gave PASS, runs 29) | the logged rc=0 set must equal the 30 planned tags | same |
+| minor | run `git_sha`/`git_dirty` not in the heads (one run at 584922c gave PASS) | the run `git_sha` set joins the heads; `git_dirty` must be false | same; `test_stage2_receipts_from_another_revision_are_not_pass` |
+| minor | `_exec.json` rc, verdict files and the integrity `checks`/`runs` not read | each read and required | `test_stage2_pass_is_rederived_from_its_receipts` |
+
+Mutants killed after repair: `no_s2_evidence`, `no_s2_rc_set`, `no_s2_run_sha`, `no_s2_construction`. Status tests:
+19 pass. Real evidence (D:/jomission at b9a2ee4): stage 2 PASS, public PASS, no consistency problems.
+
+The stage-2 receipt document is not read for status; it is linked as evidence with its sha256.
+
+## Review 3 (2026-11-17): the repairs at 921bf2d, ACCEPT-WITH-CHANGES
+
+Independent read-only reviewer agent. Each forgery was committed in a throwaway clone of the evidence branch at
+b55b440.
+
+- All 10 original forgeries now give FAIL or UNKNOWN.
+- New forgeries that also failed correctly: a run removed from both the log and the integrity receipt, duplicated
+  and extra tags, a wrong-tag manifest, altered seeds, 750 tests under a 780 family, a count outside its interval.
+- Uncommitted per-run files: local PASS, public UNKNOWN, as designed.
+- Merge simulation (921bf2d into the evidence branch): stage 1 PASS/PASS at 53f8b89, stage 2 PASS/PASS at 0d71622,
+  no consistency problems; 19 tests passed.
+- Owner checks (a) and (b) held, except for the gap below. No stage-1 regression; the closure invariant holds.
+- Not verified by the reviewer: the new tests against the pre-repair code; content of a duplicated pair (a defect in
+  its own script).
+
+| Severity | Finding | Repair | Test |
+|---|---|---|---|
+| major | stage-2 intervals widened to ±1e9 with `ok` recomputed gave PASS: no width check without a frozen receipt | `_interval_anchors`: identical interval across seeds of one arm; width ≤ 2·z_B·√centre + 2 edges | `test_stage2_pass_is_rederived_from_its_receipts` |
+| minor | the manifest `head` and `outputs` hashes were not read | the manifest `head` joins the heads; committed outputs, and the `.npz` where present, must match the manifest hashes | same |
+| minor | a run record replaced by another run's passed | the record seed must match its tag; the record hash is bound by the manifest | same |
+| minor | verdict files checked for presence only | the hash binding covers their content | same |
+
+Mutants killed: `no_width_bound`, `no_seed_identity`, `no_hash_bind`, `no_exec_head`. Status tests: 19 pass. Real
+evidence: stage 2 PASS/PASS, with every output hash, the `.npz` included, matching its manifest.
+
+Residual exposure (documented in `STATUS_SOURCE_O38S.md`): a centre moved consistently in all five seeds of one arm is
+not detected.
+
+## Review 4 (2026-11-17): the repairs at 455d2d9, ACCEPT-WITH-CHANGES (minor findings only)
+
+Independent read-only reviewer agent.
+
+- All 6 review-3 cases are undetected by the 921bf2d script and detected at 455d2d9. 19 tests passed.
+- Cross-seed identity holds by construction: sizes and p come from the layout, with no seed argument.
+- The reviewer rebuilt all 156 stage-2 intervals (6 arms, seed 1) from the model code. They match the receipt exactly
+  (z 3.997).
+- Width/bound ratio is 0.924 to 0.992 overall, and at most 0.973 on union rules.
+- Probes:
+  - widened just over the bound: UNKNOWN;
+  - a moved centre plus a forged count in one seed: UNKNOWN;
+  - an altered output, a missing output, a corrupted `.npz`, a swapped record or a forged head: each caught.
+- Merge simulation (clone + 455d2d9): stage 1 PASS/PASS at 53f8b89, stage 2 PASS/PASS at 0d71622, no problems.
+
+| Severity | Finding | Repair |
+|---|---|---|
+| minor | the width bound is invalid in general for union rules (union adds about p·N; scan ratio 1.007 at N 3000, p 0.01); it holds at the OPEN-38 sizes | scope documented in `_interval_anchors` and here; the stage-2 design is frozen, so no other layout reaches this check |
+| minor | the manifest is self-attested: a changed exec_id, or a changed integrity `npz_sha256`, still gave PASS | each manifest's exec_id and `.npz` hash must equal the integrity receipt's (test cases added; mutant `no_integ_cross` killed) |
+| minor | list the consistent-centre residual | listed below and in `STATUS_SOURCE_O38S.md` |
+
+Residual exposures (declared, not repaired):
+
+- A centre moved consistently in all five seeds of one arm, or a width forged just under the bound, is not detected
+  without p and N. The reviewer recomputed all 156 intervals from code and found an exact match.
+- An output forged consistently in the file, its manifest and the integrity receipt, then committed, passes. Such
+  receipts are bound only by git history.
+- A missing `.npz` (gitignored) is skipped.
+
+Status tests: 19 pass; real evidence: stage 2 PASS/PASS. Merge accepted on these findings.

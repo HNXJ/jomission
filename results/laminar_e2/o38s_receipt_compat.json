@@ -1,0 +1,23 @@
+{
+ "schema": "o38s_compat/1",
+ "about": "Receipts written at a revision other than their stage's execution SHA (owner 2026-11-17: no PASS combines receipts from different revisions without explicit compatibility). Each entry names the paths that must be identical between the two revisions (code compatibility, checked by git diff) and the execution-SHA receipt it must reproduce field by field except ignore_keys (experimental equivalence: same layouts, seeds, sizes, edge counts, parameters and drive). Verified by scripts/open38_status.py.",
+ "entries": [
+  {
+   "receipt": "results/laminar_e2/o38s_pc_construction_rulingB.json",
+   "execution_sha": "53f8b89fdb1ec4d67e3c972dd24ee4c899a680cc",
+   "source_sha": "8fed7f20ce4adb5669b8387aa84161b5fe21042c",
+   "identical_paths": ["jomission", "scripts/run_e2_stack.py"],
+   "equivalent_to": "results/laminar_e2/o38s_pc_construction.json",
+   "ignore_keys": ["interval", "ok", "pass", "family"],
+   "ignore_justification": {
+    "family": "added by ruling B: the family-wise level block; re-derived (alpha 0.05, n_tests = PV/SOM rules, level 1 - 0.05/n_tests)",
+    "interval": "the ruling changes only the interval level; re-derived per rule: centre equal to the frozen interval's, width scaled by z_B/z_0.999 within 1 %",
+    "ok": "follows from count, interval and params_equal; recomputed per rule, and every gate's ok enters pass",
+    "pass": "recomputed as all gates ok over all pairs"
+   },
+   "rule": "ruling_b_construction",
+   "expected_n_tests": 260,
+   "why": "construction-only re-check of the stage-1 layouts under owner ruling B (2026-11-17); only the checker's interval level changed (scripts/open38_construction_check.py); the model construction code is identical to the execution SHA"
+  }
+ ]
+}

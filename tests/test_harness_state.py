@@ -95,7 +95,9 @@ def test_test_tiers_consistent():
         if (
             re.search(r"[\"']results[/\"']|RESULTS", text)
             and writes.search(text)
-            and rel not in ("tests/test_harness_guards.py", "tests/test_seal_write_guard.py")
+            # test_open38_status writes only a fake repo under tmp_path (2026-11-17)
+            and rel not in ("tests/test_harness_guards.py", "tests/test_seal_write_guard.py",
+                            "tests/test_open38_status.py")
         ):
             assert rel in t3, f"{rel} writes results but is not tier 3"
 

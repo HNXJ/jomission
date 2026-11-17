@@ -69,9 +69,9 @@
     "trigger": "owner 2026-11-17: record the Allen mouse V1 model (Herrera et al. 2026 poster and preprint) as a competing mechanistic hypothesis without touching the frozen OPEN-38 protocol",
     "goal": "test two hypotheses, which need not exclude each other. H-comp: layer-dependent inhibitory composition contributes to the spectrolaminar motif. H-intr: intrinsic layer dynamics and synaptic kinetics generate it, with L4 Pvalb->E timing controlling gamma propagation",
     "parent_authority": "owner 2026-11-17 priority order: P0 OPEN-38 construction gate; P1 this record; P2 read-only source inventory after the gate ruling; P3 native-model readout validation; P4 JaxFNE port (owner main-vwin) only after native reference results and equivalence criteria",
-    "principal_delta": "none yet",
+    "principal_delta": "P2 delivered 2026-11-17: docs/laminar_motif/OPEN38_ALT_ALLEN_INVENTORY.md (read-only; poster model consistent with release core, INFERRED, not provable by hash). 2026-11-09 replica lineage retired by the owner 2026-11-17",
     "required_inputs": [
-     "docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md (existing: owner-approved 2026-11-09 CAMINOS/JaxFNE-form replica of Herrera et al. 2026; sources P (preprint), A (AllenInstitute/oscillations-biorealistic-mouse-v1-model @ bd25da66, BSD-3-Clause); exploratory 0.5.9 runs)",
+     "docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md (RETIRED by the owner 2026-11-17; sources only: P (preprint), A (AllenInstitute/oscillations-biorealistic-mouse-v1-model @ bd25da66, BSD-3-Clause))",
      "docs/laminar_motif/SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md (frozen; not modified by this item)"
     ],
     "frozen": [
@@ -86,7 +86,7 @@
      "docs/laminar_motif/OPEN38_ALT_ALLEN_INVENTORY.md (P2)"
     ],
     "downstream_unlock": [],
-    "blocked_by": "OPEN-38 stage-2 construction-gate ruling (P0); owner ruling on how the 2026-11-09 replica lineage relates to this order"
+    "blocked_by": "P3 owner authorization (native BMTK/NEST reference on the Dropbox checkpoint data; readout comparison defined first)"
    },
   {
     "id": "SCI-PROP-QUALIFIED-1",

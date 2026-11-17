@@ -22,8 +22,10 @@ Reference = the T8 reference column `e2_3unit_n4000_dens_k1_kd1_sst15` (`SEAL_T8
 15 ms; E/I 8000:1500 per unit; PV+SOM per unit fixed. Connectivity, weights, kinetics, drive, dt 0.1 ms, event
 delivery: unchanged. Each arm differs from ref in the per-unit N_SST/N_PV only (`rhouUX`, or T8's `rhof`/`rhor`).
 
-Consequence stated, not hidden: changing N_SST/N_PV changes each cell's SST and PV in-degree (fixed p per rule);
-the arms test the construction rule, as in T8.
+Consequence stated, not hidden: changing N_SST/N_PV changes each cell's SST and PV in-degree (fixed p per rule),
+and, because the external Poisson drive targets E and PV cells only (`caminos_e0.drive_spec`,
+`target_cell_types: ["E", "PV"]`), the number of externally driven inhibitory cells per unit: per-cell drive is
+fixed, total drive into a unit's inhibitory pool is not. The arms test the construction rule, as in T8.
 
 ## 3. Arms (layouts frozen; tag `o38s_{arm}_n4000_s{seed}_T8`)
 

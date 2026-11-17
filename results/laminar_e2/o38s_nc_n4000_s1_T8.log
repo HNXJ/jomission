@@ -1,0 +1,16 @@
+{"seed": 1, "T_s": 8.0, "wall_s": {"construct": 9.68918776512146, "simulate": 174.45300698280334, "total": 195.96985292434692}, "jaxfne_version": "0.5.9"}
+Traceback (most recent call last):
+  File "D:\jomission\scripts\e2_motif_figure.py", line 40, in <module>
+    from jomission.laminar import caminos_e0 as c0  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\jomission\jomission\__init__.py", line 33, in <module>
+    from jomission.paradigm.spec import (
+    ...<7 lines>...
+    )
+  File "D:\jomission\jomission\paradigm\__init__.py", line 27, in <module>
+    from jomission.paradigm.spec import (
+    ...<6 lines>...
+    )
+  File "D:\jomission\jomission\paradigm\spec.py", line 11, in <module>
+    from jaxfne import Paradigm, ParadigmCondition, ParadigmEvent
+ModuleNotFoundError: No module named 'jaxfne'

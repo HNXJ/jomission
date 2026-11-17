@@ -6,6 +6,8 @@
 cd "$(dirname "$0")/.." || exit 1
 seed=$1 T=$2 tag=$3 lay=$4
 py=${O38S_PY:?set O38S_PY}
+# The scoring scripts import jomission, which imports jaxfne, and they do not read JAXFNE_SITE.
+export PYTHONPATH="${JAXFNE_SITE:?set JAXFNE_SITE}${PYTHONPATH:+;$PYTHONPATH}"
 [[ -f results/laminar_e2/${tag}_verdict.json ]] && { echo "${tag} done"; exit 0; }
 mkdir -p results/laminar_e2
 "$py" -B -u scripts/run_e2_stack.py "$seed" "$T" "$tag" "$lay" > "results/laminar_e2/${tag}.log" 2>&1 \

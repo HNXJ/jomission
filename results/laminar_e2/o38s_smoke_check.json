@@ -1,0 +1,123 @@
+{
+ "ref": "o38s_ref_n4000_s1_T8",
+ "nc": "o38s_nc_n4000_s1_T8",
+ "pass": true,
+ "checks": {
+  "engine:o38s_ref_n4000_s1_T8": {
+   "version": "0.5.9",
+   "sha_field": null,
+   "jaxfne_file": "D:\\repos/_work/_temp_jaxfne_351f6048\\jaxfne\\__init__.py",
+   "from_verified_export": true,
+   "ok": true
+  },
+  "ratio:o38s_ref_n4000_s1_T8": {
+   "units": {
+    "S": {
+     "PV": 868,
+     "SOM": 217,
+     "rho": 0.25,
+     "err_cells": 0.0,
+     "ok": true
+    },
+    "M": {
+     "PV": 344,
+     "SOM": 344,
+     "rho": 1.0,
+     "err_cells": 0.0,
+     "ok": true
+    },
+    "D": {
+     "PV": 159,
+     "SOM": 319,
+     "rho": 2.0,
+     "err_cells": 0.3333333333333144,
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "finite:o38s_ref_n4000_s1_T8": {
+   "ok": true
+  },
+  "stop:o38s_ref_n4000_s1_T8": {
+   "e_rates_hz": {
+    "S": 0.39504465571881303,
+    "M": 0.7424118502362778,
+    "D": 1.5087684858002879
+   },
+   "stop": null,
+   "ok": true
+  },
+  "engine:o38s_nc_n4000_s1_T8": {
+   "version": "0.5.9",
+   "sha_field": null,
+   "jaxfne_file": "D:\\repos/_work/_temp_jaxfne_351f6048\\jaxfne\\__init__.py",
+   "from_verified_export": true,
+   "ok": true
+  },
+  "ratio:o38s_nc_n4000_s1_T8": {
+   "units": {
+    "S": {
+     "PV": 868,
+     "SOM": 217,
+     "rho": 0.25,
+     "err_cells": 0.0,
+     "ok": true
+    },
+    "M": {
+     "PV": 344,
+     "SOM": 344,
+     "rho": 1.0,
+     "err_cells": 0.0,
+     "ok": true
+    },
+    "D": {
+     "PV": 159,
+     "SOM": 319,
+     "rho": 2.0,
+     "err_cells": 0.3333333333333144,
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "finite:o38s_nc_n4000_s1_T8": {
+   "ok": true
+  },
+  "stop:o38s_nc_n4000_s1_T8": {
+   "e_rates_hz": {
+    "S": 0.39504465571881303,
+    "M": 0.7424118502362778,
+    "D": 1.5087684858002879
+   },
+   "stop": null,
+   "ok": true
+  },
+  "ref_r_ab_band": {
+   "r_ab": 0.8618823800058145,
+   "band": [
+    0.7964,
+    0.8855
+   ],
+   "ok": true
+  },
+  "nc_equals_ref": {
+   "differing_arrays": [],
+   "metadata_equal": true,
+   "ok": true
+  }
+ },
+ "wall_s": {
+  "o38s_ref_n4000_s1_T8": {
+   "construct": 26.480685472488403,
+   "simulate": 175.0263590812683,
+   "total": 209.1289575099945
+  },
+  "o38s_nc_n4000_s1_T8": {
+   "construct": 9.68918776512146,
+   "simulate": 174.45300698280334,
+   "total": 195.96985292434692
+  }
+ },
+ "git_sha": "3294090b6b00375591eb5fcd9d47fb9238b458e7"
+}

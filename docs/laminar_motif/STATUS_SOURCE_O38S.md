@@ -46,6 +46,15 @@ each PV/SOM rule's `interval` and `ok`. Each is re-derived from the frozen recei
 - Each other gate's `ok`: must equal the frozen value.
 - `pass`: the AND of all gates.
 
+The following were added after the independent review of 2026-11-17:
+
+- `identical_paths` must include `jomission` and `scripts/run_e2_stack.py`, and every listed path must exist at both
+  SHAs.
+- The frozen receipt is itself recomputed: each `ok` and `pass` from its own counts and intervals. Its pairs must be
+  exactly arms × seeds, with one PV/SOM rule set across pairs.
+- The number of PV/SOM tests must equal the entry's `expected_n_tests` (stage 1: 260).
+- Stage 2 is PASS only as smoke PASS followed by rest PASS. A segment left unfinished before a later one is UNKNOWN.
+
 So a construction that failed under the frozen gate becomes PASS only by lying inside the ruling-B interval. Residual
 slack: the tolerances can admit a count at most 1 % of a half-width plus 2 edges outside the exact ruling-B bound
 (about 0.04 SD at |z| = 4). Otherwise the stage is UNKNOWN. Environment, configuration, seeds

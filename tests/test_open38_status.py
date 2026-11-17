@@ -41,6 +41,8 @@ def _repo(tmp: Path) -> Path:
     _git(tmp, "config", "user.name", "t")
     (tmp / "jomission").mkdir()
     (tmp / "jomission" / "model.py").write_text("x = 1\n")
+    (tmp / "scripts").mkdir()
+    (tmp / "scripts" / "run_e2_stack.py").write_text("run = 1\n")
     _git(tmp, "add", "-A")
     _git(tmp, "commit", "-qm", "exe")
     return tmp
@@ -73,19 +75,20 @@ def _cons(repo: Path, counts=None, widen=1.0, fake_ok=None, n_tests=N_RULES, siz
     nd = NormalDist()
     scale = nd.inv_cdf(1 - 0.05 / N_RULES / 2) / nd.inv_cdf(1 - 0.001 / 2)
 
-    def rec(half, fam):
+    def rec(half, fam, forge=None):
         rules = {}
         for i in range(N_RULES):
             c = counts.get(i, 1000)
             lo, hi = 1000 - half, 1000 + half
-            ok = lo <= c <= hi if fake_ok is None or i not in counts else fake_ok
+            ok = lo <= c <= hi if forge is None or i not in counts else forge
             rules[f"r{i}"] = {"count": c, "interval": [lo, hi], "params_equal": True, "ok": ok}
         inh_ok = all(v["ok"] for v in rules.values())
-        out = {"pass": inh_ok, "results": {"L|s1": {"sizes": {"ok": True}, "inh_rules": {"ok": inh_ok, "rules": rules}}}}
+        out = {"arms": ["L"], "seeds": [1], "pass": inh_ok,
+               "results": {"L|s1": {"sizes": {"ok": True}, "inh_rules": {"ok": inh_ok, "rules": rules}}}}
         return {**out, **({"family": fam} if fam else {})}
 
     _write(repo, "o38s_pc_construction.json", rec(100.0, None))
-    b = rec(100.0 * scale * widen, {"alpha": 0.05, "n_tests": n_tests, "per_test_level": 1 - 0.05 / n_tests})
+    b = rec(100.0 * scale * widen, {"alpha": 0.05, "n_tests": n_tests, "per_test_level": 1 - 0.05 / n_tests}, fake_ok)
     b["results"]["L|s1"]["sizes"]["ok"] = sizes_ok
     _write(repo, "o38s_pc_construction_rulingB.json", b)
 
@@ -95,9 +98,10 @@ def _write(repo: Path, name: str, obj):
     (repo / st.R / name).write_text(json.dumps(obj), encoding="utf-8")
 
 
-def _compat(repo: Path, exe: str, src: str, paths=("jomission",), equiv=True, rule=True):
+def _compat(repo: Path, exe: str, src: str, paths=("jomission", "scripts/run_e2_stack.py"), equiv=True, rule=True,
+            n=N_RULES):
     ent = {"receipt": f"{st.R}/o38s_pc_construction_rulingB.json", "execution_sha": exe, "source_sha": src,
-           "identical_paths": list(paths), "why": "test"}
+           "identical_paths": list(paths), "expected_n_tests": n, "why": "test"}
     if equiv:
         ent.update(equivalent_to=f"{st.R}/o38s_pc_construction.json", ignore_keys=["interval", "ok", "pass", "family"])
     if rule:
@@ -187,7 +191,6 @@ def test_stage1_mixed_revisions_are_not_pass(tmp_path):
 def test_foreign_receipt_needs_verified_compat_entry(tmp_path):
     repo = _repo(tmp_path)
     exe = _git(repo, "rev-parse", "HEAD")
-    (repo / "scripts").mkdir()
     (repo / "scripts" / "check.py").write_text("level = 2\n")  # the re-check's own code changed
     src_same = _commit_all(repo, "checker only")
     _stage1(repo, exe)
@@ -243,13 +246,15 @@ def test_ignored_fields_are_rederived_not_trusted(tmp_path):
     repo = _repo(tmp_path)
     exe = _git(repo, "rev-parse", "HEAD")
     _compat(repo, exe, exe)
-    out = {0: 1130}  # z ~ 4.3 on the frozen scale: outside the ruling-B interval (half-width ~113)
+    out = {0: 1130}  # outside the ruling-B interval (half-width 100 x z_B/z_0.999 ~ 125)
     s = _s1(repo, exe, counts=out)
     assert s["status"] == "FAIL", "a count outside ruling B fails honestly"
+    # the frozen receipt fails this count honestly, so stage 1 is FAIL whatever ruling B says; the compat check
+    # must still reject the forged ruling-B receipt on its own
     s = _s1(repo, exe, counts=out, widen=1.2, fake_ok=True)  # intervals widened beyond ruling B and ok forged
-    assert s["status"] == "UNKNOWN" and "width" in s["reason"]
+    assert s["status"] != "PASS" and "width" in str(s["consistency"]["problems"])
     s = _s1(repo, exe, counts=out, fake_ok=True)  # ruling-B widths, but ok forged for the outside count
-    assert s["status"] == "UNKNOWN" and "recomputed" in s["reason"]
+    assert s["status"] != "PASS" and "recomputed" in str(s["consistency"]["problems"])
     s = _s1(repo, exe, n_tests=26)  # family claims fewer tests than the receipt holds
     assert s["status"] == "UNKNOWN" and "family" in s["reason"]
     s = _s1(repo, exe, sizes_ok=False)  # a level-independent gate's ok changed
@@ -283,3 +288,52 @@ def test_comparison_fails_closed_on_unexpected_or_missing_fields(tmp_path):
         _stage1(repo, exe)
         s = _edit_b(repo, fn)
         assert s["status"] == "UNKNOWN", f"{name}: {s['status']} {s.get('reason')}"
+
+
+def _edit_both(repo, fn):
+    for f in ("o38s_pc_construction.json", "o38s_pc_construction_rulingB.json"):
+        p = repo / st.R / f
+        x = json.loads(p.read_text())
+        fn(x)
+        _write(repo, f, x)
+    return st.stage1(repo, 30)
+
+
+def test_consistent_forgery_in_both_receipts_is_not_pass(tmp_path):  # review 2026-11-17 gaps (b), (c)
+    repo = _repo(tmp_path)
+    exe = _git(repo, "rev-parse", "HEAD")
+    _compat(repo, exe, exe)
+    assert _s1(repo, exe)["status"] == "PASS"
+    rules = lambda b: b["results"]["L|s1"]["inh_rules"]["rules"]  # noqa: E731
+    _stage1(repo, exe)  # count outside the frozen interval, inside ruling B, frozen ok left true
+    s = _edit_both(repo, lambda b: rules(b)["r0"].update(count=1105))
+    assert s["status"] == "UNKNOWN" and "frozen" in s["reason"], s["reason"]
+    _stage1(repo, exe)  # one rule dropped in both receipts
+    s = _edit_both(repo, lambda b: rules(b).pop("r0"))
+    assert s["status"] == "UNKNOWN" and "expected_n_tests" in s["reason"], s["reason"]
+    _stage1(repo, exe)  # declared seeds name a pair both receipts lack
+    s = _edit_both(repo, lambda b: b["seeds"].append(2))
+    assert s["status"] == "UNKNOWN" and "arms x seeds" in s["reason"], s["reason"]
+
+
+def test_identical_paths_must_cover_model_code_and_exist(tmp_path):  # review 2026-11-17 gap (a)
+    repo = _repo(tmp_path)
+    exe = _git(repo, "rev-parse", "HEAD")
+    _stage1(repo, exe)
+    _compat(repo, exe, exe, paths=("jomission",))  # exists, but omits the stack runner
+    assert "omit" in st.stage1(repo, 30)["reason"]
+    _compat(repo, exe, exe, paths=("jomission", "scripts/run_e2_stack.py", "nonexistent_dir"))
+    assert "absent" in st.stage1(repo, 30)["reason"]
+
+
+def test_stage2_pass_needs_finished_smoke(tmp_path):  # review 2026-11-17 MAJOR
+    unfinished = ["mode smoke", f"HEAD {EXE}", "construction invariance: PASS", "start o38s_v1_n4000_s1_T8 L exec=x",
+                  "mode rest", f"HEAD {EXE}", "start o38s_mt_n4000_s1_T8 L exec=y", "o38s_mt_n4000_s1_T8 rc=0",
+                  "stage-2 integrity: PASS", "DONE rest"]
+    _log(tmp_path, "o38s_s2_stage.log", unfinished)
+    _rec(tmp_path, "o38s_s2_integrity.json", True, head=EXE)
+    s = st.stage2(tmp_path, 30)
+    assert s["status"] == "UNKNOWN" and s["phases"][0]["status"] == "UNKNOWN", s["reason"]
+    assert REST[len(SMOKE_HEAD) + 3] == "mode rest"
+    _log(tmp_path, "o38s_s2_stage.log", REST[len(SMOKE_HEAD) + 3:])  # a rest segment with no smoke before it
+    assert st.stage2(tmp_path, 30)["status"] != "PASS"

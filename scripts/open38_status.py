@@ -150,6 +150,12 @@ def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
         return False, f"{rel}: no compatibility entry"
     if not str(ent.get("execution_sha", "")).startswith(execution_sha[:7]) or not ent.get("identical_paths"):
         return False, f"{rel}: entry names execution {ent.get('execution_sha')} or no identical_paths"
+    if not MIN_IDENTICAL <= set(ent["identical_paths"]):
+        return False, f"{rel}: identical_paths omit {sorted(MIN_IDENTICAL - set(ent['identical_paths']))}"
+    for sha in (ent["execution_sha"], ent.get("source_sha", "")):  # git diff passes on a path absent at both SHAs
+        gone = [p for p in ent["identical_paths"] if _git(repo, "cat-file", "-e", f"{sha}:{p}").returncode != 0]
+        if gone:
+            return False, f"{rel}: identical_paths {gone} absent at {str(sha)[:7]}"
     r = _git(repo, "diff", "--quiet", ent["execution_sha"], ent["source_sha"], "--", *ent["identical_paths"])
     if r.returncode == 1:
         return False, f"{rel}: declared paths differ between {ent['execution_sha'][:7]} and {ent['source_sha'][:7]}"
@@ -167,7 +173,7 @@ def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
         stray = [p for x in (a, b) for p in _key_paths(x, ign) if not _ruling_b_slot(p)]
         try:
             probs = [f"{'/'.join(map(str, p))}: ignored key outside its declared slot" for p in stray] \
-                or verify_ruling_b(a, b)
+                or verify_ruling_b(a, b, ent.get("expected_n_tests"))
         except (KeyError, TypeError, ValueError, ZeroDivisionError, AttributeError) as e:  # fail closed
             probs = [f"malformed receipt: {type(e).__name__} {e}"]
         if probs:
@@ -179,16 +185,46 @@ def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
 
 
 RULING_B_ALPHA, Z_FROZEN_LEVEL, WIDTH_TOL, CENTRE_TOL = 0.05, 0.999, 0.01, 2.0
+MIN_IDENTICAL = {"jomission", "scripts/run_e2_stack.py"}  # the model construction code
 
 
-def verify_ruling_b(new: dict, old: dict) -> list[str]:
+def _receipt_shape(r: dict) -> list[str]:
+    """Pairs are exactly arms x seeds, every pair holds the same PV/SOM rule set, and each frozen ok and pass
+    follows from its own counts and intervals."""
+    probs = []
+    want = {f"{a}|s{s}" for a in r["arms"] for s in r["seeds"]}
+    if set(r["results"]) != want:
+        probs.append(f"pairs {sorted(set(r['results']) ^ want)[:3]} differ from arms x seeds")
+    rule_sets = {frozenset(v["inh_rules"]["rules"]) for v in r["results"].values()}
+    if len(rule_sets) != 1:
+        probs.append("rule sets differ between pairs")
+    all_ok = True
+    for key, v in r["results"].items():
+        for rule, x in v["inh_rules"]["rules"].items():
+            ok = x["interval"][0] <= x["count"] <= x["interval"][1] and x["params_equal"]
+            if x["ok"] != ok:
+                probs.append(f"{key} {rule}: ok {x['ok']} != recomputed {ok}")
+        if v["inh_rules"]["ok"] != all(x["ok"] for x in v["inh_rules"]["rules"].values()):
+            probs.append(f"{key}: inh_rules ok inconsistent with its rules")
+        all_ok &= all(g["ok"] for g in v.values())
+    if r.get("pass") is not all_ok:
+        probs.append(f"pass {r.get('pass')} != all gates {all_ok}")
+    return probs
+
+
+def verify_ruling_b(new: dict, old: dict, expected_n: int | None = None) -> list[str]:
     """Re-derive every field a ruling-B construction re-check may change, from the frozen receipt of the same builds.
     family: alpha 0.05, n_tests = PV/SOM rules in the receipt, level 1 - alpha/n_tests. Each interval: centre equal to
     the frozen one (same p*N) within CENTRE_TOL edges, width = frozen width * z_B / z_0.999 within WIDTH_TOL (binomial
     discreteness; observed <= 0.7 %). Each ok and pass: recomputed from the counts and the re-derived intervals."""
     from statistics import NormalDist
-    probs, fam = [], new.get("family") or {}
+    probs = [f"frozen: {p}" for p in _receipt_shape(old)]
+    if probs:
+        return probs
+    fam = new.get("family") or {}
     n = sum(len(r["inh_rules"]["rules"]) for r in new.get("results", {}).values())
+    if expected_n is None or n != expected_n:
+        return [f"{n} PV/SOM tests, compat entry declares expected_n_tests {expected_n}"]
     if fam.get("alpha") != RULING_B_ALPHA or fam.get("n_tests") != n or n == 0:
         return [f"family {fam} vs {n} PV/SOM tests"]
     if abs(fam.get("per_test_level", 0) - (1 - RULING_B_ALPHA / n)) > 1e-12:
@@ -307,6 +343,8 @@ def stage2(repo: Path, stale: float) -> dict:
     phases = []
     for s in segs:
         st, why = segment_status(s, age if s is segs[-1] else 0.0, stale, ("integrity",))
+        if s is not segs[-1] and st == "RUNNING":  # a later phase started while this one never closed
+            st, why = "UNKNOWN", f"unfinished {s['mode']} segment followed by another"
         phases.append({"mode": s["mode"], "status": st, "reason": why, "head": s["head"], "started": len(s["started"]),
                        "exit0": sum(v == 0 for v in s["rc"].values()), "construction": s["construction"],
                        "integrity": s["integrity"], "last_line_utc": s["last"]})
@@ -315,7 +353,10 @@ def stage2(repo: Path, stale: float) -> dict:
     if any(p["status"] == "FAIL" for p in phases):
         st, why = "FAIL", "a phase failed"
     elif last["mode"] == "rest" and last["status"] == "PASS":
-        st, why = ("PASS", "rest DONE; integrity PASS") if integ == "PASS" else ("UNKNOWN", f"integrity receipt {integ}")
+        if [(p["mode"], p["status"]) for p in phases] != [("smoke", "PASS"), ("rest", "PASS")]:
+            st, why = "UNKNOWN", f"phases {[(p['mode'], p['status']) for p in phases]} are not smoke PASS then rest PASS"
+        else:
+            st, why = ("PASS", "rest DONE; integrity PASS") if integ == "PASS" else ("UNKNOWN", f"integrity receipt {integ}")
     elif last["mode"] == "smoke" and last["status"] == "PASS":
         st, why = "BLOCKED", "smoke PASS; rest phase not launched"
     else:

@@ -16,6 +16,7 @@
     "pass": "recomputed as all gates ok over all pairs"
    },
    "rule": "ruling_b_construction",
+   "expected_n_tests": 260,
    "why": "construction-only re-check of the stage-1 layouts under owner ruling B (2026-11-17); only the checker's interval level changed (scripts/open38_construction_check.py); the model construction code is identical to the execution SHA"
   }
  ]

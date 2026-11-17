@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>SCI-LAMINAR-MOTIF-1 V3 (partial, retrospective)</title>
+<body style="font-family:sans-serif;max-width:1100px;margin:auto">
+<h1>SCI-LAMINAR-MOTIF-1: E0: CAMINOS E-PV-SST reference module, p 0.07, seeds 1-5 (V3 atlas, partial)</h1>
+<p style="color:#a00000"><b>RETROSPECTIVE, PARTIAL: drawn 2026-11-17 from preserved evidence after interpretation (OPEN-51).</b> Result commit ea249f1. Every counts file matched its recorded sha256
+and reproduced its committed run JSON (spikes kept, f_pk, peak excess, oscillation call, PV-SST lag) before drawing.
+Sources and hashes: <a href="provenance.json">provenance.json</a>.</p>
+<h2>Construction (V0, declared)</h2><img src="../jaxfne_network_hspice.png" style="max-width:100%">
+<h2>Population rates</h2><img src='rates.png' style='max-width:100%'><h2>E-rate spectra</h2><img src='spectra.png' style='max-width:100%'>
+<h2>Per run: recorded estimands (results JSON)</h2>
+<table border=1 cellpadding=3 style="border-collapse:collapse;font-size:12px">
+<tr><th>run</th><th>N_PV/N_SST</th><th>E Hz</th><th>PV Hz</th><th>SST Hz</th><th>f_pk Hz</th><th>peak excess</th>
+<th>oscillates</th><th>lag PV-SST ms</th><th>wall s</th><th>counts sha256</th></tr><tr><td>e0_seed1</td><td>750/750</td><td>1.109</td><td>11.374</td><td>7.008</td><td>34.0</td><td>16.294</td><td>True</td><td>6.9</td><td>2129</td><td><code>ac5a4415af817472</code></td></tr><tr><td>e0_seed2</td><td>750/750</td><td>1.068</td><td>11.249</td><td>6.727</td><td>34.0</td><td>18.346</td><td>True</td><td>7.2</td><td>2131</td><td><code>f7d2a3b1a68c87cc</code></td></tr><tr><td>e0_seed3</td><td>750/750</td><td>1.053</td><td>11.131</td><td>6.508</td><td>34.0</td><td>20.798</td><td>True</td><td>7.4</td><td>2157</td><td><code>e2b70bdc99ed611e</code></td></tr><tr><td>e0_seed4</td><td>750/750</td><td>1.093</td><td>11.319</td><td>6.955</td><td>34.0</td><td>14.435</td><td>True</td><td>7.1000000000000005</td><td>2109</td><td><code>9158654942bd56ee</code></td></tr><tr><td>e0_seed5</td><td>750/750</td><td>1.076</td><td>11.330</td><td>6.682</td><td>34.0</td><td>17.291</td><td>True</td><td>7.2</td><td>2136</td><td><code>5549416ecd380322</code></td></tr></table>
+<h2>Not in this atlas</h2>
+<p>Raster, per-cell spike times, membrane potential, I_net, H, A, m(H), and realized edges and weights: the runs
+saved only per-step population counts (caminos_e0.py run() sums the raster in memory), so none of these exists.
+The model has no plasticity. No field or LFP proxy was recorded. V1 and V2 are absent for the same reason; this
+lineage's visualization set stays incomplete under manifests/visualization_contract.json.</p></body>

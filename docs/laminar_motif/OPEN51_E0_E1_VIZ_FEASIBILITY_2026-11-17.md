@@ -110,25 +110,50 @@ discarded it.
 OPEN-38 met all four stages from recorded data. E0/E1 meet V0 at the declared level and part of V3. The OPEN-38 method
 cannot produce V1 or V2 for E0/E1.
 
-## Options for a separate implementation decision
+## Options and owner response (2026-11-17)
 
-1. Declared-level V0 and a partial V3 for E0 and E1, retrospective and labelled, with V1 and V2 left absent. The records
-   would stay incomplete under the contract, because the validator requires all four paths. This needs no simulation.
-   It produces the faithful subset, and OPEN-51 stays open for V1/V2.
+1. Declared-level V0 and a partial V3 for E0 and E1, retrospective and labelled, with V1 and V2 left absent. This needs
+   no simulation. The records could not be completed with it, because the contract requires all four paths.
 2. Identity-checked re-execution: rerun E0/E1 at `e0160dfc` and the inferred jomission commits, save per-cell rasters,
-   and accept a run only if its counts are byte-identical (sha256 above) to the original.
-   - A match makes V1/V2 a verified reproduction of the original execution. A mismatch leaves V1/V2 blocked.
-   - Cost: 17 distinct runs; `wall_s` is in each run JSON. Successive E0 counts files are 36-125 min apart.
-   - Needs separate authorization for new simulations, and an F: read of the counts as the comparator. Bitwise CPU
-     determinism of float32 JAX across processes is unknown, and the E0 build is only declared.
-3. Contract amendment: add SCI-LAMINAR-MOTIF-1 and SCI-LAMINAR-E1 to `grandfathered`, with this note as the reason. This
-   corrects the false `NOT_A_MODEL_LINEAGE` premise without fabricating anything. It is a contract change, which the
-   owner reserved. The validator's premise check (OPEN-51 row) is separate in either case.
+   and accept a run only if its counts equal the original at every step.
+   - Owner qualification: counts are a many-to-one map of the raster. A match establishes aggregate observational
+     equivalence, so a matching run gives a **count-validated reconstructed raster**, never the recovered original. A
+     mismatch leaves V1/V2 blocked.
+   - Cost: 17 distinct runs, 34 509 s (9.6 h) of recorded `wall_s`.
+   - Needs separate authorization for new simulations. Bitwise CPU determinism of float32 JAX across processes is
+     unknown, the jax version is unrecorded, and the E0 build is only declared.
+3. Contract amendment: add SCI-LAMINAR-MOTIF-1 and SCI-LAMINAR-E1 to `grandfathered`, with this note as the reason.
+   This corrects the false `NOT_A_MODEL_LINEAGE` premise without recovering any information. It is a contract change,
+   which the owner reserved.
 
-Ranked: 2 then 1 if the owner wants V1/V2; 3 if retrospective visuals for E0/E1 carry no decision value. Option 1 alone
-leaves the validator failing on V1/V2 for both records.
+Owner ranking: 1 re-run, 2 partial retrospective, 3 grandfathering. Owner instruction 2026-11-17:
+- read `E1B_SEAL.md`;
+- produce option 1's V0 and partial V3 from preserved evidence only;
+- prepare, but not execute, the re-run protocol;
+- keep the contract unchanged.
 
-## Not examined
+No simulation or contract change is authorized.
 
-- `F:/.../docs/laminar_motif/E1B_SEAL.md` (sha256 088a5c34d1c2b53bf96a9f8959d94beb98714898f68d159631a19ef3082dd19a) was
-  never committed in any branch. It was not read, being outside E0/E1.
+## Done after the owner response
+
+- `E1B_SEAL.md` (F: salvage, sha256 088a5c34d1c2b53bf96a9f8959d94beb98714898f68d159631a19ef3082dd19a) is the seal of a
+  later lineage, SCI-LAMINAR-E1b, dated 2026-11-09.
+  - It does not bear on E0/E1 execution identity.
+  - It restates the E0/E1 conductances (Q_SOM_PV and Q_SOM_E 5.0 nS; Q_E_E 2.0, Q_E_INH 3.0, Q_PV 5.0, Q_EXT 2.5 nS),
+    a second source that agrees with the V0 declaration in `caminos_e0.py`.
+  - Its gate 1 checks realized edge counts and weights, the receipt E0/E1 lack.
+  - The seal says it was committed and pushed, yet no ref in D:/jomission holds it (`git log --all`). Whether the
+    salvaged `jomission.bundle` holds it was not checked.
+- `scripts/open51_viz.py` drew `docs/laminar_motif/open51_viz/SCI-LAMINAR-MOTIF-1/` and `.../SCI-LAMINAR-E1/`,
+  without constructing or simulating anything. They sit outside `results/viz/`: `results_coverage` requires every
+  results file to be named by a lineage record, and no lineage-record change is authorized. Each tree holds:
+  - `jaxfne_network_hspice.png`: V0 at the declared level, with a rule table and red retrospective labels. It states
+    that realized edges were never recorded.
+  - `atlas/index.html`: a partial V3 with population rates (2000-2500 ms, 1 ms bins), E-rate spectra, the per-run
+    estimands and, for E1, recorded f_pk against rho. A section "Not in this atlas" lists the raster, per-cell
+    dynamics, membrane, I_net, H, A, m(H) and realized weights.
+  - `atlas/provenance.json`.
+- Gate before drawing: all 20 counts files matched their sha256 above. `analyze_run` on the counts equalled each
+  committed JSON on `spikes_kept`, `peak_freq_E_Hz`, `peak_excess_E`, `oscillates` and `lag_PV_SOM_ms`.
+- The lineage records are unchanged: they still carry `NOT_A_MODEL_LINEAGE`, so the new trees are unregistered.
+- `OPEN51_RERUN_PROTOCOL_2026-11-17.md` is the prepared protocol for option 2. It is a draft and has not been executed.

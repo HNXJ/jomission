@@ -1,0 +1,49 @@
+{
+ "schema": "jomission.open51_viz.v1",
+ "lineage": "SCI-LAMINAR-MOTIF-1",
+ "label": "RETROSPECTIVE, PARTIAL: drawn 2026-11-17 from preserved evidence after interpretation (OPEN-51)",
+ "drawn_at_head": "12bfaf20068f82503cbef9e5926fe132e86a6ca3",
+ "script": "scripts/open51_viz.py",
+ "declared_construction": "jomission/laminar/caminos_e0.py (constants and RULES unchanged since 3257ffc)",
+ "result_commit": "ea249f1",
+ "jaxfne_build": "e0160dfc (declared, E0_SEAL.md Amendment 1; observed for E1 by compiled-code equality, see the OPEN-51 note)",
+ "checks": "sha256 per counts file; analyze_run(counts) equals the run JSON on spikes_kept and peak_freq_E_Hz, peak_excess_E, oscillates, lag_PV_SOM_ms",
+ "inputs": [
+  {
+   "counts": "laminar_e0/e0_seed1_counts.npy",
+   "sha256": "ac5a4415af817472262c57bc272657770927ed4ff1382b93c7ff94d2de3966a7",
+   "run_json": "results/laminar_e0/e0_seed1.json"
+  },
+  {
+   "counts": "laminar_e0/e0_seed2_counts.npy",
+   "sha256": "f7d2a3b1a68c87ccefa19b374f79de6988053b7c981710d09119661392ac14ae",
+   "run_json": "results/laminar_e0/e0_seed2.json"
+  },
+  {
+   "counts": "laminar_e0/e0_seed3_counts.npy",
+   "sha256": "e2b70bdc99ed611e2d732d8fb94a0c40978649f6550a57cfc7821af2bac95e9b",
+   "run_json": "results/laminar_e0/e0_seed3.json"
+  },
+  {
+   "counts": "laminar_e0/e0_seed4_counts.npy",
+   "sha256": "9158654942bd56eec654072a26859d24e0409c56783872c0f2a517afdb249be3",
+   "run_json": "results/laminar_e0/e0_seed4.json"
+  },
+  {
+   "counts": "laminar_e0/e0_seed5_counts.npy",
+   "sha256": "5549416ecd38032215409bc359573558c0bad98537b269dcf12a3d4814e97ff2",
+   "run_json": "results/laminar_e0/e0_seed5.json"
+  }
+ ],
+ "absent": [
+  "V1",
+  "V2",
+  "raster",
+  "membrane",
+  "I_net",
+  "H",
+  "A",
+  "m(H)",
+  "realized edges/weights"
+ ]
+}

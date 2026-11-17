@@ -1,0 +1,99 @@
+{
+ "schema": "jomission.open51_viz.v1",
+ "lineage": "SCI-LAMINAR-E1",
+ "label": "RETROSPECTIVE, PARTIAL: drawn 2026-11-17 from preserved evidence after interpretation (OPEN-51)",
+ "drawn_at_head": "rho 0.25, 0.5, 1, 2, 4",
+ "script": "scripts/open51_viz.py",
+ "declared_construction": "jomission/laminar/caminos_e0.py (constants and RULES unchanged since 3257ffc)",
+ "result_commit": "8200fac",
+ "jaxfne_build": "e0160dfc (declared, E0_SEAL.md Amendment 1; observed for E1 by compiled-code equality, see the OPEN-51 note)",
+ "checks": "sha256 per counts file; analyze_run(counts) equals the run JSON on spikes_kept and peak_freq_E_Hz, peak_excess_E, oscillates, lag_PV_SOM_ms",
+ "inputs": [
+  {
+   "counts": "laminar_e1/e1_rho0.25_seed1_counts.npy",
+   "sha256": "eed03c5eda28078b6ffbf0a640c769deec0fa1a2bce87bff41bbd0dccf0cd9f9",
+   "run_json": "results/laminar_e1/e1_rho0.25_seed1.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho0.25_seed2_counts.npy",
+   "sha256": "fd0e731abc0e3301cc0e02628bcf42d0f9578281089e85825a15d89735cb8fa2",
+   "run_json": "results/laminar_e1/e1_rho0.25_seed2.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho0.25_seed3_counts.npy",
+   "sha256": "5a50fbe94e76cd1f9e6085579c702f40f1f23d41eab34f4009e5f4a88b06b3eb",
+   "run_json": "results/laminar_e1/e1_rho0.25_seed3.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho0.5_seed1_counts.npy",
+   "sha256": "10b95ab35ad605856ecaa0f0f653e63bff261df3a54dcaf092824ca9a53a28d9",
+   "run_json": "results/laminar_e1/e1_rho0.5_seed1.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho0.5_seed2_counts.npy",
+   "sha256": "8a8eeaf858da40d482631f59f9a6c0bbcb73a824c0f0b50bb0bbee79bcbd36e2",
+   "run_json": "results/laminar_e1/e1_rho0.5_seed2.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho0.5_seed3_counts.npy",
+   "sha256": "6f49c57caa1313a8a5cb451a17e53a80368623199bf26f0332446837ef3ab9bf",
+   "run_json": "results/laminar_e1/e1_rho0.5_seed3.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho1_seed1_counts.npy",
+   "sha256": "ac5a4415af817472262c57bc272657770927ed4ff1382b93c7ff94d2de3966a7",
+   "run_json": "results/laminar_e1/e1_rho1_seed1.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho1_seed2_counts.npy",
+   "sha256": "f7d2a3b1a68c87ccefa19b374f79de6988053b7c981710d09119661392ac14ae",
+   "run_json": "results/laminar_e1/e1_rho1_seed2.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho1_seed3_counts.npy",
+   "sha256": "e2b70bdc99ed611e2d732d8fb94a0c40978649f6550a57cfc7821af2bac95e9b",
+   "run_json": "results/laminar_e1/e1_rho1_seed3.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho2_seed1_counts.npy",
+   "sha256": "9ff48508f2ef1ded10218cd9a1d9536b0d47a6d2ee0b3ef281807233857b3417",
+   "run_json": "results/laminar_e1/e1_rho2_seed1.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho2_seed2_counts.npy",
+   "sha256": "a3a3e819a0ed30e9817029f2db7046698640fd2243c5dd81dc8f5ab185353738",
+   "run_json": "results/laminar_e1/e1_rho2_seed2.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho2_seed3_counts.npy",
+   "sha256": "5dde113bb719900e5fa86441c394925185bb32c2edbc76009c70e53b558389e2",
+   "run_json": "results/laminar_e1/e1_rho2_seed3.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho4_seed1_counts.npy",
+   "sha256": "024a24a0beece805be80a179217d0185941fe142ec7e4ef711220ad418163ecd",
+   "run_json": "results/laminar_e1/e1_rho4_seed1.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho4_seed2_counts.npy",
+   "sha256": "868d748ccde9110213223789521233ad73b2fe841729f66a18d4ee09185c8b1b",
+   "run_json": "results/laminar_e1/e1_rho4_seed2.json"
+  },
+  {
+   "counts": "laminar_e1/e1_rho4_seed3_counts.npy",
+   "sha256": "0648b217445440ae259ad3afce544a7d23e11cba69f015e5ee8bbd0321303ce7",
+   "run_json": "results/laminar_e1/e1_rho4_seed3.json"
+  }
+ ],
+ "absent": [
+  "V1",
+  "V2",
+  "raster",
+  "membrane",
+  "I_net",
+  "H",
+  "A",
+  "m(H)",
+  "realized edges/weights"
+ ]
+}

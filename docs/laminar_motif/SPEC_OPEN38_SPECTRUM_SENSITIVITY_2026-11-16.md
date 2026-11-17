@@ -26,6 +26,14 @@ Consequence stated, not hidden: changing N_SST/N_PV changes each cell's SST and 
 and, because the external Poisson drive targets E and PV cells only (`caminos_e0.drive_spec`,
 `target_cell_types: ["E", "PV"]`), the number of externally driven inhibitory cells per unit: per-cell drive is
 fixed, total drive into a unit's inhibitory pool is not. The arms test the construction rule, as in T8.
+Owner qualification (2026-11-16): each arm estimates the **total effect of the specified composition
+intervention** (inhibitory cell identity plus the population receiving external drive), not an isolated intrinsic
+SST-versus-PV mechanism; interpretation keeps that distinction. The intervention is not changed.
+
+Staging (owner 2026-11-16): stage 1 = ref, flat, rev × seeds 1-5 (tags `o38s_pc_*`, driver
+`scripts/run_o38s_stage1.sh`, checks `open38_construction_check.py`, `open38_stage1_check.py`); the remaining 30
+runs only after owner review of stage 1 and independent reviewer acceptance. Failed controls are kept and
+investigated, never met by retuning a threshold.
 
 ## 3. Arms (layouts frozen; tag `o38s_{arm}_n4000_s{seed}_T8`)
 

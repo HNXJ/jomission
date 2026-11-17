@@ -18,6 +18,8 @@ between-animal uncertainty exists in these data, and the interval must not be re
 from __future__ import annotations
 
 import csv
+import hashlib
+import json
 import re
 import sys
 from collections import defaultdict
@@ -96,6 +98,38 @@ def module_rows(counts: dict, area: str, all_cells: dict | None = None) -> list[
     return out
 
 
+def verify(cluster_dir: Path, all_cells: dict, counts: dict) -> dict:
+    """Refuses duplicate exports (same bytes or same counts: a cluster exported twice), an empty cluster, and any
+    region where a cluster or subclass sum exceeds all cells. Returns a receipt with per-file sha256 and, per
+    area, the layer-sum / area-row ratio of all cells (layer coverage; reported, not enforced)."""
+    files, by_hash, by_vec = {}, {}, {}
+    for f in sorted(cluster_dir.iterdir()):
+        if not FILE_RE.search(f.name):
+            continue
+        data = read_export(f)
+        h = hashlib.sha256(f.read_bytes()).hexdigest()
+        vec = tuple(data[r] for r in sorted(data))
+        for seen, key, what in ((by_hash, h, "bytes"), (by_vec, vec, "counts")):
+            if key in seen:
+                raise ValueError(f"{f.name} has the same {what} as {seen[key]}")
+            seen[key] = f.name
+        if not any(vec):
+            raise ValueError(f"{f.name}: every region is 0")
+        over = [r for r, v in data.items() if v > all_cells[r]]
+        if over:
+            raise ValueError(f"{f.name}: count above all cells in {over[:3]}")
+        files[f.name] = h
+    for s in SUBCLASSES:
+        over = [r for r, v in counts[s].items() if v > all_cells[r]]
+        if over:
+            raise ValueError(f"subclass {s}: count above all cells in {over[:3]}")
+    coverage = {}
+    for a in sorted({re.sub(r"-l\d$", "", r) for r in all_cells if re.search(r"-l\d$", r)}):
+        layer_sum = sum(v for r, v in all_cells.items() if re.fullmatch(rf"{re.escape(a)}-l\d", r))
+        coverage[a] = layer_sum / all_cells[a] if all_cells.get(a) else None
+    return {"files": files, "n_regions": len(all_cells), "layer_sum_over_area_all_cells": coverage}
+
+
 def main(cluster_dir: str, all_cells_csv: str, out_csv: str) -> None:
     counts, n_clusters = load(Path(cluster_dir))
     if n_clusters != EXPECTED:
@@ -103,6 +137,10 @@ def main(cluster_dir: str, all_cells_csv: str, out_csv: str) -> None:
     all_cells = read_export(Path(all_cells_csv))
     if set(all_cells) != set(counts["SST"]):
         raise ValueError("all-cells export lists a different region set from the cluster exports")
+    receipt = verify(Path(cluster_dir), all_cells, counts)
+    receipt.update(n_clusters=n_clusters, all_cells_csv=Path(all_cells_csv).name,
+                   all_cells_sha256=hashlib.sha256(Path(all_cells_csv).read_bytes()).hexdigest())
+    Path(out_csv).with_suffix(".receipt.json").write_text(json.dumps(receipt, indent=1), encoding="utf-8")
     areas = sorted({re.sub(r"-l\d$", "", r) for r in counts["SST"] if re.search(r"-l\d$", r)})
     rows = [r for a in areas for r in module_rows(counts, a, all_cells)]
     cols = ["area", "module", "layers", "missing", *SUBCLASSES, "n_all", *(f"frac_{s}" for s in SUBCLASSES),

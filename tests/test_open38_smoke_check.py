@@ -64,6 +64,21 @@ def test_engine_identity_by_verified_export_path(tmp_path):
     assert mod.main("ref", "nc", tmp_path) == 1 and "engine:nc" in _failed(tmp_path)
 
 
+def test_nonfinite_ratio_and_metadata_fail_through_main(tmp_path):
+    _write(tmp_path, "ref")
+    _write(tmp_path, "nc")
+    rec = json.loads((tmp_path / "nc.json").read_text())
+    rec["sizes"] = {**SIZES, "D": {"E": 100, "PV": 9, "SOM": 10}}  # ratio off rho 2 by > 1 cell; metadata differs
+    (tmp_path / "nc.json").write_text(json.dumps(rec))
+    v = json.loads((tmp_path / "nc_verdict.json").read_text())
+    v["r_gm"] = float("nan")
+    (tmp_path / "nc_verdict.json").write_text(json.dumps(v))
+    assert mod.main("ref", "nc", tmp_path) == 1
+    assert {"ratio:nc", "finite:nc", "nc_equals_ref"} <= set(_failed(tmp_path))
+    meta = json.loads((tmp_path / "o38s_smoke_check.json").read_text())["checks"]["nc_equals_ref"]
+    assert meta["differing_arrays"] == [] and meta["metadata_equal"] is False, "metadata alone must fail nc==ref"
+
+
 def test_ratio_off_by_more_than_one_cell():
     bad = {**SIZES, "D": {"E": 100, "PV": 9, "SOM": 10}}
     assert not mod.ratio_ok(bad, RHO)["D"]["ok"] and mod.ratio_ok(SIZES, RHO)["D"]["ok"]

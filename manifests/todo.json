@@ -64,6 +64,31 @@
     "blocked_by": "OPEN-36 (owner values for the UNSET register: thresholds, neuron and synapse set, seed counts, alpha, AdEx tolerance); OPEN-37 (project-wide move to JaxFNE 0.5.9 and migration lineage; E0 itself is ruled); OPEN-38 (import LANSA arrays, observed LFP and the analysis port from the private LANSA tree)"
    },
   {
+    "id": "OPEN38-ALT-ALLEN",
+    "status": "OPEN",
+    "trigger": "owner 2026-11-17: record the Allen mouse V1 model (Herrera et al. 2026 poster and preprint) as a competing mechanistic hypothesis without touching the frozen OPEN-38 protocol",
+    "goal": "test two hypotheses, which need not exclude each other. H-comp: layer-dependent inhibitory composition contributes to the spectrolaminar motif. H-intr: intrinsic layer dynamics and synaptic kinetics generate it, with L4 Pvalb->E timing controlling gamma propagation",
+    "parent_authority": "owner 2026-11-17 priority order: P0 OPEN-38 construction gate; P1 this record; P2 read-only source inventory after the gate ruling; P3 native-model readout validation; P4 JaxFNE port (owner main-vwin) only after native reference results and equivalence criteria",
+    "principal_delta": "none yet",
+    "required_inputs": [
+     "docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md (existing: owner-approved 2026-11-09 CAMINOS/JaxFNE-form replica of Herrera et al. 2026; sources P (preprint), A (AllenInstitute/oscillations-biorealistic-mouse-v1-model @ bd25da66, BSD-3-Clause); exploratory 0.5.9 runs)",
+     "docs/laminar_motif/SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md (frozen; not modified by this item)"
+    ],
+    "frozen": [
+     "the OPEN-38 stage-2 protocol, arms, thresholds and construction gate",
+     "no Allen-derived parameter enters OPEN-38",
+     "omission experiments excluded"
+    ],
+    "procedure": "P2 (after the OPEN-38 gate ruling): read-only inventory of the exact poster model, simulator, licence, neuron counts, laminar composition and reference outputs, reusing the sources already held in ALLEN_V1_REPLICA_SPEC.md. P3 and P4 need separate owner authorization",
+    "acceptance": "P2: an inventory that names each item with its source and hash, and states whether the poster model equals the published release",
+    "stop_condition": "P3 and P4 not authorized; a positive P3 result validates readout compatibility only, not either mechanism",
+    "artifacts_expected": [
+     "docs/laminar_motif/OPEN38_ALT_ALLEN_INVENTORY.md (P2)"
+    ],
+    "downstream_unlock": [],
+    "blocked_by": "OPEN-38 stage-2 construction-gate ruling (P0); owner ruling on how the 2026-11-09 replica lineage relates to this order"
+   },
+  {
     "id": "SCI-PROP-QUALIFIED-1",
     "status": "LOCKED",
     "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",

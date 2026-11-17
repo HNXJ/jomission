@@ -151,11 +151,28 @@ def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
     if not str(ent.get("execution_sha", "")).startswith(execution_sha[:7]) or not ent.get("identical_paths"):
         return False, f"{rel}: entry names execution {ent.get('execution_sha')} or no identical_paths"
     r = _git(repo, "diff", "--quiet", ent["execution_sha"], ent["source_sha"], "--", *ent["identical_paths"])
-    if r.returncode == 0:
-        return True, f"{rel}: {ent['source_sha'][:7]} ~ {execution_sha[:7]} on {ent['identical_paths']}"
     if r.returncode == 1:
         return False, f"{rel}: declared paths differ between {ent['execution_sha'][:7]} and {ent['source_sha'][:7]}"
-    return None, f"{rel}: git could not verify ({r.stderr.strip()[:80]})"
+    if r.returncode != 0:
+        return None, f"{rel}: git could not verify ({r.stderr.strip()[:80]})"
+    # identical code is not experimental equivalence (owner 2026-11-17): the receipt must also reproduce the
+    # execution-SHA receipt it re-checks, field by field, except the fields the entry declares as changed
+    ref_rel, ign = ent.get("equivalent_to"), set(ent.get("ignore_keys", []))
+    a, b = _json(repo / rel), _json(repo / ref_rel) if ref_rel else None
+    if a is None or b is None:
+        return False, f"{rel}: no readable equivalent_to receipt ({ref_rel})"
+    if _strip(a, ign) != _strip(b, ign):
+        return False, f"{rel}: differs from {ref_rel} outside {sorted(ign)}"
+    return True, (f"{rel}: {ent['source_sha'][:7]} ~ {execution_sha[:7]}: identical {ent['identical_paths']}; "
+                  f"equal to {ref_rel} except {sorted(ign)}")
+
+
+def _strip(x, ign: set):
+    if isinstance(x, dict):
+        return {k: _strip(v, ign) for k, v in x.items() if k not in ign}
+    if isinstance(x, list):
+        return [_strip(v, ign) for v in x]
+    return x
 
 
 def consistency(repo: Path, heads: dict[str, set], foreign: list[str]) -> dict:

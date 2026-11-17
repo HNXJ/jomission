@@ -1,12 +1,14 @@
 {
  "schema": "o38s_compat/1",
- "about": "Receipts written at a revision other than their stage's execution SHA, with the paths that must be identical between the two revisions for the receipt to count (owner 2026-11-17: no PASS combines receipts from different revisions without explicit compatibility). Verified by scripts/open38_status.py with git diff.",
+ "about": "Receipts written at a revision other than their stage's execution SHA (owner 2026-11-17: no PASS combines receipts from different revisions without explicit compatibility). Each entry names the paths that must be identical between the two revisions (code compatibility, checked by git diff) and the execution-SHA receipt it must reproduce field by field except ignore_keys (experimental equivalence: same layouts, seeds, sizes, edge counts, parameters and drive). Verified by scripts/open38_status.py.",
  "entries": [
   {
    "receipt": "results/laminar_e2/o38s_pc_construction_rulingB.json",
    "execution_sha": "53f8b89fdb1ec4d67e3c972dd24ee4c899a680cc",
    "source_sha": "8fed7f20ce4adb5669b8387aa84161b5fe21042c",
    "identical_paths": ["jomission", "scripts/run_e2_stack.py"],
+   "equivalent_to": "results/laminar_e2/o38s_pc_construction.json",
+   "ignore_keys": ["interval", "ok", "pass", "family"],
    "why": "construction-only re-check of the stage-1 layouts under owner ruling B (2026-11-17); only the checker's interval level changed (scripts/open38_construction_check.py); the model construction code is identical to the execution SHA"
   }
  ]

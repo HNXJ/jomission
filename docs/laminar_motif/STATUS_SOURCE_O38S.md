@@ -29,7 +29,12 @@ and `generated_utc` on the card.
 Cross-commit consistency (owner 2026-11-17): a PASS never combines receipts from different source revisions. The
 driver-log HEAD, each run's `git_sha` and each integrity receipt's `head` must be one SHA. A receipt written at
 another revision counts only with an entry in `results/laminar_e2/o38s_receipt_compat.json` that names the paths
-that must be identical to the execution SHA, and `git diff` must confirm them. Otherwise the stage is UNKNOWN.
+that must be identical to the execution SHA, and `git diff` must confirm them. Identical code is not experimental
+equivalence (owner 2026-11-17), so the entry must also name the execution-SHA receipt it re-checks
+(`equivalent_to`), and the two must be equal field by field except the declared `ignore_keys`: the same layouts,
+seeds, sizes, edge counts, parameters and drive. Otherwise the stage is UNKNOWN. Environment, configuration, seeds
+and dependency versions of the runs themselves are covered by each stage's freeze file, pip freeze, environment
+check, export-manifest checks and the integrity receipts.
 The stage's `consistency` block lists any problem and each verified compatibility.
 
 Public view (owner 2026-11-17): cards render `public_status`. It equals `status` only when every receipt the stage

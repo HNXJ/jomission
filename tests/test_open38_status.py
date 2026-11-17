@@ -64,10 +64,13 @@ def _stage1(repo: Path, exe: str, integ_head: str | None = None, run_sha: str | 
     _rec(repo, "o38s_pc_construction_rulingB.json", True)
 
 
-def _compat(repo: Path, exe: str, src: str, paths=("jomission",)):
-    (repo / st.R / "o38s_receipt_compat.json").write_text(json.dumps({"schema": "o38s_compat/1", "entries": [
-        {"receipt": f"{st.R}/o38s_pc_construction_rulingB.json", "execution_sha": exe, "source_sha": src,
-         "identical_paths": list(paths), "why": "test"}]}), encoding="utf-8")
+def _compat(repo: Path, exe: str, src: str, paths=("jomission",), equiv=True):
+    ent = {"receipt": f"{st.R}/o38s_pc_construction_rulingB.json", "execution_sha": exe, "source_sha": src,
+           "identical_paths": list(paths), "why": "test"}
+    if equiv:
+        ent.update(equivalent_to=f"{st.R}/o38s_pc_construction.json", ignore_keys=["interval", "ok", "pass", "family"])
+    (repo / st.R / "o38s_receipt_compat.json").write_text(json.dumps({"schema": "o38s_compat/1", "entries": [ent]}),
+                                                          encoding="utf-8")
 
 
 def test_launched_run_is_running_never_pass(tmp_path):
@@ -178,3 +181,19 @@ def test_public_status_needs_committed_receipts(tmp_path):
     assert st.stage1(repo, 30)["public_status"] == "PASS"
     _rec(repo, "o38s_pc_integrity.json", True, head=exe, note="edited")  # modified after commit
     assert st.stage1(repo, 30)["public_status"] == "UNKNOWN"
+
+
+def test_compat_needs_experimental_equivalence_not_only_identical_code(tmp_path):
+    repo = _repo(tmp_path)
+    exe = _git(repo, "rev-parse", "HEAD")
+    _stage1(repo, exe)
+    _rec(repo, "o38s_pc_construction.json", True, results={"x|s1": {"count": 10, "interval": [0, 20]}})
+    _rec(repo, "o38s_pc_construction_rulingB.json", True, family={"n_tests": 1},
+         results={"x|s1": {"count": 10, "interval": [0, 30]}})  # only declared fields differ
+    _compat(repo, exe, exe)
+    assert st.stage1(repo, 30)["status"] == "PASS"
+    _rec(repo, "o38s_pc_construction_rulingB.json", True, results={"x|s1": {"count": 11, "interval": [0, 30]}})
+    s = st.stage1(repo, 30)
+    assert s["status"] == "UNKNOWN" and "differs from" in s["reason"], "a different realized count is not equivalent"
+    _compat(repo, exe, exe, equiv=False)
+    assert "no readable equivalent_to" in st.stage1(repo, 30)["reason"]

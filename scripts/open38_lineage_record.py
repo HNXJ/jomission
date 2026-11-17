@@ -78,7 +78,7 @@ def main(viz_commit: str) -> None:
         "inferred": [{"claim": "r_ab takes two values across runs (ref about +0.85, every arm about -0.73): the "
                                "readout behaves like a switch between two motif states; graded compositions were "
                                "not sampled", "evidence_class": "INFERRED"}],
-        "verdict": {"label": "O38S_GATES_PASS_S6_REF_HIGHER_ALL_ARMS", "status": "PASS",
+        "verdict": {"label": "O38S_GATES_PASS_REGISTERED", "status": "PASS",
                     "status_note": "construction-invariance (ruling B) and integrity gates PASS in stages 1 and 2; "
                                    "section 6 'ref higher' in 8/8 arms; owner accepted stage 2 and section 6 on "
                                    "2026-11-17. This record registers provenance; it adds no validation and seals "
@@ -99,7 +99,9 @@ def main(viz_commit: str) -> None:
         "visualization": {"V0": f"{VIZ}/jaxfne_network_hspice.png", "V1": f"{VIZ}/raster_initial_1000ms.png",
                           "V2": f"{VIZ}/raster_final.png", "V3": f"{VIZ}/atlas/index.html"},
         "visualization_note": "retrospective: drawn 2026-11-17 by scripts/open38_viz.py from recorded outputs, after "
-                              "interpretation; no simulation was run to make them; sources and hashes in "
+                              "interpretation; no simulation was run to make them; V1/V2 window 0-1000 ms is the "
+                              "start-up transient and V2 compares arms at seed 1; V0's rule table is the full "
+                              "topology; sources and hashes in "
                               f"{VIZ}/provenance.json",
         "driver_provenance": {"path": "scripts/run_e2_stack.py"},
         "harness_changes": [],

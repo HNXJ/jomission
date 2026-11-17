@@ -3447,7 +3447,7 @@
     }
    ],
    "verdict": {
-    "label": "O38S_GATES_PASS_S6_REF_HIGHER_ALL_ARMS",
+    "label": "O38S_GATES_PASS_REGISTERED",
     "status": "PASS",
     "status_note": "construction-invariance (ruling B) and integrity gates PASS in stages 1 and 2; section 6 'ref higher' in 8/8 arms; owner accepted stage 2 and section 6 on 2026-11-17. This record registers provenance; it adds no validation and seals nothing (no file here is in manifests/sealed_artifacts.json)."
    },
@@ -3722,14 +3722,14 @@
     "tests/test_open38_status.py",
     "tests/test_open38_construction_check.py"
    ],
-   "commit": "81778f44635c2a37a7cb39688e3724608bd73a15",
+   "commit": "dc2acf7b9032a6efa729716d67d139c11f3261f9",
    "visualization": {
     "V0": "results/viz/SCI-OPEN38-O38S/jaxfne_network_hspice.png",
     "V1": "results/viz/SCI-OPEN38-O38S/raster_initial_1000ms.png",
     "V2": "results/viz/SCI-OPEN38-O38S/raster_final.png",
     "V3": "results/viz/SCI-OPEN38-O38S/atlas/index.html"
    },
-   "visualization_note": "retrospective: drawn 2026-11-17 by scripts/open38_viz.py from recorded outputs, after interpretation; no simulation was run to make them; sources and hashes in results/viz/SCI-OPEN38-O38S/provenance.json",
+   "visualization_note": "retrospective: drawn 2026-11-17 by scripts/open38_viz.py from recorded outputs, after interpretation; no simulation was run to make them; V1/V2 window 0-1000 ms is the start-up transient and V2 compares arms at seed 1; V0's rule table is the full topology; sources and hashes in results/viz/SCI-OPEN38-O38S/provenance.json",
    "driver_provenance": {
     "path": "scripts/run_e2_stack.py"
    },

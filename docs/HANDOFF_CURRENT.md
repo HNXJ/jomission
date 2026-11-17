@@ -68,14 +68,14 @@ Retired axes and interpretation rules: `docs/project-sources/SUBSTRATE_PROGRAM.m
 
 ### Latest evidence (observed, with receipts)
 
-- SCI-EI-NATIVE-STATE-1: PV representative cell receives sub-rheobase net current during SST firing (mean 2.95 < 4.0 rheobase) — `cc45eb0:results/whole_system_ei_native_state.json`
-- SCI-EI-NATIVE-STATE-1: VIP representative cell is locked in deep hyperpolarization with positive adaptation state u = +8.58 — `cc45eb0:results/whole_system_ei_native_state.json`
-- SCI-EI-NATIVE-STATE-1: SST representative cell autonomous pacemaker firing occurs across all current bins with 653 spikes and zero distance to threshold at crossing — `cc45eb0:results/whole_system_ei_native_state.json`
 - SCI-LAMINAR-MOTIF-1: E0 CAMINOS reference replication on JaxFNE 0.5.9: all 5 estimands within P6 margins across seeds 1-5; peak frequency mean 34.0 Hz — `ea249f1:results/laminar_e0/e0_result.json`
 - SCI-LAMINAR-MOTIF-1: E0 PV-to-SST lag mean 7.16 ms within declared margin 0.34 ms of P5 reference 7.04 ms — `ea249f1:results/laminar_e0/e0_result.json`
 - SCI-LAMINAR-E1: E1 frequency slope is strictly negative in all 3 seeds (slopes -6.6, -5.9, -6.3; mean -6.27 Hz/octave; permutation p = 0.0000 < 0.05) — `8200fac:results/laminar_e1/e1_result.json`
 - SCI-LAMINAR-E1: E1 peak frequency shifts monotonically from high gamma to beta across oscillating ratios (mean f_pk: rho=0.25 is 46.0 Hz, rho=0.5 is 39.7 Hz, rho=1.0 is 34.0 Hz, rho=2.0 is 27.0 Hz) — `8200fac:results/laminar_e1/e1_result.json`
 - SCI-LAMINAR-E1: At rho = 4.0 (N_SST = 1200, N_PV = 300), the network leaves the oscillatory regime (peak excess < 4 or within 2 Hz of band edge), leaving condition 3 f_pk(0.25) - f_pk(4) undefined — `8200fac:results/laminar_e1/e1_result.json`
+- SCI-OPEN38-O38S: v1 arm: mean paired d = r_ab(ref) - r_ab(v1) 1.5759 over seeds 1-5 — `dc2acf7b9032a6efa729716d67d139c11f3261f9:results/laminar_e2/o38s_s6_analysis.json`
+- SCI-OPEN38-O38S: Holm-adjusted paired p for every arm 7.61e-8 (8 arms) — `dc2acf7b9032a6efa729716d67d139c11f3261f9:results/laminar_e2/o38s_s6_analysis.json`
+- SCI-OPEN38-O38S: ref r_ab mean over seeds 1-5 0.8478 (noise floor SD 0.0247) — `dc2acf7b9032a6efa729716d67d139c11f3261f9:results/laminar_e2/o38s_s6_analysis.json`
 
 ### Next authorized task
 

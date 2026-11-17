@@ -27,7 +27,9 @@ the arms test the construction rule, as in T8.
 
 ## 3. Arms (layouts frozen; tag `o38s_{arm}_n4000_s{seed}_T8`)
 
-Ratios from `composition_f001.csv` (sha256 33545e31…) by `_temp_arm_ratios.py`, 3 decimals; geometric means (gm).
+Ratios from `composition_f001.csv` (sha256 33545e31…) by `_temp_arm_ratios.py` (scratch; to be committed as
+`scripts/open38_arm_ratios.py` at seal), 3 decimals; geometric means (gm) from unrounded ratios. chc and shape are
+computed from the CSV rows (SST, PVALB, PV_CHC columns), not from the rounded values in the composition record.
 
 | Arm | Profile S / M / D | gm | Layout suffix after `e2_3unit_n4000_dens_k1_kd1_sst15` |
 |---|---|---|---|
@@ -39,12 +41,11 @@ Ratios from `composition_f001.csv` (sha256 33545e31…) by `_temp_arm_ratios.py`
 | chc | 1.345 / 0.595 / 1.178 (4-area gm, PV_CHC in PV pool) | 0.981 | `_rhouS1p345_rhouM0p595_rhouD1p178` |
 | flat | 0.794 every unit (T8 rflat) | 0.794 | `_rhof0p794` |
 | rev | 2 / 1 / 0.25 (T8 rrev) | 0.794 | `_rhor` |
-| nc | 0.25 / 1 / 2 through `rhou` (negative control, §5) | 0.794 | `_rhouS0p25_rhouM1_rhouD2` |
+| shape | 1.095 / 0.485 / 0.942 (4-area gm PVALB profile, S 1.388 / M 0.615 / D 1.195, rescaled to gm 0.794) | 0.794 | `_rhouS1p095_rhouM0p485_rhouD0p942` |
+| nc | 0.25 / 1 / 2 through `rhou` (parser regression check, §5) | 0.794 | `_rhouS0p25_rhouM1_rhouD2` |
 
-Not separable with these arms: data arms differ from ref in both shape (U, M lowest) and overall level (gm 0.92-1.14
-vs 0.794). Proposed optional arm for review, `shape`: the 4-area gm PVALB profile (S 1.388, M 0.615, D 1.195,
-gm 1.007) rescaled to gm 0.794, values computed by script at seal time; it isolates shape from level. Owner to
-accept or drop.
+shape is mandatory: the area arms differ from ref in both profile shape (U, M lowest) and level (gm 0.92-1.14 vs
+0.794). ref − shape is the shape effect at fixed level; shape − (4-area arms) is the level effect, descriptively.
 
 ## 4. Estimands, readout and normalization (existing chain, unchanged)
 
@@ -57,27 +58,40 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - **Secondary:** r_gm (50-150 Hz, superficial gamma placement); mid-depth relative gamma (contacts -0.2 to 0,
   `e2_mid_gamma.py`); r_proto; crossing_2se; scorer pass; unit E rates S/M/D.
 - **Per-arm estimand:** d(arm) = mean over seeds of X(ref, s) - X(arm, s), paired by seed.
-- **Gradient estimand (descriptive):** r_ab across the 4 area arms against each arm's Δ = log2(R_D/R_S); n = 4,
-  no test.
+- r_ab of the 4 area arms beside each arm's Δ = log2(R_D/R_S): illustrative only (n = 4, Δ spans -0.34 to -0.09),
+  no estimand, no test.
 
 ## 5. Controls
 
-- **Positive (prescribed-ratio recovery):** ref seeds 1-3 must reproduce the T8 ref scores in
-  `paper/jomission_lansa/data/t8_summary.json` (r_ab 0.839, 0.857, 0.827): |Δr_ab| ≤ 0.01 per seed, or array
-  equality with the T8 runs if those arrays are obtained. flat and rev must reproduce T8's "ref higher" on r_ab
-  (T8 mean d 1.56 and 1.58). Failing either means the engine or chain differs from T8: stop, no arm is read.
-- **Negative (composition-invariant):** (a) `nc` encodes ref's composition through the new code path; its run must
-  equal ref array by array (seed 1; any differing array stops the study). (b) Across all arms, realized E->E,
-  E->PV and E->SOM edge counts per unit and the drive table must equal ref's (`edge_table`); only PV/SOM counts and
-  edges leaving PV/SOM may differ. (c) Seed-only variability: ref seeds 1-5 SD of r_ab is the noise floor each d
-  is read against.
+- **Positive (prescribed-ratio recovery):**
+  (a) Realized N_SOM/N_PV per unit equals the arm's rho within the rounding of `unit_sizes` (one cell), every arm.
+  (b) ref seeds 1-3 reproduce the T8 ref scores (`t8_summary.json`: r_ab 0.839, 0.857, 0.827): array equality with
+  the T8 runs if those arrays are obtained; otherwise the ref seed-1-3 mean r_ab lies within 3 × the T8 ref seed SD
+  (SD computed from `t8_summary.json` at seal) of the T8 mean. Spiking dynamics diverge across hosts, so per-seed
+  equality is not expected without the arrays.
+  (c) flat and rev reproduce T8's "ref higher" on r_ab (T8 mean d 1.56, 1.58): the known composition effect.
+  Failing (a), (b) or (c) stops the study before any data arm is read.
+- **Negative controls.** No dynamic readout of a recurrent E-PV-SOM network is composition-invariant by
+  construction (every inhibitory rate feeds back on E), so the invariance tested is the construction's:
+  (a) Construction invariance, every arm vs ref, same seed: E->E edges (local and inter-unit) identical edge lists
+  (inferred to share one RNG key per rule shape; verified here, and if not identical, pairing is reported as absent
+  and §6 uses unpaired intervals); E cell count and parameters, per-cell drive of every population, readout geometry
+  identical. For rules into or out of PV/SOM, realized edge count within the binomial 99.9% interval of
+  p · N_pre · N_post for that arm.
+  (b) Parser regression: nc must equal ref array by array, seed 1. It tests the `rhou` path only, not composition.
+  (c) Noise floor: SD of r_ab over ref seeds 1-5; equivalence margin for "no composition effect" = ±0.1 r_ab
+  **[owner]** (the 95% interval of d inside the margin).
+  **[owner]** optional dynamic control: a total-size arm keeping each unit's ratio at ref but changing PV+SOM
+  (needs a new modifier; not built).
 
 ## 6. Seeds, replication, uncertainty, decision rule
 
-- Seeds 1-5 per arm (T8 used 1-3; 5 lets the rule below have a nominal level). Same seed across arms; whether a
-  seed yields the same E->E graph across arms is checked in §5b and reported (pairing is assumed otherwise).
+- Seeds 1-5 per arm (T8 used 1-3; 5 lets the rule below have a nominal level). Same seed across arms; pairing
+  holds only if §5a finds identical E->E graphs, else unpaired Welch intervals.
 - Per arm and outcome: every d_s, mean, SD (ddof 1), 95% t-interval (t_{0.975,4} = 2.776).
-- Primary family: 7 comparisons (v1, mt, mst, teo, chc, flat, rev vs ref) on r_ab; paired t-test, Holm at 0.05.
+- Minimum detectable d (80% power, two-sided 0.05, n = 5) from the T8 rflat/rrev paired SD of r_ab, computed at
+  seal and stated; a "no consistent difference" smaller than it is reported as underpowered, not as no effect.
+- Primary family: 8 comparisons (v1, mt, mst, teo, chc, shape, flat, rev vs ref) on r_ab; paired t-test, Holm at 0.05.
   "ref higher" / "arm higher" only if Holm-significant and every d_s has that sign; otherwise "no consistent
   difference", reported with its interval. Secondary outcomes: intervals only, no tests.
 - Effect read against the noise floor (§5c) and against T8's flat/rev effect (scale of a known composition effect).
@@ -87,9 +101,12 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 
 - Stop states as SEAL_T1/T8: any unit E rate > 50 Hz or deep-unit E rate < 0.1 Hz: reported, not counted; an arm
   with a missing seed is "not evaluable" (no replacement).
-- **Smoke test (after review only):** ref seed 1 and nc seed 1, 8 s. Pass: positive-control check on ref seed 1
-  and nc array-equal to ref. Measures wall time per run; the campaign (8 arms × 5 seeds = 40 runs + nc) waits for
-  the owner after the smoke result.
+- Study stops (nothing read) on: engine identity not verified (below); §5 positive (a)-(c) or construction
+  invariance failing; any unit with N_PV or N_SOM = 0 or a connection probability > 1 (`_prob` refusal).
+- **Smoke test (after review only):** ref seed 1 and nc seed 1, 8 s. Pass: §5 positive (a), construction
+  invariance of nc, nc array-equal to ref; ref seed-1 r_ab reported beside T8's 0.839 (no pass threshold on one
+  seed). Measures wall time per run; the campaign (9 arms × 5 seeds = 45 runs + nc) waits for the owner after the
+  smoke result.
 - **Engine prerequisite:** T8 engine is JaxFNE 0.5.9 @ 351f6048, run on another host (`zsh`,
   `/usr/local/bin/python3`). On this host a 0.5.9 tree exists at `D:/tmp/jaxfne_v059` with no recorded commit
   (UNKNOWN identity); `D:/venvs/jomission_pin058` holds 0.5.8. Needed before the smoke: a verified 0.5.9 @ 351f6048

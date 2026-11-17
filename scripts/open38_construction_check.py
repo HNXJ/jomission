@@ -7,8 +7,11 @@ Builds each layout per seed (construct only, no simulation) and compares each ar
   e_to_e       every E->E rule (local e_e_U, inter-unit x_A_B_e_e): identical pre, post, weight, delay, receptor
   e_params     every AdEx parameter of every E cell identical
   inh_rules    rules into or out of PV/SOM: weight, delay, receptor sets equal to ref's; edge count inside the
-               binomial 99.9% interval of p * N_pre * N_post (N_pre * (N_pre - 1) for pv_pv: no self-edges assumed;
-               the larger interval of the two is used, as self-exclusion is not read from the engine here)
+               two-sided binomial interval of p * N_pre * N_post (N_pre * (N_pre - 1) for pv_pv: no self-edges
+               assumed; the larger interval of the two is used, as self-exclusion is not read from the engine here).
+               Level (owner ruling 2026-11-17, option B; was 99.9 % per test): 5 % family-wise over every PV/SOM
+               test of this invocation (Bonferroni): per-test level 1 - 0.05 / N_tests, N_tests = PV/SOM rules per
+               pair x arms x seeds. Recorded in the report as "family".
   drive        Poisson drive spec identical (a function of seed only); driven cells per unit (E + PV) reported
   geometry     unit depth, readout columns (unit, receptor), receptor tau and reversal identical
 Writes OUT_JSON; exit 0 only if every gate passes for every arm and seed. A failure is kept, not retried.
@@ -30,6 +33,24 @@ from jomission.laminar import caminos_e0 as c0  # noqa: E402
 from jomission.laminar import caminos_stack as cs  # noqa: E402
 
 POP_OF = {name: (pre, post) for name, pre, post, _, _ in c0.RULES}
+FAMILY_ALPHA = 0.05  # owner ruling 2026-11-17 (option B)
+
+
+def family_level(n_tests: int, alpha: float = FAMILY_ALPHA) -> float:
+    """Per-test two-sided interval level for a family-wise error alpha over n_tests tests (Bonferroni)."""
+    if n_tests < 1:
+        raise ValueError("no PV/SOM tests: the family is empty")
+    return 1.0 - alpha / n_tests
+
+
+def rule_interval(pairs: list[int], p: float, level: float) -> tuple[float, float]:
+    """Union of the central binomial intervals over the candidate pair counts."""
+    return (min(binom.interval(level, n, p)[0] for n in pairs), max(binom.interval(level, n, p)[1] for n in pairs))
+
+
+def is_inh(rule: str) -> bool:
+    pu, pp, qu, qp = pops_of(rule)
+    return not (pp == "E" and qp == "E")
 
 
 def build(lay: str, seed: int):
@@ -79,7 +100,7 @@ def pops_of(rule: str) -> tuple[str, str, str, str]:
     return u, pre, u, post
 
 
-def compare(ref: dict, arm: dict) -> dict:
+def compare(ref: dict, arm: dict, level: float) -> dict:
     g = {}
     s0, s1 = ref["sizes"], arm["sizes"]
     ratio_err = {u: abs(s1[u]["SOM"] - (s1[u]["PV"] + s1[u]["SOM"]) * arm["rho"][u] / (1 + arm["rho"][u])) for u in s1}
@@ -101,8 +122,7 @@ def compare(ref: dict, arm: dict) -> dict:
             continue
         n_pre, n_post = s1[pu][pp], s1[qu][qp]
         pairs = [n_pre * n_post] + ([n_pre * (n_pre - 1)] if (pu, pp) == (qu, qp) else [])
-        lo = min(binom.interval(0.999, n, arm["p"][r])[0] for n in pairs)
-        hi = max(binom.interval(0.999, n, arm["p"][r])[1] for n in pairs)
+        lo, hi = rule_interval(pairs, arm["p"][r], level)
         cnt = int(arm["edges"][r]["pre"].size)
         same_w = all(np.array_equal(np.unique(ref["edges"][r][k]), np.unique(arm["edges"][r][k]))
                      for k in ("weight_nS", "delay_ms", "receptor")) if r in ref["edges"] else False
@@ -119,10 +139,16 @@ def compare(ref: dict, arm: dict) -> dict:
 
 def main(out: str, ref_lay: str, arms: list[str], seeds: list[int]) -> int:
     report, ok = {"ref": ref_lay, "arms": arms, "seeds": seeds, "results": {}}, True
+    level = None
     for s in seeds:
         ref = build(ref_lay, s)
+        if level is None:  # PV/SOM rules per pair are fixed by the layout family (set equality is gated below)
+            n_tests = sum(is_inh(r) for r in ref["edges"]) * len(arms) * len(seeds)
+            level = family_level(n_tests)
+            report["family"] = {"alpha": FAMILY_ALPHA, "n_tests": n_tests, "per_test_level": level,
+                                "ruling": "owner 2026-11-17, option B (Bonferroni); was 0.999 per test"}
         for lay in arms:
-            g = compare(ref, build(lay, s))
+            g = compare(ref, build(lay, s), level)
             report["results"][f"{lay}|s{s}"] = g
             failed = [k for k, v in g.items() if not v["ok"]]
             ok &= not failed

@@ -100,7 +100,12 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
   (inferred to share one RNG key per rule shape; verified here, and if not identical, pairing is reported as absent
   and §6 uses unpaired intervals); E cell count and parameters, per-cell drive of every population, readout geometry
   identical. For rules into or out of PV/SOM, realized edge count within the binomial 99.9% interval of
-  p · N_pre · N_post for that arm.
+  p · N_pre · N_post for that arm. **Amended by owner ruling 2026-11-17 (option B), after the stage-2 smoke failure:**
+  the interval level is 5 % family-wise over every PV/SOM test of one construction-check invocation (Bonferroni,
+  per-test level 1 − 0.05 / N_tests; stage 2: N_tests 780, |z| ≤ 4.00), replacing 99.9 % per test. This is a
+  post-hoc amendment, made after one failure was seen: shape seed 1 e_pv_S, z 3.32
+  (`GATE_RULING_REQUEST_O38S_S2_2026-11-17.md`; the independent review found no builder, counting or expected-value
+  defect). Stage 1 is re-checked under it. Every other construction criterion is unchanged.
   (b) Parser regression: nc must equal ref array by array, seed 1. It tests the `rhou` path only, not composition.
   (c) Noise floor: SD of r_ab over ref seeds 1-5. Equivalence margin ±0.1 r_ab, approved 2026-11-16 as a
   provisional analysis margin, not a biological threshold; tested by TOST (§6). Scale: about 6 % of the T8 ref-to-flat effect (1.56) and

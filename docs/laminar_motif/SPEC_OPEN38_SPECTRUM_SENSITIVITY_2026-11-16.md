@@ -1,8 +1,8 @@
 # Spec (DRAFT, for review): OPEN-38 spectrum sensitivity to observed SST/PVALB composition (lineage `o38s`)
 
-Status: **draft; independent review ACCEPT (round 2, e089ec87; minors applied); no run authorized.** Owner decision 2026-11-16 (Option 3, staged): study approved in principle; no
-smoke test until this spec passes review; no full runs until the smoke test is read. Not a seal until the owner
-approves its values. Composition source: `data/open38/COMPOSITION_F001_2026-11-16.md` (monkey #1 only).
+Status: **design conditionally approved by the owner 2026-11-16 (Option 1, two qualifications applied below);
+independent review ACCEPT (round 2, e089ec87). Smoke test authorized; full seed matrix not authorized** until the
+smoke receipts pass independent review and the owner says go. Composition source: `data/open38/COMPOSITION_F001_2026-11-16.md` (monkey #1 only).
 
 ## 1. Two hypotheses, tested apart
 
@@ -27,8 +27,7 @@ the arms test the construction rule, as in T8.
 
 ## 3. Arms (layouts frozen; tag `o38s_{arm}_n4000_s{seed}_T8`)
 
-Ratios from `composition_f001.csv` (sha256 33545e31…) by `_temp_arm_ratios.py` (scratch; to be committed as
-`scripts/open38_arm_ratios.py` at seal), 3 decimals; geometric means (gm) from unrounded ratios. chc and shape are
+Ratios from `composition_f001.csv` (sha256 33545e31…) by `scripts/open38_arm_ratios.py`, 3 decimals; geometric means (gm) from unrounded ratios. chc and shape are
 computed from the CSV rows (SST, PVALB, PV_CHC columns), not from the rounded values in the composition record.
 
 | Arm | Profile S / M / D | gm | Layout suffix after `e2_3unit_n4000_dens_k1_kd1_sst15` |
@@ -66,12 +65,15 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - **Positive (prescribed-ratio recovery):**
   (a) Realized N_SOM/N_PV per unit equals the arm's rho within the rounding of `unit_sizes` (one cell), every arm.
   (b) ref seeds 1-3 reproduce the T8 ref scores (`t8_summary.json`: r_ab 0.839, 0.857, 0.827): array equality with
-  the T8 runs if those arrays are obtained; otherwise the ref seed-1-3 mean r_ab lies within 3 × the SD across the
-  three T8 ref seeds (seed SD, not SD of the mean; computed from `t8_summary.json` and written here at seal) of the
-  T8 seed mean. n = 3 makes this a coarse check. Spiking dynamics diverge across hosts, so per-seed
-  equality is not expected without the arrays.
-  (c) flat and rev reproduce T8's "ref higher" on r_ab (T8 mean d 1.56, 1.58): the known composition effect.
-  Failing (a), (b) or (c) stops the study before any data arm is read.
+  the T8 runs if those arrays are obtained; otherwise every ref seed's r_ab lies in [0.7964, 0.8855] = T8 seed mean
+  0.8409 ± 3 × T8 seed SD 0.0148 (ddof 1, n = 3). Fixed 2026-11-16 from frozen evidence only:
+  `paper/jomission_lansa/data/t8_summary.json` @ d49a8d0, sha256 4f64e360…, by `scripts/open38_t8_thresholds.py`. n = 3
+  makes the band coarse. Spiking dynamics diverge across hosts, so per-seed equality is not expected without the arrays.
+  (c) flat and rev reproduce T8's "ref higher" on r_ab under SEAL_T8's own rule, applied unchanged to n = 5: every
+  d_s > 0 and mean d > 2 SD / √n. T8 evidence (recomputed per seed, equal to the stored summary): rflat d 1.5602,
+  1.5736, 1.5478 (mean 1.5606, SD 0.0129); rrev 1.5779, 1.5964, 1.5667 (mean 1.5803, SD 0.0150).
+  Failing (a), (b) or (c) stops the study before any data arm is read. These thresholds are not revised after any
+  o38s outcome is seen.
 - **Negative controls.** No dynamic readout of a recurrent E-PV-SOM network is composition-invariant by
   construction (every inhibitory rate feeds back on E), so the invariance tested is the construction's:
   (a) Construction invariance, every arm vs ref, same seed: E->E edges (local and inter-unit) identical edge lists
@@ -80,12 +82,11 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
   identical. For rules into or out of PV/SOM, realized edge count within the binomial 99.9% interval of
   p · N_pre · N_post for that arm.
   (b) Parser regression: nc must equal ref array by array, seed 1. It tests the `rhou` path only, not composition.
-  (c) Noise floor: SD of r_ab over ref seeds 1-5; equivalence margin for "no composition effect" = ±0.1 r_ab
-  **[owner]** (the 95% interval of d inside the margin). Scale: about 6 % of the T8 ref-to-flat effect (1.56) and
+  (c) Noise floor: SD of r_ab over ref seeds 1-5. Equivalence margin ±0.1 r_ab, approved 2026-11-16 as a
+  provisional analysis margin, not a biological threshold; tested by TOST (§6). Scale: about 6 % of the T8 ref-to-flat effect (1.56) and
   about 6 × the T8 seed SD; 8 equivalence claims use unadjusted intervals (stated as such); Pearson r saturates
   near 1, so the margin is not uniform across the range of r_ab.
-  **[owner]** optional dynamic control: a total-size arm keeping each unit's ratio at ref but changing PV+SOM
-  (needs a new modifier; not built).
+  Deferred (owner 2026-11-16): a PV+SOM-total arm; it changes a second causal dimension and needs its own spec.
 
 ## 6. Seeds, replication, uncertainty, decision rule
 
@@ -99,8 +100,12 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - Pairing benefit: whether the Poisson drive key is arm-independent is checked with §5a; the paired SD of d is
   reported beside the unpaired SD so the gain from pairing is measured, not assumed.
 - Primary family: 8 comparisons (v1, mt, mst, teo, chc, shape, flat, rev vs ref) on r_ab; paired t-test, Holm at 0.05.
-  "ref higher" / "arm higher" only if Holm-significant and every d_s has that sign; otherwise "no consistent
-  difference", reported with its interval. Secondary outcomes: intervals only, no tests.
+- Reported per comparison, as separate items: (1) mean d with its 95% interval; (2) Holm-adjusted p and the
+  difference verdict, "ref higher" / "arm higher" only if Holm-significant and every d_s has that sign;
+  (3) equivalence verdict by TOST against ±0.1 (two one-sided paired t-tests at 0.05, i.e. the 90% interval of d
+  inside (-0.1, 0.1)), unadjusted across the 8 and stated so; (4) INCONCLUSIVE when neither a difference nor
+  equivalence is established. A nonsignificant test is never reported as "no effect". Secondary outcomes:
+  intervals only, no tests.
 - Effect read against the noise floor (§5c) and against T8's flat/rev effect (scale of a known composition effect).
 - Seed count is fixed here; no seeds added after results.
 
@@ -111,9 +116,11 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - Study stops (nothing read) on: engine identity not verified (below); §5 positive (a)-(c) failing; construction
   invariance failing on E cell count, E parameters, per-cell drive or the PV/SOM binomial check (E->E edge-list
   non-identity does not stop; it switches §6 to unpaired Welch intervals); any unit with N_PV or N_SOM = 0 or a connection probability > 1 (`_prob` refusal).
-- **Smoke test (after review only):** ref seed 1 and nc seed 1, 8 s. Pass: §5 positive (a), construction
-  invariance of nc, nc array-equal to ref; ref seed-1 r_ab reported beside T8's 0.839 (no pass threshold on one
-  seed). Measures wall time per run; the campaign (9 arms × 5 seeds = 45 runs + nc) waits for the owner after the
+- **Smoke test (authorized 2026-11-16):** ref seed 1 and nc seed 1, 8 s. Pass needs all of: engine identity
+  verified; §5 positive (a); ref seed-1 r_ab in the §5 (b) band [0.7964, 0.8855]; construction invariance of nc;
+  nc array-equal to ref; every saved array and score finite; no stop state. Receipts (run JSON, verdict JSON, log,
+  check report) kept under `results/laminar_e2/` and summarized in a smoke receipt doc; independent review before
+  any further run. Measures wall time per run; the campaign (9 arms × 5 seeds = 45 runs + nc) waits for the owner after the
   smoke result.
 - **Engine prerequisite:** T8 engine is JaxFNE 0.5.9 @ 351f6048, run on another host (`zsh`,
   `/usr/local/bin/python3`). On this host a 0.5.9 tree exists at `D:/tmp/jaxfne_v059` with no recorded commit

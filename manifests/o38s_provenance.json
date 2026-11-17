@@ -2,13 +2,13 @@
  "schema": "jomission.o38s_provenance.v1",
  "semantics": "provenance registration only: each file is generated evidence. Registration does not validate a result or seal a file. Validation status lives in each group's closure record; seals live only in manifests/sealed_artifacts.json.",
  "generator": "scripts/open38_provenance.py",
- "source_rev": "1bd33547c64a3cd2ca5311364fc924040080cc6d",
+ "source_rev": "716db2f0c2390885c1279537387a6ead1dca4d04",
  "pattern": "results/laminar_e2/o38s_*.json",
  "n_files": 234,
  "groups": {
   "smoke": {
    "execution_sha": "3294090b6b00375591eb5fcd9d47fb9238b458e7",
-   "closure_record": "docs/laminar_motif/SMOKE_O38S_2026-11-16.md",
+   "closure_record": "docs/laminar_motif/SMOKE_O38S_2026-11-16.md (git_dirty true: spec drive note and runner PYTHONPATH line uncommitted; no model or scorer code differed)",
    "n_files": 9
   },
   "stage1": {
@@ -22,8 +22,8 @@
    "n_files": 1
   },
   "stage2_attempt1_stop": {
-   "execution_sha": "UNRECORDED",
-   "closure_record": "docs/laminar_motif/STAGE2_O38S_2026-11-17.md (attempt-1 STOP, files kept)",
+   "execution_sha": "584922c80baa26a573ef90e3186e156b411b05d7",
+   "closure_record": "docs/laminar_motif/STAGE2_O38S_2026-11-17.md line 5 (attempt 1 ran at 584922c, STOP before any run; SHA not in the files)",
    "n_files": 2
   },
   "stage2": {
@@ -1381,7 +1381,7 @@
    "sha256": "2f1eb00012a87269886233b8ad3d2912d7bcfda2a6ff4d30ce598b729da112b6",
    "blob": "3bf04402fbc86f45b0b1b5189239ee4d7490c14a",
    "evidence_commit": "8fed7f20ce4adb5669b8387aa84161b5fe21042c",
-   "execution_sha": "UNRECORDED",
+   "execution_sha": "584922c80baa26a573ef90e3186e156b411b05d7",
    "execution_sha_in_file": "NONE"
   },
   {
@@ -1390,7 +1390,7 @@
    "sha256": "6aa2a415efbb82f08b7d4f3d13184a9ea0b8d76102407c154b35503fb2820fbe",
    "blob": "d3e6be698d4fb6c37b2382233bc7b895bb0053eb",
    "evidence_commit": "8fed7f20ce4adb5669b8387aa84161b5fe21042c",
-   "execution_sha": "UNRECORDED",
+   "execution_sha": "584922c80baa26a573ef90e3186e156b411b05d7",
    "execution_sha_in_file": "NONE"
   },
   {

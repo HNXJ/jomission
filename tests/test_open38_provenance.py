@@ -53,6 +53,17 @@ def test_check_fails_on_a_changed_file(tmp_path):
     assert bad.returncode == 1 and "working tree differs" in bad.stdout
 
 
+@pytest.mark.parametrize("field", ["sha256", "blob", "evidence_commit", "group", "execution_sha"])
+def test_check_fails_on_a_changed_manifest_field(tmp_path, monkeypatch, field):
+    held = json.loads(json.dumps(HELD))
+    held["files"][0][field] = "x"
+    fake = tmp_path / "m.json"
+    fake.write_bytes(json.dumps(held).encode())
+    monkeypatch.setattr(o38p, "OUT", str(fake))  # ROOT / absolute path -> the absolute path
+    monkeypatch.setattr(sys, "argv", ["open38_provenance.py", "--check"])
+    assert o38p.main() == 1
+
+
 def test_unknown_name_has_no_group():
     with pytest.raises(SystemExit):
         o38p.group("o38s_new_arm_n4000_s1_T8.json")

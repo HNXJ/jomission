@@ -23,11 +23,15 @@ S2_ARMS = ("v1", "mt", "mst", "teo", "chc", "shape")
 # group -> (execution SHA declared by its closure record, closure record). The SHA is checked
 # against every git_sha / head field inside the group's files.
 GROUPS = {
-    "smoke": ("3294090b6b00375591eb5fcd9d47fb9238b458e7", "docs/laminar_motif/SMOKE_O38S_2026-11-16.md"),
+    "smoke": ("3294090b6b00375591eb5fcd9d47fb9238b458e7",
+              "docs/laminar_motif/SMOKE_O38S_2026-11-16.md (git_dirty true: spec drive note and runner PYTHONPATH "
+              "line uncommitted; no model or scorer code differed)"),
     "stage1": ("53f8b89fdb1ec4d67e3c972dd24ee4c899a680cc", "docs/laminar_motif/STAGE1_O38S_PC_2026-11-17.md"),
     "stage1_ruling_b_recheck": ("8fed7f20ce4adb5669b8387aa84161b5fe21042c",
                                 "docs/laminar_motif/STAGE2_O38S_2026-11-17.md (checker at 8fed7f2; SHA not in the file)"),
-    "stage2_attempt1_stop": (None, "docs/laminar_motif/STAGE2_O38S_2026-11-17.md (attempt-1 STOP, files kept)"),
+    "stage2_attempt1_stop": ("584922c80baa26a573ef90e3186e156b411b05d7",
+                             "docs/laminar_motif/STAGE2_O38S_2026-11-17.md line 5 (attempt 1 ran at 584922c, "
+                             "STOP before any run; SHA not in the files)"),
     "stage2": ("0d7162210553127482659d758b102f3b8f5ea71c", "docs/laminar_motif/STAGE2_O38S_2026-11-17.md"),
     "section6": (None, "docs/laminar_motif/S6_O38S_2026-11-17.md"),
     "status_config": (None, "docs/laminar_motif/STATUS_SOURCE_O38S.md (status-generator input, not a run output)"),

@@ -13,9 +13,12 @@ LOG=$R/o38s_pc_stage.log
 mkdir -p "$R"
 say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
 
-dirty=$(git status --porcelain --untracked-files=no)
+exec </dev/null  # detached launch has no stdin; sha256sum and git need a valid fd 0
+command -v git >/dev/null || { say "STOP: git not on PATH"; exit 2; }
+dirty=$(git status --porcelain --untracked-files=no) || { say "STOP: git status failed"; exit 2; }
 [[ -z "$dirty" ]] || { say "STOP: execution tree not clean: $dirty"; exit 2; }
-say "HEAD $(git rev-parse HEAD)"
+head=$(git rev-parse HEAD) && [[ -n "$head" ]] || { say "STOP: no HEAD"; exit 2; }
+say "HEAD $head"
 say "env JAXFNE_SITE=$JAXFNE_SITE PYTHONPATH=$PYTHONPATH JAXFNE_EDGE_DELIVERY=$JAXFNE_EDGE_DELIVERY py=$("$O38S_PY" --version 2>&1)"
 sha256sum scripts/run_o38s_scored.sh scripts/run_o38s_stage1.sh scripts/run_e2_stack.py scripts/e2_motif_figure.py \
   scripts/e2_motif_similarity.py scripts/e2_scorer.py jomission/laminar/caminos_stack.py jomission/laminar/caminos_e0.py \

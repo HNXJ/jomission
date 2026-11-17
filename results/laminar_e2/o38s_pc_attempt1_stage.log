@@ -1,0 +1,5 @@
+2026-11-17T03:59:54Z HEAD 
+2026-11-17T03:59:54Z env JAXFNE_SITE=D:/repos/_work/_temp_jaxfne_351f6048 PYTHONPATH=D:/repos/_work/_temp_jaxfne_351f6048 JAXFNE_EDGE_DELIVERY=event py=Python 3.14.3
+2026-11-17T03:59:56Z freeze written (0 files)
+2026-11-17T03:59:56Z export manifest pre: FAIL; files 2783; pycache 0
+2026-11-17T03:59:57Z STOP: export manifest failed before runs

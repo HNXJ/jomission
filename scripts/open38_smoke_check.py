@@ -18,6 +18,10 @@ from pathlib import Path
 import numpy as np
 
 ENGINE_VERSION, ENGINE_SHA = "0.5.9", "351f6048"
+# Read-only `git archive` export of 351f6048 (main-vwin, 2026-11-16); every blob verified against git tree
+# cabfd2f9d68ab15453349983a04ebebd654466a9 (2783 files). An export has no .git, so its runs record no SHA: the
+# loaded jaxfne file must lie under this root instead.
+ENGINE_EXPORT = "D:/repos/_work/_temp_jaxfne_351f6048"
 R_AB_BAND = (0.7964, 0.8855)  # T8 seed mean 0.8409 +- 3 x seed SD 0.0148 (scripts/open38_t8_thresholds.py)
 DISCARD_S, RATE_MAX_HZ, DEEP_MIN_HZ, DEEP_UNIT = 2.0, 50.0, 0.1, "D"
 SCORES = ("r_ab", "r_gm", "r_proto")
@@ -62,8 +66,11 @@ def main(ref: str, nc: str, d: Path) -> int:
     runs = {t: load(d, t) for t in (ref, nc)}
     for t, (rec, ver, arrs) in runs.items():
         src = (rec.get("jaxfne_git_sha") or "") + (rec.get("jaxfne_source") or "")
+        jfile = (rec.get("jaxfne_file") or "").replace("\\", "/").lower()
+        from_export = jfile.startswith(ENGINE_EXPORT.lower() + "/")
         checks[f"engine:{t}"] = {"version": rec["jaxfne_version"], "sha_field": rec.get("jaxfne_git_sha"),
-                                 "ok": rec["jaxfne_version"] == ENGINE_VERSION and ENGINE_SHA in src}
+                                 "jaxfne_file": rec.get("jaxfne_file"), "from_verified_export": from_export,
+                                 "ok": rec["jaxfne_version"] == ENGINE_VERSION and (ENGINE_SHA in src or from_export)}
         rr = ratio_ok(rec["sizes"], rec["rho"])
         checks[f"ratio:{t}"] = {"units": rr, "ok": all(v["ok"] for v in rr.values())}
         fin = all(np.all(np.isfinite(a)) for a in arrs.values() if a.dtype.kind == "f")

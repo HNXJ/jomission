@@ -52,6 +52,18 @@ def test_each_defect_fails_its_check(tmp_path):
     assert {"engine:ref", "engine:nc", "ref_r_ab_band", "stop:ref"} <= set(failed)
 
 
+def test_engine_identity_by_verified_export_path(tmp_path):
+    for tag in ("ref", "nc"):
+        _write(tmp_path, tag, sha=None)
+        rec = json.loads((tmp_path / f"{tag}.json").read_text())
+        rec["jaxfne_file"] = "D:\\repos/_work/_temp_jaxfne_351f6048\\jaxfne\\__init__.py"
+        (tmp_path / f"{tag}.json").write_text(json.dumps(rec))
+    assert mod.main("ref", "nc", tmp_path) == 0
+    rec["jaxfne_file"] = "D:/tmp/jaxfne_v059/jaxfne/__init__.py"  # unidentified tree
+    (tmp_path / "nc.json").write_text(json.dumps(rec))
+    assert mod.main("ref", "nc", tmp_path) == 1 and "engine:nc" in _failed(tmp_path)
+
+
 def test_ratio_off_by_more_than_one_cell():
     bad = {**SIZES, "D": {"E": 100, "PV": 9, "SOM": 10}}
     assert not mod.ratio_ok(bad, RHO)["D"]["ok"] and mod.ratio_ok(SIZES, RHO)["D"]["ok"]

@@ -326,6 +326,28 @@ def test_identical_paths_must_cover_model_code_and_exist(tmp_path):  # review 20
     assert "absent" in st.stage1(repo, 30)["reason"]
 
 
+def test_committing_evidence_keeps_the_execution_identity(tmp_path):  # owner 2026-11-17 closure invariant
+    repo = _repo(tmp_path)
+    exe = _git(repo, "rev-parse", "HEAD")
+    log = [ln.replace(EXE, exe) for ln in REST]
+    _log(repo, "o38s_s2_stage.log", log)
+    _rec(repo, "o38s_s2_smoke_integrity.json", True, head=exe)
+    _rec(repo, "o38s_s2_integrity.json", True, head=exe)
+    _rec(repo, "o38s_s2_construction.json", True)
+    before = st.stage2(repo, 30)
+    assert before["status"] == "PASS" and before["public_status"] == "UNKNOWN", "uncommitted evidence is not public"
+    ev = _commit_all(repo, "stage-2 evidence")
+    assert ev != exe
+    after = st.stage2(repo, 30)
+    assert after["public_status"] == "PASS"
+    assert after["consistency"]["execution_sha"] == exe, "the evidence commit must not become the execution identity"
+    assert st.git(repo)["sha"] == ev
+    _rec(repo, "o38s_s2_integrity.json", True, head=ev)  # integrity re-stamped with the evidence commit
+    _commit_all(repo, "restamp")
+    s = st.stage2(repo, 30)
+    assert s["status"] == "UNKNOWN" and "revisions differ" in s["reason"]
+
+
 def test_stage2_pass_needs_finished_smoke(tmp_path):  # review 2026-11-17 MAJOR
     unfinished = ["mode smoke", f"HEAD {EXE}", "construction invariance: PASS", "start o38s_v1_n4000_s1_T8 L exec=x",
                   "mode rest", f"HEAD {EXE}", "start o38s_mt_n4000_s1_T8 L exec=y", "o38s_mt_n4000_s1_T8 rc=0",

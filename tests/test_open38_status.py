@@ -165,7 +165,7 @@ def _s2(repo: Path, exe: str = EXE, integ: bool = True, run_sha: str | None = No
         _write(repo, f"{t}_exec.json", {"tag": t, "rc": 0, "exec_id": t, "head": exe, "outputs": outs})
     _rec(repo, "o38s_s2_smoke_integrity.json", True, head=exe)
     _rec(repo, "o38s_s2_integrity.json", integ, head=integ_head or exe, checks={"runs": {"ok": True}, "propagation": {"ok": True}},
-         runs=[{"tag": t, "ok": True} for t in st.S2_TAGS])
+         runs=[{"tag": t, "ok": True, "exec_id": t, "npz_sha256": None} for t in st.S2_TAGS])
 
 
 def test_rest_pass_needs_integrity_receipt(tmp_path):
@@ -227,6 +227,10 @@ def test_stage2_pass_is_rederived_from_its_receipts(tmp_path):  # review 2 (2026
         "run record replaced by another run's": lambda: (R / f"{t0}.json").write_bytes(
             (R / f"{st.S2_TAGS[4]}.json").read_bytes()),
         "verdict content altered": lambda: edit(f"{t0}_verdict.json", lambda r: r.update(r_ab=0.9)),
+        # review 4 (2026-11-17)
+        "manifest exec_id altered": lambda: edit(f"{t0}_exec.json", lambda r: r.update(exec_id="forged")),
+        "integrity npz hash altered": lambda: edit("o38s_s2_integrity.json", lambda r: r["runs"][3].update(
+            npz_sha256="1" * 64)),
     }
     for name, fn in cases.items():
         _s2(tmp_path)

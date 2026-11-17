@@ -340,7 +340,10 @@ def _interval_anchors(r: dict, n_tests: int) -> list[str]:
     - binomial variance <= mean, so a two-sided level-(1 - alpha/n) interval is at most 2 z sqrt(centre) wide (plus
       integer rounding). On the real receipts the ratio is 0.926 to 0.994.
     A widened interval fails the second; a centre moved in one seed fails the first. A centre moved consistently in
-    all five seeds is not detected here (the centre needs p and the pair counts; review 2 recomputed them with scipy)."""
+    all five seeds is not detected here (the centre needs p and the pair counts; review 2 recomputed them with scipy).
+    Scope (review 4): the bound holds for single-N rules. For PV-PV and SOM-SOM union rules (N(N-1) and N^2 intervals)
+    the union adds about p*N, which the bound absorbs only at the OPEN-38 stage-2 sizes (real max ratio 0.973 on union
+    rules, 0.992 overall; a scan gives ratio 1.007 at N 3000, p 0.01). A larger layout would need p*N in the bound."""
     from statistics import NormalDist
     z = NormalDist().inv_cdf(1 - RULING_B_ALPHA / n_tests / 2)
     probs, seen = [], {}
@@ -408,6 +411,10 @@ def stage2_evidence(repo: Path, segs: list[dict], cjs) -> tuple[list[str], set]:
         probs.append("integrity checks missing or not all ok")
     if sorted(r.get("tag") for r in iruns) != sorted(S2_TAGS) or not all(r.get("ok") is True for r in iruns):
         probs.append(f"integrity runs: {sum(r.get('ok') is True for r in iruns)} ok of {len(iruns)}, planned {len(S2_TAGS)}")
+    for r in iruns:  # review 4: the manifest is not self-attested; the integrity receipt recorded its ID and npz hash
+        ex = _json(repo / R / f"{r.get('tag')}_exec.json") or {}
+        if r.get("exec_id") != ex.get("exec_id") or r.get("npz_sha256") != (ex.get("outputs") or {}).get(".npz"):
+            probs.append(f"{r.get('tag')}: exec_id or npz hash differs between integrity receipt and manifest")
     return probs, shas
 
 

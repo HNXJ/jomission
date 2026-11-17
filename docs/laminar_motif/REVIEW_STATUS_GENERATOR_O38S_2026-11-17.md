@@ -118,4 +118,33 @@ evidence: stage 2 PASS/PASS, with every output hash, the `.npz` included, matchi
 Residual exposure (documented in `STATUS_SOURCE_O38S.md`): a centre moved consistently in all five seeds of one arm is
 not detected.
 
-Open: an independent check of these repairs, then the merge.
+## Review 4 (2026-11-17): the repairs at 455d2d9, ACCEPT-WITH-CHANGES (minor findings only)
+
+Independent read-only reviewer agent.
+
+- All 6 review-3 cases are undetected by the 921bf2d script and detected at 455d2d9. 19 tests passed.
+- Cross-seed identity holds by construction: sizes and p come from the layout, with no seed argument.
+- The reviewer rebuilt all 156 stage-2 intervals (6 arms, seed 1) from the model code. They match the receipt exactly
+  (z 3.997).
+- Width/bound ratio is 0.924 to 0.992 overall, and at most 0.973 on union rules.
+- Probes:
+  - widened just over the bound: UNKNOWN;
+  - a moved centre plus a forged count in one seed: UNKNOWN;
+  - an altered output, a missing output, a corrupted `.npz`, a swapped record or a forged head: each caught.
+- Merge simulation (clone + 455d2d9): stage 1 PASS/PASS at 53f8b89, stage 2 PASS/PASS at 0d71622, no problems.
+
+| Severity | Finding | Repair |
+|---|---|---|
+| minor | the width bound is invalid in general for union rules (union adds about p·N; scan ratio 1.007 at N 3000, p 0.01); it holds at the OPEN-38 sizes | scope documented in `_interval_anchors` and here; the stage-2 design is frozen, so no other layout reaches this check |
+| minor | the manifest is self-attested: a changed exec_id, or a changed integrity `npz_sha256`, still gave PASS | each manifest's exec_id and `.npz` hash must equal the integrity receipt's (test cases added; mutant `no_integ_cross` killed) |
+| minor | list the consistent-centre residual | listed below and in `STATUS_SOURCE_O38S.md` |
+
+Residual exposures (declared, not repaired):
+
+- A centre moved consistently in all five seeds of one arm, or a width forged just under the bound, is not detected
+  without p and N. The reviewer recomputed all 156 intervals from code and found an exact match.
+- An output forged consistently in the file, its manifest and the integrity receipt, then committed, passes. Such
+  receipts are bound only by git history.
+- A missing `.npz` (gitignored) is skipped.
+
+Status tests: 19 pass; real evidence: stage 2 PASS/PASS. Merge accepted on these findings.

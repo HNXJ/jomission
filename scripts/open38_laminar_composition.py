@@ -29,6 +29,9 @@ from scipy.stats import beta
 
 SUBCLASSES = ("SST", "PVALB", "PV_CHC", "VIP", "VIP_RELN")
 EXPECTED = {"SST": 32, "PVALB": 32, "PV_CHC": 5, "VIP": 9, "VIP_RELN": 9}
+# Clusters absent from Chen 2023's per-region density table (owner-supplied cell_density.csv, 226 types, sha256 7316eddc)
+# typed in snRNA-seq, never assigned in Stereo-seq. Their exports must be all zero; every other must not.
+ABSENT_IN_SPATIAL = {"SST.23", "SST.25", "PVALB.19", "PVALB.28", "PVALB.30", "PVALB.32", "PV_CHC.5", "VIP.9"}
 MODULES = {"L1": ("l1",), "S": ("l2", "l3"), "M": ("l4",), "D": ("l5", "l6")}
 FILE_RE = re.compile(r"cell_summation_monkey_f001_(SST|PVALB|PV_CHC|VIP|VIP_RELN)\.(\d+)\.csv$")
 
@@ -98,27 +101,32 @@ def module_rows(counts: dict, area: str, all_cells: dict | None = None) -> list[
     return out
 
 
-def verify(cluster_dir: Path, all_cells: dict, counts: dict) -> dict:
-    """Refuses duplicate exports (same bytes or same counts: a cluster exported twice), an empty cluster, and any
-    region where a cluster or subclass sum exceeds all cells. Returns a receipt with per-file sha256 and, per
+def verify(cluster_dir: Path, all_cells: dict, counts: dict, absent_ok=frozenset(ABSENT_IN_SPATIAL)) -> dict:
+    """Refuses duplicate exports (same bytes or same counts: a cluster exported twice), an all-zero export unless
+    its cluster is declared absent (and a nonzero one that is), and any region where a cluster or subclass sum
+    exceeds all cells. Returns a receipt with per-file sha256 and, per
     area, the layer-sum / area-row ratio of all cells (layer coverage; reported, not enforced)."""
     files, by_hash, by_vec = {}, {}, {}
     for f in sorted(cluster_dir.iterdir()):
-        if not FILE_RE.search(f.name):
+        m = FILE_RE.search(f.name)
+        if not m:
             continue
         data = read_export(f)
         h = hashlib.sha256(f.read_bytes()).hexdigest()
         vec = tuple(data[r] for r in sorted(data))
+        absent = f"{m.group(1)}.{m.group(2)}" in absent_ok
+        if absent != (not any(vec)):
+            raise ValueError(f"{f.name}: all zero is {not any(vec)}, declared absent is {absent}")
+        files[f.name] = h
+        if absent:
+            continue  # all-zero exports are identical by construction
         for seen, key, what in ((by_hash, h, "bytes"), (by_vec, vec, "counts")):
             if key in seen:
                 raise ValueError(f"{f.name} has the same {what} as {seen[key]}")
             seen[key] = f.name
-        if not any(vec):
-            raise ValueError(f"{f.name}: every region is 0")
         over = [r for r, v in data.items() if v > all_cells[r]]
         if over:
             raise ValueError(f"{f.name}: count above all cells in {over[:3]}")
-        files[f.name] = h
     for s in SUBCLASSES:
         over = [r for r, v in counts[s].items() if v > all_cells[r]]
         if over:

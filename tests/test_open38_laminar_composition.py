@@ -96,6 +96,18 @@ def test_verify_refuses_duplicate_export(tmp_path):
         mod.verify(tmp_path, ALL, counts)
 
 
+def test_verify_zero_export_only_when_declared_absent(tmp_path):
+    _fixture(tmp_path)
+    _write(tmp_path, "SST", 4, {})
+    _write(tmp_path, "VIP", 2, {})  # second all-zero file: identical bytes, allowed when both are declared
+    counts, _ = mod.load(tmp_path)
+    assert mod.verify(tmp_path, ALL, counts, absent_ok={"SST.4", "VIP.2"})["files"], "declared zeros pass"
+    with pytest.raises(ValueError, match="all zero is True, declared absent is False"):
+        mod.verify(tmp_path, ALL, counts, absent_ok={"SST.4"})
+    with pytest.raises(ValueError, match="all zero is False, declared absent is True"):
+        mod.verify(tmp_path, ALL, counts, absent_ok={"SST.4", "VIP.2", "SST.1"})
+
+
 def test_verify_refuses_count_above_all_cells(tmp_path):
     _fixture(tmp_path)
     counts, _ = mod.load(tmp_path)

@@ -1,5 +1,11 @@
 # Handout to the Gemini agent: continue the jomission LANSA / LM-0 work (2026-11-07)
 
+> **SUPERSEDED** by `HANDOUT_CURSOR_LANSA_100.md` (2026-11-10). Kept as history; do not follow it. Its paths no
+> longer exist: the worktree `E:\repos\_wt\jomission-handoff` is gone, and its venv
+> `E:\repos\_wt\jomission-handoff-venv` was retired on 2026-11-17 by main-jaxfne (records in
+> `D:\venvs\_spec\retired_jomission-handoff-venv_*`). For jomission work use `D:\venvs\jomission`, which pins JaxFNE
+> 0.5.8 to commit 11957afa. OPEN-38 uses the venv recorded in its stage receipts.
+
 From: Claude session (owner: Hamm). Same workspace as that session. Read `AGENTS.md` first; this file adds the state and the order of work.
 
 ## First, in this order

@@ -11,12 +11,16 @@ mod = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(mod)
 
 
-def _write(d: Path, sub: str, n: int, rows: dict) -> None:
+REGIONS = ["A-l1", "A-l2", "A-l3", "A-l4", "A-l5", "A-l6", "B-l1", "B-l2", "B-l3", "B-l5", "B-l6"]
+
+
+def _write(d: Path, sub: str, n: int, rows: dict, regions=REGIONS) -> None:
+    """Every portal export lists the same regions; regions a cluster lacks carry 0."""
     with open(d / f"cell_summation_monkey_f001_{sub}.{n}.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["region", "Cell Count"])
-        for k, v in rows.items():
-            w.writerow([k, v])
+        for k in (regions if regions is not None else rows):
+            w.writerow([k, rows.get(k, 0)])
 
 
 def _fixture(d: Path) -> None:
@@ -50,6 +54,26 @@ def test_agranular_l4_is_missing_not_zero(tmp_path):
     counts, _ = mod.load(tmp_path)
     m = {r["module"]: r for r in mod.module_rows(counts, "B")}["M"]
     assert m["missing"] is True and m["SST"] == "" and m["R_sst_pvalb"] == ""
+
+
+def test_denominator_and_fractions(tmp_path):
+    _fixture(tmp_path)
+    counts, _ = mod.load(tmp_path)
+    all_cells = {"A-l1": 100, "A-l2": 400, "A-l3": 600, "A-l4": 1000, "A-l5": 2000, "A-l6": 2000}
+    rows = {r["module"]: r for r in mod.module_rows(counts, "A", all_cells)}
+    assert rows["S"]["n_all"] == 1000 and rows["D"]["n_all"] == 4000
+    assert rows["S"]["frac_SST"] == pytest.approx(0.1, rel=1e-12)
+    assert rows["D"]["frac_SST"] == pytest.approx(0.2, rel=1e-12)
+    assert rows["D"]["frac_PVALB"] == pytest.approx(0.025, rel=1e-12)
+    m = {r["module"]: r for r in mod.module_rows(counts, "B", {"B-l2": 50})}["M"]
+    assert m["n_all"] == "" and m["frac_SST"] == "", "missing module keeps a missing denominator"
+
+
+def test_region_set_mismatch_refused(tmp_path):
+    _write(tmp_path, "SST", 1, {"A-l2": 1, "A-l3": 1}, regions=None)
+    _write(tmp_path, "SST", 2, {"A-l2": 1}, regions=None)
+    with pytest.raises(ValueError, match="region set differs"):
+        mod.load(tmp_path)
 
 
 def test_ratio_interval_widens_with_fewer_counts():

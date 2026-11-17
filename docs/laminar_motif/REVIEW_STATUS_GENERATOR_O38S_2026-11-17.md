@@ -90,4 +90,32 @@ Mutants killed after repair: `no_s2_evidence`, `no_s2_rc_set`, `no_s2_run_sha`, 
 
 The stage-2 receipt document is not read for status; it is linked as evidence with its sha256.
 
-Open: an independent check of these repairs before the status branch merges.
+## Review 3 (2026-11-17): the repairs at 921bf2d, ACCEPT-WITH-CHANGES
+
+Independent read-only reviewer agent. Each forgery was committed in a throwaway clone of the evidence branch at
+b55b440.
+
+- All 10 original forgeries now give FAIL or UNKNOWN.
+- New forgeries that also failed correctly: a run removed from both the log and the integrity receipt, duplicated
+  and extra tags, a wrong-tag manifest, altered seeds, 750 tests under a 780 family, a count outside its interval.
+- Uncommitted per-run files: local PASS, public UNKNOWN, as designed.
+- Merge simulation (921bf2d into the evidence branch): stage 1 PASS/PASS at 53f8b89, stage 2 PASS/PASS at 0d71622,
+  no consistency problems; 19 tests passed.
+- Owner checks (a) and (b) held, except for the gap below. No stage-1 regression; the closure invariant holds.
+- Not verified by the reviewer: the new tests against the pre-repair code; content of a duplicated pair (a defect in
+  its own script).
+
+| Severity | Finding | Repair | Test |
+|---|---|---|---|
+| major | stage-2 intervals widened to ±1e9 with `ok` recomputed gave PASS: no width check without a frozen receipt | `_interval_anchors`: identical interval across seeds of one arm; width ≤ 2·z_B·√centre + 2 edges | `test_stage2_pass_is_rederived_from_its_receipts` |
+| minor | the manifest `head` and `outputs` hashes were not read | the manifest `head` joins the heads; committed outputs, and the `.npz` where present, must match the manifest hashes | same |
+| minor | a run record replaced by another run's passed | the record seed must match its tag; the record hash is bound by the manifest | same |
+| minor | verdict files checked for presence only | the hash binding covers their content | same |
+
+Mutants killed: `no_width_bound`, `no_seed_identity`, `no_hash_bind`, `no_exec_head`. Status tests: 19 pass. Real
+evidence: stage 2 PASS/PASS, with every output hash, the `.npz` included, matching its manifest.
+
+Residual exposure (documented in `STATUS_SOURCE_O38S.md`): a centre moved consistently in all five seeds of one arm is
+not detected.
+
+Open: an independent check of these repairs, then the merge.

@@ -66,8 +66,18 @@ taken from the log (review 2, 2026-11-17):
 - Integrity receipt: every check ok, and 30 run entries, all ok, for exactly the planned tags.
 - Every per-run file and receipt above must be committed for `public_status`.
 
-Not re-derived here: the stage-2 interval bounds. The generator uses the standard library only. Review 2
-recomputed `e_pv_S` for all 30 pairs with scipy and got 0 edges of difference.
+- Committed run outputs (`.json`, `_verdict.json`, `_similarity.json`, `_motif.json`, and the `.npz` where present)
+  must hash to the values in the execution manifest. Each run record's seed must match its tag, and each manifest's
+  `head` joins the cross-commit heads (review 3).
+- Stage-2 intervals (review 3). With no frozen receipt to compare against, two anchors apply. Sizes are fixed by the
+  layout, so one arm's interval for one rule must be identical across its five seeds (real receipts: 0 of 156
+  groups differ). Binomial variance ≤ mean, so each width must be ≤ 2·z_B·√centre + 2 edges (real ratio 0.926 to
+  0.994). A widened interval or a centre moved in one seed fails.
+
+Residual exposure: a centre moved consistently in all five seeds of one arm is not detected. The centre needs p and
+the pair counts, which the generator does not recompute (standard library only). Review 2 recomputed `e_pv_S` for
+all 30 pairs with scipy, with 0 edges of difference. As everywhere here, the committed receipts are bound by git
+history and by the execution manifests' hashes, not by a signature.
 
 So a construction that failed under the frozen gate becomes PASS only by lying inside the ruling-B interval. Residual
 slack: the tolerances can admit a count at most 1 % of a half-width plus 2 edges outside the exact ruling-B bound

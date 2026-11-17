@@ -1,6 +1,7 @@
 """OPEN-38 status source on synthetic receipts: a launched or unfinished run is never PASS; STOP is BLOCKED; a stale
 log is UNKNOWN; PASS needs DONE plus every named checker receipt, all from one source revision (or a verified
 compatibility entry); the public view shows a status only from committed receipts."""
+import hashlib
 import importlib.util
 import json
 import os
@@ -155,9 +156,13 @@ def _s2(repo: Path, exe: str = EXE, integ: bool = True, run_sha: str | None = No
                     for a in arms for s in st.S2_SEEDS}}
     _write(repo, "o38s_s2_construction.json", cons)
     for t in st.S2_TAGS:
-        _write(repo, f"{t}.json", {"git_sha": run_sha or exe, "git_dirty": False})
-        _write(repo, f"{t}_exec.json", {"tag": t, "rc": 0, "exec_id": t, "head": exe})
-        _write(repo, f"{t}_verdict.json", {"pass": False})
+        _write(repo, f"{t}.json", {"git_sha": run_sha or exe, "git_dirty": False, "seed": int(t.split("_s")[-1][0]),
+                                   "tag_probe": t})
+        _write(repo, f"{t}_verdict.json", {"r_ab": -0.7, "tag_probe": t})
+        _write(repo, f"{t}_similarity.json", {"tag_probe": t})
+        _write(repo, f"{t}_motif.json", {"tag_probe": t})
+        outs = {s: hashlib.sha256((repo / st.R / f"{t}{s}").read_bytes()).hexdigest() for s in st.S2_HASHED}
+        _write(repo, f"{t}_exec.json", {"tag": t, "rc": 0, "exec_id": t, "head": exe, "outputs": outs})
     _rec(repo, "o38s_s2_smoke_integrity.json", True, head=exe)
     _rec(repo, "o38s_s2_integrity.json", integ, head=integ_head or exe, checks={"runs": {"ok": True}, "propagation": {"ok": True}},
          runs=[{"tag": t, "ok": True} for t in st.S2_TAGS])
@@ -211,6 +216,17 @@ def test_stage2_pass_is_rederived_from_its_receipts(tmp_path):  # review 2 (2026
         "verdict deleted": lambda: (R / f"{t0}_verdict.json").unlink(),
         "integrity check not ok": lambda: edit("o38s_s2_integrity.json", lambda r: r["checks"]["runs"].update(ok=False)),
         "integrity run missing": lambda: edit("o38s_s2_integrity.json", lambda r: r["runs"].pop()),
+        # review 3 (2026-11-17)
+        "intervals widened, ok recomputed": lambda: edit("o38s_s2_construction.json", lambda c: [
+            x.update(interval=[-1e9, 1e9], count=5000) for r in c["results"].values()
+            for x in r["inh_rules"]["rules"].values()]),
+        "one seed's interval moved to its count": lambda: edit("o38s_s2_construction.json", lambda c: next(iter(
+            c["results"].values()))["inh_rules"]["rules"]["r0"].update(count=1200, interval=[1100, 1300])),
+        "exec head of another revision": lambda: edit(f"{t0}_exec.json", lambda r: r.update(head="e" * 40)),
+        "exec output hash altered": lambda: edit(f"{t0}_exec.json", lambda r: r["outputs"].update({".json": "0" * 64})),
+        "run record replaced by another run's": lambda: (R / f"{t0}.json").write_bytes(
+            (R / f"{st.S2_TAGS[4]}.json").read_bytes()),
+        "verdict content altered": lambda: edit(f"{t0}_verdict.json", lambda r: r.update(r_ab=0.9)),
     }
     for name, fn in cases.items():
         _s2(tmp_path)

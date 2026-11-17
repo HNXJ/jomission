@@ -28,6 +28,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import math
 import re
 import subprocess
 import sys
@@ -327,7 +328,31 @@ def stage1(repo: Path, stale: float) -> dict:
 S2_ARMS, S2_SEEDS, S2_RULES_PER_PAIR = ("v1", "mt", "mst", "teo", "chc", "shape"), (1, 2, 3, 4, 5), 26
 S2_TAGS = tuple(f"o38s_{a}_n4000_s{s}_T8" for a in S2_ARMS for s in S2_SEEDS)
 S2_N_TESTS = len(S2_ARMS) * len(S2_SEEDS) * S2_RULES_PER_PAIR  # 780 (spec §5(a), ruling B)
-S2_RUN_FILES = (".json", "_exec.json", "_verdict.json")
+S2_HASHED = (".json", "_verdict.json", "_similarity.json", "_motif.json")  # the committed run outputs
+S2_RUN_FILES = ("_exec.json", *S2_HASHED)
+WIDTH_EDGES = 2.0  # integer interval bounds
+
+
+def _interval_anchors(r: dict, n_tests: int) -> list[str]:
+    """Stage 2 has no frozen receipt to re-derive intervals from (stage 1 does: verify_ruling_b). Two anchors need no
+    model code (review 3, 2026-11-17):
+    - sizes are fixed by the layout, so one arm's interval for one rule is identical across its seeds;
+    - binomial variance <= mean, so a two-sided level-(1 - alpha/n) interval is at most 2 z sqrt(centre) wide (plus
+      integer rounding). On the real receipts the ratio is 0.926 to 0.994.
+    A widened interval fails the second; a centre moved in one seed fails the first. A centre moved consistently in
+    all five seeds is not detected here (the centre needs p and the pair counts; review 2 recomputed them with scipy)."""
+    from statistics import NormalDist
+    z = NormalDist().inv_cdf(1 - RULING_B_ALPHA / n_tests / 2)
+    probs, seen = [], {}
+    for key, v in r["results"].items():
+        arm = key.rsplit("|", 1)[0]
+        for rule, x in v["inh_rules"]["rules"].items():
+            lo, hi = x["interval"]
+            if seen.setdefault((arm, rule), (lo, hi)) != (lo, hi):
+                probs.append(f"{key} {rule}: interval differs between seeds of one arm")
+            if hi - lo > 2 * z * math.sqrt(max((lo + hi) / 2, 0)) + WIDTH_EDGES:
+                probs.append(f"{key} {rule}: width {hi - lo:.0f} exceeds the binomial bound")
+    return probs
 
 
 def stage2_evidence(repo: Path, segs: list[dict], cjs) -> tuple[list[str], set]:
@@ -349,6 +374,7 @@ def stage2_evidence(repo: Path, segs: list[dict], cjs) -> tuple[list[str], set]:
         else:
             n = sum(len(r["inh_rules"]["rules"]) for r in cjs["results"].values())
             probs += [f"construction: {p}" for p in _receipt_shape(cjs)]
+            probs += [f"construction: {p}" for p in _interval_anchors(cjs, S2_N_TESTS)]
             if n != S2_N_TESTS or len(cjs["arms"]) != len(S2_ARMS) or list(cjs["seeds"]) != list(S2_SEEDS):
                 probs.append(f"construction holds {n} tests, {len(cjs['arms'])} arms, seeds {cjs['seeds']}")
     except (KeyError, TypeError, ValueError, AttributeError) as e:
@@ -360,14 +386,22 @@ def stage2_evidence(repo: Path, segs: list[dict], cjs) -> tuple[list[str], set]:
     shas = set()
     for t in S2_TAGS:
         rec, ex = _json(repo / R / f"{t}.json"), _json(repo / R / f"{t}_exec.json")
-        if not isinstance(rec, dict) or rec.get("git_dirty") is not False:
-            probs.append(f"{t}: run record missing or not clean")
+        if not isinstance(rec, dict) or rec.get("git_dirty") is not False or rec.get("seed") != int(t.split("_s")[-1][0]):
+            probs.append(f"{t}: run record missing, not clean or another seed's")
         else:
             shas.add(rec.get("git_sha"))
         if not isinstance(ex, dict) or ex.get("rc") != 0 or ex.get("tag") != t:
             probs.append(f"{t}: execution manifest missing, rc not 0 or wrong tag")
-        if _json(repo / R / f"{t}_verdict.json") is None:
-            probs.append(f"{t}: verdict missing")
+            continue
+        shas.add(ex.get("head"))
+        outs = ex.get("outputs") or {}
+        for suf in S2_HASHED:  # committed outputs must be the bytes the manifest bound at the end of the run
+            p = repo / R / f"{t}{suf}"
+            if not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest() != outs.get(suf):
+                probs.append(f"{t}{suf}: missing or not the bytes its execution manifest recorded")
+        npz = repo / R / f"{t}.npz"  # gitignored: checked where present
+        if npz.is_file() and hashlib.sha256(npz.read_bytes()).hexdigest() != outs.get(".npz"):
+            probs.append(f"{t}.npz: not the bytes its execution manifest recorded")
     ij = _json(repo / R / "o38s_s2_integrity.json") or {}
     checks, iruns = ij.get("checks") or {}, ij.get("runs") or []
     if not checks or not all(isinstance(c, dict) and c.get("ok") is True for c in checks.values()):

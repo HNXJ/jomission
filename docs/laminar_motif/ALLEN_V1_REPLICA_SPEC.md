@@ -1,5 +1,10 @@
 # Allen V1 column replica in CAMINOS/JaxFNE form: spec (draft for owner approval, 2026-11-09)
 
+> **RETIRED (owner Hamm, 2026-11-17).** Superseded by `manifests/todo.json` item `OPEN38-ALT-ALLEN`, which runs P2
+> (`OPEN38_ALT_ALLEN_INVENTORY.md`), then P3, then P4. Kept as exploratory history; do not extend it. Its scripts
+> (`scripts/allen_v1_*.py`, `scripts/run_allen_v1_replica.py`) and run records stay as they are. Nothing from this
+> lineage enters OPEN-38. Its source table (P, A, hashes) is reused by the P2 inventory, which re-verifies it.
+
 Owner order (Hamm, 2026-11-09): replicate the model of Herrera et al. 2026 (bioRxiv 10.64898/2026.11.04.763717)
 1:1 in structure, with our cells, our synapses and the CAMINOS hypothesis as mechanism; readout is our LFP proxy
 with the published spectrolaminar analysis. Unsealed first pass (owner relaxation 2026-11-09: simulations first).

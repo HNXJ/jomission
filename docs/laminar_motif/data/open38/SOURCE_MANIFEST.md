@@ -81,6 +81,30 @@ Fields of the minimal table (animal, area, layer, SST_count, PVALB_count, sample
 Cost: one CSV per animal × slice × type (161 slices × 2 types = 322 exports), through the supported UI.
 Not a confirmatory dataset until the area-label table (§4/A1) is committed and the filter is confirmed.
 
+### Correction (2026-11-16, later): the export is a whole-sample sum, not per slice
+
+The `cortex` row of the default export is 30,774,710 cells; Table S3's monkey #1 sections sum to 30,975,704
+(99.4%). The Cell Summation CSV sums all 119 sections of the selected sample, so it carries no section
+identity. The "per-slice" wording and the 322-export cost estimate above are superseded. The cell-type filter
+is the top "Select cell type" control plus Apply (one cluster per export; the left-panel checkboxes do not
+change the export). Probe: SST.1 cortex total 58,108; PVALB.1 5,770.
+
+## Paper (owner-supplied PDF, 2026-11-16)
+
+`chen2023_cell.pdf`, 43 pages, sha256 5be473574c621d7a181fcac8a8524a769befb79cada0e0d3b98893160e09a261
+(local copy `D:/_sources_open38/chen2023/`, not committed). Text read with PyMuPDF; facts used:
+
+- Animals: three adult male cynomolgus monkeys. Monkey #1: 119 sections at 500 µm spacing, whole cortex.
+  "For biological replication", 19 sections from #2 and 23 from #3 at 3 mm spacing (Results, p. 5).
+- Layers and regions: 143 regions by atlas-based landmarks (ref. 79, Saleem and Logothetis 2007; 3D alignment
+  to D99). "For each coronal section, the cortical region and layer parcellation were manually delineated on
+  Stereo-seq data background, based on cytoarchitectual pattern (eg. cell density, cell size) revealed by total
+  mRNA expression, nucleic acid staining, and NeuN stain[ing] of adjacent sections" (STAR Methods).
+- Cell typing: supervised transfer from snRNA-seq types (Spatial-ID, ref. 31); 42,076,954 typed cortical cells.
+- 7A/7B: no grouping statement found in the text. Inferred, not verified against the atlas: the portal grouping
+  (7A = PG, Opt; 7B = PF, PFG) follows the usual Saleem-Logothetis convention; Table S1 Level 1 is the reverse.
+  7A stays CONFLICT until the atlas is read.
+
 ## Acquisition status (owner ruling 2026-11-16, Option 3)
 
 | Route | Priority | Owner action | State |

@@ -1,4 +1,41 @@
-# OPEN-38 result provenance, 2026-11-17: manifest done; lineage record blocked by the visualization contract
+# OPEN-38 result provenance, 2026-11-17: manifest, retrospective V0-V3 and lineage record SCI-OPEN38-O38S done
+
+## Outcome (supersedes "Blocked" below)
+
+Owner 2026-11-17 authorized option (a), the retrospective V0-V3; no contract exemption.
+
+- `scripts/open38_viz.py` drew `results/viz/SCI-OPEN38-O38S/` at dc2acf7. Nothing was simulated.
+  - V0 rebuilds the ref seed-1 construction and is accepted only when its edge table equals the run record. Its rule
+    table covers all 12 737 617 edges.
+  - V1 and V2 are the recorded raster samples, 0-1000 ms from simulation start, which is the start-up transient. V2
+    compares the arms with the reference at seed 1.
+  - V3 is the atlas: the scorer maps from the recorded `.npz`, plus the verdict metrics and the recorded counts.
+- Checks before drawing:
+  - each of the 45 `.npz` files matched its stage integrity receipt's `npz_sha256`;
+  - each run record carried its stage's execution SHA.
+
+  Hashes are in `provenance.json`.
+- The lineage record `SCI-OPEN38-O38S` (`manifests/lineage_registry.json`):
+  - the record's commit is dc2acf7, and it lists 257 artifacts, among them the 234 results as exact entries;
+  - the spec is at 4478e9a, with the amendments 462c078, 584922c and 8fed7f2;
+  - verdict label `O38S_GATES_PASS_REGISTERED`, with a note that it adds no validation and seals nothing;
+  - `validate_lineage` returns [] and `results_coverage` returns [];
+  - the record was inserted as text, so the 34 other records are unchanged.
+- Independent review (read-only reviewer, at 193df09): ACCEPT-WITH-CHANGES. The reviewer's own code confirmed:
+  - all 45 `.npz` and run-JSON hashes and SHAs;
+  - re-derived raster picks: V1 has 5194 spikes, and flat 4375 and mst 5725 in V2;
+  - the 33 rule counts;
+  - the map r_ab means against the verdict files and §6;
+  - the record fields and commit ancestry.
+
+  Changes applied at dc2acf7 and in the following commit:
+  - the start-up transient window and arm-against-arm V2 are labelled;
+  - V0's unit/area wording is fixed, and its rule table is named as the full topology;
+  - the verdict label was renamed.
+- Gates at the record commit: `project_check.py` with `JOMISSION_REMOTE` set to https gives PROJECT_CHECK_PASS, tier 0
+  258 passed, in the venv `D:/venvs/_temp_jomission_lansa` (editable install → D:/jomission). The OPEN-38 test files
+  give 39 passed.
+- E0/E1 exemption precedent: recorded as OPEN-51, not changed.
 
 Authorization: owner 2026-11-17, option 1. Register all 234 tracked `results/laminar_e2/o38s_*.json` in one OPEN-38 lineage
 record, with complete file-level provenance. Registration is not validation and not sealing.

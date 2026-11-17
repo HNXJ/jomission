@@ -1,6 +1,6 @@
 # Spec (DRAFT, for review): OPEN-38 spectrum sensitivity to observed SST/PVALB composition (lineage `o38s`)
 
-Status: **draft; no run authorized.** Owner decision 2026-11-16 (Option 3, staged): study approved in principle; no
+Status: **draft; independent review ACCEPT (round 2, e089ec87; minors applied); no run authorized.** Owner decision 2026-11-16 (Option 3, staged): study approved in principle; no
 smoke test until this spec passes review; no full runs until the smoke test is read. Not a seal until the owner
 approves its values. Composition source: `data/open38/COMPOSITION_F001_2026-11-16.md` (monkey #1 only).
 
@@ -66,8 +66,9 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - **Positive (prescribed-ratio recovery):**
   (a) Realized N_SOM/N_PV per unit equals the arm's rho within the rounding of `unit_sizes` (one cell), every arm.
   (b) ref seeds 1-3 reproduce the T8 ref scores (`t8_summary.json`: r_ab 0.839, 0.857, 0.827): array equality with
-  the T8 runs if those arrays are obtained; otherwise the ref seed-1-3 mean r_ab lies within 3 × the T8 ref seed SD
-  (SD computed from `t8_summary.json` at seal) of the T8 mean. Spiking dynamics diverge across hosts, so per-seed
+  the T8 runs if those arrays are obtained; otherwise the ref seed-1-3 mean r_ab lies within 3 × the SD across the
+  three T8 ref seeds (seed SD, not SD of the mean; computed from `t8_summary.json` and written here at seal) of the
+  T8 seed mean. n = 3 makes this a coarse check. Spiking dynamics diverge across hosts, so per-seed
   equality is not expected without the arrays.
   (c) flat and rev reproduce T8's "ref higher" on r_ab (T8 mean d 1.56, 1.58): the known composition effect.
   Failing (a), (b) or (c) stops the study before any data arm is read.
@@ -80,7 +81,9 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
   p · N_pre · N_post for that arm.
   (b) Parser regression: nc must equal ref array by array, seed 1. It tests the `rhou` path only, not composition.
   (c) Noise floor: SD of r_ab over ref seeds 1-5; equivalence margin for "no composition effect" = ±0.1 r_ab
-  **[owner]** (the 95% interval of d inside the margin).
+  **[owner]** (the 95% interval of d inside the margin). Scale: about 6 % of the T8 ref-to-flat effect (1.56) and
+  about 6 × the T8 seed SD; 8 equivalence claims use unadjusted intervals (stated as such); Pearson r saturates
+  near 1, so the margin is not uniform across the range of r_ab.
   **[owner]** optional dynamic control: a total-size arm keeping each unit's ratio at ref but changing PV+SOM
   (needs a new modifier; not built).
 
@@ -89,8 +92,12 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 - Seeds 1-5 per arm (T8 used 1-3; 5 lets the rule below have a nominal level). Same seed across arms; pairing
   holds only if §5a finds identical E->E graphs, else unpaired Welch intervals.
 - Per arm and outcome: every d_s, mean, SD (ddof 1), 95% t-interval (t_{0.975,4} = 2.776).
-- Minimum detectable d (80% power, two-sided 0.05, n = 5) from the T8 rflat/rrev paired SD of r_ab, computed at
-  seal and stated; a "no consistent difference" smaller than it is reported as underpowered, not as no effect.
+- Minimum detectable d (80% power, n = 5) at the strictest Holm level, two-sided 0.05/8, from the SD of r_ab over
+  ref seeds 1-5 (after the smoke and before any arm is read); the T8 rflat/rrev paired SD (n = 3) is quoted
+  beside it as a crude prior estimate with its interval. A "no consistent difference" smaller than the MDD is
+  reported as underpowered, not as no effect.
+- Pairing benefit: whether the Poisson drive key is arm-independent is checked with §5a; the paired SD of d is
+  reported beside the unpaired SD so the gain from pairing is measured, not assumed.
 - Primary family: 8 comparisons (v1, mt, mst, teo, chc, shape, flat, rev vs ref) on r_ab; paired t-test, Holm at 0.05.
   "ref higher" / "arm higher" only if Holm-significant and every d_s has that sign; otherwise "no consistent
   difference", reported with its interval. Secondary outcomes: intervals only, no tests.
@@ -101,8 +108,9 @@ summed over E cells, readout sigma 0.15, 1-150 Hz on a 1 Hz grid, 2 s discarded 
 
 - Stop states as SEAL_T1/T8: any unit E rate > 50 Hz or deep-unit E rate < 0.1 Hz: reported, not counted; an arm
   with a missing seed is "not evaluable" (no replacement).
-- Study stops (nothing read) on: engine identity not verified (below); §5 positive (a)-(c) or construction
-  invariance failing; any unit with N_PV or N_SOM = 0 or a connection probability > 1 (`_prob` refusal).
+- Study stops (nothing read) on: engine identity not verified (below); §5 positive (a)-(c) failing; construction
+  invariance failing on E cell count, E parameters, per-cell drive or the PV/SOM binomial check (E->E edge-list
+  non-identity does not stop; it switches §6 to unpaired Welch intervals); any unit with N_PV or N_SOM = 0 or a connection probability > 1 (`_prob` refusal).
 - **Smoke test (after review only):** ref seed 1 and nc seed 1, 8 s. Pass: §5 positive (a), construction
   invariance of nc, nc array-equal to ref; ref seed-1 r_ab reported beside T8's 0.839 (no pass threshold on one
   seed). Measures wall time per run; the campaign (9 arms × 5 seeds = 45 runs + nc) waits for the owner after the

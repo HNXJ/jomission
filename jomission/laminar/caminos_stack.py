@@ -115,6 +115,8 @@ def variant(name: str) -> tuple[str, dict]:
       rhodX  deep unit's N_SST / N_PV set to X (3-unit stack; default RHO["D"] 2)
       rhofX  every unit's N_SST / N_PV set to X: a flat ratio (3-unit stack; not with rhod, rhos or rhor)
       rhor   the ratio ramp reversed, S and D exchanged (S 2, M 1, D 0.25; 3-unit stack; not with rhod, rhos)
+      rhouUX unit U's N_SST / N_PV set to X > 0, U in S, M, D; units not given keep RHO (3-unit stack; not with
+             rhod, rhof, rhor, rhos). Stored as {U: X}; a unit given twice is refused. For data-derived ratios (OPEN-38)
       densr  as dens, with the S and D unit densities exchanged; kdB then uses the exchanged densities too
       giX    every GABA rule weight (pv_e, pv_pv, sst_e, sst_pv) times X, after the sstNN charge rescale
       nNNNN  mean E cells per unit (3-unit stack)
@@ -132,7 +134,7 @@ def variant(name: str) -> tuple[str, dict]:
     base, mods = "_".join(toks[:nb]), {}
     for t in toks[nb:]:
         # longer keys first: sstd before sst, kd before k (the other keys do not share a prefix)
-        for key in ("sstd", "isom", "rhos", "rhod", "rhof", "rhor", "densr", "dens", "sst", "ipv", "dsz", "gi", "kd",
+        for key in ("sstd", "isom", "rhou", "rhos", "rhod", "rhof", "rhor", "densr", "dens", "sst", "ipv", "dsz", "gi", "kd",
                     "n", "k", "w"):
             if t.startswith(key):
                 rest = t[len(key):]
@@ -146,6 +148,15 @@ def variant(name: str) -> tuple[str, dict]:
                     if unit in mods.get(key, {}):
                         raise ValueError(f"{key} declared twice for unit {unit!r} in {name!r}")
                     mods.setdefault(key, {})[unit] = value
+                elif key == "rhou":
+                    if not rest or rest[0] not in MODULES:
+                        raise ValueError(f"modifier {t!r} in {name!r}: unit must be one of {'/'.join(MODULES)}")
+                    v = float(rest[1:].replace("p", "."))
+                    if not (math.isfinite(v) and v > 0):
+                        raise ValueError(f"modifier {t!r} in {name!r}: ratio must be > 0")
+                    if rest[0] in mods.get("rhou", {}):
+                        raise ValueError(f"rhou declared twice for unit {rest[0]!r} in {name!r}")
+                    mods.setdefault("rhou", {})[rest[0]] = v
                 else:
                     if key in mods:
                         raise ValueError(f"{key} declared twice in {name!r}")
@@ -161,7 +172,7 @@ def variant(name: str) -> tuple[str, dict]:
         else:
             raise ValueError(f"unknown layout modifier {t!r} in {name!r}")
     for a, b in (("dens", "densr"), ("rhof", "rhod"), ("rhof", "rhos"), ("rhof", "rhor"), ("rhor", "rhod"),
-                 ("rhor", "rhos")):
+                 ("rhor", "rhos"), ("rhou", "rhod"), ("rhou", "rhof"), ("rhou", "rhor"), ("rhou", "rhos")):
         if a in mods and b in mods:
             raise ValueError(f"{a} and {b} cannot be combined in {name!r}")
     return base, mods
@@ -228,8 +239,9 @@ def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], floa
     mid-L4. The 3-unit stack keeps the owner's fixed p 0.01 unless n, dens or k is given; then the
     inter-unit in-degree is K_INTER-based (p None)."""
     name, mods = variant(name)
-    if "rhos" in mods and name != "e2_3unit":
-        raise ValueError(f"rhos applies to the 3-unit stack (e2_3unit), not {name!r}")
+    for key in ("rhos", "rhou"):
+        if key in mods and name != "e2_3unit":
+            raise ValueError(f"{key} applies to the 3-unit stack (e2_3unit), not {name!r}")
     if name == "e2_3unit":
         depth = {"S": -0.4, "M": 0.0, "D": 0.3}
         rho = {**RHO, DEEP_UNIT: mods.get("rhod", RHO[DEEP_UNIT])}
@@ -238,6 +250,8 @@ def layout(name: str) -> tuple[dict[str, dict[str, int]], dict[str, float], floa
             rho = {m: mods["rhof"] for m in MODULES}
         if "rhor" in mods:
             rho = {**RHO, "S": RHO["D"], "D": RHO["S"]}
+        if "rhou" in mods:
+            rho = {**rho, **mods["rhou"]}
         if not ({"n", "dens", "densr", "k"} & set(mods)):
             return module_sizes(rho), rho, P_INTER, depth
         n_mean = mods.get("n", c0.NE)

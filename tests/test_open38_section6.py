@@ -40,6 +40,19 @@ def test_equivalence_is_the_90_interval_inside_the_margin():
     assert not v["equivalent"] and v["difference"] is None and v["verdict"] == "INCONCLUSIVE"
 
 
+def test_difference_and_equivalence_can_both_hold_and_the_margin_is_strict():
+    tiny = [0.03, 0.031, 0.029, 0.032, 0.030]  # consistent, significant and inside +-0.1
+    assert stats.ttest_1samp(tiny, 0).pvalue < 1e-5, "fixture must be significant"
+    v = s6.verdicts(tiny, 1e-5)
+    assert v["difference"] == "ref higher" and v["equivalent"]
+    assert v["verdict"] == "ref higher and equivalent within ±0.1"
+    lo, hi = s6.t_interval(tiny, 0.90)
+    shift = 0.1 - hi  # move the upper 90 % bound exactly onto the margin: not inside, so not equivalent
+    at = [x + shift for x in tiny]
+    assert s6.t_interval(at, 0.90)[1] == pytest.approx(0.1, abs=1e-12)
+    assert not s6.verdicts([x + shift + 1e-9 for x in tiny], 1e-5)["equivalent"]
+
+
 def test_mdd_reaches_the_target_power_and_matches_the_normal_limit():
     sigma = 0.0247
     m = s6.mdd(sigma)

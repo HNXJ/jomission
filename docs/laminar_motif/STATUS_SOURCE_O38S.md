@@ -32,7 +32,23 @@ another revision counts only with an entry in `results/laminar_e2/o38s_receipt_c
 that must be identical to the execution SHA, and `git diff` must confirm them. Identical code is not experimental
 equivalence (owner 2026-11-17), so the entry must also name the execution-SHA receipt it re-checks
 (`equivalent_to`), and the two must be equal field by field except the declared `ignore_keys`: the same layouts,
-seeds, sizes, edge counts, parameters and drive. Otherwise the stage is UNKNOWN. Environment, configuration, seeds
+seeds, sizes, edge counts, parameters and drive. The comparison is exhaustive and fails closed (owner 2026-11-17):
+any extra, missing or changed field outside the declared keys, a malformed receipt, or a declared key found outside
+its enumerated slot makes the stage UNKNOWN. Declared keys are never trusted. Each needs a written justification
+(`ignore_justification`) and a re-derivation `rule`, and `ignore_keys` without a rule fails. For
+`ruling_b_construction`, the only slots allowed to differ are the top-level `family` and `pass`, each gate's `ok`, and
+each PV/SOM rule's `interval` and `ok`. Each is re-derived from the frozen receipt:
+
+- `family`: alpha 0.05, `n_tests` equal to the number of PV/SOM rules, and level 1 − 0.05/n_tests.
+- Each interval: its centre within 2 edges of the frozen one, and its width equal to the frozen width × z_B/z_0.999
+  within 1 % (stage 1 observed 0.69 % at most, from binomial discreteness).
+- Each rule's `ok`: recomputed as count in interval and parameters equal.
+- Each other gate's `ok`: must equal the frozen value.
+- `pass`: the AND of all gates.
+
+So a construction that failed under the frozen gate becomes PASS only by lying inside the ruling-B interval. Residual
+slack: the tolerances can admit a count at most 1 % of a half-width plus 2 edges outside the exact ruling-B bound
+(about 0.04 SD at |z| = 4). Otherwise the stage is UNKNOWN. Environment, configuration, seeds
 and dependency versions of the runs themselves are covered by each stage's freeze file, pip freeze, environment
 check, export-manifest checks and the integrity receipts.
 The stage's `consistency` block lists any problem and each verified compatibility.

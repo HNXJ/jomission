@@ -163,8 +163,82 @@ def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
         return False, f"{rel}: no readable equivalent_to receipt ({ref_rel})"
     if _strip(a, ign) != _strip(b, ign):
         return False, f"{rel}: differs from {ref_rel} outside {sorted(ign)}"
+    if ent.get("rule") == "ruling_b_construction":  # the ignored fields are re-derived, not trusted
+        stray = [p for x in (a, b) for p in _key_paths(x, ign) if not _ruling_b_slot(p)]
+        try:
+            probs = [f"{'/'.join(map(str, p))}: ignored key outside its declared slot" for p in stray] \
+                or verify_ruling_b(a, b)
+        except (KeyError, TypeError, ValueError, ZeroDivisionError, AttributeError) as e:  # fail closed
+            probs = [f"malformed receipt: {type(e).__name__} {e}"]
+        if probs:
+            return False, f"{rel}: ruling-B re-derivation failed: {probs[:3]}"
+    elif ign:
+        return False, f"{rel}: ignore_keys {sorted(ign)} without a re-derivation rule"
     return True, (f"{rel}: {ent['source_sha'][:7]} ~ {execution_sha[:7]}: identical {ent['identical_paths']}; "
                   f"equal to {ref_rel} except {sorted(ign)}")
+
+
+RULING_B_ALPHA, Z_FROZEN_LEVEL, WIDTH_TOL, CENTRE_TOL = 0.05, 0.999, 0.01, 2.0
+
+
+def verify_ruling_b(new: dict, old: dict) -> list[str]:
+    """Re-derive every field a ruling-B construction re-check may change, from the frozen receipt of the same builds.
+    family: alpha 0.05, n_tests = PV/SOM rules in the receipt, level 1 - alpha/n_tests. Each interval: centre equal to
+    the frozen one (same p*N) within CENTRE_TOL edges, width = frozen width * z_B / z_0.999 within WIDTH_TOL (binomial
+    discreteness; observed <= 0.7 %). Each ok and pass: recomputed from the counts and the re-derived intervals."""
+    from statistics import NormalDist
+    probs, fam = [], new.get("family") or {}
+    n = sum(len(r["inh_rules"]["rules"]) for r in new.get("results", {}).values())
+    if fam.get("alpha") != RULING_B_ALPHA or fam.get("n_tests") != n or n == 0:
+        return [f"family {fam} vs {n} PV/SOM tests"]
+    if abs(fam.get("per_test_level", 0) - (1 - RULING_B_ALPHA / n)) > 1e-12:
+        return [f"per_test_level {fam.get('per_test_level')} != {1 - RULING_B_ALPHA / n}"]
+    nd = NormalDist()
+    scale = nd.inv_cdf(1 - RULING_B_ALPHA / n / 2) / nd.inv_cdf(1 - (1 - Z_FROZEN_LEVEL) / 2)
+    all_ok = True
+    for key, r in new["results"].items():
+        pair_ok = True
+        for rule, v in r["inh_rules"]["rules"].items():
+            lo0, hi0 = old["results"][key]["inh_rules"]["rules"][rule]["interval"]
+            lo, hi = v["interval"]
+            if abs((lo + hi) / 2 - (lo0 + hi0) / 2) > CENTRE_TOL:
+                probs.append(f"{key} {rule}: centre moved")
+            if abs((hi - lo) / ((hi0 - lo0) * scale) - 1) > WIDTH_TOL:
+                probs.append(f"{key} {rule}: width {(hi - lo):.0f} not ruling-B ({(hi0 - lo0) * scale:.0f})")
+            ok = lo <= v["count"] <= hi and v["params_equal"]
+            if v["ok"] != ok:
+                probs.append(f"{key} {rule}: ok {v['ok']} != recomputed {ok}")
+            pair_ok &= ok
+        if r["inh_rules"]["ok"] and not pair_ok:
+            probs.append(f"{key}: inh_rules ok while a rule fails")
+        for g, val in r.items():  # every other gate does not depend on the level: its ok must be the frozen one
+            if g != "inh_rules" and val.get("ok") != old["results"][key][g].get("ok"):
+                probs.append(f"{key} {g}: ok changed from the frozen receipt")
+        gates_ok = all(g["ok"] for g in r.values())
+        all_ok &= gates_ok
+    if new.get("pass") is not all_ok:
+        probs.append(f"pass {new.get('pass')} != all gates {all_ok}")
+    return probs
+
+
+def _key_paths(x, ign: set, path=()) -> list[tuple]:
+    """Every path at which an ignored key occurs."""
+    out = []
+    if isinstance(x, dict):
+        for k, v in x.items():
+            out += [path + (k,)] if k in ign else _key_paths(v, ign, path + (k,))
+    elif isinstance(x, list):
+        for i, v in enumerate(x):
+            out += _key_paths(v, ign, path + (i,))
+    return out
+
+
+def _ruling_b_slot(p: tuple) -> bool:
+    """The only positions ruling B may change: top-level family and pass, each gate's ok, each PV/SOM rule's
+    interval and ok."""
+    return (p in (("family",), ("pass",))
+            or (len(p) == 4 and p[0] == "results" and p[3] == "ok")
+            or (len(p) == 6 and p[0] == "results" and p[2:4] == ("inh_rules", "rules") and p[5] in ("interval", "ok")))
 
 
 def _strip(x, ign: set):

@@ -135,15 +135,38 @@ def test_smoke_pass_without_rest_is_blocked_not_pass(tmp_path):
     assert s["phases"][0]["status"] == "PASS" and s["status"] == "BLOCKED" and s["runs_exit0"] == 1
 
 
-REST = SMOKE_HEAD + ["o38s_v1_n4000_s1_T8 rc=0", "smoke integrity: PASS", "DONE smoke", "mode rest", f"HEAD {EXE}",
-                     "start o38s_mt_n4000_s1_T8 L exec=y", "o38s_mt_n4000_s1_T8 rc=0", "stage-2 integrity: PASS",
-                     "DONE rest"]
+REST_TAGS = st.S2_TAGS[1:]  # the smoke ran S2_TAGS[0] (v1, seed 1)
+REST = SMOKE_HEAD + ["o38s_v1_n4000_s1_T8 rc=0", "smoke integrity: PASS", "DONE smoke", "mode rest", f"HEAD {EXE}"] + [
+    x for t in REST_TAGS for x in (f"start {t} L exec={t}", f"{t} rc=0")] + ["stage-2 integrity: PASS", "DONE rest"]
+
+
+def _s2(repo: Path, exe: str = EXE, integ: bool = True, run_sha: str | None = None, construction: dict | None = None,
+        integ_head: str | None = None):
+    """Full stage-2 evidence as the driver leaves it: construction (ruling B, 6 arms x 5 seeds x 26 rules), run
+    record, execution manifest and verdict per tag, smoke and stage integrity receipts."""
+    rules = {f"r{i}": {"count": 1000, "interval": [900, 1100], "params_equal": True, "ok": True}
+             for i in range(st.S2_RULES_PER_PAIR)}
+    arms = [f"A{a}" for a in st.S2_ARMS]
+    n = st.S2_N_TESTS
+    cons = construction or {
+        "arms": arms, "seeds": list(st.S2_SEEDS), "pass": True,
+        "family": {"alpha": 0.05, "n_tests": n, "per_test_level": 1 - 0.05 / n},
+        "results": {f"{a}|s{s}": {"sizes": {"ok": True}, "inh_rules": {"ok": True, "rules": json.loads(json.dumps(rules))}}
+                    for a in arms for s in st.S2_SEEDS}}
+    _write(repo, "o38s_s2_construction.json", cons)
+    for t in st.S2_TAGS:
+        _write(repo, f"{t}.json", {"git_sha": run_sha or exe, "git_dirty": False})
+        _write(repo, f"{t}_exec.json", {"tag": t, "rc": 0, "exec_id": t, "head": exe})
+        _write(repo, f"{t}_verdict.json", {"pass": False})
+    _rec(repo, "o38s_s2_smoke_integrity.json", True, head=exe)
+    _rec(repo, "o38s_s2_integrity.json", integ, head=integ_head or exe, checks={"runs": {"ok": True}, "propagation": {"ok": True}},
+         runs=[{"tag": t, "ok": True} for t in st.S2_TAGS])
 
 
 def test_rest_pass_needs_integrity_receipt(tmp_path):
     _log(tmp_path, "o38s_s2_stage.log", REST)
     assert st.stage2(tmp_path, 30)["status"] == "UNKNOWN"
-    _rec(tmp_path, "o38s_s2_integrity.json", True, head=EXE)
+    _s2(tmp_path)
     assert st.stage2(tmp_path, 30)["status"] == "PASS"
     _rec(tmp_path, "o38s_s2_integrity.json", False, head=EXE)
     assert st.stage2(tmp_path, 30)["status"] != "PASS"
@@ -151,10 +174,53 @@ def test_rest_pass_needs_integrity_receipt(tmp_path):
 
 def test_stage2_receipts_from_another_revision_are_not_pass(tmp_path):
     _log(tmp_path, "o38s_s2_stage.log", REST)
-    _rec(tmp_path, "o38s_s2_smoke_integrity.json", True, head=EXE)
-    _rec(tmp_path, "o38s_s2_integrity.json", True, head="b" * 40)  # integrity re-run at another commit
+    _s2(tmp_path, integ_head="b" * 40)  # integrity re-run at another commit
     s = st.stage2(tmp_path, 30)
     assert s["status"] == "UNKNOWN" and "revisions differ" in s["reason"]
+    _s2(tmp_path, run_sha="c" * 40)  # one source for every run record, but not the logged HEAD
+    s = st.stage2(tmp_path, 30)
+    assert s["status"] == "UNKNOWN" and "revisions differ" in s["reason"]
+
+
+def test_stage2_pass_is_rederived_from_its_receipts(tmp_path):  # review 2 (2026-11-17)
+    _log(tmp_path, "o38s_s2_stage.log", REST)
+    _s2(tmp_path)
+    assert st.stage2(tmp_path, 30)["status"] == "PASS"
+    R = tmp_path / st.R
+    t0 = st.S2_TAGS[3]
+
+    def edit(name, fn):
+        p = R / name
+        x = json.loads(p.read_text())
+        fn(x)
+        p.write_text(json.dumps(x))
+
+    cases = {
+        "construction pass false": lambda: edit("o38s_s2_construction.json", lambda c: c.update({"pass": False})),
+        "construction family forged": lambda: edit("o38s_s2_construction.json", lambda c: c.update(
+            family={"alpha": 0.5, "n_tests": 1, "per_test_level": 0.5})),
+        "construction rule dropped": lambda: edit("o38s_s2_construction.json", lambda c: next(iter(
+            c["results"].values()))["inh_rules"]["rules"].pop("r0")),
+        "construction ok forged": lambda: edit("o38s_s2_construction.json", lambda c: next(iter(
+            c["results"].values()))["inh_rules"]["rules"]["r0"].update(count=5000)),
+        "construction deleted": lambda: (R / "o38s_s2_construction.json").unlink(),
+        "run record dirty": lambda: edit(f"{t0}.json", lambda r: r.update(git_dirty=True)),
+        "one run on another SHA": lambda: edit(f"{t0}.json", lambda r: r.update(git_sha="d" * 40)),
+        "manifest rc 1": lambda: edit(f"{t0}_exec.json", lambda r: r.update(rc=1)),
+        "manifest deleted": lambda: (R / f"{t0}_exec.json").unlink(),
+        "verdict deleted": lambda: (R / f"{t0}_verdict.json").unlink(),
+        "integrity check not ok": lambda: edit("o38s_s2_integrity.json", lambda r: r["checks"]["runs"].update(ok=False)),
+        "integrity run missing": lambda: edit("o38s_s2_integrity.json", lambda r: r["runs"].pop()),
+    }
+    for name, fn in cases.items():
+        _s2(tmp_path)
+        fn()
+        s = st.stage2(tmp_path, 30)
+        assert s["status"] in ("UNKNOWN", "FAIL"), f"{name}: {s['status']} {s['reason']}"
+    _s2(tmp_path)
+    _log(tmp_path, "o38s_s2_stage.log", [x for x in REST if t0 not in x])  # one run's start and rc removed
+    s = st.stage2(tmp_path, 30)
+    assert s["status"] == "UNKNOWN" and "29 rc=0 of 30" in s["reason"], s["reason"]
 
 
 def test_nonzero_exit_fails_and_missing_exit_is_unknown(tmp_path):
@@ -331,9 +397,7 @@ def test_committing_evidence_keeps_the_execution_identity(tmp_path):  # owner 20
     exe = _git(repo, "rev-parse", "HEAD")
     log = [ln.replace(EXE, exe) for ln in REST]
     _log(repo, "o38s_s2_stage.log", log)
-    _rec(repo, "o38s_s2_smoke_integrity.json", True, head=exe)
-    _rec(repo, "o38s_s2_integrity.json", True, head=exe)
-    _rec(repo, "o38s_s2_construction.json", True)
+    _s2(repo, exe)
     before = st.stage2(repo, 30)
     assert before["status"] == "PASS" and before["public_status"] == "UNKNOWN", "uncommitted evidence is not public"
     ev = _commit_all(repo, "stage-2 evidence")
@@ -342,7 +406,7 @@ def test_committing_evidence_keeps_the_execution_identity(tmp_path):  # owner 20
     assert after["public_status"] == "PASS"
     assert after["consistency"]["execution_sha"] == exe, "the evidence commit must not become the execution identity"
     assert st.git(repo)["sha"] == ev
-    _rec(repo, "o38s_s2_integrity.json", True, head=ev)  # integrity re-stamped with the evidence commit
+    _s2(repo, exe, integ_head=ev)  # integrity re-stamped with the evidence commit
     _commit_all(repo, "restamp")
     s = st.stage2(repo, 30)
     assert s["status"] == "UNKNOWN" and "revisions differ" in s["reason"]
@@ -353,7 +417,7 @@ def test_stage2_pass_needs_finished_smoke(tmp_path):  # review 2026-11-17 MAJOR
                   "mode rest", f"HEAD {EXE}", "start o38s_mt_n4000_s1_T8 L exec=y", "o38s_mt_n4000_s1_T8 rc=0",
                   "stage-2 integrity: PASS", "DONE rest"]
     _log(tmp_path, "o38s_s2_stage.log", unfinished)
-    _rec(tmp_path, "o38s_s2_integrity.json", True, head=EXE)
+    _s2(tmp_path)
     s = st.stage2(tmp_path, 30)
     assert s["status"] == "UNKNOWN" and s["phases"][0]["status"] == "UNKNOWN", s["reason"]
     assert REST[len(SMOKE_HEAD) + 3] == "mode rest"

@@ -55,6 +55,20 @@ The following were added after the independent review of 2026-11-17:
 - The number of PV/SOM tests must equal the entry's `expected_n_tests` (stage 1: 260).
 - Stage 2 is PASS only as smoke PASS followed by rest PASS. A segment left unfinished before a later one is UNKNOWN.
 
+Stage 2 has one execution SHA, so it needs no compatibility entry. Its PASS is re-derived from the receipts, not
+taken from the log (review 2, 2026-11-17):
+
+- Construction receipt: `pass` true; the ruling-B family block (alpha 0.05, n_tests 780 = 6 arms × 5 seeds × 26
+  PV/SOM rules, level 1 − 0.05/780); pairs exactly arms × seeds with one rule set; each `ok` and `pass` recomputed.
+- Runs: exactly the 30 planned tags, each with a logged rc=0 and no other tag. For each tag the run record has
+  `git_dirty` false, the execution manifest has rc 0 under its own tag, and the verdict exists. The runs' `git_sha`
+  joins the cross-commit heads.
+- Integrity receipt: every check ok, and 30 run entries, all ok, for exactly the planned tags.
+- Every per-run file and receipt above must be committed for `public_status`.
+
+Not re-derived here: the stage-2 interval bounds. The generator uses the standard library only. Review 2
+recomputed `e_pv_S` for all 30 pairs with scipy and got 0 edges of difference.
+
 So a construction that failed under the frozen gate becomes PASS only by lying inside the ruling-B interval. Residual
 slack: the tolerances can admit a count at most 1 % of a half-width plus 2 edges outside the exact ruling-B bound
 (about 0.04 SD at |z| = 4). Otherwise the stage is UNKNOWN. Environment, configuration, seeds

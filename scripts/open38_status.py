@@ -134,12 +134,9 @@ def committed(repo: Path, rels: list[str]) -> bool | None:
     """True if every path is tracked and unmodified at HEAD; None without git."""
     if _git(repo, "rev-parse", "HEAD").returncode != 0:
         return None
-    for rel in rels:
-        if _git(repo, "ls-files", "--error-unmatch", rel).returncode != 0:
-            return False
-        if _git(repo, "diff", "--quiet", "HEAD", "--", rel).returncode != 0:
-            return False
-    return True
+    if _git(repo, "ls-files", "--error-unmatch", "--", *rels).returncode != 0:  # any path untracked or absent
+        return False
+    return _git(repo, "diff", "--quiet", "HEAD", "--", *rels).returncode == 0
 
 
 def compat(repo: Path, rel: str, execution_sha: str) -> tuple[bool | None, str]:
@@ -327,6 +324,59 @@ def stage1(repo: Path, stale: float) -> dict:
             "checks": rec, "consistency": cons, "log_sha256": lsha}
 
 
+S2_ARMS, S2_SEEDS, S2_RULES_PER_PAIR = ("v1", "mt", "mst", "teo", "chc", "shape"), (1, 2, 3, 4, 5), 26
+S2_TAGS = tuple(f"o38s_{a}_n4000_s{s}_T8" for a in S2_ARMS for s in S2_SEEDS)
+S2_N_TESTS = len(S2_ARMS) * len(S2_SEEDS) * S2_RULES_PER_PAIR  # 780 (spec §5(a), ruling B)
+S2_RUN_FILES = (".json", "_exec.json", "_verdict.json")
+
+
+def stage2_evidence(repo: Path, segs: list[dict], cjs) -> tuple[list[str], set]:
+    """Everything a stage-2 PASS rests on, read from the receipts themselves:
+    - construction: pass true, ruling-B family (alpha 0.05, n_tests 780 = PV/SOM rules, level 1 - 0.05/780), pairs
+      exactly 6 arms x 5 seeds with one rule set, each ok and pass recomputed (_receipt_shape);
+    - runs: exactly the 30 planned tags with a logged rc=0, no other tag; each run record clean (git_dirty false),
+      each execution manifest rc 0 for its tag, each verdict present;
+    - integrity: every check ok and 30 run entries, each ok, for exactly the planned tags.
+    Returns (problems, the runs' git_sha set) - the git_sha set joins the cross-commit heads."""
+    probs = []
+    try:
+        fam = (cjs or {}).get("family") or {}
+        if cjs is None or cjs.get("pass") is not True:
+            probs.append(f"construction receipt {_verdict(cjs)}")
+        elif (fam.get("alpha") != RULING_B_ALPHA or fam.get("n_tests") != S2_N_TESTS
+              or abs(fam.get("per_test_level", 0) - (1 - RULING_B_ALPHA / S2_N_TESTS)) > 1e-12):
+            probs.append(f"construction family {fam} is not ruling B over {S2_N_TESTS} tests")
+        else:
+            n = sum(len(r["inh_rules"]["rules"]) for r in cjs["results"].values())
+            probs += [f"construction: {p}" for p in _receipt_shape(cjs)]
+            if n != S2_N_TESTS or len(cjs["arms"]) != len(S2_ARMS) or list(cjs["seeds"]) != list(S2_SEEDS):
+                probs.append(f"construction holds {n} tests, {len(cjs['arms'])} arms, seeds {cjs['seeds']}")
+    except (KeyError, TypeError, ValueError, AttributeError) as e:
+        probs.append(f"construction receipt malformed: {type(e).__name__} {e}")
+    rc = {t: v for s in segs for t, v in s["rc"].items()}
+    if set(rc) != set(S2_TAGS) or any(v != 0 for v in rc.values()):
+        probs.append(f"logged runs {sum(v == 0 for v in rc.values())} rc=0 of {len(S2_TAGS)} planned; "
+                     f"missing {sorted(set(S2_TAGS) - set(rc))[:2]}, extra {sorted(set(rc) - set(S2_TAGS))[:2]}")
+    shas = set()
+    for t in S2_TAGS:
+        rec, ex = _json(repo / R / f"{t}.json"), _json(repo / R / f"{t}_exec.json")
+        if not isinstance(rec, dict) or rec.get("git_dirty") is not False:
+            probs.append(f"{t}: run record missing or not clean")
+        else:
+            shas.add(rec.get("git_sha"))
+        if not isinstance(ex, dict) or ex.get("rc") != 0 or ex.get("tag") != t:
+            probs.append(f"{t}: execution manifest missing, rc not 0 or wrong tag")
+        if _json(repo / R / f"{t}_verdict.json") is None:
+            probs.append(f"{t}: verdict missing")
+    ij = _json(repo / R / "o38s_s2_integrity.json") or {}
+    checks, iruns = ij.get("checks") or {}, ij.get("runs") or []
+    if not checks or not all(isinstance(c, dict) and c.get("ok") is True for c in checks.values()):
+        probs.append("integrity checks missing or not all ok")
+    if sorted(r.get("tag") for r in iruns) != sorted(S2_TAGS) or not all(r.get("ok") is True for r in iruns):
+        probs.append(f"integrity runs: {sum(r.get('ok') is True for r in iruns)} ok of {len(iruns)}, planned {len(S2_TAGS)}")
+    return probs, shas
+
+
 def stage2(repo: Path, stale: float) -> dict:
     segs, age, lsha = _log(repo, "o38s_s2_stage.log")
     att1, _, _ = _log(repo, "o38s_s2_attempt1_stage.log")
@@ -364,9 +414,16 @@ def stage2(repo: Path, stale: float) -> dict:
     runs = sum(p["exit0"] for p in phases)
     integ_files = [f for f in ("o38s_s2_smoke_integrity.json", "o38s_s2_integrity.json") if (repo / R / f).is_file()]
     heads = {"log": {s["head"] for s in segs}, **{f: {(_json(repo / R / f) or {}).get("head")} for f in integ_files}}
+    run_files = [f"{t}{x}" for t in S2_TAGS for x in S2_RUN_FILES]
+    if st == "PASS":  # review 2 (2026-11-17): the PASS is re-derived from the evidence, not from the log alone
+        ev, run_shas = stage2_evidence(repo, segs, cjs)
+        heads["run_git_sha"] = run_shas or {None}
+        if ev:
+            st, why = ("FAIL" if cjs is not None and cjs.get("pass") is False else "UNKNOWN"), "; ".join(ev[:4])
     cons = consistency(repo, heads, [])  # the construction receipt is written inside the logged smoke segment
     st, why = _apply(st, why, cons)
-    pub = committed(repo, [f"{R}/o38s_s2_stage.log", f"{R}/o38s_s2_construction.json", *(f"{R}/{f}" for f in integ_files)])
+    pub = committed(repo, [f"{R}/o38s_s2_stage.log", f"{R}/o38s_s2_construction.json",
+                           *(f"{R}/{f}" for f in integ_files), *(f"{R}/{f}" for f in run_files)])
     return {**out, "status": st, "public_status": st if pub else "UNKNOWN", "committed": pub, "reason": why,
             "phases": phases, "runs_exit0": runs, "consistency": cons}
 

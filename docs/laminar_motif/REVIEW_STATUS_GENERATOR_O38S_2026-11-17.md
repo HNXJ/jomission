@@ -52,5 +52,42 @@ pass. Real stage-1 receipts still give PASS with no consistency problems.
 Remaining exposure: a forgery written consistently into both committed receipts that also stays inside the frozen
 interval would pass. Only git history binds the receipts to their builds.
 
-Open: review 2 covers these repairs, the stage-2 closure evidence and the stage-2 receipts. The status branch merges
-only after it accepts.
+## Review 2 (2026-11-17): stage-2 closure at b9a2ee4 and the generator at 568e659
+
+Independent read-only reviewer agent; it did not write the code. Overall verdict: **REVISE**.
+
+**Part A, stage-2 closure: ACCEPT.** Each item was observed by the reviewer:
+
+- SHA 0d71622 throughout: log HEADs, 30 run `git_sha`, `git_dirty` false, both integrity heads.
+- `0d71622..b9a2ee4` adds evidence only and touches no frozen file.
+- 30/30 rc=0 and 30 unique exec IDs equal to the logged ones; all 150 output hashes (`.npz` included) match.
+- Construction: family 0.05/780; all 780 counts inside their intervals; `e_pv_S` recomputed with scipy for 30/30
+  pairs, 0 edges of difference. The other rules' intervals were not recomputed (the fit was too slow).
+- Freeze and export manifest `sha256sum -c`: 0 non-OK.
+- The 30 table rows equal `_verdict.json` and `o38s_s2_values.json`; E rates recomputed from the `.npz` for 7 runs
+  with 0 difference.
+- No interpretation found.
+- Not verified: the "64 passed" test count and the attempt-1 timeline beyond its HEAD and STOP lines.
+
+**Part B, generator: ACCEPT-WITH-CHANGES.**
+
+- 18 tests passed.
+- The merge simulation (568e659 into b9a2ee4) gave stage 1 PASS and stage 2 PASS with no problems; execution SHAs
+  stayed 53f8b89 and 0d71622.
+- Review 1's repairs held under forgery.
+- Owner checks (a) and (b) held for the stage-1 compat path.
+- Stage-2 forgeries that still gave public PASS:
+
+| Severity | Finding | Repair | Test |
+|---|---|---|---|
+| major | stage 2 never read its construction receipt (`pass` false, a forged family or a deleted file gave PASS) | `stage2_evidence`: pass true, ruling-B family over 780, `_receipt_shape` | `test_stage2_pass_is_rederived_from_its_receipts` |
+| major | no check of 30/30 runs (a run removed from the log gave PASS, runs 29) | the logged rc=0 set must equal the 30 planned tags | same |
+| minor | run `git_sha`/`git_dirty` not in the heads (one run at 584922c gave PASS) | the run `git_sha` set joins the heads; `git_dirty` must be false | same; `test_stage2_receipts_from_another_revision_are_not_pass` |
+| minor | `_exec.json` rc, verdict files and the integrity `checks`/`runs` not read | each read and required | `test_stage2_pass_is_rederived_from_its_receipts` |
+
+Mutants killed after repair: `no_s2_evidence`, `no_s2_rc_set`, `no_s2_run_sha`, `no_s2_construction`. Status tests:
+19 pass. Real evidence (D:/jomission at b9a2ee4): stage 2 PASS, public PASS, no consistency problems.
+
+The stage-2 receipt document is not read for status; it is linked as evidence with its sha256.
+
+Open: an independent check of these repairs before the status branch merges.

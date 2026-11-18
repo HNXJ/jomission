@@ -1,4 +1,4 @@
-# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static diagnosis reviewed ACCEPT-WITH-CHANGES, changes applied; replay run, review of the causal reading pending)
+# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static diagnosis reviewed ACCEPT-WITH-CHANGES, changes applied; replay run, causal reading reviewed ACCEPT-WITH-CHANGES, changes applied)
 
 Authority: owner 2026-11-18, bounded diagnosis. Static inspection and analysis of existing outputs only. No simulation,
 no protocol change, no tuning. The frozen protocol, the R1 outputs, the receipts and the NOT REPRODUCED
@@ -86,13 +86,20 @@ amplifies either into the same pattern. The compiled-code difference is the only
   the driver `scripts/open51_replay.py` (caaebf7) substitutes it at the compile call, exactly once per run.
 - The original executable loaded as an XLA:CPU AOT result (machine code, no recompile), and its loaded HLO held the
   YNN fusion.
-- Reading, per the pre-stated outcome table: **numerical execution is the cause.** With identical inputs, PRNG
-  streams and model state, the original compiled executable reproduces the original counts at every step. The
-  re-run's executable reproduces R1 exactly, so there is no run-to-run nondeterminism on this run. The divergence is
-  fully determined by the compiled executable.
-- Not established: which instruction in the executable produces the first differing bit (the YNN fusion of the `dv`
-  chain is the only differing region in the canonicalized HLO; the bit-level path is not traced). Also not
-  established: that jaxlib 0.10.2 produced the original executable (inferred from two markers).
+- Reading, per the pre-stated outcome table: **numerical execution is the cause.** Swapping only the `jit_scan`
+  executable switches the output between the two trajectories. The edge table and the PRNG HLO are equal; the other
+  input array values were not hashed. An input difference that both executables mask is not excluded, but it is
+  unlikely, since each executable reproduced its own trajectory exactly on the same inputs.
+- Run-to-run nondeterminism: none observed, in one repeat (control against R1). The scope is seed 1, one executable
+  per arm, CPU, one machine. The control run also serves as the sanity check of the substitution path that the
+  single-step smoke could not provide.
+- The comparison covers per-step counts of E, PV and SOM. No cell-level original raster exists, so equal counts do not
+  show that the same cells fired.
+- Not established:
+  - which instruction in the executable produces the first differing bit. The cause is the executable; the YNN
+    fusion of the `dv` chain is the only differing region in the canonicalized HLO, but the AOT machine code was not
+    compared and the bit-level path is not traced;
+  - that jaxlib 0.10.2 produced the original executable (inferred from two markers).
 - Deviations from the proposal:
   1. The smoke did not execute a single step, because the trip count of 120 000 is compiled in. Instead, the AOT
      load and the YNN count were checked before running.

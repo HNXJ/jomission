@@ -1,12 +1,14 @@
 """OPEN-51 diagnostic replay (owner 2026-11-18): run E0 seed 1 through the unchanged construct/simulate path with the
 `jit_scan` executable taken from a given persistent-cache entry instead of a fresh compile.
 
-The entry's bytes are written into a fresh, empty JAX cache directory under R1's cache key, so the re-run environment
-loads it in place of compiling. The run aborts before simulating when:
+When JAX requests a `jit_scan` compile, the driver returns the entry's deserialized executable instead, with the same
+backend call JAX uses on a persistent-cache hit. The cache key is not used: it hashes source locations, so it differs
+from R1's under this driver (first attempt 2026-11-18T02:52Z, exit 7, no simulation). The JAX cache directory is fresh
+and empty, so every other function compiles as in R1. The run aborts before simulating when:
 - the worktree is unclean, PYTHONPATH is set, or the import origins are wrong;
 - the entry fails to deserialize, or its YNN fusion count differs from --expect-ynn;
-- the edge table differs from R1's (input precondition);
-- JAX tries to compile `jit_scan` (the cache key differs, so the entry would not be used).
+- the edge table differs from R1's (input precondition).
+It aborts after the run when `jit_scan` was not substituted exactly once.
 
 Diagnostic only: no classification under the frozen protocol. Writes counts, raster and a receipt to --out.
 Usage: python -B open51_replay.py --worktree WT --entry CACHEFILE --expect-ynn N --label NAME --out DIR
@@ -67,7 +69,7 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     entry = Path(a.entry).read_bytes()
     rec = {"schema": "jomission.open51_replay.v1", "label": a.label, "started_utc": now(), "argv": sys.argv,
-           "entry": {"path": str(a.entry), "sha256": hashlib.sha256(entry).hexdigest(), "installed_as": R1_KEY},
+           "entry": {"path": str(a.entry), "sha256": hashlib.sha256(entry).hexdigest(), "r1_cache_key": R1_KEY},
            "driver": {"lane_head": git(LANE, "rev-parse", "HEAD").strip(),
                       "driver_status": git(LANE, "status", "--porcelain", "--", "scripts/open51_replay.py"),
                       "driver_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
@@ -89,7 +91,6 @@ def main():
         finish(2, "PYTHONPATH set")
     cache = out / "jaxcache"
     cache.mkdir()
-    (cache / R1_KEY).write_bytes(entry)
     os.environ["JAX_COMPILATION_CACHE_DIR"] = str(cache)
     sys.path.insert(0, str(wt))
 
@@ -119,16 +120,18 @@ def main():
     if ynn != a.expect_ynn:
         finish(5, "YNN fusion count differs from expectation")
 
-    # Guard: a compile of jit_scan means the installed entry was not used.
+    # Substitute: a jit_scan compile request returns the entry's executable (same call as a persistent-cache hit).
     orig_compile = compiler._compile_and_write_cache
+    subs = []
 
-    def guarded(backend, computation, executable_devices, compile_options, host_callbacks, module_name, cache_key):
+    def substitute(backend, computation, executable_devices, compile_options, host_callbacks, module_name, cache_key):
         if module_name.startswith("jit_scan"):
-            raise RuntimeError(f"jit_scan compile requested (cache key {cache_key}); entry not used")
+            subs.append({"module_name": module_name, "requested_cache_key": cache_key})
+            return backend.deserialize_executable(body[4:], executable_devices, compile_options)
         return orig_compile(backend, computation, executable_devices, compile_options, host_callbacks,
                             module_name, cache_key)
 
-    compiler._compile_and_write_cache = guarded
+    compiler._compile_and_write_cache = substitute
 
     t0 = time.time()
     spec = c.build_spec(P, SEED)
@@ -142,13 +145,11 @@ def main():
     sim = c.build_sim(P, SEED, T_S)
     if str(sim.resolved_runtime.actual_dtype) != "float32":
         finish(2, f"dtype {sim.resolved_runtime.actual_dtype}")
-    try:
-        signals = model.simulate(sim)
-        jax.block_until_ready(signals.spikes)
-    except RuntimeError as e:
-        if "jit_scan compile requested" in str(e):
-            finish(7, str(e))
-        raise
+    signals = model.simulate(sim)
+    jax.block_until_ready(signals.spikes)
+    rec["substitutions"] = subs
+    if len(subs) != 1:
+        finish(7, f"jit_scan substituted {len(subs)} times, expected 1")
     labels = tuple(model.params["emitter"].labels)
     sizes = {t: labels.count(t) for t in c.POPS}
     spikes = np.asarray(signals.spikes)

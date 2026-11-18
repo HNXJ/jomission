@@ -261,6 +261,8 @@ lineage's visualization set stays incomplete under manifests/visualization_contr
 
 def main(counts_dir: Path) -> None:
     head = git("rev-parse", "HEAD")
+    if git("status", "--porcelain", "--untracked-files=no"):
+        raise SystemExit("tracked files modified: commit first so drawn_at_head names the drawing code")
     for lineage, meta in LINEAGES.items():
         # outside results/: unregistered candidates (no lineage-record change is authorized; results_coverage)
         out = ROOT / "docs" / "laminar_motif" / "open51_viz" / lineage
@@ -272,9 +274,9 @@ def main(counts_dir: Path) -> None:
             runs.append(r)
         if lineage == "SCI-LAMINAR-E1":
             by_rho = sorted({(r["rho"], r["sizes"]["PV"], r["sizes"]["SOM"]) for r in runs})
-            head = "rho " + ", ".join(f"{rho:g}" for rho, _, _ in by_rho)
-            size_rows = {"E": f"N = {ce.NE}", "PV": f"N at {head}:\n" + ", ".join(str(p) for _, p, _ in by_rho),
-                         "SOM": f"N at {head}:\n" + ", ".join(str(s) for _, _, s in by_rho)}
+            rho_txt = "rho " + ", ".join(f"{rho:g}" for rho, _, _ in by_rho)
+            size_rows = {"E": f"N = {ce.NE}", "PV": f"N at {rho_txt}:\n" + ", ".join(str(p) for _, p, _ in by_rho),
+                         "SOM": f"N at {rho_txt}:\n" + ", ".join(str(s) for _, _, s in by_rho)}
         else:
             size_rows = {"E": f"N = {ce.NE}", "PV": f"N = {ce.NPV}", "SOM": f"N = {ce.NSST}"}
         draw_v0(out / "jaxfne_network_hspice.png", lineage, size_rows)
@@ -292,7 +294,9 @@ def main(counts_dir: Path) -> None:
                 "jaxfne_build": "e0160dfc (declared, E0_SEAL.md Amendment 1; observed for E1 by compiled-code "
                                 "equality, see the OPEN-51 note)",
                 "checks": "sha256 per counts file; analyze_run(counts) equals the run JSON on spikes_kept and "
-                          + ", ".join(CHECK_KEYS),
+                          + ", ".join(CHECK_KEYS) + ". The JSON check covers only steps after the 2 s discard; the "
+                          "sha256 alone covers 0-2 s. The sha256 values were computed from the same salvage copy, so "
+                          "they detect later change only.",
                 "inputs": [{"counts": r["rel"], "sha256": r["sha256"], "run_json": r["json"]} for r in runs],
                 "absent": ["V1", "V2", "raster", "membrane", "I_net", "H", "A", "m(H)", "realized edges/weights"]}
         (out / "atlas" / "provenance.json").write_text(json.dumps(prov, indent=1) + "\n", encoding="utf-8",

@@ -60,7 +60,7 @@ discarded it.
 
 - JaxFNE. `E0_SEAL.md` Amendment 1 (0465b36) declares tag v0.5.9 = `e0160dfc`. The run records say only
   `jaxfne_file: "side-install"`, that is, `E:/repos/_wt/jaxfne-0.5.9-site`.
-  - That directory now holds 84 `.pyc` files (Python 3.14, written 2026-11-07 16:35), 10 configs and `py.typed`. Its
+  - That directory now holds 84 `.pyc` files (Python 3.14, written 2026-11-07 16:35-16:36), 10 configs and `py.typed`. Its
     `.py` source is gone.
   - Check (`_temp_o51_pyc.py`, `_temp_o51_commit.py`, `_temp_o51_marshal.py`): each of the 84 imported modules
     compiled from `e0160dfc` (and from `e26e9ec`, which has the same blobs) under Python 3.14.3 equals its `.pyc`:
@@ -155,5 +155,14 @@ No simulation or contract change is authorized.
   - `atlas/provenance.json`.
 - Gate before drawing: all 20 counts files matched their sha256 above. `analyze_run` on the counts equalled each
   committed JSON on `spikes_kept`, `peak_freq_E_Hz`, `peak_excess_E`, `oscillates` and `lag_PV_SOM_ms`.
+  - The JSON check covers only steps after the 2 s discard, so the sha256 alone covers 0-2 s.
+  - The sha256 table was computed from the same salvage copy, so it detects later change only.
+  - The reviewer's negative tests failed the gate as intended: a swapped file (sha256), a swapped file with its hash
+    updated (`spikes_kept`), and a two-step swap inside the kept window (`peak_excess_E`).
+- Independent read-only review, 2026-11-17, at 81de9fc: ACCEPT-WITH-CHANGES. Fixes applied:
+  - the E1 `provenance.json` held the rho label in place of the draw SHA (variable reuse);
+  - the drawing now refuses modified tracked files;
+  - the protocol now covers comparator re-hashing, import-origin and clean-worktree checks, the JAX/RNG configuration
+    record, an E1 determinism repeat, the R3-to-R4 stop, the rho 1 dependency and the CPU exception.
 - The lineage records are unchanged: they still carry `NOT_A_MODEL_LINEAGE`, so the new trees are unregistered.
 - `OPEN51_RERUN_PROTOCOL_2026-11-17.md` is the prepared protocol for option 2. It is a draft and has not been executed.

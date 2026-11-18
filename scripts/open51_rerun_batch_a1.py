@@ -120,6 +120,7 @@ def run(step, kind, seed, rho=None, fresh_cache=False):
     cmd = [str(PY), "-B", str(LOCK), "--wait-s", "14400", "--label", f"jomission-open51a1-{step}", "--",
            str(PY), "-B", str(LANE / "scripts/open51_rerun.py"), *args]
     log(f"{step} start: {kind} seed {seed} rho {rho} cache {cache.name}")
+    before = set(cache.glob("jit_scan-*-cache"))
     t0 = time.time()
     p = subprocess.run(cmd, cwd=LANE, env=env, capture_output=True, text=True)
     (OUT / f"{step}.stdout.txt").write_text(p.stdout + "\n--- stderr ---\n" + p.stderr, encoding="utf-8")
@@ -128,7 +129,8 @@ def run(step, kind, seed, rho=None, fresh_cache=False):
     rec = json.loads(rp.read_text(encoding="utf-8")) if rp.exists() else None
     entry = {"step": step, "run": stem, "exit": p.returncode, "elapsed_s": round(time.time() - t0, 1),
              "receipt": str(rp) if rec else None, "outcome": rec and _outcome(rec, p.returncode),
-             "jax_cache": str(cache)}
+             "jax_cache": str(cache),
+             "new_jit_scan_entries": sorted(str(x) for x in set(cache.glob("jit_scan-*-cache")) - before)}
     if rec:
         r = rec.get("result", {})
         entry.update(raster_sha256=r.get("raster_sha256"), edge_table_sha256=r.get("edge_table_sha256"),
@@ -151,12 +153,11 @@ def _outcome(rec, code):
 
 
 def suspected_cause(a, b):
-    """A1.5: compare the two cached jit_scan executables of a failed determinism pair."""
-    ea = sorted(Path(a["jax_cache"]).glob("jit_scan-*-cache"))
-    eb = sorted(Path(b["jax_cache"]).glob("jit_scan-*-cache"))
-    if not ea or not eb:
-        return "unknown: a jit_scan cache entry is missing"
-    p = sh(PY, "-B", DIAG / "objcode.py", f"first={ea[-1]}", f"second={eb[-1]}")
+    """A1.5: compare the jit_scan executables each run of a failed determinism pair added to its cache."""
+    ea, eb = a["new_jit_scan_entries"], b["new_jit_scan_entries"]
+    if len(ea) != 1 or len(eb) != 1:
+        return f"unknown: expected one new jit_scan entry per run, found {len(ea)} and {len(eb)}"
+    p = sh(PY, "-B", DIAG / "objcode.py", f"first={ea[0]}", f"second={eb[0]}")
     same = "all equal True" in p.stdout
     return {"objcode": p.stdout.strip().splitlines(),
             "suspected": "execution (executables equal)" if same else "compile variation (executables differ)"}
@@ -210,7 +211,8 @@ def main():
     state["lane_head"] = sh("git", "-C", LANE, "rev-parse", "HEAD").stdout.strip()
     state["driver_status"] = sh("git", "-C", LANE, "status", "--porcelain", "--", "scripts/open51_rerun_batch_a1.py",
                                 "scripts/open51_rerun.py", "scripts/open51_compile.py", "scripts/open51_viz.py",
-                                "docs/laminar_motif/open51_diag", AMEND).stdout
+                                "docs/laminar_motif/open51_diag",
+                                "docs/laminar_motif/open51_rerun/jaxfne_identity_check.py", AMEND).stdout
     save()
     if state["driver_status"] or not AMEND_SHA:
         stop("drivers uncommitted or amendment not committed")

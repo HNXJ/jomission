@@ -2,12 +2,12 @@
  "schema": "jomission.open51_viz.v1",
  "lineage": "SCI-LAMINAR-E1",
  "label": "RETROSPECTIVE, PARTIAL: drawn 2026-11-17 from preserved evidence after interpretation (OPEN-51)",
- "drawn_at_head": "rho 0.25, 0.5, 1, 2, 4",
+ "drawn_at_head": "c4cd02fcf526e27a682f82c915558f837eef9684",
  "script": "scripts/open51_viz.py",
  "declared_construction": "jomission/laminar/caminos_e0.py (constants and RULES unchanged since 3257ffc)",
  "result_commit": "8200fac",
  "jaxfne_build": "e0160dfc (declared, E0_SEAL.md Amendment 1; observed for E1 by compiled-code equality, see the OPEN-51 note)",
- "checks": "sha256 per counts file; analyze_run(counts) equals the run JSON on spikes_kept and peak_freq_E_Hz, peak_excess_E, oscillates, lag_PV_SOM_ms",
+ "checks": "sha256 per counts file; analyze_run(counts) equals the run JSON on spikes_kept and peak_freq_E_Hz, peak_excess_E, oscillates, lag_PV_SOM_ms. The JSON check covers only steps after the 2 s discard; the sha256 alone covers 0-2 s. The sha256 values were computed from the same salvage copy, so they detect later change only.",
  "inputs": [
   {
    "counts": "laminar_e1/e1_rho0.25_seed1_counts.npy",

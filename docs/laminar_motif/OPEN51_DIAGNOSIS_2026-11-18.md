@@ -112,6 +112,33 @@ amplifies either into the same pattern. The compiled-code difference is the only
   the original executable in another environment, and it has no standing as the recovered original raster unless the
   owner amends the protocol.
 
+## Compile-only version check, 2026-11-18 (owner authorized; no simulation)
+
+`scripts/open51_compile.py` (002c407) builds E0 seed 1 through the unchanged path, captures the `jit_scan` executable
+at its compile, and stops before it executes. It ran in a fresh venv `_temp_o51_jax0102`, which equals the re-run
+venv except for jax and jaxlib 0.10.2: the same numpy 2.4.6, scipy 1.18.0, ml_dtypes 0.5.4, opt_einsum 3.4.0 and
+JaxFNE `e0160dfc`, with `pip check` clean. It also ran in the re-run venv (jax 0.10.1) as a control. Both edge tables
+equal R1's. Evidence: `open51_diag/compile_*`, `objcode.py`, `objcode.txt`.
+
+| Comparison | Canonicalized optimized HLO | Executable machine-code sections (COFF, x86-64) |
+|---|---|---|
+| original vs jax 0.10.2 compile | identical (1331 lines each) | 57 of 59 identical |
+| R1 vs jax 0.10.1 compile (same-environment rebuild) | identical (1338 lines each) | 56 of 58 identical |
+| original vs jax 0.10.1 compile | 167 diff lines | 49 of 59 identical |
+
+- The jax 0.10.2 compile carries both markers of the original: YNN fusion count 7 and the `dynamic_variables` field.
+  The 0.10.1 compile carries R1's markers: YNN 0 and `dynamic_variable_tuple_indices`.
+- In both same-version pairs, two small `.text` sections (874-907 bytes) differ, and they do so within one
+  environment too. Inferred: those sections hold build-varying content, such as the source paths, which differ by
+  driver; their content was not decoded.
+- Reading: jax/jaxlib 0.10.2 with the re-run's other pins reproduces the original executable's optimized program
+  exactly, and its machine code up to the same two sections that vary between same-environment rebuilds. This
+  replaces the inference "the handoff venv ran jaxlib 0.10.2" with a reconstruction consistent with it. It does not
+  show that the deleted venv's other packages matched.
+- Consequence, for the owner: a jax 0.10.2 environment is a candidate under which a protocol re-run could reproduce
+  the original counts. Admitting it needs a protocol amendment, because the frozen candidate rule admits only
+  surviving venvs from 2026-11-06 to 2026-11-08. OPEN-51 stays NOT REPRODUCED.
+
 ## Proposed discriminating experiment (as approved; run above)
 
 **Replay the original executable.**

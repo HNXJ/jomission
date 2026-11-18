@@ -1,0 +1,58 @@
+{
+ "schema": "jomission.open51_compile.v1",
+ "label": "jax0101",
+ "started_utc": "2026-11-18T05:15:27Z",
+ "argv": [
+  "D:/jomission/scripts/open51_compile.py",
+  "--worktree",
+  "D:/repos/_work/_temp_o51_wt_e0",
+  "--label",
+  "jax0101",
+  "--out",
+  "D:/tmp/_temp_o51_compile"
+ ],
+ "driver": {
+  "lane_head": "002c4073994fe3422a1bc2fa7d6361656fd2f60a",
+  "driver_status": "",
+  "driver_sha256": "eda954ba5415c11659f480970ca0e0cd1c6b94d90c8764610387ab6e233380eb"
+ },
+ "worktree": {
+  "path": "D:\\repos\\_work\\_temp_o51_wt_e0",
+  "head": "3257ffc521c90d179b939d756c5a7c7cdd565f06",
+  "status_porcelain": ""
+ },
+ "environment": {
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\venvs\\_temp_o51_rerun\\Scripts\\python.exe",
+  "packages": {
+   "jax": "0.10.1",
+   "jaxfne": "0.5.9",
+   "jaxlib": "0.10.1",
+   "ml_dtypes": "0.5.4",
+   "numpy": "2.4.6",
+   "opt_einsum": "3.4.0",
+   "pip": "25.3",
+   "scipy": "1.18.0"
+  }
+ },
+ "import_origin": {
+  "caminos_e0": "D:\\repos\\_work\\_temp_o51_wt_e0\\jomission\\laminar\\caminos_e0.py",
+  "jaxfne": "D:\\venvs\\_temp_o51_rerun\\Lib\\site-packages\\jaxfne\\__init__.py"
+ },
+ "precondition": {
+  "edge_table_sha256": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+  "r1": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+  "equal": true
+ },
+ "result": {
+  "jax": "0.10.1",
+  "ynn_fusion_count": 0,
+  "dynamic_variables": 0,
+  "dynamic_variable_tuple_indices": 4,
+  "serialized_bytes": 318512,
+  "entry_sha256": "30498ba6ef567e41ec4b10872d061f6435abee8c41932df9ea56845371d1e9cf"
+ },
+ "outcome": "captured; not executed",
+ "finished_utc": "2026-11-18T05:15:41Z",
+ "exit_code": 0
+}

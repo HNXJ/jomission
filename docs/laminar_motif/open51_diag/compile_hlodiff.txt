@@ -1,0 +1,9 @@
+== orig vs jax0102
+instruction lines 1331 vs 1331; identical True
+diff lines 0
+== r1 vs jax0101
+instruction lines 1338 vs 1338; identical True
+diff lines 0
+== orig vs jax0101
+instruction lines 1331 vs 1338; identical False
+diff lines 167

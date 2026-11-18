@@ -1,4 +1,4 @@
-# OPEN-51 re-run result, 2026-11-18: R1 NOT REPRODUCED; batch stopped (pending independent verification)
+# OPEN-51 re-run result, 2026-11-18: R1 NOT REPRODUCED; batch stopped (independently verified)
 
 Authorization: owner 2026-11-17, execution of the frozen protocol `OPEN51_RERUN_PROTOCOL_2026-11-17.md` at 5d586da.
 Protocol, criteria and driver were not changed during execution. Registration and promotion are deferred.
@@ -41,9 +41,17 @@ Protocol, criteria and driver were not changed during execution. Registration an
 
 ## Classification (protocol table)
 
-Every run is NOT REPRODUCED. That is the protocol's rule for an R1 failure with no candidate left. Only E0 seed 1 was
-executed; the other 19 runs, including the inherited E1 rho 1 seeds, take the class without being run. V1/V2 for E0
-and E1 stay blocked.
+- E0 seed 1: NOT REPRODUCED, observed.
+- The other 19 runs: classified NOT REPRODUCED by the protocol's R1 rule (R1 failed, no candidate left). This is not
+  observed; none of them was executed. The E1 rho 1 seeds inherit E0's class.
+- V1/V2 for E0 and E1 stay blocked.
+
+Evidence for the environment, committed in `open51_rerun/`:
+- `jax_candidate_inventory.txt`: C:/Python314 is the only Python 3.14 environment with jax that existed on
+  2026-11-06 to 2026-11-08. The other jax venvs were created 2026-11-14 or later. Python312 is the wrong interpreter.
+  The original handoff venv is absent.
+- `jaxfne_identity_check.txt`, with the script `jaxfne_identity_check.py`: of the 84 modules, 82 are byte-identical
+  and 2 structurally identical; 0 differ.
 
 ## Observations, not acceptance evidence
 
@@ -54,7 +62,32 @@ and E1 stay blocked.
   inconsistent with a different construction or seed (inferred). The candidate sources are the jax/jaxlib/XLA build,
   the CPU code path, and the compilation cache. None was tested.
 
-## Preliminary assessment (main session; independent verification pending)
+## Independent verification (read-only reviewer at c85cd99, 2026-11-18): ACCEPT
+
+The reviewer's own code recomputed, from the files:
+- the counts comparison: first differing step 8088, 91 201 steps differ, max 31, totals as above;
+- all output sha256 values;
+- the counts implied by the saved raster, which equal the new counts;
+- the analysis: `analyze_run` on the original counts reproduces the committed JSON exactly, so the mismatch is in the
+  simulation, not the comparator or the analysis path.
+
+It also confirmed:
+- the executed driver's sha256 equals `git show f7f2b5f:scripts/open51_rerun.py`;
+- the run body is line-identical in sequence to `caminos_e0.run()` at 3257ffc, plus the protocol's two saves;
+- the order, stop rules and classification follow the protocol at 5d586da, and nothing was retried;
+- the protocol file is unchanged since 5d586da, and the scripts are unchanged since f7f2b5f.
+
+Its minor findings were applied: the unrun runs are now worded as rule-classified; the inventory and identity-check
+outputs are committed. The cache deviation stays disclosed and untested.
+
+| Dimension | Verified status |
+|---|---|
+| Reproducibility | FAIL: the re-run did not reproduce the original counts |
+| Determinism | UNKNOWN: R2 did not run; construction identical across two processes for E0 seed 1 only |
+| Provenance integrity | PASS |
+| Protocol compliance | PASS |
+
+## Preliminary assessment (main session, before verification)
 
 | Dimension | Status |
 |---|---|

@@ -1,0 +1,10 @@
+# jax candidate inventory, 2026-11-18T01:50:30Z (venv | jax | jaxlib | numpy | python | jax dist-info mtime | venv birth)
+/d/venvs/_temp_jomission_lansa | jax-0.10.1.dist-info | jaxlib-0.10.1.dist-info | numpy-2.4.6.dist-info | Python 3.14.3 | 2026-11-17 15:21 | 2026-11-17 15:17
+/d/venvs/_temp_o51_rerun | jax-0.10.1.dist-info | jaxlib-0.10.1.dist-info | numpy-2.4.6.dist-info | Python 3.14.3 | 2026-11-17 19:20 | 2026-11-17 19:19
+/d/venvs/jomission-qual | jax-0.10.1.dist-info | jaxlib-0.10.1.dist-info | numpy-2.4.6.dist-info | Python 3.14.3 | 2026-06-16 18:27 | 2026-11-14 13:02
+/d/venvs/jomission_pin058 | jax-0.10.2.dist-info | jaxlib-0.10.2.dist-info | numpy-2.5.4.dist-info | Python 3.14.3 | 2026-11-14 13:17 | 2026-11-14 13:14
+/d/venvs/o38_jaxfne_351f6048 | jax-0.10.2.dist-info | jaxlib-0.10.2.dist-info | numpy-2.5.4.dist-info | Python 3.14.3 | 2026-11-17 11:17 | 2026-11-17 11:13
+/d/venvs/o38s_jaxfne059 | jax-0.10.2.dist-info | jaxlib-0.10.2.dist-info | numpy-2.5.4.dist-info | Python 3.14.3 | 2026-11-16 20:19 | 2026-11-16 20:15
+/c/Python314 | jax-0.10.1.dist-info | jaxlib-0.10.1.dist-info | numpy-2.4.6.dist-info | Python 3.14.3 | 2026-06-16 18:27 | 2026-03-09 11:26
+/c/Users/nejath/AppData/Local/Programs/Python/Python312 | jax-0.6.2.dist-info | jaxlib-0.6.2.dist-info | numpy-2.2.2.dist-info | Python 3.12.0 | 2025-12-11 18:03 | 2024-04-27 19:59
+E:/repos/_wt/jomission-handoff-venv (original): ls: cannot access '/e/repos/_wt/jomission-handoff-venv': No such file or directory

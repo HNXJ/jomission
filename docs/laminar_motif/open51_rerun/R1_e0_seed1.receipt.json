@@ -1,0 +1,308 @@
+{
+ "schema": "jomission.open51_rerun.v1",
+ "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da",
+ "run": "e0_seed1",
+ "smoke": false,
+ "kind": "e0",
+ "seed": 1,
+ "rho": null,
+ "p": 0.07,
+ "T_s": 12.0,
+ "started_utc": "2026-11-18T01:25:56Z",
+ "argv": [
+  "D:\\jomission\\scripts\\open51_rerun.py",
+  "--worktree",
+  "D:/repos/_work/_temp_o51_wt_e0",
+  "--kind",
+  "e0",
+  "--seed",
+  "1",
+  "--out",
+  "D:\\tmp\\_temp_o51_rerun\\batch\\R1"
+ ],
+ "label": "count-validated reconstructed raster if classified COUNT-VALIDATED RECONSTRUCTION; never the recovered original raster",
+ "driver": {
+  "lane_head": "f7f2b5f397fbc11c3034054d6007d5a4ade288e6",
+  "driver_status": "",
+  "driver_sha256": "e6bc4a1547a89efd98fc6572f886351658c66d81b66fbe3eb5b7722594dfb527"
+ },
+ "worktree": {
+  "path": "D:\\repos\\_work\\_temp_o51_wt_e0",
+  "head": "3257ffc521c90d179b939d756c5a7c7cdd565f06",
+  "status_porcelain": ""
+ },
+ "import_origin": {
+  "caminos_e0": "D:\\repos\\_work\\_temp_o51_wt_e0\\jomission\\laminar\\caminos_e0.py",
+  "caminos_analysis": "D:\\repos\\_work\\_temp_o51_wt_e0\\jomission\\laminar\\caminos_analysis.py",
+  "jaxfne": "D:\\venvs\\_temp_o51_rerun\\Lib\\site-packages\\jaxfne\\__init__.py",
+  "sys_prefix": "D:\\venvs\\_temp_o51_rerun"
+ },
+ "environment": {
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\venvs\\_temp_o51_rerun\\Scripts\\python.exe",
+  "packages": {
+   "jax": "0.10.1",
+   "jaxfne": "0.5.9",
+   "jaxlib": "0.10.1",
+   "ml_dtypes": "0.5.4",
+   "numpy": "2.4.6",
+   "opt_einsum": "3.4.0",
+   "pip": "25.3",
+   "scipy": "1.18.0"
+  },
+  "jaxfne_direct_url": {
+   "url": "file:///D:/repos/_ref/jaxfne.git",
+   "vcs_info": {
+    "commit_id": "e0160dfc643551f1f1501fac40bd88b7c7fcc8c3",
+    "requested_revision": "e0160dfc643551f1f1501fac40bd88b7c7fcc8c3",
+    "vcs": "git"
+   }
+  },
+  "jax_config": {
+   "check_vma": "False",
+   "eager_constant_folding": "False",
+   "jax2tf_associative_scan_reductions": "False",
+   "jax2tf_default_native_serialization": "True",
+   "jax_allow_f16_reductions": "True",
+   "jax_array_garbage_collection_guard": "None",
+   "jax_auto_pcast": "True",
+   "jax_backend_target": "",
+   "jax_bcoo_cusparse_lowering": "False",
+   "jax_captured_constants_report_frames": "0",
+   "jax_captured_constants_warn_bytes": "2000000000",
+   "jax_check_proxy_envs": "True",
+   "jax_check_static_indices": "False",
+   "jax_check_tracer_leaks": "False",
+   "jax_compilation_cache_check_contents": "False",
+   "jax_compilation_cache_dir": "D:\\tmp\\_temp_o51_rerun\\batch\\jaxcache",
+   "jax_compilation_cache_expect_pgle": "False",
+   "jax_compilation_cache_include_metadata_in_key": "False",
+   "jax_compilation_cache_max_size": "-1",
+   "jax_compiler_detailed_logging_min_ops": "10",
+   "jax_compiler_enable_remat_pass": "True",
+   "jax_cpu_collectives_implementation": "gloo",
+   "jax_cpu_enable_async_dispatch": "True",
+   "jax_cpu_get_global_topology_timeout_minutes": "5",
+   "jax_cpu_get_local_topology_timeout_minutes": "2",
+   "jax_cross_host_transfer_socket_address": "",
+   "jax_cross_host_transfer_timeout_seconds": "None",
+   "jax_cross_host_transfer_transfer_size": "None",
+   "jax_cross_host_transport_addresses": "",
+   "jax_cuda_visible_devices": "all",
+   "jax_custom_vjp3": "False",
+   "jax_debug_infs": "False",
+   "jax_debug_key_reuse": "False",
+   "jax_debug_log_modules": "",
+   "jax_debug_nans": "False",
+   "jax_default_device": "None",
+   "jax_default_matmul_precision": "None",
+   "jax_default_prng_impl": "threefry2x32",
+   "jax_disable_bwd_checks": "False",
+   "jax_disable_jit": "False",
+   "jax_disable_most_optimizations": "False",
+   "jax_disable_vmap_shmap_error": "False",
+   "jax_disallow_mesh_context_manager": "False",
+   "jax_distributed_debug": "False",
+   "jax_dump_ir_modes": "stablehlo",
+   "jax_dump_ir_to": "",
+   "jax_embedded_constants_max_bytes": "32",
+   "jax_enable_checks": "False",
+   "jax_enable_compilation_cache": "True",
+   "jax_enable_custom_prng": "False",
+   "jax_enable_pgle": "False",
+   "jax_enable_preemption_service": "True",
+   "jax_enable_recoverability": "False",
+   "jax_enable_x64": "False",
+   "jax_error_checking_behavior_divide": "ignore",
+   "jax_error_checking_behavior_nan": "ignore",
+   "jax_error_checking_behavior_oob": "ignore",
+   "jax_exec_time_optimization_effort": "0.0",
+   "jax_experimental_unsafe_xla_runtime_errors": "False",
+   "jax_explain_cache_misses": "False",
+   "jax_explicit_x64_dtypes": "1",
+   "jax_export_calling_convention_version": "10",
+   "jax_export_ignore_forward_compatibility": "False",
+   "jax_force_dcn_cross_host_transfers": "False",
+   "jax_high_dynamic_range_gumbel": "False",
+   "jax_hlo_source_file_canonicalization_regex": "None",
+   "jax_include_debug_info_in_dumps": "True",
+   "jax_include_full_tracebacks_in_locations": "True",
+   "jax_legacy_prng_key": "allow",
+   "jax_log_checkpoint_residuals": "False",
+   "jax_log_compiles": "False",
+   "jax_logging_level": "NOTSET",
+   "jax_memory_fitting_effort": "0.0",
+   "jax_memory_fitting_level": "O2",
+   "jax_mock_gpu_topology": "",
+   "jax_mutable_array_checks": "True",
+   "jax_no_execution": "False",
+   "jax_no_tracing": "False",
+   "jax_num_cpu_devices": "-1",
+   "jax_numpy_dtype_promotion": "standard",
+   "jax_numpy_rank_promotion": "allow",
+   "jax_oneapi_visible_devices": "all",
+   "jax_optimization_level": "UNKNOWN",
+   "jax_pallas_verbose_errors": "False",
+   "jax_persistent_cache_enable_xla_caches": "xla_gpu_per_fusion_autotune_cache_dir",
+   "jax_persistent_cache_min_compile_time_secs": "0",
+   "jax_persistent_cache_min_entry_size_bytes": "-1",
+   "jax_pgle_aggregation_percentile": "90",
+   "jax_pgle_profiling_runs": "3",
+   "jax_pjrt_client_create_options": "None",
+   "jax_platform_name": "",
+   "jax_platforms": "None",
+   "jax_pprint_use_color": "True",
+   "jax_ragged_dot_use_gpu_pallas_triton_lowering": "False",
+   "jax_ragged_dot_use_ragged_dot_instruction": "True",
+   "jax_raise_persistent_cache_errors": "False",
+   "jax_random_seed_offset": "0",
+   "jax_refs_to_pins": "False",
+   "jax_remove_custom_partitioning_ptr_from_cache_key": "False",
+   "jax_remove_size_one_mesh_axis_from_type": "False",
+   "jax_rocm_visible_devices": "all",
+   "jax_scan3": "False",
+   "jax_send_traceback_to_runtime": "off",
+   "jax_serialization_version": "0",
+   "jax_share_binary_between_hosts": "False",
+   "jax_share_binary_between_hosts_timeout_ms": "1200000",
+   "jax_softmax_custom_jvp": "False",
+   "jax_sort_devices_by_process_index": "True",
+   "jax_source_url_schema": "None",
+   "jax_thread_guard": "False",
+   "jax_threefry_gpu_kernel_lowering": "False",
+   "jax_threefry_partitionable": "True",
+   "jax_traceback_filtering": "auto",
+   "jax_traceback_in_locations_limit": "100",
+   "jax_tracer_error_num_traceback_frames": "5",
+   "jax_transfer_guard": "None",
+   "jax_transfer_guard_device_to_device": "None",
+   "jax_transfer_guard_device_to_host": "None",
+   "jax_transfer_guard_host_to_device": "None",
+   "jax_use_direct_linearize": "True",
+   "jax_use_magma": "auto",
+   "jax_use_shardy_partitioner": "True",
+   "jax_use_simplified_jaxpr_constants": "False",
+   "jax_xla_backend": "",
+   "jax_xla_profile_version": "0",
+   "mock_num_gpu_processes": "0"
+  },
+  "env": {
+   "XLA_FLAGS": null,
+   "PYTHONHASHSEED": null,
+   "OMP_NUM_THREADS": null,
+   "JAX_COMPILATION_CACHE_DIR": "D:\\tmp\\_temp_o51_rerun\\batch\\jaxcache",
+   "JOMISSION_JAX_CACHE": null,
+   "JAX_PLATFORMS": null,
+   "JAX_ENABLE_X64": null
+  },
+  "jax_devices": [
+   "cpu:0"
+  ],
+  "cpu": "Intel64 Family 6 Model 85 Stepping 7, GenuineIntel",
+  "cpu_count": 24,
+  "platform": "Windows-11-10.0.26300-SP0"
+ },
+ "comparator": {
+  "path": "F:\\repo_salvage_2026-11-10\\jomission\\E_repos__wt_jomission-handoff.loose\\results\\laminar_e0\\e0_seed1_counts.npy",
+  "sha256": "ac5a4415af817472262c57bc272657770927ed4ff1382b93c7ff94d2de3966a7",
+  "expected": "ac5a4415af817472262c57bc272657770927ed4ff1382b93c7ff94d2de3966a7"
+ },
+ "result": {
+  "wall_s": 1293.6313183307648,
+  "steps": 120000,
+  "sizes": {
+   "E": 8000,
+   "PV": 750,
+   "SOM": 750
+  },
+  "raster_shape": [
+   120000,
+   9500
+  ],
+  "n_spikes": 282547,
+  "counts_array_sha256": "236d96129dbfa585c7d2593b63ab1898cc8b93ccac93af47492a3c3b48db5ad8",
+  "raster_sha256": "fc60200955974ea8d2b852fb34bdb1a70aa351628d9bc7abea82e2b143d3f23b",
+  "edge_keys": [
+   "pre",
+   "post",
+   "weight_nS",
+   "receptor"
+  ],
+  "edge_table_sha256": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+  "n_edges": 6236657,
+  "output_files_sha256": {
+   "e0_seed1_counts.npy": "a9cd5181de3659b3ad9629fbb049ebc6ce6700b9da9719bd8c86068140aa8a9e",
+   "e0_seed1_raster.npz": "4c678d56c135b6662e1bd83800d34b8e36966a4411612288789eff9a06eb015a",
+   "e0_seed1_edges.npz": "762920b20617392b24e11968dd148e01e979a7e07e9115126a9d4770faaa24dd"
+  }
+ },
+ "counts_comparison": {
+  "equal": false,
+  "dtype": [
+   "int32",
+   "int32"
+  ],
+  "shape": [
+   [
+    120000,
+    3
+   ],
+   [
+    120000,
+    3
+   ]
+  ],
+  "n_steps_differ": 91201,
+  "first_step_differ": 8088,
+  "max_abs_diff": 31,
+  "total_spikes_new": [
+   110867,
+   104187,
+   67493
+  ],
+  "total_spikes_orig": [
+   110714,
+   103964,
+   66667
+  ],
+  "original_array_sha256": "ffcc8a7b9312e15756c792b52f10d509ede4436ba37f265269cb855f01ae8883"
+ },
+ "json_comparison": {
+  "equal": false,
+  "json_commit": "ea249f1",
+  "values": {
+   "spikes_kept": {
+    "new": {
+     "E": 88840,
+     "PV": 85526,
+     "SOM": 53088
+    },
+    "committed": {
+     "E": 88726,
+     "PV": 85306,
+     "SOM": 52563
+    }
+   },
+   "peak_freq_E_Hz": {
+    "new": 33.0,
+    "committed": 34.0
+   },
+   "peak_excess_E": {
+    "new": 16.80536065144339,
+    "committed": 16.29368914658294
+   },
+   "oscillates": {
+    "new": true,
+    "committed": true
+   },
+   "lag_PV_SOM_ms": {
+    "new": 7.0,
+    "committed": 6.9
+   }
+  }
+ },
+ "outcome": "counts differ from the original",
+ "finished_utc": "2026-11-18T01:47:36Z",
+ "exit_code": 3,
+ "peak_working_set_bytes": 6593175552
+}

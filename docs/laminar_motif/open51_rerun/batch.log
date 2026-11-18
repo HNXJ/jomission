@@ -1,0 +1,3 @@
+2026-11-18T01:25:56Z R1 start: e0 seed 1 rho None
+2026-11-18T01:47:37Z R1 end: exit 3; counts differ
+2026-11-18T01:47:37Z STOP: R1 failed (counts differ); no other jax candidate; every run NOT REPRODUCED or INCOMPLETE

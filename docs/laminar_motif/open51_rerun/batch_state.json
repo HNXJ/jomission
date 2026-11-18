@@ -1,0 +1,32 @@
+{
+ "schema": "jomission.open51_batch.v1",
+ "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da",
+ "jax_candidates": [
+  "jax 0.10.1 / jaxlib 0.10.1 / numpy 2.4.6 (C:/Python314, only candidate)"
+ ],
+ "started_utc": "2026-11-18T01:25:56Z",
+ "steps": [
+  {
+   "step": "R1",
+   "run": "e0_seed1",
+   "exit": 3,
+   "elapsed_s": 1301.1,
+   "receipt": "D:\\tmp\\_temp_o51_rerun\\batch\\R1\\e0_seed1.receipt.json",
+   "outcome": "counts differ",
+   "raster_sha256": "fc60200955974ea8d2b852fb34bdb1a70aa351628d9bc7abea82e2b143d3f23b",
+   "edge_table_sha256": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+   "counts_array_sha256": "236d96129dbfa585c7d2593b63ab1898cc8b93ccac93af47492a3c3b48db5ad8",
+   "counts_equal": false,
+   "json_equal": false
+  }
+ ],
+ "stopped": {
+  "at_utc": "2026-11-18T01:47:37Z",
+  "reason": "R1 failed (counts differ); no other jax candidate; every run NOT REPRODUCED or INCOMPLETE"
+ },
+ "classification": {
+  "e0_seed1": "NOT REPRODUCED",
+  "e1_rho1_seed1": "NOT REPRODUCED (inherited from E0, byte-identical counts)"
+ },
+ "lane_head": "f7f2b5f397fbc11c3034054d6007d5a4ade288e6"
+}

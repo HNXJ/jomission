@@ -152,6 +152,25 @@ equal R1's. Evidence: `open51_diag/compile_*`, `objcode.py`, `objcode.txt`.
   the original counts. Admitting it needs a protocol amendment, because the frozen candidate rule admits only
   surviving venvs from 2026-11-06 to 2026-11-08. OPEN-51 stays NOT REPRODUCED.
 
+## Fresh jax 0.10.2 run, 2026-11-18 (owner authorized; diagnostic only)
+
+- **Setup:** the unchanged R1 driver `scripts/open51_rerun.py` (f7f2b5f content, at HEAD 84a735a) in venv
+  `_temp_o51_jax0102`, with a fresh, empty JAX cache. It ran 12:49-13:10Z, `wall_s` 1236. Receipt and hashes are in
+  `open51_fresh0102/`. The receipt carries the driver's frozen-protocol label; this run is outside the protocol (the
+  frozen candidate rule admits no 0.10.2 environment) and has no classification standing.
+- **Result:**
+  - counts equal the original at all 120 000 steps (array sha256 `ffcc8a7b…` = the original's), and the committed
+    JSON estimands are equal;
+  - the raster is identical to the replay's raster from the original executable (sha256 `7cccbddf…`, 281 345 spikes);
+  - the edge table equals R1's.
+- **Machine code:** the freshly compiled executable differs from the original in the same two small kernels, a third
+  variant (`open51_fresh0102/objcode.txt`). On this run, those variants are numerically equivalent.
+- **Reading:** jax/jaxlib 0.10.2 with the re-run's other pins, compiled fresh, reproduces the original E0 seed-1 counts
+  exactly. This closes the open point of the compile-only check for seed 1. The jax version accounts for the R1
+  divergence. The scope is one seed and one run; E0 seeds 2-5 and E1 are untested under 0.10.2.
+- **Consequence, for the owner:** a protocol amendment admitting this 0.10.2 environment has direct evidence for
+  E0 seed 1. Any re-run under it still needs the full frozen order (R2 determinism, R3, R4a, R4) and review.
+
 ## Proposed discriminating experiment (as approved; run above)
 
 **Replay the original executable.**

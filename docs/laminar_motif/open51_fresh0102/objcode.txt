@@ -1,0 +1,12 @@
+orig: 317620 bytes; ELF magics 0; COFF headers 61; exec sections 59
+fresh0102: 317540 bytes; ELF magics 0; COFF headers 61; exec sections 59
+capture0102: 317561 bytes; ELF magics 0; COFF headers 61; exec sections 59
+orig vs fresh0102: exec sections identical 57/59 vs 59; all equal False
+   only first: [('.text', '0d40029a1b4a3544', 874), ('.text', '8347d6980dd14200', 898)] 
+   only second: [('.text', '1fd11a4090a06b0c', 892), ('.text', 'bafa2d7d87508d3f', 889)]
+orig vs capture0102: exec sections identical 57/59 vs 59; all equal False
+   only first: [('.text', '0d40029a1b4a3544', 874), ('.text', '8347d6980dd14200', 898)] 
+   only second: [('.text', '17d256261056e75b', 907), ('.text', 'dd4c29bba96f2a1b', 883)]
+fresh0102 vs capture0102: exec sections identical 57/59 vs 59; all equal False
+   only first: [('.text', '1fd11a4090a06b0c', 892), ('.text', 'bafa2d7d87508d3f', 889)] 
+   only second: [('.text', '17d256261056e75b', 907), ('.text', 'dd4c29bba96f2a1b', 883)]

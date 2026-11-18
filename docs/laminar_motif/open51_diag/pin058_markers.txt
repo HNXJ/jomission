@@ -3,3 +3,7 @@ HLO dumped with hlo.py under jaxlib 0.10.1 (212695 bytes, not committed). Marker
 "dynamic_variables": 4
 dynamic_variable_tuple_indices: 0
 ynn_fusion: 3
+
+Flag string xla_cpu_experimental_ynn_fusion_type, grep -l over jaxlib/*.dll and *.pyd, 2026-11-18:
+jaxlib-0.10.1 (venv _temp_o51_rerun): found in jaxlib/jax_common.dll
+jaxlib-0.10.2 (venv jomission_pin058): found in jaxlib/jax_common.dll

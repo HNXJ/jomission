@@ -1,4 +1,4 @@
-# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static; pending independent review)
+# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static; independent review ACCEPT-WITH-CHANGES, changes applied)
 
 Authority: owner 2026-11-18, bounded diagnosis. Static inspection and analysis of existing outputs only. No simulation,
 no protocol change, no tuning. The frozen protocol, the R1 outputs, the receipts and the NOT REPRODUCED
@@ -14,9 +14,11 @@ Does the first divergence of R1 from the original E0 seed-1 counts (step 8088, 8
 ## Findings
 
 1. **The original compiled program survives.**
-   - The persistent JAX compilation cache `~/.cache/jomission-jax` holds 306 entries dated 2026-11-06 to 2026-11-08.
-   - Among them is the `jit_scan` executable compiled at 2026-11-06 18:42, when the original E0 seed-1 run started
-     (its counts file is from 19:17, with `wall_s` 2128).
+   - The persistent JAX compilation cache `~/.cache/jomission-jax` holds 4867 entries from 2026-11-05 to 2026-11-17;
+     306 of them are dated 2026-11-06 to 2026-11-08.
+   - Among them is a `jit_scan` executable with file time 2026-11-06 18:42. The original E0 seed-1 counts file is from
+     19:17 with `wall_s` 2128, so that run started near 18:42; the match is inferred from these times (the entry's
+     4-byte header field is 0, so it carries no timestamp).
    - It embeds `E:\repos\_wt\jaxfne-0.5.9-site\jaxfne\...`, `E:\repos\_wt\jomission-handoff\scripts\run_e0_scored.py`
      and `caminos_e0.py`.
    - Both it and R1's executable are copied to `open51_diag/*.cache`. Hashes are in `cache_entries.txt`.
@@ -27,32 +29,38 @@ Does the first divergence of R1 from the original E0 seed-1 counts (step 8088, 8
    - The traced JaxFNE program is therefore the same. This is direct, line-level evidence that the original E0 build
      matches `e0160dfc`, which was previously only declared.
 3. **Different compiled evaluation of the membrane update** (`hlodiff.txt`; full dumps in `*.hlo.txt.gz`).
-   - With instruction names canonicalized, the two optimized programs differ only in how `v + 0.1·dv` and the
-     threshold test are fused:
-     - the original computes the update once in a `ynn_fusion` (XLA:CPU YNNPACK path), stores it, and compares the
-       stored value;
-     - R1 has no YNN fusion: an `add_divide_fusion` feeds four consumers, each recomputing `v + 0.1·dv` inline before
+   - With instruction names canonicalized (1331 vs 1338 instruction lines, 167 diff lines), the differences lie in the
+     membrane update and threshold test:
+     - the original holds the whole `dv` chain in a `ynn_fusion` (XLA:CPU YNNPACK path): a reduce-sum over the
+       2 receptors, subtract, multiply, divide, multiply, add; it stores `v + 0.1·dv` and compares the stored value;
+     - R1 has no YNN fusion and no separate fused reduce: the chain is in an `add_divide_fusion` feeding four
+       consumers, each recomputing `v + 0.1·dv` inline (an extra 0.1 constant and parameters) before
        `compare(... GE ...)`.
+   - Reduction order, divide and FMA contraction are all candidate sources of a last-bit difference.
    - The PRNG (threefry `u32[8750]` loops) and the scatter are identical up to naming.
    - The loop `backend_config` differs only in a field name: `dynamic_variables` in the original,
      `dynamic_variable_tuple_indices` in R1.
-4. **The compiler configuration differs, consistently** (`ynn.txt`, a census of 422 cached `jit_scan` executables).
+4. **The compiler configuration differs between the two environments** (`ynn.txt`, a census of 420 cached `jit_scan`
+   executables; 71 contain a YNN fusion).
 
    | Executables | YNN fusion | Loop config field |
    |---|---|---|
    | Original era, 2026-11-06 to 11-09 (side-install and handoff venv) | present in all 25 | `dynamic_variables` (checked in E0 seed 1) |
-   | jax 0.10.2 environments (`jomission_pin058` 11-14; 351f6048 runs 11-16 and 11-17) | present | `dynamic_variables` (checked in pin058) |
+   | jax 0.10.2 environments (`jomission_pin058` 11-14; 351f6048 runs 11-16 and 11-17) | present | `dynamic_variables` (checked in pin058, `pin058_markers.txt`) |
    | jax 0.10.1 re-run environment (R1 and two smokes) | absent in all 3 | `dynamic_variable_tuple_indices` |
 
-   - Both jaxlib 0.10.1 and 0.10.2 binaries contain the flag `xla_cpu_experimental_ynn_fusion_type`. The difference
-     is therefore the build's default or a setting.
+   - The 349 YNN-free executables also include 17 from 2026-11-05, 237 from 11-11 and 76 from 11-14. Their jax
+     versions were not determined, and YNN fusion also depends on the program (many small programs have none). The
+     0.10.1 side of the version link therefore rests on the three re-run executables.
+   - Both jaxlib 0.10.1 and 0.10.2 `jax_common.dll` contain the flag string `xla_cpu_experimental_ynn_fusion_type`
+     (`pin058_markers.txt`). The difference is therefore a build default or a setting, not the flag's presence.
    - Inferred: the deleted handoff venv ran jaxlib 0.10.2, or a build that shares both markers. The protocol's
      candidate rule could not see it, because the venv no longer exists.
-5. **The divergence boundary is one spike moved by one step** (`boundary.txt`).
+5. **The divergence boundary is one E spike count moved by one step** (`boundary.txt`).
    - At step 8088, R1 has one extra E spike; at step 8089, the original has one E spike that R1 lacks. All other
-     populations are equal.
+     populations are equal. The original saved counts only, so whether the same cell fired is unknown.
    - Only 2 steps differ over the next 2 ms. The difference then grows: 41% of steps differ in the first 100 ms and
-     65-96% in later 100 ms windows.
+     62-96% in later 100 ms windows.
    - Everything before step 8088 is equal: 8087 steps of E, PV and SOM counts across 9500 cells.
 
 ## Assessment against the three hypotheses
@@ -60,12 +68,11 @@ Does the first divergence of R1 from the original E0 seed-1 counts (step 8088, 8
 | Hypothesis | Evidence | Status |
 |---|---|---|
 | Stochastic state (PRNG, drive, construction) | identical PRNG HLO; identical edge count and signature; 808.8 ms of identical counts, which a different drive stream would not give | disfavoured (inferred), not excluded: input array values were not compared |
-| Numerical execution (compiler) | the original and R1 executables differ exactly in the float32 evaluation of `v + 0.1·dv` before the threshold test; the first difference is one threshold crossing moved by 0.1 ms, the signature of a rounding difference at threshold; the configuration difference matches jax 0.10.2 against 0.10.1 on two markers | favoured (inferred); the mechanism is not demonstrated |
-| State evolution or run-to-run nondeterminism | R2 did not run | untested |
+| Numerical execution (compiler) | a compiled-code difference in the float32 evaluation of `dv` and `v + 0.1·dv` before the threshold test is observed; the configuration difference matches jax 0.10.2 against 0.10.1 on two markers | favoured: the code difference is observed, its causal link is untested |
+| State evolution or run-to-run nondeterminism | R2 did not run; a one-step shift followed by growth is equally the signature of any small perturbation, nondeterminism included | untested |
 
-A difference that changes how a float32 sum is fused can change the last bit of `v` (for example through FMA
-contraction or operation order) and move a crossing by one step. The network then amplifies it. This is a candidate
-mechanism; it has not been shown at the bit level.
+The counts cannot distinguish a last-bit rounding difference from other small perturbations: a chaotic network
+amplifies either into the same pattern. The compiled-code difference is the only observed candidate.
 
 ## Proposed discriminating experiment (not run; needs owner authorization)
 
@@ -76,23 +83,36 @@ mechanism; it has not been shown at the bit level.
   control R1's own executable on the same inputs.
 - Compare per-step counts with the original and with R1.
 
-| Outcome of the original executable | Reading |
+| Outcome of the original executable (control passed) | Reading |
 |---|---|
 | equal to the original counts for all 120 000 steps | numerical execution is the cause; inputs and stochastic state are identical |
 | first difference at a step earlier than 8088 | inputs differ (stochastic state or construction) |
-| equal up to 8087, then R1's divergence again | the executable is not the cause; state evolution or runtime remains |
-| any other first difference | runtime or host effects; reported as found |
+| equal to R1's counts for all 120 000 steps | the executable is not the cause; the compiled-code difference has no effect here |
+| equal up to 8087, diverging from both the original and R1 at or after 8088 | the replay itself is not deterministic, or the runtime differs from the original's; reported as found |
+| fails to load or execute | replay not possible on this jaxlib; no reading |
 
-- **Control:** R1's executable on the same inputs must reproduce R1's counts exactly. That also tests same-environment
-  determinism for this run. If the control fails, the replay is uninterpretable and stops.
+- **Control:** R1's executable on the same inputs, run first. If it reproduces R1's counts exactly,
+  same-environment determinism holds for this run. If it does not, that is a finding for run-to-run nondeterminism
+  (hypothesis 3); it is reported, and the replay still runs but its reading is limited to the first difference.
 - **Precondition, checked before running:** the input arrays built for the replay hash equal to the inputs R1
   consumed. The edge table is already equal to R1's, per its receipt.
+- **Portability smoke, before the long runs:**
+  - deserialize the original executable under jaxlib 0.10.1, confirm the loaded executable's HLO still contains
+    `ynn_fusion` (evidence that it did not recompile without YNN), and run it on a single step;
+  - deserializing and dumping HLO, done so far, is not execution, and whether the serialized form holds machine
+    code or recompiles under 0.10.1 is unknown;
+  - if the smoke fails, stop and report: the replay is not possible on this jaxlib.
+- Each run gets freshly built input arrays (buffer donation).
 - **Cost:**
   - 2 simulations of 12 s each (the trip count of 120 000 is compiled in), about 22 min each, so about 45 min CPU
     under `suite_lock.py`;
   - about 1 h of setup to assemble the argument list.
-  - Risk: the argument order must match `main.43`. Both signatures are identical, which bounds this risk.
-- **Stopping criterion:** one replay and one control, no retries, no parameter changes. Any outcome is reported.
+  - the 22 min per run matches R1's `wall_s` of 1293.6 s; each run needs about 6.6 GB working set, and a raster
+    output (pred[120000,9500]) of about 1.1 GB, kept on D:;
+  - Risk: the argument order must match `main.43`. Both signatures are identical, which bounds this risk. PRNG keys
+    are inputs and the threefry HLO is identical.
+- **Stopping criterion:** one smoke, one control and one replay, no retries, no parameter changes. Any outcome is
+  reported.
 - **Scope:** diagnostic only. The protocol classification stays NOT REPRODUCED whatever the outcome. Using a different
   jax version or the original executable for acceptance would need a protocol amendment, which is the owner's
   decision.

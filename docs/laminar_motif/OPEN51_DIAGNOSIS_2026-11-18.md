@@ -112,7 +112,7 @@ amplifies either into the same pattern. The compiled-code difference is the only
   the original executable in another environment, and it has no standing as the recovered original raster unless the
   owner amends the protocol.
 
-## Compile-only version check, 2026-11-18 (owner authorized; no simulation)
+## Compile-only version check, 2026-11-18 (owner authorized; no simulation; reviewed ACCEPT-WITH-CHANGES, changes applied)
 
 `scripts/open51_compile.py` (002c407) builds E0 seed 1 through the unchanged path, captures the `jit_scan` executable
 at its compile, and stops before it executes. It ran in a fresh venv `_temp_o51_jax0102`, which equals the re-run
@@ -128,13 +128,26 @@ equal R1's. Evidence: `open51_diag/compile_*`, `objcode.py`, `objcode.txt`.
 
 - The jax 0.10.2 compile carries both markers of the original: YNN fusion count 7 and the `dynamic_variables` field.
   The 0.10.1 compile carries R1's markers: YNN 0 and `dynamic_variable_tuple_indices`.
-- In both same-version pairs, two small `.text` sections (874-907 bytes) differ, and they do so within one
-  environment too. Inferred: those sections hold build-varying content, such as the source paths, which differ by
-  driver; their content was not decoded.
-- Reading: jax/jaxlib 0.10.2 with the re-run's other pins reproduces the original executable's optimized program
-  exactly, and its machine code up to the same two sections that vary between same-environment rebuilds. This
-  replaces the inference "the handoff venv ran jaxlib 0.10.2" with a reconstruction consistent with it. It does not
-  show that the deleted venv's other packages matched.
+- Section counts are of distinct sections: 61 COFF objects carry 59 distinct executable sections. A comparison over
+  all 61 objects gives the same 4-section difference.
+- In both same-version pairs, two small kernels differ: two `.text` function bodies (874-907 bytes) and their
+  `.pdata` entries. The independent review decoded them: same functions, with different register allocation and
+  instruction scheduling, and no `.rdata`, `.data` or relocation difference. The same pattern appears between R1 and
+  its own 0.10.1 rebuild, so it is LLVM codegen variation between builds, within one environment too. Whether the two
+  variants are numerically equivalent is not shown.
+- A stricter HLO diff by the reviewer confirms the identity: it strips only metadata and stack-frame ids, renames ids
+  by first appearance, and keeps operand order, attributes, `backend_config`, constants and layouts. It finds 0 diff
+  lines for both same-version pairs and 1789 for the original against 0.10.1.
+- Reading:
+  - jax/jaxlib 0.10.2 with the re-run's other pins reproduces the original executable's optimized program exactly;
+  - its machine code differs in 2 small kernels, as in the same-environment control;
+  - this replaces the inference "the handoff venv ran jaxlib 0.10.2" with a reconstruction consistent with it;
+  - it does not show that the deleted venv's other packages matched;
+  - XLA flags and compile options were not compared directly; the identical HLO makes a difference unlikely
+    (inferred).
+- Open point the check raises: a fresh compile, even in one environment, can vary two kernels. The R1 control reused
+  R1's executable, so it does not test that variation. Whether a fresh 0.10.2 compile reproduces the original counts
+  is therefore not shown by this check.
 - Consequence, for the owner: a jax 0.10.2 environment is a candidate under which a protocol re-run could reproduce
   the original counts. Admitting it needs a protocol amendment, because the frozen candidate rule admits only
   surviving venvs from 2026-11-06 to 2026-11-08. OPEN-51 stays NOT REPRODUCED.

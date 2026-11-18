@@ -1,8 +1,10 @@
-# OPEN-51 re-run protocol, amendment A1: fixed jax 0.10.2 environment (DRAFT; reviewed ACCEPT-WITH-CHANGES, changes applied; not authorized)
+# OPEN-51 re-run protocol, amendment A1: fixed jax 0.10.2 environment (ADOPTED 2026-11-18)
 
-Status: drafted on the owner's instruction of 2026-11-18 ("Draft protocol amendment"). It does not edit the frozen
-protocol `OPEN51_RERUN_PROTOCOL_2026-11-17.md`@5d586da, and it applies only after an owner ruling. Nothing has run
-under A1. Evidence: `OPEN51_DIAGNOSIS_2026-11-18.md`.
+Status: drafted on the owner's instruction of 2026-11-18 ("Draft protocol amendment") and reviewed
+ACCEPT-WITH-CHANGES, with the changes applied (440b332). The owner ruled on 2026-11-18: "Adopt A1, re-run R1,
+authorize". Decisions 1-3 below are taken: A1 is adopted as written, R1 is re-run under A1, and the A1 re-run is
+authorized. Registration and promotion stay separate decisions. A1 does not edit the frozen protocol
+`OPEN51_RERUN_PROTOCOL_2026-11-17.md`@5d586da. Evidence: `OPEN51_DIAGNOSIS_2026-11-18.md`.
 
 ## Reason
 

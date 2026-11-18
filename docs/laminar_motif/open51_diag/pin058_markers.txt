@@ -1,0 +1,5 @@
+jax 0.10.2 reference executable: C: cache entry jit_scan-fca433f0..., compiled 2026-11-14 in venv jomission_pin058;
+HLO dumped with hlo.py under jaxlib 0.10.1 (212695 bytes, not committed). Marker counts by grep -o on the HLO text:
+"dynamic_variables": 4
+dynamic_variable_tuple_indices: 0
+ynn_fusion: 3

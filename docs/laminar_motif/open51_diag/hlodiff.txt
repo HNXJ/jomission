@@ -1,0 +1,200 @@
+instruction lines 1331 vs 1338; identical False
+diff lines 167
+@@ -418 +418 @@
+-  ROOT %while = (s32[], u32[2]{0}, u32[2]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_2.clone.1.clone, body=%region_1.clone.1.clone.clone, backend_config={"known_trip_count
++  ROOT %while = (s32[], u32[2]{0}, u32[2]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_2.clone.1.clone, body=%region_1.clone.1.clone.clone, backend_config={"known_trip_count
+@@ -463 +463 @@
+-  %while = (s32[], u32[8750]{0}, u32[8750]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_9.clone.2.clone, body=%region_8.clone.2.clone.clone, backend_config={"known_trip_coun
++  %while = (s32[], u32[8750]{0}, u32[8750]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_9.clone.2.clone, body=%region_8.clone.2.clone.clone, backend_config={"known_trip_coun
+@@ -520,32 +519,0 @@
+-%region_5 (reduce_sum.3: f32[], reduce_sum.4: f32[]) -> f32[] {
+-  %reduce_sum = f32[] parameter(0)
+-  %reduce_sum = f32[] parameter(1)
+-  ROOT %reduce_sum = f32[] add(%reduce_sum, %reduce_sum)
+-}
+-%fused_computation (param_0: f32[], param_1: f32[9500,2], param_2: f32[9500], param_3: f32[2], param_4: f32[9500], param_5: f32[9500], param_6: f32[9500], param_7: f32[9500], param_8: f32[9500], param_9: f32[9500], para
+-  %param_4 = f32[9500]{0} parameter(4)
+-  %param_9 = f32[9500]{0} parameter(9)
+-  %param_10 = f32[9500]{0} parameter(10)
+-  %sub = f32[9500]{0} subtract(%param_10, %param_4)
+-  %mul = f32[9500]{0} multiply(%param_9, %sub)
+-  %param_8 = f32[9500]{0} parameter(8)
+-  %add = f32[9500]{0} add(%mul, %param_8)
+-  %param_7 = f32[9500]{0} parameter(7)
+-  %sub = f32[9500]{0} subtract(%add, %param_7)
+-  %param_1 = f32[9500,2]{1,0} parameter(1)
+-  %param_3 = f32[2]{0} parameter(3)
+-  %sub = f32[9500,2]{1,0} broadcast(%param_3), dimensions={1}
+-  %sub = f32[9500,2]{1,0} broadcast(%param_4), dimensions={0}
+-  %sub = f32[9500,2]{1,0} subtract(%sub, %sub)
+-  %mul = f32[9500,2]{1,0} multiply(%param_1, %sub)
+-  %param_0 = f32[] parameter(0)
+-  %reduce_sum = f32[9500]{0} reduce(%mul, %param_0), dimensions={1}, to_apply=%region_5
+-  %param_2 = f32[9500]{0} parameter(2)
+-  %add = f32[9500]{0} add(%reduce_sum, %param_2)
+-  %add = f32[9500]{0} add(%sub, %add)
+-  %param_5 = f32[9500]{0} parameter(5)
+-  %div = f32[9500]{0} divide(%add, %param_5)
+-  %param_6 = f32[9500]{0} parameter(6)
+-  %mul = f32[9500]{0} multiply(%div, %param_6)
+-  ROOT %add = f32[9500]{0} add(%param_4, %mul)
+-}
+@@ -560 +528 @@
+-%fused_computation (param_0: pred[120000,9500], param_1: s32[], param_2: f32[9500], param_3: f32[9500], param_4: s32[9500]) -> pred[120000,9500] {
++%fused_computation (param_0: pred[120000,9500], param_1: s32[], param_2: f32[9500], param_3: f32[9500], param_4: f32[9500], param_5: s32[9500]) -> pred[120000,9500] {
+@@ -562 +530 @@
+-  %param_4 = s32[9500]{0} parameter(4)
++  %param_5 = s32[9500]{0} parameter(5)
+@@ -565 +533,7 @@
+-  %le = pred[9500]{0} compare(%param_4, %broadcast), direction=LE
++  %le = pred[9500]{0} compare(%param_5, %broadcast), direction=LE
++  %param_3 = f32[9500]{0} parameter(3)
++  %param_4 = f32[9500]{0} parameter(4)
++  %constant = f32[] constant(0.1)
++  %broadcast = f32[9500]{0} broadcast(%constant), dimensions={}
++  %mul = f32[9500]{0} multiply(%param_4, %broadcast)
++  %add = f32[9500]{0} add(%param_3, %mul)
+@@ -567,2 +541 @@
+-  %param_3 = f32[9500]{0} parameter(3)
+-  %ge = pred[9500]{0} compare(%param_2, %param_3), direction=GE
++  %ge = pred[9500]{0} compare(%add, %param_2), direction=GE
+@@ -642 +615 @@
+-%fused_computation (param_0: pred[20,9500], param_1: s32[], param_2: pred[], param_3: f32[9500], param_4: f32[9500], param_5: s32[9500]) -> pred[20,9500] {
++%fused_computation (param_0: pred[20,9500], param_1: s32[], param_2: pred[], param_3: f32[9500], param_4: f32[9500], param_5: f32[9500], param_6: s32[9500]) -> pred[20,9500] {
+@@ -646 +619 @@
+-  %param_5 = s32[9500]{0} parameter(5)
++  %param_6 = s32[9500]{0} parameter(6)
+@@ -649 +622,7 @@
+-  %le = pred[9500]{0} compare(%param_5, %broadcast), direction=LE
++  %le = pred[9500]{0} compare(%param_6, %broadcast), direction=LE
++  %param_4 = f32[9500]{0} parameter(4)
++  %param_5 = f32[9500]{0} parameter(5)
++  %constant = f32[] constant(0.1)
++  %broadcast = f32[9500]{0} broadcast(%constant), dimensions={}
++  %mul = f32[9500]{0} multiply(%param_5, %broadcast)
++  %add = f32[9500]{0} add(%param_4, %mul)
+@@ -651,2 +630 @@
+-  %param_4 = f32[9500]{0} parameter(4)
+-  %ge = pred[9500]{0} compare(%param_3, %param_4), direction=GE
++  %ge = pred[9500]{0} compare(%add, %param_3), direction=GE
+@@ -698 +676 @@
+-%fused_computation (param_0: s32[9500], param_1: s32[9500], param_2: f32[9500], param_3: f32[9500]) -> s32[9500] {
++%fused_computation (param_0: s32[9500], param_1: s32[9500], param_2: f32[9500], param_3: f32[9500], param_4: f32[9500]) -> s32[9500] {
+@@ -702,0 +681,6 @@
++  %param_3 = f32[9500]{0} parameter(3)
++  %param_4 = f32[9500]{0} parameter(4)
++  %constant = f32[] constant(0.1)
++  %broadcast = f32[9500]{0} broadcast(%constant), dimensions={}
++  %mul = f32[9500]{0} multiply(%param_4, %broadcast)
++  %add = f32[9500]{0} add(%param_3, %mul)
+@@ -704,2 +688 @@
+-  %param_3 = f32[9500]{0} parameter(3)
+-  %ge = pred[9500]{0} compare(%param_2, %param_3), direction=GE
++  %ge = pred[9500]{0} compare(%add, %param_2), direction=GE
+@@ -731,0 +715,3 @@
++  %param_8 = f32[9500]{0} parameter(8)
++  %mul = f32[9500]{0} multiply(%param_8, %broadcast)
++  %add = f32[9500]{0} add(%param_5, %mul)
+@@ -733,2 +719 @@
+-  %param_8 = f32[9500]{0} parameter(8)
+-  %ge = pred[9500]{0} compare(%param_7, %param_8), direction=GE
++  %ge = pred[9500]{0} compare(%add, %param_7), direction=GE
+@@ -748,2 +733,2 @@
+-%fused_computation (param_0: f32[9500], param_1: f32[9500], param_2: f32[9500], param_3: s32[9500]) -> f32[9500] {
+-  %param_3 = s32[9500]{0} parameter(3)
++%fused_computation (param_0: f32[9500], param_1: f32[9500], param_2: f32[9500], param_3: f32[9500], param_4: s32[9500]) -> f32[9500] {
++  %param_4 = s32[9500]{0} parameter(4)
+@@ -752 +737,7 @@
+-  %le = pred[9500]{0} compare(%param_3, %broadcast), direction=LE
++  %le = pred[9500]{0} compare(%param_4, %broadcast), direction=LE
++  %param_2 = f32[9500]{0} parameter(2)
++  %param_3 = f32[9500]{0} parameter(3)
++  %constant = f32[] constant(0.1)
++  %broadcast = f32[9500]{0} broadcast(%constant), dimensions={}
++  %mul = f32[9500]{0} multiply(%param_3, %broadcast)
++  %add = f32[9500]{0} add(%param_2, %mul)
+@@ -754,2 +745 @@
+-  %param_2 = f32[9500]{0} parameter(2)
+-  %ge = pred[9500]{0} compare(%param_1, %param_2), direction=GE
++  %ge = pred[9500]{0} compare(%add, %param_1), direction=GE
+@@ -758 +748 @@
+-  %select_n = f32[9500]{0} select(%le, %param_1, %param_0)
++  %select_n = f32[9500]{0} select(%le, %add, %param_0)
+@@ -761,2 +751,12 @@
+-%fused_computation (param_0: pred[9500], param_1: f32[9500], param_2: f32[9500], param_3: f32[9500], param_4: f32[9500]) -> f32[9500] {
+-  %param_0 = pred[9500]{0} parameter(0)
++%region_5 (reduce_sum.3: f32[], reduce_sum.4: f32[]) -> f32[] {
++  %reduce_sum = f32[] parameter(0)
++  %reduce_sum = f32[] parameter(1)
++  ROOT %reduce_sum = f32[] add(%reduce_sum, %reduce_sum)
++}
++%fused_computation (param_0: f32[9500], param_1: f32[9500], param_2: f32[9500,2], param_3: f32[9500], param_4: f32[2], param_5: f32[9500], param_6: pred[9500], param_7: f32[9500], param_8: f32[9500], param_9: f32[9500],
++  %param_10 = f32[9500]{0} parameter(10)
++  %param_11 = f32[9500]{0} parameter(11)
++  %param_3 = f32[9500]{0} parameter(3)
++  %sub = f32[9500]{0} subtract(%param_11, %param_3)
++  %mul = f32[9500]{0} multiply(%param_10, %sub)
++  %param_6 = pred[9500]{0} parameter(6)
+@@ -765,6 +765,5 @@
+-  %param_1 = f32[9500]{0} parameter(1)
+-  %param_3 = f32[9500]{0} parameter(3)
+-  %param_4 = f32[9500]{0} parameter(4)
+-  %sub = f32[9500]{0} subtract(%param_3, %param_4)
+-  %param_2 = f32[9500]{0} parameter(2)
+-  %div = f32[9500]{0} divide(%sub, %param_2)
++  %param_7 = f32[9500]{0} parameter(7)
++  %param_9 = f32[9500]{0} parameter(9)
++  %sub = f32[9500]{0} subtract(%param_3, %param_9)
++  %param_8 = f32[9500]{0} parameter(8)
++  %div = f32[9500]{0} divide(%sub, %param_8)
+@@ -775,2 +774,17 @@
+-  %mul = f32[9500]{0} multiply(%param_1, %exp)
+-  ROOT %select_n = f32[9500]{0} select(%param_0, %broadcast, %mul)
++  %mul = f32[9500]{0} multiply(%param_7, %exp)
++  %select_n = f32[9500]{0} select(%param_6, %broadcast, %mul)
++  %add = f32[9500]{0} add(%mul, %select_n)
++  %param_5 = f32[9500]{0} parameter(5)
++  %sub = f32[9500]{0} subtract(%add, %param_5)
++  %param_2 = f32[9500,2]{1,0} parameter(2)
++  %param_4 = f32[2]{0} parameter(4)
++  %sub = f32[9500,2]{1,0} broadcast(%param_4), dimensions={1}
++  %sub = f32[9500,2]{1,0} broadcast(%param_3), dimensions={0}
++  %sub = f32[9500,2]{1,0} subtract(%sub, %sub)
++  %mul = f32[9500,2]{1,0} multiply(%param_2, %sub)
++  %reduce_sum = f32[9500]{0} reduce(%mul, %constant), dimensions={1}, to_apply=%region_5
++  %param_1 = f32[9500]{0} parameter(1)
++  %add = f32[9500]{0} add(%reduce_sum, %param_1)
++  %add = f32[9500]{0} add(%sub, %add)
++  %param_0 = f32[9500]{0} parameter(0)
++  ROOT %div = f32[9500]{0} divide(%add, %param_0)
+@@ -879,4 +892,0 @@
+-}
+-%wrapped_broadcast_computation (param_0: f32[]) -> f32[9500] {
+-  %param_0 = f32[] parameter(0)
+-  ROOT %broadcast = f32[9500]{0} broadcast(%param_0), dimensions={}
+@@ -1042 +1052 @@
+-  ROOT %while = (s32[], u32[2]{0}, u32[2]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_2.clone.clone.clone, body=%region_1.clone.clone.clone.clone, backend_config={"known_tr
++  ROOT %while = (s32[], u32[2]{0}, u32[2]{0}, u32[], u32[], /*index=5*/u32[], u32[4]{0}, u32[4]{0}) while(%tuple), condition=%region_2.clone.clone.clone, body=%region_1.clone.clone.clone.clone, backend_config={"known_tr
+@@ -1049 +1058,0 @@
+-  %constant = f32[] constant(0.1)
+@@ -1099 +1107,0 @@
+-  %wrapped_broadcast = f32[9500]{0} fusion(%constant), kind=kLoop, calls=%wrapped_broadcast_computation
+@@ -1117 +1124,0 @@
+-  %multiply_select_fusion = f32[9500]{0} fusion(%get-tuple-element, %get-tuple-element, %get-tuple-element, %copy, %get-tuple-element), kind=kLoop, calls=%fused_computation
+@@ -1133 +1140 @@
+-  %ynn_fusion = f32[9500]{0} fusion(%constant, %wrapped_scatter, %get-tuple-element, %get-tuple-element, %copy, /*index=5*/%get-tuple-element, %wrapped_broadcast, %get-tuple-element, %multiply_select_fusion, %get-tuple-
++  %add_divide_fusion = f32[9500]{0} fusion(%get-tuple-element, %get-tuple-element, %wrapped_scatter, %copy, %get-tuple-element, /*index=5*/%get-tuple-element, %get-tuple-element, %get-tuple-element, %get-tuple-element, 
+@@ -1136,5 +1143,5 @@
+-  %select_select_fusion = f32[9500]{0} fusion(%get-tuple-element, %ynn_fusion, %get-tuple-element, %copy), kind=kLoop, calls=%fused_computation
+-  %add_select_fusion = f32[9500]{0} fusion(%get-tuple-element, %get-tuple-element, %get-tuple-element, %get-tuple-element, %get-tuple-element, /*index=5*/%copy, %get-tuple-element, %ynn_fusion, %get-tuple-element, %copy
+-  %bitcast_dynamic-update-slice_fusion = pred[120000,9500]{1,0} fusion(%get-tuple-element, %copy, %ynn_fusion, %get-tuple-element, %copy), kind=kLoop, calls=%fused_computation
+-  %select_dynamic-update-slice_fusion = pred[20,9500]{1,0} fusion(%get-tuple-element, %add_select_fusion, %and_reduce_fusion, %ynn_fusion, %get-tuple-element, /*index=5*/%copy), kind=kLoop, calls=%fused_computation
+-  %maximum_select_fusion = s32[9500]{0} fusion(%get-tuple-element, %copy, %ynn_fusion, %get-tuple-element), kind=kLoop, calls=%fused_computation
++  %select_select_fusion = f32[9500]{0} fusion(%get-tuple-element, %get-tuple-element, %copy, %add_divide_fusion, %copy), kind=kLoop, calls=%fused_computation
++  %bitcast_dynamic-update-slice_fusion = pred[120000,9500]{1,0} fusion(%get-tuple-element, %copy, %get-tuple-element, %copy, %add_divide_fusion, /*index=5*/%copy), kind=kLoop, calls=%fused_computation
++  %select_dynamic-update-slice_fusion = pred[20,9500]{1,0} fusion(%get-tuple-element, %add_select_fusion, %and_reduce_fusion, %get-tuple-element, %copy, /*index=5*/%add_divide_fusion, %copy), kind=kLoop, calls=%fused_co
++  %maximum_select_fusion = s32[9500]{0} fusion(%get-tuple-element, %copy, %get-tuple-element, %copy, %add_divide_fusion), kind=kLoop, calls=%fused_computation
++  %add_select_fusion = f32[9500]{0} fusion(%get-tuple-element, %get-tuple-element, %get-tuple-element, %get-tuple-element, %get-tuple-element, /*index=5*/%copy, %get-tuple-element, %get-tuple-element, %add_divide_fusion
+@@ -1318 +1325 @@
+-  %while = (s32[], f32[9500]{0}, f32[9500]{0}, s32[9500]{0}, f32[9500,2]{1,0}, /*index=5*/pred[20,9500]{1,0}, s32[20,8750]{1,0}, s32[], u32[2]{0}, pred[120000,9500]{1,0}, /*index=10*/f32[120000,9500]{1,0}, s32[6236657]{
++  %while = (s32[], f32[9500]{0}, f32[9500]{0}, s32[9500]{0}, f32[9500,2]{1,0}, /*index=5*/pred[20,9500]{1,0}, s32[20,8750]{1,0}, s32[], u32[2]{0}, pred[120000,9500]{1,0}, /*index=10*/f32[120000,9500]{1,0}, s32[6236657]{

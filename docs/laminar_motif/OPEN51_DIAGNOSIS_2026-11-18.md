@@ -1,4 +1,4 @@
-# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static; independent review ACCEPT-WITH-CHANGES, changes applied)
+# OPEN-51 diagnosis, 2026-11-18: where the R1 divergence originates (static diagnosis reviewed ACCEPT-WITH-CHANGES, changes applied; replay run, review of the causal reading pending)
 
 Authority: owner 2026-11-18, bounded diagnosis. Static inspection and analysis of existing outputs only. No simulation,
 no protocol change, no tuning. The frozen protocol, the R1 outputs, the receipts and the NOT REPRODUCED
@@ -74,7 +74,38 @@ Does the first divergence of R1 from the original E0 seed-1 counts (step 8088, 8
 The counts cannot distinguish a last-bit rounding difference from other small perturbations: a chaotic network
 amplifies either into the same pattern. The compiled-code difference is the only observed candidate.
 
-## Proposed discriminating experiment (not run; needs owner authorization)
+## Replay result, 2026-11-18 (owner authorized the replay; receipts in `open51_replay/`)
+
+| Run | Executable | Counts vs original | Counts vs R1 | Raster vs R1 |
+|---|---|---|---|---|
+| control, 02:53-03:15Z | R1's (`r1_e0s1_jit_scan.cache`, YNN 0) | first difference at step 8088, 91 201 steps differ | equal at all 120 000 steps; array sha256 `236d9612…` = R1's | equal (sha256 `fc602009…` = R1's) |
+| replay, 03:15-03:35Z | original (`original_e0s1_jit_scan.cache`, YNN 7) | equal at all 120 000 steps; array sha256 `ffcc8a7b…` = the original's | first difference at step 8088 | differs |
+
+- Both runs used the re-run environment unchanged: worktree 3257ffc (clean), JaxFNE `e0160dfc`, jax 0.10.1, the edge
+  table equal to R1's (sha256 `06f6c60f…`), and a fresh, empty JAX cache. Only the `jit_scan` executable differed:
+  the driver `scripts/open51_replay.py` (caaebf7) substitutes it at the compile call, exactly once per run.
+- The original executable loaded as an XLA:CPU AOT result (machine code, no recompile), and its loaded HLO held the
+  YNN fusion.
+- Reading, per the pre-stated outcome table: **numerical execution is the cause.** With identical inputs, PRNG
+  streams and model state, the original compiled executable reproduces the original counts at every step. The
+  re-run's executable reproduces R1 exactly, so there is no run-to-run nondeterminism on this run. The divergence is
+  fully determined by the compiled executable.
+- Not established: which instruction in the executable produces the first differing bit (the YNN fusion of the `dv`
+  chain is the only differing region in the canonicalized HLO; the bit-level path is not traced). Also not
+  established: that jaxlib 0.10.2 produced the original executable (inferred from two markers).
+- Deviations from the proposal:
+  1. The smoke did not execute a single step, because the trip count of 120 000 is compiled in. Instead, the AOT
+     load and the YNN count were checked before running.
+  2. The first control attempt stopped in setup (02:52Z, exit 7, no simulation). The cache key under the replay
+     driver differs from R1's, so the entry was not used. The driver was fixed to substitute at the compile call, and
+     the attempt's receipt is kept. Unexplained: the control and replay requested different keys (`4f39b75f…`,
+     `d0a9058c…`) for the same program; the substitution makes the key irrelevant to the result.
+- Scope: diagnostic only. OPEN-51 stays NOT REPRODUCED under the frozen protocol. The replay's raster
+  (`open51_replay/output_files.sha256`, kept on D:) is a raster whose counts equal the original's. It was produced by
+  the original executable in another environment, and it has no standing as the recovered original raster unless the
+  owner amends the protocol.
+
+## Proposed discriminating experiment (as approved; run above)
 
 **Replay the original executable.**
 - Construct E0 seed 1 in the re-run environment (worktree 3257ffc, JaxFNE `e0160dfc`), with no simulation, to obtain

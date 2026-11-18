@@ -1,0 +1,81 @@
+{
+ "schema": "jomission.open51_replay.v1",
+ "label": "control",
+ "started_utc": "2026-11-18T02:53:18Z",
+ "argv": [
+  "D:/jomission/scripts/open51_replay.py",
+  "--worktree",
+  "D:/repos/_work/_temp_o51_wt_e0",
+  "--entry",
+  "D:/jomission/docs/laminar_motif/open51_diag/r1_e0s1_jit_scan.cache",
+  "--expect-ynn",
+  "0",
+  "--label",
+  "control",
+  "--out",
+  "D:/tmp/_temp_o51_replay"
+ ],
+ "entry": {
+  "path": "D:/jomission/docs/laminar_motif/open51_diag/r1_e0s1_jit_scan.cache",
+  "sha256": "71b1ad0e57e5e7a232d197b9974b413246d79929a1011b953aeeae64a5071538",
+  "r1_cache_key": "jit_scan-decb6ecbb937bae38fe4684d91638ce70256e2a41f515d511855f468f04cf080-cache"
+ },
+ "driver": {
+  "lane_head": "caaebf7d02c547eacaeb56f5796bd7b9a9ee0681",
+  "driver_status": "",
+  "driver_sha256": "0290c6aa575fda6da309b56617fd765604260e47499913b6118d811d5552cf01"
+ },
+ "worktree": {
+  "path": "D:\\repos\\_work\\_temp_o51_wt_e0",
+  "head": "3257ffc521c90d179b939d756c5a7c7cdd565f06",
+  "status_porcelain": ""
+ },
+ "import_origin": {
+  "caminos_e0": "D:\\repos\\_work\\_temp_o51_wt_e0\\jomission\\laminar\\caminos_e0.py",
+  "jaxfne": "D:\\venvs\\_temp_o51_rerun\\Lib\\site-packages\\jaxfne\\__init__.py",
+  "jax": "0.10.1",
+  "sys_prefix": "D:\\venvs\\_temp_o51_rerun"
+ },
+ "smoke": {
+  "deserialized": true,
+  "ynn_fusion_count": 0,
+  "expected": 0
+ },
+ "precondition": {
+  "edge_table_sha256": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+  "r1": "06f6c60fd6e8474e0de99d5be68042c3621ef6a83439916ed18bb217c0c757c7",
+  "equal": true
+ },
+ "substitutions": [
+  {
+   "module_name": "jit_scan",
+   "requested_cache_key": "jit_scan-4f39b75fe92b84803c737a058dd827497427e28ce5fc8abe63f7ec2d857cdfe7"
+  }
+ ],
+ "result": {
+  "wall_s": 1295.795386314392,
+  "n_spikes": 282547,
+  "counts_array_sha256": "236d96129dbfa585c7d2593b63ab1898cc8b93ccac93af47492a3c3b48db5ad8",
+  "raster_sha256": "fc60200955974ea8d2b852fb34bdb1a70aa351628d9bc7abea82e2b143d3f23b",
+  "vs_original_counts": {
+   "equal": false,
+   "n_steps_differ": 91201,
+   "first_step_differ": 8088,
+   "diff_at_first": [
+    1,
+    0,
+    0
+   ]
+  },
+  "vs_r1_counts": {
+   "equal": true,
+   "n_steps_differ": 0,
+   "first_step_differ": null,
+   "diff_at_first": null
+  },
+  "raster_equal_r1": true
+ },
+ "outcome": "replay complete (diagnostic; not classified)",
+ "finished_utc": "2026-11-18T03:14:59Z",
+ "exit_code": 0
+}

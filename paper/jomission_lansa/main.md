@@ -1,5 +1,9 @@
 # Manuscript plan: jomission-LANSA (flow-article, 2026-11-10)
 
+Stage (jarness `rules/reference/manuscript-stages.md`): 10, before the methodological lock (Hamm 2026-11-19,
+provisional; no advancement authorized). The abstract edits made in the 2026-11-19 review round are kept as they
+are. Author fields hold codes only until stage 13.
+
 Venue: bioRxiv preprint, New Results, Neuroscience; computational neuroscience reader (cortical circuits, LFP).
 Layout after Herrera et al. 2026 (bioRxiv 10.64898/2026.11.04.763717, landing page read 2026-11-10: one-paragraph
 abstract of about 190 words, context -> approach -> findings -> implication; competing-interest statement and funders

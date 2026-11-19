@@ -129,6 +129,15 @@
    "counts_equal": true,
    "json_equal": true,
    "elapsed_s": 1286.9
+  },
+  {
+   "step": "R4_rho0.5_s3",
+   "run": "e1_rho0.5_seed3",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 4284.8
   }
  ],
  "classification": {}

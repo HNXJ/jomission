@@ -1,6 +1,10 @@
 {
  "note": "Curated, newest first. Each entry is a tracked image; the dashboard embeds it. Titles state what is drawn, not a verdict beyond the cited source.",
  "entries": [
+  {"date": "2026-11-19", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/v1v2/raster_initial_1000ms.png", "title": "OPEN-51 E1 V1: first 1000 ms per SST/PV ratio, seed 1, count-validated reconstructed raster", "source": "scripts/open51_v1v2.py; OPEN51_A1_RESULT_2026-11-19.md"},
+  {"date": "2026-11-19", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/v1v2/raster_final.png", "title": "OPEN-51 E1 V2: last 1000 ms per SST/PV ratio, seed 1, count-validated reconstructed raster", "source": "scripts/open51_v1v2.py; OPEN51_A1_RESULT_2026-11-19.md"},
+  {"date": "2026-11-19", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-MOTIF-1/v1v2/raster_initial_1000ms.png", "title": "OPEN-51 E0 V1: first 1000 ms, seed 1, count-validated reconstructed raster", "source": "scripts/open51_v1v2.py; OPEN51_A1_RESULT_2026-11-19.md"},
+  {"date": "2026-11-19", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-MOTIF-1/v1v2/raster_final.png", "title": "OPEN-51 E0 V2: last 1000 ms, seed 1, count-validated reconstructed raster", "source": "scripts/open51_v1v2.py; OPEN51_A1_RESULT_2026-11-19.md"},
   {"date": "2026-11-19", "path": "docs/laminar_motif/open51_diag/divergence_e0s1.png", "title": "OPEN-51: E0 seed-1 count difference from the original, jax 0.10.1 R1 against jax 0.10.2 A1 R1", "source": "scripts/open51_divergence_fig.py; open51_diag/divergence_e0s1.json"},
   {"date": "2026-11-17", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/atlas/fpk_rho.png", "title": "OPEN-51 E1: peak frequency against SST/PV ratio, declared V3 (partial), from preserved counts", "source": "scripts/open51_viz.py"},
   {"date": "2026-11-17", "path": "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/atlas/spectra.png", "title": "OPEN-51 E1: population spectra, partial V3 from preserved counts", "source": "scripts/open51_viz.py"},

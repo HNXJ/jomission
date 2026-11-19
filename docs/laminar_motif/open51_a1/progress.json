@@ -2,7 +2,7 @@
  "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da+A1@7e82b51",
  "environment": "reconstructed jax 0.10.2 environment (A1)",
  "started_utc": "2026-11-18T14:51:22Z",
- "finished_utc": null,
+ "finished_utc": "2026-11-19T05:00:38Z",
  "stopped": null,
  "r0c": {
   "exit": 0,
@@ -138,7 +138,73 @@
    "counts_equal": true,
    "json_equal": true,
    "elapsed_s": 4284.8
+  },
+  {
+   "step": "R4_rho2_s1",
+   "run": "e1_rho2_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 3363.2
+  },
+  {
+   "step": "R4_rho2_s2",
+   "run": "e1_rho2_seed2",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1895.7
+  },
+  {
+   "step": "R4_rho2_s3",
+   "run": "e1_rho2_seed3",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 3507.6
+  },
+  {
+   "step": "R4_rho4_s2",
+   "run": "e1_rho4_seed2",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1912.4
+  },
+  {
+   "step": "R4_rho4_s3",
+   "run": "e1_rho4_seed3",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1214.1
   }
  ],
- "classification": {}
+ "classification": {
+  "e0_seed1": "COUNT-VALIDATED RECONSTRUCTION",
+  "e0_seed2": "COUNT-VALIDATED RECONSTRUCTION",
+  "e0_seed3": "COUNT-VALIDATED RECONSTRUCTION",
+  "e0_seed4": "COUNT-VALIDATED RECONSTRUCTION",
+  "e0_seed5": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho4_seed1": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.25_seed1": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.25_seed2": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.25_seed3": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.5_seed1": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.5_seed2": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho0.5_seed3": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho2_seed1": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho2_seed2": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho2_seed3": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho4_seed2": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho4_seed3": "COUNT-VALIDATED RECONSTRUCTION",
+  "e1_rho1_seed1": "COUNT-VALIDATED RECONSTRUCTION (inherited from E0, byte-identical counts)",
+  "e1_rho1_seed2": "COUNT-VALIDATED RECONSTRUCTION (inherited from E0, byte-identical counts)",
+  "e1_rho1_seed3": "COUNT-VALIDATED RECONSTRUCTION (inherited from E0, byte-identical counts)"
+ }
 }

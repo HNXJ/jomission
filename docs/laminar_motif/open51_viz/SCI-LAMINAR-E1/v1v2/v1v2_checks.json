@@ -1,0 +1,45 @@
+{
+ "label": "count-validated reconstructed raster (OPEN-51, protocol 5d586da + A1)",
+ "checks": [
+  {
+   "run": "e1_rho0.25_seed1",
+   "raster_matches_counts_and_original": true,
+   "n_spikes": 213228,
+   "sizes": {
+    "E": 8000,
+    "PV": 1200,
+    "SOM": 300
+   }
+  },
+  {
+   "run": "e1_rho0.5_seed1",
+   "raster_matches_counts_and_original": true,
+   "n_spikes": 228370,
+   "sizes": {
+    "E": 8000,
+    "PV": 1000,
+    "SOM": 500
+   }
+  },
+  {
+   "run": "e1_rho2_seed1",
+   "raster_matches_counts_and_original": true,
+   "n_spikes": 445121,
+   "sizes": {
+    "E": 8000,
+    "PV": 500,
+    "SOM": 1000
+   }
+  },
+  {
+   "run": "e1_rho4_seed1",
+   "raster_matches_counts_and_original": true,
+   "n_spikes": 763840,
+   "sizes": {
+    "E": 8000,
+    "PV": 300,
+    "SOM": 1200
+   }
+  }
+ ]
+}

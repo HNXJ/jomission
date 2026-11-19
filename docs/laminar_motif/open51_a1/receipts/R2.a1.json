@@ -1,0 +1,7 @@
+{
+ "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da+A1@7e82b51",
+ "environment": "reconstructed jax 0.10.2 environment (A1)",
+ "interpreter": "D:\\venvs\\_temp_o51_jax0102\\Scripts\\python.exe",
+ "receipt": "D:\\tmp\\_temp_o51_a1\\R2\\e0_seed1.receipt.json",
+ "jax_cache": "D:\\tmp\\_temp_o51_a1\\jaxcache_R2"
+}

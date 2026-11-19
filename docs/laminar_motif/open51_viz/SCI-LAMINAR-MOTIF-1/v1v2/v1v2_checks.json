@@ -1,0 +1,15 @@
+{
+ "label": "count-validated reconstructed raster (OPEN-51, protocol 5d586da + A1)",
+ "checks": [
+  {
+   "run": "e0_seed1",
+   "raster_matches_counts_and_original": true,
+   "n_spikes": 281345,
+   "sizes": {
+    "E": 8000,
+    "PV": 750,
+    "SOM": 750
+   }
+  }
+ ]
+}

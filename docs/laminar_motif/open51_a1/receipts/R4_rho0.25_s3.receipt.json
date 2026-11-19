@@ -1,0 +1,317 @@
+{
+ "schema": "jomission.open51_rerun.v1",
+ "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da",
+ "run": "e1_rho0.25_seed3",
+ "smoke": false,
+ "kind": "e1",
+ "seed": 3,
+ "rho": 0.25,
+ "p": 0.07,
+ "T_s": 12.0,
+ "started_utc": "2026-11-18T23:04:42Z",
+ "argv": [
+  "D:\\jomission\\scripts\\open51_rerun.py",
+  "--worktree",
+  "D:/repos/_work/_temp_o51_wt_e1",
+  "--kind",
+  "e1",
+  "--seed",
+  "3",
+  "--out",
+  "D:\\tmp\\_temp_o51_a1\\R4_rho0.25_s3",
+  "--rho",
+  "0.25"
+ ],
+ "label": "count-validated reconstructed raster if classified COUNT-VALIDATED RECONSTRUCTION; never the recovered original raster",
+ "driver": {
+  "lane_head": "58f747b189ec7eb09aa41c952df169d4605b8d14",
+  "driver_status": "",
+  "driver_sha256": "e6bc4a1547a89efd98fc6572f886351658c66d81b66fbe3eb5b7722594dfb527"
+ },
+ "worktree": {
+  "path": "D:\\repos\\_work\\_temp_o51_wt_e1",
+  "head": "e381154411e0303f392a1613bf923b00f64153a9",
+  "status_porcelain": ""
+ },
+ "import_origin": {
+  "caminos_e0": "D:\\repos\\_work\\_temp_o51_wt_e1\\jomission\\laminar\\caminos_e0.py",
+  "caminos_analysis": "D:\\repos\\_work\\_temp_o51_wt_e1\\jomission\\laminar\\caminos_analysis.py",
+  "jaxfne": "D:\\venvs\\_temp_o51_jax0102\\Lib\\site-packages\\jaxfne\\__init__.py",
+  "sys_prefix": "D:\\venvs\\_temp_o51_jax0102"
+ },
+ "environment": {
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\venvs\\_temp_o51_jax0102\\Scripts\\python.exe",
+  "packages": {
+   "jax": "0.10.2",
+   "jaxfne": "0.5.9",
+   "jaxlib": "0.10.2",
+   "ml_dtypes": "0.5.4",
+   "numpy": "2.4.6",
+   "opt_einsum": "3.4.0",
+   "pip": "25.3",
+   "scipy": "1.18.0"
+  },
+  "jaxfne_direct_url": {
+   "url": "file:///D:/repos/_ref/jaxfne.git",
+   "vcs_info": {
+    "commit_id": "e0160dfc643551f1f1501fac40bd88b7c7fcc8c3",
+    "requested_revision": "e0160dfc643551f1f1501fac40bd88b7c7fcc8c3",
+    "vcs": "git"
+   }
+  },
+  "jax_config": {
+   "check_vma": "False",
+   "eager_constant_folding": "False",
+   "jax2tf_associative_scan_reductions": "False",
+   "jax2tf_default_native_serialization": "True",
+   "jax_allow_f16_reductions": "True",
+   "jax_array_garbage_collection_guard": "None",
+   "jax_auto_pcast": "True",
+   "jax_backend_target": "",
+   "jax_bcoo_cusparse_lowering": "False",
+   "jax_captured_constants_report_frames": "0",
+   "jax_captured_constants_warn_bytes": "2000000000",
+   "jax_check_proxy_envs": "True",
+   "jax_check_static_indices": "False",
+   "jax_check_tracer_leaks": "False",
+   "jax_compilation_cache_check_contents": "False",
+   "jax_compilation_cache_dir": "D:\\tmp\\_temp_o51_a1\\jaxcache",
+   "jax_compilation_cache_expect_pgle": "False",
+   "jax_compilation_cache_include_metadata_in_key": "False",
+   "jax_compilation_cache_max_size": "-1",
+   "jax_compiler_detailed_logging_min_ops": "10",
+   "jax_compiler_enable_remat_pass": "True",
+   "jax_cpu_collectives_implementation": "gloo",
+   "jax_cpu_enable_async_dispatch": "True",
+   "jax_cpu_get_global_topology_timeout_minutes": "5",
+   "jax_cpu_get_local_topology_timeout_minutes": "2",
+   "jax_cross_host_transfer_socket_address": "",
+   "jax_cross_host_transfer_timeout_seconds": "None",
+   "jax_cross_host_transfer_transfer_size": "None",
+   "jax_cross_host_transport_addresses": "",
+   "jax_cuda_visible_devices": "all",
+   "jax_custom_vjp3": "False",
+   "jax_debug_infs": "False",
+   "jax_debug_key_reuse": "False",
+   "jax_debug_leaked_clients_on_clear_backends": "False",
+   "jax_debug_log_modules": "",
+   "jax_debug_nans": "False",
+   "jax_default_device": "None",
+   "jax_default_matmul_precision": "None",
+   "jax_default_prng_impl": "threefry2x32",
+   "jax_disable_bwd_checks": "False",
+   "jax_disable_jit": "False",
+   "jax_disable_most_optimizations": "False",
+   "jax_disable_vmap_shmap_error": "False",
+   "jax_disallow_mesh_context_manager": "False",
+   "jax_distributed_debug": "False",
+   "jax_dump_ir_modes": "stablehlo",
+   "jax_dump_ir_to": "",
+   "jax_embedded_constants_max_bytes": "32",
+   "jax_enable_checks": "False",
+   "jax_enable_compilation_cache": "True",
+   "jax_enable_custom_prng": "False",
+   "jax_enable_pgle": "False",
+   "jax_enable_preemption_service": "True",
+   "jax_enable_recoverability": "False",
+   "jax_enable_x64": "False",
+   "jax_error_checking_behavior_divide": "ignore",
+   "jax_error_checking_behavior_nan": "ignore",
+   "jax_error_checking_behavior_oob": "ignore",
+   "jax_exec_time_optimization_effort": "0.0",
+   "jax_experimental_unsafe_xla_runtime_errors": "False",
+   "jax_explain_cache_misses": "False",
+   "jax_explicit_x64_dtypes": "1",
+   "jax_export_calling_convention_version": "10",
+   "jax_export_ignore_forward_compatibility": "False",
+   "jax_force_dcn_cross_host_transfers": "False",
+   "jax_high_dynamic_range_gumbel": "False",
+   "jax_hlo_source_file_canonicalization_regex": "None",
+   "jax_include_debug_info_in_dumps": "True",
+   "jax_include_full_tracebacks_in_locations": "True",
+   "jax_legacy_prng_key": "allow",
+   "jax_log_checkpoint_residuals": "False",
+   "jax_log_compiles": "False",
+   "jax_logging_level": "NOTSET",
+   "jax_memory_fitting_effort": "0.0",
+   "jax_memory_fitting_level": "O2",
+   "jax_mock_gpu_topology": "",
+   "jax_mosaic_allow_hlo": "False",
+   "jax_mutable_array_checks": "True",
+   "jax_no_execution": "False",
+   "jax_no_tracing": "False",
+   "jax_num_cpu_devices": "-1",
+   "jax_numpy_dtype_promotion": "standard",
+   "jax_numpy_rank_promotion": "allow",
+   "jax_oneapi_visible_devices": "all",
+   "jax_optimization_level": "UNKNOWN",
+   "jax_pallas_enable_debug_checks": "False",
+   "jax_pallas_poison_buffers": "False",
+   "jax_pallas_use_mosaic_gpu": "True",
+   "jax_pallas_verbose_errors": "False",
+   "jax_persistent_cache_enable_xla_caches": "xla_gpu_per_fusion_autotune_cache_dir",
+   "jax_persistent_cache_min_compile_time_secs": "0",
+   "jax_persistent_cache_min_entry_size_bytes": "-1",
+   "jax_pgle_aggregation_percentile": "90",
+   "jax_pgle_profiling_runs": "3",
+   "jax_pjrt_client_create_options": "None",
+   "jax_platform_name": "",
+   "jax_platforms": "None",
+   "jax_pprint_use_color": "True",
+   "jax_ragged_dot_use_gpu_pallas_triton_lowering": "False",
+   "jax_ragged_dot_use_ragged_dot_instruction": "True",
+   "jax_raise_persistent_cache_errors": "False",
+   "jax_random_seed_offset": "0",
+   "jax_refs_to_pins": "False",
+   "jax_remat3": "False",
+   "jax_remove_custom_partitioning_ptr_from_cache_key": "False",
+   "jax_remove_size_one_mesh_axis_from_type": "False",
+   "jax_rocm_visible_devices": "all",
+   "jax_scan3": "False",
+   "jax_send_traceback_to_runtime": "off",
+   "jax_serialization_version": "0",
+   "jax_share_binary_between_hosts": "False",
+   "jax_share_binary_between_hosts_timeout_ms": "1200000",
+   "jax_softmax_custom_jvp": "False",
+   "jax_sort_devices_by_process_index": "True",
+   "jax_source_url_schema": "None",
+   "jax_thread_guard": "False",
+   "jax_threefry_gpu_kernel_lowering": "False",
+   "jax_threefry_partitionable": "True",
+   "jax_traceback_filtering": "auto",
+   "jax_traceback_in_locations_limit": "100",
+   "jax_tracer_error_num_traceback_frames": "5",
+   "jax_transfer_guard": "None",
+   "jax_transfer_guard_device_to_device": "None",
+   "jax_transfer_guard_device_to_host": "None",
+   "jax_transfer_guard_host_to_device": "None",
+   "jax_use_direct_linearize": "True",
+   "jax_use_emit_pipeline_primitive": "False",
+   "jax_use_magma": "auto",
+   "jax_use_shardy_partitioner": "True",
+   "jax_use_simplified_jaxpr_constants": "False",
+   "jax_xla_backend": "",
+   "jax_xla_profile_version": "0",
+   "mock_num_gpu_processes": "0"
+  },
+  "env": {
+   "XLA_FLAGS": null,
+   "PYTHONHASHSEED": null,
+   "OMP_NUM_THREADS": null,
+   "JAX_COMPILATION_CACHE_DIR": "D:\\tmp\\_temp_o51_a1\\jaxcache",
+   "JOMISSION_JAX_CACHE": null,
+   "JAX_PLATFORMS": null,
+   "JAX_ENABLE_X64": null
+  },
+  "jax_devices": [
+   "cpu:0"
+  ],
+  "cpu": "Intel64 Family 6 Model 85 Stepping 7, GenuineIntel",
+  "cpu_count": 24,
+  "platform": "Windows-11-10.0.26300-SP0"
+ },
+ "comparator": {
+  "path": "F:\\repo_salvage_2026-11-10\\jomission\\E_repos__wt_jomission-handoff.loose\\results\\laminar_e1\\e1_rho0.25_seed3_counts.npy",
+  "sha256": "5a50fbe94e76cd1f9e6085579c702f40f1f23d41eab34f4009e5f4a88b06b3eb",
+  "expected": "5a50fbe94e76cd1f9e6085579c702f40f1f23d41eab34f4009e5f4a88b06b3eb"
+ },
+ "result": {
+  "wall_s": 1258.9666194915771,
+  "steps": 120000,
+  "sizes": {
+   "E": 8000,
+   "PV": 1200,
+   "SOM": 300
+  },
+  "raster_shape": [
+   120000,
+   9500
+  ],
+  "n_spikes": 210832,
+  "counts_array_sha256": "bfabb25d0a91885e5033a097f556ece606938eb6aed38108feb321ae671c763b",
+  "raster_sha256": "350feb91330b0105f5ff0e952b95ee1f7f08289043911fcf6c63b6e63c829f73",
+  "edge_keys": [
+   "pre",
+   "post",
+   "weight_nS",
+   "receptor"
+  ],
+  "edge_table_sha256": "4148b7226bdf700b539201e3c11a1c0316b83708e9e139fe1a91bcd2a1406ac7",
+  "n_edges": 6286639,
+  "output_files_sha256": {
+   "e1_rho0.25_seed3_counts.npy": "5a50fbe94e76cd1f9e6085579c702f40f1f23d41eab34f4009e5f4a88b06b3eb",
+   "e1_rho0.25_seed3_raster.npz": "c64009a2e7cd4f3e339695c4c3ab79b385bc27bd6e18a7bcaece88e6bc29c0f4",
+   "e1_rho0.25_seed3_edges.npz": "20d270bd343a3cb819fe2fc8ec695db0a1d968037dbf0d94c943d33de1fbdaef"
+  }
+ },
+ "counts_comparison": {
+  "equal": true,
+  "dtype": [
+   "int32",
+   "int32"
+  ],
+  "shape": [
+   [
+    120000,
+    3
+   ],
+   [
+    120000,
+    3
+   ]
+  ],
+  "n_steps_differ": 0,
+  "first_step_differ": null,
+  "max_abs_diff": 0,
+  "total_spikes_new": [
+   80307,
+   115269,
+   15256
+  ],
+  "total_spikes_orig": [
+   80307,
+   115269,
+   15256
+  ],
+  "original_array_sha256": "bfabb25d0a91885e5033a097f556ece606938eb6aed38108feb321ae671c763b"
+ },
+ "json_comparison": {
+  "equal": true,
+  "json_commit": "8200fac",
+  "values": {
+   "spikes_kept": {
+    "new": {
+     "E": 65530,
+     "PV": 95681,
+     "SOM": 12023
+    },
+    "committed": {
+     "E": 65530,
+     "PV": 95681,
+     "SOM": 12023
+    }
+   },
+   "peak_freq_E_Hz": {
+    "new": 47.0,
+    "committed": 47.0
+   },
+   "peak_excess_E": {
+    "new": 15.241219219236585,
+    "committed": 15.241219219236585
+   },
+   "oscillates": {
+    "new": true,
+    "committed": true
+   },
+   "lag_PV_SOM_ms": {
+    "new": 7.800000000000001,
+    "committed": 7.800000000000001
+   }
+  }
+ },
+ "outcome": "counts equal the original at every step; JSON estimands equal",
+ "finished_utc": "2026-11-18T23:25:49Z",
+ "exit_code": 0,
+ "peak_working_set_bytes": 6602096640
+}

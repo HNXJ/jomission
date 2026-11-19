@@ -1,0 +1,41 @@
+2026-11-18T14:51:24Z R0 checks pass (pins, pip check, JaxFNE identity)
+2026-11-18T14:52:32Z R0c pass (YNN 7, dynamic_variables 4, strict HLO identical to the original)
+2026-11-18T14:52:32Z R1 start: e0 seed 1 rho None cache jaxcache
+2026-11-18T15:16:04Z R1 end: exit 0; counts equal, JSON equal
+2026-11-18T15:16:04Z R2 start: e0 seed 1 rho None cache jaxcache_R2
+2026-11-18T15:36:42Z R2 end: exit 0; counts equal, JSON equal
+2026-11-18T15:36:42Z R3_s2 start: e0 seed 2 rho None cache jaxcache
+2026-11-18T16:19:58Z R3_s2 end: exit 0; counts equal, JSON equal
+2026-11-18T16:19:58Z R3_s3 start: e0 seed 3 rho None cache jaxcache
+2026-11-18T17:12:54Z R3_s3 end: exit 0; counts equal, JSON equal
+2026-11-18T17:12:54Z R3_s4 start: e0 seed 4 rho None cache jaxcache
+2026-11-18T20:01:37Z R3_s4 end: exit 0; counts equal, JSON equal
+2026-11-18T20:01:37Z R3_s5 start: e0 seed 5 rho None cache jaxcache
+2026-11-18T21:27:37Z R3_s5 end: exit 0; counts equal, JSON equal
+2026-11-18T21:27:37Z R4a_1 start: e1 seed 1 rho 4.0 cache jaxcache
+2026-11-18T21:49:02Z R4a_1 end: exit 0; counts equal, JSON equal
+2026-11-18T21:49:02Z R4a_2 start: e1 seed 1 rho 4.0 cache jaxcache_R4a_2
+2026-11-18T22:10:33Z R4a_2 end: exit 0; counts equal, JSON equal
+2026-11-18T22:10:33Z R4_rho0.25_s1 start: e1 seed 1 rho 0.25 cache jaxcache
+2026-11-18T22:32:08Z R4_rho0.25_s1 end: exit 0; counts equal, JSON equal
+2026-11-18T22:32:08Z R4_rho0.25_s2 start: e1 seed 2 rho 0.25 cache jaxcache
+2026-11-18T22:53:56Z R4_rho0.25_s2 end: exit 0; counts equal, JSON equal
+2026-11-18T22:53:56Z R4_rho0.25_s3 start: e1 seed 3 rho 0.25 cache jaxcache
+2026-11-18T23:25:50Z R4_rho0.25_s3 end: exit 0; counts equal, JSON equal
+2026-11-18T23:25:50Z R4_rho0.5_s1 start: e1 seed 1 rho 0.5 cache jaxcache
+2026-11-19T00:09:34Z R4_rho0.5_s1 end: exit 0; counts equal, JSON equal
+2026-11-19T00:09:34Z R4_rho0.5_s2 start: e1 seed 2 rho 0.5 cache jaxcache
+2026-11-19T00:31:01Z R4_rho0.5_s2 end: exit 0; counts equal, JSON equal
+2026-11-19T00:31:01Z R4_rho0.5_s3 start: e1 seed 3 rho 0.5 cache jaxcache
+2026-11-19T01:42:25Z R4_rho0.5_s3 end: exit 0; counts equal, JSON equal
+2026-11-19T01:42:25Z R4_rho2_s1 start: e1 seed 1 rho 2.0 cache jaxcache
+2026-11-19T02:38:29Z R4_rho2_s1 end: exit 0; counts equal, JSON equal
+2026-11-19T02:38:29Z R4_rho2_s2 start: e1 seed 2 rho 2.0 cache jaxcache
+2026-11-19T03:10:04Z R4_rho2_s2 end: exit 0; counts equal, JSON equal
+2026-11-19T03:10:04Z R4_rho2_s3 start: e1 seed 3 rho 2.0 cache jaxcache
+2026-11-19T04:08:32Z R4_rho2_s3 end: exit 0; counts equal, JSON equal
+2026-11-19T04:08:32Z R4_rho4_s2 start: e1 seed 2 rho 4.0 cache jaxcache
+2026-11-19T04:40:24Z R4_rho4_s2 end: exit 0; counts equal, JSON equal
+2026-11-19T04:40:24Z R4_rho4_s3 start: e1 seed 3 rho 4.0 cache jaxcache
+2026-11-19T05:00:38Z R4_rho4_s3 end: exit 0; counts equal, JSON equal
+2026-11-19T05:00:38Z batch complete

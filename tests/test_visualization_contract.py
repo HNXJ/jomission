@@ -108,7 +108,10 @@ def _exempt(**over):
 def test_exemption_premise_requires_a_declared_absent_driver():
     """OPEN-51: an executed lineage that runs a simulation driver, or does not declare that none ran,
     cannot claim the no-model exemption unless it is a listed historical exemption."""
-    for over in ({}, {"driver_provenance": {"path": "scripts/run_something.py"}}):
+    for over in ({}, {"driver_provenance": {"path": "scripts/run_something.py"}},
+                 {"driver_provenance": {"path": "nonexistent/run.py"}},
+                 {"driver_provenance": {"path": "none.py"}}, {"driver_provenance": {"path": ""}},
+                 {"driver_provenance": "scripts/run_something.py"}):
         err = v.validate_visualization(_exempt(**over), CONTRACT)
         assert len(err) == 1 and "premise" in err[0], (over, err)
 

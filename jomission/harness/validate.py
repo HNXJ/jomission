@@ -276,8 +276,9 @@ def validate_visualization(rec: dict, contract: dict | None = None) -> list[str]
         hist = contract.get("historical_exemptions", {}).get("lineages", {}).get(lid)
         if hist is not None and hist.get("commit") == rec.get("commit"):
             return []
-        driver = str((rec.get("driver_provenance") or {}).get("path", ""))
-        if driver.startswith("none"):
+        dp = rec.get("driver_provenance")
+        driver = str(dp.get("path", "")) if isinstance(dp, dict) else ""
+        if driver == "none" or driver.startswith("none:"):
             return []
         return [f"{lid}: {field} exemption premise unmet: driver_provenance must declare that no driver "
                 f"ran ('none: ...'), or the lineage must be listed in historical_exemptions at {rec.get('commit')}"]

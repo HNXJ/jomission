@@ -42,3 +42,21 @@ level, not fresh seeds); results.tex:53-54 exact permutation count (13 824).
 E1b (`docs/laminar_motif/E1B_SEAL.md`, sealed 2026-11-19) is running: 27 runs, seeds 6-8, arm A band-floor
 sensitivity and arm B fixed PV. Its result enters Results, Methods and possibly the abstract sentence on E1, so the
 methodological lock waits for it.
+
+## M3 trace (after this report's score)
+
+Claim-level trace at d289583, tables in `docs/laminar_motif/m3_trace_2026-11-19/` (1057 rows). Six DEFECTs found
+and fixed at c1f320c to 4340019 (Fig S1 label sizes, M/D power, probe-control sentence, dirty-flag count, permutation
+wording, untraced seed negative control); C15-C18 records pinned. Eight UNKNOWN remain, none holdable in a file:
+three figure readings (35 Hz, 40 Hz, "one unit"), four literature values (Mazzoni 90 % three times, LANSA 1 s), one
+process statement. M3 stays UNKNOWN; the score is not recomputed until E1b is folded in.
+
+## Resume (if this session is lost)
+
+1. Batch: detached, launched 2026-11-19T17:56Z from a clone pinned at 4c99e05 (`D:/tmp/_temp_e1b_clone`), output
+   `D:/tmp/_temp_e1b_runs`, log `batch.log` there. Rerunning `scripts/e1b_batch.py --out D:/tmp/_temp_e1b_runs` from
+   that clone resumes it (completed receipts are skipped).
+2. Score: `python -B scripts/e1b_score.py --runs D:/tmp/_temp_e1b_runs --out results/laminar_e1b/e1b_result.json`
+   (gates 3 and 4 run first; exit 2 on a gate failure or a missing run).
+3. Copy receipts and counts to `results/laminar_e1b/`, hash them into D6, write the E1b result into Results and
+   Methods (E1 stays INCONCLUSIVE), review, rescore with the rubric, present the lock decision to Hamm.

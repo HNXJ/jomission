@@ -1,0 +1,366 @@
+file,line,value,quantity,source_path,source_key_or_line,source_value,class,note
+paper/jomission_lansa/sections/methods.tex,5,3,units in the three-unit stack,jomission/laminar/caminos_stack.py,/MODULES = \(([^)]*)\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,10,8000,"E cells, published module",jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,10,1500,"inhibitory cells, published module",jomission/laminar/caminos_e0.py,N_INH = NPV + NSST (caminos_e0.py),1500,PASS,"round(1500,0)=1500"
+paper/jomission_lansa/sections/methods.tex,11,0.07,connection probability p (published),jomission/laminar/caminos_stack.py,/P_LOCAL = ([\d.]+)/ g1,0.07,PASS,"round(0.07,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,11,560,"E in-degree per cell, K_E",jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py,K_E = c0.NE * 0.07 (caminos_stack.py),560,PASS,"round(560,0)=560"
+paper/jomission_lansa/sections/methods.tex,11,105,inhibitory in-degree per cell,jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py;jomission/laminar/caminos_e0.py,INH_PER_E * K_E = N_inh/NE * K_E,105,PASS,"derived; round(105,0)=105"
+paper/jomission_lansa/sections/methods.tex,12,0.07,p (published),jomission/laminar/caminos_stack.py,/P_LOCAL = ([\d.]+)/ g1,0.07,PASS,"round(0.07,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,12,8000,NE,jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,13,560,mean K_u over units at B=1 (= K_E),jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py,K_E = c0.NE * 0.07 (caminos_stack.py),560,PASS,"identity: mean of D_u/Dbar is 1; round(560,0)=560"
+paper/jomission_lansa/sections/methods.tex,13,1,B = 1 reference exponent,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,R3 ref_level (T1 axis 1 reference),1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,13,8000,"E:I = 8000:1500, E",jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,13,1500,"E:I = 8000:1500, inhibitory",jomission/laminar/caminos_e0.py,N_INH = NPV + NSST (caminos_e0.py),1500,PASS,"round(1500,0)=1500"
+paper/jomission_lansa/sections/methods.tex,14,0.25,rho at S,jomission/laminar/caminos_stack.py,"/RHO = \{""S"": ([\d.]+), ""M"": ([\d.]+), ""D"": ([\d.]+)\}/ g1",0.25,PASS,"round(0.25,2)=0.25"
+paper/jomission_lansa/sections/methods.tex,14,1,rho at M,jomission/laminar/caminos_stack.py,"/RHO = \{""S"": ([\d.]+), ""M"": ([\d.]+), ""D"": ([\d.]+)\}/ g2",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,14,2,rho at D,jomission/laminar/caminos_stack.py,"/RHO = \{""S"": ([\d.]+), ""M"": ([\d.]+), ""D"": ([\d.]+)\}/ g3",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,15,2,AMPA decay tau_E ms,jomission/laminar/caminos_e0.py,"/TAU_E_MS, TAU_I_MS = ([\d.]+), ([\d.]+)/ g1",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,15,8,GABA decay tau_I ms,jomission/laminar/caminos_e0.py,"/TAU_E_MS, TAU_I_MS = ([\d.]+), ([\d.]+)/ g2",8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,15,2,synaptic delay ms,jomission/laminar/caminos_e0.py,/DELAY_MS = ([\d.]+)/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,15,0.07,p in round(p*8000),docs/laminar_motif/E0_SEAL.md,"/p = ([\d.]+), seeds 1 to 5/ g1",0.07,PASS,"round(0.07,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,15,8000,NE in round(p*8000),jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,15,560,private Poisson sources round(0.07*8000),jomission/laminar/caminos_e0.py;docs/laminar_motif/E0_SEAL.md,"round(p * NE), p from E0 seal",560,PASS,"derived; round(560,0)=560"
+paper/jomission_lansa/sections/methods.tex,16,4,private Poisson rate Hz,jomission/laminar/caminos_e0.py,/EXT_RATE_HZ = ([\d.]+)/ g1,4,PASS,"round(4,0)=4"
+paper/jomission_lansa/sections/methods.tex,16,2.5,private Poisson weight nS,jomission/laminar/caminos_e0.py,"/Q_E_E, Q_E_INH, Q_INH, Q_EXT = [\d.]+, [\d.]+, [\d.]+, ([\d.]+)/ g1",2.5,PASS,"round(2.5,1)=2.5"
+paper/jomission_lansa/sections/methods.tex,19,2,inter-unit delay ms,jomission/laminar/caminos_e0.py,/DELAY_MS = ([\d.]+)/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,19,80,K_INTER,jomission/laminar/caminos_stack.py,/K_INTER = ([\d.]+)/ g1,80,PASS,"round(80,0)=80"
+paper/jomission_lansa/sections/methods.tex,19,2,factor 2 in 2K_INTER (end unit),jomission/laminar/caminos_stack.py,/(2 \* K_INTER \* k_scale)/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,20,1,neighbours of an end unit (one),jomission/laminar/caminos_stack.py,"/(\(2 - \(m in \(names\[0\], names\[-1\]\)\)\))/ g1",1,PASS,word one
+paper/jomission_lansa/sections/methods.tex,20,160,inter-unit E inputs per cell,jomission/laminar/caminos_stack.py,2*K_INTER (interior: 2 x K_INTER; end unit: 2*K_INTER from one neighbour),160,PASS,"derived 2*K_INTER; round(160,0)=160"
+paper/jomission_lansa/sections/methods.tex,29,3,units in 3N,jomission/laminar/caminos_stack.py,/MODULES = \(([^)]*)\)/ g1,3,PASS,
+paper/jomission_lansa/sections/methods.tex,32,560,K_E,jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py,K_E = c0.NE * 0.07 (caminos_stack.py),560,PASS,"round(560,0)=560"
+paper/jomission_lansa/sections/methods.tex,33,0.07,p in p_u formula,jomission/laminar/caminos_stack.py,/P_LOCAL = ([\d.]+)/ g1,0.07,PASS,"round(0.07,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,33,8000,8000 in p_u formula,jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,33,1,"B = 1 in K_u proportional to N_E,u",D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,R3 ref_level (T1 axis 1 reference),1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,33,0.14,K_E / N at N=4000,jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py;D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,K_E / N (K_E from caminos_stack.py; N from R3),0.14,PASS,"derived; round(0.14,2)=0.14"
+paper/jomission_lansa/sections/methods.tex,34,4000,N reference size (T1 n),D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,json:n,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,34,1.41,B winner of T1 axis kd,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,R3 winner (axis kd),1.41,PASS,"round(1.41,2)=1.41"
+paper/jomission_lansa/sections/methods.tex,34,0.163,p_u at S with B=1.41,docs/laminar_motif/data/lansa_density_X.json,"K_u / N_E,u at B=1.41, S (LANSA density; recomputed)",0.1628594515,PASS,"recomputed from LANSA density; round(0.1628594515,3)=0.163"
+paper/jomission_lansa/sections/methods.tex,34,0.135,p_u at M with B=1.41,docs/laminar_motif/data/lansa_density_X.json,"K_u / N_E,u at B=1.41, M (LANSA density; recomputed)",0.1351136011,PASS,"recomputed from LANSA density; round(0.1351136011,3)=0.135"
+paper/jomission_lansa/sections/methods.tex,34,0.116,p_u at D with B=1.41,docs/laminar_motif/data/lansa_density_X.json,"K_u / N_E,u at B=1.41, D (LANSA density; recomputed)",0.1163562197,PASS,"recomputed from LANSA density; round(0.1163562197,3)=0.116"
+paper/jomission_lansa/sections/methods.tex,37,8,"TAU_I, charge scale 8/NN",jomission/laminar/caminos_e0.py,"/TAU_E_MS, TAU_I_MS = ([\d.]+), ([\d.]+)/ g2",8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,42,0.1,dt ms,jomission/laminar/caminos_e0.py,/DT_MS = ([\d.]+)/ g1,0.1,PASS,"round(0.1,1)=0.1"
+paper/jomission_lansa/sections/methods.tex,43,4000,N = 4000 seed-1 reference,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,json:n,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,43,1,seed 1 of the reference,paper/jomission_lansa/data/t8_engine_check.json,json:1/dense_seed,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,45,4000,N = 4000 stack,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,json:n,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,46,0.5,W0 comparison window s,docs/laminar_motif/SEAL_LFS.md,"/\(([\d.]+) s, \d+ spikes/ g1",0.5,PASS,"SEAL_LFS W0; round(0.5,1)=0.5"
+paper/jomission_lansa/sections/methods.tex,47,1,E0 seed 1 re-run R1,docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md,"/## R1 \(E0 seed (\d+), (\d+) s\)/ g1",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,48,8087,last identical step,docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md,/Equal for steps 0-(\d+)/ g1,8087,PASS,"round(8087,0)=8087"
+paper/jomission_lansa/sections/methods.tex,48,33.0,f_pk re-run Hz,docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md,/\| f_pk \| ([\d.]+) Hz \| ([\d.]+) Hz/ g1,33,PASS,"round(33,1)=33"
+paper/jomission_lansa/sections/methods.tex,48,34.0,f_pk original Hz,docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md,/\| f_pk \| ([\d.]+) Hz \| ([\d.]+) Hz/ g2,34,PASS,"round(34,1)=34"
+paper/jomission_lansa/sections/methods.tex,49,17,E0 and E1 runs reproduced,docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md,/\((\d+) distinct runs/ g1,17,PASS,
+paper/jomission_lansa/sections/methods.tex,52,24,run records flagged git_dirty (word 'Twenty-four'),D:/cowork/jomission/results/laminar_e2,git_dirty true in 27 of 104 keyed primary run records,27,DEFECT,word twenty-four; manuscript value differs from the source
+paper/jomission_lansa/sections/methods.tex,52,15,dirty T8 runs,D:/cowork/jomission/results/laminar_e2,git_dirty true: t8_* run records,15,PASS,
+paper/jomission_lansa/sections/methods.tex,52,3,dirty confirmation runs,D:/cowork/jomission/results/laminar_e2,git_dirty true: t1_confirm run records,3,PASS,
+paper/jomission_lansa/sections/methods.tex,53,4,dirty deep-unit-decay runs,D:/cowork/jomission/results/laminar_e2,git_dirty true: t1_sstd run records,4,PASS,
+paper/jomission_lansa/sections/methods.tex,53,21,deep-unit-decay runs,D:/cowork/jomission/results/laminar_e2,t1_sstd*_n4000_s*_T8.json run records,21,PASS,
+paper/jomission_lansa/sections/methods.tex,53,2,dirty weight runs,D:/cowork/jomission/results/laminar_e2,git_dirty true: e2x run records,2,PASS,
+paper/jomission_lansa/sections/methods.tex,59,22,saved output arrays compared,paper/jomission_lansa/data/t8_engine_check.json,json:1/n_common,22,PASS,"round(22,0)=22"
+paper/jomission_lansa/sections/methods.tex,59,2,layouts compared,paper/jomission_lansa/data/t8_engine_check.json;D:/cowork/jomission/results/laminar_e2/evchk_kd1p41_sst15_n4000_s1_T8.json,distinct layouts: D9 dense_layout values plus the event-check record layout,2,PASS,word two
+paper/jomission_lansa/sections/methods.tex,59,1,T1 runs compared (one),docs/laminar_motif/FINDINGS_2026-11-10.md,'one run each',1,PASS,word one; FINDINGS
+paper/jomission_lansa/sections/methods.tex,59,8,T1 run duration s,docs/laminar_motif/SEAL_T1.md,/seeds 1-3; (\d) s; (\d) s discard/ g1,8,PASS,"SEAL_T1 8 s; round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,60,1,seed of the event check run,docs/laminar_motif/FINDINGS_2026-11-10.md,/evchk_kd1p41_sst15_n4000_s(\d)_T8/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,60,248116,spikes of the event check run,docs/laminar_motif/FINDINGS_2026-11-10.md,/; (\d{3} \d{3}) spikes\)/ g1,248116,PASS,"round(248116,0)=248116"
+paper/jomission_lansa/sections/methods.tex,60,3,T8 reference runs,paper/jomission_lansa/data/t8_engine_check.json,"entries 1, 2, 3 (three T8 reference runs)",3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,61,1,first dense seed,paper/jomission_lansa/data/t8_engine_check.json,json:1/dense_seed,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,61,3,last dense seed,paper/jomission_lansa/data/t8_engine_check.json,json:3/dense_seed,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,62,1,reference seed 1 (0.5.9 side install),paper/jomission_lansa/data/t8_engine_check.json,json:1/dense_seed,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,63,21,"arrays differing, layout negative control",docs/laminar_motif/FINDINGS_2026-11-10.md,/differs in (\d+) of (\d+)\./ g1,21,PASS,"round(21,0)=21"
+paper/jomission_lansa/sections/methods.tex,63,22,"arrays, layout negative control",docs/laminar_motif/FINDINGS_2026-11-10.md,/differs in (\d+) of (\d+)\./ g2,22,PASS,"round(22,0)=22"
+paper/jomission_lansa/sections/methods.tex,64,1,layouts in the seed negative control (one),none,"seed negative control: layout count; no repo or record source found (searched FINDINGS, docs/laminar_motif, results/laminar_e2 names)",none,UNKNOWN,"seed negative control: layout count; no repo or record source found (searched FINDINGS, docs/laminar_motif, results/laminar_e2 names)"
+paper/jomission_lansa/sections/methods.tex,64,21,"arrays differing, seed negative control",none,seed negative control: 21 of 22 arrays; no source found (FINDINGS states only the layout control),none,UNKNOWN,seed negative control: 21 of 22 arrays; no source found (FINDINGS states only the layout control)
+paper/jomission_lansa/sections/methods.tex,64,22,"arrays, seed negative control",none,seed negative control: 22 arrays; no source found,none,UNKNOWN,seed negative control: 22 arrays; no source found
+paper/jomission_lansa/sections/methods.tex,64,1,timed pair (one),docs/laminar_motif/FINDINGS_2026-11-10.md,'one run each',1,PASS,word one; FINDINGS 'one run each'
+paper/jomission_lansa/sections/methods.tex,64,140,event run time s,docs/laminar_motif/FINDINGS_2026-11-10.md,/Simulate (\d+) s vs (\d+) s/ g1,140,PASS,"round(140,0)=140"
+paper/jomission_lansa/sections/methods.tex,64,1387,dense run time s,docs/laminar_motif/FINDINGS_2026-11-10.md,/Simulate (\d+) s vs (\d+) s/ g2,1387,PASS,"round(1387,0)=1387"
+paper/jomission_lansa/sections/methods.tex,64,9.9,speed-up 1387/140,docs/laminar_motif/FINDINGS_2026-11-10.md,1387 / 140 (FINDINGS timed pair),9.907142857,PASS,"derived; round(9.907142857,1)=9.9"
+paper/jomission_lansa/sections/methods.tex,66,12,run length s (confirmation),docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g3",12,PASS,"SEAL_T1 12 s; round(12,0)=12"
+paper/jomission_lansa/sections/methods.tex,71,8000,NE (E0),jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = (\d+), \d+, \d+/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,71,750,NPV (E0),jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = \d+, (\d+), \d+/ g1",750,PASS,"round(750,0)=750"
+paper/jomission_lansa/sections/methods.tex,71,750,NSST (E0),jomission/laminar/caminos_e0.py,"/NE, NPV, NSST = \d+, \d+, (\d+)/ g1",750,PASS,"round(750,0)=750"
+paper/jomission_lansa/sections/methods.tex,71,0.07,E0 p,docs/laminar_motif/E0_SEAL.md,"/p = ([\d.]+), seeds 1 to 5/ g1",0.07,PASS,"round(0.07,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,72,1,first E0 seed,jomission/laminar/e0_verdict.py,/SEEDS = \((\d+)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,72,5,E0 seeds count,jomission/laminar/e0_verdict.py,/SEEDS = \(([^)]*)\)/ g1,5,PASS,
+paper/jomission_lansa/sections/methods.tex,72,12,E0 run length s,jomission/laminar/e0_verdict.py;jomission/laminar/caminos_e0.py,STEPS_EXPECTED x DT_MS -> s,12,PASS,"STEPS x DT; round(12,0)=12"
+paper/jomission_lansa/sections/methods.tex,72,0.1,dt ms (E0),jomission/laminar/caminos_e0.py,/DT_MS = ([\d.]+)/ g1,0.1,PASS,"round(0.1,1)=0.1"
+paper/jomission_lansa/sections/methods.tex,72,2,E0 discard s,jomission/laminar/caminos_analysis.py,/DISCARD_S = ([\d.]+)/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,73,1,Welch window s,jomission/laminar/caminos_analysis.py,/WIN_S = ([\d.]+)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,73,1,Hz bin = 1/window,jomission/laminar/caminos_analysis.py,1 / WIN_S (Hz),1,PASS,"derived; round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,74,33.8,f_pk reference Hz,jomission/laminar/e0_verdict.py,"/""f_pk_Hz"": \(([\d.]+), ([\d.]+), ""abs""\)/ g1",33.8,PASS,"round(33.8,1)=33.8"
+paper/jomission_lansa/sections/methods.tex,74,1,f_pk margin Hz,jomission/laminar/e0_verdict.py,"/""f_pk_Hz"": \(([\d.]+), ([\d.]+), ""abs""\)/ g2",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,74,7.04,PV-SOM lag reference ms,jomission/laminar/e0_verdict.py,"/""lag_PV_SOM_ms"": \(([\d.]+), ([\d.]+), ""abs""\)/ g1",7.04,PASS,"round(7.04,2)=7.04"
+paper/jomission_lansa/sections/methods.tex,75,0.34,lag margin ms,jomission/laminar/e0_verdict.py,"/""lag_PV_SOM_ms"": \(([\d.]+), ([\d.]+), ""abs""\)/ g2",0.34,PASS,"round(0.34,2)=0.34"
+paper/jomission_lansa/sections/methods.tex,75,1.106,E rate reference Hz,jomission/laminar/e0_verdict.py,"/""rate_E_Hz"": \(([\d.]+), ([\d.]+), ""rel""\)/ g1",1.106,PASS,"round(1.106,3)=1.106"
+paper/jomission_lansa/sections/methods.tex,75,11.37,PV rate reference Hz,jomission/laminar/e0_verdict.py,"/""rate_PV_Hz"": \(([\d.]+), ([\d.]+), ""rel""\)/ g1",11.37,PASS,"round(11.37,2)=11.37"
+paper/jomission_lansa/sections/methods.tex,75,7.05,SST rate reference Hz,jomission/laminar/e0_verdict.py,"/""rate_SST_Hz"": \(([\d.]+), ([\d.]+), ""rel""\)/ g1",7.05,PASS,"round(7.05,2)=7.05"
+paper/jomission_lansa/sections/methods.tex,75,6.1,E rate margin percent,jomission/laminar/e0_verdict.py,rel margin x100,6.1,PASS,"0.061 x 100; round(6.1,1)=6.1"
+paper/jomission_lansa/sections/methods.tex,75,1.2,PV rate margin percent,jomission/laminar/e0_verdict.py,rel margin x100,1.2,PASS,"0.012 x 100; round(1.2,1)=1.2"
+paper/jomission_lansa/sections/methods.tex,75,8.2,SST rate margin percent,jomission/laminar/e0_verdict.py,rel margin x100,8.2,PASS,"0.082 x 100; round(8.2,1)=8.2"
+paper/jomission_lansa/sections/methods.tex,75,5,seed means in the PASS rule (five),jomission/laminar/e0_verdict.py,/SEEDS = \(([^)]*)\)/ g1,5,PASS,word five
+paper/jomission_lansa/sections/methods.tex,78,0.25,rho grid,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,79,0.5,rho grid,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,79,1,rho grid (1),jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,79,2,rho grid,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,79,4,rho grid,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,79,1500,N_PV + N_SOM,jomission/laminar/e1_verdict.py,/N_INH = (\d+)/ g1,1500,PASS,"round(1500,0)=1500"
+paper/jomission_lansa/sections/methods.tex,79,1,first E1 seed,jomission/laminar/e1_verdict.py,/SEEDS = \((\d+)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,79,3,last E1 seed,jomission/laminar/e1_verdict.py,/SEEDS = \([^)]*?(\d+)\)/ g1,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,80,4,peak excess threshold for oscillation,jomission/laminar/caminos_analysis.py,/PE_THRESHOLD = ([\d.]+)/ g1,4,PASS,"round(4,0)=4"
+paper/jomission_lansa/sections/methods.tex,80,4,criterion 1: at least 4 oscillating,jomission/laminar/e1_verdict.py,"/""threshold"": (\d+),/ g1",4,PASS,"round(4,0)=4"
+paper/jomission_lansa/sections/methods.tex,80,5,number of rho values,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,5,PASS,
+paper/jomission_lansa/sections/methods.tex,82,3,minimum frequency drop Hz,jomission/laminar/e1_verdict.py,/MIN_DROP_HZ = ([\d.]+)/ g1,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,82,0.25,rho lower end,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,82,4,rho upper end,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,82,0.05,permutation alpha,jomission/laminar/e1_verdict.py,/ALPHA_PERM = ([\d.]+)/ g1,0.05,PASS,"round(0.05,2)=0.05"
+paper/jomission_lansa/sections/methods.tex,83,10000,permutation draws,jomission/laminar/e1_verdict.py,/N_PERM_DRAWS = ([\d_]+)/ g1,10000,PASS,"round(10000,0)=10000"
+paper/jomission_lansa/sections/methods.tex,84,1,numerator of the p resolution 1/(n+1),jomission/laminar/e1_verdict.py,/(float\(np\.mean\(null_mean_slopes <= t_obs\)\))/ g1,1,PASS,"indicator mean: numerator 1; round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,84,10001,p resolution denominator claimed,jomission/laminar/e1_verdict.py,denominator of float(np.mean(null <= t_obs)) = N_PERM_DRAWS,10000,DEFECT,"code: float(np.mean(null <= t_obs)) over 10000 draws; round(10000,0)=10000; manuscript value differs from the source"
+paper/jomission_lansa/sections/methods.tex,85,1,rho = 1 reuses E0 runs,jomission/laminar/e1_verdict.py,/RHOS = \(([^)]*)\)/ g1,"[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,85,1,"E0 seeds reused, first",jomission/laminar/e0_verdict.py,/SEEDS = \((\d+)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,85,3,"E0 seeds reused, last",jomission/laminar/e1_verdict.py,/SEEDS = \([^)]*?(\d+)\)/ g1,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,85,12,new runs,jomission/laminar/e1_verdict.py,rho count x seeds - 3 reused E0 runs (E1 seal),12,PASS,15 - 3
+paper/jomission_lansa/sections/methods.tex,85,15,runs in the E1 grid,jomission/laminar/e1_verdict.py,rho count x seeds,15,PASS,5 x 3
+paper/jomission_lansa/sections/methods.tex,108,1,c_AMPA (RWS),scripts/e2_motif_figure.py,/(return ia\[:-d\] - RWS_ALPHA \* ig\[d:\])/ g1,1,PASS,implicit coefficient in return ia - alpha*ig
+paper/jomission_lansa/sections/methods.tex,108,-1.65,c_GABA (RWS),scripts/e2_motif_figure.py,-RWS_ALPHA (GABA term subtracted),-1.65,PASS,"round(-1.65,2)=-1.65"
+paper/jomission_lansa/sections/methods.tex,108,6,tau_AMPA ms (RWS),scripts/e2_motif_figure.py,"/RWS_DELAY_MS, RWS_ALPHA = ([\d.]+), ([\d.]+)/ g1",6,PASS,"round(6,0)=6"
+paper/jomission_lansa/sections/methods.tex,108,0,"tau_GABA ms (RWS, undelayed)",scripts/e2_motif_figure.py,/(return ia\[:-d\] - RWS_ALPHA \* ig\[d:\])/ g1,0,PASS,GABA term has no delay
+paper/jomission_lansa/sections/methods.tex,109,90,variance explained by RWS (Mazzoni et al.),none,"Mazzoni et al. 2015 variance explained; external result, not in repo",none,UNKNOWN,"Mazzoni et al. 2015 variance explained; external result, not in repo"
+paper/jomission_lansa/sections/methods.tex,113,1.65,alpha (RWS GABA weight),scripts/e2_motif_figure.py,"/RWS_DELAY_MS, RWS_ALPHA = ([\d.]+), ([\d.]+)/ g2",1.65,PASS,"value matches code; mean-over-depths derivation external; round(1.65,2)=1.65"
+paper/jomission_lansa/sections/methods.tex,115,1,spatial weight per unit (one),scripts/e2_motif_figure.py,/(K = np\.exp\(-\(\(mf|K = np\.exp\(-\(\(CHANNELS)/ g1,1,PASS,one kernel K shared by AMPA and GABA
+paper/jomission_lansa/sections/methods.tex,117,90,"variance explained, second statement",none,"Mazzoni et al. 2015 variance explained (repeat); external result, not in repo",none,UNKNOWN,"Mazzoni et al. 2015 variance explained (repeat); external result, not in repo"
+paper/jomission_lansa/sections/methods.tex,121,6,AMPA delay ms,scripts/e2_motif_figure.py,"/RWS_DELAY_MS, RWS_ALPHA = ([\d.]+), ([\d.]+)/ g1",6,PASS,"round(6,0)=6"
+paper/jomission_lansa/sections/methods.tex,122,1.65,GABA weight,scripts/e2_motif_figure.py,"/RWS_DELAY_MS, RWS_ALPHA = ([\d.]+), ([\d.]+)/ g2",1.65,PASS,"round(1.65,2)=1.65"
+paper/jomission_lansa/sections/methods.tex,123,0.15,sigma,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,123,21,contacts,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g3",21,PASS,
+paper/jomission_lansa/sections/methods.tex,123,-0.6,top contact,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g1",-0.6,PASS,"round(-0.6,1)=-0.6"
+paper/jomission_lansa/sections/methods.tex,123,0.4,bottom contact,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g2",0.4,PASS,"round(0.4,1)=0.4"
+paper/jomission_lansa/sections/methods.tex,124,-0.4,unit depth S,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,"[-0.4, 0, 0.3]",PASS,
+paper/jomission_lansa/sections/methods.tex,124,0,unit depth M,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,"[-0.4, 0, 0.3]",PASS,
+paper/jomission_lansa/sections/methods.tex,124,0.3,unit depth D,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,"[-0.4, 0, 0.3]",PASS,
+paper/jomission_lansa/sections/methods.tex,124,-65,V_ref mV,scripts/e2_motif_figure.py,/V_REF_MV = ([-\d.]+)/ g1,-65,PASS,"round(-65,0)=-65"
+paper/jomission_lansa/sections/methods.tex,125,0,E_AMPA mV,jomission/laminar/caminos_e0.py,"/REV_E_MV, REV_I_MV = ([-\d.]+), ([-\d.]+)/ g1",0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,125,-80,E_GABA mV,jomission/laminar/caminos_e0.py,"/REV_E_MV, REV_I_MV = ([-\d.]+), ([-\d.]+)/ g2",-80,PASS,"round(-80,0)=-80"
+paper/jomission_lansa/sections/methods.tex,126,65,|V_ref - E_AMPA| coefficient,scripts/e2_motif_figure.py;jomission/laminar/caminos_e0.py,|V_ref - E_AMPA|,65,PASS,"derived; round(65,0)=65"
+paper/jomission_lansa/sections/methods.tex,126,6,AMPA delay ms,scripts/e2_motif_figure.py,"/RWS_DELAY_MS, RWS_ALPHA = ([\d.]+), ([\d.]+)/ g1",6,PASS,"round(6,0)=6"
+paper/jomission_lansa/sections/methods.tex,126,24.75,1.65 x |V_ref - E_GABA|,scripts/e2_motif_figure.py;jomission/laminar/caminos_e0.py,1.65 x |V_ref - E_GABA|,24.75,PASS,"derived; round(24.75,2)=24.75"
+paper/jomission_lansa/sections/methods.tex,139,0.10,sigma set,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,
+paper/jomission_lansa/sections/methods.tex,139,0.15,sigma set,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,
+paper/jomission_lansa/sections/methods.tex,139,0.20,sigma set,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,
+paper/jomission_lansa/sections/methods.tex,139,0.25,sigma set,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,
+paper/jomission_lansa/sections/methods.tex,147,1,LANSA power window s,none,LANSA power window: narrative only (PLAN_PAPER_JOMISSION_LANSA.md:35 '1 s peri-stimulus windows'; skill SKILL.md:17 '1 s window' for relative power). No LANSA record or code computes it,none,UNKNOWN,LANSA power window: narrative only (PLAN_PAPER_JOMISSION_LANSA.md:35 '1 s peri-stimulus windows'; skill SKILL.md:17 '1 s window' for relative power). No LANSA record or code computes it
+paper/jomission_lansa/sections/methods.tex,148,10,image band alpha-beta low Hz,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g1",10,PASS,"round(10,0)=10"
+paper/jomission_lansa/sections/methods.tex,148,30,image band alpha-beta high Hz,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g2",30,PASS,"round(30,0)=30"
+paper/jomission_lansa/sections/methods.tex,148,50,image band gamma low Hz,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",50,PASS,"round(50,0)=50"
+paper/jomission_lansa/sections/methods.tex,148,150,image band gamma high Hz,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,148,8,manuscript band alpha-beta low Hz,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g1",8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,148,30,manuscript band alpha-beta high Hz,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g2",30,PASS,"round(30,0)=30"
+paper/jomission_lansa/sections/methods.tex,148,31,manuscript band gamma low Hz,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",31,PASS,"round(31,0)=31"
+paper/jomission_lansa/sections/methods.tex,148,150,manuscript band gamma high Hz,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,148,9,ladder runs with r_gm (31-150 Hz),D:/cowork/jomission/results/laminar_e2,ladder verdict files (lfs_* and sw_n4000),9,PASS,
+paper/jomission_lansa/sections/methods.tex,148,3,confirmation runs with r_gm (31-150 Hz),D:/cowork/jomission/results/laminar_e2,confirmation verdict files (t1_confirm),3,PASS,
+paper/jomission_lansa/sections/methods.tex,148,31,31-150 Hz r_gm band,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",31,PASS,"round(31,0)=31"
+paper/jomission_lansa/sections/methods.tex,148,150,31-150 Hz r_gm band high,scripts/e2_motif_figure.py,"/""manuscript"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,148,0.16,minimum r_gm 31-150 Hz,D:/cowork/jomission/results/laminar_e2,min r_gm_manuscript over ladder and confirmation verdicts,0.1578219326,PASS,"2 dp; round(0.1578219326,2)=0.16"
+paper/jomission_lansa/sections/methods.tex,148,0.48,maximum r_gm 31-150 Hz,D:/cowork/jomission/results/laminar_e2,max r_gm_manuscript over ladder and confirmation verdicts,0.476665236,PASS,"2 dp; round(0.476665236,2)=0.48"
+paper/jomission_lansa/sections/methods.tex,148,0.6,threshold below which r_gm fails,scripts/e2_scorer.py,/R_MIN = ([\d.]+)/ g1,0.6,PASS,"round(0.6,1)=0.6"
+paper/jomission_lansa/sections/methods.tex,152,2,discard s,scripts/e2_motif_figure.py,/else ([\d.]+)\)/ g1,2,PASS,"e2_motif_figure default; round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,152,1,window s (1000 samples at 1 kHz),scripts/e2_scorer.py,window samples / fs (s),1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,153,1,lowest frequency Hz,scripts/e2_scorer.py,"/F = np\.arange\((\d+), \d+\)/ g1",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,153,150,highest frequency Hz,scripts/e2_scorer.py,arange end - 1 (last frequency),150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,153,1,bin width Hz,scripts/e2_scorer.py,fs / window samples (Hz),1,PASS,"derived; round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,154,21,contacts,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g3",21,PASS,
+paper/jomission_lansa/sections/methods.tex,155,11,areas in the observed map,paper/jomission_lansa/data/readout_capacity_loao.json,json:n_folds,11,PASS,LOAO folds = areas
+paper/jomission_lansa/sections/methods.tex,156,150,frequencies,scripts/e2_scorer.py,"len(np.arange(1, 151))",150,PASS,
+paper/jomission_lansa/sections/methods.tex,157,10,band alpha-beta low,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g1",10,PASS,"round(10,0)=10"
+paper/jomission_lansa/sections/methods.tex,157,30,band alpha-beta high,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g2",30,PASS,"round(30,0)=30"
+paper/jomission_lansa/sections/methods.tex,157,50,band gamma low,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",50,PASS,"round(50,0)=50"
+paper/jomission_lansa/sections/methods.tex,157,150,band gamma high,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,158,-2,crossing below -2 SE,scripts/e2_motif_figure.py,/below -(\d+) SE/ g1,2,PASS,magnitude 2
+paper/jomission_lansa/sections/methods.tex,158,2,crossing above +2 SE,scripts/e2_motif_figure.py,/below -(\d+) SE/ g1,2,PASS,magnitude 2
+paper/jomission_lansa/sections/methods.tex,159,6,Gaussian bumps,scripts/e2_scorer.py,/N_BUMPS = (\d+)/ g1,6,PASS,word six
+paper/jomission_lansa/sections/methods.tex,160,0,lower bound of slope a,scripts/e2_scorer.py,"/a = rng\.uniform\(([\d.]+), ([\d.]+)\)/ g1",0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,160,2,upper bound of slope a,scripts/e2_scorer.py,"/a = rng\.uniform\(([\d.]+), ([\d.]+)\)/ g2",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,160,1000,smooth-spectrum draws,scripts/e2_scorer.py,"/n_draw: int = (\d+), seed: int = (\d+)/ g1",1000,PASS,"round(1000,0)=1000"
+paper/jomission_lansa/sections/methods.tex,160,0,seed of the smooth-spectrum null,scripts/e2_scorer.py,"/n_draw: int = (\d+), seed: int = (\d+)/ g2",0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,160,95,percentile of the null,scripts/e2_scorer.py,"/np\.percentile\(draws, (\d+)\)/ g1",95,PASS,"round(95,0)=95"
+paper/jomission_lansa/sections/methods.tex,161,6,unit-order assignments,jomission/laminar/caminos_stack.py,3! unit-order assignments,6,PASS,3!
+paper/jomission_lansa/sections/methods.tex,162,3,depths,jomission/laminar/caminos_stack.py,/MODULES = \(([^)]*)\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,167,21,contacts,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g3",21,PASS,
+paper/jomission_lansa/sections/methods.tex,168,150,frequencies per map,scripts/e2_scorer.py,"len(np.arange(1, 151))",150,PASS,
+paper/jomission_lansa/sections/methods.tex,168,3150,"pixels per map, 21 x 150",scripts/e2_motif_figure.py;scripts/e2_scorer.py,21 contacts x 150 frequencies,3150,PASS,derived
+paper/jomission_lansa/sections/methods.tex,174,0.6,r_ab threshold,scripts/e2_scorer.py,/R_MIN = ([\d.]+)/ g1,0.6,PASS,"round(0.6,1)=0.6"
+paper/jomission_lansa/sections/methods.tex,174,0.6,r_gm threshold,scripts/e2_scorer.py,/R_MIN = ([\d.]+)/ g1,0.6,PASS,"round(0.6,1)=0.6"
+paper/jomission_lansa/sections/methods.tex,175,1,identity unit order rank,scripts/e2_scorer.py,/(return 1 \+ sum\()/ g1,1,PASS,1 + count of strictly higher
+paper/jomission_lansa/sections/methods.tex,177,2,halves of the windows,scripts/e2_scorer.py,/(S\[:n//2\].*S\[n//2:\])/ g1,2,PASS,word two
+paper/jomission_lansa/sections/methods.tex,177,2,SE_diff multiplier,scripts/e2_scorer.py,/<= (\d) \* SE_diff/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,179,150,frequencies entering the score,scripts/e2_scorer.py,"len(np.arange(1, 151))",150,PASS,
+paper/jomission_lansa/sections/methods.tex,181,1,selection seeds start,docs/laminar_motif/SEAL_T1.md,/Selection \(seeds (\d)-(\d) only\)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,181,3,selection seeds end,docs/laminar_motif/SEAL_T1.md,/Selection \(seeds (\d)-(\d) only\)/ g2,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,181,4,confirmation seeds start,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g1",4,PASS,"round(4,0)=4"
+paper/jomission_lansa/sections/methods.tex,181,6,confirmation seeds end,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g2",6,PASS,"round(6,0)=6"
+paper/jomission_lansa/sections/methods.tex,181,12,confirmation run length s,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g3",12,PASS,"round(12,0)=12"
+paper/jomission_lansa/sections/methods.tex,186,0.15,ceiling width sigma,docs/laminar_motif/SEAL_T1.md,/σ (0\.\d+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,203,0.15,caption sigma,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,208,21,contacts,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g3",21,PASS,
+paper/jomission_lansa/sections/methods.tex,209,3,unit depths,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,210,3,source covariance dimension,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,
+paper/jomission_lansa/sections/methods.tex,210,3,source covariance dimension,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,
+paper/jomission_lansa/sections/methods.tex,211,5,contacts in mid,scripts/e2_readout_capacity.py,contacts with -0.2 <= z <= 0 on the 21-contact grid,5,PASS,word five
+paper/jomission_lansa/sections/methods.tex,211,-0.2,mid lower bound,scripts/e2_mid_gamma.py,"/""mid \[-0\.2,0\]"": \(([-\d.]+), ([-\d.]+)\)/ g1",-0.2,PASS,"round(-0.2,1)=-0.2"
+paper/jomission_lansa/sections/methods.tex,211,0,mid upper bound,scripts/e2_mid_gamma.py,"/""mid \[-0\.2,0\]"": \(([-\d.]+), ([-\d.]+)\)/ g2",0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,212,50,target band gamma low,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",50,PASS,"round(50,0)=50"
+paper/jomission_lansa/sections/methods.tex,212,150,target band gamma high,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,212,0.946,mid of observed profile y,paper/jomission_lansa/data/readout_capacity.json,json:y_mid,0.9459344263,PASS,"readout_capacity.json y_mid; round(0.9459344263,3)=0.946"
+paper/jomission_lansa/sections/methods.tex,213,50,map band gamma low,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g3",50,PASS,"round(50,0)=50"
+paper/jomission_lansa/sections/methods.tex,213,150,map band gamma high,scripts/e2_motif_figure.py,"/""image"": \(\(([\d.]+), ([\d.]+)\), \(([\d.]+), ([\d.]+)\)\)/ g4",150,PASS,"round(150,0)=150"
+paper/jomission_lansa/sections/methods.tex,213,0.848,mid of the observed map,paper/jomission_lansa/data/readout_capacity.json,json:map_mid,0.848049458,PASS,"readout_capacity.json map_mid; round(0.848049458,3)=0.848"
+paper/jomission_lansa/sections/methods.tex,215,6,free entries of lower-triangular L,scripts/e2_readout_capacity.py,3x3 lower triangle,6,PASS,word six
+paper/jomission_lansa/sections/methods.tex,218,3,free entries of the diagonal C,scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,219,-4,mantissa of the smallest eig/trace bound (-4e-19),paper/jomission_lansa/data/readout_capacity.json,smallest eig_over_trace[0] over ceiling_mid and maxr_full optima (sigma 0.10-0.25),-3.653016881e-19,PASS,1 s.f.; src/10^-19=-3.653
+paper/jomission_lansa/sections/methods.tex,219,1e-19,exponent of the smallest eig/trace bound,paper/jomission_lansa/data/readout_capacity.json,smallest eig_over_trace[0] over ceiling_mid and maxr_full optima (sigma 0.10-0.25),-3.653016881e-19,PASS,floor(log10|src|)=-19
+paper/jomission_lansa/sections/methods.tex,219,9,mantissa of the upper bound (9e-4),paper/jomission_lansa/data/readout_capacity.json,largest of the smallest eig over ceiling_mid optima,0.0009090087914,PASS,1 s.f.; src/10^-4=9.09
+paper/jomission_lansa/sections/methods.tex,219,1e-4,exponent of the upper bound,paper/jomission_lansa/data/readout_capacity.json,largest of the smallest eig over ceiling_mid optima,0.0009090087914,PASS,floor(log10|src|)=-4
+paper/jomission_lansa/sections/methods.tex,220,1,rank one of the maxima at sigma <= 0.20,paper/jomission_lansa/data/readout_capacity.json,maxr_full rank one (eig[1] < 1e-8) for sigma <= 0.20 and not at 0.25,1,PASS,maxr_full only
+paper/jomission_lansa/sections/methods.tex,220,0.20,sigma boundary of rank one,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,joint y_mid at 0.20 is not rank one (eig 0.0051)
+paper/jomission_lansa/sections/methods.tex,223,0.02,epsilon (feasibility band),scripts/e2_readout_joint.py,/EPS = ([\d.]+)/ g1,0.02,PASS,"round(0.02,2)=0.02"
+paper/jomission_lansa/sections/methods.tex,223,0.946,target m (y mid),paper/jomission_lansa/data/readout_capacity.json,json:y_mid,0.9459344263,PASS,"round(0.9459344263,3)=0.946"
+paper/jomission_lansa/sections/methods.tex,224,0.848,target m (map mid),paper/jomission_lansa/data/readout_capacity.json,json:map_mid,0.848049458,PASS,"round(0.848049458,3)=0.848"
+paper/jomission_lansa/sections/methods.tex,224,100,penalty weight,scripts/e2_readout_joint.py,/PEN = ([\d.]+)/ g1,100,PASS,"round(100,0)=100"
+paper/jomission_lansa/sections/methods.tex,224,0,"penalty threshold max(0, .)",scripts/e2_readout_joint.py,"/(max\(0\.0, abs)/ g1",0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,225,1e-9,feasibility tolerance,scripts/e2_readout_joint.py,/EPS \+ (1e-9)/ g1,1e-09,PASS,
+paper/jomission_lansa/sections/methods.tex,225,1e-10,Nelder-Mead xatol,scripts/e2_readout_capacity.py,"/""xatol"": ([\d.e-]+)/ g1",1e-10,PASS,
+paper/jomission_lansa/sections/methods.tex,225,1e-13,Nelder-Mead fatol,scripts/e2_readout_capacity.py,"/""fatol"": ([\d.e-]+)/ g1",1e-13,PASS,
+paper/jomission_lansa/sections/methods.tex,226,8000,Nelder-Mead maxiter,scripts/e2_readout_capacity.py,"/""maxiter"": (\d+)/ g1",8000,PASS,"round(8000,0)=8000"
+paper/jomission_lansa/sections/methods.tex,226,48,starts,scripts/e2_readout_capacity.py,/STARTS = (\d+)/ g1,48,PASS,"round(48,0)=48"
+paper/jomission_lansa/sections/methods.tex,226,20261110,seed of the optimizer,scripts/e2_readout_capacity.py,/default_rng\((\d+)\)/ g1,20261110,PASS,"round(20261110,0)=2.02611e+07"
+paper/jomission_lansa/sections/methods.tex,226,20261111,seed of the checks,scripts/e2_readout_joint_check.py,/SEED = (\d+)/ g1,20261111,PASS,"round(20261111,0)=2.02611e+07"
+paper/jomission_lansa/sections/methods.tex,228,5,self-recovery profiles (five),scripts/e2_readout_capacity.py,/for _ in range\((\d+)\):\s*\n\s*Pt = power/ g1,5,PASS,word five
+paper/jomission_lansa/sections/methods.tex,228,3,sources (three),scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,229,0.99999,self-recovery floor,paper/jomission_lansa/data/readout_capacity.json,min over sigma and 5 profiles of self_recovery_r,1,PASS,min over sigma and profiles
+paper/jomission_lansa/sections/methods.tex,229,1,negative control profile value,scripts/e2_readout_capacity.py,/(np\.arange\(mf\.CHANNELS\.size\) % 2)/ g1,1,PASS,alternating 1/0
+paper/jomission_lansa/sections/methods.tex,229,0,negative control profile value,scripts/e2_readout_capacity.py,/(np\.arange\(mf\.CHANNELS\.size\) % 2)/ g1,0,PASS,alternating 1/0
+paper/jomission_lansa/sections/methods.tex,230,0.07,"negative control r, lower end",paper/jomission_lansa/data/readout_capacity.json,min over sigma of negative_r,0.06711151104,PASS,"2 dp; round(0.06711151104,2)=0.07"
+paper/jomission_lansa/sections/methods.tex,230,0.14,"negative control r, upper end",paper/jomission_lansa/data/readout_capacity.json,max over sigma of negative_r,0.1443412614,PASS,"2 dp; round(0.1443412614,2)=0.14"
+paper/jomission_lansa/sections/methods.tex,230,0.45,least-squares r at sigma 0.15,paper/jomission_lansa/data/readout_capacity.json,json:sigma/0.15/l2_full_r,0.4540879685,PASS,"2 dp; round(0.4540879685,2)=0.45"
+paper/jomission_lansa/sections/methods.tex,231,0.15,sigma for least squares,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,232,4,synthetic targets (four),paper/jomission_lansa/data/readout_joint_check.json,known_answer length,4,PASS,word four
+paper/jomission_lansa/sections/methods.tex,232,2,rank-one targets (two),paper/jomission_lansa/data/readout_joint_check.json,targets of rank 1,2,PASS,word two
+paper/jomission_lansa/sections/methods.tex,232,1,rank value one,paper/jomission_lansa/data/readout_joint_check.json,rank value of the rank-one known-answer targets,1,PASS,word one
+paper/jomission_lansa/sections/methods.tex,232,2,full-rank targets (two),paper/jomission_lansa/data/readout_joint_check.json,targets of rank 3 (full),2,PASS,word two
+paper/jomission_lansa/sections/methods.tex,233,0.9999,recovery floor,paper/jomission_lansa/data/readout_joint_check.json,min r over known_answer targets,1,PASS,
+paper/jomission_lansa/sections/methods.tex,233,1.2,unattainable m,paper/jomission_lansa/data/readout_joint_check.json,json:known_negative/m,1.2,PASS,"round(1.2,1)=1.2"
+paper/jomission_lansa/sections/methods.tex,234,2,mantissa of the Fibonacci grid size,scripts/e2_readout_joint_check.py,/^M = ([\d_]+)/ g1,200000,PASS,src/10^5=2
+paper/jomission_lansa/sections/methods.tex,234,1e5,exponent of the grid size,scripts/e2_readout_joint_check.py,/^M = ([\d_]+)/ g1,200000,PASS,floor(log10|src|)=5
+paper/jomission_lansa/sections/methods.tex,235,0.8450,"grid maximum r, sigma 0.15, m 0.848",paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.15/rank_one_grid/map_mid/r,0.8450040783,PASS,"4 dp; round(0.8450040783,4)=0.845"
+paper/jomission_lansa/sections/methods.tex,235,0.15,sigma,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,235,0.848,m,paper/jomission_lansa/data/readout_capacity.json,json:map_mid,0.848049458,PASS,"round(0.848049458,3)=0.848"
+paper/jomission_lansa/sections/methods.tex,235,0.8452,"optimizer r, sigma 0.15, m 0.848",paper/jomission_lansa/data/readout_joint.json,json:joint/0.15/map_mid_full/r,0.8451511268,PASS,"4 dp; round(0.8451511268,4)=0.8452"
+paper/jomission_lansa/sections/methods.tex,235,0.20,sigma,scripts/e2_readout_capacity.py,/SIGMAS = \(([^)]*)\)/ g1,"[0.1, 0.15, 0.2, 0.25]",PASS,
+paper/jomission_lansa/sections/methods.tex,236,0.9775,"grid r, sigma 0.20, m 0.946",paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.20/rank_one_grid/y_mid/r,0.977532546,PASS,"4 dp; round(0.977532546,4)=0.9775"
+paper/jomission_lansa/sections/methods.tex,236,0.9814,"grid r, sigma 0.20, m 0.848",paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.20/rank_one_grid/map_mid/r,0.9814278441,PASS,"4 dp; round(0.9814278441,4)=0.9814"
+paper/jomission_lansa/sections/methods.tex,236,0.946,m,paper/jomission_lansa/data/readout_capacity.json,json:y_mid,0.9459344263,PASS,"round(0.9459344263,3)=0.946"
+paper/jomission_lansa/sections/methods.tex,236,0.848,m,paper/jomission_lansa/data/readout_capacity.json,json:map_mid,0.848049458,PASS,"round(0.848049458,3)=0.848"
+paper/jomission_lansa/sections/methods.tex,236,0.9779,"optimizer r, sigma 0.20, m 0.946",paper/jomission_lansa/data/readout_joint.json,json:joint/0.20/y_mid_full/r,0.9778614583,PASS,"4 dp; round(0.9778614583,4)=0.9779"
+paper/jomission_lansa/sections/methods.tex,236,0.9814,"optimizer r, sigma 0.20, m 0.848",paper/jomission_lansa/data/readout_joint.json,json:joint/0.20/map_mid_full/r,0.9814395754,PASS,"4 dp; round(0.9814395754,4)=0.9814"
+paper/jomission_lansa/sections/methods.tex,236,2,mantissa of random full-rank sample size,scripts/e2_readout_joint_check.py,/^Q = ([\d_]+)/ g1,200000,PASS,src/10^5=2
+paper/jomission_lansa/sections/methods.tex,236,1e5,exponent of random sample size,scripts/e2_readout_joint_check.py,/^Q = ([\d_]+)/ g1,200000,PASS,floor(log10|src|)=5
+paper/jomission_lansa/sections/methods.tex,237,0.8423,"random full-rank maximum, sigma 0.15",paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.15/random_full/map_mid/r,0.8422565593,PASS,"4 dp; round(0.8422565593,4)=0.8423"
+paper/jomission_lansa/sections/methods.tex,237,0.15,sigma,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,237,0.946,no grid point reached m at sigma 0.15,paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.15/rank_one_grid/y_mid,None,PASS,None = no feasible point
+paper/jomission_lansa/sections/methods.tex,237,0.15,sigma,scripts/e2_motif_figure.py,/SIGMA = ([\d.]+)/ g1,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,237,0.852,largest rank-one mid at sigma 0.15,paper/jomission_lansa/data/readout_joint_check.json,json:sigma/0.15/rank_one_mid_max,0.8522315412,PASS,"3 dp; round(0.8522315412,3)=0.852"
+paper/jomission_lansa/sections/methods.tex,238,1,grid step numerator (step 1/N),paper/jomission_lansa/data/readout_joint_grid.json;scripts/e2_readout_joint_grid.py,grid_step x N,1,PASS,1/N
+paper/jomission_lansa/sections/methods.tex,238,400,simplex grid N,scripts/e2_readout_joint_grid.py,/^N = (\d+)/ g1,400,PASS,
+paper/jomission_lansa/sections/methods.tex,241,41,distributed sources,scripts/e2_readout_capacity.py,"len(arange(-0.6, 0.4, 0.025))",41,PASS,
+paper/jomission_lansa/sections/methods.tex,241,-0.6,source range start,scripts/e2_readout_capacity.py,"/ZD = np\.round\(np\.arange\(([-\d.]+), ([\d.]+) \+ 1e-9, ([\d.]+)\), 3\)/ g1",-0.6,PASS,"round(-0.6,1)=-0.6"
+paper/jomission_lansa/sections/methods.tex,241,0.4,source range end,scripts/e2_readout_capacity.py,"/ZD = np\.round\(np\.arange\(([-\d.]+), ([\d.]+) \+ 1e-9, ([\d.]+)\), 3\)/ g2",0.4,PASS,"round(0.4,1)=0.4"
+paper/jomission_lansa/sections/methods.tex,241,0.025,source step,scripts/e2_readout_capacity.py,"/ZD = np\.round\(np\.arange\(([-\d.]+), ([\d.]+) \+ 1e-9, ([\d.]+)\), 3\)/ g3",0.025,PASS,"round(0.025,3)=0.025"
+paper/jomission_lansa/sections/methods.tex,242,0.997,lowest dist r over sigma,paper/jomission_lansa/data/readout_capacity.json,min over sigma of dist.r,0.9969268745,PASS,"3 dp; round(0.9969268745,3)=0.997"
+paper/jomission_lansa/sections/methods.tex,242,0.999,highest dist r over sigma,paper/jomission_lansa/data/readout_capacity.json,max over sigma of dist.r,0.9994136975,PASS,"3 dp; round(0.9994136975,3)=0.999"
+paper/jomission_lansa/sections/methods.tex,242,41,non-negative weights,scripts/e2_readout_capacity.py,"len(arange(-0.6, 0.4, 0.025))",41,PASS,
+paper/jomission_lansa/sections/methods.tex,242,21,contacts,scripts/e2_motif_figure.py,"/CHANNELS = np\.round\(np\.linspace\(([-\d.]+), ([-\d.]+), (\d+)\), 3\)/ g3",21,PASS,
+paper/jomission_lansa/sections/methods.tex,244,11,areas,paper/jomission_lansa/data/readout_capacity_loao.json,json:n_folds,11,PASS,
+paper/jomission_lansa/sections/methods.tex,245,10,other areas (11 - 1),paper/jomission_lansa/data/readout_capacity_loao.json,11 - 1,10,PASS,derived
+paper/jomission_lansa/sections/methods.tex,245,10,other areas (11 - 1),paper/jomission_lansa/data/readout_capacity_loao.json,11 - 1,10,PASS,derived
+paper/jomission_lansa/sections/methods.tex,247,0.15,declared sigma,paper/jomission_lansa/data/readout_sensitivity.json,json:declared_sigma,0.15,PASS,"round(0.15,2)=0.15"
+paper/jomission_lansa/sections/methods.tex,254,560,K_E in the rule,jomission/laminar/caminos_e0.py;jomission/laminar/caminos_stack.py,K_E = c0.NE * 0.07 (caminos_stack.py),560,PASS,"round(560,0)=560"
+paper/jomission_lansa/sections/methods.tex,254,1,B = 1 in the rule,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,R3 ref_level (T1 axis 1 reference),1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,255,4000,ladder N,scripts/e2_ladder_rule.py,/NS = \(([^)]*)\)/ g1,"[1000, 2000, 4000]",PASS,
+paper/jomission_lansa/sections/methods.tex,255,2000,ladder N,scripts/e2_ladder_rule.py,/NS = \(([^)]*)\)/ g1,"[1000, 2000, 4000]",PASS,
+paper/jomission_lansa/sections/methods.tex,255,1000,ladder N,scripts/e2_ladder_rule.py,/NS = \(([^)]*)\)/ g1,"[1000, 2000, 4000]",PASS,
+paper/jomission_lansa/sections/methods.tex,256,1,ladder seeds start,docs/laminar_motif/SEAL_LFS.md,"/Seeds: (\d), (\d), (\d) at every N/ g1",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,256,3,ladder seeds end,docs/laminar_motif/SEAL_LFS.md,"/Seeds: (\d), (\d), (\d) at every N/ g3",3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,256,8,ladder run length s,docs/laminar_motif/SEAL_LFS.md,/Run length (\d+) s/ g1,8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,256,2,ladder discard s,docs/laminar_motif/SEAL_LFS.md,"/Run length \d+ s, (\d+) s discarded/ g1",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,257,2,seed SD multiplier,scripts/e2_ladder_rule.py,"/R_SD, PEAK_HZ = ([\d.]+), ([\d.]+)/ g1",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,257,4000,reference N,scripts/e2_ladder_rule.py,/NS = \(([^)]*)\)/ g1,"[1000, 2000, 4000]",PASS,
+paper/jomission_lansa/sections/methods.tex,257,3,peak tolerance Hz,scripts/e2_ladder_rule.py,"/R_SD, PEAK_HZ = ([\d.]+), ([\d.]+)/ g2",3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,259,1000,literal total-cell model,docs/laminar_motif/SEAL_LFS.md,/literal (\d+)-total-cell/ g1,1000,PASS,
+paper/jomission_lansa/sections/methods.tex,265,3,local axes (three),docs/laminar_motif/SEAL_T1.md,axis rows of the axis table,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,265,7,levels per axis,docs/laminar_motif/SEAL_T1.md,/(\d) log-spaced levels/ g1,7,PASS,
+paper/jomission_lansa/sections/methods.tex,266,1,T1 seeds start,docs/laminar_motif/SEAL_T1.md,/Selection \(seeds (\d)-(\d) only\)/ g1,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,266,3,T1 seeds end,docs/laminar_motif/SEAL_T1.md,/Selection \(seeds (\d)-(\d) only\)/ g2,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,266,8,T1 run length s,docs/laminar_motif/SEAL_T1.md,/seeds 1-3; (\d) s; (\d) s discard/ g1,8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,282,4,confirmation seeds start,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g1",4,PASS,"round(4,0)=4"
+paper/jomission_lansa/sections/methods.tex,282,6,confirmation seeds end,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g2",6,PASS,"round(6,0)=6"
+paper/jomission_lansa/sections/methods.tex,282,12,confirmation run length s,docs/laminar_motif/SEAL_T1.md,"/Confirmation:\*\* seeds (\d)-(\d), (\d+) s/ g3",12,PASS,"round(12,0)=12"
+paper/jomission_lansa/sections/methods.tex,282,0.95,sealed target,docs/laminar_motif/SEAL_T1.md,/owner's (0\.95) target/ g1,0.95,PASS,"round(0.95,2)=0.95"
+paper/jomission_lansa/sections/methods.tex,285,0.25,T2 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,285,0.5,T2 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,285,1,T2 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,285,2,T2 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,285,4,T2 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,286,1,T2 seeds start,docs/laminar_motif/SEAL_T2_T3.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g1",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,286,3,T2 seeds end,docs/laminar_motif/SEAL_T2_T3.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g2",3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,286,8,T2 run length s,docs/laminar_motif/SEAL_T2_T3.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g3",8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,289,0.25,T3 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,289,0.5,T3 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,289,1,T3 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,289,2,T3 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,289,4,T3 level,docs/laminar_motif/SEAL_T2_T3.md,"/g and s in \{([\d., ]+)\}/ g1","[0.25, 0.5, 1, 2, 4]",PASS,
+paper/jomission_lansa/sections/methods.tex,294,-100,dose base pA,docs/laminar_motif/SEAL_T4.md,"/(-\d+) × 2\^k pA, k = (\d)\.\.(\d)/ g1",-100,PASS,"round(-100,0)=-100"
+paper/jomission_lansa/sections/methods.tex,294,2,dose ladder base,docs/laminar_motif/SEAL_T4.md,/(-\d+) × (\d)\^k pA/ g2,2,PASS,
+paper/jomission_lansa/sections/methods.tex,294,0,dose exponent start k,docs/laminar_motif/SEAL_T4.md,"/(-\d+) × 2\^k pA, k = (\d)\.\.(\d)/ g2",0,PASS,
+paper/jomission_lansa/sections/methods.tex,294,5,dose exponent end k,docs/laminar_motif/SEAL_T4.md,"/(-\d+) × 2\^k pA, k = (\d)\.\.(\d)/ g3",5,PASS,
+paper/jomission_lansa/sections/methods.tex,294,50,stimulation pA,docs/laminar_motif/SEAL_T4.md,/\+(\d+) pA/ g1,50,PASS,"round(50,0)=50"
+paper/jomission_lansa/sections/methods.tex,294,0,zero spikes after discard,docs/laminar_motif/SEAL_T4.md,/(zero spikes)/ g0,0,PASS,word zero
+paper/jomission_lansa/sections/methods.tex,295,1,reruns of a failed silencing (once),docs/laminar_motif/SEAL_T4.md,/(rerun once at twice the dose)/ g0,1,PASS,word once
+paper/jomission_lansa/sections/methods.tex,296,2,dose factor on rerun (twice),docs/laminar_motif/SEAL_T4.md,/(rerun once at twice the dose)/ g0,2,PASS,word twice
+paper/jomission_lansa/sections/methods.tex,302,0.5,lateral half-width,scripts/e2_probe_geometry.py,"/--extent"", type=float, default=([\d.]+)/ g1",0.5,PASS,"ASSUMED per C8; round(0.5,1)=0.5"
+paper/jomission_lansa/sections/methods.tex,303,2,crossing definitions (two),scripts/e2_probe_geometry.py,grid definitions: theta sweep and x-offset sweep (docstring),2,PASS,word two
+paper/jomission_lansa/sections/methods.tex,303,0,theta,scripts/e2_probe_geometry.py,"/theta in \{([\d, ]+)\} deg/ g1","[0, 30, 60, 90]",PASS,
+paper/jomission_lansa/sections/methods.tex,303,30,theta,scripts/e2_probe_geometry.py,"/theta in \{([\d, ]+)\} deg/ g1","[0, 30, 60, 90]",PASS,
+paper/jomission_lansa/sections/methods.tex,303,60,theta,scripts/e2_probe_geometry.py,"/theta in \{([\d, ]+)\} deg/ g1","[0, 30, 60, 90]",PASS,
+paper/jomission_lansa/sections/methods.tex,303,90,theta,scripts/e2_probe_geometry.py,"/theta in \{([\d, ]+)\} deg/ g1","[0, 30, 60, 90]",PASS,
+paper/jomission_lansa/sections/methods.tex,304,0,lateral offset,scripts/e2_probe_geometry.py,/OFFSETS = \(([^)]*)\)/ g1,"[0, 0.25, 0.5]",PASS,
+paper/jomission_lansa/sections/methods.tex,304,0.25,lateral offset,scripts/e2_probe_geometry.py,/OFFSETS = \(([^)]*)\)/ g1,"[0, 0.25, 0.5]",PASS,
+paper/jomission_lansa/sections/methods.tex,304,0.5,lateral offset,scripts/e2_probe_geometry.py,/OFFSETS = \(([^)]*)\)/ g1,"[0, 0.25, 0.5]",PASS,
+paper/jomission_lansa/sections/methods.tex,306,5,arms (five),docs/laminar_motif/SEAL_T8.md,arm rows of the Arms table,5,PASS,word five
+paper/jomission_lansa/sections/methods.tex,307,4000,reference layout N,docs/laminar_motif/SEAL_T8.md,/`e2_3unit_n(\d+)_dens_k1_kd1_sst15` \|/ g1,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,307,1,T8 seeds start,docs/laminar_motif/SEAL_T8.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g1",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,307,3,T8 seeds end,docs/laminar_motif/SEAL_T8.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g2",3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,307,8,T8 run length s,docs/laminar_motif/SEAL_T8.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g3",8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,307,2,T8 discard s,docs/laminar_motif/SEAL_T8.md,"/Seeds (\d)-(\d), (\d) s, (\d) s discard/ g4",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,308,4000,E cells per unit on average,docs/laminar_motif/SEAL_T8.md,/N (\d+) E cells per unit/ g1,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,309,1,one in-degree rule per unit (dflat),docs/laminar_motif/SEAL_T8.md,'one in-degree rule' (dflat arm),1,PASS,word one
+paper/jomission_lansa/sections/methods.tex,310,0.794,"flat SOM/PV ratio, geometric mean",jomission/laminar/caminos_stack.py,(S*M*D)^(1/3) from RHO (caminos_stack.py),0.793700526,PASS,"round(0.793700526,3)=0.794"
+paper/jomission_lansa/sections/methods.tex,311,2,reversed ratio at S,docs/laminar_motif/SEAL_T8.md,"/S (\d), M (\d), D (\d\.\d+)/ g1",2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,311,1,reversed ratio at M,docs/laminar_motif/SEAL_T8.md,"/S (\d), M (\d), D (\d\.\d+)/ g2",1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,311,0.25,reversed ratio at D,docs/laminar_motif/SEAL_T8.md,"/S (\d), M (\d), D (\d\.\d+)/ g3",0.25,PASS,"round(0.25,2)=0.25"
+paper/jomission_lansa/sections/methods.tex,312,3,seeds in the decision (three),docs/laminar_motif/SEAL_T8.md,"'seeds s = 1, 2, 3'",3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,312,0,decision threshold d_s > 0,docs/laminar_motif/SEAL_T8.md,/d_s > (\d)/ g1,0,PASS,"round(0,0)=0"
+paper/jomission_lansa/sections/methods.tex,313,2,SD multiplier,docs/laminar_motif/SEAL_T8.md,/mean d > (\d) SD / sqrt\((\d)\)/ g1,2,PASS,"round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,313,3,sqrt(n) with n = 3,docs/laminar_motif/SEAL_T8.md,/mean d > (\d) SD / sqrt\((\d)\)/ g2,3,PASS,"round(3,0)=3"
+paper/jomission_lansa/sections/methods.tex,318,15,T8 runs (five arms x three seeds),docs/laminar_motif/SEAL_T8.md,arms x seeds (SEAL_T8),15,PASS,"design count, not launch"
+paper/jomission_lansa/sections/methods.tex,318,2,launcher default concurrency P (two at a time),scripts/run_t8.sh,/P=\$\{1:-(\d+)\}/ g1,2,PASS,"run_t8.sh P=${1:-2}; round(2,0)=2"
+paper/jomission_lansa/sections/methods.tex,319,1,'one verdict file' read before the V1 rasters,none,"'one verdict file' read before the V1 rasters; process statement, no record in repo or results",none,UNKNOWN,"'one verdict file' read before the V1 rasters; process statement, no record in repo or results"
+paper/jomission_lansa/sections/methods.tex,320,1,reference seed 1,paper/jomission_lansa/data/t8_engine_check.json,json:1/dense_seed,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,325,1.41,T1 axis-1 winner B,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,R3 winner (axis kd),1.41,PASS,"round(1.41,2)=1.41"
+paper/jomission_lansa/sections/methods.tex,325,15,SOM to E decay ms in every unit (reference sst15),paper/jomission_lansa/data/t8_engine_check.json,sst<NN> suffix of the reference layout,15,PASS,"round(15,0)=15"
+paper/jomission_lansa/sections/methods.tex,326,4000,N,D:/cowork/jomission/results/laminar_e2/t1_kd_n4000_selection.json,json:n,4000,PASS,"round(4000,0)=4000"
+paper/jomission_lansa/sections/methods.tex,326,1,seed,D:/cowork/jomission/results/laminar_e2/e2x_weeM1p41_kd1p41_n4000_s1_T8.json,json:seed,1,PASS,"round(1,0)=1"
+paper/jomission_lansa/sections/methods.tex,326,8,run length s,D:/cowork/jomission/results/laminar_e2/e2x_weeM1p41_kd1p41_n4000_s1_T8.json,json:T_s,8,PASS,"round(8,0)=8"
+paper/jomission_lansa/sections/methods.tex,327,3,unit depths moved (three),scripts/e2_readout_capacity.py,/Z3 = np\.array\(\[([^\]]*)\]\)/ g1,3,PASS,word three
+paper/jomission_lansa/sections/methods.tex,327,1330,placements,D:/cowork/jomission/results/laminar_e2/depth_placement.json,json:sweep/sw_n4000_dens_k1_kd1_sst15_s1_T8/n_placements,1330,PASS,
+paper/jomission_lansa/sections/methods.tex,328,20,shift-null draws,scripts/e2_depth_placement.py,"/def shift_null\(S_mean: np\.ndarray, n: int = (\d+)/ g1",20,PASS,
+paper/jomission_lansa/sections/methods.tex,338,212,files with SHA-256 hashes,paper/jomission_lansa/data/sources_sha256.txt,lines (SHA-256 entries),212,PASS,

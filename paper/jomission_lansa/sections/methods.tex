@@ -49,8 +49,9 @@ counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz; \rec
 whose compiled program matches the original's, all 17 E0 and E1 runs reproduced the original per-step population
 counts exactly and the original result values (\rec{D11}). Conclusions here rest on band metrics across seeds, not on single
 spike trajectories. E2 is declared exploration except where a seal is named.
-Twenty-four of the run records carry a dirty-working-tree flag beside their commit (all 15 T8 runs, the 3
-confirmation runs, 4 of the 21 deep-unit-decay runs and 2 weight runs). The flag records that the checkout held
+Twenty-seven of the run records carry a dirty-working-tree flag beside their commit (all 15 T8 runs, the 3
+confirmation runs, 4 of the 21 deep-unit-decay runs, 2 of the 21 all-unit SOM-decay runs, 2 weight runs and the
+engine-check run). The flag records that the checkout held
 uncommitted changes when the run started; the records do not enumerate them, so the paper cannot state their scope.
 Every file the paper cites is committed and hashed in \rec{D6}, and the analysis scripts that read these outputs are
 at the commits in Table~\ref{tab:records}.
@@ -80,8 +81,8 @@ margins; a rate-matched Poisson raster scored by the same analysis must not osci
 is at least 4; otherwise $f_\text{pk}$ is undefined. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
 (2) the fitted slope of $f_\text{pk}$ on $\log_2\rho$ over the oscillating points is negative in every
 seed; (3) $f_\text{pk}$ drops by at least 3 Hz from $\rho$ 0.25 to 4; (4) one-sided permutation $p < 0.05$ for
-the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws, a Monte Carlo test whose resolution
-is $1/10\,001$). Failing (1) or an undefined criterion gives
+the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws; $p$ is the fraction of draws at or
+below the observed mean slope, and $p = 0$ is reported as the bound $1/10\,001$). Failing (1) or an undefined criterion gives
 INCONCLUSIVE. The $\rho = 1$ runs reuse E0 seeds 1--3 (same configuration), so only 12 of the 15 runs are new.
 
 \subsection{Readouts}

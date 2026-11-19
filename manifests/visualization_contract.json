@@ -95,7 +95,7 @@
   "rule": "a lineage that constructs no model and runs no simulation may set visualization to the string NOT_A_MODEL_LINEAGE with a reason, and the validator accepts it.",
   "shape": {"exempt": "NOT_A_MODEL_LINEAGE", "reason": "<why this lineage builds no model>"},
   "note": "a pure harness-repair lineage is the intended case. It is an exemption from the artifacts, never from declaring why.",
-  "premise_check": "the validator accepts the exemption only when driver_provenance.path starts with 'none' (no driver ran), or when the lineage is listed in historical_exemptions at its own commit (Hamm 2026-11-19, OPEN-51).",
+  "premise_check": "the validator accepts the exemption only when driver_provenance.path is 'none' or starts with 'none:' (no driver ran), or when the lineage is listed in historical_exemptions at its own commit (Hamm 2026-11-19, OPEN-51).",
   "premise_check_limit": "a 'none: ...' declaration is taken as stated; the validator cannot detect a driver that ran but was declared absent. Review of the lineage record is the check for that case."
  },
  "historical_exemptions": {

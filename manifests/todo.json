@@ -2091,7 +2091,7 @@
      "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/criteria_v2.md",
      "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py",
      "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/dev100_gate_record.md",
-     "_temp_plasticity_boat/artifacts/_temp/plasticity_boat/dev100/P1_pos_vel/start_00.json",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/receipts/dev100/P1_pos_vel/start_00.json",
      "owner decision pending on the directional gain g_d (O-8, EX-25): authorize a change or drop the dev-100 track",
      "JaxFNE providing SailorConfig, sailor_step and sailor_decode; the pin jaxfne==0.5.8 does not provide them"
     ],
@@ -2104,7 +2104,7 @@
     "acceptance": "V0 exact (max abs diff 0.0); C3 selection recorded by rule; P1, N1 and T05 reported for all 20 validation starts; firing-rate table; reviewer ACCEPT; no held-out start used",
     "stop_condition": "BLOCKED until (a) the owner decides O-8 and (b) a JaxFNE that provides the Sailor API is pinned after separate compatibility review. Stops if no (g_s, kappa) passes C3 step 3. Any criteria change needs criteria v3 and owner approval",
     "artifacts_expected": [
-     "_temp_plasticity_boat/artifacts/_temp/plasticity_boat/dev100_v2/",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/receipts/dev100_v2/",
      "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/dev100_gate_record.md"
     ],
     "downstream_unlock": [],

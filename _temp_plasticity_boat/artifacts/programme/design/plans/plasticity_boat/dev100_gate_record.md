@@ -4,7 +4,7 @@ Migration note (2026-11-19): moved from jaxfne `_temp_crazy_sailor_m0m1_b` (584a
 
 Scope: development starts only (`default_rng(2025).uniform(0, 2π, 20)`, R = 5, K = 600, seed 0). Held-out starts unused. Criteria: `criteria_v1_frozen.md` (sha256 d57fd981…037ee, matches provenance).
 Code: `code/dev100_model.py` (sha256 233a263f…84a80), `code/dev100_closed_loop.py` (sha256 700e67b6…cb0fb3). Git HEAD at run: 584a56ad (uncommitted).
-Raw: `artifacts/_temp/plasticity_boat/dev100/` (`P1_pos_vel/`, `N1_pos_only/`, `P1_tau05/`, `P1_N1_summary.json`, `R1_R4_resting_responsiveness.json`).
+Tracked copies: `receipts/dev100/` (`P1_N1_summary.json`, `R1_R4_resting_responsiveness.json`, `P1_pos_vel/start_00.json`). Raw trace folders (`P1_pos_vel/`, `N1_pos_only/`, `P1_tau05/`, 7.5 MB) stay in the gitignored `artifacts/_temp/plasticity_boat/dev100/` and are not in git.
 
 ## Positive control and negative controls (closed loop)
 
@@ -48,7 +48,7 @@ Correction (2026-11-19, after the v2 sweep): the R4 failure in R3 is in the moto
 
 ## v2 resting sweep (criteria v2, 2026-11-19; fixed boat, no decoder)
 
-Sensory gain g_s (non-motor E distance drive), directional gain g_d = 24 unchanged (criteria v2 C1). Files: `_temp/plasticity_boat/dev100_v2/resting/`.
+Sensory gain g_s (non-motor E distance drive), directional gain g_d = 24 unchanged (criteria v2 C1). Files: `receipts/dev100_v2/resting/` (tracked copy).
 
 | g_s | R2 E (Hz) | R2 pass | R4 max (Hz) | R4 pass | pass R2 to R4 |
 |---|---|---|---|---|---|

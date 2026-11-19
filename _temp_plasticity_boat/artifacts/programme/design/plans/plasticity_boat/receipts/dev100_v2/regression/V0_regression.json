@@ -1,0 +1,8 @@
+{
+  "check": "V0 regression: v2 rollout (g_s 24, sum, kappa 5, P1, dev start 0) vs stored v1 P1 start_00",
+  "max_abs_diff_errors": 0.0,
+  "max_abs_diff_positions": 0.0,
+  "exact": true,
+  "reference": "artifacts/_temp/plasticity_boat/dev100/P1_pos_vel/start_00.json",
+  "pass": true
+}

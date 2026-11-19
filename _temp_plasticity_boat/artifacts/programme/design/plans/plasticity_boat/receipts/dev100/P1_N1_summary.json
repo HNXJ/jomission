@@ -1,0 +1,875 @@
+{
+  "name": "plasticity_boat dev-100 P1 gate, N1 negative control, T05 sensitivity",
+  "scope": "development starts only: numpy.random.default_rng(2025).uniform(0, 2*pi, 20), R = 5, target 0",
+  "gate_criterion": "every start fixation_occupancy >= 0.9; window errors[480:600], radius 1.0",
+  "provenance": {
+    "git_head": "584a56ad5ce45d2a5744b52c8f67868c78f60cfb",
+    "code": "artifacts/programme/design/plans/plasticity_boat/code/dev100_closed_loop.py",
+    "code_sha256": "700e67b6e1586372d2dbf1ea9280bbfd985145abac304d0b30e9b60eb1cc0fb3",
+    "model": "artifacts/programme/design/plans/plasticity_boat/code/dev100_model.py",
+    "model_sha256": "233a263f09d7c6fa02430451ef7266ded5f1cb034597ddf6938ecbfa33d84a80",
+    "criteria": "artifacts/programme/design/plans/plasticity_boat/criteria_v1_frozen.md",
+    "criteria_sha256": "d57fd9810732945e8f592e88e65fccf1b65b894e737ac1ed0f745e46a44037ee",
+    "criteria_sha256_expected": "d57fd9810732945e8f592e88e65fccf1b65b894e737ac1ed0f745e46a44037ee"
+  },
+  "P1_verdict": "PASS",
+  "P1": {
+    "condition": "P1",
+    "dir": "P1_pos_vel",
+    "role": "primary gate",
+    "tau_s": 0.1,
+    "n_starts_expected": 20,
+    "n_starts_present": 20,
+    "missing_starts": [],
+    "n_pass": 20,
+    "rows": [
+      {
+        "start_index": 0,
+        "theta": 6.248362670040135,
+        "final_distance": 0.012960274496350987,
+        "min_distance": 0.0007052987188997687,
+        "pinned_mean_error": 0.009522105179106196,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 24,
+        "first20_toward_origin": 15,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 1,
+        "theta": 2.4002379913301026,
+        "final_distance": 0.01927177126082157,
+        "min_distance": 0.0004116369238420053,
+        "pinned_mean_error": 0.010616636133636347,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 54,
+        "first20_toward_origin": 13,
+        "first20_away_from_origin": 5,
+        "pass": true
+      },
+      {
+        "start_index": 2,
+        "theta": 5.197124240926078,
+        "final_distance": 0.0070209127743016166,
+        "min_distance": 0.0001451529355185294,
+        "pinned_mean_error": 0.012059657706413419,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 60,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 3,
+        "theta": 5.260630049715529,
+        "final_distance": 0.012564458669214787,
+        "min_distance": 0.0009091292132553363,
+        "pinned_mean_error": 0.012267391238128766,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 55,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 4,
+        "theta": 6.131188835231648,
+        "final_distance": 0.018882616596202138,
+        "min_distance": 0.0008539574650127845,
+        "pinned_mean_error": 0.014027757769023689,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 29,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 5,
+        "pass": true
+      },
+      {
+        "start_index": 5,
+        "theta": 0.4852191666794723,
+        "final_distance": 0.0178705502608871,
+        "min_distance": 0.00033552857577367746,
+        "pinned_mean_error": 0.011811307404908196,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 57,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 6,
+        "theta": 1.9946374489327738,
+        "final_distance": 0.019975109953631366,
+        "min_distance": 0.0002649721115969468,
+        "pinned_mean_error": 0.01244450402931155,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 35,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 7,
+        "theta": 5.777737021759437,
+        "final_distance": 0.007559577762424594,
+        "min_distance": 0.00033650067701194276,
+        "pinned_mean_error": 0.011835698600043543,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 60,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 3,
+        "pass": true
+      },
+      {
+        "start_index": 8,
+        "theta": 4.246613720273742,
+        "final_distance": 0.0058183133964871195,
+        "min_distance": 0.0004637737399171911,
+        "pinned_mean_error": 0.012059911461741043,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 56,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 9,
+        "theta": 1.795891035571437,
+        "final_distance": 0.012530063548217679,
+        "min_distance": 0.00040206591440055246,
+        "pinned_mean_error": 0.012955397788997895,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 45,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 3,
+        "pass": true
+      },
+      {
+        "start_index": 10,
+        "theta": 2.447571010104593,
+        "final_distance": 0.021095280887747016,
+        "min_distance": 0.0034029642334398413,
+        "pinned_mean_error": 0.013654939640158166,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 55,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 11,
+        "theta": 1.4465121529476546,
+        "final_distance": 0.01367840984976543,
+        "min_distance": 0.0009746971188135507,
+        "pinned_mean_error": 0.012424046009740172,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 35,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 12,
+        "theta": 1.0490478487078407,
+        "final_distance": 0.014163588208340926,
+        "min_distance": 0.00062507681094705,
+        "pinned_mean_error": 0.010949785973934922,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 56,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 13,
+        "theta": 0.964069516146846,
+        "final_distance": 0.016299536246607637,
+        "min_distance": 0.0007141592191781886,
+        "pinned_mean_error": 0.013362675455088418,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 50,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 14,
+        "theta": 6.120398662468133,
+        "final_distance": 0.004092947096782634,
+        "min_distance": 0.000583406202131455,
+        "pinned_mean_error": 0.013682912541359353,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 33,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 3,
+        "pass": true
+      },
+      {
+        "start_index": 15,
+        "theta": 2.6634161721182017,
+        "final_distance": 0.007471136081577622,
+        "min_distance": 0.0008554854461600234,
+        "pinned_mean_error": 0.012756845766368012,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 57,
+        "first20_toward_origin": 14,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 16,
+        "theta": 0.39674479074601626,
+        "final_distance": 0.00570687716148174,
+        "min_distance": 0.0010058149931100233,
+        "pinned_mean_error": 0.013481498294277116,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 40,
+        "first20_toward_origin": 15,
+        "first20_away_from_origin": 3,
+        "pass": true
+      },
+      {
+        "start_index": 17,
+        "theta": 3.088728976323448,
+        "final_distance": 0.008082033105123756,
+        "min_distance": 0.003961263248037145,
+        "pinned_mean_error": 0.010328107090511669,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 21,
+        "first20_toward_origin": 15,
+        "first20_away_from_origin": 4,
+        "pass": true
+      },
+      {
+        "start_index": 18,
+        "theta": 1.8117148498802356,
+        "final_distance": 0.014697101501258419,
+        "min_distance": 0.0014720417620747734,
+        "pinned_mean_error": 0.012341247857936348,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 58,
+        "first20_toward_origin": 15,
+        "first20_away_from_origin": 3,
+        "pass": true
+      },
+      {
+        "start_index": 19,
+        "theta": 1.3296246203988276,
+        "final_distance": 0.01997568073764536,
+        "min_distance": 0.001258535444396153,
+        "pinned_mean_error": 0.012518906391536196,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 56,
+        "first20_toward_origin": 15,
+        "first20_away_from_origin": 3,
+        "pass": true
+      }
+    ],
+    "occupancy_min": 1.0,
+    "occupancy_max": 1.0,
+    "occupancy_mean": 1.0,
+    "axis_sign_changes_min": 21,
+    "axis_sign_changes_max": 60,
+    "starts_with_any_axis_sign_change": 20,
+    "verdict": "PASS",
+    "worst_start_index": 0,
+    "worst_start_trace": {
+      "intervals": [
+        0,
+        30,
+        60,
+        120,
+        240,
+        480,
+        599
+      ],
+      "positions_at_interval_start": [
+        [
+          4.996968746185303,
+          -0.17407800257205963
+        ],
+        [
+          -0.5363805294036865,
+          0.005122106056660414
+        ],
+        [
+          0.006109962239861488,
+          -0.02099420502781868
+        ],
+        [
+          0.0019713067449629307,
+          -0.02089911326766014
+        ],
+        [
+          -0.0015322184190154076,
+          0.014366255141794682
+        ],
+        [
+          -0.0028951202984899282,
+          -0.012723913416266441
+        ],
+        [
+          -0.002988724038004875,
+          -0.010979883372783661
+        ]
+      ],
+      "errors_at_interval_start": [
+        5.0,
+        0.5364049673080444,
+        0.021865230053663254,
+        0.02099187858402729,
+        0.014447732828557491,
+        0.013049126602709293,
+        0.011379380710422993
+      ],
+      "velocities_at_interval_start": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          7.805704116821289,
+          0.41246211528778076
+        ],
+        [
+          -0.004592594690620899,
+          -0.076926589012146
+        ],
+        [
+          -0.0025128687266260386,
+          -0.07697427272796631
+        ],
+        [
+          -0.0007523038657382131,
+          -0.5972083210945129
+        ],
+        [
+          -6.742791447322816e-05,
+          -0.08108239620923996
+        ],
+        [
+          -2.0390503777889535e-05,
+          -0.08195865899324417
+        ]
+      ]
+    }
+  },
+  "N1": {
+    "condition": "N1",
+    "dir": "N1_pos_only",
+    "role": "negative control, not a gate",
+    "tau_s": 0.0,
+    "n_starts_expected": 20,
+    "n_starts_present": 20,
+    "missing_starts": [],
+    "n_pass": 0,
+    "rows": [
+      {
+        "start_index": 0,
+        "theta": 6.248362670040135,
+        "final_distance": 10.725855294896427,
+        "min_distance": 0.04999467347404134,
+        "pinned_mean_error": 7.527985150367021,
+        "fixation_occupancy": 0.041666666666666664,
+        "axis_sign_changes_window": 7,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 1,
+        "pass": false
+      },
+      {
+        "start_index": 1,
+        "theta": 2.4002379913301026,
+        "final_distance": 11.690951689882827,
+        "min_distance": 0.24523051765532927,
+        "pinned_mean_error": 11.567849572499593,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 1,
+        "pass": false
+      },
+      {
+        "start_index": 2,
+        "theta": 5.197124240926078,
+        "final_distance": 2.2696656713118695,
+        "min_distance": 0.4791626632933857,
+        "pinned_mean_error": 10.421809217582146,
+        "fixation_occupancy": 0.03333333333333333,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 3,
+        "theta": 5.260630049715529,
+        "final_distance": 4.479420017517383,
+        "min_distance": 0.3250338595161576,
+        "pinned_mean_error": 10.508680270115535,
+        "fixation_occupancy": 0.008333333333333333,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 4,
+        "theta": 6.131188835231648,
+        "final_distance": 15.866648493462675,
+        "min_distance": 0.3031047109627823,
+        "pinned_mean_error": 10.93708252509435,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 5,
+        "theta": 0.4852191666794723,
+        "final_distance": 9.790036100598343,
+        "min_distance": 1.0328627289910337,
+        "pinned_mean_error": 11.333912738164265,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 6,
+        "theta": 1.9946374489327738,
+        "final_distance": 11.330371239471818,
+        "min_distance": 0.6673486131507042,
+        "pinned_mean_error": 10.626526975631714,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 7,
+        "theta": 5.777737021759437,
+        "final_distance": 4.932803381198415,
+        "min_distance": 0.24766566159633238,
+        "pinned_mean_error": 11.952325385808944,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 5,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 8,
+        "theta": 4.246613720273742,
+        "final_distance": 9.417241969928451,
+        "min_distance": 0.30781931585003053,
+        "pinned_mean_error": 10.882765257358551,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 9,
+        "theta": 1.795891035571437,
+        "final_distance": 10.21812023905969,
+        "min_distance": 0.6273716020037068,
+        "pinned_mean_error": 11.239157597223917,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 10,
+        "theta": 2.447571010104593,
+        "final_distance": 3.904481499913716,
+        "min_distance": 0.4050336532118753,
+        "pinned_mean_error": 10.691532701253891,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 17,
+        "first20_away_from_origin": 1,
+        "pass": false
+      },
+      {
+        "start_index": 11,
+        "theta": 1.4465121529476546,
+        "final_distance": 13.77117539473192,
+        "min_distance": 0.40391883159722985,
+        "pinned_mean_error": 11.282001368204753,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 1,
+        "pass": false
+      },
+      {
+        "start_index": 12,
+        "theta": 1.0490478487078407,
+        "final_distance": 11.488030293673685,
+        "min_distance": 0.7219026337421568,
+        "pinned_mean_error": 11.137385749816895,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 13,
+        "theta": 0.964069516146846,
+        "final_distance": 10.764385321305793,
+        "min_distance": 0.7491777424933855,
+        "pinned_mean_error": 10.76028814315796,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 7,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 14,
+        "theta": 6.120398662468133,
+        "final_distance": 11.752796258472458,
+        "min_distance": 0.4002004767266655,
+        "pinned_mean_error": 11.349995684623718,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 15,
+        "theta": 2.6634161721182017,
+        "final_distance": 7.305827126915029,
+        "min_distance": 0.461022670105751,
+        "pinned_mean_error": 10.368768473466238,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 16,
+        "theta": 0.39674479074601626,
+        "final_distance": 11.726247613137721,
+        "min_distance": 0.4925992962554092,
+        "pinned_mean_error": 11.186754099527995,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 7,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 17,
+        "theta": 3.088728976323448,
+        "final_distance": 10.214689990889273,
+        "min_distance": 0.06580544561099196,
+        "pinned_mean_error": 7.469384365901351,
+        "fixation_occupancy": 0.03333333333333333,
+        "axis_sign_changes_window": 8,
+        "first20_toward_origin": 18,
+        "first20_away_from_origin": 1,
+        "pass": false
+      },
+      {
+        "start_index": 18,
+        "theta": 1.8117148498802356,
+        "final_distance": 10.548076289721633,
+        "min_distance": 0.620275017773521,
+        "pinned_mean_error": 10.950664885838826,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      },
+      {
+        "start_index": 19,
+        "theta": 1.3296246203988276,
+        "final_distance": 3.49017304800096,
+        "min_distance": 0.67799756307784,
+        "pinned_mean_error": 10.391873427232106,
+        "fixation_occupancy": 0.0,
+        "axis_sign_changes_window": 6,
+        "first20_toward_origin": 19,
+        "first20_away_from_origin": 0,
+        "pass": false
+      }
+    ],
+    "occupancy_min": 0.0,
+    "occupancy_max": 0.041666666666666664,
+    "occupancy_mean": 0.005833333333333334,
+    "axis_sign_changes_min": 5,
+    "axis_sign_changes_max": 8,
+    "starts_with_any_axis_sign_change": 20,
+    "verdict": "NOT A GATE"
+  },
+  "T05": {
+    "condition": "T05",
+    "dir": "P1_tau05",
+    "role": "sensitivity, reported, not a gate",
+    "tau_s": 0.5,
+    "n_starts_expected": 20,
+    "n_starts_present": 20,
+    "missing_starts": [],
+    "n_pass": 20,
+    "rows": [
+      {
+        "start_index": 0,
+        "theta": 6.248362670040135,
+        "final_distance": 0.07468865421421687,
+        "min_distance": 0.0040433930061995,
+        "pinned_mean_error": 0.08846309622749686,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 32,
+        "first20_toward_origin": 6,
+        "first20_away_from_origin": 10,
+        "pass": true
+      },
+      {
+        "start_index": 1,
+        "theta": 2.4002379913301026,
+        "final_distance": 0.05012678515093836,
+        "min_distance": 0.00417419852207652,
+        "pinned_mean_error": 0.060783702841339014,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 67,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 13,
+        "pass": true
+      },
+      {
+        "start_index": 2,
+        "theta": 5.197124240926078,
+        "final_distance": 0.0753375981850165,
+        "min_distance": 0.0035644902783144323,
+        "pinned_mean_error": 0.06001710609222452,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 68,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 11,
+        "pass": true
+      },
+      {
+        "start_index": 3,
+        "theta": 5.260630049715529,
+        "final_distance": 0.0912206344206062,
+        "min_distance": 0.0008417579185038768,
+        "pinned_mean_error": 0.061192950398253745,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 64,
+        "first20_toward_origin": 3,
+        "first20_away_from_origin": 14,
+        "pass": true
+      },
+      {
+        "start_index": 4,
+        "theta": 6.131188835231648,
+        "final_distance": 0.015400162652508556,
+        "min_distance": 0.001897566467740147,
+        "pinned_mean_error": 0.06428814513686423,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 67,
+        "first20_toward_origin": 6,
+        "first20_away_from_origin": 12,
+        "pass": true
+      },
+      {
+        "start_index": 5,
+        "theta": 0.4852191666794723,
+        "final_distance": 0.10520973327928959,
+        "min_distance": 0.002538413289861536,
+        "pinned_mean_error": 0.07073155380009363,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 46,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 11,
+        "pass": true
+      },
+      {
+        "start_index": 6,
+        "theta": 1.9946374489327738,
+        "final_distance": 0.0999542287781503,
+        "min_distance": 0.0046869678567946485,
+        "pinned_mean_error": 0.06086879837869977,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 60,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 14,
+        "pass": true
+      },
+      {
+        "start_index": 7,
+        "theta": 5.777737021759437,
+        "final_distance": 0.030397558033760774,
+        "min_distance": 0.0016569081955150914,
+        "pinned_mean_error": 0.05765546095111252,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 67,
+        "first20_toward_origin": 5,
+        "first20_away_from_origin": 11,
+        "pass": true
+      },
+      {
+        "start_index": 8,
+        "theta": 4.246613720273742,
+        "final_distance": 0.1128195352294205,
+        "min_distance": 0.003929431725117433,
+        "pinned_mean_error": 0.05965136722661555,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 70,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 12,
+        "pass": true
+      },
+      {
+        "start_index": 9,
+        "theta": 1.795891035571437,
+        "final_distance": 0.05221871887878927,
+        "min_distance": 0.0031140177491979053,
+        "pinned_mean_error": 0.062425709298501414,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 62,
+        "first20_toward_origin": 6,
+        "first20_away_from_origin": 11,
+        "pass": true
+      },
+      {
+        "start_index": 10,
+        "theta": 2.447571010104593,
+        "final_distance": 0.056225700547189374,
+        "min_distance": 0.006908941623437165,
+        "pinned_mean_error": 0.06774108276392023,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 59,
+        "first20_toward_origin": 8,
+        "first20_away_from_origin": 9,
+        "pass": true
+      },
+      {
+        "start_index": 11,
+        "theta": 1.4465121529476546,
+        "final_distance": 0.14756832283439794,
+        "min_distance": 0.0013784720114237941,
+        "pinned_mean_error": 0.08051563254169498,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 46,
+        "first20_toward_origin": 7,
+        "first20_away_from_origin": 9,
+        "pass": true
+      },
+      {
+        "start_index": 12,
+        "theta": 1.0490478487078407,
+        "final_distance": 0.1122610645414299,
+        "min_distance": 0.004959461513484507,
+        "pinned_mean_error": 0.0677196760623095,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 61,
+        "first20_toward_origin": 5,
+        "first20_away_from_origin": 9,
+        "pass": true
+      },
+      {
+        "start_index": 13,
+        "theta": 0.964069516146846,
+        "final_distance": 0.047085380930904,
+        "min_distance": 0.003735609804954423,
+        "pinned_mean_error": 0.08465710815119867,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 44,
+        "first20_toward_origin": 3,
+        "first20_away_from_origin": 14,
+        "pass": true
+      },
+      {
+        "start_index": 14,
+        "theta": 6.120398662468133,
+        "final_distance": 0.018587614616946527,
+        "min_distance": 0.0038945067441146287,
+        "pinned_mean_error": 0.05919224808070188,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 64,
+        "first20_toward_origin": 6,
+        "first20_away_from_origin": 8,
+        "pass": true
+      },
+      {
+        "start_index": 15,
+        "theta": 2.6634161721182017,
+        "final_distance": 0.07855834966003353,
+        "min_distance": 0.0035004956014979076,
+        "pinned_mean_error": 0.05960600518931945,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 65,
+        "first20_toward_origin": 5,
+        "first20_away_from_origin": 14,
+        "pass": true
+      },
+      {
+        "start_index": 16,
+        "theta": 0.39674479074601626,
+        "final_distance": 0.02843277403035221,
+        "min_distance": 0.0033443768777714753,
+        "pinned_mean_error": 0.06390177277304852,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 61,
+        "first20_toward_origin": 4,
+        "first20_away_from_origin": 10,
+        "pass": true
+      },
+      {
+        "start_index": 17,
+        "theta": 3.088728976323448,
+        "final_distance": 0.05590152142154334,
+        "min_distance": 0.000923186793059156,
+        "pinned_mean_error": 0.07919594121049159,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 54,
+        "first20_toward_origin": 6,
+        "first20_away_from_origin": 10,
+        "pass": true
+      },
+      {
+        "start_index": 18,
+        "theta": 1.8117148498802356,
+        "final_distance": 0.08461095517042895,
+        "min_distance": 0.004164892538778357,
+        "pinned_mean_error": 0.05857776439903925,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 67,
+        "first20_toward_origin": 7,
+        "first20_away_from_origin": 8,
+        "pass": true
+      },
+      {
+        "start_index": 19,
+        "theta": 1.3296246203988276,
+        "final_distance": 0.03647253042692115,
+        "min_distance": 0.0037744864032043532,
+        "pinned_mean_error": 0.07816382742797336,
+        "fixation_occupancy": 1.0,
+        "axis_sign_changes_window": 42,
+        "first20_toward_origin": 7,
+        "first20_away_from_origin": 8,
+        "pass": true
+      }
+    ],
+    "occupancy_min": 1.0,
+    "occupancy_max": 1.0,
+    "occupancy_mean": 1.0,
+    "axis_sign_changes_min": 32,
+    "axis_sign_changes_max": 70,
+    "starts_with_any_axis_sign_change": 20,
+    "verdict": "NOT A GATE, NOT USED TO SELECT"
+  },
+  "drive_checks_file": "artifacts/_temp/plasticity_boat/dev100/smoke/drive_checks.json"
+}

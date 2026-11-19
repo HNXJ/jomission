@@ -45,7 +45,7 @@ on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at com
 The software authority is 0.5.8; 0.5.8 and 0.5.9 gave identical per-step spike counts on the $N = 4000$ stack over
 0.5 s (seal \rec{S3}). Spike trajectories depend on the compiled executable, so bitwise equality here means
 equality within one software environment. Re-running E0 seed 1 under jax 0.10.1 matched the original per-step
-counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz); under a fixed jax 0.10.2 environment,
+counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz; \rec{D12}); under a fixed jax 0.10.2 environment,
 whose compiled program matches the original's, all 17 E0 and E1 runs reproduced the original per-step population
 counts exactly and the original result values (\rec{D11}). Conclusions here rest on band metrics across seeds, not on single
 spike trajectories. E2 is declared exploration except where a seal is named.

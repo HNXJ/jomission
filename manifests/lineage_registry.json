@@ -3232,7 +3232,21 @@
    "commit": "ea249f1",
    "visualization": {
     "exempt": "NOT_A_MODEL_LINEAGE",
-    "reason": "E0 CAMINOS reference replication on JaxFNE 0.5.9 is a pipeline equality benchmark against external P5/P6 margins, not a jomission substrate model lineage"
+    "reason": "historical exemption for this execution only (manifests/visualization_contract.json historical_exemptions; Hamm 2026-11-19, OPEN-51): the lineage ran a simulation, so the no-model premise does not hold; a rerun or child lineage must comply with V0-V3",
+    "reason_original": "E0 CAMINOS reference replication on JaxFNE 0.5.9 is a pipeline equality benchmark against external P5/P6 margins, not a jomission substrate model lineage"
+   },
+   "reproduction": {
+    "status": "COUNT-VALIDATED RECONSTRUCTION",
+    "protocol": "docs/laminar_motif/OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da with amendment A1 (docs/laminar_motif/OPEN51_RERUN_PROTOCOL_AMENDMENT_A1_2026-11-18.md)",
+    "original_execution": "JaxFNE 0.5.9 side install, dense delivery, at ea249f1, configuration as in frozen and docs/laminar_motif/E0_SEAL.md; jax/jaxlib version not recorded in the run records; INFERRED 0.10.2 or a build sharing its compiler markers (docs/laminar_motif/OPEN51_DIAGNOSIS_2026-11-18.md)",
+    "seeds": [1, 2, 3, 4, 5],
+    "jax_dependence": "per-step trajectories depend on the compiled executable: under jax 0.10.1 seed 1 matched the original counts to step 8087 and then diverged (f_pk 33.0 against 34.0 Hz; docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md); under the A1 environment (jax/jaxlib 0.10.2) seeds 1-5 reproduced the original per-step population counts exactly and the original result values",
+    "outputs": "per-cell rasters and edge tables kept outside the repository; hashes in docs/laminar_motif/open51_a1/output_files.sha256",
+    "verification": "independent recompute ACCEPT 2026-11-19; docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md",
+    "figures_from_reconstruction": [
+     "docs/laminar_motif/open51_viz/SCI-LAMINAR-MOTIF-1/v1v2/raster_initial_1000ms.png",
+     "docs/laminar_motif/open51_viz/SCI-LAMINAR-MOTIF-1/v1v2/raster_final.png"
+    ]
    },
    "driver_provenance": {
     "path": "jomission/laminar/caminos_e0.py"
@@ -3344,7 +3358,22 @@
    "commit": "8200fac",
    "visualization": {
     "exempt": "NOT_A_MODEL_LINEAGE",
-    "reason": "E1 is an isolated parameter sweep testing the SST/PV frequency gradient ingredient in one module, not a full substrate model lineage"
+    "reason": "historical exemption for this execution only (manifests/visualization_contract.json historical_exemptions; Hamm 2026-11-19, OPEN-51): the lineage ran a simulation, so the no-model premise does not hold; a rerun or child lineage must comply with V0-V3",
+    "reason_original": "E1 is an isolated parameter sweep testing the SST/PV frequency gradient ingredient in one module, not a full substrate model lineage"
+   },
+   "reproduction": {
+    "status": "COUNT-VALIDATED RECONSTRUCTION",
+    "protocol": "docs/laminar_motif/OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da with amendment A1 (docs/laminar_motif/OPEN51_RERUN_PROTOCOL_AMENDMENT_A1_2026-11-18.md)",
+    "original_execution": "JaxFNE 0.5.9 side install, dense delivery, at 8200fac, configuration as in frozen and docs/laminar_motif/E1_SEAL.md; jax/jaxlib version not recorded in the run records",
+    "seeds": [1, 2, 3],
+    "rho": [0.25, 0.5, 1, 2, 4],
+    "jax_dependence": "under the A1 environment (jax/jaxlib 0.10.2) the 12 runs at rho 0.25, 0.5, 2 and 4 reproduced the original per-step population counts exactly and the original result values; rho 1 seeds 1-3 are inherited from SCI-LAMINAR-MOTIF-1 seeds 1-3, whose original counts are byte-identical; the trajectories depend on the compiled executable (see SCI-LAMINAR-MOTIF-1 reproduction)",
+    "outputs": "per-cell rasters and edge tables kept outside the repository; hashes in docs/laminar_motif/open51_a1/output_files.sha256",
+    "verification": "independent recompute ACCEPT 2026-11-19; docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md",
+    "figures_from_reconstruction": [
+     "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/v1v2/raster_initial_1000ms.png",
+     "docs/laminar_motif/open51_viz/SCI-LAMINAR-E1/v1v2/raster_final.png"
+    ]
    },
    "driver_provenance": {
     "path": "scripts/run_e1_scored.py"

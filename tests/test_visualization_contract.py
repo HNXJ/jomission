@@ -86,15 +86,55 @@ def test_unexecuted_lineage_is_not_yet_required_to_have_figures():
     assert v.validate_visualization(rec(executed=False), CONTRACT) == []
 
 
+NO_DRIVER = {"path": "none: no driver runs in this lineage"}
+
+
 def test_exemption_requires_a_reason():
     tag = CONTRACT["exemption"]["shape"]["exempt"]
-    ok = v.validate_visualization(rec(visualization={"exempt": tag, "reason": "no model built"}),
-                                  CONTRACT)
+    ok = v.validate_visualization(rec(visualization={"exempt": tag, "reason": "no model built"},
+                                      driver_provenance=NO_DRIVER), CONTRACT)
     assert ok == []
     bare = v.validate_visualization(rec(visualization={"exempt": tag}), CONTRACT)
     assert len(bare) == 1 and "without a reason" in bare[0]
     bogus = v.validate_visualization(rec(visualization={"exempt": "BECAUSE_I_SAID_SO"}), CONTRACT)
     assert len(bogus) == 1 and "unknown" in bogus[0]
+
+
+def _exempt(**over):
+    tag = CONTRACT["exemption"]["shape"]["exempt"]
+    return rec(visualization={"exempt": tag, "reason": "r"}, **over)
+
+
+def test_exemption_premise_requires_a_declared_absent_driver():
+    """OPEN-51: an executed lineage that runs a simulation driver, or does not declare that none ran,
+    cannot claim the no-model exemption unless it is a listed historical exemption."""
+    for over in ({}, {"driver_provenance": {"path": "scripts/run_something.py"}}):
+        err = v.validate_visualization(_exempt(**over), CONTRACT)
+        assert len(err) == 1 and "premise" in err[0], (over, err)
+
+
+def test_historical_exemption_is_scoped_to_lineage_and_commit():
+    hist = {"rule": "r", "lineages": {"SYNTHETIC-H": {"commit": "abc1234", "ruling": "x",
+                                                      "scope": "x", "evidence": "x"}}}
+    contract = {**CONTRACT, "historical_exemptions": hist}
+    drv = {"path": "scripts/run_something.py"}
+    listed = _exempt(lineage_id="SYNTHETIC-H", commit="abc1234", driver_provenance=drv)
+    assert v.validate_visualization(listed, contract) == []
+    for over in ({"commit": "def5678"}, {"lineage_id": "SYNTHETIC-H-CHILD"}):
+        err = v.validate_visualization({**listed, **over}, contract)
+        assert len(err) == 1 and "premise" in err[0], (over, err)
+
+
+def test_registry_historical_exemptions_are_exactly_e0_e1_at_their_commits():
+    reg = {r["lineage_id"]: r for r in json.loads(
+        (ROOT / "manifests" / "lineage_registry.json").read_text("utf-8"))["lineages"]}
+    hist = CONTRACT["historical_exemptions"]["lineages"]
+    assert sorted(hist) == ["SCI-LAMINAR-E1", "SCI-LAMINAR-MOTIF-1"]
+    for lid, h in hist.items():
+        assert h["commit"] == reg[lid]["commit"]
+        assert reg[lid]["visualization"]["exempt"] == CONTRACT["exemption"]["shape"]["exempt"]
+        assert (ROOT / h["evidence"]).is_file()
+        assert h["ruling"] and h["scope"]
 
 
 def test_validate_lineage_actually_calls_the_contract():

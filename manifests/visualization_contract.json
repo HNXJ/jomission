@@ -94,6 +94,24 @@
  "exemption": {
   "rule": "a lineage that constructs no model and runs no simulation may set visualization to the string NOT_A_MODEL_LINEAGE with a reason, and the validator accepts it.",
   "shape": {"exempt": "NOT_A_MODEL_LINEAGE", "reason": "<why this lineage builds no model>"},
-  "note": "a pure harness-repair lineage is the intended case. It is an exemption from the artifacts, never from declaring why."
+  "note": "a pure harness-repair lineage is the intended case. It is an exemption from the artifacts, never from declaring why.",
+  "premise_check": "the validator accepts the exemption only when driver_provenance.path starts with 'none' (no driver ran), or when the lineage is listed in historical_exemptions at its own commit (Hamm 2026-11-19, OPEN-51)."
+ },
+ "historical_exemptions": {
+  "rule": "Hamm 2026-11-19 (OPEN-51): completed simulations that carried the exemption before the premise check are not invalidated retroactively. Each entry is scoped to one lineage at one commit; it does not extend to a rerun, a later commit or a child lineage, which must comply with V0-V3.",
+  "lineages": {
+   "SCI-LAMINAR-MOTIF-1": {
+    "commit": "ea249f1",
+    "ruling": "Hamm 2026-11-19: register, retain the historical exemption, require compliance for future runs",
+    "scope": "E0 CAMINOS module, seeds 1-5, as executed at ea249f1; ran a simulation, so the original no-model reason was inaccurate",
+    "evidence": "docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md"
+   },
+   "SCI-LAMINAR-E1": {
+    "commit": "8200fac",
+    "ruling": "Hamm 2026-11-19: register, retain the historical exemption, require compliance for future runs",
+    "scope": "E1 SST/PV ratio sweep, rho 0.25-4, seeds 1-3, as executed at 8200fac; ran a simulation, so the original no-model reason was inaccurate",
+    "evidence": "docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md"
+   }
+  }
  }
 }

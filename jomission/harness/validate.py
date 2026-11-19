@@ -269,7 +269,18 @@ def validate_visualization(rec: dict, contract: dict | None = None) -> list[str]
     if isinstance(viz, dict) and viz.get("exempt"):
         if viz["exempt"] != contract["exemption"]["shape"]["exempt"]:
             return [f"{lid}: unknown {field} exemption {viz['exempt']!r}"]
-        return [] if viz.get("reason") else [f"{lid}: {field} exemption without a reason"]
+        if not viz.get("reason"):
+            return [f"{lid}: {field} exemption without a reason"]
+        # Premise (OPEN-51): no driver ran, declared as a driver_provenance path starting "none", or the
+        # lineage is a listed historical exemption at its own commit (never inherited by a child or rerun).
+        hist = contract.get("historical_exemptions", {}).get("lineages", {}).get(lid)
+        if hist is not None and hist.get("commit") == rec.get("commit"):
+            return []
+        driver = str((rec.get("driver_provenance") or {}).get("path", ""))
+        if driver.startswith("none"):
+            return []
+        return [f"{lid}: {field} exemption premise unmet: driver_provenance must declare that no driver "
+                f"ran ('none: ...'), or the lineage must be listed in historical_exemptions at {rec.get('commit')}"]
     if not isinstance(viz, dict):
         return [f"{lid}: {field} must be an object of stage -> path"]
     err = []

@@ -11,14 +11,14 @@
 \centering
 \cell{1.0\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\\[0.5em]
 \cell{0.78\linewidth}{../../results/viz/s1/sw_n4000_dens_k1_kd1_sst15_s1_T8_refmap.png}{LFP and SL map}
-\caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s, exploratory. Top: architecture
+\caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s. Top: architecture
 as built, at the full text width so its labels print at 6.1--6.6 pt rather than the 2.6 pt a two-fifths-width
 placement gave. Bottom: relative power, the RWS-probe power per E cell divided by its maximum over depth at each
 frequency, drawn at its printed size (the six-panel diagnostic montage, which carries the per-cell-mean and
 sum-over-cells variants and the band profiles, is the run record for this run's own outputs and is not reproduced
 here at unreadable scale; per-run verdicts are \rec{R6} and \rec{R7}). The current-based CSD of this run is
 Fig.~\ref{fig:csd}. Tables~S1--S4 give the modules, edges per rule,
-run record and parameters with sources.}
+run record and parameters with sources, from \rec{R12}.}
 \label{fig:s-reference}
 \end{figure}
 
@@ -130,7 +130,7 @@ D9 & T8 engine check & \path{paper/jomission_lansa/data/t8_engine_check.json} \\
 D10 & joint constraint, known-answer and independent bounds & \path{paper/jomission_lansa/data/readout_joint_check.json} \\
 D11 & E0 and E1 re-run in a fixed environment & \path{docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md} \\
 D12 & E0 seed 1 re-run under jax 0.10.1 & \path{docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md} \\
-\multicolumn{3}{@{}l}{\textit{Run records, not version-controlled, hashed in D6}} \\
+\multicolumn{3}{@{}l}{\textit{Run records, hashed in D6}} \\
 R1 & E0 result & \path{results/laminar_e0/e0_result.json} \\
 R2 & E1 result & \path{results/laminar_e1/e1_result.json} \\
 R3 & T1 selections, axes 1--3 & \path{results/laminar_e2/t1_{kd,sst,sstd}_n4000_selection.json} \\
@@ -142,12 +142,13 @@ R8 & per-unit weight verdicts & \path{results/laminar_e2/e2x_*_kd1p41_n4000_s1_T
 R9 & depth placement & \path{results/laminar_e2/depth_placement.json} \\
 R10 & seed agreement & \path{results/viz/paper_w6/seed_diff.json} \\
 R11 & T8 per-arm details, V0, V1 and V2 blocks, V3 atlas & \path{results/viz/t8/} \\
+R12 & reference-column details, Tables S1--S4 & \path{results/viz/paper_w3/sw_n4000_*_details.json} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
 \bottomrule
 \end{tabular}
-\caption{Code, pre-registration seals, data and run records cited in the text, all in the project repository
-\citep{Jomission}; the model runs on JaxFNE 0.5.9 \citep{JaxFNE}. Run records (R) are not version-controlled;
-D6 hashes them and Data availability states their availability.}
+\caption{Records cited in the text. All but run records R3 to R12 are in the project repository
+\citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
+availability. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
 \label{tab:records}
 \end{table}

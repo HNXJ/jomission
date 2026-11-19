@@ -5,9 +5,8 @@ first seeds but left relative gamma just above mid-L4 at 0.27--0.31 of the obser
 passed the scorer. The setting selected by the pre-registered search and rerun on fresh seeds never reached the
 reference's deep alpha-beta, at 0.32--0.47 on its own selection seeds against the reference's 0.83--0.86, nor on
 the fresh seeds (0.35--0.47). Deep alpha-beta did appear in searched levels: 17 of the 54 T1 selection runs had
-$r_{ab} \geq 0.83$, and the largest $r_{gm}$ among them was 0.35, still below the 0.6 threshold. The only runs that
-cleared both bands on one seed were the hand-chosen middle-unit weight settings, which are exploratory and were not
-scored on fresh seeds. Of the settings carried forward, only the unsearched reference kept both bands in view. The
+$r_{ab} \geq 0.83$, and the largest $r_{gm}$ among them was 0.35, still below the 0.6 threshold. No tested setting
+satisfied the joint criterion; the hand-chosen middle-unit weight settings, run on one seed, also failed it. Of the settings carried forward, only the unsearched reference kept both bands in view. The
 trade-off, rather than an absence, is what the search could not escape: it selected on whole-map similarity, and a
 level chosen that way gave up the deep alpha-beta placement to gain gamma agreement.
 
@@ -24,11 +23,11 @@ named quantity. The ramp was declared and runs against the measured CB/PV profil
 rests on an assumption whose reversal breaks it.
 
 \textbf{What is missing.} The isolated CAMINOS module oscillates at 27--46 Hz, below the scored 50--150 Hz band,
-and in the stack the M and D units peak at 11--12 Hz. The model may therefore lack a fast oscillatory mode in the
-scored band at any depth, rather than place one at the wrong depth: its 50--150 Hz power comes from the tails of
+and in the stack the M and D units peak at 11--12 Hz. These peaks are consistent with a model that lacks a fast
+oscillatory mode in the scored band at any depth, rather than one that places it at the wrong depth: its 50--150 Hz power comes from the tails of
 these rhythms and from S. Because the map is relative, the deficit is M's gamma being small compared with S's, not
-a measured shortfall of absolute power, and excess S power contributes to it. The exploratory weight runs suggest
-that in M gamma and alpha-beta come from the same recurrent excitation: raising M's E$\to$E weight lifted the
+a measured shortfall of absolute power, and excess S power contributes to it. The hand-chosen weight runs are
+consistent with gamma and alpha-beta in M coming from the same recurrent excitation: raising M's E$\to$E weight lifted the
 gamma correlation but moved the alpha-beta peak to M, and adding PV$\to$E inhibition restored deep alpha-beta at
 the cost of M's gamma. Inferred from hand-chosen single-seed runs, this is a hypothesis. It predicts that a change
 which raises M's gamma at a fixed M firing rate, for example in PV kinetics or PV$\to$PV coupling with the E rate
@@ -36,8 +35,8 @@ matched, would raise $r_{gm}$ without breaking the crossing, and that a rate-mat
 change would not. The mouse V1 model of \citet{Herrera2026} implicates layer-4 PV-to-excitatory dynamics in the
 motif, according to its abstract; the full text was not available to us, so we do not attribute specific kinetic
 results to it. That model corresponds to
-our M unit; a primate column may need such a generator with gamma that extends above layer 4, as the observed map
-shows. That test needs its own seal and is not run here. The readout comparison gives it a quantitative target: the
+our M unit; the observed map, whose gamma extends above layer 4, is consistent with a primate column that needs
+such a generator above layer 4 as well. That test needs its own seal and is not run here. The readout comparison gives it a quantitative target: the
 circuit puts 17--19\% of its gamma power in M with real-part source coherences of at most 0.27, while the readout's constrained
 optimum puts 49\% there with coherent sources.
 
@@ -47,9 +46,9 @@ multicompartment LFPs \citep{Mazzoni2015}, combined with an assumed separable de
 to all units and depths cancels in the per-frequency normalization (Methods); receptor- and unit-dependent
 filtering does not, and is unvalidated for this model and for the macaque LFP. Of the uncalibrated parts we tested
 the spatial ones. The kernel width and unit depths both change the band correlations, and neither removes the
-mid-depth deficit. Under this readout the circuit's failure of the gamma depth criterion reflects its source
-spectra, because the same readout can meet that criterion without coherence; the statement is conditional on the
-three-source observation model and says nothing observation-independent about cortical generators. The readout is
+mid-depth deficit. The same readout can meet the gamma depth criterion without coherence, so the readout control
+implicates model spectra but does not exclude observation-model effects, and it says nothing
+observation-independent about cortical generators. The readout is
 also a confound: moving only the contact depths nearly doubled $r_\text{proto}$ and the spectral-shift null was not
 rejected, and probe tilt changed the laminar contrast metric without raising $r_\text{proto}$. A similarity score
 between a model map and a recorded map is weak evidence of shared generators unless it beats spectrum-shift and
@@ -57,7 +56,7 @@ identical-unit nulls on the same geometry.
 
 \textbf{Limits.} The model is stationary while the target is not: every unit receives the same stationary Poisson
 drive, whereas the observed maps come from 1 s peri-stimulus windows in which layers receive different, timed
-inputs, so part of the mismatch may reflect drive rather than circuit. The column has three units, so depth
+inputs, so the mismatch is consistent with a contribution of drive as well as circuit. The column has three units, so depth
 resolution comes from the readout kernel, not from the model. LANSA densities are relative per marker, so they set
 depth profiles, not ratios across types, and calbindin is not a specific SOM marker. The SOM/PV ramp was declared,
 not measured, and the controls separate it from the density profile only at three seeds per condition, without

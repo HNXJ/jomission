@@ -1,7 +1,7 @@
-# E1b seal (DRAFT r2 2026-11-19): peak frequency versus SST/PV ratio, band-floor sensitivity and fixed-PV arm
+# E1b seal (2026-11-19): peak frequency versus SST/PV ratio, band-floor sensitivity and fixed-PV arm
 
-Status: DRAFT r2, after the owner's review of r1 (2026-11-19: revise before sealing). Becomes SEALED on the owner's
-approval of every value in the decisions table, committed and pushed before any scored E1b run. A changed criterion
+Status: SEALED on the owner's approval of every value in the decisions table (E1b-a to E1b-f, r2 "as drafted",
+2026-11-19, after review of r1), committed and pushed before any scored E1b run. A changed criterion
 after a run is a new lineage. E1 (`E1_SEAL.md`) stays INCONCLUSIVE with its frozen criteria, whatever E1b finds.
 
 Lineage: SCI-LAMINAR-MOTIF-1, LM-0, E1b. Why: E1 found no oscillation at rho = 4 in any seed. The re-read of the
@@ -98,7 +98,7 @@ Disclosure: the r2 runner computed the spectral readout on the smoke run as well
 1 s kept, arm B rho = 4 gave a 26 Hz peak with excess 22 under the 10-80 Hz band. It was seen before sealing and
 changed no value in this draft. The runner now skips the readout for smoke runs.
 
-## Owner decisions (pending)
+## Owner decisions (2026-11-19, each "as drafted", r2)
 
 | Id | Value | Decision |
 |---|---|---|

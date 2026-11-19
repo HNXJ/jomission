@@ -1,0 +1,12 @@
+{
+ "inputs_array_sha256": {
+  "original": "ffcc8a7b9312e15756c792b52f10d509ede4436ba37f265269cb855f01ae8883",
+  "r1_jax0101": "236d96129dbfa585c7d2593b63ab1898cc8b93ccac93af47492a3c3b48db5ad8",
+  "a1_r1_jax0102": "ffcc8a7b9312e15756c792b52f10d509ede4436ba37f265269cb855f01ae8883"
+ },
+ "first_differing_step_0101": 8088,
+ "total_abs_diff_0101": 378514,
+ "total_abs_diff_0102": 0,
+ "bin_steps": 100,
+ "dt_ms": 0.1
+}

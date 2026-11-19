@@ -1,0 +1,135 @@
+{
+ "protocol": "OPEN51_RERUN_PROTOCOL_2026-11-17.md@5d586da+A1@7e82b51",
+ "environment": "reconstructed jax 0.10.2 environment (A1)",
+ "started_utc": "2026-11-18T14:51:22Z",
+ "finished_utc": null,
+ "stopped": null,
+ "r0c": {
+  "exit": 0,
+  "ynn_fusion_count": 7,
+  "dynamic_variables": 4,
+  "strict_hlo": [
+   "lines 1441 vs 1441; identical True; diff lines 0"
+  ]
+ },
+ "steps": [
+  {
+   "step": "R1",
+   "run": "e0_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1412.2
+  },
+  {
+   "step": "R2",
+   "run": "e0_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1237.7
+  },
+  {
+   "step": "R3_s2",
+   "run": "e0_seed2",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 2595.5
+  },
+  {
+   "step": "R3_s3",
+   "run": "e0_seed3",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 3176.3
+  },
+  {
+   "step": "R3_s4",
+   "run": "e0_seed4",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 10123.1
+  },
+  {
+   "step": "R3_s5",
+   "run": "e0_seed5",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 5160.2
+  },
+  {
+   "step": "R4a_1",
+   "run": "e1_rho4_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1284.3
+  },
+  {
+   "step": "R4a_2",
+   "run": "e1_rho4_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1291.2
+  },
+  {
+   "step": "R4_rho0.25_s1",
+   "run": "e1_rho0.25_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1295.2
+  },
+  {
+   "step": "R4_rho0.25_s2",
+   "run": "e1_rho0.25_seed2",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1308.3
+  },
+  {
+   "step": "R4_rho0.25_s3",
+   "run": "e1_rho0.25_seed3",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1913.4
+  },
+  {
+   "step": "R4_rho0.5_s1",
+   "run": "e1_rho0.5_seed1",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 2623.8
+  },
+  {
+   "step": "R4_rho0.5_s2",
+   "run": "e1_rho0.5_seed2",
+   "exit": 0,
+   "outcome": "counts equal, JSON equal",
+   "counts_equal": true,
+   "json_equal": true,
+   "elapsed_s": 1286.9
+  }
+ ],
+ "classification": {}
+}

@@ -1,5 +1,7 @@
 # Plasticity Boat: dev-100 gate record (frozen criteria v1)
 
+Migration note (2026-11-19): moved from jaxfne `_temp_crazy_sailor_m0m1_b` (584a56ad..c3dbd594) into jomission branch `_temp_plasticity_boat`, under `_temp_plasticity_boat/`. Paths in this record are relative to that directory. Raw evidence named below is the gitignored copy there. The sha256 values in the header record the code as run at 584a56ad. After re-rooting, the only change in `dev100_closed_loop.py`, `dev100_v2.py` and `directional_positive_control.py` is the repo-root guard (`REPO.parent / "AGENTS.md"`). Criteria v1 (d57fd9810732945e…a44037ee) and v2 (2b610a9bfceda99f…7d86fbd401) are byte-identical to their jaxfne originals.
+
 Scope: development starts only (`default_rng(2025).uniform(0, 2π, 20)`, R = 5, K = 600, seed 0). Held-out starts unused. Criteria: `criteria_v1_frozen.md` (sha256 d57fd981…037ee, matches provenance).
 Code: `code/dev100_model.py` (sha256 233a263f…84a80), `code/dev100_closed_loop.py` (sha256 700e67b6…cb0fb3). Git HEAD at run: 584a56ad (uncommitted).
 Raw: `artifacts/_temp/plasticity_boat/dev100/` (`P1_pos_vel/`, `N1_pos_only/`, `P1_tau05/`, `P1_N1_summary.json`, `R1_R4_resting_responsiveness.json`).

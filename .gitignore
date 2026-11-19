@@ -39,3 +39,6 @@ results/viz/_gallery/
 scratch/
 
 .pages_test_tmp/
+
+# Plasticity Boat migrated raw evidence (gitignored; provenance recorded in its dev100 gate record)
+_temp_plasticity_boat/artifacts/_temp/

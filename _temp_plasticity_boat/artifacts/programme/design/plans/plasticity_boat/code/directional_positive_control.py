@@ -415,8 +415,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("command", choices=["gates", "ex24"])
     args = ap.parse_args(argv)
-    if not (REPO / "AGENTS.md").exists():
-        raise SystemExit(f"REPO resolved to {REPO}, which has no AGENTS.md")
+    if not (REPO.parent / "AGENTS.md").exists():
+        raise SystemExit(f"REPO resolved to {REPO}; its parent {REPO.parent} has no AGENTS.md")
     model = build_model()
     check_layout(model)
     if args.command == "gates":

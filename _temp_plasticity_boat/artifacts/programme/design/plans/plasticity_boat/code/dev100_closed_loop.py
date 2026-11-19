@@ -453,8 +453,8 @@ def main(argv=None) -> int:
     r.add_argument("--start", type=int, required=True)
     sub.add_parser("summary", help="write P1_N1_summary.json from the per-start JSON")
     args = ap.parse_args(argv)
-    if not (REPO / "AGENTS.md").exists():
-        raise SystemExit(f"REPO resolved to {REPO}, which has no AGENTS.md")
+    if not (REPO.parent / "AGENTS.md").exists():
+        raise SystemExit(f"REPO resolved to {REPO}; its parent {REPO.parent} has no AGENTS.md")
     if args.cmd == "smoke":
         return smoke()
     if args.cmd == "run":

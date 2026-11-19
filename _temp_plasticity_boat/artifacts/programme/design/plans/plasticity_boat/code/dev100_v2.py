@@ -435,8 +435,8 @@ def main(argv=None) -> int:
     sm.add_argument("--sensory-gain", type=float, required=True)
     sm.add_argument("--kappa", type=float, required=True)
     args = ap.parse_args(argv)
-    if not (REPO / "AGENTS.md").exists():
-        raise SystemExit(f"REPO resolved to {REPO}, which has no AGENTS.md")
+    if not (REPO.parent / "AGENTS.md").exists():
+        raise SystemExit(f"REPO resolved to {REPO}; its parent {REPO.parent} has no AGENTS.md")
     if args.cmd == "regression":
         out = regression(Path(args.out))
         print(f"V0 exact={out['exact']} max_abs_diff_errors={out['max_abs_diff_errors']:.3e} pass={out['pass']}")

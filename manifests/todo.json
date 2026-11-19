@@ -2100,7 +2100,7 @@
      "start sets: calibration default_rng(2027), validation default_rng(2025); held-out default_rng(2026) unused",
      "drive 0.0 for all 100 neurons; g_d = 24 unless the owner authorizes a directional-gain change"
     ],
-    "procedure": "1) V0 regression under a JaxFNE that provides sailor_step (source 0.5.9 passed exact, git head 5e8eee4; the pinned 0.5.8 fails); 2) C3 steps 1 to 3 on the existing resting results, recorded without outcome choice; 3) C5 validation under the selected (g_s, kappa); 4) C6 firing-rate report; 5) independent review before any protocol-freeze record. Stop at the first failed step",
+    "procedure": "1) V0 regression under a JaxFNE that provides sailor_step (JaxFNE source 0.5.9 from jaxfne branch _temp_crazy_sailor_m0m1_b at c3dbd594 passed exact; migrated jomission code at 5e8eee4; the pinned 0.5.8 fails with AttributeError on SailorConfig); 2) C3 steps 1 to 3 on the existing resting results, recorded without outcome choice; 3) C5 validation under the selected (g_s, kappa); 4) C6 firing-rate report; 5) independent review before any protocol-freeze record. Stop at the first failed step",
     "acceptance": "V0 exact (max abs diff 0.0); C3 selection recorded by rule; P1, N1 and T05 reported for all 20 validation starts; firing-rate table; reviewer ACCEPT; no held-out start used",
     "stop_condition": "BLOCKED until (a) the owner decides O-8 and (b) a JaxFNE that provides the Sailor API is pinned after separate compatibility review. Stops if no (g_s, kappa) passes C3 step 3. Any criteria change needs criteria v3 and owner approval",
     "artifacts_expected": [

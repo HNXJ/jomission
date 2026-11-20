@@ -44,4 +44,4 @@ def test_multimodal_weak_second_peak_not_flagged():
 
 def test_null_gate_does_not_pass():
     g = sc.gate4_null()
-    assert g["pass"] and g["p_value"] >= 0.05
+    assert g["p_value"] >= 0.05

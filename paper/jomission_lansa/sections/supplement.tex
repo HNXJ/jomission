@@ -118,6 +118,7 @@ S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
 S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
 S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
 S7 & T8 density and SOM/PV controls (8aa14d5; final 6dc8a38) & \path{docs/laminar_motif/SEAL_T8.md} \\
+S8 & E1b band floor and fixed-PV arm (4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
 \multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
 D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
 D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
@@ -144,12 +145,14 @@ R9 & depth placement & \path{results/laminar_e2/depth_placement.json} \\
 R10 & seed agreement & \path{results/viz/paper_w6/seed_diff.json} \\
 R11 & T8 per-arm details, V0, V1 and V2 blocks, V3 atlas & \path{results/viz/t8/} \\
 R12 & reference-column details, Tables S1--S4 & \path{results/viz/paper_w3/sw_n4000_*_details.json} \\
+R13 & E1b result, receipts and counts (27 runs) & \path{results/laminar_e1b/} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
 \bottomrule
 \end{tabular}
 \caption{Records cited in the text. All but run records R3 to R12 are in the project repository
 \citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
-availability. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
+availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
+gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
 \label{tab:records}
 \end{table}

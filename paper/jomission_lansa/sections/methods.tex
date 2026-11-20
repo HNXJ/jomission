@@ -85,6 +85,15 @@ the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws; $p$ 
 below the observed mean slope, and $p = 0$ is reported as the bound $1/10\,001$). Failing (1) or an undefined criterion gives
 INCONCLUSIVE. The $\rho = 1$ runs reuse E0 seeds 1--3 (same configuration), so only 12 of the 15 runs are new.
 
+\textbf{E1b} (seal \rec{S8}) was designed once, after a re-read of the saved E1 counts (seeds 1--3, 20--80 Hz band). That
+re-read found a 21--22 Hz peak at $\rho = 4$ in every seed, with peak excess 3.04, 3.26 and 4.78 against a threshold of
+4. E1b runs on seeds 6--8, 12 s with 2 s discarded, JaxFNE 0.5.9, $dt = 0.1$ ms, 27 runs. Arm A keeps $N_\text{inh} = 1500$
+and varies $\rho$ from 0.25 to 4. Arm B fixes $N_\text{PV} = 750$ and sets $N_\text{SST} = \text{round}(750\rho)$. The E1
+criteria are unchanged except the peak band, now 10--80 Hz, with edge 2 Hz and excess threshold 4. The $\rho = 1$ runs are
+shared by both arms. Gates before scoring: builder sizes and edge counts, the E0 and E1 tests, a positive control (the
+sealed 20--80 Hz readout reproduces all 15 E1 calls on the saved counts), and a permutation null that must not pass
+($p = 0.2149$).
+
 \subsection{Readouts}
 
 \textbf{From transmembrane currents to the LFP.} At LFP frequencies the extracellular medium is quasi-static: the
@@ -336,5 +345,5 @@ Table~\ref{tab:records} (C code, S seals, D derived data, R run records, N notes
 and seal file. Code and seals are in the project repository \citep{Jomission}; the simulator is JaxFNE 0.5.9
 \citep{JaxFNE}. Seeds are given per run in the tables and run records. Run records R3 to R12 are not under version
 control, nor are some figures drawn from them (Table~\ref{tab:records}); record \rec{D6} holds the SHA-256 hashes
-of 212 files, including every figure shown, so an untracked figure can be checked against the one in this
+of 267 files, including every figure shown, so an untracked figure can be checked against the one in this
 preprint. Availability is stated under Data availability.

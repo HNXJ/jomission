@@ -26,6 +26,7 @@ APPROVED (S2): R is random A/B.
 - Each R event independently samples A or B with probability 0.5.
 - RRRR denotes four independent draws, not a third stimulus. No new reference stimulus is introduced.
 - The realized sequence and the RNG seed are recorded for every trial, for reproducibility.
+- Implementation note (ESTABLISHED, `jomission/network/rf.py` ~line 426): the existing `random_stimulus` is one fixed seeded uniform-noise pattern (`default_rng(seed + 999)`), not per-event A/B draws. It does not implement S2. A sampler for independent draws is gate G6 (section 11).
 
 A: 45 degrees; B: 135 degrees; identical speed, contrast, amplitude and duration (v0.1 section 2, kept as PROPOSED design constraint until a stimulus file exists; OPEN, the visual parameters are not in the repo).
 
@@ -38,7 +39,11 @@ APPROVED (S3): preserve the V1/V4 L4 distance-based encoding. Do not replace it 
 - Input amplitude follows the existing distance-from-fixation rule.
 - Existing projection definitions and normalization are kept.
 
-Representational limitation (must be recorded, not hidden): distance alone cannot encode direction. The lab's current input has no A/B pathway, so it does not preserve stimulus identity independently of amplitude. Under v0.2, identity must be carried by the pathway (which L4 population or which cue group receives the drive), not by amplitude. OPEN: the pathway design that does this (gate G1 below). Until it exists, any result that depends on A versus B identity is not evaluable, and this limitation is stated with it.
+ESTABLISHED: `jomission/network/rf.py` (the RF operator) carries A/B identity by blob position in V1 retinotopic coordinates: A centre (8, 8), B centre (24, 24), stimulus sigma 2.5 px. Its docstring reports blob Jaccard below 0.15; this is not re-verified by a test here. This is spatial identity, and it is separate from amplitude.
+
+OPEN: which pathway the README's V1/V4 L4 distance encoding uses. The RF operator is one candidate; the lab's single cue group is another. Neither is shown to be the sensory interface for v0.2.
+
+Representational limitation (must be recorded, not hidden): distance alone cannot encode direction. Identity must come from the pathway (blob position or population), not from amplitude. Gate G1 requires a unit test that A and B drive different populations at equal distance, using the chosen pathway. Until G1 passes, any result that depends on A versus B identity is not evaluable.
 
 ## 5. Experiments (renamed O0-O4)
 
@@ -87,6 +92,7 @@ APPROVED with R: for every trial, record the realized A/B sequence, the RNG seed
 - G3: Fixation Sailor minimal-complete, with the controller chosen and its null test passing (`docs/subprojects/fixation-sailor/REVIEW.md`).
 - G4: stationary control and training order sealed (S6, S7).
 - G5: sealed O-spec for each experiment before its run.
+- G6: a sampler for independent per-event A/B draws for R (S2), tested against the existing `random_stimulus` pattern, which it replaces for R-family conditions.
 
 ## 12. Summary of rulings applied
 

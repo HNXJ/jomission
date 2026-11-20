@@ -18,7 +18,7 @@ Entry point for a fresh session. Repo: jomission, branch `_temp_plasticity_boat`
 
 ## Results (observed)
 
-- V0 regression, JaxFNE source 0.5.9: exact, max abs diff 0.0 (`receipts/dev100_v2/regression/V0_source_0.5.9.log`).
+- V0 regression, JaxFNE source "0.5.9" (version and SHA unverified, see "Not run or not examined"): exact, max abs diff 0.0 (`receipts/dev100_v2/regression/V0_source_0.5.9.log`).
 - V0 regression, pinned `jaxfne==0.5.8`: fails, `AttributeError: module 'jaxfne.paradigm' has no attribute 'SailorConfig'` (`receipts/dev100_v2/regression/V0_pinned_0.5.8.log`). The pin lacks the Sailor API that `code/circuit100.py` uses.
 - dev-100 v1 gate: R2 and R4 fail (`dev100_gate_record.md`).
 - dev-100 v2 resting sweep (`receipts/dev100_v2/resting/`): R2 passes only at g_s <= 4.5; R4 fails at every g_s with directional gain g_d = 24. C3 stops at step 3.
@@ -51,6 +51,9 @@ The owner has chosen Option A for the 100-neuron directional encoder (signed-pos
 
 - jomission tier-0 suite (33 files): not run. The suite lock needs write access to `~/.claude/suite.lock`, which the sandbox denies. Run it in the background under the lock with an owner-approved exception.
 - `release_artifacts` gate: NOT EXAMINED (dist absent).
+- `scripts/project_check.py` (offline): FAIL, not PASS. `receipts/dev100_v2/regression/project_check_offline.log` ends `PROJECT_CHECK_FAIL: editable install: jomission -> .../dev/jomission/jomission/__init__.py`, and `V2_LOCAL_OPERATION = FAIL`. The shared editable install points at another checkout. Not repointed (see step 2 above).
+- V0 "exact on 0.5.9": UNVERIFIED as a version claim. `V0_source_0.5.9.log` states no version. It imports from a JaxFNE checkout whose branch is unpushed, and the cited SHA `c3dbd594` does not resolve in the jomission repo. The claim holds against the tracked `receipts/dev100/P1_pos_vel/start_00.json` (errors identical to `V0_start00_sum_k5.json`). Source SHA and version must be recorded before this is cited.
+- Independent review (2026-11-20, reviewer agent, commits 83b83a3..280ebd0): ACCEPT WITH FIXES. Seed 2026 unused; criteria unchanged since b1a9031; handoff numbers match receipts. Fixes F1 (this section) and F2 (V0 line) applied. Open minors F3 to F8 (R5/G0 evidence gitignored; mixed resting provenance 584a56ad vs d724773f; O-8 grid run after R4 failure). The seven commits were merged into `dev` and `main` before this review, against the handoff's rule.
 - Critic on the JaxFNE section 13.7 amendment (O-2): verdict REVISE. Findings not yet resolved.
 
 ## Do not

@@ -1,0 +1,167 @@
+{
+ "engine": "D:\\repos\\_work\\jaxfne_v058\\jaxfne\\__init__.py",
+ "paths": [
+  {
+   "VIP_a_min_max": [
+    0.018057,
+    0.021844
+   ],
+   "VIP_b_min_max": [
+    0.180807,
+    0.219834
+   ],
+   "VIP_c_min_max": [
+    -57.968418,
+    -52.015892
+   ],
+   "VIP_d_min_max": [
+    5.405588,
+    6.591316
+   ],
+   "emitter_fields": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "drive",
+    "sign",
+    "W",
+    "v0",
+    "u0",
+    "source_scale",
+    "labels",
+    "layer_labels",
+    "source_calibration_status"
+   ],
+   "n_VIP": 64,
+   "n_cells": 400,
+   "path": "builder: build_jomission_model(n_per_area=100, seed=0)",
+   "per_type": {
+    "E": {
+     "n": 242,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "PV": {
+     "n": 52,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "SST": {
+     "n": 42,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "VIP": {
+     "n": 64,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    }
+   }
+  },
+  {
+   "VIP_a_min_max": [
+    0.02,
+    0.02
+   ],
+   "VIP_b_min_max": [
+    -0.1,
+    -0.1
+   ],
+   "VIP_c_min_max": [
+    -55.0,
+    -55.0
+   ],
+   "VIP_d_min_max": [
+    6.0,
+    6.0
+   ],
+   "emitter_fields": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "drive",
+    "sign",
+    "W",
+    "v0",
+    "u0",
+    "source_scale",
+    "labels",
+    "layer_labels",
+    "source_calibration_status"
+   ],
+   "n_VIP": 28,
+   "n_cells": 400,
+   "path": "cmin: build_cmin(seed=0), raw",
+   "per_type": {
+    "E": {
+     "n": 300,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "PV": {
+     "n": 40,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "SST": {
+     "n": 32,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "VIP": {
+     "n": 28,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    }
+   }
+  },
+  {
+   "VIP_a_min_max": [
+    0.02,
+    0.02
+   ],
+   "VIP_b_min_max": [
+    -0.116433,
+    -0.085985
+   ],
+   "VIP_c_min_max": [
+    -55.0,
+    -55.0
+   ],
+   "VIP_d_min_max": [
+    6.0,
+    6.0
+   ],
+   "emitter_fields": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "drive",
+    "sign",
+    "W",
+    "v0",
+    "u0",
+    "source_scale",
+    "labels",
+    "layer_labels",
+    "source_calibration_status"
+   ],
+   "n_VIP": 28,
+   "n_cells": 400,
+   "path": "cmin: repair_jitter(repair_tonic(build_cmin(seed=0)))",
+   "per_type": {
+    "E": {
+     "n": 300,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "PV": {
+     "n": 40,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "SST": {
+     "n": 32,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    },
+    "VIP": {
+     "n": 28,
+     "v_eq": "no v_lin field (engine standard 5/140)"
+    }
+   }
+  }
+ ]
+}

@@ -2104,6 +2104,36 @@
     "artifacts_expected": [],
     "downstream_unlock": [],
     "retired_because": "owner closeout directive 2026-09-19: the omission firewall's precondition (a frozen Gen-2 substrate) will not be built under this program. No sealed result is weakened by this retirement; any future blind omission test is a new reviewer-authorized lineage with its own freeze"
+   },
+  {
+    "id": "PB-DEV100-V2-VALIDATION",
+    "status": "BLOCKED",
+    "trigger": "owner Option A decision 2026-11-19: Plasticity Boat migrated from jaxfne _temp_crazy_sailor_m0m1_b; criteria v2 approved as a labelled revision of the dev-100 criteria",
+    "goal": "run criteria v2 for the dev-100 model: C3 selection of (g_s, kappa), C5 validation on 20 development starts (P1, N1, T05), C6 firing rates; development starts only",
+    "parent_authority": "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/criteria_v2.md (sha256 2b610a9bfceda99f783f5256219338a26b7efb752bb7e0297c26d7bd86fbd401)",
+    "principal_delta": "none: executes criteria v2 as written; no change to the criteria, the gain grid, the decoder or the start sets",
+    "required_inputs": [
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/criteria_v2.md",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/dev100_gate_record.md",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/receipts/dev100/P1_pos_vel/start_00.json",
+     "owner decision pending on the directional gain g_d (O-8, EX-25): authorize a change or drop the dev-100 track",
+     "JaxFNE providing SailorConfig, sailor_step and sailor_decode; the pin jaxfne==0.5.8 does not provide them"
+    ],
+    "frozen": [
+     "criteria_v2.md (sha256 2b610a9b...) and criteria_v1_frozen.md (sha256 d57fd981...) unchanged",
+     "start sets: calibration default_rng(2027), validation default_rng(2025); held-out default_rng(2026) unused",
+     "drive 0.0 for all 100 neurons; g_d = 24 unless the owner authorizes a directional-gain change"
+    ],
+    "procedure": "1) V0 regression under a JaxFNE that provides sailor_step (JaxFNE source 0.5.9 from jaxfne branch _temp_crazy_sailor_m0m1_b at c3dbd594 passed exact; migrated jomission code at 5e8eee4; the pinned 0.5.8 fails with AttributeError on SailorConfig); 2) C3 steps 1 to 3 on the existing resting results, recorded without outcome choice; 3) C5 validation under the selected (g_s, kappa); 4) C6 firing-rate report; 5) independent review before any protocol-freeze record. Stop at the first failed step",
+    "acceptance": "V0 exact (max abs diff 0.0); C3 selection recorded by rule; P1, N1 and T05 reported for all 20 validation starts; firing-rate table; reviewer ACCEPT; no held-out start used",
+    "stop_condition": "BLOCKED until (a) the owner decides O-8 and (b) a JaxFNE that provides the Sailor API is pinned after separate compatibility review. Stops if no (g_s, kappa) passes C3 step 3. Any criteria change needs criteria v3 and owner approval",
+    "artifacts_expected": [
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/receipts/dev100_v2/",
+     "_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/dev100_gate_record.md"
+    ],
+    "downstream_unlock": [],
+    "retired_because": ""
    }
      ]
 }

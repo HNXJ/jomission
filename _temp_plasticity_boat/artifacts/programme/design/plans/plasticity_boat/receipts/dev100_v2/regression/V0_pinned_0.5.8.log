@@ -1,0 +1,18 @@
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jaxfne/emitters.py:970: UserWarning: Explicitly requested dtype float64 requested in asarray is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return jnp.take(jnp.asarray(table, dtype=jdtype), ri).astype(jdtype)
+Traceback (most recent call last):
+  File "/Users/hamednejat/workspace/dev/_temp_plasticity_boat/_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py", line 470, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/hamednejat/workspace/dev/_temp_plasticity_boat/_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py", line 441, in main
+    out = regression(Path(args.out))
+  File "/Users/hamednejat/workspace/dev/_temp_plasticity_boat/_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py", line 333, in regression
+    rec = run_closed("P1", "dev", 0, G_D, F_V1, out_path=out_dir / "V0_start00_sum_k5.json", decoder="sum")
+  File "/Users/hamednejat/workspace/dev/_temp_plasticity_boat/_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py", line 233, in run_closed
+    res = rollout_v2(model, drive, n_intervals=K, p0=p0s[start], kappa=kappa, decoder=decoder)
+  File "/Users/hamednejat/workspace/dev/_temp_plasticity_boat/_temp_plasticity_boat/artifacts/programme/design/plans/plasticity_boat/code/dev100_v2.py", line 158, in rollout_v2
+    cfg = sp.SailorConfig(**CFG)
+          ^^^^^^^^^^^^^^^
+AttributeError: module 'jaxfne.paradigm' has no attribute 'SailorConfig'

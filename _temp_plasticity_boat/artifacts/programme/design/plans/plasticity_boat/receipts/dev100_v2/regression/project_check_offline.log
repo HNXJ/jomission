@@ -1,0 +1,15 @@
+[ok] workspace: git toplevel /Users/hamednejat/workspace/dev/_temp_plasticity_boat
+      branch _temp_plasticity_boat @ d271ae4
+[ok] tree clean: 0 modified tracked files
+[ok] scientific head ancestry: main be0db96 in HEAD history
+[ok] jaxfne identity: installed 0.5.8, execution authority 0.5.8
+[FAIL] editable install: jomission -> /Users/hamednejat/workspace/dev/jomission/jomission/__init__.py
+[ok] todo
+[ok] current_state
+[ok] sealed artifacts
+[ok] lineage registry
+[ok] skills
+[ok] sealed-write guard: denies jomission/harness/oscillation.py; installed by tests/conftest.py
+      next authorized task: SCI-AGSDR-CALIBRATION
+      current gate: V2_LOCAL_OPERATION = FAIL
+PROJECT_CHECK_FAIL: editable install: jomission -> /Users/hamednejat/workspace/dev/jomission/jomission/__init__.py

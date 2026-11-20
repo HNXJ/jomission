@@ -1,0 +1,9 @@
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+/Users/hamednejat/workspace/dev/jaxfne-crazy-sailor/jaxfne/emitters.py:1087: UserWarning: Explicitly requested dtype float64 requested in asarray is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return jnp.take(jnp.asarray(table, dtype=jdtype), ri).astype(jdtype)
+/Users/hamednejat/workspace/dev/jaxfne-crazy-sailor/jaxfne/emitters.py:1145: UserWarning: Explicitly requested dtype float64 requested in asarray is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  mag = jnp.asarray(edges.weight_magnitude, dtype=jdtype).reshape(())
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+V0 exact=True max_abs_diff_errors=0.000e+00 pass=True

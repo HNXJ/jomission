@@ -112,10 +112,12 @@ narrative; the paragraphs after it are kept because their warnings still hold.
   install means every other test may import the main checkout too. The strong check is
   `python3 scripts/verify_clone.py`: it clones HEAD, builds a venv with system site-packages (jax, jaxfne, numpy,
   pytest, but no jomission), installs the clone editable into it, asserts the import resolves inside the clone, and
-  runs tier 0 with that interpreter. The receipt is tracked at `docs/receipts/verify_clone.json` and names the SHA it
-  ran on, the tier-0 summary and the verdict; the run at `028d903` recorded **import inside clone True, 258 passed,
-  0 failed, `VERIFY_CLONE_PASS`**. (An earlier note here cited `4ecdda3`, but the script first exists at `1eb00a4`,
-  so that run used an uncommitted copy and is not a clean receipt; the tracked file supersedes it.) Use this before
+  runs tier 0 with that interpreter. The canonical reference is the receipt path `docs/receipts/verify_clone.json`
+  (Hamm 2026-11-15: a path, not a SHA). The file records the producing commit in its `sha` field, the tier-0 summary
+  and the verdict, and its history is `git log -- docs/receipts/verify_clone.json`; a receipt cannot name the commit
+  that contains it, so no SHA is quoted here. At the time of this edit it reads **import inside clone True, 258
+  passed, 0 failed, `VERIFY_CLONE_PASS`**. (Earlier notes here cited `4ecdda3`, which used an uncommitted copy of the
+  script, and `028d903`, the first receipt, since rewritten at `0366d2b`; the tracked file supersedes both.) Use this before
   any push; `project_check.py` inside a clone stays a weaker, ambient-environment check. The script refuses to delete
   a non-empty directory it did not create, defaults to the system temp dir, and takes `--offline` to install with
   `--no-build-isolation` when no network is available.

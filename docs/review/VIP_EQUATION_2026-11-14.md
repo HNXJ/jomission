@@ -1,6 +1,6 @@
 # VIP equation by construction path, 2026-11-14
 
-Status: observed by construction probe. No simulation was run. Ruling: owner, 2026-11-14 (VIP hybrid not adopted; JaxFNE 0.5.8 authoritative; route kept open). Tracked as OPEN-51.
+Status: observed by construction probe. No simulation was run. Ruling: owner, 2026-11-14 (VIP hybrid not adopted; JaxFNE 0.5.8 authoritative; route kept open). Tracked as OPEN-62.
 
 ## Question
 
@@ -37,13 +37,13 @@ Full per-type pairs: `vip_059.json`, field `per_type`.
 
 ## Provisional definition (for owner confirmation; not a biophysics choice)
 
-Until OPEN-51 is ruled: the intended VIP equation for jomission is the **standard** equation, `v_lin = 5`, `v_const = 140` (0.5.8 behaviour, matching every sealed result). The class-1 preset is not adopted. Any engine migration must either carry the standard coefficients explicitly on every path, or receive a written owner ruling that adopts class-1 for VIP and states its VIP b, a, c, d.
+Until OPEN-62 is ruled: the intended VIP equation for jomission is the **standard** equation, `v_lin = 5`, `v_const = 140` (0.5.8 behaviour, matching every sealed result). The class-1 preset is not adopted. Any engine migration must either carry the standard coefficients explicitly on every path, or receive a written owner ruling that adopts class-1 for VIP and states its VIP b, a, c, d.
 
 ## Required next checks (not run)
 
 - Consistency test: assert that builder, cmin raw, cmin repaired and the constructed model all yield the same `(v_lin, v_const)` per type. Under the 0.5.8 pin it should pass; under 0.5.9 it should fail on the builder and raw-cmin routes. Add to tier 0 only when the 0.5.8 pin is the one under test.
 - Repeat the probe for seeds 1 to 4 and for the other cmin repair paths (`d_per_neuron` and `b_per_neuron` in `qualification/cmin.py`) before any migration decision.
-- Dynamic check (not in this record): short-run VIP trace under each equation, if OPEN-51 needs an effect size.
+- Dynamic check (not in this record): short-run VIP trace under each equation, if OPEN-62 needs an effect size.
 
 ## Not changed
 

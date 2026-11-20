@@ -1,0 +1,94 @@
+file,line,value,quantity,source_path,source_key_or_line,source_value,class,note
+abstract.tex,6,11,LANSA areas in the density set,docs/laminar_motif/data/lansa_density_X.json,axes.areas,11,PASS,
+abstract.tex,4,three-unit,units in the column,results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_verdict.json [R],units,3,PASS,
+abstract.tex,7,single,single module (A single unit reproduced its rhythm),docs/laminar_motif/E1_SEAL.md,line 9 'In one isolated CAMINOS module',1,PASS,
+abstract.tex,8,0.25,"SOM/PV ratio rho, lower end of the sweep",results/laminar_e1/e1_result.json [R2],"per_seed rho grid, min",0.25,PASS,
+abstract.tex,8,2,upper end of the decline (rho where all seeds oscillate),results/laminar_e1/e1_result.json [R2],"per_seed rho oscillating in all seeds, max",2,PASS,"decline strictly monotone per seed over ['0.25', '0.5', '1.0', '2.0']: True"
+abstract.tex,8,4,rho with no oscillation,results/laminar_e1/e1_result.json [R2],per_seed oscillates=False in all seeds,4,PASS,
+abstract.tex,9,0.23,"relative gamma, mid window, reference seeds (min)",paper/jomission_lansa/data/mid_gamma.json,"runs.<ref>.mid [-0.2,0], min",0.230683,PASS,
+abstract.tex,9,0.26,"relative gamma, mid window, reference seeds (max)",paper/jomission_lansa/data/mid_gamma.json,"runs.<ref>.mid [-0.2,0], max",0.264003,PASS,
+abstract.tex,10,0.85,observed mid-window relative gamma,paper/jomission_lansa/data/mid_gamma.json,"observed.mid [-0.2,0]",0.848049,PASS,
+abstract.tex,12,0.32,r_ab of the selected setting on selection seeds (min),"results/laminar_e2/t1_sstd21_n4000_s{1,2,3}_T8_verdict.json [R7]","r_ab, min",0.320023,PASS,value equals the sstd21 axis-only runs (seeds 1-3); no run of the combined kd1p41+sst15+sstd21 setting on selection seeds exists in the record (listing of laminar_e2)
+abstract.tex,12,0.47,r_ab of the selected setting on selection seeds (max),"results/laminar_e2/t1_sstd21_n4000_s{1,2,3}_T8_verdict.json [R7]","r_ab, max",0.472763,PASS,value equals the sstd21 axis-only runs (seeds 1-3); no run of the combined kd1p41+sst15+sstd21 setting on selection seeds exists in the record (listing of laminar_e2)
+abstract.tex,12,0.83,"reference r_ab, seeds 1-3 (min)","results/laminar_e2/{sw,lfs_n4000_s2,lfs_n4000_s3}_verdict.json [R7]","r_ab, min",0.827433,PASS,
+abstract.tex,12,0.86,"reference r_ab, seeds 1-3 (max)","results/laminar_e2/{sw,lfs_n4000_s2,lfs_n4000_s3}_verdict.json [R7]","r_ab, max",0.85683,PASS,
+abstract.tex,13,one,units dominating each control (each let one unit dominate most frequencies),none found,t8_summary.json keys; results/viz/t8/*_details.json; verdict files: no per-frequency dominance field,,UNKNOWN,qualitative dominance claim; no recorded count to trace
+abstract.tex,15,three-source,sources in the declared readout,scripts/e2_readout_capacity.py,Z3 = np.array([...]),3,PASS,
+introduction.tex,11,11,LANSA areas (11-area mean),docs/laminar_motif/data/lansa_density_X.json,axes.areas,11,PASS,
+introduction.tex,15,11,LANSA macaque areas measured,docs/laminar_motif/data/lansa_density_X.json,axes.areas,11,PASS,
+introduction.tex,37,three-unit,units in the model,results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_verdict.json [R],units,3,PASS,
+introduction.tex,37,three,"CAMINOS units at superficial, middle and deep depths",results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_verdict.json [R],units,3,PASS,
+introduction.tex,41,-0.2,lower end of the gamma-weak depth window (cortical thickness),scripts/e2_mid_gamma.py,"BANDS 'mid [-0.2,0]' lower",-0.2,PASS,
+introduction.tex,41,0,upper end of the depth window,scripts/e2_mid_gamma.py,"BANDS 'mid [-0.2,0]' upper",0,PASS,
+discussion.tex,4,0.27,mid-window gamma of reference seeds / observed (min ratio),paper/jomission_lansa/data/mid_gamma.json,"runs.<ref>.mid [-0.2,0] / observed.mid [-0.2,0], min",0.272016,PASS,
+discussion.tex,4,0.31,mid-window gamma of reference seeds / observed (max ratio),paper/jomission_lansa/data/mid_gamma.json,"runs.<ref>.mid [-0.2,0] / observed.mid [-0.2,0], max",0.311306,PASS,
+discussion.tex,6,0.32,r_ab of the selected setting on selection seeds (min),"results/laminar_e2/t1_sstd21_n4000_s{1,2,3}_T8_verdict.json [R7]","r_ab, min",0.320023,PASS,value equals the sstd21 axis-only runs (seeds 1-3); no run of the combined kd1p41+sst15+sstd21 setting on selection seeds exists in the record (listing of laminar_e2)
+discussion.tex,6,0.47,r_ab of the selected setting on selection seeds (max),"results/laminar_e2/t1_sstd21_n4000_s{1,2,3}_T8_verdict.json [R7]","r_ab, max",0.472763,PASS,value equals the sstd21 axis-only runs (seeds 1-3); no run of the combined kd1p41+sst15+sstd21 setting on selection seeds exists in the record (listing of laminar_e2)
+discussion.tex,6,0.83,"reference r_ab, seeds 1-3 (min)","results/laminar_e2/{sw,lfs_n4000_s2,lfs_n4000_s3}_verdict.json [R7]","r_ab, min",0.827433,PASS,
+discussion.tex,6,0.86,"reference r_ab, seeds 1-3 (max)","results/laminar_e2/{sw,lfs_n4000_s2,lfs_n4000_s3}_verdict.json [R7]","r_ab, max",0.85683,PASS,
+discussion.tex,7,0.35,r_ab on fresh seeds 4-6 (min),"results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{4,5,6}_T12_verdict.json [R7]","r_ab, min",0.354121,PASS,
+discussion.tex,7,0.47,r_ab on fresh seeds 4-6 (max),"results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s{4,5,6}_T12_verdict.json [R7]","r_ab, max",0.465659,PASS,
+discussion.tex,7,17,T1 selection runs with r_ab >= 0.83,"results/laminar_e2/t1_{kd,sst,sstd}_n4000_selection.json [R3] + verdicts [R7]",count of 54 runs with r_ab >= 0.83,17,PASS,r_ab_manuscript gives the same count (17)
+discussion.tex,7,54,T1 selection runs (non-reference levels x seeds 1-3),"results/laminar_e2/t1_{kd,sst,sstd}_n4000_selection.json [R3]","levels with level != ref_level, seeds",54,PASS,"levels per axis: {'kd': {'ref': '1', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}, 'sst': {'ref': '15', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}, 'sstd': {'ref': '15', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}}"
+discussion.tex,8,0.83,r_ab threshold in the T1 count (r_ab >= 0.83),none found,"scripts/*.py, docs/laminar_motif/SEAL_*.md, paper sections: no constant; 0.83 occurs only as the reference r_ab range",,UNKNOWN,counting at 0.83 reproduces 17; the threshold itself is untraced
+discussion.tex,8,0.35,largest r_gm among the runs with r_ab >= 0.83,results/laminar_e2/t1_*_verdict.json [R7],"r_gm, max over the 17",0.35176,PASS,r_ab_manuscript variant gives 0.33
+discussion.tex,8,0.6,pass threshold on r_ab and r_gm,scripts/e2_scorer.py,R_MIN,0.6,PASS,
+discussion.tex,25,27,E1 seed-mean peak frequency at the lowest oscillating rho,results/laminar_e1/e1_result.json [R2],"per_seed peak_freq_E_Hz, mean over seeds, min over oscillating rho",27,PASS,
+discussion.tex,25,46,E1 seed-mean peak frequency at rho 0.25,results/laminar_e1/e1_result.json [R2],"per_seed peak_freq_E_Hz, mean over seeds, max over oscillating rho",46,PASS,
+discussion.tex,25,50,"scored gamma band, lower edge (Hz)",scripts/e2_motif_figure.py,BANDS image gamma,50,PASS,
+discussion.tex,25,150,"scored gamma band, upper edge (Hz)",scripts/e2_motif_figure.py,BANDS image gamma,150,PASS,
+discussion.tex,26,11,"seed-mean peak of M and D at N=4000 (min, Hz)",results/laminar_e2/lfs_rule.json [R4],"stats.4000.peak_mean M,D, min",11,PASS,
+discussion.tex,26,12,"seed-mean peak of M and D at N=4000 (max, Hz)",results/laminar_e2/lfs_rule.json [R4],"stats.4000.peak_mean M,D, max",12,PASS,
+discussion.tex,27,50,"scored gamma band, lower edge (Hz)",scripts/e2_motif_figure.py,BANDS image gamma,50,PASS,
+discussion.tex,27,150,"scored gamma band, upper edge (Hz)",scripts/e2_motif_figure.py,BANDS image gamma,150,PASS,
+discussion.tex,40,17,"M share of 50-150 Hz power in circuit runs (min, %)",paper/jomission_lansa/data/readout_joint.json,"circuit.{reference,t1_winner_fresh}.*.share[M] x100, min over 6",16.54,PASS,
+discussion.tex,40,19,"M share of 50-150 Hz power in circuit runs (max, %)",paper/jomission_lansa/data/readout_joint.json,"circuit.{reference,t1_winner_fresh}.*.share[M] x100, max over 6",19.01,PASS,
+discussion.tex,40,0.27,"real-part source coherence, circuit runs (max)",paper/jomission_lansa/data/readout_joint.json,"circuit.*.recoh_SM, recoh_SD, recoh_MD, max over 6",0.268584,PASS,
+discussion.tex,41,49,"M share, constrained optimum, sigma 0.15, map target (%)",paper/jomission_lansa/data/readout_joint.json,joint.0.15.map_mid_full.share[M] x100 (feasible=true),48.68,PASS,
+discussion.tex,44,90,variance explained by the RWS proxy (Mazzoni 2015),none found,scripts/*.py and docs/laminar_motif/*.md: no such figure; refs.bib: citation key only,,UNKNOWN,external literature value; no repo record
+discussion.tex,58,1,window length of the observed (LANSA) maps (1 s peri-stimulus),none found,LANSA json axes/source fields (no window field); docs/laminar_motif LANSA notes state the window but no record,,UNKNOWN,model windows are 1 s (e2_paper_block legend); the LANSA window has no data record
+discussion.tex,13,three-unit,units in the E/PV/SOM column,results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_verdict.json [R],units,3,PASS,
+discussion.tex,9,one,seeds in the hand-chosen weight runs (run on one seed),results/laminar_e2/e2x_*_verdict.json names,"_s<seed>_T8 suffix, distinct seeds",1,PASS,
+discussion.tex,32,single-seed,seeds in the hand-chosen single-seed runs,results/laminar_e2/e2x_*_verdict.json names,"_s<seed>_T8 suffix, distinct seeds",1,PASS,
+discussion.tex,59,three,units in the column,results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8_verdict.json [R],units,3,PASS,
+discussion.tex,62,three,seeds per control condition (T8 arms),paper/jomission_lansa/data/t8_summary.json,"runs.<arm> lengths: {'ref': 3, 'dflat': 3, 'drev': 3, 'rflat': 3, 'rrev': 3}",3,PASS,all arms have [3] runs
+supplement.tex,14,1,seed of the reference column run,results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_details.json [R12],run: seed,1,PASS,
+supplement.tex,14,8,run duration (s),results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_details.json [R12],run: T_s,8,PASS,
+supplement.tex,15,6.1,printed lower bound of architecture label size (pt),scripts/e2_paper_block.py,"TEXT_PT, LABEL_PT, SOM fontsize x (6.7677 in / 7.2 in)",6.48573,DEFECT,"producer: text 6.500, label 7.000, SOM 6.486 pt; 6.1 = 6.5 x 0.94 (scale applied twice)"
+supplement.tex,15,6.6,printed upper bound of architecture label size (pt),scripts/e2_paper_block.py,"TEXT_PT, LABEL_PT, SOM fontsize x (6.7677 in / 7.2 in)",6.99951,DEFECT,producer label 7.0 pt at print
+supplement.tex,15,2.6,label size for a two-fifths-width placement (pt),scripts/e2_paper_block.py,TEXT_PT native x (0.4 x 6.7677 in / 7.2 in),2.59982,PASS,0.4 width is the caption's assumption; no record of that placement
+supplement.tex,30,0.62,"seed-pair SSIM, 9 pairs (min)",results/viz/paper_w6/seed_diff.json [R10],"1000/2000/4000 .pairs.* ssim, min",0.615248,PASS,
+supplement.tex,30,0.71,"seed-pair SSIM, 9 pairs (max)",results/viz/paper_w6/seed_diff.json [R10],"pairs.* ssim, max",0.708964,PASS,
+supplement.tex,30,0.87,"seed-pair pixel r, 9 pairs (min)",results/viz/paper_w6/seed_diff.json [R10],"pairs.* r, min",0.869787,PASS,
+supplement.tex,30,0.93,"seed-pair pixel r, 9 pairs (max)",results/viz/paper_w6/seed_diff.json [R10],"pairs.* r, max",0.928564,PASS,
+supplement.tex,31,0.04,"seed vs observed SSIM (min, 9 values)",results/viz/paper_w6/seed_diff.json [R10],"vs_proto.* ssim, min",0.040344,PASS,
+supplement.tex,31,0.12,"seed vs observed SSIM (max, 9 values)",results/viz/paper_w6/seed_diff.json [R10],"vs_proto.* ssim, max",0.117554,PASS,
+supplement.tex,31,0.20,"seed vs observed pixel r (min, 9 values)",results/viz/paper_w6/seed_diff.json [R10],"vs_proto.* r, min",0.19766,PASS,
+supplement.tex,31,0.43,"seed vs observed pixel r (max, 9 values)",results/viz/paper_w6/seed_diff.json [R10],"vs_proto.* r, max",0.425713,PASS,
+supplement.tex,48,0,"ladder map frequency axis, lower (Hz)",scripts/e2_ladder_map.py,mask f >= ...,0,PASS,
+supplement.tex,48,150,"ladder map frequency axis, upper (Hz)",scripts/e2_ladder_map.py,"mask f <= ..., extent",150,PASS,
+supplement.tex,48,0.3,"ladder map colour scale, min",scripts/e2_ladder_map.py,imshow vmin,0.3,PASS,
+supplement.tex,48,1.0,"ladder map colour scale, max",scripts/e2_ladder_map.py,imshow vmax,1,PASS,
+supplement.tex,48,1,"reference panel D, lower frequency (Hz)",scripts/e2_paper_block.py,sel = (f >= ...),1,PASS,
+supplement.tex,48,150,"reference panel D, upper frequency (Hz)",scripts/e2_paper_block.py,F_MAX_HZ,150,PASS,
+supplement.tex,49,0.5,"reference panel D colour scale, min",scripts/e2_paper_block.py,imshow vmin (block),0.5,PASS,
+supplement.tex,49,1.0,"reference panel D colour scale, max",scripts/e2_paper_block.py,imshow vmax (block),1,PASS,
+supplement.tex,51,0.334,"seed-mean r_proto, N=1000",results/laminar_e2/lfs_rule.json [R4],stats.1000.mean,0.334071,PASS,
+supplement.tex,51,0.387,"seed-mean r_proto, N=2000",results/laminar_e2/lfs_rule.json [R4],stats.2000.mean,0.386739,PASS,
+supplement.tex,51,0.328,"seed-mean r_proto, N=4000",results/laminar_e2/lfs_rule.json [R4],stats.4000.mean,0.32775,PASS,
+supplement.tex,51,1000,ladder size N,results/laminar_e2/lfs_rule.json [R4],stats keys,1000,PASS,
+supplement.tex,51,2000,ladder size N,results/laminar_e2/lfs_rule.json [R4],stats keys,2000,PASS,
+supplement.tex,51,4000,ladder size N (top),results/laminar_e2/lfs_rule.json [R4],stats keys,4000,PASS,
+supplement.tex,51,2,tolerance in seed SD for r_proto,scripts/e2_ladder_rule.py,R_SD,2,PASS,two_sd in lfs_rule.json = 0.203428 = 2 x SD(N=4000) 0.101714
+supplement.tex,51,4000,reference N in the 2-SD comparison,results/laminar_e2/lfs_rule.json [R4],t1_size,4000,PASS,
+supplement.tex,52,3,per-unit peak tolerance (Hz),scripts/e2_ladder_rule.py,PEAK_HZ,3,PASS,
+supplement.tex,52,8,"S unit seed-mean peak, N=1000 (Hz)",results/laminar_e2/lfs_rule.json [R4],stats.1000.peak_mean.S,8,PASS,
+supplement.tex,52,31,"S unit seed-mean peak, N=2000 (Hz)",results/laminar_e2/lfs_rule.json [R4],stats.2000.peak_mean.S,31,PASS,
+supplement.tex,52,43,"S unit seed-mean peak, N=4000 (Hz)",results/laminar_e2/lfs_rule.json [R4],stats.4000.peak_mean.S,43,PASS,
+supplement.tex,53,4000,T1 size,results/laminar_e2/lfs_rule.json [R4],t1_size,4000,PASS,
+supplement.tex,64,-0.2,mid window lower bound (cortical thickness),scripts/e2_mid_gamma.py,"BANDS 'mid [-0.2,0]' lower",-0.2,PASS,
+supplement.tex,64,0,mid window upper bound,scripts/e2_mid_gamma.py,"BANDS 'mid [-0.2,0]' upper",0,PASS,
+supplement.tex,64,35,frequency above which the band is dim ('read from the figure'),none found,results/viz/t1/V3_*_atlas.png are images; no numeric record of the atlas band profile,,UNKNOWN,visual reading; no numeric source
+supplement.tex,17,six-panel,panels in the diagnostic montage,scripts/e2_motif_figure.py,"plt.subplots(2, 3)",6,PASS,
+supplement.tex,62,three,seeds per T1 level in the atlas mean,results/laminar_e2/t1_*_n4000_selection.json,"seeds per level: {'kd': {'ref': '1', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}, 'sst': {'ref': '15', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}, 'sstd': {'ref': '15', 'levels': 7, 'nonref': 6, 'seeds_per_level': [3]}}",3,PASS,
+supplement.tex,152,0.5.9,JaxFNE version of the model runs,results/viz/paper_w3/..._details.json [R12] run: jaxfne_version,jaxfne_version,0.5.9,PASS,E0 and E1 records also 0.5.9; FINDINGS names 0.5.8 as project authority (not a manuscript number)

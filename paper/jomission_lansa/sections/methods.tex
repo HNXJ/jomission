@@ -49,8 +49,9 @@ counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz; \rec
 whose compiled program matches the original's, all 17 E0 and E1 runs reproduced the original per-step population
 counts exactly and the original result values (\rec{D11}). Conclusions here rest on band metrics across seeds, not on single
 spike trajectories. E2 is declared exploration except where a seal is named.
-Twenty-four of the run records carry a dirty-working-tree flag beside their commit (all 15 T8 runs, the 3
-confirmation runs, 4 of the 21 deep-unit-decay runs and 2 weight runs). The flag records that the checkout held
+Twenty-seven of the run records carry a dirty-working-tree flag beside their commit (all 15 T8 runs, the 3
+confirmation runs, 4 of the 21 deep-unit-decay runs, 2 of the 21 all-unit SOM-decay runs, 2 weight runs and the
+engine-check run). The flag records that the checkout held
 uncommitted changes when the run started; the records do not enumerate them, so the paper cannot state their scope.
 Every file the paper cites is committed and hashed in \rec{D6}, and the analysis scripts that read these outputs are
 at the commits in Table~\ref{tab:records}.
@@ -60,8 +61,8 @@ spiked in the step. It was compared with the dense route on all 22 saved output 
 run (\texttt{kd1p41}, seed 1; 248\,116 spikes, equal edge tables) and the three T8 reference runs
 (\texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seeds 1--3; \rec{D9}). The event runs used JaxFNE 0.5.9 at
 351f6048; the dense runs they were compared with used 0.5.8, except reference seed 1 (0.5.9 side install). All
-arrays were bitwise equal; as negative controls, a different layout differed in 21 of 22 arrays, and different
-seeds of one layout in 21 of 22. One timed pair on one machine took 140 s against 1387 s dense (9.9-fold;
+arrays were bitwise equal; as a negative control reported in \rec{N1}~\S5, a different layout differed in 21 of 22
+arrays. One timed pair on one machine took 140 s against 1387 s dense (9.9-fold;
 \rec{N1}~\S5); the speed-up is specific to that configuration. T1 axis 3, the confirmation, the weight runs and
 T8 used this route; the ladder and T1 axes 1--2 used the dense route. Runs on other layouts and at 12 s rely
 on these checks; equality was not shown for them.
@@ -80,9 +81,18 @@ margins; a rate-matched Poisson raster scored by the same analysis must not osci
 is at least 4; otherwise $f_\text{pk}$ is undefined. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
 (2) the fitted slope of $f_\text{pk}$ on $\log_2\rho$ over the oscillating points is negative in every
 seed; (3) $f_\text{pk}$ drops by at least 3 Hz from $\rho$ 0.25 to 4; (4) one-sided permutation $p < 0.05$ for
-the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws, a Monte Carlo test whose resolution
-is $1/10\,001$). Failing (1) or an undefined criterion gives
+the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws; $p$ is the fraction of draws at or
+below the observed mean slope, and $p = 0$ is reported as the bound $1/10\,001$). Failing (1) or an undefined criterion gives
 INCONCLUSIVE. The $\rho = 1$ runs reuse E0 seeds 1--3 (same configuration), so only 12 of the 15 runs are new.
+
+\textbf{E1b} (seal \rec{S8}) was designed once, after a re-read of the saved E1 counts (seeds 1--3, 20--80 Hz band). That
+re-read found a 21--22 Hz peak at $\rho = 4$ in every seed, with peak excess 3.04, 3.26 and 4.78 against a threshold of
+4. E1b runs on seeds 6--8, 12 s with 2 s discarded, JaxFNE 0.5.9, $dt = 0.1$ ms, 27 runs. Arm A keeps $N_\text{inh} = 1500$
+and varies $\rho$ from 0.25 to 4. Arm B fixes $N_\text{PV} = 750$ and sets $N_\text{SST} = \text{round}(750\rho)$. The E1
+criteria are unchanged except the peak band, now 10--80 Hz, with edge 2 Hz and excess threshold 4. The $\rho = 1$ runs are
+shared by both arms. Gates before scoring: builder sizes and edge counts, the E0 and E1 tests, a positive control (the
+sealed 20--80 Hz readout reproduces all 15 E1 calls on the saved counts), and a permutation null that must not pass
+($p = 0.2149$).
 
 \subsection{Readouts}
 
@@ -309,7 +319,7 @@ discarded, event delivery, JaxFNE 0.5.9: the reference; density flat (no \texttt
 cells and one in-degree rule per unit); density permuted (\texttt{densr}: S and D densities exchanged for size
 and in-degree); SOM/PV flat (\texttt{rhof}0.794 in every unit, keeping each unit's PV+SOM total); SOM/PV reversed
 (\texttt{rhor}: 2, 1, 0.25 from S to D). Built sizes per arm are in \rec{R11}. Estimand per control and outcome:
-the paired difference $d_s$ = reference minus control. Decision: ``ref higher'' if all three $d_s > 0$ and
+the paired difference $d_s$ = reference minus control. Labels are descriptive (n = 3 seeds; no inferential test, no multiplicity correction): ``ref higher'' if all three $d_s > 0$ and
 $\bar d > 2\,\text{SD}/\sqrt{3}$ (sample SD), ``control higher'' in the mirror case, otherwise ``no consistent
 difference''. Primary outcome $r_{ab}$; secondary $r_{gm}$, $r_\text{proto}$ and mid-depth relative gamma;
 crossing, verdict and unit rates tabulated. A stop state (as T1) or a refusal in any seed makes an arm not
@@ -320,7 +330,7 @@ runs; the reference reruns equal the earlier runs bitwise, \rec{D9}), and the V1
 verdict file (reference, seed 1) had been read, not before any.
 \end{description}
 
-\subsection{Exploratory runs}
+\subsection{Unplanned runs}
 
 Per-unit weight runs (\texttt{e2x\_w}$RUX$\ldots, Table~\ref{tab:weights}) start from the T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms in every unit) at
 $N = 4000$, seed 1, 8 s; each setting was chosen by hand after the previous result, so none is a test. Depth
@@ -333,7 +343,7 @@ null in which each unit's spectrum is circularly shifted in frequency with its t
 Code, pre-registration seals, derived data and run records are cited in the text by the identifiers of
 Table~\ref{tab:records} (C code, S seals, D derived data, R run records, N notes), with the commit of each code
 and seal file. Code and seals are in the project repository \citep{Jomission}; the simulator is JaxFNE 0.5.9
-\citep{JaxFNE}. Seeds are given per run in the tables and run records. The run records are not under version
+\citep{JaxFNE}. Seeds are given per run in the tables and run records. Run records R3 to R12 are not under version
 control, nor are some figures drawn from them (Table~\ref{tab:records}); record \rec{D6} holds the SHA-256 hashes
-of 169 files, including every figure shown, so an untracked figure can be checked against the one in this
+of 267 files, including every figure shown, so an untracked figure can be checked against the one in this
 preprint. Availability is stated under Data availability.

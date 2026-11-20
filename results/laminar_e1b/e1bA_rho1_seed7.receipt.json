@@ -1,0 +1,79 @@
+{
+ "schema": "jomission.e1b_run.v1",
+ "seal": "docs/laminar_motif/E1B_SEAL.md",
+ "run": "e1bA_rho1_seed7",
+ "smoke": false,
+ "arm": "A",
+ "rho": 1.0,
+ "seed": 7,
+ "p": 0.07,
+ "T_s": 12.0,
+ "started_utc": "2026-11-19T18:57:37Z",
+ "argv": [
+  "D:\\tmp\\_temp_e1b_clone\\scripts\\e1b_run.py",
+  "--arm",
+  "A",
+  "--rho",
+  "1",
+  "--seed",
+  "7",
+  "--out",
+  "D:\\tmp\\_temp_e1b_runs"
+ ],
+ "git_head": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+ "git_status": "",
+ "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+ "packages": {
+  "jax": "0.10.2",
+  "jaxlib": "0.10.2",
+  "jaxfne": "0.5.9",
+  "numpy": "2.4.6"
+ },
+ "platform": "Windows-11-10.0.26300-SP0",
+ "declared_sizes": {
+  "E": 8000,
+  "PV": 750,
+  "SOM": 750
+ },
+ "realized_sizes": {
+  "E": 8000,
+  "PV": 750,
+  "SOM": 750
+ },
+ "steps": 120000,
+ "wall_s": 1586.0736417770386,
+ "peak_rss_bytes": 6519771136,
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "counts_sha256": "e5f9ffc2b50f1a2eb68d56b336db9fde3cc648a006697922e484c61b973d2147",
+ "peak_e1b": {
+  "band_Hz": [
+   10.0,
+   80.0
+  ],
+  "peak_freq_Hz": 34.0,
+  "peak_excess": 11.165006665356579,
+  "edge_ok": true,
+  "local_max": true,
+  "oscillates": true
+ },
+ "peak_e1_sealed_band_reference": {
+  "band_Hz": [
+   20.0,
+   80.0
+  ],
+  "peak_freq_Hz": 34.0,
+  "peak_excess": 11.165006665356579,
+  "edge_ok": true,
+  "local_max": true,
+  "oscillates": true
+ },
+ "rates_Hz": {
+  "E": 1.10095,
+  "PV": 11.369066666666665,
+  "SOM": 7.003066666666667
+ },
+ "outcome": "complete",
+ "finished_utc": "2026-11-19T19:24:04Z"
+}

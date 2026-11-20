@@ -11,14 +11,14 @@
 \centering
 \cell{1.0\linewidth}{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_V0_architecture.png}{architecture}\\[0.5em]
 \cell{0.78\linewidth}{../../results/viz/s1/sw_n4000_dens_k1_kd1_sst15_s1_T8_refmap.png}{LFP and SL map}
-\caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s, exploratory. Top: architecture
-as built, at the full text width so its labels print at 6.1--6.6 pt rather than the 2.6 pt a two-fifths-width
+\caption{Reference column \texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seed 1, 8 s. Top: architecture
+as built, at the full text width so its labels print at 6.5--7.0 pt rather than the 2.6 pt a two-fifths-width
 placement gave. Bottom: relative power, the RWS-probe power per E cell divided by its maximum over depth at each
 frequency, drawn at its printed size (the six-panel diagnostic montage, which carries the per-cell-mean and
 sum-over-cells variants and the band profiles, is the run record for this run's own outputs and is not reproduced
 here at unreadable scale; per-run verdicts are \rec{R6} and \rec{R7}). The current-based CSD of this run is
 Fig.~\ref{fig:csd}. Tables~S1--S4 give the modules, edges per rule,
-run record and parameters with sources.}
+run record and parameters with sources, from \rec{R12}.}
 \label{fig:s-reference}
 \end{figure}
 
@@ -106,9 +106,10 @@ C11 & joint constraint, grid check (cb2237c) & \path{scripts/e2_readout_joint_gr
 C12 & T8 summary and decision rule (d49a8d0) & \path{scripts/e2_t8_summary.py} \\
 C13 & T8 engine check (d49a8d0) & \path{scripts/e2_t8_engine_check.py} \\
 C14 & T8 atlas (d49a8d0) & \path{scripts/e2_t8_atlas.py} \\
-C15 & joint constraint, known-answer and independent bounds (this revision) & \path{scripts/e2_readout_joint_check.py} \\
-C16 & band-correlation scatter of every scored run (this revision) & \path{scripts/e2_band_scatter.py} \\
-C17 & print-size ladder and reference maps (Figs S1, S3) & \path{scripts/e2_ladder_map.py} \\
+C15 & joint constraint, known-answer and independent bounds (12fc805) & \path{scripts/e2_readout_joint_check.py} \\
+C16 & band-correlation scatter of every scored run (12fc805) & \path{scripts/e2_band_scatter.py} \\
+C17 & ladder and reference maps, Figs S1, S3 (b4798c5) & \path{scripts/e2_ladder_map.py} \\
+C18 & current-based forward potential and CSD (4b04926) & \path{scripts/e2_csd.py} \\
 \multicolumn{3}{@{}l}{\textit{Seals} (pre-registration; commit first added)} \\
 S1 & E0 (757c6a7) & \path{docs/laminar_motif/E0_SEAL.md} \\
 S2 & E1 (e944198) & \path{docs/laminar_motif/E1_SEAL.md} \\
@@ -117,6 +118,7 @@ S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
 S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
 S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
 S7 & T8 density and SOM/PV controls (8aa14d5; final 6dc8a38) & \path{docs/laminar_motif/SEAL_T8.md} \\
+S8 & E1b band floor and fixed-PV arm (4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
 \multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
 D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
 D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
@@ -130,7 +132,7 @@ D9 & T8 engine check & \path{paper/jomission_lansa/data/t8_engine_check.json} \\
 D10 & joint constraint, known-answer and independent bounds & \path{paper/jomission_lansa/data/readout_joint_check.json} \\
 D11 & E0 and E1 re-run in a fixed environment & \path{docs/laminar_motif/OPEN51_A1_RESULT_2026-11-19.md} \\
 D12 & E0 seed 1 re-run under jax 0.10.1 & \path{docs/laminar_motif/OPEN51_RERUN_RESULT_2026-11-18.md} \\
-\multicolumn{3}{@{}l}{\textit{Run records, not version-controlled, hashed in D6}} \\
+\multicolumn{3}{@{}l}{\textit{Run records, hashed in D6}} \\
 R1 & E0 result & \path{results/laminar_e0/e0_result.json} \\
 R2 & E1 result & \path{results/laminar_e1/e1_result.json} \\
 R3 & T1 selections, axes 1--3 & \path{results/laminar_e2/t1_{kd,sst,sstd}_n4000_selection.json} \\
@@ -142,12 +144,15 @@ R8 & per-unit weight verdicts & \path{results/laminar_e2/e2x_*_kd1p41_n4000_s1_T
 R9 & depth placement & \path{results/laminar_e2/depth_placement.json} \\
 R10 & seed agreement & \path{results/viz/paper_w6/seed_diff.json} \\
 R11 & T8 per-arm details, V0, V1 and V2 blocks, V3 atlas & \path{results/viz/t8/} \\
+R12 & reference-column details, Tables S1--S4 & \path{results/viz/paper_w3/sw_n4000_*_details.json} \\
+R13 & E1b result, receipts and counts (27 runs) & \path{results/laminar_e1b/} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
 \bottomrule
 \end{tabular}
-\caption{Code, pre-registration seals, data and run records cited in the text, all in the project repository
-\citep{Jomission}; the model runs on JaxFNE 0.5.9 \citep{JaxFNE}. Run records (R) are not version-controlled;
-D6 hashes them and Data availability states their availability.}
+\caption{Records cited in the text. All but run records R3 to R12 are in the project repository
+\citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
+availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
+gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
 \label{tab:records}
 \end{table}

@@ -56,6 +56,15 @@ was fixed, $\rho$ also changed the PV count and with it the total PV drive and t
 alternative account E1 does not exclude (\rec{S2}). The mean peak at $\rho = 2$, 27 Hz, lies in the beta range. At $\rho = 4$ no seed oscillated, so the planned frequency drop from $\rho$ 0.25 to 4
 is undefined and E1 is inconclusive as specified (\rec{R2}). The frequency effect holds over the oscillating range
 only.
+
+E1b repeated the frequency test on fresh seeds 6--8 with a 10--80 Hz peak band (arm A) and with PV fixed at 750 cells
+(arm B) (\rec{S8}, \rec{R13}). Arm A has a negative slope in every seed (mean $-6.2$ Hz per octave of $\rho$;
+permutation $p \leq 1/10\,001$), but its frequency criterion is undefined: at $\rho = 4$, two seeds have peak excess
+3.4 and 3.7, below the threshold of 4, and the third (excess 4.5) gives a 21 Hz drop from $\rho = 0.25$. Arm A is
+INCONCLUSIVE under E1's rules. Arm B passes all four criteria: five of five $\rho$ oscillate in every seed, mean slope
+$-4.3$ Hz per octave, mean drop 17 Hz (per seed 17, 15 and 19), permutation $p \leq 1/10\,001$. Its inference is
+restricted to SST count at fixed PV; total inhibitory cells (938 to 3750) co-vary, so arm B does not isolate SST count
+from total inhibition. Neither arm changes E1's verdict, which stays INCONCLUSIVE.
 % e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
 
 \begin{table}[tbp]
@@ -77,7 +86,7 @@ E1 & all & 3 seeds & & INCONCLUSIVE \\
 \bottomrule
 \end{tabular}
 \caption{The single module. E0: five seeds, 12 s, 2 s discarded. E1: three seeds, $\rho \in \{0.25, 0.5, 1, 2, 4\}$;
-$p_\text{MC}$ is the one-sided Monte Carlo permutation $p$ (10\,000 draws, resolution $1/10\,001$).
+$p_\text{MC}$ is the one-sided Monte Carlo permutation $p$ (10\,000 draws; $p = 0$ reported as the bound $1/10\,001$).
 Records \rec{R1}, \rec{R2}.}
 \label{tab:e0e1}
 \end{table}
@@ -136,7 +145,7 @@ $\sigma$ & $r_\text{proto}$ & $r_{ab}$ & $r_{gm}$ & $r_{gm}\geq0.6$ / both $\geq
 0.25 & 0.40--0.69 & $-0.16$--0.89 & 0.50--0.83 & 11 / 4 & 0.44--0.62 \\
 \bottomrule
 \end{tabular}
-\caption{Kernel-width sensitivity, post hoc, same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
+\caption{Kernel-width sensitivity on the same spectra: 9 ladder and 3 confirmation runs; ranges over runs,
 counts out of 12. Observed mid-depth relative gamma ($-0.2$ to 0, 50--150 Hz) is 0.85. At 0.15 the values equal
 the scored runs. Record \rec{D2}.}
 \label{tab:sigma}
@@ -235,8 +244,9 @@ passing. The selected setting ($B = 1.41$, SOM$\to$E 15 ms in S and M, 21 ms in 
 4--6 for 12 s, passed on none, so T1 fails as pre-registered: $r_\text{proto}$ 0.377, 0.365 and 0.377 (each below
 the smooth-null 95th percentile, 0.380), $r_{ab}$ 0.47, 0.35, 0.37, $r_{gm}$ 0.46, 0.48, 0.50, and the crossing
 exceeded 2 SE on seed 6 only. Unit order ranked first and the halves agreed on every seed, so the failure is in
-band placement, not noise. The reference's $r_{ab}$ of 0.83--0.86 on seeds 1--3 therefore did not survive a search
-that selected on whole-map similarity.
+band placement, not noise. The reference's $r_{ab}$ of 0.83--0.86 on seeds 1--3 therefore did not survive the search.
+The level it carried forward, the deep-unit 21 ms SOM$\to$E decay chosen on whole-map similarity, gave $r_{ab}$
+0.32--0.47 on its selection seeds and 0.35--0.47 on fresh seeds.
 % FINDINGS §2b-2c; t1_kd_n4000_unit_power.json; t1_confirm_*_T12_verdict.json; SEAL_T1.md line 25
 
 \begin{table}[tbp]
@@ -259,9 +269,9 @@ ranges are over its three seeds. Records \rec{R3}, \rec{R7}; per-level tables in
 
 \textit{Middle-unit weights.} Because every within-unit rule shared one weight across units, we scaled one to four
 rules in chosen units, starting from $B = 1.41$ (seed 1, 8 s; each setting chosen by hand after the previous
-result, so these runs are exploratory; Table~\ref{tab:weights}, Fig.~\ref{fig:weights}). Raising M's E$\to$E
+result; Table~\ref{tab:weights}, Fig.~\ref{fig:weights}). Raising M's E$\to$E
 weight 1.68-fold lifted $r_{gm}$ to 0.64, but M's alpha-beta then dominated the column: with the E$\to$SOM weight
-also halved in S and M, 10--30 Hz power was 137\,016 at M against 10\,650 at D (units $10^{12}$), and the crossing
+also halved in S and M, 10--30 Hz power at M was 12.9 times that at D, and the crossing
 broke. Doubling M's E$\to$E weight alone ran away (M E 36 Hz in a 2 s check). Adding M's PV$\to$E weight returned
 the alpha-beta peak to D and restored the crossing ($r_{ab}$ 0.92 at 1.5-fold) but cut M gamma (M/S 50--150 Hz
 ratio 0.25, $r_{gm}$ 0.50). The most even setting, PV$\to$E 1.25-fold, gave the crossing, $r_{ab}$ 0.78, $r_{gm}$
@@ -292,7 +302,7 @@ E$\to$E 1.68 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.45 & 0.92 & 0.50 & yes
 E$\to$E 2 (M), E$\to$SOM 0.5 (S), PV$\to$E 1.5 (M) & 0.42 & 0.89 & 0.48 & yes \\
 \bottomrule
 \end{tabular}
-\caption{Per-unit weight scaling, exploratory: seed 1, 8 s, event delivery, base $B = 1.41$, SOM$\to$E 15 ms; no
+\caption{Per-unit weight scaling: seed 1, 8 s, event delivery, base $B = 1.41$, SOM$\to$E 15 ms; no
 setting passes. Records \rec{R8}, \rec{N1}~\S2d.}
 \label{tab:weights}
 \end{table}
@@ -301,7 +311,7 @@ setting passes. Records \rec{R8}, \rec{N1}~\S2d.}
 \centering
 \IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, best r\_proto}}\\[0.4em]
 \IfFileExists{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}{\includegraphics[width=\linewidth]{../../results/viz/spectrolaminar/runs/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.png}}{\pendingbox{weights, most even}}
-\caption{The middle-unit trade-off, exploratory. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
+\caption{The middle-unit trade-off. Top: highest $r_\text{proto}$ (M E$\to$E 1.68, S and M E$\to$SOM
 0.5): gamma reaches mid-depth but alpha-beta peaks at M, so the profiles do not cross. Bottom: most even setting
 (adds M PV$\to$E 1.25, without M E$\to$SOM): the crossing returns and M gamma weakens. Panels as in
 Fig.~\ref{fig:scorer}.}
@@ -487,8 +497,9 @@ Probe tilt confounds the laminar contrast metric (Fig.~\ref{fig:readout}). The s
 peaked at $30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
 $0^\circ$), a difference within the seed SD at $N = 1000$ (0.17--0.21), while $r_\text{proto}$ was lower at
 $30^\circ$ than at $0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in
-tilt. $r_\text{proto}$ minus the identical-unit control rises from $0^\circ$ to $30^\circ$ at every $N$ and offset, then
-falls at $60^\circ$; at the lateral offset of 0.5 it falls with tilt at every $N$ (for example 0.405, 0.219 and
+tilt. $r_\text{proto}$ minus the identical-unit control rises from $0^\circ$ to $30^\circ$ at every $N$ at
+offsets 0 and 0.25; from $30^\circ$ to $60^\circ$ it falls at offset 0.25 at every $N$ and at offset 0 only at
+$N = 4000$; at the lateral offset of 0.5 it falls with tilt at every $N$ (for example 0.405, 0.219 and
 0.168 at $0^\circ$, $30^\circ$ and $60^\circ$ at $N = 4000$). We infer that the control's own fall as fewer bins are
 covered drives the rise, not the model. A current-based CSD reproduced the forward
 potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources independent
@@ -498,7 +509,7 @@ potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine uni
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/paper_w5/probe_summary.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w5/probe_summary.png}}{\pendingbox{probe summary}}
-\caption{Probe geometry, post hoc on saved runs: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
+\caption{Probe geometry on saved runs: laminar contrast $M_\text{arc}$ and $r_\text{proto}$ minus the
 identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over seeds 1--3 at each $N$.}
 \label{fig:readout}
 \end{figure}
@@ -513,6 +524,6 @@ unit's E cells, placed at assumed offsets from the unit depth $z_u$ (PV GABA per
 apical at $z_u - 0.15$; AMPA half at $z_u$, half at $z_u - 0.10$), each with an equal and opposite return current,
 in a homogeneous medium ($\sigma_e = 0.3$ S/m, lateral distance 0.05 depth units; both assumed; Methods). Depth is
 in fractions of cortical thickness, not metres, so $\phi$ and CSD are in arbitrary units; colour limits are per
-panel (99th percentile of $|\text{field}|$). The trigger contact is chosen on the same $\phi$, so its trace is circular.}
+panel (99th percentile of $|\text{field}|$). The trigger contact is chosen on the same $\phi$, so its trace is circular. Code \rec{C18}.}
 \label{fig:csd}
 \end{figure}

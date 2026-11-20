@@ -2,6 +2,12 @@
 
 Mechanistic in-silico reconstruction of a multi-area, laminar, hierarchical visual omission experiment. Built as a **separate simulation project with frozen JaxFNE as engine** — simulation output is not evidence for the empirical manuscript or for JaxFNE itself.
 
+## Subprojects
+
+- **jomission-lansa** — spectrolaminar cortex. The best-matching small cortex model per V1/V4/FEF becomes the model used in the omission paradigm.
+- **jomission-fixationboat** — the task on which jomission-oxm runs. Given a sequence of waves: A (45°), B (135°), or random R (A ~ B, 50% Bernoulli). A boat is controlled by deep-layer E neurons of FEF. We determine which E or I population, or which layer, is the best controller on a minimal V1–V4–FEF model (3000 neurons, 1000 per area, canonical connections as in the dashboard; layers may be expanded). HDP stays in the spectrolaminar motif model.
+- **jomission-oxm** — the omission paradigm on the fixation boat. A/B/R are moving-grating waves, with timing and context identical to the in-vivo omission paradigm. A is the environment wave, input to L4 of V1/V4 as it changes distance from fixation. FEF eye neurons adjust the boat's ±u, v movement through spiking. The decision is made from the firing of two groups, left–right and up–down.
+
 ## Architecture
 
 ```

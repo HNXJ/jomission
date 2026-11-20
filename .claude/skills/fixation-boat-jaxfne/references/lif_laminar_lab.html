@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>LIF Laminar Circuit Lab</title>
+<style>
+:root{
+  --bg:#f3f3ef; --fg:#1b1d1a; --muted:#666b62; --panel:#fdfdfb; --line:#d6d9d0; --grid:#e4e6df;
+  --e:#c2502e; --i:#2a6c9b; --warn:#a9741a; --ok:#367a43; --cue:rgba(169,116,26,.13);
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171b; --fg:#e4e6e0; --muted:#9a9f96; --panel:#1d2025; --line:#353a41; --grid:#2a2e34;
+    --e:#ea7a5c; --i:#6aaee0; --warn:#dca550; --ok:#7ccb8a; --cue:rgba(220,165,80,.16);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171b; --fg:#e4e6e0; --muted:#9a9f96; --panel:#1d2025; --line:#353a41; --grid:#2a2e34;
+  --e:#ea7a5c; --i:#6aaee0; --warn:#dca550; --ok:#7ccb8a; --cue:rgba(220,165,80,.16);
+  color-scheme:dark;
+}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 var(--sans);
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:18px;margin:0 0 4px;font-weight:650}
+.sub{color:var(--muted);font-size:12.5px;margin:0 0 14px;max-width:80ch}
+.app{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.app{grid-template-columns:minmax(0,1fr)}}
+.side{min-width:0}
+fieldset{border:1px solid var(--line);border-radius:6px;margin:0 0 6px;padding:3px 7px 1px;background:var(--panel);min-width:0}
+legend{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:0 3px}
+.row{margin:0}
+.row label{display:flex;justify-content:space-between;gap:6px;color:var(--muted);font-size:10.5px;line-height:1.25}
+.row output{font-family:var(--mono);color:var(--fg);font-size:10px;white-space:nowrap}
+input[type=range]{width:100%;height:14px;accent-color:var(--i);margin:0 0 3px}
+.btns{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+button{font:inherit;font-size:10.5px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:3px 7px;cursor:pointer}
+button:hover{border-color:var(--i)}
+button:focus-visible{outline:2px solid var(--i);outline-offset:2px}
+.main{display:grid;gap:12px;min-width:0}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.card h2{font-size:12px;margin:0 0 6px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;display:flex;justify-content:space-between;gap:4px 8px;flex-wrap:wrap}
+.card h2 span{text-transform:none;letter-spacing:0;font-weight:400;font-size:11.5px}
+canvas{width:100%;display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.stat{border:1px solid var(--line);border-radius:6px;padding:6px 8px;min-width:0}
+.stat b{display:block;font-family:var(--mono);font-size:15px;font-weight:600}
+.stat small{color:var(--muted);font-size:11.5px;display:block}
+</style>
+</head>
+<body>
+<h1>LIF laminar circuit lab</h1>
+<p class="sub">Leaky integrate-and-fire areas, each with layers L1–L6 of E and I cells at one E:I ratio. Input enters L4 of area 1, output is L6-E of the top area. Feedforward: L5 of area k → L2/3 of area k+1. Feedback: L5 of area k+1 → L1 and L6 of area k. HDP: a hidden gain H per cell and plastic edge gains m, both driven by the cell's dynamics. Sliders apply live; areas, neurons per area, f_I, p, p_FF, p_FB, seed, motor count and cue fraction rebuild the network.</p>
+<div class="app">
+  <aside class="side">
+    <div class="btns"><button id="play">Pause</button><button id="reset">Reset network</button></div>
+    <div class="btns" id="presets"></div>
+    <div id="controls"></div>
+  </aside>
+  <main class="main">
+    <section class="card"><h2>Boat <span>2-D map; target at origin, dashed circle R = 5; trail = one point per control interval</span></h2><div class="btns"><button id="boatZoomIn">Zoom +</button><button id="boatZoomOut">Zoom −</button><button id="boatZoomReset">Reset view</button><span style="color:var(--muted);font-size:11px;align-self:center">wheel to zoom, drag to pan</span></div><canvas id="boat" style="height:300px"></canvas></section>
+    <div class="pair">
+      <section class="card"><h2>Laminar schematic <span>box = layer, number = mean E rate (Hz)</span></h2><canvas id="circuit" style="height:260px"></canvas></section>
+      <section class="card"><h2>Readout <span>last 2 s unless stated</span></h2><div class="stats" id="stats"></div></section>
+    </div>
+    <section class="card"><h2>Raster <span>area-major; separators = areas; shaded = cue window</span></h2><canvas id="raster" style="height:260px"></canvas></section>
+    <section class="card"><h2>Population rates <span>20 ms bins; dashed = θ_task</span></h2><canvas id="rates" style="height:170px"></canvas></section>
+    <div class="pair">
+      <section class="card"><h2>Membrane voltage <span>last 400 ms</span></h2><canvas id="volt" style="height:170px"></canvas></section>
+      <section class="card"><h2>Task trials <span>bar = G rate; opaque = detected</span></h2><canvas id="task" style="height:170px"></canvas></section>
+    </div>
+  </main>
+</div>
+
+<script id="core">
+(function(){
+"use strict";
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function gauss(rng){var u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+var LAYERS=6; // index 0..5 = L1..L6; L2/3 = indices 1,2; L4 = 3; L5 = 4; L6 = 5
+// edge categories: 0 within layer, 1 feedforward, 2 feedback, 3 canonical intra-area
+function Net(P){
+  this.P=P;
+  var rng=mulberry32(P.seed); this.rng=rng;
+  var nA=P.nA,nl=Math.max(2,Math.round(P.nPerArea/LAYERS));
+  var nEl=Math.max(1,Math.round(nl*(1-P.fI))),nIl=Math.max(1,nl-nEl);
+  var isE=[],areaOf=[],layerOf=[],ids=[],a,l,j,N=0,m;
+  for(a=0;a<nA;a++){
+    ids.push([]);
+    for(l=0;l<LAYERS;l++){
+      var E=[],I=[];
+      for(j=0;j<nEl;j++){E.push(N);isE.push(1);areaOf.push(a);layerOf.push(l);N++;}
+      for(j=0;j<nIl;j++){I.push(N);isE.push(0);areaOf.push(a);layerOf.push(l);N++;}
+      ids[a].push({E:E,I:I});
+    }
+  }
+  this.nA=nA;this.N=N;this.ids=ids;
+  this.isE=Uint8Array.from(isE);this.areaOf=Int16Array.from(areaOf);this.layerOf=Int8Array.from(layerOf);
+  this.nEtot=0;this.nItot=0;
+  for(j=0;j<N;j++){if(this.isE[j])this.nEtot++;else this.nItot++;}
+  // input (L4 of area 1), cue group G, motor pools (L6-E of top area)
+  this.inMask=new Uint8Array(N);this.isG=new Uint8Array(N);this.motorOf=new Int8Array(N).fill(-1);
+  var inE=ids[0][3].E,inI=ids[0][3].I;
+  for(j=0;j<inE.length;j++)this.inMask[inE[j]]=1;
+  for(j=0;j<inI.length;j++)this.inMask[inI[j]]=1;
+  this.nG=Math.max(1,Math.round(P.gFrac*inE.length));
+  for(j=0;j<this.nG;j++)this.isG[inE[j]]=1;
+  var top=ids[nA-1][5].E,nM=Math.max(1,Math.min(P.nMotor,Math.floor(top.length/4)));
+  this.nM=nM;
+  for(m=0;m<4;m++)for(j=0;j<nM;j++)this.motorOf[top[m*nM+j]]=m;
+  // edges
+  var pre=[],post=[],cat=[];
+  function connect(src,dst,prob,c){
+    for(var x=0;x<src.length;x++)for(var y=0;y<dst.length;y++){
+      var s=src[x],d=dst[y];
+      if(s!==d && rng()<prob){pre.push(s);post.push(d);cat.push(c);}
+    }
+  }
+  function all(L){return L.E.concat(L.I);}
+  for(a=0;a<nA;a++){
+    for(l=0;l<LAYERS;l++)connect(all(ids[a][l]),all(ids[a][l]),P.p,0);
+    connect(ids[a][3].E,all(ids[a][1]).concat(all(ids[a][2])),P.p,3); // L4 -> L2/3
+    connect(ids[a][1].E.concat(ids[a][2].E),all(ids[a][4]),P.p,3);    // L2/3 -> L5
+    connect(ids[a][4].E,all(ids[a][5]),P.p,3);                        // L5 -> L6
+    if(a<nA-1){
+      connect(ids[a][4].E,all(ids[a+1][1]).concat(all(ids[a+1][2])),P.pFF,1); // FF: L5 area k -> L2/3 area k+1
+      connect(ids[a+1][4].E,all(ids[a][0]).concat(all(ids[a][5])),P.pFB,2);   // FB: L5 area k+1 -> L1, L6 area k
+    }
+  }
+  this.pre=Int32Array.from(pre);this.post=Int32Array.from(post);this.cat=Uint8Array.from(cat);
+  this.E=pre.length;this.m=new Float64Array(this.E).fill(1);
+  var oL=[];for(j=0;j<N;j++)oL.push([]);
+  for(j=0;j<this.E;j++)oL[this.pre[j]].push(j);
+  this.outs=oL.map(function(L){return Int32Array.from(L);});
+  // cell state
+  this.gain=new Float64Array(N);for(j=0;j<N;j++)this.gain[j]=0.5+rng();
+  this.V=new Float64Array(N);this.s=new Float64Array(N);this.theta=new Float64Array(N);this.refr=new Int32Array(N);
+  this.H=new Float64Array(N).fill(1);this.r=new Float64Array(N);
+  for(j=0;j<N;j++)this.V[j]=P.Vr+rng()*10;
+  this.x=0.3+0.1*rng();
+  this.k=0;this.sp=[];this.vh=[];this.trials=[];this.gCount=0;this.cue=false;this.recorded=false;
+  this.boat={p:[5,0],v:[0,0],force:[0,0],cnt:[0,0,0,0],traj:[5,0],minE:5};
+  this.gFirst=inE[0];this.topE=top[0];this.inI0=inI[0];
+}
+
+Net.prototype.step=function(){
+  var P=this.P,dt=P.dt,N=this.N,rng=this.rng,isE=this.isE;
+  var tauM=P.tauM,tauS=P.tauS,Vr=P.Vr,Vreset=P.Vreset,Vth=P.Vth;
+  var refrSteps=Math.round(P.refr/dt),decS=Math.exp(-dt/tauS),decTh=Math.exp(-dt/P.tauTh),decR=Math.exp(-dt/200);
+  var k=this.k,t=k*dt,bt=this.boat;
+  var envSteps=Math.max(1,Math.round(P.envDt/dt));
+  if(k>0&&k%envSteps===0)this.x=P.r*this.x*(1-this.x);
+  var chaos=P.A*(2*this.x-1);
+  var mu=P.mu*(1+P.mAmp*Math.sin(2*Math.PI*t/P.modPeriod));
+  var eD=Math.sqrt(bt.p[0]*bt.p[0]+bt.p[1]*bt.p[1]);
+  var enc=P.loop?P.gEnc*eD/(eD+P.d0):0;
+  var TS=Math.round(P.trialT/dt),on=Math.round(0.2*P.trialT/dt),off=Math.round(0.5*P.trialT/dt);
+  var ph=k%TS;
+  if(ph===0){this.cue=rng()<0.5;this.gCount=0;this.recorded=false;}
+  if(ph===off&&!this.recorded){
+    var win=(off-on)*dt/1000,rG=this.gCount/(this.nG*win),t0s=(k-ph)*dt;
+    this.trials.push({cue:this.cue,rG:rG,detect:rG>=P.thTask,a:t0s+on*dt,b:t0s+off*dt});
+    if(this.trials.length>400)this.trials.splice(0,100);
+    this.recorded=true;
+  }
+  var inWindow=ph>=on&&ph<off,stimOn=inWindow&&this.cue;
+  // decoder: counts of interval k set the force during interval k+1
+  var K=Math.max(1,Math.round(P.boatT/dt));
+  if(P.loop&&k>0&&k%K===0){
+    bt.force=[P.f0*(bt.cnt[0]-bt.cnt[1]),P.f0*(bt.cnt[2]-bt.cnt[3])];
+    bt.cnt=[0,0,0,0];
+    bt.traj.push(bt.p[0],bt.p[1]);if(bt.traj.length>4000)bt.traj.splice(0,1000);
+  }
+  if(P.loop){
+    var ds=dt/1000,beta=P.beta,vx=bt.v[0],vy=bt.v[1];
+    var nvx=vx+ds*(-beta*vx+bt.force[0]),nvy=vy+ds*(-beta*vy+bt.force[1]);
+    bt.p[0]+=0.5*ds*(vx+nvx);bt.p[1]+=0.5*ds*(vy+nvy);bt.v[0]=nvx;bt.v[1]=nvy;
+    var eN=Math.sqrt(bt.p[0]*bt.p[0]+bt.p[1]*bt.p[1]);if(eN<bt.minE)bt.minE=eN;
+  }
+  var V=this.V,s=this.s,th=this.theta,refr=this.refr,gain=this.gain,H=this.H,r=this.r;
+  var i,q,e,oo;
+  var we=P.we,gwe=-P.g*P.we,mult=[1,P.wFF,P.wFB,P.wCanon];
+  for(i=0;i<N;i++){s[i]*=decS;th[i]*=decTh;}
+  var sigmaStep=P.sigma*Math.sqrt(dt/tauM);
+  var hdp=P.hdpOn?1:0;
+  for(i=0;i<N;i++){
+    var I=mu+gain[i]*(this.inMask[i]?(chaos+enc):0)+((stimOn&&this.isG[i])?P.S:0);
+    if(hdp)I*=H[i];
+    if(refr[i]>0){refr[i]--;V[i]=Vreset;}
+    else{
+      V[i]+=dt/tauM*(-(V[i]-Vr)+s[i]+I)+sigmaStep*gauss(rng);
+      if(V[i]>=Vth+th[i]){
+        V[i]=Vreset;refr[i]=refrSteps;th[i]+=P.aTh;r[i]+=1000/200;
+        this.sp.push(t,i);
+        if(inWindow&&this.isG[i])this.gCount++;
+        if(P.loop&&this.motorOf[i]>=0)bt.cnt[this.motorOf[i]]++;
+        oo=this.outs[i];
+        for(q=0;q<oo.length;q++){e=oo[q];s[this.post[e]]+=this.m[e]*(isE[i]?we:gwe)*mult[this.cat[e]];}
+      }
+    }
+    r[i]*=decR;
+  }
+  if(hdp){
+    var tauH=P.tauH,aH=P.alphaH,bH=P.betaH,gH=P.gammaH,kC=P.kCtrl;
+    for(i=0;i<N;i++){
+      H[i]+=dt/tauH*(aH*s[i]+bH-gH*H[i]*r[i]+kC*(1-H[i]));
+      if(H[i]<0.05)H[i]=0.05;
+    }
+    var qK=P.qK,Kw=P.Kw,mm=this.m,pr=this.pre,po=this.post,v;
+    for(e=0;e<this.E;e++){
+      v=mm[e]+dt*(qK*(H[po[e]]-H[pr[e]])*mm[e]+Kw*(1-mm[e]));
+      mm[e]=v<0.2?0.2:(v>3?3:v);
+    }
+  }
+  this.vh.push(t,V[this.gFirst],V[this.topE],V[this.inI0],Vth+th[this.gFirst]);
+  if(this.vh.length>5*1200)this.vh.splice(0,5*200);
+  if(k%200===0&&this.sp.length){
+    var cut=t-4000,a=0;
+    while(a<this.sp.length&&this.sp[a]<cut)a+=2;
+    if(a>0)this.sp.splice(0,a);
+  }
+  this.k=k+1;
+};
+
+Net.prototype.rateSeries=function(W,B){
+  var t=this.k*this.P.dt,t0=t-W,nb=Math.round(W/B),sp=this.sp;
+  var E=new Float64Array(nb),I=new Float64Array(nb),G=new Float64Array(nb),a,b,i,ts;
+  for(a=0;a<sp.length;a+=2){
+    ts=sp[a];if(ts<t0)continue;
+    b=Math.floor((ts-t0)/B);if(b>=nb)continue;
+    i=sp[a+1];
+    if(this.isE[i]){E[b]++;if(this.isG[i])G[b]++;}else I[b]++;
+  }
+  var sec=B/1000;
+  for(b=0;b<nb;b++){E[b]/=this.nEtot*sec;I[b]/=this.nItot*sec;G[b]/=this.nG*sec;}
+  return {E:E,I:I,G:G,t0:t0,B:B};
+};
+
+Net.prototype.stats=function(W){
+  var t=this.k*this.P.dt,cut=t-W,sp=this.sp;
+  var cE=0,cI=0,cG=0,cnt=new Int32Array(this.N),a,i;
+  for(a=sp.length-2;a>=0;a-=2){
+    if(sp[a]<cut)break;
+    i=sp[a+1];cnt[i]++;
+    if(this.isE[i]){cE++;if(this.isG[i])cG++;}else cI++;
+  }
+  var sec=W/1000,silent=0;
+  for(i=0;i<this.N;i++)if(!cnt[i])silent++;
+  var nc=0,hit=0,nk=0,fa=0,tr;
+  for(a=0;a<this.trials.length;a++){tr=this.trials[a];if(tr.cue){nc++;if(tr.detect)hit++;}else{nk++;if(tr.detect)fa++;}}
+  var H=nc?hit/nc:NaN,F=nk?fa/nk:NaN;
+  var hm=0,mm=0;
+  for(i=0;i<this.N;i++)hm+=this.H[i];
+  for(i=0;i<this.E;i++)mm+=this.m[i];
+  return {rE:cE/(this.nEtot*sec),rI:cI/(this.nItot*sec),rG:cG/(this.nG*sec),silent:silent/this.N,hit:H,fa:F,
+          bal:(isFinite(H)&&isFinite(F))?(H+1-F)/2:NaN,trials:this.trials.length,time:t/1000,
+          meanH:hm/this.N,meanM:this.E?mm/this.E:NaN};
+};
+
+window.LIF={Net:Net,mulberry32:mulberry32};
+})();
+</script>
+
+<script>
+(function(){
+"use strict";
+var LIF=window.LIF;
+var GROUPS=[
+ {title:'Areas & cells',items:[
+   ['nA','Number of areas (identical)',1,6,1,3,0],
+   ['nPerArea','Neurons per area (6 layers)',60,360,6,180,0],
+   ['fI','Inhibitory fraction (every layer)',0.1,0.5,0.05,0.25,2],
+   ['seed','Random seed',1,999,1,7,0]]},
+ {title:'Connections',items:[
+   ['p','Within-layer & canonical p',0,0.5,0.01,0.3,2],
+   ['pFF','Feedforward p (L5 → L2/3 next)',0,0.5,0.01,0.2,2],
+   ['pFB','Feedback p (L5 next → L1/L6)',0,0.5,0.01,0.1,2],
+   ['wFF','Feedforward weight (× w_E)',0,3,0.05,0.8,2],
+   ['wFB','Feedback weight (× w_E)',0,3,0.05,0.6,2],
+   ['wCanon','Canonical L4→L2/3→L5→L6 weight',0,3,0.05,1,2],
+   ['we','E weight w_E (mV per spike)',0,2,0.05,0.5,2],
+   ['g','Inhibition ratio g (I weight = −g·w_E)',0,8,0.1,2.5,1],
+   ['tauS','Synaptic τ_s (ms)',1,20,1,5,0]]},
+ {title:'Neuron (LIF)',items:[
+   ['tauM','Membrane τ_m (ms)',5,50,1,20,0],
+   ['Vth','Threshold V_th (mV)',-60,-40,0.5,-50,1],
+   ['aTh','Adaptive threshold step θ per spike (mV)',0,3,0.05,0,2],
+   ['tauTh','Threshold decay τ_θ (ms)',20,1000,10,200,0],
+   ['refr','Refractory period (ms)',0,10,0.5,2,1],
+   ['sigma','Noise σ (mV)',0,6,0.1,2,1]]},
+ {title:'Drive & environment',items:[
+   ['mu','Baseline drive μ (mV, all cells)',0,25,0.5,24,1],
+   ['mAmp','Drive modulation depth',0,1,0.05,0,2],
+   ['modPeriod','Modulation period (ms)',200,10000,100,4000,0],
+   ['A','Chaos amplitude A (mV, L4 of area 1)',0,8,0.1,2,1],
+   ['r','Logistic map r',3.5,4,0.01,3.9,2],
+   ['envDt','Environment update (ms)',2,50,1,10,0]]},
+ {title:'Task',items:[
+   ['S','Cue strength S (mV, group G)',0,10,0.1,4,1],
+   ['gFrac','Group G fraction of L4-E (area 1)',0.1,1,0.05,0.5,2],
+   ['thTask','Decision threshold θ_task (Hz)',0,60,1,15,0],
+   ['trialT','Trial period (ms)',300,2000,50,600,0]]},
+ {title:'HDP (hidden state & plastic gains)',items:[
+   ['hdpOn','HDP on (0/1)',0,1,1,1,0],
+   ['alphaH','α: H drive from synaptic current',0,0.05,0.001,0.005,3],
+   ['betaH','β: H baseline drive',0,0.5,0.01,0,2],
+   ['gammaH','γ: H loss with rate (per Hz)',0,0.05,0.001,0.005,3],
+   ['kCtrl','K_ctrl: pull of H to 1',0,1,0.01,0.1,2],
+   ['tauH','τ_H (ms)',50,5000,50,500,0],
+   ['qK','K_HDP: edge gain from ΔH',0,0.002,0.0001,0.0005,4],
+   ['Kw','K_w: edge gain relaxation to 1',0,0.002,0.0001,0.0002,4]]},
+ {title:'Boat (closed loop)',items:[
+   ['loop','Close loop encoder→spikes→boat (0/1)',0,1,1,1,0],
+   ['nMotor','Motor neurons per pool (L6-E top area)',1,20,1,5,0],
+   ['boatT','Control interval (ms)',20,500,10,100,0],
+   ['f0','Decoder gain f0 (accel per spike)',0,100,1,20,0],
+   ['beta','Boat damping β (1/s)',0,10,0.1,2,1],
+   ['gEnc','Encoder gain g (mV)',0,20,0.5,8,1],
+   ['d0','Encoder half-distance d0',0.1,10,0.1,2,1]]},
+ {title:'Simulation',items:[
+   ['speed','Sim time per frame (ms)',2,100,1,20,0]]}
+];
+var ITEM={},DEFAULTS={},P={dt:0.5,Vr:-70,Vreset:-70,wFF:0.8,wFB:0.6,wCanon:1};
+GROUPS.forEach(function(g){g.items.forEach(function(it){
+  ITEM[it[0]]={dec:it[6]};DEFAULTS[it[0]]=it[5];P[it[0]]=it[5];});});
+var REBUILD=['nA','nPerArea','fI','p','pFF','pFB','seed','nMotor','gFrac'];
+var PRESETS={
+  'Balanced':{},
+  'No HDP':{hdpOn:0},
+  'Boat off':{loop:0},
+  'Single area':{nA:1},
+  'Strong feedback':{wFB:2.5,pFB:0.3},
+  'Runaway FF':{wFF:3,pFF:0.4},
+  'Heavy chaos':{A:5,r:3.99}
+};
+var net=new LIF.Net(P),playing=true,frameN=0;
+var boatView={z:1,px:0,py:0};
+function $(id){return document.getElementById(id);}
+function fmt(id,v){return Number(v).toFixed(ITEM[id].dec);}
+
+$('controls').innerHTML=GROUPS.map(function(g){
+  return '<fieldset><legend>'+g.title+'</legend>'+g.items.map(function(it){
+    var id=it[0];
+    return '<div class="row"><label for="s_'+id+'"><span>'+it[1]+'</span><output id="o_'+id+'">'+fmt(id,it[5])+'</output></label>'+
+      '<input type="range" id="s_'+id+'" min="'+it[2]+'" max="'+it[3]+'" step="'+it[4]+'" value="'+it[5]+'"></div>';
+  }).join('')+'</fieldset>';
+}).join('');
+
+function applyValues(obj){
+  var rb=false,k,el;
+  for(k in obj){
+    P[k]=obj[k];
+    if(REBUILD.indexOf(k)>=0)rb=true;
+    el=$('s_'+k);if(el&&Number(el.value)!==Number(obj[k]))el.value=obj[k];
+    $('o_'+k).textContent=fmt(k,obj[k]);
+  }
+  if(rb)net=new LIF.Net(P);
+}
+$('controls').addEventListener('input',function(e){
+  if(e.target.type!=='range')return;
+  var o={};o[e.target.id.slice(2)]=parseFloat(e.target.value);applyValues(o);
+});
+$('presets').innerHTML=Object.keys(PRESETS).map(function(n){return '<button data-p="'+n+'">'+n+'</button>';}).join('');
+$('presets').addEventListener('click',function(e){
+  var n=e.target.getAttribute('data-p');if(!n)return;
+  applyValues(Object.assign({},DEFAULTS,PRESETS[n]));
+});
+$('play').onclick=function(){playing=!playing;$('play').textContent=playing?'Pause':'Play';};
+$('reset').onclick=function(){net=new LIF.Net(P);};
+$('boatZoomIn').onclick=function(){boatView.z=Math.min(20,boatView.z*1.3);};
+$('boatZoomOut').onclick=function(){boatView.z=Math.max(0.25,boatView.z/1.3);};
+$('boatZoomReset').onclick=function(){boatView.z=1;boatView.px=0;boatView.py=0;};
+(function(){
+  var cvs=$('boat'),drag=null;
+  cvs.addEventListener('wheel',function(e){
+    e.preventDefault();
+    var f=Math.exp(-e.deltaY*0.0015);
+    boatView.z=Math.min(20,Math.max(0.25,boatView.z*f));
+  },{passive:false});
+  cvs.addEventListener('pointerdown',function(e){
+    drag={x:e.clientX,y:e.clientY,px:boatView.px,py:boatView.py};
+    cvs.setPointerCapture(e.pointerId);
+  });
+  cvs.addEventListener('pointermove',function(e){
+    if(!drag)return;
+    boatView.px=drag.px+(e.clientX-drag.x);
+    boatView.py=drag.py+(e.clientY-drag.y);
+  });
+  cvs.addEventListener('pointerup',function(){drag=null;});
+  cvs.addEventListener('pointercancel',function(){drag=null;});
+})();
+
+function col(k){return getComputedStyle(document.documentElement).getPropertyValue(k).trim();}
+function palette(){return {e:col('--e'),i:col('--i'),warn:col('--warn'),ok:col('--ok'),muted:col('--muted'),fg:col('--fg'),grid:col('--grid'),cue:col('--cue')};}
+function cv(id){
+  var c=$(id),dpr=window.devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;
+  var W=Math.round(w*dpr),H=Math.round(h*dpr);
+  if(c.width!==W||c.height!==H){c.width=W;c.height=H;}
+  var x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+  x.font='11px ui-monospace,Menlo,monospace';
+  return {x:x,w:w,h:h};
+}
+function shadeCue(x,w,h,t0,W,C){
+  var T=net.trials,q,tr,xa,xb;
+  for(q=T.length-1;q>=0;q--){
+    tr=T[q];if(tr.b<t0)break;if(!tr.cue)continue;
+    xa=Math.max(0,(tr.a-t0)/W*w);xb=Math.min(w,(tr.b-t0)/W*w);
+    x.fillStyle=C.cue;x.fillRect(xa,0,xb-xa,h);
+  }
+}
+function line(x,pts,color,dash,lw){
+  if(pts.length<2)return;
+  x.save();x.strokeStyle=color;x.lineWidth=lw||1.5;x.setLineDash(dash||[]);
+  x.beginPath();x.moveTo(pts[0][0],pts[0][1]);
+  for(var j=1;j<pts.length;j++)x.lineTo(pts[j][0],pts[j][1]);
+  x.stroke();x.restore();
+}
+function arrow(x,x1,y1,x2,y2,color,label,lx,ly){
+  x.save();x.strokeStyle=color;x.fillStyle=color;x.lineWidth=1.4;
+  x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();
+  var ang=Math.atan2(y2-y1,x2-x1),hs=6;
+  x.beginPath();x.moveTo(x2,y2);
+  x.lineTo(x2-hs*Math.cos(ang-0.4),y2-hs*Math.sin(ang-0.4));
+  x.lineTo(x2-hs*Math.cos(ang+0.4),y2-hs*Math.sin(ang+0.4));
+  x.closePath();x.fill();
+  if(label){x.textAlign='center';x.fillText(label,lx,ly);}
+  x.restore();
+}
+
+function drawRaster(C){
+  var c=cv('raster'),x=c.x,w=c.w,h=c.h;
+  var W=2000,t0=net.k*P.dt-W,N=net.N,sp=net.sp,a,ts,i;
+  shadeCue(x,w,h,t0,W,C);
+  for(a=1;a<net.nA;a++){x.fillStyle=C.grid;x.fillRect(0,a/net.nA*h-0.5,w,1);}
+  for(a=0;a<sp.length;a+=2){
+    ts=sp[a];if(ts<t0)continue;
+    i=sp[a+1];
+    x.fillStyle=net.isE[i]?C.e:C.i;
+    x.fillRect((ts-t0)/W*w,(i+0.5)/N*h,1.4,1.4);
+  }
+  x.fillStyle=C.muted;x.fillText('E red · I blue',4,12);
+  x.textAlign='right';x.fillText('now',w-4,12);x.textAlign='left';
+}
+
+function drawRates(C){
+  var c=cv('rates'),x=c.x,w=c.w,h=c.h;
+  var W=3000,B=20,rs=net.rateSeries(W,B),nb=rs.E.length,b,ymax=10;
+  shadeCue(x,w,h,rs.t0,W,C);
+  for(b=0;b<nb;b++)ymax=Math.max(ymax,rs.E[b],rs.I[b],rs.G[b]);
+  ymax=Math.ceil(ymax*1.15/10)*10;
+  function X(b){return (b+0.5)/nb*w;}
+  function Y(v){return h-14-(v/ymax)*(h-24);}
+  var thY=Y(P.thTask),pE=[],pI=[],pG=[];
+  for(b=0;b<nb;b++){pE.push([X(b),Y(rs.E[b])]);pI.push([X(b),Y(rs.I[b])]);pG.push([X(b),Y(rs.G[b])]);}
+  x.fillStyle=C.muted;x.fillText(ymax+' Hz',4,12);x.fillText('0',4,h-4);
+  line(x,[[0,thY],[w,thY]],C.muted,[4,4],1);
+  line(x,pE,C.e,[],1.8);
+  line(x,pI,C.i,[],1.8);
+  line(x,pG,C.warn,[5,3],1.6);
+  x.fillStyle=C.e;x.fillText('E',w-62,12);
+  x.fillStyle=C.i;x.fillText('I',w-46,12);
+  x.fillStyle=C.warn;x.fillText('G',w-30,12);
+}
+
+function drawVolt(C){
+  var c=cv('volt'),x=c.x,w=c.w,h=c.h,vh=net.vh;
+  var n=vh.length/5;if(n<2)return;
+  var tEnd=vh[vh.length-5],W=400,t0=tEnd-W,j,t,ymax=-40,ymin=P.Vr-2;
+  for(j=0;j<n;j++){
+    if(vh[5*j]<t0)continue;
+    ymax=Math.max(ymax,vh[5*j+1],vh[5*j+2],vh[5*j+3],vh[5*j+4]);
+  }
+  ymax+=2;
+  function X(t){return (t-t0)/W*w;}
+  function Y(v){return h-12-(v-ymin)/(ymax-ymin)*(h-22);}
+  var g=[],o=[],ii=[],th=[];
+  for(j=0;j<n;j++){
+    t=vh[5*j];if(t<t0)continue;
+    g.push([X(t),Y(vh[5*j+1])]);o.push([X(t),Y(vh[5*j+2])]);ii.push([X(t),Y(vh[5*j+3])]);th.push([X(t),Y(vh[5*j+4])]);
+  }
+  line(x,th,C.muted,[3,3],1.2);
+  line(x,o,C.muted,[],1.2);
+  line(x,ii,C.i,[],1.4);
+  line(x,g,C.warn,[],1.6);
+  x.fillStyle=C.muted;x.fillText(ymax.toFixed(0)+' mV',4,12);x.fillText(ymin.toFixed(0)+' mV',4,h-4);
+  x.fillStyle=C.warn;x.fillText('G cell (L4 E, area 1)',w-150,12);
+  x.fillStyle=C.muted;x.fillText('out: L6 E, top area',w-150,24);
+  x.fillStyle=C.i;x.fillText('L4 I, area 1',w-150,36);
+}
+
+function drawTask(C){
+  var c=cv('task'),x=c.x,w=c.w,h=c.h;
+  var M=60,list=net.trials.slice(-M),th=P.thTask,scale=Math.max(2*th,5),bw=w/M,q,tr,bh,xi;
+  for(q=0;q<list.length;q++){
+    tr=list[q];xi=(M-list.length+q)*bw;
+    bh=Math.min(tr.rG,scale)/scale*(h-22);
+    x.globalAlpha=tr.detect?1:0.35;
+    x.fillStyle=tr.cue?C.ok:C.muted;
+    x.fillRect(xi+1,h-14-bh,Math.max(1,bw-2),bh);
+  }
+  x.globalAlpha=1;
+  var thY=h-14-th/scale*(h-22);
+  line(x,[[0,thY],[w,thY]],C.fg,[4,4],1);
+  x.fillStyle=C.muted;
+  x.fillText('θ_task '+th+' Hz',4,12);
+  x.fillStyle=C.ok;x.fillText('cue',w-62,12);
+  x.fillStyle=C.muted;x.fillText('catch',w-30,12);
+}
+
+function drawCircuit(C){
+  var c=cv('circuit'),x=c.x,w=c.w,h=c.h,nA=net.nA,a,l;
+  var colW=Math.min(110,(w-120)/nA*0.7);
+  function CX(a){return nA===1?w/2:60+colW/2+a*((w-120-colW)/(nA-1));}
+  var rowH=(h-30)/6,bh=rowH-4;
+  function Y(l){return 14+l*rowH;}
+  var lab=['L1','L2','L3','L4','L5','L6'],cx,y,L,sum,n,v;
+  for(a=0;a<nA;a++){
+    cx=CX(a);
+    x.fillStyle=C.muted;x.textAlign='center';x.fillText('area '+(a+1),cx,h-4);
+    for(l=0;l<6;l++){
+      L=net.ids[a][l].E;sum=0;
+      for(n=0;n<L.length;n++)sum+=net.r[L[n]];
+      v=sum/L.length;
+      y=Y(l);
+      x.globalAlpha=0.12+0.5*Math.min(1,v/25);
+      x.fillStyle=C.e;x.fillRect(cx-colW/2,y,colW,bh);
+      x.globalAlpha=1;
+      x.strokeStyle=C.muted;x.lineWidth=1;x.strokeRect(cx-colW/2+0.5,y+0.5,colW-1,bh-1);
+      x.fillStyle=C.fg;x.textAlign='left';
+      x.fillText(lab[l]+'  '+v.toFixed(0)+' Hz',cx-colW/2+5,y+bh/2+4);
+    }
+  }
+  var yL4=Y(3)+bh/2,yL5=Y(4)+bh/2,yL2=Y(1)+bh/2,yL1=Y(0)+bh/2,yL6=Y(5)+bh/2;
+  arrow(x,2,yL4,CX(0)-colW/2-2,yL4,C.fg,'',0,0);
+  x.fillStyle=C.muted;x.textAlign='left';x.fillText('input',4,yL4-6);
+  arrow(x,CX(nA-1)+colW/2+2,yL6,w-2,yL6,C.e,'',0,0);
+  x.fillStyle=C.muted;x.textAlign='right';x.fillText('out',w-4,yL6-6);
+  for(a=0;a<nA-1;a++){
+    arrow(x,CX(a)+colW/2,yL5,CX(a+1)-colW/2,yL2,C.warn,'',0,0);
+    arrow(x,CX(a+1)-colW/2,yL5+6,CX(a)+colW/2,yL1+6,C.ok,'',0,0);
+  }
+  x.fillStyle=C.warn;x.textAlign='center';x.fillText('FF L5→L2/3',w/2,h-18);
+  x.fillStyle=C.ok;x.fillText('FB L5→L1/L6',w/2,h-30);
+  x.textAlign='left';
+}
+
+function drawBoat(C){
+  var c=cv('boat'),x=c.x,w=c.w,h=c.h;
+  var s=Math.min(w,h)*0.46/8*boatView.z,cx=w/2+boatView.px,cy=h/2+boatView.py,g,q;
+  var gx0=Math.floor((0-cx)/s),gx1=Math.ceil((w-cx)/s),gy0=Math.floor((cy-h)/s),gy1=Math.ceil(cy/s);
+  x.strokeStyle=C.grid;x.lineWidth=1;
+  for(g=gx0;g<=gx1;g++){x.beginPath();x.moveTo(cx+g*s,0);x.lineTo(cx+g*s,h);x.stroke();}
+  for(g=gy0;g<=gy1;g++){x.beginPath();x.moveTo(0,cy-g*s);x.lineTo(w,cy-g*s);x.stroke();}
+  x.save();x.setLineDash([5,4]);x.strokeStyle=C.ok;x.lineWidth=1.5;
+  x.beginPath();x.arc(cx,cy,5*s,0,2*Math.PI);x.stroke();x.restore();
+  x.strokeStyle=C.fg;x.lineWidth=1.2;
+  x.beginPath();x.moveTo(cx-6,cy);x.lineTo(cx+6,cy);x.moveTo(cx,cy-6);x.lineTo(cx,cy+6);x.stroke();
+  var bt=net.boat,tr=bt.traj,pts=[];
+  for(q=0;q<tr.length;q+=2)pts.push([cx+tr[q]*s,cy-tr[q+1]*s]);
+  line(x,pts,C.muted,[],1.2);
+  x.fillStyle=C.muted;x.beginPath();x.arc(cx+5*s,cy,3,0,2*Math.PI);x.fill();
+  var px=cx+bt.p[0]*s,py=cy-bt.p[1]*s,vx=bt.v[0],vy=-bt.v[1],sp=Math.hypot(vx,vy);
+  var ux=sp>1e-9?vx/sp:1,uy=sp>1e-9?vy/sp:0;
+  var fx=bt.force[0],fy=-bt.force[1],fm=Math.hypot(fx,fy);
+  if(P.loop&&fm>1e-9){var L=Math.min(60,fm*0.8);arrow(x,px,py,px+fx/fm*L,py+fy/fm*L,C.warn,'',0,0);}
+  x.fillStyle=C.e;x.beginPath();
+  x.moveTo(px+ux*10,py+uy*10);
+  x.lineTo(px-ux*6-uy*6,py-uy*6+ux*6);
+  x.lineTo(px-ux*6+uy*6,py-uy*6-ux*6);
+  x.closePath();x.fill();
+  x.fillStyle=C.muted;x.textAlign='left';
+  var e=Math.hypot(bt.p[0],bt.p[1]);
+  x.fillText('distance e = '+e.toFixed(2)+'   min e = '+bt.minE.toFixed(2)+'   start (5,0), target (0,0)',6,14);
+  if(!P.loop){x.fillStyle=C.warn;x.fillText('loop off: boat frozen (enable "Close loop" in Boat controls)',6,28);}
+}
+
+function updateStats(){
+  var s=net.stats(2000),f=function(v,d){return isFinite(v)?v.toFixed(d===undefined?1:d):'–';};
+  var e=Math.hypot(net.boat.p[0],net.boat.p[1]);
+  var rows=[
+    ['boat distance',f(e,2),'to origin'],
+    ['min distance',f(net.boat.minE,2),'best so far'],
+    ['inside R = 5',e<=5?'yes':'no','current position'],
+    ['E rate',f(s.rE)+' Hz','all E cells, mean'],
+    ['I rate',f(s.rI)+' Hz','all I cells, mean'],
+    ['G rate',f(s.rG)+' Hz','cue group G'],
+    ['silent cells',f(100*s.silent,0)+' %','no spike in window'],
+    ['hit rate',isFinite(s.hit)?f(s.hit,2):'–','cue trials detected'],
+    ['false alarm',isFinite(s.fa)?f(s.fa,2):'–','catch trials detected'],
+    ['balanced acc.',isFinite(s.bal)?f(s.bal,2):'–','(hit + 1 − FA)/2'],
+    ['HDP mean H',f(s.meanH,2),P.hdpOn?'1 = neutral':'HDP off'],
+    ['edge gain m',f(s.meanM,2),'mean plastic gain'],
+    ['network',net.N+' cells',net.E+' synapses'],
+    ['sim time',f(s.time,1)+' s','']
+  ];
+  $('stats').innerHTML=rows.map(function(r){
+    return '<div class="stat"><small>'+r[0]+'</small><b>'+r[1]+'</b><small>'+r[2]+'</small></div>';
+  }).join('');
+}
+
+function draw(){
+  var C=palette();
+  drawBoat(C);
+  drawCircuit(C);
+  drawRaster(C);
+  drawRates(C);
+  drawVolt(C);
+  drawTask(C);
+}
+
+function loop(){
+  if(playing){
+    var n=Math.max(1,Math.round(P.speed/P.dt)),q;
+    for(q=0;q<n;q++)net.step();
+  }
+  draw();
+  if(frameN%8===0)updateStats();
+  frameN++;
+  requestAnimationFrame(loop);
+}
+window.addEventListener('resize',function(){draw();});
+loop();
+})();
+</script>
+</body>
+</html>

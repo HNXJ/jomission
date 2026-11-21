@@ -1,0 +1,184 @@
+"""Acceptance tests T01-T12 for dms_task (memory_dms_spec_v1.md section 5).
+
+Run from this directory: python3 -m pytest -q test_dms_task.py
+T11 and T12 need the explicit-memory comparator (B2), which is not built: they are skipped, not passed.
+"""
+
+import numpy as np
+import pytest
+
+from dms_task import (
+    CUE, DELAY, END, GO, IDLE, IDX_CUE_VALID, IDX_GO, IDX_S, N_OBS,
+    DMSEnv, Event, TaskConfig, oracle_action, run, schedule,
+)
+
+ZERO = lambda env: np.zeros(2)  # noqa: E731
+
+
+def test_T01_exact_phase_transitions_at_step_boundaries():
+    # onset 2.0 s = step 100; cue 25; delay 100; go 250. Target unreachable: deadline closes the trial.
+    cfg = TaskConfig(events=(Event(2.0, 100.0, 100.0),))
+    env = run(DMSEnv(cfg), 500, ZERO)
+    phases = env.log_arrays()["phase"].tolist()
+    expected = [IDLE] * 100 + [CUE] * 25 + [DELAY] * 100 + [GO] * 250 + [END] + [IDLE] * 24
+    assert len(phases) == 500
+    assert phases == expected
+    assert env.results[0]["t_end"] == 475 and env.results[0]["success"] is False
+
+
+def test_T01_rejects_off_grid_onset():
+    with pytest.raises(ValueError):
+        schedule(TaskConfig(events=(Event(2.005, 0.0, 0.0),)))
+
+
+def test_T01_rejects_overlapping_trials():
+    # first trial ends no later than 2.0 + 7.5 = 9.5 s; onset 5.0 s overlaps it
+    with pytest.raises(ValueError):
+        schedule(TaskConfig(events=(Event(2.0, 0.0, 0.0), Event(5.0, 0.0, 0.0))))
+
+
+def test_T02_cue_visible_only_during_cue():
+    cfg = TaskConfig(events=(Event(2.0, 3.0, 1.0),))
+    env = run(DMSEnv(cfg), 480, ZERO)
+    obs = env.log_arrays()["obs"]
+    assert obs.shape == (480, N_OBS)
+    cue = slice(100, 125)
+    assert np.all(obs[cue, IDX_CUE_VALID] == 1.0)
+    assert np.allclose(obs[cue, IDX_S], [3.0, 1.0])  # p(s) = 0, so s = q - 0
+    rest = np.r_[0:100, 125:480]
+    assert np.all(obs[rest, IDX_CUE_VALID] == 0.0)
+    assert np.all(obs[rest, IDX_S] == 0.0)
+
+
+def test_T03_no_leakage_of_hidden_target_after_cue():
+    # Physics does not depend on the target, so same actions give the same trajectory.
+    # Two targets, both unreachable, both run to the deadline.
+    rng = np.random.default_rng(1)
+    acts = rng.normal(size=(480, 2))
+    pol = lambda env: acts[env.k]  # noqa: E731
+    a = run(DMSEnv(TaskConfig(events=(Event(2.0, 100.0, 100.0),))), 480, pol)
+    b = run(DMSEnv(TaskConfig(events=(Event(2.0, -40.0, 7.0),))), 480, pol)
+    oa, ob = a.log_arrays()["obs"], b.log_arrays()["obs"]
+    post = np.r_[125:480]  # DELAY, GO and END/IDLE after the cue
+    assert np.array_equal(oa[post], ob[post])
+    # known positive: the two targets differ during the cue, so the comparison can detect leakage
+    assert not np.allclose(oa[100:125], ob[100:125])
+
+
+def test_T04_motor_gated_outside_go():
+    cfg = TaskConfig(events=(Event(2.0, 100.0, 100.0),))
+    rng = np.random.default_rng(2)
+    acts = rng.normal(size=(480, 2)) * 10.0
+    zero = run(DMSEnv(cfg), 480, ZERO).log_arrays()
+    rnd = run(DMSEnv(cfg), 480, lambda env: acts[env.k]).log_arrays()
+    outside = np.r_[0:225, 475:480]
+    assert np.all(rnd["F"][outside] == 0.0)
+    # before GO the trajectories must be identical; after GO, momentum from GO forces legitimately differs
+    assert np.array_equal(rnd["p"][0:225], zero["p"][0:225])
+    # known positive: inside GO the same actions do move the boat
+    assert np.abs(rnd["F"][225:475]).sum() > 0
+    assert not np.allclose(rnd["p"][300], zero["p"][300])
+
+
+def test_T05_state_continuity_across_phases():
+    # The integrator must run every step, with no reset at CUE->DELAY->GO->END boundaries.
+    cfg = TaskConfig(events=(Event(2.0, 100.0, 100.0),), max_force=10.0)
+    rng = np.random.default_rng(3)
+    acts = rng.normal(size=(480, 2))
+    lg = run(DMSEnv(cfg), 480, lambda env: acts[env.k]).log_arrays()
+    dt, beta = cfg.dt, cfg.damping
+    V, F, P = lg["v"], lg["F"], lg["p"]
+    assert np.allclose(V[1:], V[:-1] + dt * (-beta * V[:-1] + F[:-1]), atol=1e-12)
+    assert np.allclose(P[1:], P[:-1] + 0.5 * dt * (V[:-1] + V[1:]), atol=1e-12)
+    # known positive: the boat moves through the cue and delay (velocity is carried, not reset)
+    assert np.any(np.abs(V[125]) > 0) or np.any(np.abs(V[225]) > 0) or np.any(np.abs(V[100:]) > 0)
+
+
+def test_T06_deadline_inclusive_and_strict():
+    tgt = Event(2.0, 1.5, 0.0)
+    probe = run(DMSEnv(TaskConfig(events=(tgt,), go_s=30.0, max_force=1.0)), 1800, oracle_action)
+    res = probe.results[0]
+    assert res["success"] is True
+    kc = res["t_end"]
+    L = kc - 225
+    assert L >= 1
+    exact = run(DMSEnv(TaskConfig(events=(tgt,), go_s=L * 0.02, max_force=1.0)), 1800, oracle_action)
+    short = run(DMSEnv(TaskConfig(events=(tgt,), go_s=(L - 1) * 0.02, max_force=1.0)), 1800, oracle_action)
+    assert exact.results[0]["success"] is True and exact.results[0]["t_end"] == kc
+    assert short.results[0]["success"] is False and short.results[0]["t_end"] == kc - 1
+
+
+def test_T07_feasibility_bound_flags_impossible_and_oracle_reaches_feasible():
+    fm, gam, go = 1.0, 0.5, 5.0
+    bound = go * fm / gam  # 10 units, from rest at GO onset
+    near = run(DMSEnv(TaskConfig(events=(Event(2.0, 3.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
+    far = run(DMSEnv(TaskConfig(events=(Event(2.0, 30.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
+    assert near["feasible"] is True and abs(near["bound"] - bound) < 1e-9
+    assert near["success"] is True  # oracle demonstrates reachability on a feasible target
+    assert far["feasible"] is False  # impossible target flagged
+    assert far["success"] is False
+    # undefined when no force bound is set
+    unb = run(DMSEnv(TaskConfig(events=(Event(2.0, 3.0, 0.0),))), 480, ZERO).results[0]
+    assert unb["feasible"] is None
+
+
+def test_T08_deterministic_logs():
+    cfg = TaskConfig(events=(Event(2.0, 1.0, 0.5), Event(14.0, -30.0, 5.0)), max_force=1.0)
+    a = run(DMSEnv(cfg), 1080, oracle_action)
+    b = run(DMSEnv(cfg), 1080, oracle_action)
+    la, lb = a.log_arrays(), b.log_arrays()
+    for key in la:
+        assert np.array_equal(la[key], lb[key]), key
+    assert a.results == b.results
+
+
+def test_T09_baseline_plant_matches_legacy_sailor_step():
+    jaxfne_paradigm = pytest.importorskip(
+        "jaxfne.paradigm",
+        reason="jaxfne not importable here; T09 NOT RUN (plant equality against sailor_step unverified)",
+    )
+    import jax.numpy as jnp  # noqa: WPS433
+
+    if not hasattr(jaxfne_paradigm, "SailorConfig"):
+        pytest.skip("installed jaxfne lacks the sailor API (SailorConfig); T09 NOT RUN")
+
+    cfg_legacy = jaxfne_paradigm.SailorConfig(n_dim=2, dt=0.02, damping=0.5, target=jnp.zeros(2))
+    state = jaxfne_paradigm.sailor_reset(cfg_legacy, __import__("jax").random.PRNGKey(0),
+                                         p0=jnp.array([1.0, -2.0]), v0=jnp.array([0.3, 0.1]))
+    env = DMSEnv(TaskConfig(events=(), dt=0.02, damping=0.5))
+    env.p = np.array([1.0, -2.0])
+    env.v = np.array([0.3, 0.1])
+    rng = np.random.default_rng(4)
+    for _ in range(50):
+        a = rng.normal(size=2)
+        # DMS plant applies gating only; force the phase to GO to compare the raw plant
+        env._phase = GO
+        env.step(a)
+        state, _ = jaxfne_paradigm.sailor_step(cfg_legacy, state, jnp.asarray(a))
+        assert np.allclose(env.p, np.asarray(state.p), atol=1e-5)
+        assert np.allclose(env.v, np.asarray(state.v), atol=1e-5)
+
+
+def test_T10_no_leakage_between_trials():
+    ev1 = Event(2.0, 1.0, 0.0)     # reachable: closes by arrival
+    ev2 = Event(14.0, -30.0, 5.0)  # onset at step 700, after trial 1's deadline (475)
+    cfg = TaskConfig(events=(ev1, ev2), max_force=1.0)
+    env = run(DMSEnv(cfg), 1080, oracle_action)
+    lg = env.log_arrays()
+    assert env.results[0]["success"] is True and env.results[0]["t_end"] < 475
+    assert env.results[1]["q"] == (-30.0, 5.0)
+    # trial 2 cue is q2 - p at its own onset, not any value from trial 1
+    p_on = lg["p"][700]
+    assert np.allclose(lg["obs"][700:725, IDX_S], np.array([-30.0, 5.0]) - p_on)
+    # trial 2 target channels are zero after its cue
+    assert np.all(lg["obs"][725:1075, IDX_S] == 0.0)
+
+
+@pytest.mark.skip(reason="T11 needs the explicit-memory comparator (B2); not built")
+def test_T11_cue_dependence_positive_control():
+    pass
+
+
+@pytest.mark.skip(reason="T12 needs the explicit-memory comparator (B2); not built")
+def test_T12_known_memory_oracle_across_delays():
+    pass

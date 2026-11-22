@@ -111,7 +111,8 @@ def test_T06_deadline_inclusive_and_strict():
 
 def test_T07_feasibility_bound_flags_impossible_and_oracle_reaches_feasible():
     fm, gam, go = 1.0, 0.5, 5.0
-    bound = go * np.sqrt(2) * fm / gam  # sqrt(2) fm / beta per unit time, from rest at GO onset
+    # bound = go_s * sqrt(2) fm / beta. The |v| term is 0: v = 0 at GO onset (no force before GO).
+    bound = go * np.sqrt(2) * fm / gam
     near = run(DMSEnv(TaskConfig(events=(Event(2.0, 3.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
     far = run(DMSEnv(TaskConfig(events=(Event(2.0, 30.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
     assert near["feasible"] is True and abs(near["bound"] - bound) < 1e-9
@@ -137,6 +138,29 @@ def test_T07b_saturated_diagonal_reach_exceeds_euclidean_bound_and_is_within_sqr
     assert reach > go * fm / gam, "fixture must exceed the Euclidean bound"
     assert res["bound"] >= reach, "feasibility bound must dominate componentwise-clipped reach"
     assert abs(res["bound"] - go * np.sqrt(2) * fm / gam) < 1e-9
+
+
+def test_T07c_high_go_onset_speed_uses_velocity_term_of_bound():
+    # Test-only state injection: v = (20, 0) during CUE (motor gated, so no force). Decay over the 0.5 s cue
+    # leaves |v| ~ 15.6 at GO onset, above sqrt(2) fm / beta = 2.83. The |v| branch must be active and dominate
+    # zero-force reach. Known positive: a bound without the |v| term (28.28) is below reach (~31).
+    fm, gam, go = 1.0, 0.5, 10.0
+    env = DMSEnv(TaskConfig(events=(Event(0.0, 50.0, 50.0),), cue_s=0.5, delay_s=0.0, go_s=go, max_force=fm))
+    env.v = np.array([20.0, 0.0])
+    tr = env.trials[0]
+    while env.k < tr.t2:
+        env.step(np.zeros(2))
+    p_onset = env.p.copy()
+    v_onset = float(np.linalg.norm(env.v))
+    while env.k < tr.t3:
+        env.step(np.zeros(2))
+    res = env.results[0]
+    reach = float(np.linalg.norm(env.p - p_onset))
+    assert v_onset > np.sqrt(2) * fm / gam, "fixture must put |v| above the sqrt(2) fm / beta branch"
+    assert reach > go * np.sqrt(2) * fm / gam, "fixture must exceed the no-velocity-term bound"
+    assert res["success"] is False and res["t_end"] == tr.t3
+    assert abs(res["bound"] - go * v_onset) < 1e-9, "bound must use the GO-onset velocity term"
+    assert res["bound"] >= reach
 
 
 def test_T08_deterministic_logs():

@@ -1,12 +1,13 @@
 """Acceptance tests T01-T12 for dms_task (memory_dms_spec_v1.md section 5).
 
 Run from this directory: python3 -m pytest -q test_dms_task.py
-T11 and T12 need the explicit-memory comparator (B2), which is not built: they are skipped, not passed.
+T11 and T12 use the explicit-memory reference controller (B2, b2_memory_controller.py).
 """
 
 import numpy as np
 import pytest
 
+from b2_memory_controller import ExplicitMemoryController
 from dms_task import (
     CUE, DELAY, END, GO, IDLE, IDX_CUE_VALID, IDX_GO, IDX_S, N_OBS,
     DMSEnv, Event, TaskConfig, oracle_action, run, schedule,
@@ -167,6 +168,8 @@ def test_T10_no_leakage_between_trials():
     lg = env.log_arrays()
     assert env.results[0]["success"] is True and env.results[0]["t_end"] < 475
     assert env.results[1]["q"] == (-30.0, 5.0)
+    # trial 1 min distance (~0 at arrival) must not carry into trial 2 (unreachable, min far from 0)
+    assert env.results[1]["min_dist"] > cfg.radius
     # trial 2 cue is q2 - p at its own onset, not any value from trial 1
     p_on = lg["p"][700]
     assert np.allclose(lg["obs"][700:725, IDX_S], np.array([-30.0, 5.0]) - p_on)
@@ -174,11 +177,42 @@ def test_T10_no_leakage_between_trials():
     assert np.all(lg["obs"][725:1075, IDX_S] == 0.0)
 
 
-@pytest.mark.skip(reason="T11 needs the explicit-memory comparator (B2); not built")
+TARGETS = [(3.0, 0.0), (0.0, 3.0), (-2.5, 2.0)]  # from origin; feasible at max_force=1 (bound 10)
+
+
+def _single(q, delay_s=2.0):
+    return TaskConfig(events=(Event(2.0, q[0], q[1]),), delay_s=delay_s, max_force=1.0)
+
+
 def test_T11_cue_dependence_positive_control():
-    pass
+    rate = {}
+    for mode in ("intact", "absent", "shuffled"):
+        ok = 0
+        for i, q in enumerate(TARGETS):
+            other = TARGETS[(i + 1) % len(TARGETS)]  # cue from another trial
+            ctrl = ExplicitMemoryController(mode, shuffled_targets=[other])
+            env = run(DMSEnv(_single(q)), 480, lambda e: ctrl.act(e.observe()))
+            ok += env.results[0]["success"]
+        rate[mode] = ok / len(TARGETS)
+    # known positive: the intact cue solves every feasible trial
+    assert rate["intact"] == 1.0
+    assert rate["absent"] < rate["intact"]
+    assert rate["shuffled"] < rate["intact"]
 
 
-@pytest.mark.skip(reason="T12 needs the explicit-memory comparator (B2); not built")
 def test_T12_known_memory_oracle_across_delays():
-    pass
+    q = TARGETS[0]
+    for delay in (0.0, 1.0, 2.0, 4.0):
+        env = DMSEnv(_single(q, delay))
+        ctrl = ExplicitMemoryController("intact")
+        held = []
+        for _ in range(700):  # 4 s delay ends GO at step 575
+            held.append(None if ctrl.q_hold is None else ctrl.q_hold.copy())
+            env.step(ctrl.act(env.observe()))
+        tr = env.trials[0]
+        # the register holds the target from the first CUE step through GO
+        assert all(h is not None and np.allclose(h, q, atol=1e-9) for h in held[tr.onset + 1:tr.t3]), delay
+        assert env.results[0]["success"] is True, delay
+    # known positive: without the cue the same controller fails the same trial
+    env = run(DMSEnv(_single(q, 2.0)), 480, lambda e: ExplicitMemoryController("absent").act(e.observe()))
+    assert env.results[0]["success"] is False

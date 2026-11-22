@@ -6,8 +6,8 @@ Per-subproject reviews: `lansa/REVIEW.md`, `fixation-sailor/REVIEW.md`, `oxm/REV
 
 | ID | Decision | Blocks |
 |---|---|---|
-| D0 | `plasticity boat` was merged into `dev` and `main` with `c4c9c6b`. Its handoff says: no merge before independent review. Revert on `dev`, or accept and record a ruling | Every step (history) |
-| D1 | Engine pin: keep `jaxfne==0.5.8` and build without the Sailor API, or move to 0.5.9 | FXS |
+| D0 | `plasticity boat` was merged into `dev` and `main` with `f1b9337` (`Merge origin/_temp_plasticity_boat`; its second parent holds `280ebd0`). Its handoff says: no merge before independent review. Revert on `dev`, or accept and record a ruling | Every step (history) |
+| D1 | Engine pin: keep `jaxfne==0.5.8` and build without the Sailor API, or pin a build of `_temp_crazy_sailor_m0m1_b` at `fdb19c9a` or later (the `v0.5.9` tag lacks the Sailor API) | FXS |
 | D2 | E1 verdict path for "oscillating in 4 of 5, rho 4 silent" (C7). E1b verdict use | LANSA E2 |
 | D3 | LANSA C1 to C4, C6 (SST/PV source, module count, unit count, deep rho, run length) | LANSA E2 seal |
 | D4 | Firewall ordering: blind OXM after the substrate freeze, or a separate lineage | OXM |
@@ -33,7 +33,7 @@ Goal: a boat controlled by FEF deep E neurons fixates on the origin under the A/
 
 | Step | Output | Closing check |
 |---|---|---|
-| B1 | Engine decision (D1). If 0.5.9, the pin and `current_state.json` move together | provenance test passes on the chosen pin |
+| B1 | Engine decision (D1). If a Sailor-API build is pinned, the pin and `current_state.json` move together | provenance test passes on the chosen pin |
 | B2 | Boat dynamics and decoder in `jomission/` (not in the lab HTML). Directional motor pools per option 1, or a restoring term per option 2 (owner choice) | unit test: with zero input, a displaced boat returns toward the origin (null: the lab's current wiring must fail this test) |
 | B3 | Minimal model V1-V4-FEF, 3 areas at 1000 each (README), or the lab's 540 at first with the same rule | builds and simulates finitely (cf. `test_lite_model.py`) |
 | B4 | Controller comparison: E vs I vs layers, on A, B and R waves. Estimand declared first | sealed spec; receipt per controller |

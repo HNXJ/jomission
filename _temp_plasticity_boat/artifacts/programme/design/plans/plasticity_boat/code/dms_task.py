@@ -143,7 +143,9 @@ class DMSEnv:
         if fm is None or self.beta <= 0:
             return None, None
         go_s = (tr.t3 - tr.t2) * self.dt
-        bound = go_s * max(float(np.linalg.norm(self.v)), fm / self.beta)
+        # Plant clips each component: |F_i| <= fm, so |F|_2 <= sqrt(2) fm. The Euclidean bound fm/beta
+        # under-bounds diagonal reach (D3.2 ruling 2026-11-22: keep this plant, use the sqrt(2) bound).
+        bound = go_s * max(float(np.linalg.norm(self.v)), math.sqrt(2.0) * fm / self.beta)
         dist = float(np.linalg.norm(np.asarray(tr.q, dtype=float) - self.p))
         return dist <= bound, bound
 

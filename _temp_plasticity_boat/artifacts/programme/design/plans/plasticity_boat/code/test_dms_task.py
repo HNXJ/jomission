@@ -111,7 +111,7 @@ def test_T06_deadline_inclusive_and_strict():
 
 def test_T07_feasibility_bound_flags_impossible_and_oracle_reaches_feasible():
     fm, gam, go = 1.0, 0.5, 5.0
-    bound = go * fm / gam  # 10 units, from rest at GO onset
+    bound = go * np.sqrt(2) * fm / gam  # sqrt(2) fm / beta per unit time, from rest at GO onset
     near = run(DMSEnv(TaskConfig(events=(Event(2.0, 3.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
     far = run(DMSEnv(TaskConfig(events=(Event(2.0, 30.0, 0.0),), max_force=fm)), 480, oracle_action).results[0]
     assert near["feasible"] is True and abs(near["bound"] - bound) < 1e-9
@@ -121,6 +121,22 @@ def test_T07_feasibility_bound_flags_impossible_and_oracle_reaches_feasible():
     # undefined when no force bound is set
     unb = run(DMSEnv(TaskConfig(events=(Event(2.0, 3.0, 0.0),))), 480, ZERO).results[0]
     assert unb["feasible"] is None
+
+
+def test_T07b_saturated_diagonal_reach_exceeds_euclidean_bound_and_is_within_sqrt2_bound():
+    # Componentwise saturation F = (fm, fm) from rest for go_s: reach ~ sqrt(2) * 16.03 = 22.7 at go_s = 10.
+    # Known positive: the Euclidean bound fm/beta * go_s = 20 is violated, so it is not a valid bound.
+    fm, gam, go = 1.0, 0.5, 10.0
+    env = DMSEnv(TaskConfig(events=(Event(2.0, 50.0, 50.0),), go_s=go, max_force=fm))
+    tr = env.trials[0]
+    while env.k < tr.t3:
+        env.step(np.array([fm, fm]))  # gated to zero outside GO; target far, so the deadline closes the trial
+    res = env.results[0]
+    reach = float(np.linalg.norm(env.p))  # GO onset at rest from p = 0
+    assert res["success"] is False and res["t_end"] == tr.t3
+    assert reach > go * fm / gam, "fixture must exceed the Euclidean bound"
+    assert res["bound"] >= reach, "feasibility bound must dominate componentwise-clipped reach"
+    assert abs(res["bound"] - go * np.sqrt(2) * fm / gam) < 1e-9
 
 
 def test_T08_deterministic_logs():

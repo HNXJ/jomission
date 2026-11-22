@@ -1,0 +1,161 @@
+[
+  {
+    "case": "builtin_open_w_positive",
+    "guard_installed": true,
+    "msg": "results/sealed.json is a registered sealed artifact (manifests/sealed_artifacts.json) and ",
+    "raised": "SealedArtifactWriteError",
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  },
+  {
+    "case": "builtin_open_w_not_installed_control",
+    "guard_installed": false,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1
+  },
+  {
+    "case": "builtin_open_unsealed_negative",
+    "guard_installed": true,
+    "msg": null,
+    "new_file_created": true,
+    "raised": null,
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  },
+  {
+    "case": "env_authorized_control",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1
+  },
+  {
+    "case": "io_fileio_w",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1
+  },
+  {
+    "case": "dir_rename_parent",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "registered_path_exists_after": false,
+    "sealed_bytes_unchanged": true
+  },
+  {
+    "case": "os_replace_onto_sealed",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 20
+  },
+  {
+    "case": "os_open_o_trunc",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 0,
+    "size_right_after_open": 0
+  },
+  {
+    "case": "fd_opened_before_guard",
+    "guard_active_before_write": true,
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 32
+  },
+  {
+    "case": "path_touch_sealed",
+    "guard_installed": true,
+    "msg": null,
+    "mtime_changed": true,
+    "raised": null,
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  },
+  {
+    "case": "os_unlink_sealed",
+    "file_present_after": false,
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": null
+  },
+  {
+    "case": "path_write_text",
+    "guard_installed": true,
+    "msg": "results/sealed.json is a registered sealed artifact (manifests/sealed_artifacts.json) and ",
+    "raised": "SealedArtifactWriteError",
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  },
+  {
+    "case": "symlink_alias_to_sealed",
+    "guard_installed": true,
+    "msg": "results/sealed.json is a registered sealed artifact (manifests/sealed_artifacts.json) and ",
+    "raised": "SealedArtifactWriteError",
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  },
+  {
+    "case": "registered_name_is_symlink",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1,
+    "write_went_to": "outside/real.json"
+  },
+  {
+    "case": "registry_dot_form",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1
+  },
+  {
+    "case": "registry_absolute_form",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 1
+  },
+  {
+    "case": "atomic_write_json_onto_sealed",
+    "guard_installed": true,
+    "mode_fresh_atomic_file": "0o600",
+    "mode_replaced_sealed": "0o600",
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 17
+  },
+  {
+    "case": "persist_phase_snapshot_onto_registered",
+    "guard_installed": true,
+    "msg": null,
+    "raised": null,
+    "sealed_bytes_unchanged": false,
+    "size_after": 203
+  },
+  {
+    "case": "append_trial_snapshot_onto_registered",
+    "guard_installed": true,
+    "msg": "results/exposure_trials.jsonl is a registered sealed artifact (manifests/sealed_artifacts.",
+    "raised": "SealedArtifactWriteError",
+    "sealed_bytes_unchanged": true,
+    "size_after": 32
+  }
+]

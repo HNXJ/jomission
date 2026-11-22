@@ -1,6 +1,6 @@
-# Jomission — dense laminar omission simulation
+# Jomission: dense laminar omission simulation
 
-Mechanistic in-silico reconstruction of a multi-area, laminar, hierarchical visual omission experiment. Built as a **separate simulation project with frozen JaxFNE as engine** — simulation output is not evidence for the empirical manuscript or for JaxFNE itself.
+Mechanistic in-silico reconstruction of a multi-area, laminar, hierarchical visual omission experiment. It is built as a **separate simulation project with frozen JaxFNE as engine**. Simulation output is not evidence for the empirical manuscript or for JaxFNE itself.
 
 ## Architecture
 
@@ -14,7 +14,7 @@ C_t = (X_t, H_t, Theta_t, D_t)  →  q_t → φ_t → y_t
 - Continuous trajectory: `init → baseline → ≥1000s AAAB/BBBA exposure → omission → recovery` with no reset of `(X,H,Θ,D)`.
 - JaxFNE provides neurons, synapses, HDP/RBD, continuation state, delays, source/field/probe.
 
-## Paradigm — authoritative timing (p1-relative)
+## Paradigm: authoritative timing (p1-relative)
 
 | epoch | start (ms) | end (ms) | duration |
 |-------|------------|----------|----------|
@@ -28,7 +28,7 @@ C_t = (X_t, H_t, Theta_t, D_t)  →  q_t → φ_t → y_t
 | p4    | 3093       | 3624     | 531 ms   |
 | d4    | 3624       | 4124     | 500 ms   |
 
-Full trial = 4624 ms (p1→d4 = 4124 ms, fixation included). `X` = absence of stimulus during the 531-ms slot, **not** deletion of the interval — temporal geometry identical on omission trials.
+A full trial lasts 4624 ms. The p1→d4 span is 4124 ms and includes fixation. `X` means no stimulus during the 531-ms slot. The interval is **not** deleted: the temporal geometry is identical on omission trials.
 
 12 conditions:
 
@@ -42,15 +42,15 @@ p3 omission: AAXB  BBXA  RRXR
 p4 omission: AAAX  BBBX  RRRX
 ```
 
-Omission-local windows (reindexed t=0 at expected onset): `[-1000,+1000] ms`, baseline `[-250,-50] ms`, omission slot `[0,531] ms`, post `[531,1000] ms`. Do not pool p2/p3/p4 before testing position dependence.
+Omission-local windows (time reindexed to t=0 at expected onset): `[-1000,+1000] ms`, baseline `[-250,-50] ms`, omission slot `[0,531] ms`, post `[531,1000] ms`. Do not pool p2/p3/p4 before you test position dependence.
 
-**UNRESOLVED** (explicitly `None`, never invented): reward schedule, full fixation schedule, exact stimulus metadata (identity A/B/R is canonical; visual parameters pending), block ordering, AAAB:BBBA ratio beyond condition taxonomy.
+**UNRESOLVED** (explicitly `None`, never invented): reward schedule, full fixation schedule, exact stimulus metadata (identity A/B/R is canonical, visual parameters pending), block ordering, AAAB:BBBA ratio beyond condition taxonomy.
 
-`PARADIGM_EXACT` = exact for currently authoritative variables; unresolved fields remain `UNRESOLVED`.
+`PARADIGM_EXACT` = exact for currently authoritative variables. Unresolved fields remain `UNRESOLVED`.
 
 ## Timescales
 
-- `τ_H ∈ {0.1, 1, 10, 100, 1000} s` — initial design, each H_k has explicit meaning/driver/domain/coupling. HDP `τ_Θ ≫ τ_X`, bounded, switchable.
+- `τ_H ∈ {0.1, 1, 10, 100, 1000} s`: initial design. Each H_k has explicit meaning/driver/domain/coupling. HDP `τ_Θ ≫ τ_X`, bounded, switchable.
 - `H` = finite-dimensional biophysical/history state, **not** homeostasis.
 
 ## Recording

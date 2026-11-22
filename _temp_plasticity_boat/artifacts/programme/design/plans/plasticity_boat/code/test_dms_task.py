@@ -38,6 +38,12 @@ def test_T01_rejects_unstable_damping_step():
         schedule(TaskConfig(events=(Event(2.0, 0.0, 0.0),), damping=60.0, dt=0.02))
 
 
+def test_T01_accepts_nominal_unit_damping_step():
+    # nominal beta * dt = 50 * 0.02 = 1 is the boundary of the bound's invariant; the float slack must accept it
+    trials = schedule(TaskConfig(events=(Event(2.0, 0.0, 0.0),), damping=50.0, dt=0.02))
+    assert len(trials) == 1
+
+
 def test_T01_rejects_overlapping_trials():
     # first trial ends no later than 2.0 + 7.5 = 9.5 s; onset 5.0 s overlaps it
     with pytest.raises(ValueError):

@@ -168,7 +168,7 @@ def test_T10_no_leakage_between_trials():
     lg = env.log_arrays()
     assert env.results[0]["success"] is True and env.results[0]["t_end"] < 475
     assert env.results[1]["q"] == (-30.0, 5.0)
-    # trial 1 min distance (~0 at arrival) must not carry into trial 2 (unreachable, min far from 0)
+    # trial 1 closed on arrival with min distance in (0, radius]; that value must not carry into trial 2
     assert env.results[1]["min_dist"] > cfg.radius
     # trial 2 cue is q2 - p at its own onset, not any value from trial 1
     p_on = lg["p"][700]
@@ -189,7 +189,7 @@ def test_T11_cue_dependence_positive_control():
     for mode in ("intact", "absent", "shuffled"):
         ok = 0
         for i, q in enumerate(TARGETS):
-            other = TARGETS[(i + 1) % len(TARGETS)]  # cue from another trial
+            other = TARGETS[(i + 1) % len(TARGETS)]  # fixed wrong target from TARGETS
             ctrl = ExplicitMemoryController(mode, shuffled_targets=[other])
             env = run(DMSEnv(_single(q)), 480, lambda e: ctrl.act(e.observe()))
             ok += env.results[0]["success"]
@@ -216,3 +216,21 @@ def test_T12_known_memory_oracle_across_delays():
     # known positive: without the cue the same controller fails the same trial
     env = run(DMSEnv(_single(q, 2.0)), 480, lambda e: ExplicitMemoryController("absent").act(e.observe()))
     assert env.results[0]["success"] is False
+
+
+def test_T12_register_exact_at_moving_onset():
+    # trial 1 moves the boat; trial 2 cues from a non-origin position. A register that ignores p_onset fails here.
+    q1, q2 = (3.0, 0.0), (2.0, 1.0)
+    cfg = TaskConfig(events=(Event(2.0, q1[0], q1[1]), Event(14.0, q2[0], q2[1])), max_force=1.0)
+    env = DMSEnv(cfg)
+    ctrl = ExplicitMemoryController("intact")
+    held = []
+    for _ in range(1080):
+        held.append(None if ctrl.q_hold is None else ctrl.q_hold.copy())
+        env.step(ctrl.act(env.observe()))
+    tr = env.trials[1]
+    p_on = env.log_arrays()["p"][tr.onset]
+    assert np.linalg.norm(p_on) > 0.5  # precondition: the boat is off the origin at trial 2 onset
+    assert np.allclose(held[tr.onset + 1], q2, atol=1e-9)
+    assert all(np.allclose(h, q2, atol=1e-9) for h in held[tr.onset + 1:tr.t3])
+    assert env.results[1]["success"] is True

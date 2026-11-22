@@ -30,17 +30,25 @@ Run from `code/`: `python3 -m pytest -q test_dms_task.py`.
 | T11 cue dependence | pass | Intact register solves all 3 feasible targets; absent and shuffled cues fail (known positive) |
 | T12 known-memory oracle across delays | pass | Register holds the target from CUE through GO for delays 0, 1, 2, 4 s |
 
-Counts: default environment 13 passed, 1 skipped (T09); with `PYTHONPATH=/Users/hamednejat/workspace/dev/jaxfne-crazy-sailor` 14 passed.
+Counts: default environment 14 passed, 1 skipped (T09); with `PYTHONPATH=/Users/hamednejat/workspace/dev/jaxfne-crazy-sailor` 15 passed.
 
-Mutation checks (scratch copies): gate forced on fails T04; cue masking removed fails T02 and T03; `_min` reset removed fails T10 (added after review).
+Mutation checks (scratch copies, 2026-11-21): gate forced on fails T04 and T06; cue visible after CUE fails T02, T03 and T10; `_min` reset removed fails T10; the intact latch ignoring p_onset fails the new T12 `register_exact_at_moving_onset`.
 
-Tier-0 (`manifests/test_tiers.json` tier 0, 31 files) at dfbcc2d: 258 passed, 0 failed. Run in a clone under `suite_lock.py`. The global interpreter run gave 1 failure, `test_jomission_import_resolves_to_this_checkout`: the installed editable `jomission` points at `_temp_fixation_boat_skill`. That is an environment failure (ENV-STALE-EDITABLE), not a model result. The gate ran in a scratch venv whose `.pth` points at the clone.
+Tier-0 (`manifests/test_tiers.json` tier 0, 33 files) at dfbcc2d and f8b1654: 258 passed, 0 failed, rc 0. Run in a clone under `suite_lock.py` with a scratch venv whose jomission resolves to the clone. The gate does not execute `test_dms_task.py`; DMS evidence is the DMS test run alone. The global interpreter run gave 1 failure, `test_jomission_import_resolves_to_this_checkout`: the installed editable `jomission` points at `_temp_fixation_boat_skill`. That is an environment failure (ENV-STALE-EDITABLE), not a model result. The gate ran in a scratch venv whose `.pth` points at the clone.
 
-Independent review (reviewer agent, non-writer, 2026-11-21): ACCEPT. Minor findings: T10 leak gap (fixed above); T05 known-positive is near trivial (`np.any(V[100:])`), neural-state continuity not testable until a controller is connected; feasibility bound is loose (valid as necessary condition, not tight; probe max reach ~8.9 vs bound 10 at target (8, 8)).
+Independent review of dfbcc2d (2026-11-21): ACCEPT. Minor: T05 known-positive is near trivial (`np.any(V[100:])`); neural-state continuity not testable until a controller is connected.
+
+Independent review of f8b1654 (B2, T10; workflow `wf_9ad0947c-63d`, 2026-11-21): REVISE.
+- major: intact latch p_onset term untested. FIXED: T12 `register_exact_at_moving_onset`.
+- major, OPEN, owner decision: the feasibility bound `g*max(|v|, fm/beta)` assumes Euclidean force magnitude, but the plant clips each component to [-fm, fm]. Diagonal reach can reach sqrt(2)*fm, so the bound is not necessary under the implemented plant (scratch check: diagonal target at D=21, go 10 s, bound 20.0, oracle min_dist 0.9531 implies a GO position at |p| >= 20.047). Latent for axis-aligned T07 cases; affects calibration. Options: (a) bound uses sqrt(2)*fm, (b) clip the force by norm, F*min(1, fm/|F|), which changes the plant semantics.
+- minor, FIXED: T10 comment ("~0 at arrival" is in (0, radius]); T11 comment; mutation list completed; tier-0 file count 33.
+- minor, OPEN: the B2 docstring says proprioception is required, but nothing enforces it.
+- minor, OPEN: the first-CUE latch rule is only partly exercised by T12; a latch-every-CUE-step mutant still survives.
 
 ## Not done
 
+- Feasibility bound: owner decision (options above); the T07 diagonal case follows the decision.
+- B2 proprioception guard; latch-every-step test.
 - Seeds for DMS development and validation not named.
 - Radius and timings not calibrated.
 - T05 known-positive strengthening (minor, open).
-- Feasibility bound tightness: documentation only (minor, open).

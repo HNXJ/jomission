@@ -10,7 +10,7 @@ Basis: `c4c9c6b`. Facts are OBSERVED from the file named, unless marked INFERRED
 |---|---|---|
 | Interactive lab | `.claude/skills/fixation-boat-jaxfne/references/lif_laminar_lab.html` | Single-file LIF lab: areas of six layers with E and I cells, feedforward, feedback, HDP gains, motor pools on L6-E of the top area, a 2-D boat map (target at origin, R = 5). Defaults: nA 3, nPerArea 180 (so 540 neurons, not 3000) |
 | Skill | `.claude/skills/fixation-boat-jaxfne/SKILL.md` | Describes the lab and how to run it |
-| Sailor engine API | `_temp_plasticity_boat/` handoff | The pinned `jaxfne==0.5.8` lacks `SailorConfig`, `sailor_step`, `sailor_decode`. The 0.5.9 source provides them (V0 regression exact on 0.5.9) |
+| Sailor engine API | `_temp_plasticity_boat/` handoff | The pinned `jaxfne==0.5.8` lacks `SailorConfig`, `sailor_step`, `sailor_decode`. A JaxFNE source labelled 0.5.9 provides them. Its V0 regression is exact against the tracked receipt, but the version and source SHA are UNVERIFIED (boat HANDOFF.md, "Not run or not examined") |
 | Boat code in jomission | `jomission/` | No module for the boat task. No waves A/B/R, no boat dynamics, no decoder |
 | Paradigm timing | `jomission/paradigm/spec.py`, `conditions.py` | Timing for the omission paradigm (p1-d4, 4624 ms per trial). Shared with OXM |
 

@@ -6,7 +6,7 @@ Per-subproject reviews: `lansa/REVIEW.md`, `fixation-sailor/REVIEW.md`, `oxm/REV
 
 | ID | Decision | Blocks |
 |---|---|---|
-| D0 | `plasticity boat` was merged into `dev` and `main` with `c4c9c6b`. Its handoff says: no merge before independent review. Revert on `dev`, or accept and record a ruling | Every step (history) |
+| D0 | `plasticity boat` was merged into `dev` and `main` with `f1b9337` (`Merge origin/_temp_plasticity_boat`; its second parent holds `280ebd0`). Its handoff says: no merge before independent review. Revert on `dev`, or accept and record a ruling | Every step (history) |
 | D1 | Engine pin: keep `jaxfne==0.5.8` and build without the Sailor API, or move to 0.5.9 | FXS |
 | D2 | E1 verdict path for "oscillating in 4 of 5, rho 4 silent" (C7). E1b verdict use | LANSA E2 |
 | D3 | LANSA C1 to C4, C6 (SST/PV source, module count, unit count, deep rho, run length) | LANSA E2 seal |

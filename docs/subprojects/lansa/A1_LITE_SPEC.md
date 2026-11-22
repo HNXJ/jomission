@@ -33,7 +33,7 @@ The brief asks for E and I per layer. Subtypes (PV, SST, VIP) are not modelled i
 - Demo: 100 neurons per area (V1 and FEF together 200 cells).
 - Scaled: 1000 per area (2000 cells). One principal delta: N.
 - Duration: 12 s with 2 s discarded (as E0/E1), or 20 s as in PLAN_LANSA_E2 C6. OPEN-C6.
-- Engine: JaxFNE source at the pinned SHA once the Sailor pin lands (`docs/subprojects/PLAN.md` D1). Until then, the 0.5.9 tag. Record which.
+- Engine: JaxFNE source at the pinned SHA once the Sailor pin lands (`docs/subprojects/PLAN.md` D1). Until then, the `v0.5.9` tag does not provide the Sailor API: no `sailor` symbol in its `.py` files (tag object `e621eff7`, commit `e0160dfc`, on origin). The API is on branch `_temp_crazy_sailor_m0m1_b` at `fdb19c9a` (`jaxfne/paradigm.py`), untagged. Record the SHA used.
 
 ## 6. Outputs and gates
 

@@ -26,7 +26,7 @@ APPROVED (S2): R is random A/B.
 - Each R event independently samples A or B with probability 0.5.
 - RRRR denotes four independent draws, not a third stimulus. No new reference stimulus is introduced.
 - The realized sequence and the RNG seed are recorded for every trial, for reproducibility.
-- Implementation note (ESTABLISHED, `jomission/network/rf.py` ~line 426): the existing `random_stimulus` is one fixed seeded uniform-noise pattern (`default_rng(seed + 999)`), not per-event A/B draws. It does not implement S2. A sampler for independent draws is gate G6 (section 11).
+- Implementation note (ESTABLISHED, `jomission/network/rf.py` ~line 426, the `random_stimulus` branch of `stimulus_pattern` at line 409): the existing `random_stimulus` is one fixed seeded uniform-noise pattern (`default_rng(seed + 999)`), not per-event A/B draws. It does not implement S2. A sampler for independent draws is gate G6 (section 11).
 
 A: 45 degrees; B: 135 degrees; identical speed, contrast, amplitude and duration (v0.1 section 2, kept as PROPOSED design constraint until a stimulus file exists; OPEN, the visual parameters are not in the repo).
 

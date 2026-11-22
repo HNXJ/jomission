@@ -32,6 +32,12 @@ def test_T01_rejects_off_grid_onset():
         schedule(TaskConfig(events=(Event(2.005, 0.0, 0.0),)))
 
 
+def test_T01_rejects_unstable_damping_step():
+    # beta * dt = 1.2 > 1: the explicit velocity step leaves the feasibility bound's invariant
+    with pytest.raises(ValueError):
+        schedule(TaskConfig(events=(Event(2.0, 0.0, 0.0),), damping=60.0, dt=0.02))
+
+
 def test_T01_rejects_overlapping_trials():
     # first trial ends no later than 2.0 + 7.5 = 9.5 s; onset 5.0 s overlaps it
     with pytest.raises(ValueError):

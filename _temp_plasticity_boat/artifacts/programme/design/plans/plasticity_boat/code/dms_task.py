@@ -85,7 +85,7 @@ def schedule(cfg: TaskConfig) -> list[Trial]:
         raise ValueError("dt must be > 0")
     if not cfg.damping >= 0:
         raise ValueError("damping must be >= 0")
-    if cfg.damping * cfg.dt > 1:
+    if cfg.damping * cfg.dt > 1 + 1e-12:  # float slack: a nominal beta*dt = 1 must not raise
         raise ValueError("damping * dt must be <= 1 (explicit step; the feasibility bound needs 1 - beta dt >= 0)")
     if not cfg.radius > 0:
         raise ValueError("radius must be > 0")

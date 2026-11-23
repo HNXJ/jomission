@@ -1613,6 +1613,39 @@
        }
       },
   {
+       "id": "JAXFNE-058-PROMOTION",
+       "status": "DONE",
+       "trigger": "owner decision 2026-11-03: jaxfne 0.5.8 is the source of truth (results/jaxfne_058_migration.json, authority field)",
+       "goal": "move the execution authority and installed engine from 0.4.25 to 0.5.8 with migration evidence; 0.5.8 is the frozen execution baseline",
+       "parent_authority": "owner decision 2026-11-03 (results/jaxfne_058_migration.json, owner Hamm)",
+       "principal_delta": "engine version only: pin jaxfne==0.5.8; config-hash re-freeze recorded in the migration record",
+       "required_inputs": [
+        "results/jaxfne_058_migration.json",
+        "manifests/current_state.json",
+        "pyproject.toml"
+       ],
+       "frozen": [
+        "sealed results; no tier-3 replay without an authorizing lineage; FROZEN_CANONICAL_HASH changed only by owner decision"
+       ],
+       "procedure": "record the 0.5.8 wheel identity and the delta ledger in results/jaxfne_058_migration.json; run tiers 0 to 2; promote the execution authority in manifests/current_state.json; tier 3 not run",
+       "acceptance": "python scripts/project_check.py passes with installed, authority and evidence at 0.5.8; migration record tier receipts: tier 0 208 passed, 0 failed; tier 2 402 passed, 0 failed",
+       "stop_condition": "no tier-3 replay without an authorizing lineage; no sealed result rewritten",
+       "artifacts_expected": [
+        "results/jaxfne_058_migration.json"
+       ],
+       "downstream_unlock": [],
+       "delivered": {
+        "verdict": "PROMOTED",
+        "result": "results/jaxfne_058_migration.json",
+        "summary": "jaxfne 0.5.8 promoted to execution authority (2026-11-03); canonical edge list identical to the 0.4.25 baseline on all 15 fields; config hash 4574a15519ee8c33 to 05f3d334451c53d2 (metadata-only drift). Tier 1 has 2 failures recorded as unknowns in the migration record (UnicodeDecodeError on sealed results/v21b_vectors.json, pre-existing on 0.4.25)",
+        "receipts": [
+         "tier-0: 208 passed, 0 failed",
+         "tier-1 non-simulating: 43 passed, 1 skipped, 2 failed (v21b seal read, pre-existing)",
+         "tier-2: 402 passed, 3 skipped, 0 failed"
+        ]
+       }
+      },
+  {
        "id": "SCI-EI-NATIVE-STATE-1",
        "status": "DONE",
        "trigger": "owner assessment 2026-09-21: recruitment stayed UNRESOLVED after exhausting mean parameters, factorial intervention and current accounting; move from parameter magnitude to native state geometry before manufacturing another repair axis",

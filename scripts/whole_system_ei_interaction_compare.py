@@ -1,13 +1,15 @@
 """SCI-EI-INTERACTION-1 compare: classify the 2x2 factorial from four cell receipts.
 
-Read-only. Each cell ran the sealed intact construction plus its predeclared
+Each cell ran the sealed intact construction plus its predeclared
 repairs; this script computes departures from additivity and applies the sealed
-verdict mapping. No simulation, no tuning.
+verdict mapping. No simulation, no tuning. Writes results/whole_system_ei_interaction.json
+and refuses to overwrite it unless --overwrite is given (OPEN-69).
 """
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +24,11 @@ def load(cell):
     return json.loads(matches[0].read_text(encoding="utf-8"))
 
 
-def main() -> None:
+def main(argv=None) -> None:
+    argv = sys.argv[1:] if argv is None else argv
+    target = ROOT / "results" / "whole_system_ei_interaction.json"
+    if target.exists() and "--overwrite" not in argv:
+        raise SystemExit(f"refusing to overwrite {target.name}; rerun with --overwrite to rewrite it")
     recs = {c: load(c) for c in CELLS}
     for c, r in recs.items():
         if r.get("cell") != c:
@@ -86,7 +92,7 @@ def main() -> None:
             + ", ".join(f"{c} {'viable' if v[c] else 'not viable'}" for c in CELLS)
         ),
     }
-    (ROOT / "results" / "whole_system_ei_interaction.json").write_text(
+    target.write_text(
         json.dumps(out, indent=1) + "\n", encoding="utf-8"
     )
     print("verdict:", verdict, "|", out["fail_boundary"])

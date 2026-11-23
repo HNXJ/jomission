@@ -92,6 +92,35 @@ definition and p bound (methods.tex:80-86); nulls and controls (methods.tex:164-
 permutation count (no decision made, see the Monte Carlo note); Data availability section is the stage-13 decision
 (backmatter.tex:1).
 
+## Rescore after E1b (2026-11-22, commit 2cb020f)
+
+Independent review of the E1b patch (reviewer, read-only): ACCEPT, no blocker or major. Minor: abstract E1 sentence
+("no oscillation at 4") is E1's result and is unchanged (owner's wording); gate-3 E1 counts sit outside the repo;
+test assertion change is equivalent. Reviewer did not run the scorer or pytest.
+
+Three-lens item check (read-only, 108 items, 3 reviewers): C1 7 PASS / 3 DEFECT / 6 UNKNOWN; C2 4/8/0; C3 2/8/0;
+C4 4/6/5; C5 7/1/3; C6 9/6/9; C7 4/4/2; C8 2/4/3. Gate M3 DEFECT, gate M4 DEFECT (cited source files absent from
+this checkout), gate M5 UNKNOWN (no independent review of the full draft yet).
+
+Score on those item counts, weights applied to PASS fraction: C1 10.9, C2 6.7, C3 3.0, C4 4.0, C5 6.4, C6 1.9,
+C7 2.0, C8 1.1 = about 36/100 (gate M3 DEFECT caps at 49, not binding). The earlier 53 was on coarser item groups and
+is superseded. The rubric file does not list its items; the item set here is the reviewers' and is not frozen.
+
+Defects to fix (non-owner, mechanical or evidence): discussion.tex:4 "0.27-0.31" vs results.tex:102 and
+abstract.tex:9 "0.23-0.26" (the reference's own value); "oscillates at 27-46 Hz" (discussion.tex:25-26,
+results.tex:122-123) omits E1b rho = 4 runs; hedge words (ruling 5); parentheses and em dashes in prose;
+unasked contrasts (5 left); CSD parameters and trigger rule absent from Methods (C7-1, C7-2); Fig S1 and Fig S3
+citations; Fig S1 internal filename and agent text; Fig S2 and Fig 8 captions; effect sizes with intervals and n
+for E1, E1b and T8 (computable from per-seed values); multiplicity for E1b and T1.
+
+Owner-only (not changed here): abstract E1 sentence and abstract wording ("did not shift single bands", the
+"no oscillation at 4" scope), the C1-C7 rulings, the stage-10 lock.
+
+Blocker for M3 and M4: results/laminar_e2/ has no t1_*, t8_* or lfs_* verdict JSON in this checkout (0 of 102
+sha-listed files present; the read-only copy in D:/cowork has none either). The handout says the gitignored evidence
+sits on the Mac that produced it. T1, T8 selection and ladder numbers cannot be traced from this PC until those
+files are copied in or the owner states them unavailable.
+
 ## Resume (if this session is lost)
 
 1. Batch: detached, launched 2026-11-19T17:56Z from a clone pinned at 4c99e05 (`D:/tmp/_temp_e1b_clone`), output

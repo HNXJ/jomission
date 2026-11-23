@@ -82,14 +82,26 @@ T5 & VIP population & none & deferred (AdEx has no VIP) \\
 \label{tab:notrun}
 \end{table}
 
-\begin{table}[tbp]
-\centering
-\scriptsize
+{\scriptsize
 \renewcommand{\arraystretch}{0.96}
-\begin{tabular}{@{}lp{0.40\linewidth}p{0.44\linewidth}@{}}
+\begin{longtable}{@{}lp{0.40\linewidth}p{0.44\linewidth}@{}}
+\caption{Records cited in the text. All but run records R3 to R12 are in the project repository
+\citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
+availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
+gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
+\label{tab:records} \\
 \toprule
 ID & Content & Repository file \\
 \midrule
+\endfirsthead
+\toprule
+ID & Content & Repository file \\
+\midrule
+\endhead
+\multicolumn{3}{r}{\textit{continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
 \multicolumn{3}{@{}l}{\textit{Code} (commit of last change)} \\
 C1 & three-unit stack builder (aae2bda; wRUX 8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
 C2 & scorer and pass rule (9681fc5) & \path{scripts/e2_scorer.py} \\
@@ -117,7 +129,7 @@ S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
 S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
 S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
 S7 & T8 density and SOM/PV controls (8aa14d5; final 6dc8a38) & \path{docs/laminar_motif/SEAL_T8.md} \\
-S8 & E1b band floor and fixed-PV arm (4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
+S8 & E1b band floor and fixed-PV arm (first added 37393ff; sealed 4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
 \multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
 D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
 D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
@@ -147,11 +159,5 @@ R12 & reference-column details, Tables S1--S4 & \path{results/viz/paper_w3/sw_n4
 R13 & E1b result, receipts and counts (27 runs) & \path{results/laminar_e1b/} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
-\bottomrule
-\end{tabular}
-\caption{Records cited in the text. All but run records R3 to R12 are in the project repository
-\citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
-availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
-gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
-\label{tab:records}
-\end{table}
+\end{longtable}
+}

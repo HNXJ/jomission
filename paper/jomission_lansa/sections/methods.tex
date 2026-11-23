@@ -77,7 +77,7 @@ $\pm$ 0.34 ms, rates 1.106, 11.37 and 7.05 Hz $\pm$ 6.1, 1.2 and 8.2\%. PASS nee
 margins; a rate-matched Poisson raster scored by the same analysis must not oscillate.
 
 \textbf{E1} (seal \rec{S2}) keeps E0 fixed and sets $\rho = N_\text{SOM}/N_\text{PV}$ to 0.25,
-0.5, 1, 2 and 4 at $N_\text{PV} + N_\text{SOM} = 1500$, seeds 1--3. The peak search band is 20--80 Hz. A run oscillates when its spectral peak excess over the aperiodic fit is at least 4 and its peak lies more than 2 Hz inside both band edges (peak in 22--78 Hz); otherwise $f_\text{pk}$ is undefined. The edge clause is not in \rec{S2}, which states the excess rule only; the code applies it, and the E1b seal adds it. Under the excess rule alone, seed 3 at $\rho = 4$ would oscillate; seeds 1 and 2 fail the excess test either way, so the verdict stands. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
+0.5, 1, 2 and 4 at $N_\text{PV} + N_\text{SOM} = 1500$, seeds 1--3. The peak search band is 20--80 Hz. A run oscillates when its spectral peak excess over the aperiodic fit is at least 4 and its peak lies more than 2 Hz inside both band edges (peak strictly between 22 and 78 Hz); otherwise $f_\text{pk}$ is undefined. The edge clause is not in \rec{S2}, which states the excess rule only; the code applies it, and the E1b seal adds it. Under the excess rule alone, seed 3 at $\rho = 4$ would oscillate; seeds 1 and 2 fail the excess test either way, so the verdict stands. Criteria: (1) at least 4 of 5 $\rho$ oscillate in each seed;
 (2) the fitted slope of $f_\text{pk}$ on $\log_2\rho$ over the oscillating points is negative in every
 seed; (3) $f_\text{pk}$ drops by at least 3 Hz from $\rho$ 0.25 to 4; (4) one-sided permutation $p < 0.05$ for
 the mean slope, permuting $\rho$ labels within seeds (10\,000 random draws; $p$ is the fraction of draws at or
@@ -88,7 +88,7 @@ INCONCLUSIVE. The $\rho = 1$ runs reuse E0 seeds 1--3 (same configuration), so o
 re-read found a 21--22 Hz peak at $\rho = 4$ in every seed, with peak excess 3.04, 3.26 and 4.78 against a threshold of
 4. E1b runs on seeds 6--8, 12 s with 2 s discarded, JaxFNE 0.5.9, $dt = 0.1$ ms, 27 runs. Arm A keeps $N_\text{inh} = 1500$
 and varies $\rho$ from 0.25 to 4. Arm B fixes $N_\text{PV} = 750$ and sets $N_\text{SST} = \text{round}(750\rho)$. The E1
-criteria are unchanged except the peak band, now 10--80 Hz, with edge 2 Hz and excess threshold 4. A second local maximum at least 8 Hz from $f_\text{pk}$ with excess at least 4 sets a multimodal flag that changes neither the call nor $f_\text{pk}$; four readouts carry it, one in arm A ($\rho = 0.25$, seed 7: 42 Hz, excess 12.25; second peak 50 Hz, excess 11.45). The $\rho = 1$ runs are
+criteria are unchanged except the peak band, now 10--80 Hz, with edge 2 Hz and excess threshold 4. A second local maximum at least 8 Hz from $f_\text{pk}$ with excess at least 4 sets a multimodal flag that changes neither the call nor $f_\text{pk}$; four readouts carry it: second peaks at 50 Hz (excess 11.45), 37 Hz (6.42) and 77 Hz (5.08) in arm A at $\rho = 0.25$ seed 7, $\rho = 0.25$ seed 8 and $\rho = 0.5$ seed 7, and at 33 Hz (4.91) in arm B at $\rho = 0.25$ seed 6. The $\rho = 1$ runs are
 shared by both arms. Gates before scoring: builder sizes and edge counts, the E0 and E1 tests, a positive control (the
 sealed 20--80 Hz readout reproduces all 15 E1 calls on the saved counts), and a permutation null that must not pass
 ($p = 0.2149$).

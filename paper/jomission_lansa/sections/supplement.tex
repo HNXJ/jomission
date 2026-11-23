@@ -28,7 +28,7 @@ run record and parameters with sources, from \rec{R12}.}
 \centering
 \IfFileExists{../../results/viz/paper_w6/seed_diff.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w6/seed_diff.png}}{\pendingbox{seed differences}}
 \caption{Seed agreement on the finite-size ladder. Seed pairs: SSIM 0.62--0.71, pixel $r$ 0.87--0.93; each seed
-against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}).}
+against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}). Colour: difference in relative power, seed A minus seed B, scale $-1$ to $1$.}
 \label{fig:seeds}
 \end{figure}
 
@@ -61,8 +61,7 @@ $N = 4000$.}
 \IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
 \caption{T1 maps per level. Each panel is the mean of three seeds' relative-power maps at one level; titles give
 seed means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay
-in all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read
-from the figure). The same scores for every run are in Fig.~\ref{fig:scatter}.}
+in all units; bottom: in the deep unit only. The same scores for every run are in Fig.~\ref{fig:scatter}.}
 \label{fig:t1}
 \end{figure}
 
@@ -92,7 +91,7 @@ T5 & VIP population & none & deferred (AdEx has no VIP) \\
 ID & Content & Repository file \\
 \midrule
 \multicolumn{3}{@{}l}{\textit{Code} (commit of last change)} \\
-C1 & three-unit stack builder (8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
+C1 & three-unit stack builder (aae2bda; wRUX 8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
 C2 & scorer and pass rule (9681fc5) & \path{scripts/e2_scorer.py} \\
 C3 & mid-depth relative gamma (12842de) & \path{scripts/e2_mid_gamma.py} \\
 C4 & readout cross-term split and kernel width (8155f90) & \path{scripts/e2_readout_sensitivity.py} \\

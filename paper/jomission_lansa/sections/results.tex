@@ -18,7 +18,9 @@ the LANSA bins of its depth range (Fig.~\ref{fig:schema}D). E cells per unit fol
 the unit's bins, and each unit's local in-degree scales with that density by an assumed rule (Methods). PV and SOM
 counts follow a ramp of $\rho = N_\text{SOM}/N_\text{PV}$ that is low superficially and high deep (0.25, 1, 2). At
 4000 E cells per unit on average the column holds 14\,251 cells (S 6870, M 4356, D 3025; Table~S1). The built E
-and PV depth profiles follow LANSA's NG and PV profiles in coarse form, and the SOM profile follows the ramp, not
+depth profile follows LANSA's NG profile in coarse form; the built PV profile does not follow LANSA's PV, which peaks
+near +0.1 relative to L4 (Fig.~\ref{fig:schema}A), because PV counts are set per module (868, 344 and 159 in S, M and D)
+and are highest superficially (Fig.~\ref{fig:schema}E). The SOM profile follows the ramp, not
 CB (Fig.~\ref{fig:schema}E), because CB is not a specific SST marker. The ramp is therefore an imposed assumption,
 and it runs against the measured CB/PV profile, which is highest superficially: the column is density-informed in
 its unit sizes and in-degrees, not in its SOM/PV ratios.
@@ -50,7 +52,7 @@ checks the pipeline, not the motif.
 
 Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, pre-registered): seed
 means 46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per
-seed $-6.6$, $-5.9$, $-6.3$; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws
+seed $-6.6$, $-5.9$, $-6.3$; 95\% t-interval $[-7.14, -5.39]$ Hz per octave, $n = 3$ seeds; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws
 reached the observed slope; permutation within seed, $n = 3$ seeds of one module). Because $N_{PV} + N_{SOM}$
 was fixed, $\rho$ also changed the PV count and with it the total PV drive and the recurrent PV loop, an
 alternative account E1 does not exclude (\rec{S2}). The mean peak at $\rho = 2$, 27 Hz, lies in the beta range. At $\rho = 4$ no seed oscillated, so the planned frequency drop from $\rho$ 0.25 to 4
@@ -58,13 +60,13 @@ is undefined and E1 is inconclusive as specified (\rec{R2}). The frequency effec
 only.
 
 E1b repeated the frequency test on fresh seeds 6--8 with a 10--80 Hz peak band (arm A) and with PV fixed at 750 cells
-(arm B) (\rec{S8}, \rec{R13}). Arm A has a negative slope in every seed (mean $-6.2$ Hz per octave of $\rho$;
+(arm B) (\rec{S8}, \rec{R13}). Arm A has a negative slope in every seed (mean $-6.2$ Hz per octave of $\rho$, 95\% t-interval $[-7.75, -4.65]$;
 permutation $p \leq 1/10\,001$), but its frequency criterion is undefined: at $\rho = 4$, two seeds have peak excess
 3.4 and 3.7, below the threshold of 4, and the third (excess 4.5) gives a 21 Hz drop from $\rho = 0.25$. Arm A is
 INCONCLUSIVE under E1's rules. Arm B passes all four criteria: five of five $\rho$ oscillate in every seed, mean slope
-$-4.3$ Hz per octave, mean drop 17 Hz (per seed 17, 15 and 19), permutation $p \leq 1/10\,001$. Its inference is
+$-4.3$ Hz per octave (95\% t-interval $[-5.29, -3.31]$), mean drop 17 Hz (95\% interval $[12.0, 22.0]$; per seed 17, 15 and 19), permutation $p \leq 1/10\,001$. Its inference is
 restricted to SST count at fixed PV; total inhibitory cells (938 to 3750) co-vary, so arm B does not isolate SST count
-from total inhibition. Neither arm changes E1's verdict, which stays INCONCLUSIVE.
+from total inhibition. Neither arm changes E1's verdict, which stays INCONCLUSIVE. The two arms are reported without correction for multiplicity; each interval is a t-interval on three seeds and assumes exchangeable seeds.
 % e1_result.json: peak_freq_E_Hz per seed [46,40,34,26],[45,39,34,27],[47,40,34,28]; c2 mean_slope -6.2667; c4 p 0.0
 
 \begin{table}[tbp]
@@ -95,7 +97,7 @@ Records \rec{R1}, \rec{R2}.}
 
 The reference stack (density-scaled units, local E in-degree about 810, 513 and 356 per cell in S, M and D,
 SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half and a crossing of the two band profiles
-(Fig.~\ref{fig:reference}). Its per-E-cell power was concentrated at S ($-0.4$, about 50--90 Hz; the scorer's own
+(Fig.~\ref{fig:reference}; architecture and run record in Fig.~\ref{fig:s-reference}). Its per-E-cell power was concentrated at S ($-0.4$, about 50--90 Hz; the scorer's own
 map, Fig.~\ref{fig:scorer}B, is the quantity every score uses and weights the units through the probe kernel).
 Averaged over 50--150 Hz and the
 contacts from $-0.2$ to 0, where the observed gamma is broadest, relative gamma was 0.19--0.31 across the twelve
@@ -120,7 +122,7 @@ auto power there, S the rest, and the per-frequency maximum that sets the normal
 small relative to S's, which the data cannot split into a weak M and a strong S. Two observations favour a missing
 fast mode at M over a misplaced one. In the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$
 seed means; \rec{R4}), not the 46, 34 and 27 Hz that the isolated module gives at the units' $\rho$, so coupling
-and density scaling move M and D to alpha-beta (inferred), and even the isolated module (27--46 Hz) peaks below the
+and density scaling move M and D to alpha-beta (inferred), and even the isolated module (27--46 Hz at $\rho \leq 2$; 24--26 Hz at $\rho = 4$ in E1b arm B) peaks below the
 scored band. And raising M's power alone does not close the gap: scaling M's spectrum by up to $10^4$ never brought
 mid-depth relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel
 of a source at 0, $e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615 at $\sigma =
@@ -231,7 +233,7 @@ Records \rec{R6}, \rec{N1}~\S2.}
 \end{table}
 
 \textit{Pre-registered tuning (T1).} T1 varied one parameter at a time over seven log-spaced levels on seeds 1--3,
-carrying the level with the highest mean $r_\text{proto}$ forward (seal \rec{S4}; Table~\ref{tab:t1}). Along the
+carrying the level with the highest mean $r_\text{proto}$ forward (seal \rec{S4}; Table~\ref{tab:t1}; level maps in Fig.~\ref{fig:s-ladder}). Along the
 local in-degree exponent $B$ (denser units receive more local synapses, $K \propto \text{density}^B$), $r_{gm}$
 rose from $-0.36$ to 0.46 while $r_{ab}$ fell from 0.92 to $-0.08$ (seed means; peak 0.93 at $B = 0.35$), and no
 level had both above 0.6. Per-unit power shows why: from $B$ 0.25 to 2, 50--150 Hz power rose at S (220 to 395,
@@ -318,7 +320,7 @@ Fig.~\ref{fig:scorer}.}
 \label{fig:weights}
 \end{figure}
 
-\subsection{Density and SOM/PV changes have opposing effects: one unit dominates at all frequencies}
+\subsection{Density and SOM/PV changes have opposing effects: one unit dominates at most frequencies}
 
 The reference column changes density and SOM/PV ratio together across depth, so the runs above do not separate
 them. We rebuilt the reference with one construction rule changed at a time, at fixed total cell count
@@ -329,7 +331,7 @@ from S to D), each on seeds 1--3 at 8 s (Methods).
 The two kinds of change had opposite effects (Fig.~\ref{fig:t8}). With density flattened or permuted, the deep
 unit dominated relative power at most frequencies; with the SOM/PV ramp flattened or reversed, the superficial
 unit did. In both cases the reference's frequency-dependent split, alpha-beta in M and D and gamma in S, gave way to
-one unit dominating across frequencies, and the band correlations followed that unit's depth (Table~\ref{tab:t8}).
+one unit dominating most frequencies, and the band correlations followed that unit's depth (Table~\ref{tab:t8}).
 The ratio changes turned the alpha-beta correlation from 0.83--0.86 to $-0.74$ (reversed) and $-0.72$ (flat) on
 every seed, while raising $r_{gm}$ to about 0.5 through superficial dominance at all frequencies. The density
 changes turned the gamma correlation from 0.14--0.41 to $-0.83$ (flat) and $-0.85$ (permuted) and the whole-map
@@ -344,8 +346,7 @@ these comparisons are descriptive and uncorrected across outcomes; the rule that
 is in Methods, and per-seed differences are in \rec{D8}. By that rule the reference had the higher $r_{ab}$ than
 the permuted-density and both ratio controls (mean differences 0.13, 1.56 and 1.58) and no consistent difference
 from flat density (0.004). For $r_{gm}$ the reversed-ratio control was higher than the reference on all three seeds
-but by less than the rule's bound (mean difference $-0.1776$ against a bound of 0.1778); for mid-depth gamma the flat-density difference was
-marginal (0.056 against 0.046). The reference reruns equalled the earlier reference runs bitwise (\rec{D9}).
+but by less than the rule's bound (mean difference $-0.1776$ against a bound of 0.1778); for mid-depth gamma the reference was higher on all three seeds (mean difference 0.056 against a bound of 0.046; seed 3 difference 0.013). The reference reruns equalled the earlier reference runs bitwise (\rec{D9}).
 
 The dominant unit is not the one with the highest E rate: with permuted density the deep unit fired at 0.45--0.51
 Hz against 1.05--1.11 Hz superficially, and with the ratio changes the superficial unit fired at 0.38--0.47 Hz, the
@@ -400,7 +401,7 @@ far the circuit is from that, and how much the scores depend on the readout's ge
 sources (symmetric positive semidefinite, cross terms allowed; \rec{C5}, \rec{D3}, Methods), one covariance for the
 50--150 Hz band reaches a gamma depth correlation of 0.853 with the observed profile at $\sigma = 0.15$ with cross
 terms and 0.657 without them (independent S and M gamma, 58\% and 42\% of power, none at D); at 0.20 they are 0.98
-and 0.84. The readout can therefore meet $r_{gm} \geq 0.6$ at the declared width without coherence between units,
+and 0.84. A readout fitted on ten areas and tested on the held-out area reaches $0.62 \pm 0.09$ (mean $\pm$ sd, $n = 11$ held-out areas; auto covariance, $\sigma = 0.15$), with 4 of 11 areas below 0.6. The readout can therefore meet $r_{gm} \geq 0.6$ at the declared width without coherence between units,
 so under this observation model the circuit's $r_{gm}$ of 0.14--0.51 reflects its source spectra rather than any
 inter-unit coherence. This conclusion is conditional on the three-source readout; it says nothing about where gamma
 is generated in macaque cortex.
@@ -517,7 +518,7 @@ identical-unit control by probe tilt and lateral offset, seed mean $\pm$ SD over
 \begin{figure}[tbp]
 \centering
 \IfFileExists{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w4/sw_n4000_dens_k1_kd1_sst15_s1_T8_csd.png}}{\pendingbox{CSD}}
-\caption{Current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); top, the
+\caption{Current-based forward potential $\phi$ and CSD estimate of the reference run (seed 1, 2 s discarded); left column $\phi$, right column CSD; rows: top, the
 first retained second; bottom, averages over 108 troughs of the 10--30 Hz band-passed $\phi$ at the contact with
 most band power, each contact's mean over the window removed. The sources are the saved synaptic currents of each
 unit's E cells, placed at assumed offsets from the unit depth $z_u$ (PV GABA perisomatic at $z_u$; SOM GABA distal

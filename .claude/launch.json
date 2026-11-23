@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pages-local",
+      "runtimeExecutable": "/usr/local/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", ".pages_test_tmp/site"],
+      "port": 8765
+    }
+  ]
+}

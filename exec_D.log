@@ -1,0 +1,41 @@
+=== Executor D_RFon_RateSlow RF on + RateSlow 4f9fdeae7428199a/b326f7201c59b803 + RF dt0.1 ===
+Schedule: 260 exposure trials, 96 testing trials
+Derived total 1688.144s 16881440 steps
+Model config_hash e5e331a140ebd37e (canonical 4f9fdeae7428199a + RF distinct? True) hp_hash b326f7201c59b803 (expected b326f7201c59b803)
+hp tau_0_ms 1000.0 K_HDP 0.003 => tau_eff ~833s (200x slow, 76% at 1200s)
+RF operator RF_on: valid=True metrics={'weight_sparsity_1e-4': 0.16072591145833334, 'population_sparsity_A': 0.25, 'population_sparsity_B': 0.25, 'jaccard_AB': 0.0, 'n_total': 400, 'n_v1': 100, 'n_target': 12, 'l1_row_sums_mean': 1.0, 'overlap': 0.45378876851922934, 'sigma': 1.8, 'spacing': 3.2}
+RF drive check AXAB p2 sum 0.000000 (should 0), AAAB p2 sum 57528.300781 (should >0)
+Starting PRE battery 96 trials... (D_RFon_RateSlow: RF on, tau0 1000)
+[pre 20/96] BBBX H 1.025 rate 11.76
+[pre 40/96] AAAX H 1.025 rate 11.68
+[pre 60/96] RRRX H 1.024 rate 11.98
+[pre 80/96] BBBX H 1.024 rate 11.83
+PRE done, global_step 4439040
+Starting EXPOSURE 260 trials (RF on, tau0 1000, tau_eff 833s, RF distinct)...
+[20/260] BBBA rate 11.89 Hz H [0.997,1.074] ckpt 2/0
+[40/260] BBBA rate 11.94 Hz H [0.997,1.074] ckpt 4/0
+[60/260] BBBA rate 11.92 Hz H [0.996,1.074] ckpt 6/0
+[80/260] BBBA rate 11.94 Hz H [0.996,1.074] ckpt 8/0
+[100/260] BBBA rate 11.85 Hz H [0.995,1.074] ckpt 10/0
+[120/260] BBBA rate 11.95 Hz H [0.995,1.074] ckpt 12/0
+[140/260] BBBA rate 11.94 Hz H [0.994,1.074] ckpt 14/0
+[160/260] BBBA rate 11.95 Hz H [0.994,1.074] ckpt 16/0
+[180/260] BBBA rate 11.95 Hz H [0.993,1.074] ckpt 18/0
+[200/260] BBBA rate 12.01 Hz H [0.993,1.074] ckpt 20/0
+[220/260] BBBA rate 12.01 Hz H [0.992,1.074] ckpt 22/0
+[240/260] BBBA rate 11.98 Hz H [0.992,1.074] ckpt 24/0
+[260/260] BBBA rate 12.02 Hz H [0.991,1.074] ckpt 26/0
+EXPOSURE done
+Starting POST battery 96 trials...
+[post 20/96] BBBX
+[post 40/96] AAAX
+[post 60/96] RRRX
+[post 80/96] BBBX
+POST done
+Traceback (most recent call last):
+  File "/Users/hamednejat/workspace/computational/jomission/exec_D_RFon_RateSlow.py", line 510, in <module>
+    res=main()
+  File "/Users/hamednejat/workspace/computational/jomission/exec_D_RFon_RateSlow.py", line 384, in main
+    sig_ex, _ = jtfne.simulate(model, sim, paradigm=sched_i)
+    ^^^^^^^^^
+TypeError: cannot unpack non-iterable Signals object

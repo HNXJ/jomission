@@ -1,0 +1,292 @@
+\documentclass[aspectratio=169,11pt,usepdftitle=false]{beamer}
+% Spectrolaminar column deck; storyboard main.md; figures from make_figs.py (records in the last page).
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx,booktabs,amsmath,amssymb}
+\usefonttheme{professionalfonts}
+\usepackage{sansmath}\sansmath
+\graphicspath{{figs/}}
+\hypersetup{pdftitle={Testing cell-type density as a circuit mechanism of primate spectrolaminar oscillations},pdfauthor={Hamed Nejat}}
+
+\definecolor{gold}{HTML}{CFB87C}
+\definecolor{pagebg}{HTML}{000000}
+\definecolor{textfg}{HTML}{F2F2F2}
+\definecolor{dim}{HTML}{A6A6A6}
+\setbeamercolor{background canvas}{bg=pagebg}
+\setbeamercolor{normal text}{fg=textfg,bg=pagebg}
+\setbeamercolor{frametitle}{fg=gold,bg=pagebg}
+\setbeamercolor{title}{fg=gold}
+\setbeamercolor{structure}{fg=gold}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle}{\vspace{0.25em}\insertframetitle\par\vspace{-0.2em}}
+\setbeamersize{text margin left=0.45cm,text margin right=0.45cm}
+\setbeamertemplate{footline}{\hspace{0.45cm}{\color{dim}\fontsize{7}{8}\selectfont H. Nejat $\cdot$ Cell-type density
+  and the spectrolaminar motif\hfill\insertframenumber/\inserttotalframenumber}\hspace{0.45cm}\vspace{0.18cm}}
+
+% figure box: white card so white-ground figures read on black
+\newcommand{\card}[2]{{\setlength{\fboxsep}{2pt}\colorbox{white}{\includegraphics[#1]{#2}}}}
+\newcommand{\take}[1]{\par\vfill{\color{gold}\small #1}\par}
+\newcommand{\src}[1]{{\color{dim}\scriptsize #1}\par\vspace{0.05cm}}
+
+\begin{document}
+
+% 1
+\begin{frame}[plain]
+\vfill
+{\color{gold}\LARGE\bfseries Testing cell-type density as a circuit mechanism\\[0.2em]of primate spectrolaminar oscillations\par}
+\vspace{1.0em}
+{\normalsize A column with density-sized units and an imposed SOM/PV ramp puts alpha-beta in the deep half on the reference seeds, and leaves gamma near layer 4 weak. A three-source readout could carry the observed gamma profile; readout depth remains a confound.\par}
+\vspace{1.4em}
+{\normalsize Hamed Nejat\par}
+{\color{dim}\small Bastos Lab $\cdot$ Vanderbilt University $\cdot$ November 10, 2026\par}
+\vfill
+{\color{dim}\small Preliminary, unpublished results.\par}
+\vspace{0.4cm}
+\end{frame}
+
+% ---------- 1. The motif and how the model makes it ----------
+% 2
+\begin{frame}{Macaque cortex: gamma is relatively strongest above L4, alpha-beta below it}
+\centering
+\card{height=5.7cm}{densities.pdf}\hspace{0.2cm}\card{height=5.7cm}{obs_maps.pdf}
+\take{Left: cell densities by depth (median of 11 areas). Right: LFP power / its maximum over depth.}
+\src{LANSA data, Mulvey et al.\ 2024; motif after Mendoza-Halliday et al.\ 2024.}
+\end{frame}
+
+% 3
+\begin{frame}{Unit sizes come from these densities; the SOM/PV ramp is imposed}
+\centering
+\card{height=5.15cm}{column.pdf}\hspace{0.25cm}\card{height=5.15cm}{built.pdf}
+\take{4000 E cells per unit on average; 14\,251 cells (S 6870, M 4356, D 3025). SOM/PV 0.25, 1, 2: imposed.}
+\src{AdEx units at $-0.4$, 0, $+0.3$; in-degree scales with density by an assumed rule. E/PV/SOM: S 5785/868/217, M 3668/344/344, D 2547/159/319. Built PV follows unit size $\times$ $\rho$; SOM follows the ramp; CB is calbindin, which labels more than SST cells. NG: pyramidal proxy.}
+\end{frame}
+
+% 4
+\begin{frame}{Isolated, SOM/PV lowers the rhythm; in the column, M and D peak in alpha-beta}
+\centering
+\card{height=5.15cm}{mechanism.pdf}
+\take{At the imposed ratios, M and D peak at 11--12 Hz in the column, S at 43 Hz (below the scored band); cause inferred: coupling and density scaling.}
+\src{Matches its reference (34.0 vs $33.8\pm1$ Hz); $-6.27$ Hz/octave for $\rho$ 0.25--2; $\rho=4$ silent: inconclusive as specified.}
+\end{frame}
+
+% 5
+\begin{frame}{The column fires sparsely: E cells below 1.6 Hz, interneurons faster}
+\centering
+\card{height=5.9cm}{ref_dynamics.png}
+\take{Rates over 3 seeds: E 0.39--1.58 Hz, PV 5.6--22.6 Hz, SOM 4.7--9.4 Hz (lowest at S, highest at D).}
+\src{Reference column, seed 1; 2 s of the 8 s run shown (first 2 s discarded). Left: sampled cells; right: per-unit LFP proxy (weighted synaptic currents).}
+\end{frame}
+
+% 6
+\begin{frame}{The column puts alpha-beta in the deep half and most gamma at S}
+\centering
+\card{height=5.5cm}{ref_triplet.pdf}
+\take{$r_{ab}$ 0.83--0.86 on seeds 1--3; flat density gives 0.84 as well.}
+\src{$r_{ab}$, $r_{gm}$: depth correlation of the 10--30 / 50--150 Hz profile with the observed one. Model maps: LFP proxies read through the three-source Gaussian kernel, $\sigma=0.15$. Seed means, 3 seeds; stationary Poisson drive, whereas the observed maps are peri-stimulus. The reference was not rerun on fresh seeds; the later selected setting lost $r_{ab}$ there (0.35--0.47).}
+\end{frame}
+
+% 7
+\begin{frame}{Near layer 4, gamma is weak: 0.19--0.31 in 12 runs against 0.848 observed}
+\centering
+\card{height=6.0cm}{mid_gamma.pdf}
+\hspace{0.3cm}
+\begin{minipage}[b]{0.33\textwidth}\raggedright\small
+Cross terms carry 0--12\% of this power; M supplies 72--81\%.\\[0.6em]
+S holds the maximum at 97--101 of 101 gamma frequencies.
+\end{minipage}
+\take{M's gamma is small relative to S's.}
+\src{9 size-ladder runs ($N$ 1000/2000/4000 E per unit $\times$ 3 seeds) and 3 confirmation runs; 50--150 Hz, depths $-0.2$ to 0.}
+\end{frame}
+
+% ---------- 2. What disrupts it ----------
+% 8
+\begin{frame}{Pass rule, fixed before the parameter search: band and whole-map criteria}
+\centering
+\card{height=5.6cm}{scorer_triplet.pdf}
+\take{Pass = crossing $>2$ SE, $r_{ab}, r_{gm}\ge0.6$, true unit order first, map $r$ above null and control, halves agree, result finite.}
+\src{Crossing: the alpha-beta minus gamma profile is below $-2$ SE at the top contact and above $+2$ SE at the bottom. Halves: $|r_1 - r_2| \le 2\,\mathrm{SE}_\mathrm{diff}$, jackknife SEs over windows in each half. Null: random smooth unit spectra (95th percentile); control: every unit given S's spectrum. Shown: $B=1.41$, SOM$\to$E 15 ms in all units, seed 1: map $r$ 0.36, $r_{ab}$ 0.75, $r_{gm}$ 0.42; fails.}
+\end{frame}
+
+% 9
+\begin{frame}{No run passes; $r_{gm}\ge0.6$ ($\sigma$ 0.15) only in 3 weight runs, none with the crossing}
+\centering
+\card{height=5.6cm}{value_scatter.pdf}
+\hspace{0.3cm}
+\begin{minipage}[b]{0.32\textwidth}\raggedright\small
+87 scores, 78 distinct runs: size ladder 9, search 63 (54 new runs), confirmation 3, weight runs 12 (13 settings with their start, page 11). The 12 control runs are on pp.\ 12--13.\\[0.6em]
+Largest $r_{gm}$ outside the weight runs: 0.57.\\[0.6em]
+Whole-map ceiling, map $r$ ($r_\text{proto}$): 0.854 coherent, 0.693 independent.
+\end{minipage}
+\take{Gamma-profile ceiling of the readout: $r_{gm}$ 0.853 coherent, 0.657 independent ($\sigma=0.15$).}
+\src{Ceiling = the best any source covariance reaches, from the observed data alone. At $\sigma$ 0.20 / 0.25, $r_{gm}\ge0.6$ in 9 and 11 of the 12 ladder and confirmation runs (none reaches the threshold at 0.15); weak mid-depth gamma holds at every width.}
+\end{frame}
+
+% 10
+\begin{frame}{Tuning local in-degree trades alpha-beta against gamma; no level passes}
+\centering
+\card{width=13.4cm}{t1_kd_atlas.pdf}
+\take{In-degree $\propto$ density$^B$; raising $B$ trades $r_{ab}$ for $r_{gm}$. $B$ 1.41 kept.}
+\src{7 levels $\times$ 3 seeds, $N=4000$, 8 s. Selection on whole-map similarity ($r_\text{proto}$), not band criteria. Final selection ($B$ 1.41, SOM$\to$E 21 ms in D), fresh seeds: $r_{ab}$ 0.35--0.47, 0/3 pass.}
+\end{frame}
+
+% 11
+\begin{frame}{Weight changes (mainly at M): $r_{gm}\ge0.6$ only without the crossing}
+\centering
+\card{height=5.2cm}{weights.pdf}
+\take{$r_{gm}\ge0.6$ only without the crossing (A); with the crossing kept, $r_{gm}$ 0.42 $\to$ at most 0.54 (B; $r_{ab}$ 0.78). All 13 settings fail the scorer.}
+\src{Exploratory, seed 1, 8 s; base $B$ 1.41, SOM$\to$E 15 ms in all units (page 8). A: M E$\to$E $\times$1.68, S, M E$\to$SOM $\times$0.5. B: M E$\to$E $\times$1.68, S E$\to$SOM $\times$0.5, M PV$\to$E $\times$1.25. M's recurrent excitation sets both bands (inferred).}
+\end{frame}
+
+% 12
+\begin{frame}{Changing density or the imposed SOM/PV ramp breaks the frequency split}
+\centering
+\card{width=13.4cm}{t8_atlas.pdf}
+\take{Density arms: D dominates most frequencies; SOM/PV arms: S does (read from the maps).}
+\src{Seed means, 3 seeds; controls descriptive, uncorrected. One rule changed per control; total cells fixed. Flat ratio 0.79 = the ramp's geometric mean.}
+\end{frame}
+
+% 12
+\begin{frame}{Each change hands the map to one unit; none raises gamma near L4}
+\centering
+\card{height=5.6cm}{t8_summary.pdf}
+\take{No arm raises gamma near L4 (0.04--0.23; reference 0.23--0.26); flat density keeps $r_{ab}$ through deep dominance (inferred); the ratio arms' $r_{gm}$ near 0.5 comes from S dominating most frequencies.}
+\src{Black: reference; colour: dominant unit (D cyan, S blue). Ratio = imposed ramp; arms also change sizes, in-degrees, rates.}
+\end{frame}
+
+% ---------- 3. Maximal similarity, step by step ----------
+\begin{frame}{Is the readout the bottleneck?}
+\vfill
+\centering
+\begin{minipage}{0.85\textwidth}\raggedright\large
+No circuit setting, control or weight change passed the scorer or reached the observed mid-depth gamma (0.848).\\[1.2em]
+Next, without simulation: could any mix of three depth sources reproduce it? If none can, the readout is the bottleneck at the declared depths. Whether those depths are right is tested last.
+\end{minipage}
+\vfill
+\end{frame}
+
+% 13
+\begin{frame}{Step 1: target = observed gamma profile; readout = three Gaussian sources}
+\centering
+\begin{minipage}[c]{0.58\textwidth}\centering\card{height=5.0cm}{step1_target_kernel.pdf}\end{minipage}\hfill
+\begin{minipage}[c]{0.39\textwidth}\raggedright
+\[ P_z = k_z^{\top} C\, k_z,\quad C = LL^{\top}\succeq 0 \]
+\[ k_{zu} = e^{-(z-z_u)^2/2\sigma^2} \]
+\[ R_z = P_z / \max_z P_z \]
+{\small $z$: contact depth (21); $u\in\{S,M,D\}$; $C$: source covariance, one for 50--150 Hz; mid = mean $R_z$, $z\in[-0.2,0]$ (gold band).}
+\end{minipage}
+\take{No simulation: search $C$ for the best fit this readout can represent.}
+\src{Target $y$ = observed 50--150 Hz band mean / max (mid 0.946); per-frequency map mid 0.848.}
+\end{frame}
+
+% 14
+\begin{frame}{Step 2: a single source at M caps mid-depth gamma at 0.615}
+\centering
+\card{height=6.0cm}{step2_profiles.pdf}
+\take{$\sigma=0.15$. Raising M's power, even $10^4$-fold, approaches this kernel limit, 0.615, below the observed 0.848.}
+\src{Curve: band-mean profile / its maximum (mid 0.946); bars: per-frequency map (mid 0.848); different normalisations.}
+\end{frame}
+
+% 15
+\begin{frame}{Step 3: independent sources reach $r=0.657$, with mid-depth gamma 0.49}
+\centering
+\card{height=6.0cm}{step3_profiles.pdf}
+\take{$\sigma=0.15$. Best diagonal $C$: S 58\%, M 42\%, D 0\%; $r_{gm}\ge0.6$ is passable without coherence.}
+\src{48 optimizer starts.}
+\end{frame}
+
+% 16
+\begin{frame}{Step 4: coherent sources reach $r=0.853$; that optimum has mid-depth 0.72}
+\centering
+\card{height=6.0cm}{step4_profiles.pdf}
+\take{$\sigma=0.15$. Controls: 5 random profiles recovered at $r\ge0.99999$; alternating profile $r$ 0.12.}
+\src{A least-squares fit gives only $r$ 0.45. Optimum rank one: S--M coherence $+1$, D $-1$.}
+\end{frame}
+
+% 17
+\begin{frame}{Step 5: at $\sigma=0.15$ the observed mid-depth level needs coherent sources}
+\centering
+\card{height=5.6cm}{step5_joint.pdf}
+\take{Best $r$ with mid within 0.02 of 0.848: 0.845 at mid 0.828 (edge; coherent). Independent: mid $\le$ 0.665.}
+\src{Numerical optimum; maximality unproven; band-mean level 0.946 out of reach; at $\sigma=0.20$ both meet it (mid 0.868 coherent, 0.831 independent).}
+\end{frame}
+
+% 18
+\begin{frame}{Step 6: held-out areas reach $r\ge0.6$: coherent 11/11, independent 7/11}
+\centering
+\card{height=5.6cm}{step6_sigma_loao.pdf}
+\take{$\sigma=0.15$, $n=11$ folds, mean $\pm$ SD: coherent $0.81\pm0.05$, independent $0.62\pm0.09$.}
+\src{10-area mean vs held-out: $0.93\pm0.06$, above the fitted readout's 0.81. Tests the target fit only. Folds share 9 of 10 training areas; SD descriptive.}
+\end{frame}
+
+% 19
+\begin{frame}{Step 7: the circuit is far from the readout optimum}
+\centering
+\card{height=5.55cm}{step7_circuit_vs_opt.pdf}
+\take{Circuit: S 63--78\%, M 17--19\% of gamma power, Re coherence $-0.06$ to 0.27; optimum 46/49/5\%, $\pm1$. At the declared depths and under this readout, the gap is in the circuit's spectra.}
+\src{ref s1--s3: reference column, seeds 1--3; selected s4--s6: selected setting, fresh seeds 4--6. 50--150 Hz unit cross-spectra. Conditional on the three-source readout; its unit-dependent filtering is unvalidated.}
+\end{frame}
+
+% geometry
+\begin{frame}{Readout depth is a confound: moving it alone nearly doubles map similarity}
+\centering
+\card{height=5.0cm}{geometry.pdf}
+\take{Spectra fixed: map $r$ 0.38$\to$0.72, not distinguished from a frequency-shift null ($p\approx0.19$, 20 draws, best of 1330 each).}
+\src{Depths S $-0.25$, M $-0.05$, D 0.20. Null on the incoherent spectra (unshifted best 0.725, the baseline here): unit spectra circularly shifted, power kept; 12/20 met none, 3 beat 0.725; 20 draws is a weak test. At the selected depths $r_{ab}$ reached 0.6 in 1 of the 8 other runs.}
+\end{frame}
+
+% 20
+\begin{frame}{The tested density-informed column does not reproduce the primate motif}
+\vspace{0.3cm}
+\centering
+\begin{minipage}{0.95\textwidth}\raggedright\small
+\begin{itemize}\setlength{\itemsep}{0.6em}
+\item Made: alpha-beta in the deep half on the reference seeds ($r_{ab}$ 0.83--0.86), but flat density does too (0.84). It rests on the imposed SOM/PV ramp, which runs against the measured CB/PV profile; reversing it breaks it. The selected setting lost it on fresh seeds (0.35--0.47); the search selected on whole-map similarity, not the band criteria. The reference was not rerun.
+\item Disrupted: changing density or the ramp hands the map to one unit; no band moves alone.
+\item Missing: gamma near L4, 0.19--0.31 vs 0.848. Weight changes reached $r_{gm}\ge0.6$ only without the crossing; with it, at most 0.54. Every setting fails the scorer.
+\item Readout ($\sigma=0.15$, declared depths): coherent sources reach $r$ 0.853 (0.845 with mid near target), independent 0.657; the circuit's Re coherence is $-0.06$ to 0.27. Moving the depths alone: map $r$ 0.38$\to$0.72, not distinguished from a shift null.
+\end{itemize}
+\end{minipage}
+\vfill
+\end{frame}
+
+\begin{frame}{Scope and limits}
+\vspace{0.3cm}
+\centering
+\begin{minipage}{0.95\textwidth}\raggedright\small
+\begin{itemize}\setlength{\itemsep}{0.6em}
+\item Tested: one three-unit E/PV/SOM column. Varied: unit sizes, in-degree rule, imposed SOM/PV ramp, SOM$\to$E kinetics, network size. Not tested: PV$\to$E kinetics, E/I balance, PV or SOM silencing, VIP cells.
+\item The model is stationary: every unit gets the same stationary Poisson drive, while the observed maps come from timed peri-stimulus inputs.
+\item Target: the LANSA mean; the motif's generality is disputed.
+\item The readout conclusion is conditional on the three-source readout. This says nothing about where gamma is generated in macaque cortex.
+\item Next: a middle-layer gamma generator (PV kinetics, rate-matched control) and source geometry.
+\end{itemize}
+\end{minipage}
+\vfill
+\end{frame}
+
+% 21
+\begin{frame}{Sources}
+\fontsize{8}{9.5}\selectfont
+\begin{tabular}{@{}lp{0.82\textwidth}@{}}
+\toprule
+Page & Manuscript item; records (Table S6) and data \\
+\midrule
+2--3 & Fig.~1; LANSA densities and LFP (Mulvey et al.\ 2024); builder C1 \\
+4 & Table~1; isolated-unit check R1, seal S1; SOM/PV sweep R2, seal S2; unit peaks R4 \\
+5--7 & Fig.~2, Results; run rates R3; size-ladder verdicts R6; mid-depth gamma D1 (code C3); cross terms D2 (C4) \\
+8--10 & Fig.~3, Fig.~S4; scorer C2; ceilings R5; verdicts R6, R7, R8; search seal S4, selections R3 \\
+11 & Fig.~5, Table~5; exploratory weight runs R8 \\
+12--13 & Fig.~6, Table~6; controls seal S7; per-run outcomes D8 (C12); engine check D9; maps R11 \\
+15--19 & Results, readout capacity; D3 (C5); joint constraint D5 (C7); grid check D7 (C11) \\
+20 & Table~8; leave-one-area-out D4 (C6) \\
+21 & Table~7; circuit vs optimum D5 (C7) \\
+22 & Results, geometry; findings log N1 \S7 \\
+\bottomrule
+\end{tabular}
+\vfill
+\src{Manuscript in preparation (draft 2026-11-10). Figures redrawn from these records by the deck's figure script.}
+\end{frame}
+
+\end{document}

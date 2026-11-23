@@ -1,8 +1,7 @@
 """Intrinsic primitive system identification for E/PV/SST/VIP — no C023, no B6."""
 import json, pathlib, numpy as np, jax, jax.numpy as jnp
 from jomission.network.builder import build_jomission_model
-from jaxfne import compile_step_fn, run_continuation
-from jaxfne._pipeline import continuation_state_from_model
+from jaxfne._pipeline import compile_step_fn, run_continuation, continuation_state_from_model
 
 DT_MS=0.1
 # Use representative neurons from canonical model seed 0

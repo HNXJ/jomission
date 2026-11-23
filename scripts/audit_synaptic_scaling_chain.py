@@ -13,8 +13,7 @@ import jax
 import jax.numpy as jnp
 from jomission.network.builder import build_jomission_model, simulation_with_background_poisson
 from jaxfne._signals import _make_poisson_drive
-from jaxfne import compile_step_fn, run_continuation
-from jaxfne._pipeline import continuation_state_from_model
+from jaxfne._pipeline import compile_step_fn, continuation_state_from_model, run_continuation
 
 
 def audit_synaptic_scaling_chain():

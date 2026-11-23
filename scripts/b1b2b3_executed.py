@@ -1,8 +1,7 @@
 """Canonical spontaneous executed-current system identification — B1/B2/B3 root cause, no B6, no C023."""
 import json, pathlib, numpy as np, jax, jax.numpy as jnp
 from jomission.network.builder import build_jomission_model
-from jaxfne import compile_step_fn, run_continuation
-from jaxfne._pipeline import continuation_state_from_model
+from jaxfne._pipeline import compile_step_fn, run_continuation, continuation_state_from_model
 from jaxfne._signals import _make_poisson_drive
 
 DT_MS=0.1

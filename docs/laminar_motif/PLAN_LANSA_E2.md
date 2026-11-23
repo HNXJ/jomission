@@ -41,6 +41,7 @@ Two consequences for E2 (INFERRED from isolated modules):
 - C1/C4: rho S 0.25, M 1, D 2 (ramp inside the E1 oscillating range). C2: 3 modules. C3: one CAMINOS unit per module (8000 E, 1500 inh).
 - Coupling: adjacent modules (S-M, M-D), both directions, E to E, PV and SST, p 0.01, local weights (2.0 nS to E, 3.0 nS to inhibitory), 2 ms delay.
 - C6: 20 s, 2 s discarded, seed 1, then inspect.
+- Superseded (owner, 2026-11-23): the C3 cell counts (8000 E per unit) and the C6 duration (20 s) no longer apply. The runs as reported stand: 4000 E cells per unit on average, 8 s and 12 s, 2 s discarded.
 - Verdict bands: alpha-beta 10-30 Hz, gamma 50-150 Hz (published panel; manuscript 8-30/31-150 is scored as secondary only).
 - Amplitude: unit power is not equalized; the depth gradient of LFP amplitude is a model result.
 - Kinetics: slower SST->E next. Agent choices (owner gave no value): decay 30 ms (middle of the review's 20-40 ms), own receptor `gaba_sst`, weight 5 x 8/30 nS so the charge per spike equals CAMINOS; other synapses unchanged. Layout `e2_3unit_sst30`, 20 s, seed 1.

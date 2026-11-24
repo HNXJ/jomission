@@ -1,0 +1,142 @@
+{
+ "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
+ "layout": "e2_3unit_n4000_dens_k1_kd2",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "depth_rel_L4": {
+  "S": -0.4,
+  "M": 0.0,
+  "D": 0.3
+ },
+ "seed": 1,
+ "T_s": 8.0,
+ "dt_ms": 0.1,
+ "p_inter": null,
+ "k_inter": 80.0,
+ "rho": {
+  "S": 0.25,
+  "M": 1.0,
+  "D": 2.0
+ },
+ "sizes": {
+  "S": {
+   "E": 5785,
+   "PV": 868,
+   "SOM": 217
+  },
+  "M": {
+   "E": 3668,
+   "PV": 344,
+   "SOM": 344
+  },
+  "D": {
+   "E": 2547,
+   "PV": 159,
+   "SOM": 319
+  }
+ },
+ "edges": {
+  "e_e_S": 6774751,
+  "e_pv_S": 1019036,
+  "e_sst_S": 254461,
+  "pv_e_S": 1016638,
+  "pv_pv_S": 152555,
+  "sst_e_S": 254884,
+  "sst_pv_S": 38168,
+  "e_e_M": 1726254,
+  "e_pv_M": 161877,
+  "e_sst_M": 162151,
+  "pv_e_M": 162068,
+  "pv_pv_M": 15191,
+  "sst_e_M": 161497,
+  "sst_pv_M": 15308,
+  "e_e_D": 577967,
+  "e_pv_D": 36103,
+  "e_sst_D": 72218,
+  "pv_e_D": 35966,
+  "pv_pv_D": 2316,
+  "sst_e_D": 72488,
+  "sst_pv_D": 4469,
+  "x_S_M_e_e": 294237,
+  "x_S_M_e_pv": 27958,
+  "x_S_M_e_som": 27672,
+  "x_M_S_e_e": 925008,
+  "x_M_S_e_pv": 138762,
+  "x_M_S_e_som": 34793,
+  "x_M_D_e_e": 408273,
+  "x_M_D_e_pv": 25433,
+  "x_M_D_e_som": 50841,
+  "x_D_M_e_e": 292676,
+  "x_D_M_e_pv": 27622,
+  "x_D_M_e_som": 27430
+ },
+ "tau_sst_e_ms": null,
+ "modifiers": {
+  "n": 4000.0,
+  "dens": 1.0,
+  "k": 1.0,
+  "kd": 2.0
+ },
+ "p_local": {
+  "S": 0.2024651796011466,
+  "M": 0.12837983466817857,
+  "D": 0.08915498612945658
+ },
+ "g_columns": [
+  [
+   "S",
+   "ampa"
+  ],
+  [
+   "S",
+   "gaba"
+  ],
+  [
+   "M",
+   "ampa"
+  ],
+  [
+   "M",
+   "gaba"
+  ],
+  [
+   "D",
+   "ampa"
+  ],
+  [
+   "D",
+   "gaba"
+  ]
+ ],
+ "g_reversal_mV": [
+  0.0,
+  -80.0,
+  0.0,
+  -80.0,
+  0.0,
+  -80.0
+ ],
+ "g_tau_ms": [
+  2.0,
+  8.0,
+  2.0,
+  8.0,
+  2.0,
+  8.0
+ ],
+ "lfp_proxy": "|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed -65.0 mV, recurrent only",
+ "wall_s": {
+  "construct": 10.405092239379883,
+  "simulate": 2603.8942890167236,
+  "total": 2617.8522443771362
+ },
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "/private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/jaxfne-0.5.9-site/jaxfne/__init__.py",
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "git_sha": "5992eb736979e731aba788892346761926393cfc"
+}

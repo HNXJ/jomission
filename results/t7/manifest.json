@@ -1,0 +1,265 @@
+{
+  "namespace": "canonical_confirmatory",
+  "method": "t7_lag estimator validation: synthetic positive/null controls + model rates",
+  "controls": {
+    "positive_success": true,
+    "nolag_success": true,
+    "null_success": true,
+    "controls_pass": true,
+    "max_lag_ms": 200.0,
+    "fs_hz": 1000.0,
+    "dt_ms": 1.0,
+    "n_trials": 24,
+    "n_time": 2000,
+    "true_lags_tested": [
+      15.0,
+      30.0,
+      50.0,
+      -20.0
+    ],
+    "note": "All controls used EXACT same estimator (estimate_lag_single); positive control quantifies detection error, null/nolag quantifies false-positive."
+  },
+  "model_t7_summary": {
+    "p2": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444373,
+        "p_vs_zero": 0.017180487343013168,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.6685579234215214,
+        "p_vs_zero": 0.05380358204027793,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.5,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.674199862463242,
+        "p_vs_zero": 0.026094682241525783,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.621581560508061,
+        "p_vs_zero": 0.19105429809656926,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444371,
+        "p_vs_zero": 0.5862993069206738,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.16666666666666666,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.3892494720807615,
+        "p_vs_zero": 0.1660868135182955,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    },
+    "p3": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.8528028654224418,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.6030226891555273,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.7929614610987591,
+        "p_vs_zero": 0.09601366565607411,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444371,
+        "p_vs_zero": 0.5862993069206738,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.7537783614444091,
+        "p_vs_zero": 0.27496148552409866,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.9653072991634227,
+        "p_vs_zero": 0.3888523281417135,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    },
+    "p4": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": -0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.378954368902449,
+        "p_vs_zero": 0.3176854047677475,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.9534625892455924,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.6764862244009224,
+        "p_vs_zero": 0.4076388871998877,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.8319554050414562,
+        "p_vs_zero": 0.8776449678354765,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.378954368902449,
+        "p_vs_zero": 0.3176854047677475,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.3333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.0730867399773196,
+        "p_vs_zero": 0.3049372317414359,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    }
+  },
+  "provenance": {
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "method": "data-driven cross-correlation peak; no anatomical delay inference",
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "positions": [
+      "p2",
+      "p3",
+      "p4"
+    ],
+    "pairs": [
+      [
+        "V1",
+        "V4"
+      ],
+      [
+        "V1",
+        "FEF"
+      ],
+      [
+        "V1",
+        "PFC"
+      ],
+      [
+        "V4",
+        "FEF"
+      ],
+      [
+        "V4",
+        "PFC"
+      ],
+      [
+        "FEF",
+        "PFC"
+      ]
+    ],
+    "n_trials": 24,
+    "n_time": 4624,
+    "fs_hz": 1000.0,
+    "dt_ms": 1.0,
+    "window_ms": [
+      -1000.0,
+      1000.0
+    ],
+    "max_lag_ms": 200.0,
+    "normalize": "zscore",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (Q11); pooled values secondary",
+    "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+    "estimator": "estimate_lag_single (data-driven xcorr peak, unbiased)",
+    "anatomical_delay_inference": "none \u2014 estimator never reads connectivity/delay tables",
+    "owner": "generated",
+    "generated_by": "jomission.analysis.t7_lag.compute_t7",
+    "window_note": "not spectral; T7 is cross-area lag (field/rate) \u2014 window_ms and max_lag_ms frozen"
+  },
+  "artifacts": {
+    "json": "results/t7/model/t7_summary.json",
+    "npz": "results/t7/model/t7_per_trial_arrays.npz",
+    "mean_lag_npy": "results/t7/model/t7_mean_lag_pair_x_position.npy",
+    "sd_lag_npy": "results/t7/model/t7_sd_lag_pair_x_position.npy",
+    "p_npy": "results/t7/model/t7_p_pair_x_position.npy",
+    "provenance": "results/t7/model/t7_provenance.json",
+    "sha256_json": "5bdfa504136fc7d3cbcc3752b116bb7f52fbbea4e491c5fce8d293e6197ea53a"
+  },
+  "controls_artifacts": {
+    "json": "results/t7/controls/t7_controls_validation.json",
+    "npz": "results/t7/controls/t7_controls_per_trial.npz",
+    "sha256": "cccd33778f988f99a592853bb7121285ac8fb30e7673410feeae22a184c9bf17"
+  }
+}

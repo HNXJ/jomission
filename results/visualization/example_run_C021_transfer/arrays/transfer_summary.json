@@ -1,0 +1,38 @@
+{
+  "chain": "V1 L4 E spikes \u2192 delay/history \u2192 L4E\u2192L23E syn_state \u2192 L4E\u2192L23E current \u2192 L2/3 E Vm \u2192 L2/3 E spikes",
+  "code_sha": "a8a8b0ffedb817e1",
+  "config_hash": "a51711101576c7c3",
+  "effect_ds": {
+    "delay_history": NaN,
+    "l23_e_spikes": NaN,
+    "l23_e_vm": NaN,
+    "l4e_l23e_current": NaN,
+    "l4e_l23e_syn_state": NaN,
+    "v1_l4_e_spikes": NaN
+  },
+  "latencies_ms": {
+    "delay_history": 12.0,
+    "l23_e_spikes": NaN,
+    "l23_e_vm": NaN,
+    "l4e_l23e_current": NaN,
+    "l4e_l23e_syn_state": NaN,
+    "v1_l4_e_spikes": NaN
+  },
+  "n_stages": 6,
+  "stages": [
+    "v1_l4_e_spikes",
+    "delay_history",
+    "l4e_l23e_syn_state",
+    "l4e_l23e_current",
+    "l23_e_vm",
+    "l23_e_spikes"
+  ],
+  "status_by_stage": {
+    "delay_history": "measured",
+    "l23_e_spikes": "measured",
+    "l23_e_vm": "measured",
+    "l4e_l23e_current": "unavailable",
+    "l4e_l23e_syn_state": "proxy",
+    "v1_l4_e_spikes": "measured"
+  }
+}

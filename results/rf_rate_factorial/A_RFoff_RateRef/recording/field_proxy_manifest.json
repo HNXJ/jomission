@@ -1,0 +1,19 @@
+{
+  "field_proxy_files": [
+    "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_BBBA.npz",
+    "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_AAAB.npz",
+    "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_AXAB.npz"
+  ],
+  "layout": "trial_A_C_T",
+  "n_contacts": 16,
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "claim": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "reconstruction_verified": true,
+  "provenance": "area_local linear partition of jaxfne.fields.proxy.project_laminar_sources, kernel depth-only, sum_a field_a == global within 7e-04"
+}

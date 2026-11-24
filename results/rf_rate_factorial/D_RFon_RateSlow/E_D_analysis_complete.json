@@ -1,0 +1,2909 @@
+{
+  "schema": "jomission.E_D_analysis_complete.v0.1.0",
+  "generated_at_utc": "2026-08-26T19:43:17.370133+00:00",
+  "cell": "D_RFon_RateSlow",
+  "factorial_cell_identity": {
+    "directory_name": "D_RFon_RateSlow",
+    "maps_to_frozen_manifest_cell": "D_RFon_RateSlow",
+    "directory_name_matches_frozen_manifest_cell": true,
+    "factors_observed": {
+      "RF": "on (K_HDP=0.003, canonical v1_pfc_aaab_hdp_params)",
+      "Rate": "slow (tau_0_ms=1000, 200x)"
+    },
+    "K_HDP": 0.003,
+    "tau_0_ms_ms": 1000.0,
+    "tau_eff_E_s_design": 833.0,
+    "config_hash": "e5e331a140ebd37e",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "config_hash_matches_frozen_manifest_authority": true,
+    "numerical_config_hash": "23cf5a17859f029e",
+    "hp_hash": "b326f7201c59b803",
+    "hp_hash_matches_frozen_manifest_cell": true,
+    "code_sha": "3ea1038b1b3d",
+    "evidence_class": "CANONICAL_CONFIRMATORY",
+    "namespace": "canonical_confirmatory",
+    "estimand_version": "jomission_comparison_matrix.v0.1.0",
+    "initial_state_hash": "05734f901293a4ab",
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFon RateSlow"
+  },
+  "estimand_version": "jomission_comparison_matrix.v0.1.0",
+  "run_completion_status": {
+    "trials_completed": {
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "heartbeat_complete": true,
+    "sealed_artifacts_present": true,
+    "artifact_hashes_verified": true,
+    "files_hashed_against_sealed_manifest": 74,
+    "terminated_by_schedule": true,
+    "terminal_predicate_steps_match": true,
+    "stability_issues": [],
+    "continuation_verified": true,
+    "atomic_save_fix_note": "deterministic rerun with atomic save fix completed and sealed all artifacts (event_ledger/result/EvidenceRef/artifact_hashes/recording union); the earlier exec_D crash at the spikes_example step was a single non-recurring coding defect (harness defect class), not a simulation defect",
+    "determinism_note": "H/Theta trajectories bit-identical to the pre-fix certified re-execution ledger",
+    "determinism_reexec_ledger_matches": true,
+    "determinism_max_abs_H_deviation": 0.0,
+    "_provenance": {
+      "files_hashed_against_sealed_manifest": "DERIVED",
+      "determinism_max_abs_H_deviation": "DERIVED"
+    }
+  },
+  "provenance": {
+    "generated_owner": "results/rf_rate_factorial/D_RFon_RateSlow",
+    "generator_script": "/Users/hamednejat/workspace/computational/jomission/scratch/analyze_D_complete.py",
+    "generator_sha256_16": "f64a8653e14db045",
+    "code_sha": "3ea1038b1b3d",
+    "code_sha_from_EvidenceRef": "3ea1038b1b3d",
+    "config_hash": "e5e331a140ebd37e",
+    "numerical_config_hash": "23cf5a17859f029e",
+    "hp_hash": "b326f7201c59b803",
+    "dt_ms": 0.1,
+    "seed": 0,
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFon RateSlow",
+    "initial_state_hash": "05734f901293a4ab",
+    "parent_EvidenceRef_artifact_hash": "2e8d19bccfcb1660",
+    "design_manifest": {
+      "path": "manifests/rf_rate_factorial_design.json",
+      "version": "rf_rate_factorial.v0.1.0",
+      "manifest_sha256_16": "0c2972525d1d0496"
+    },
+    "inputs_verified": {
+      "D_RFon_RateSlow_result.json": {
+        "sha256_16": "2e8d19bccfcb1660",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "E_D_analysis.json": {
+        "sha256_16": "96506728c8a7551a",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "EvidenceRef.json": {
+        "sha256_16": "a33abcd13bf078eb",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "artifact_hashes.json": {
+        "sha256_16": "ce65e2d0d66b0930",
+        "matches_sealed_manifest": false,
+        "sealed_or_new": "unsealed-new-file"
+      },
+      "checkpoints/ckpt_trial_0010.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0010.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0020.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0020.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0030.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0030.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0040.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0040.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0050.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0050.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0060.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0060.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0070.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0070.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0080.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0080.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0090.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0090.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0100.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0100.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0110.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0110.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0120.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0120.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0130.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0130.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0140.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0140.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0150.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0150.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0160.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0160.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0170.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0170.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0180.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0180.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0190.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0190.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0200.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0200.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0210.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0210.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0220.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0220.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0230.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0230.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0240.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0240.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0250.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0250.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0260.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0260.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "heartbeat.jsonl": {
+        "sha256_16": "c53419ab48ad6cc9",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/H_t.json": {
+        "sha256_16": "f42286418cc6a9d5",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/H_t_dense.npz": {
+        "sha256_16": "de3c464a2fcecfa0",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/RF_operator.npz": {
+        "sha256_16": "2b6a1433b7f94a67",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/continuation_state.json": {
+        "sha256_16": "a908405a770e6f1a",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/event_ledger.json": {
+        "sha256_16": "e0d035c1628fec31",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/external_drive_examples.npz": {
+        "sha256_16": "e4a57cd77b36065d",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_manifest.json": {
+        "sha256_16": "9442958c9c71adec",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0000.npz": {
+        "sha256_16": "5e4810dae6d3be32",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0001.npz": {
+        "sha256_16": "c9c0fae558ca4e4c",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0002.npz": {
+        "sha256_16": "e9d190e94ad8ec42",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0003.npz": {
+        "sha256_16": "5ecbde1df60ebab8",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0004.npz": {
+        "sha256_16": "0d50345f13e7d7b9",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/rate_summary.json": {
+        "sha256_16": "5396c4aff7d92be1",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/recording_union.json": {
+        "sha256_16": "4ecdf2cf752eaa31",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_AAAB.npz": {
+        "sha256_16": "5824ec2aeb43f452",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_AXAB.npz": {
+        "sha256_16": "c56b1e1e35cdc773",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_BBBA.npz": {
+        "sha256_16": "c21c3f30f71e3a96",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/visual_field_patterns.npz": {
+        "sha256_16": "84508099f526f0e6",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      }
+    },
+    "tool_versions": {
+      "python": "3.13.7",
+      "numpy": "2.4.6"
+    },
+    "cross_cell_interpretation": "NONE (single-cell analysis per task directive; factorial contrasts deferred)",
+    "mutation_statement": "additive artifact only; all inputs re-hashed after write and asserted unchanged by generator",
+    "_provenance": {
+      "code_sha": "MEASURED",
+      "generator_sha256_16": "MEASURED",
+      "config_hash": "MEASURED",
+      "numerical_config_hash": "MEASURED",
+      "hp_hash": "MEASURED",
+      "dt_ms": "MODEL_ASSUMPTION",
+      "seed": "MODEL_ASSUMPTION",
+      "initial_state_hash": "MEASURED",
+      "parent_EvidenceRef_artifact_hash": "MEASURED"
+    }
+  },
+  "input_integrity": {
+    "files_hashed_against_sealed_manifest": 74,
+    "all_match_sealed_manifest": true,
+    "note": "verified against sealed artifact_hashes.json; post-write re-hash asserted unchanged",
+    "_provenance": {
+      "files_hashed_against_sealed_manifest": "DERIVED"
+    }
+  },
+  "schedule_observed": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 1200.0,
+        "wall_s": 1202.24,
+        "wall_ms": 1202240.0,
+        "steps": 12022400,
+        "trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "exposure_trials_requested": 260,
+    "exposure_wall_s_observed": 1202.24,
+    "testing_trials": 96,
+    "testing_conditions": 12,
+    "testing_reps": 8,
+    "total_wall_ms_schedule": 1688144.0,
+    "n_exposure_checkpoints": 26,
+    "_provenance": {
+      "trial_ms": "MODEL_ASSUMPTION",
+      "dt_ms": "MODEL_ASSUMPTION",
+      "exposure_trials_requested": "MODEL_ASSUMPTION",
+      "exposure_wall_s_observed": "DERIVED",
+      "testing_trials": "MODEL_ASSUMPTION",
+      "testing_conditions": "MODEL_ASSUMPTION",
+      "testing_reps": "MODEL_ASSUMPTION",
+      "total_wall_ms_schedule": "MODEL_ASSUMPTION",
+      "n_exposure_checkpoints": "MODEL_ASSUMPTION"
+    }
+  },
+  "heartbeat_verification": {
+    "log_len": 453,
+    "phases": {
+      "compile": 1,
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "monotonic_global_step_and_sim_time": true,
+    "sim_time_equals_global_step_x_dt": true,
+    "final_global_step": 20900480,
+    "matches_expected_total_steps": true,
+    "canonical_schedule_sequences_verified": {
+      "pre_sequence_matches_CONDITIONS_x8": true,
+      "exposure_alternates_AAAB_BBBA": true,
+      "post_sequence_matches_CONDITIONS_x8": true
+    },
+    "run_id": "jomission-e5e331a1-b326-b2e02c60",
+    "worker_id": "87923@HamedNejat-MacBook-Pro.local",
+    "worker_started": "2026-08-26T17:02:53.053195+00:00",
+    "last_heartbeat": "2026-08-26T19:34:40.749842+00:00",
+    "execution_wall_s": 9107.66007616598,
+    "matches_result_json_heartbeat_claims": true,
+    "_provenance": {
+      "log_len": "MEASURED",
+      "final_global_step": "MEASURED",
+      "execution_wall_s": "MEASURED"
+    }
+  },
+  "checkpoints_verification": {
+    "n_pairs_enumerated": 26,
+    "all_pairs_load_and_leaf_consistent": true,
+    "checkpoint_ok_vs_result_json": true,
+    "checkpoint_fail": 0,
+    "static_top_level_keys": [
+      "geometry",
+      "n_contacts",
+      "neuron_metadata",
+      "neuron_metadata_summary",
+      "operator_status"
+    ],
+    "dynamic_or_hdp_state_stored": false,
+    "dynamic_state_note": "checkpoint sidecars hold geometry/metadata/operator_status only; dynamic/HDP continuation state lives in the chained in-memory ContinuationState (continuation_state.json boundary summary), not in checkpoints",
+    "neuron_count_per_area_from_geometry": {
+      "V1": 100,
+      "V4": 100,
+      "FEF": 100,
+      "PFC": 100
+    },
+    "neuron_count_per_area_ok": true,
+    "_provenance": {
+      "n_pairs_enumerated": "DERIVED",
+      "checkpoint_ok_vs_result_json": "DERIVED",
+      "checkpoint_fail": "MEASURED"
+    }
+  },
+  "event_ledger_verification": {
+    "rows": 452,
+    "phase_counts": {
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "phase_condition_counts_pre": {
+      "AAAB": 8,
+      "AXAB": 8,
+      "AAXB": 8,
+      "AAAX": 8,
+      "BBBA": 8,
+      "BXBA": 8,
+      "BBXA": 8,
+      "BBBX": 8,
+      "RRRR": 8,
+      "RXRR": 8,
+      "RRXR": 8,
+      "RRRX": 8
+    },
+    "phase_condition_counts_post": {
+      "AAAB": 8,
+      "AXAB": 8,
+      "AAXB": 8,
+      "AAAX": 8,
+      "BBBA": 8,
+      "BXBA": 8,
+      "BBXA": 8,
+      "BBBX": 8,
+      "RRRR": 8,
+      "RXRR": 8,
+      "RRXR": 8,
+      "RRRX": 8
+    },
+    "exposure_condition_counts": {
+      "AAAB": 130,
+      "BBBA": 130
+    },
+    "h_mean_equals_H_t_dense_elementwise": true,
+    "w_mean_equals_Theta_t_dense_elementwise": true,
+    "first10_pre_area_rates_match_rate_summary": true,
+    "field_ok_all_trials": true,
+    "spike_hash_scheme": "sha256(str(float(sum(spikes))))[:12] per exec source (weak content hash, not pinned to rasters)",
+    "source": "results/rf_rate_factorial/D_RFon_RateSlow/recording/event_ledger.json (sealed, atomic-save fixed rerun)",
+    "_provenance": {
+      "rows": "MEASURED"
+    }
+  },
+  "delta_exposure": {
+    "estimand_definition": "Delta_exposure = Y_post - Y_pre (jomission_comparison_matrix.v0.1.0 primary estimand); per area (V1/V4/FEF/PFC)",
+    "state_per_item": "OBSERVED for whole-trial rate, H_mean, Theta_w_mean (sealed complete ledger); slot-resolved [0,531] ms phenotypes NOT_RECORDED below (never imputed)",
+    "phenotypes": {
+      "whole_trial_rate_per_area": {
+        "status": "OBSERVED",
+        "source": "recording/event_ledger.json area_rates (sealed complete rerun)",
+        "estimand_definition": "Delta_exposure = Y_post - Y_pre (jomission_comparison_matrix.v0.1.0 primary estimand); Y = whole-trial mean population rate per area",
+        "estimand_fidelity_note": "PRIMARY estimand is slot-resolved [0,531] ms rate omission effect; executor computes area_rates over the full 4624 ms trial, so slot-resolved Y remains NOT RECOVERABLE from artifacts (same limitation class as all cells)",
+        "window_used": "whole-trial [-500,4124] ms proxy",
+        "replicates": {
+          "pre_per_condition": 8,
+          "post_per_condition": 8,
+          "paired_by": "identical condition order in pre/post batteries (verified against canonical schedule via heartbeat + ledger)"
+        },
+        "delta_hz_per_condition": {
+          "AAAB": {
+            "V1": 0.25438,
+            "V4": 0.246269,
+            "FEF": 0.236809,
+            "PFC": 0.184094,
+            "mean_over_areas_hz": 0.230388,
+            "paired_rep_std": {
+              "V1": 0.03826,
+              "V4": 0.041885,
+              "FEF": 0.044988,
+              "PFC": 0.065439
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "AXAB": {
+            "V1": 0.226266,
+            "V4": 0.218966,
+            "FEF": 0.198422,
+            "PFC": 0.20491,
+            "mean_over_areas_hz": 0.212141,
+            "paired_rep_std": {
+              "V1": 0.060098,
+              "V4": 0.059065,
+              "FEF": 0.055113,
+              "PFC": 0.040944
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "AAXB": {
+            "V1": 0.228158,
+            "V4": 0.21383,
+            "FEF": 0.220859,
+            "PFC": 0.216533,
+            "mean_over_areas_hz": 0.219845,
+            "paired_rep_std": {
+              "V1": 0.062089,
+              "V4": 0.064756,
+              "FEF": 0.046174,
+              "PFC": 0.057953
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "AAAX": {
+            "V1": 0.217885,
+            "V4": 0.216263,
+            "FEF": 0.192204,
+            "PFC": 0.220048,
+            "mean_over_areas_hz": 0.2116,
+            "paired_rep_std": {
+              "V1": 0.05364,
+              "V4": 0.054786,
+              "FEF": 0.053483,
+              "PFC": 0.042015
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "BBBA": {
+            "V1": 0.256001,
+            "V4": 0.245728,
+            "FEF": 0.251136,
+            "PFC": 0.256542,
+            "mean_over_areas_hz": 0.252352,
+            "paired_rep_std": {
+              "V1": 0.036316,
+              "V4": 0.042392,
+              "FEF": 0.016592,
+              "PFC": 0.039256
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "BXBA": {
+            "V1": 0.267896,
+            "V4": 0.270058,
+            "FEF": 0.233835,
+            "PFC": 0.194096,
+            "mean_over_areas_hz": 0.241471,
+            "paired_rep_std": {
+              "V1": 0.022093,
+              "V4": 0.00783,
+              "FEF": 0.048023,
+              "PFC": 0.04923
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "BBXA": {
+            "V1": 0.215452,
+            "V4": 0.187608,
+            "FEF": 0.201125,
+            "PFC": 0.204369,
+            "mean_over_areas_hz": 0.202138,
+            "paired_rep_std": {
+              "V1": 0.057197,
+              "V4": 0.060888,
+              "FEF": 0.052352,
+              "PFC": 0.030775
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "BBBX": {
+            "V1": 0.272491,
+            "V4": 0.253568,
+            "FEF": 0.241404,
+            "PFC": 0.217885,
+            "mean_over_areas_hz": 0.246337,
+            "paired_rep_std": {
+              "V1": 0.04903,
+              "V4": 0.058197,
+              "FEF": 0.053783,
+              "PFC": 0.028848
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "RRRR": {
+            "V1": 0.270599,
+            "V4": 0.220047,
+            "FEF": 0.239782,
+            "PFC": 0.223292,
+            "mean_over_areas_hz": 0.23843,
+            "paired_rep_std": {
+              "V1": 0.059565,
+              "V4": 0.063786,
+              "FEF": 0.036453,
+              "PFC": 0.034682
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "RXRR": {
+            "V1": 0.208153,
+            "V4": 0.227076,
+            "FEF": 0.186257,
+            "PFC": 0.231672,
+            "mean_over_areas_hz": 0.213289,
+            "paired_rep_std": {
+              "V1": 0.059194,
+              "V4": 0.069533,
+              "FEF": 0.069696,
+              "PFC": 0.01645
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "RRXR": {
+            "V1": 0.219236,
+            "V4": 0.192474,
+            "FEF": 0.208965,
+            "PFC": 0.190312,
+            "mean_over_areas_hz": 0.202747,
+            "paired_rep_std": {
+              "V1": 0.046784,
+              "V4": 0.061768,
+              "FEF": 0.048272,
+              "PFC": 0.054087
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          },
+          "RRRX": {
+            "V1": 0.253838,
+            "V4": 0.251135,
+            "FEF": 0.237619,
+            "PFC": 0.203558,
+            "mean_over_areas_hz": 0.236538,
+            "paired_rep_std": {
+              "V1": 0.047454,
+              "V4": 0.020443,
+              "FEF": 0.043069,
+              "PFC": 0.063323
+            },
+            "_provenance_paired_rep_std": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            },
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED",
+              "mean_over_areas_hz": "DERIVED"
+            }
+          }
+        },
+        "grand_delta_per_area_hz": {
+          "V1": 0.240863,
+          "V4": 0.228585,
+          "FEF": 0.220701,
+          "PFC": 0.212276,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "Y_pre_grand_per_area_hz": {
+          "V1": 11.978739,
+          "V4": 11.095012,
+          "FEF": 11.380501,
+          "PFC": 12.923853,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "Y_post_grand_per_area_hz": {
+          "V1": 12.219602,
+          "V4": 11.323597,
+          "FEF": 11.601202,
+          "PFC": 13.136129,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "threshold_delta_hz": 0.5,
+        "polarity_per_area_grand": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "confound_flag": "PRE contains a startup relaxation ordered by battery position (trial 0 H=1.0044 -> peak ~trial 28); because condition order is fixed, early-battery conditions absorb the transient into Y_pre",
+        "sensitivity_drop_first_pre_replicate": {
+          "delta_hz_per_condition": {
+            "AAAB": {
+              "V1": 0.257662,
+              "V4": 0.251792,
+              "FEF": 0.243142,
+              "PFC": 0.202979,
+              "mean_over_areas_hz": 0.238894,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "AXAB": {
+              "V1": 0.23789,
+              "V4": 0.230165,
+              "FEF": 0.206686,
+              "PFC": 0.199889,
+              "mean_over_areas_hz": 0.218658,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "AAXB": {
+              "V1": 0.221516,
+              "V4": 0.205449,
+              "FEF": 0.215028,
+              "PFC": 0.228312,
+              "mean_over_areas_hz": 0.217576,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "AAAX": {
+              "V1": 0.228003,
+              "V4": 0.226149,
+              "FEF": 0.199889,
+              "PFC": 0.22306,
+              "mean_over_areas_hz": 0.219275,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "BBBA": {
+              "V1": 0.253027,
+              "V4": 0.244377,
+              "FEF": 0.250248,
+              "PFC": 0.252101,
+              "mean_over_areas_hz": 0.249938,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "BXBA": {
+              "V1": 0.276199,
+              "V4": 0.269402,
+              "FEF": 0.245613,
+              "PFC": 0.202361,
+              "mean_over_areas_hz": 0.248394,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "BBXA": {
+              "V1": 0.213791,
+              "V4": 0.195563,
+              "FEF": 0.194019,
+              "PFC": 0.198344,
+              "mean_over_areas_hz": 0.200429,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "BBBX": {
+              "V1": 0.271564,
+              "V4": 0.250556,
+              "FEF": 0.235109,
+              "PFC": 0.213483,
+              "mean_over_areas_hz": 0.242678,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "RRRR": {
+              "V1": 0.267858,
+              "V4": 0.226149,
+              "FEF": 0.241906,
+              "PFC": 0.224296,
+              "mean_over_areas_hz": 0.240052,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "RXRR": {
+              "V1": 0.194945,
+              "V4": 0.20823,
+              "FEF": 0.174864,
+              "PFC": 0.232947,
+              "mean_over_areas_hz": 0.202747,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "RRXR": {
+              "V1": 0.227385,
+              "V4": 0.192474,
+              "FEF": 0.218117,
+              "PFC": 0.196182,
+              "mean_over_areas_hz": 0.208539,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            },
+            "RRRX": {
+              "V1": 0.248702,
+              "V4": 0.257353,
+              "FEF": 0.2348,
+              "PFC": 0.18506,
+              "mean_over_areas_hz": 0.231479,
+              "_provenance": {
+                "V1": "DERIVED",
+                "V4": "DERIVED",
+                "FEF": "DERIVED",
+                "PFC": "DERIVED",
+                "mean_over_areas_hz": "DERIVED"
+              }
+            }
+          },
+          "grand_delta_per_area_hz": {
+            "V1": 0.241545,
+            "V4": 0.229805,
+            "FEF": 0.221618,
+            "PFC": 0.213251,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "note": "Y_pre over pre reps 2..8 only"
+        },
+        "cross_check_rate_summary": {
+          "first10_pre_trial_means_match": true,
+          "note": "rate_summary.per_trial_area_rates retains only first 10 pre trials; ledger is the complete authority"
+        },
+        "_provenance": {
+          "threshold_delta_hz": "MODEL_ASSUMPTION"
+        }
+      },
+      "H_mean": {
+        "status": "OBSERVED",
+        "source": "recording/event_ledger.json h_mean == recording/H_t_dense.npz H_trajectory (elementwise)",
+        "Y_pre_mean": 1.023712,
+        "Y_post_mean": 1.020751,
+        "delta_per_condition": {
+          "AAAB": -0.001103,
+          "AXAB": -0.00191,
+          "AAXB": -0.00243,
+          "AAAX": -0.002762,
+          "BBBA": -0.003008,
+          "BXBA": -0.003201,
+          "BBXA": -0.003332,
+          "BBBX": -0.003425,
+          "RRRR": -0.003503,
+          "RXRR": -0.003569,
+          "RRXR": -0.003624,
+          "RRRX": -0.003666,
+          "_provenance": {
+            "AAAB": "DERIVED",
+            "AXAB": "DERIVED",
+            "AAXB": "DERIVED",
+            "AAAX": "DERIVED",
+            "BBBA": "DERIVED",
+            "BXBA": "DERIVED",
+            "BBXA": "DERIVED",
+            "BBBX": "DERIVED",
+            "RRRR": "DERIVED",
+            "RXRR": "DERIVED",
+            "RRXR": "DERIVED",
+            "RRRX": "DERIVED"
+          }
+        },
+        "threshold_h_delta": 0.01,
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED",
+          "_provenance": {
+            "AAAB": "DERIVED",
+            "AXAB": "DERIVED",
+            "AAXB": "DERIVED",
+            "AAAX": "DERIVED",
+            "BBBA": "DERIVED",
+            "BXBA": "DERIVED",
+            "BBXA": "DERIVED",
+            "BBBX": "DERIVED",
+            "RRRR": "DERIVED",
+            "RXRR": "DERIVED",
+            "RRXR": "DERIVED",
+            "RRRX": "DERIVED"
+          }
+        },
+        "sensitivity_drop_first_pre_replicate": {
+          "AAAB": -0.003671,
+          "AXAB": -0.003702,
+          "AAXB": -0.003732,
+          "AAAX": -0.00376,
+          "BBBA": -0.003787,
+          "BXBA": -0.00381,
+          "BBXA": -0.003828,
+          "BBBX": -0.00384,
+          "RRRR": -0.003847,
+          "RXRR": -0.003855,
+          "RRXR": -0.003864,
+          "RRRX": -0.003866,
+          "_provenance": {
+            "AAAB": "DERIVED",
+            "AXAB": "DERIVED",
+            "AAXB": "DERIVED",
+            "AAAX": "DERIVED",
+            "BBBA": "DERIVED",
+            "BXBA": "DERIVED",
+            "BBXA": "DERIVED",
+            "BBBX": "DERIVED",
+            "RRRR": "DERIVED",
+            "RXRR": "DERIVED",
+            "RRXR": "DERIVED",
+            "RRRX": "DERIVED"
+          }
+        },
+        "_provenance": {
+          "Y_pre_mean": "DERIVED",
+          "Y_post_mean": "DERIVED",
+          "threshold_h_delta": "MODEL_ASSUMPTION"
+        }
+      },
+      "Theta_w_mean": {
+        "status": "OBSERVED",
+        "source": "recording/event_ledger.json w_mean == recording/H_t_dense.npz Theta_trajectory (elementwise)",
+        "frozen_by_intervention": false,
+        "note": "K_HDP=0.003 (RF on): w follows H; Theta is NOT frozen (unlike RF-off cells)",
+        "Y_pre_mean": 0.003322248,
+        "Y_post_mean": 0.003337138,
+        "delta_per_condition": {
+          "AAAB": 2.065e-05,
+          "AXAB": 1.871e-05,
+          "AAXB": 1.713e-05,
+          "AAAX": 1.594e-05,
+          "BBBA": 1.499e-05,
+          "BXBA": 1.42e-05,
+          "BBXA": 1.365e-05,
+          "BBBX": 1.323e-05,
+          "RRRR": 1.286e-05,
+          "RXRR": 1.261e-05,
+          "RRXR": 1.244e-05,
+          "RRRX": 1.227e-05,
+          "_provenance": {
+            "AAAB": "DERIVED",
+            "AXAB": "DERIVED",
+            "AAXB": "DERIVED",
+            "AAAX": "DERIVED",
+            "BBBA": "DERIVED",
+            "BXBA": "DERIVED",
+            "BBXA": "DERIVED",
+            "BBBX": "DERIVED",
+            "RRRR": "DERIVED",
+            "RXRR": "DERIVED",
+            "RRXR": "DERIVED",
+            "RRRX": "DERIVED"
+          }
+        },
+        "threshold_w_delta": 0.01,
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED",
+          "_provenance": {
+            "AAAB": "DERIVED",
+            "AXAB": "DERIVED",
+            "AAXB": "DERIVED",
+            "AAAX": "DERIVED",
+            "BBBA": "DERIVED",
+            "BXBA": "DERIVED",
+            "BBXA": "DERIVED",
+            "BBBX": "DERIVED",
+            "RRRR": "DERIVED",
+            "RXRR": "DERIVED",
+            "RRXR": "DERIVED",
+            "RRRX": "DERIVED"
+          }
+        },
+        "w_floor_flag": "entire recorded Theta lies BELOW w_floor=0.01 (design bounds [0.01,10]); flagged UNRESOLVED, same flag class as all cells, not adjudicated here",
+        "_provenance": {
+          "Y_pre_mean": "DERIVED",
+          "Y_post_mean": "DERIVED",
+          "threshold_w_delta": "MODEL_ASSUMPTION"
+        }
+      },
+      "field_low_gamma_slot": {
+        "status": "NOT_RECORDED",
+        "reason": "only 5 PRE-phase field_proxy volumes exist (field_proxy_pre_0000..0004, trial_idx<5); zero POST-phase field volumes recorded (executor writes field_proxy_* only when trial_idx<5 and post trial_idx=2000+idx)",
+        "_provenance": {}
+      }
+    },
+    "claim_level": "DESCRIPTIVE_MULTI_PHENOTYPE (rates n_rep=8 paired; H/Theta per-trial means, n=8 per condition)",
+    "cross_cell_note": "within-cell only; no comparison to any other factorial cell performed"
+  },
+  "omission_vs_intact_per_position": {
+    "pooling_rule": "DO NOT pool p2/p3/p4 (design pooling_rule): reported separately per context and position",
+    "coverage": "full: ledger retains all 12 conditions x 8 replicates in BOTH batteries, so every context x position cell is OBSERVED",
+    "metric_note": "whole-trial proxy (only whole-trial area rates recoverable from artifacts); slot-resolved [0,531] ms omission effect NOT_RECORDED",
+    "pre_whole_trial_proxy_n8": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.022438,
+            "V4": 0.007569,
+            "FEF": -0.007028,
+            "PFC": -0.014598,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.048357,
+            "V4": 0.04786,
+            "FEF": 0.024173,
+            "PFC": 0.024533,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.017301,
+            "V4": 0.013516,
+            "FEF": 0.012976,
+            "PFC": -0.020274,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.051609,
+            "V4": 0.052705,
+            "FEF": 0.046847,
+            "PFC": 0.043816,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.181931,
+            "V4": 0.004055,
+            "FEF": 0.013246,
+            "PFC": -0.026492,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.037512,
+            "V4": 0.042399,
+            "FEF": 0.049887,
+            "PFC": 0.037235,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.184635,
+            "V4": 0.00027,
+            "FEF": -0.011083,
+            "PFC": 0.028655,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.005817,
+            "V4": 0.007448,
+            "FEF": 0.023453,
+            "PFC": 0.039815,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.160575,
+            "V4": 0.033251,
+            "FEF": 0.002974,
+            "PFC": 0.039738,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.066917,
+            "V4": 0.060146,
+            "FEF": 0.059717,
+            "PFC": 0.039493,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.043253,
+            "V4": -0.001081,
+            "FEF": -0.005407,
+            "PFC": 0.038117,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.028383,
+            "V4": 0.043482,
+            "FEF": 0.040198,
+            "PFC": 0.036058,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      },
+      "R": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.366295,
+            "V4": -0.001892,
+            "FEF": 0.034061,
+            "PFC": -0.001352,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.044909,
+            "V4": 0.07315,
+            "FEF": 0.040801,
+            "PFC": 0.053061,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.386029,
+            "V4": 0.001352,
+            "FEF": 0.01649,
+            "PFC": 0.025952,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.052575,
+            "V4": 0.067605,
+            "FEF": 0.053357,
+            "PFC": 0.04367,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.369539,
+            "V4": -0.012705,
+            "FEF": 0.02514,
+            "PFC": 0.021896,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.064712,
+            "V4": 0.051444,
+            "FEF": 0.064254,
+            "PFC": 0.065215,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      }
+    },
+    "post_whole_trial_proxy_n8": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.050552,
+            "V4": -0.019734,
+            "FEF": -0.045415,
+            "PFC": 0.006218,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.078214,
+            "V4": 0.077308,
+            "FEF": 0.084301,
+            "PFC": 0.084678,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.043523,
+            "V4": -0.018923,
+            "FEF": -0.002974,
+            "PFC": 0.012165,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.065,
+            "V4": 0.074042,
+            "FEF": 0.061015,
+            "PFC": 0.039685,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -0.218426,
+            "V4": -0.025951,
+            "FEF": -0.031358,
+            "PFC": 0.009462,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.052885,
+            "V4": 0.056228,
+            "FEF": 0.049576,
+            "PFC": 0.048405,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.172739,
+            "V4": 0.0246,
+            "FEF": -0.028385,
+            "PFC": -0.033791,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.047889,
+            "V4": 0.042926,
+            "FEF": 0.048218,
+            "PFC": 0.047108,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.201124,
+            "V4": -0.02487,
+            "FEF": -0.047037,
+            "PFC": -0.012435,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.04722,
+            "V4": 0.059893,
+            "FEF": 0.050101,
+            "PFC": 0.052816,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -0.026763,
+            "V4": 0.006758,
+            "FEF": -0.015139,
+            "PFC": -0.00054,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.048381,
+            "V4": 0.044008,
+            "FEF": 0.034382,
+            "PFC": 0.027942,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      },
+      "R": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.428742,
+            "V4": 0.005136,
+            "FEF": -0.019463,
+            "PFC": 0.007029,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.092234,
+            "V4": 0.071587,
+            "FEF": 0.081257,
+            "PFC": 0.05389,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.437392,
+            "V4": -0.026222,
+            "FEF": -0.014327,
+            "PFC": -0.007029,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.065842,
+            "V4": 0.075803,
+            "FEF": 0.043454,
+            "PFC": 0.054772,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -0.3863,
+            "V4": 0.018382,
+            "FEF": 0.022978,
+            "PFC": 0.002163,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.05872,
+            "V4": 0.042087,
+            "FEF": 0.042337,
+            "PFC": 0.046597,
+            "_provenance": {
+              "V1": "DERIVED",
+              "V4": "DERIVED",
+              "FEF": "DERIVED",
+              "PFC": "DERIVED"
+            }
+          }
+        }
+      }
+    },
+    "delta_exposure_of_omission_effect": {
+      "A_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AXAB",
+          "intact": "AAAB"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.022438,
+          "V4": 0.007569,
+          "FEF": -0.007028,
+          "PFC": -0.014598,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.050552,
+          "V4": -0.019734,
+          "FEF": -0.045415,
+          "PFC": 0.006218,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.028114,
+          "V4": -0.027303,
+          "FEF": -0.038387,
+          "PFC": 0.020816,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "A_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AAXB",
+          "intact": "AAAB"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.017301,
+          "V4": 0.013516,
+          "FEF": 0.012976,
+          "PFC": -0.020274,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.043523,
+          "V4": -0.018923,
+          "FEF": -0.002974,
+          "PFC": 0.012165,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.026222,
+          "V4": -0.032439,
+          "FEF": -0.01595,
+          "PFC": 0.032439,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "A_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AAAX",
+          "intact": "AAAB"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.181931,
+          "V4": 0.004055,
+          "FEF": 0.013246,
+          "PFC": -0.026492,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.218426,
+          "V4": -0.025951,
+          "FEF": -0.031358,
+          "PFC": 0.009462,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.036495,
+          "V4": -0.030006,
+          "FEF": -0.044604,
+          "PFC": 0.035954,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "B_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BXBA",
+          "intact": "BBBA"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.184635,
+          "V4": 0.00027,
+          "FEF": -0.011083,
+          "PFC": 0.028655,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.172739,
+          "V4": 0.0246,
+          "FEF": -0.028385,
+          "PFC": -0.033791,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": 0.011896,
+          "V4": 0.02433,
+          "FEF": -0.017302,
+          "PFC": -0.062446,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "B_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BBXA",
+          "intact": "BBBA"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.160575,
+          "V4": 0.033251,
+          "FEF": 0.002974,
+          "PFC": 0.039738,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.201124,
+          "V4": -0.02487,
+          "FEF": -0.047037,
+          "PFC": -0.012435,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.040549,
+          "V4": -0.058121,
+          "FEF": -0.050011,
+          "PFC": -0.052173,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "B_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BBBX",
+          "intact": "BBBA"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.043253,
+          "V4": -0.001081,
+          "FEF": -0.005407,
+          "PFC": 0.038117,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.026763,
+          "V4": 0.006758,
+          "FEF": -0.015139,
+          "PFC": -0.00054,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": 0.01649,
+          "V4": 0.007839,
+          "FEF": -0.009732,
+          "PFC": -0.038657,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "R_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RXRR",
+          "intact": "RRRR"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.366295,
+          "V4": -0.001892,
+          "FEF": 0.034061,
+          "PFC": -0.001352,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.428742,
+          "V4": 0.005136,
+          "FEF": -0.019463,
+          "PFC": 0.007029,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.062447,
+          "V4": 0.007028,
+          "FEF": -0.053524,
+          "PFC": 0.008381,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "R_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RRXR",
+          "intact": "RRRR"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.386029,
+          "V4": 0.001352,
+          "FEF": 0.01649,
+          "PFC": 0.025952,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.437392,
+          "V4": -0.026222,
+          "FEF": -0.014327,
+          "PFC": -0.007029,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.051363,
+          "V4": -0.027574,
+          "FEF": -0.030817,
+          "PFC": -0.032981,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      },
+      "R_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RRRX",
+          "intact": "RRRR"
+        },
+        "omission_effect_pre_hz_per_area": {
+          "V1": -0.369539,
+          "V4": -0.012705,
+          "FEF": 0.02514,
+          "PFC": 0.021896,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "omission_effect_post_hz_per_area": {
+          "V1": -0.3863,
+          "V4": 0.018382,
+          "FEF": 0.022978,
+          "PFC": 0.002163,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "delta_exposure_of_omission_effect_hz": {
+          "V1": -0.016761,
+          "V4": 0.031087,
+          "FEF": -0.002162,
+          "PFC": -0.019733,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED",
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED"
+          }
+        }
+      }
+    },
+    "inferential_note": "sign-only descriptive polarity at n_rep=8; frozen comparison-matrix significance machinery NOT re-run here"
+  },
+  "field_proxy_low_gamma_pre": {
+    "band_hz_frozen": [
+      30.0,
+      50.0
+    ],
+    "windows_relative_to_p2_onset_ms": {
+      "baseline": [
+        -250.0,
+        -50.0
+      ],
+      "slot": [
+        0.0,
+        531.0
+      ]
+    },
+    "p2_onset_authority_ms": 1031.0,
+    "p2_onset_verified_against_external_drive_idx": true,
+    "rf_on_omission_zero_drive_in_slot_verified": true,
+    "rf_on_intact_AAAB_p2_drive_sum": 57528.300781,
+    "physical_amplitude_calibrated": false,
+    "claim": "proxy_readout; ln(bandpower_omission/bandpower_intact) per area, PRE phase only (single replicate per condition)",
+    "per_position_A_context": {
+      "A_context_p2": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AXAB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": 0.006966,
+          "V4": -0.065449,
+          "FEF": -0.223736,
+          "PFC": -0.342152,
+          "frontal_minus_V1": -0.28991,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.26431,
+          "V4": 0.161251,
+          "FEF": 0.127766,
+          "PFC": 0.234446,
+          "frontal_minus_V1": -0.083204,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        }
+      },
+      "A_context_p3": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAXB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": -0.036433,
+          "V4": -0.052505,
+          "FEF": -0.380932,
+          "PFC": -0.691612,
+          "frontal_minus_V1": -0.499839,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.324242,
+          "V4": 0.266684,
+          "FEF": 0.203863,
+          "PFC": -0.005052,
+          "frontal_minus_V1": -0.224836,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        }
+      },
+      "A_context_p4": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAAX",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": -0.01309,
+          "V4": -0.245429,
+          "FEF": -0.192234,
+          "PFC": -0.239983,
+          "frontal_minus_V1": -0.203018,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.215437,
+          "V4": 0.192507,
+          "FEF": -0.158481,
+          "PFC": -0.537779,
+          "frontal_minus_V1": -0.563567,
+          "_provenance": {
+            "V1": "DERIVED",
+            "V4": "DERIVED",
+            "FEF": "DERIVED",
+            "PFC": "DERIVED",
+            "frontal_minus_V1": "DERIVED"
+          }
+        }
+      }
+    },
+    "delta_exposure_of_field_effect": {
+      "status": "NOT_RECORDED",
+      "reason": "no POST-phase field_proxy volumes exist (only pre_0000..pre_0004; executor saves field proxies for trial_idx<5 and post trial_idx=2000+idx)"
+    },
+    "_provenance": {
+      "band_hz_frozen": "MODEL_ASSUMPTION",
+      "p2_onset_authority_ms": "MODEL_ASSUMPTION",
+      "rf_on_intact_AAAB_p2_drive_sum": "MEASURED"
+    }
+  },
+  "H_Theta_observables": {
+    "trajectory_source": "SEALED recording/H_t_dense.npz (per-trial HDP H/w means, 452 points; ledger h_mean/w_mean verified elementwise equal; re-exec ledger bit-identical)",
+    "declared_dense_sampling_materialized": false,
+    "metadata_inconsistency_flag": "file stores dt_ms=0.1 but arrays are per-trial means with effective spacing 4624.0 ms; executor attempted the dense H_trace probe (isolated AAAB trial) and the engine returned no H_trace -> fallback branch taken; dense early-time sampling declared in recording_union was NOT materialized",
+    "resolution": {
+      "n_points": 452,
+      "spacing_ms": 4624.0,
+      "time_base": "trial order via canonical schedule (heartbeat-verified)"
+    },
+    "H_extrema_run_level_recomputed": {
+      "min": 1.004422,
+      "max": 1.024896,
+      "mean": 1.022507,
+      "bounds_[0.1,10]_ok": true,
+      "_provenance": {
+        "min": "MEASURED",
+        "max": "MEASURED",
+        "mean": "DERIVED"
+      }
+    },
+    "Theta_extrema_run_level_recomputed": {
+      "min": 0.0032558,
+      "max": 0.00333877,
+      "mean": 0.003330615,
+      "bounds_[0.01,10]_ok": false,
+      "_provenance": {
+        "min": "MEASURED",
+        "max": "MEASURED",
+        "mean": "DERIVED"
+      }
+    },
+    "H_extrema_result_json_agreement": true,
+    "Theta_extrema_result_json_agreement": true,
+    "shape_description": {
+      "argmax_trial_1based": 28,
+      "regime": "fast startup rise from initial condition (H[0]=1.00442) to peak (trial ~28, ~130 s), then slow near-linear decay through the rest of PRE, all of EXPOSURE and POST",
+      "endpoint_values": {
+        "trial1": 1.004422,
+        "peak": 1.024896,
+        "last": 1.020139,
+        "_provenance": {
+          "trial1": "MEASURED",
+          "peak": "MEASURED",
+          "last": "MEASURED"
+        }
+      }
+    },
+    "per_phase": {
+      "pre": {
+        "H": {
+          "min": 1.004422,
+          "max": 1.024896,
+          "mean": 1.023712,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        },
+        "Theta": {
+          "min": 0.0032558,
+          "max": 0.003327061,
+          "mean": 0.003322248,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        }
+      },
+      "exposure": {
+        "H": {
+          "min": 1.021282,
+          "max": 1.024115,
+          "mean": 1.022711,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        },
+        "Theta": {
+          "min": 0.003327061,
+          "max": 0.003335643,
+          "mean": 0.003331296,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        }
+      },
+      "post": {
+        "H": {
+          "min": 1.020139,
+          "max": 1.021308,
+          "mean": 1.020751,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        },
+        "Theta": {
+          "min": 0.003335656,
+          "max": 0.00333877,
+          "mean": 0.003337138,
+          "_provenance": {
+            "min": "MEASURED",
+            "max": "MEASURED",
+            "mean": "DERIVED"
+          }
+        }
+      }
+    },
+    "drift_quantified": {
+      "exposure_H_ptp": 0.002833,
+      "exposure_to_post_H_shift": -0.00196,
+      "exposure_Theta_ptp": 8.582e-06,
+      "_provenance": {
+        "exposure_H_ptp": "DERIVED",
+        "exposure_to_post_H_shift": "DERIVED",
+        "exposure_Theta_ptp": "DERIVED"
+      }
+    },
+    "effective_timescale": {
+      "status": "UNRESOLVED_WEAKLY_IDENTIFIED_DESIGN_TAU_NOT_RECOVERED",
+      "design_specified_reference": {
+        "tau_eff_E_s": 833.0,
+        "authority": "manifests/rf_rate_factorial_design.json factors.Rate.operational.slow (200x slow, 76% at 1200 s); exec_D source asserts 'tau_eff ~833s'",
+        "level": "SPECIFIED",
+        "_provenance": {
+          "tau_eff_E_s": "MODEL_ASSUMPTION"
+        }
+      },
+      "measured_context_external_cell": {
+        "note": "EXTERNAL CONTEXT ONLY, not a claim for this cell: the separate E_C analysis (RF off, slow) measured ~1092.7 s (full-run fit) / ~1123.8 s (exposure+post) for the slow decay; no cross-cell interpretation is performed here",
+        "_provenance": {}
+      },
+      "bounded_exponential_fits_signed_amplitude": {
+        "peak_to_end": {
+          "window": "trials 28..452 (1-based)",
+          "model": "Y_inf + A*exp(-(t-t0)/tau)",
+          "y_inf": 0.38815,
+          "amplitude_signed": 0.6367,
+          "direction": "decay_toward_inf_from_above",
+          "tau_eff_s_fit": 268658.942062,
+          "residual_std": 3.69e-05,
+          "n_points": 425,
+          "sampling_period_s": 4.624,
+          "samples_per_e_fold_at_fit_tau": 58100.98228,
+          "_provenance": {
+            "y_inf": "INFERENCE",
+            "amplitude_signed": "INFERENCE",
+            "tau_eff_s_fit": "INFERENCE",
+            "residual_std": "INFERENCE",
+            "n_points": "DERIVED",
+            "sampling_period_s": "MODEL_ASSUMPTION",
+            "samples_per_e_fold_at_fit_tau": "DERIVED"
+          }
+        },
+        "exposure_only": {
+          "window": "trials 97..356 (1-based)",
+          "model": "Y_inf + A*exp(-(t-t0)/tau)",
+          "y_inf": 0.974756,
+          "amplitude_signed": 0.04939,
+          "direction": "decay_toward_inf_from_above",
+          "tau_eff_s_fit": 20254.088542,
+          "residual_std": 1.983e-05,
+          "n_points": 260,
+          "sampling_period_s": 4.624,
+          "samples_per_e_fold_at_fit_tau": 4380.20946,
+          "_provenance": {
+            "y_inf": "INFERENCE",
+            "amplitude_signed": "INFERENCE",
+            "tau_eff_s_fit": "INFERENCE",
+            "residual_std": "INFERENCE",
+            "n_points": "DERIVED",
+            "sampling_period_s": "MODEL_ASSUMPTION",
+            "samples_per_e_fold_at_fit_tau": "DERIVED"
+          }
+        },
+        "exposure_plus_post": {
+          "window": "trials 97..452 (1-based)",
+          "model": "Y_inf + A*exp(-(t-t0)/tau)",
+          "y_inf": 0.694961,
+          "amplitude_signed": 0.3292,
+          "direction": "decay_toward_inf_from_above",
+          "tau_eff_s_fit": 137710.590664,
+          "residual_std": 3.167e-05,
+          "n_points": 356,
+          "sampling_period_s": 4.624,
+          "samples_per_e_fold_at_fit_tau": 29781.702133,
+          "_provenance": {
+            "y_inf": "INFERENCE",
+            "amplitude_signed": "INFERENCE",
+            "tau_eff_s_fit": "INFERENCE",
+            "residual_std": "INFERENCE",
+            "n_points": "DERIVED",
+            "sampling_period_s": "MODEL_ASSUMPTION",
+            "samples_per_e_fold_at_fit_tau": "DERIVED"
+          }
+        },
+        "post_only_under_sampled": {
+          "window": "trials 357..452 (1-based)",
+          "model": "Y_inf + A*exp(-(t-t0)/tau)",
+          "y_inf": 0.841532,
+          "amplitude_signed": 0.1797,
+          "direction": "decay_toward_inf_from_above",
+          "tau_eff_s_fit": 74950.448731,
+          "residual_std": 4.99e-05,
+          "n_points": 96,
+          "sampling_period_s": 4.624,
+          "samples_per_e_fold_at_fit_tau": 16209.007078,
+          "_provenance": {
+            "y_inf": "INFERENCE",
+            "amplitude_signed": "INFERENCE",
+            "tau_eff_s_fit": "INFERENCE",
+            "residual_std": "INFERENCE",
+            "n_points": "DERIVED",
+            "sampling_period_s": "MODEL_ASSUMPTION",
+            "samples_per_e_fold_at_fit_tau": "DERIVED"
+          }
+        }
+      },
+      "fixed_tau_consistency_exposure_plus_post": {
+        "note": "residual of two-parameter fit with tau FIXED; ratio >1 means data disfavors that tau",
+        "free_fit_residual_std": 3.167e-05,
+        "table": {
+          "tau_100_s": {
+            "residual_std": 0.0009303,
+            "ratio_vs_free_fit": 29.373991,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_300_s": {
+            "residual_std": 0.0006137,
+            "ratio_vs_free_fit": 19.377206,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_833_s": {
+            "residual_std": 0.000277,
+            "ratio_vs_free_fit": 8.745704,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_1500_s": {
+            "residual_std": 0.0001608,
+            "ratio_vs_free_fit": 5.078567,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_3000_s": {
+            "residual_std": 8.596e-05,
+            "ratio_vs_free_fit": 2.714099,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_10000_s": {
+            "residual_std": 3.993e-05,
+            "ratio_vs_free_fit": 1.260699,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          },
+          "tau_50000_s": {
+            "residual_std": 3.203e-05,
+            "ratio_vs_free_fit": 1.011499,
+            "_provenance": {
+              "residual_std": "INFERENCE",
+              "ratio_vs_free_fit": "DERIVED"
+            }
+          }
+        },
+        "design_tau_833s_ratio": 8.745704,
+        "_provenance": {
+          "free_fit_residual_std": "INFERENCE",
+          "design_tau_833s_ratio": "DERIVED"
+        }
+      },
+      "identifiability_bracket_1p02x": {
+        "criterion": "fixed-tau two-parameter fits within 1.02x of the free-fit residual (exposure+post window)",
+        "bracket_lo_s": 38564.530588,
+        "bracket_hi_s": 500000.0,
+        "right_censored_at_grid_max": true,
+        "_provenance": {
+          "bracket_lo_s": "INFERENCE",
+          "bracket_hi_s": "INFERENCE"
+        }
+      },
+      "assessment": "the recorded per-trial H relaxation after the startup peak is nearly linear over the observed 2090 s (peak-to-end drop ~4.8e-03): the free bounded exponential is extrapolation-dominated (y_inf far below the data range) and tau is weakly identified; fixing tau at the design 833 s degrades the residual ~8.7x and the 1.02x bracket excludes 833 s entirely, so the design timescale is NOT recovered by this observable (H operates near its drive-dependent local fixed point; the realized tail is a tiny slow drift). Reported UNRESOLVED for the design-parameter claim; the fitted numbers are recorded as measured estimates.",
+      "Theta_effective_timescale": {
+        "window": "trials 97..452 (1-based)",
+        "model": "Y_inf + A*exp(-(t-t0)/tau)",
+        "y_inf": 0.003934,
+        "amplitude_signed": -0.000607,
+        "direction": "rise_toward_inf_from_below",
+        "tau_eff_s_fit": 85109.543867,
+        "residual_std": 8.523e-08,
+        "n_points": 356,
+        "sampling_period_s": 4.624,
+        "samples_per_e_fold_at_fit_tau": 18406.043224,
+        "status": "EXPLORATORY_TINY_AMPLITUDE",
+        "amplitude_relative_to_w_floor": 0.0607,
+        "caveat": "Theta span over exposure+post is ~1e-4 relative to w_floor=0.01; any tau is tiny-amplitude EXPLORATORY",
+        "_provenance": {
+          "y_inf": "INFERENCE",
+          "amplitude_signed": "INFERENCE",
+          "tau_eff_s_fit": "INFERENCE",
+          "residual_std": "INFERENCE",
+          "n_points": "DERIVED",
+          "sampling_period_s": "MODEL_ASSUMPTION",
+          "samples_per_e_fold_at_fit_tau": "DERIVED"
+        }
+      }
+    },
+    "consistency_flags": [
+      "UNRESOLVED: entire Theta trajectory (max 3.338770e-03) lies BELOW w_floor=0.01 while RF is on (K_HDP=0.003) and design bounds are [0.01,10]; either clamping is applied downstream of the recorded mean or the barrier term does not bind at this operating point; same flag class as all cells, not adjudicated here"
+    ]
+  },
+  "value_provenance_legend": {
+    "MEASURED": "numeric value read directly from a recording/run artifact (e.g. a single event_ledger row, a trajectory sample, an extrema field from result.json)",
+    "DERIVED": "numeric value computed by deterministic arithmetic on MEASURED values (means, deltas, std, ratios, counts)",
+    "MODEL_ASSUMPTION": "numeric value fixed by the frozen design/model (windows, bands, thresholds, bounds, tau_eff_E_s=833 s, onsets, K_HDP, tau_0_ms)",
+    "INFERENCE": "numeric estimate from a model fit or statistical procedure (exponential fit parameters, residuals, identifiability brackets)",
+    "UNRESOLVED": "numeric value that could not be determined from artifacts; reported as UNRESOLVED (never imputed)"
+  },
+  "warnings": [],
+  "limitations_summary": [
+    "Delta_exposure for rates uses the whole-trial [-500,4124] ms proxy from event_ledger area_rates (n=8 paired replicates per condition); slot-resolved [0,531] ms primary estimands remain NOT_RECORDED/NOT RECOVERABLE from artifacts (marked explicitly, never imputed)",
+    "PRE-phase startup relaxation (peak ~trial 28) is ordered by fixed battery position; raw deltas for early-battery conditions absorb it; a drop-first-replicate sensitivity variant is provided for rate and H phenotypes",
+    "effective timescale: the recorded H relaxation after the startup peak is nearly linear over the run, so tau is weakly identified; free bounded fits give ~2e4-2.7e5 s depending on window and the 1.02x identifiability bracket excludes the design tau_eff_E_s=833 s -> UNRESOLVED (design value remains the SPECIFIED reference)",
+    "recorded Theta lies entirely below w_floor=0.01 (flagged UNRESOLVED, same class as all cells); its exposure-phase span is ~8.6e-06, so any Theta timescale fit is tiny-amplitude EXPLORATORY",
+    "declared dense early-time H sampling was not materialized (engine returned no H_trace); H(t)/Theta(t) available at per-trial resolution only",
+    "field low-gamma effects are PRE-only single-replicate proxy readouts (amplitudes uncalibrated); no POST field volumes exist -> delta_exposure of field effect NOT_RECORDED",
+    "spikes_example_*.npz are isolated seed-777 probe simulations (continuation=None), NOT run-state trials; excluded from all estimands (RF-on graded schedules so AAAB/BBBA examples are not byte-identical, but they carry no run-state information)"
+  ]
+}

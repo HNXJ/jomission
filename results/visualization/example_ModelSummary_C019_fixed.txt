@@ -1,0 +1,345 @@
+================================================================================================
+ModelSummary — C019 65b302e8c7cdceb5  (Parent be9b96ab)
+Engine JaxFNE 0.4.17  dt=0.1 ms  areas=4 layers=5  neurons=400  edges=10590
+Connectivity sparse-local  spatial_sigma=0.08  max_indegree=25  within_gain=0.35  p_FF=0.30 p_FB=0.20
+Pseudogenome v0  E_mixture M2 RS70/CH20/EFS10  tonic_scale=0.6  Poisson 2000Hz amp2.0
+Provenance: builder.py:62 MOTIF_GAIN v0 16 gains, builder.py:90 FF/FB maps + delays 20/80/120 steps, builder.py:395 spatial_sigma 0.08 max_in_degree 25, jaxfne/emitters.py EdgeList
+Theta* ['g_rec', 'g_fastEI', 'g_dend', 'g_disinh', 'g_background'] = [1.256454357174736, 1.1871704759698585, 0.7088237829792216, 1.2181840541473454, 1.2887170240398067]  (AGSDR_LOCAL_CL1 orthogonal, g_rec/g_fastEI/g_dend/g_disinh/g_background)
+  theta_provenance: AGSDR_LOCAL_CL1 orthogonal overlay g_rec/g_fastEI/g_dend/g_disinh/g_background per manifests/agsdr_local_freeze.json:132 orthogonal masks + agsdr_N2_runner.py:550
+------------------------------------------------------------------------------------------------
+STATE — ontology per Visualization Law
+  N_total = N_static + N_dynamic + N_plastic + N_history + N_recording   (free vs derived/fixed)
+  N_static      57351  bytes    12804  (per-neuron a,b,c,d,drive,sign,v0,u0 [8×400] + positions 1200 + EdgeList pre/post/tau/weight×10590)
+  N_dynamic     22780  bytes    91120  (DynamicState: v,u,prev_spikes 3×400 + syn_state 10590 + H 400×1 + w 10590)
+  N_plastic         4  bytes       16  (Theta dim 2 (population restoring, h_state_dim=2 maps to 5-coord conceptual), tau_theta 1000s, lr1e-4 bounds [-0.1,0.1], channels edge_weight+intrinsic_drive)
+  N_history     48000  bytes    48000  (delay_state ring buffer Dmax=120 (12ms) × 400 = 48000) — FIXED, not tunable
+  N_recording      20  bytes     8000  (probe 16 contacts)
+  N_rng             2  bytes       16  (PRNGKey 2×uint32)
+  N_total      128155  total_state_bytes   159956  est_run_mem(2000ms) ~39 MB (traj vm 30 MB + spikes 7812 KB + field 1250 KB)
+  N_free           24  (16 motif gains + 3 conn + 5 theta_local orthogonal) vs N_fixed~2400 vs N_derived~57327
+  N_free=24 (16 motif gains + within/pFF/pFB + 5 theta_local) vs N_fixed~2400 intrinsic frozen vs N_derived~57327 (positions, pre/post, jittered a/b/c/d fixed per manifests/agsdr_local_freeze.json:1)
+  Dense W 160000 numbers (625 KB) — proxy, edge_list 10590 sparse authoritative (jaxfne/emitters.py EdgeList)
+  Formula: N_total = N_static + N_dynamic + N_plastic + N_history + N_recording
+  Frozen: No primitive mutation: E mixture M2 RS70/CH20/EFS10, SST b0.21, VIP b0.20, PV1.7, pseudogenome v0, tonic3.0, Poisson2kHz amp2.0, delays [20,80,120] frozen per freeze manifest
+------------------------------------------------------------------------------------------------
+ONTOLOGY — stratified (advisor refinement, Visualization Law)
+  Engine-fixed constants:              18  (jaxfne/emitters.py:55,211 — not tunable)
+  Configured static values:            68  (builder.py:39,62,90,395 + populations.py:12/31 — hash-visible scalars)
+  Derived static values:               12  (LOGNORMAL_SIGMA 1.085 etc DERIVED)
+  Per-neuron static:                 4401  (8×400 + positions; builder.py:39 jitter)
+  Per-edge static:                  52950  (5×10590 edge_list; builder.py:395 + jaxfne/emitters.py:545)
+    (+ delay_steps)                 10590  (delay indexed history but stored static)
+  Dynamic:                          22780  (v,u,spikes + syn+H+w)
+  Plastic (Theta):                      4  (theta_dim=2, tau_theta1000)
+  History (delay_state):            48000  ((120, 400))
+  Recording (probe):                   20  (contacts 16)
+  --
+  N_model parameters (static nums): 57351  (per_neuron + per_edge numbers that define model)
+  N_tunable (experimentally adjustable):    24  (16 motif +3 conn +5 theta =24 scalars, N_free24)
+  N_AGSDR dims/scalars:              5 dims / 9 scalars (g_rec1 g_fastEI2 g_dend4 g_disinh1 g_background3)
+  Currently frozen scientific params:    44  (configured 68 - tunable 24 = frozen)
+  Inequality: N_model parameters (~57k numbers) ≠ N_tunable (24 scalars) ≠ N_AGSDR (5 dims / 9 scalars) — Visualization Law
+  Reconciliation: N_total 128155 = N_static_numbers 57351 (per_neuron 4401 + per_edge 52950) + N_dynamic 22780 + N_plastic 4 + N_history 48000 + N_recording 20
+------------------------------------------------------------------------------------------------
+POPULATIONS — Area Layer Class N intrinsic family Rate target  (n_total=400)
+  Area  Layer Class    N  Intrinsic                        Rate target        Provenance
+  ----- ----- ------ ---  -------------------------------- ------------------ ------------------------------
+  V1    L1    VIP      8  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V1    L2/3  E_RS    16  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L2/3  E_CH     3  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L2/3  E_FS     3  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L2/3  PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V1    L2/3  SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V1    L2/3  VIP      3  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V1    L4    E_RS     8  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L4    E_CH     1  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L4    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V1    L4    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V1    L4    VIP      1  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V1    L5    E_RS    11  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L5    E_CH     7  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L5    E_FS     1  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L5    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V1    L5    SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V1    L5    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V1    L6    E_RS    11  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L6    E_CH     3  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V1    L6    PV       2  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V1    L6    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V1    L6    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V4    L1    VIP      8  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V4    L2/3  E_RS    14  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L2/3  E_CH     4  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L2/3  E_FS     4  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L2/3  PV       4  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V4    L2/3  SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V4    L2/3  VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V4    L4    E_RS     4  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L4    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L4    E_FS     2  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L4    PV       4  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V4    L4    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V4    L4    VIP      1  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V4    L5    E_RS    15  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L5    E_CH     3  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L5    PV       4  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V4    L5    SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V4    L5    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  V4    L6    E_RS    11  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L6    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L6    E_FS     1  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  V4    L6    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  V4    L6    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  V4    L6    VIP      1  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L1    VIP      8  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L2/3  E_RS    16  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L2/3  E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L2/3  E_FS     3  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L2/3  PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L2/3  SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L2/3  VIP      3  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L4    E_RS     5  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L4    E_CH     3  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L4    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L4    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L4    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L5    E_RS    12  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L5    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L5    E_FS     4  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L5    PV       4  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L5    SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L5    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L6    E_RS    11  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L6    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  FEF   L6    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L6    SST      2  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  FEF   L6    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L1    VIP      8  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L2/3  E_RS    13  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L2/3  E_CH     4  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L2/3  E_FS     3  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L2/3  PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L2/3  SST      4  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L2/3  VIP      3  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L4    E_RS     4  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L4    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L4    E_FS     1  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L4    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L4    SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L4    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L5    E_RS     9  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L5    E_CH     6  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L5    E_FS     2  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L5    PV       4  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L5    SST      4  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L5    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L6    E_RS     9  a0.02 b0.20 c-65 d8 (RS)         5-8Hz              builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L6    E_CH     2  a0.02 b0.20 c-50 d2 (CH)         9-15Hz burst       builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L6    E_FS     1  a0.10 b0.20 c-65 d2 (E_FS)       10-15Hz            builder.py:179-196 E_MIXTURE_M2 (LITER
+  PFC   L6    PV       3  a0.10 b0.20 c-65 d2 drive×1.7... 6-37Hz (E<PV)      jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L6    SST      3  b0.21 [0.189,0.231]              3-18Hz             jaxfne/emitters.py:55 + builder.py:99 
+  PFC   L6    VIP      2  b0.20 [0.18,0.22]                0.4-22Hz (>0.5 ... jaxfne/emitters.py:55 + builder.py:99 
+  Summary: E_CH:48, E_FS:25, E_RS:169, PV:52, SST:42, VIP:64
+------------------------------------------------------------------------------------------------
+CONNECTIVITY — Source Target Edges p Wmean Wcv Delay  (top 40 by edges, total 752 motifs, 10590 edges)
+  Source         Target         Edges      p  Wmean   Wcv  Delay Type     MotifGain  Provenance
+  -------------- -------------- ----- ------ ------ ----- ------ -------- ---------  --------------------
+  V4 L2/3 E      V4 L2/3 E        245  0.506  0.011  1.15      2 local     1.00  local [20]
+  V1 L2/3 E      V1 L2/3 E        242  0.500  0.010  1.51      2 local     1.00  local [20]
+  FEF L2/3 E     FEF L2/3 E       233  0.528  0.011  1.32      2 local     1.00  local [20]
+  PFC L2/3 E     PFC L2/3 E       207  0.517  0.014  2.36      2 local     1.00  local [20]
+  V1 L5 E        V1 L5 E          175  0.485  0.010  1.64      2 local     1.00  local [20]
+  V4 L5 E        V4 L5 E          175  0.540  0.013  2.00      2 local     1.00  local [20]
+  FEF L5 E       FEF L5 E         162  0.500  0.011  1.76      2 local     1.00  local [20]
+  PFC L5 E       PFC L5 E         155  0.536  0.012  1.75      2 local     1.00  local [20]
+  V1 L5 E        V1 L6 E          142  0.534  0.010  1.09      2 vertical  1.00  vertical [20]
+  V4 L6 E        V4 L6 E          140  0.714  0.011  1.45      2 local     1.00  local [20]
+  FEF L6 E       FEF L6 E         110  0.651  0.012  1.36      2 local     1.00  local [20]
+  V1 L2/3 E      V1 L1 VIP        108  0.614  0.012  2.31      2 vertical  1.00  vertical [20]
+  PFC L5 E       PFC L6 E         105  0.515  0.010  1.31      2 vertical  1.00  vertical [20]
+  V4 L2/3 E      V4 L1 VIP        105  0.597  0.012  1.38      2 vertical  1.00  vertical [20]
+  V1 L6 E        V1 L6 E          102  0.520  0.013  1.65      2 local     1.00  local [20]
+  V4 L5 E        V4 L6 E          101  0.401  0.010  1.34      2 vertical  1.00  vertical [20]
+  FEF L2/3 E     FEF L1 VIP        98  0.583  0.009  1.24      2 vertical  1.00  vertical [20]
+  PFC L2/3 E     PFC L1 VIP        93  0.581  0.011  1.27      2 vertical  1.00  vertical [20]
+  FEF L5 E       FEF L6 E          92  0.393  0.013  1.24      2 vertical  1.00  vertical [20]
+  V1 L6 E        V1 L5 E           84  0.316  0.014  3.20      2 vertical  1.00  vertical [20]
+  V4 L4 E        V4 L5 E           81  0.562  0.012  1.69      2 vertical  1.00  vertical [20]
+  PFC L6 E       PFC L6 E          77  0.535  0.012  1.35      2 local     1.00  local [20]
+  V1 L4 E        V1 L2/3 E         76  0.384  0.010  1.23      2 vertical  1.00  vertical [20]
+  V4 L4 E        V4 L2/3 E         70  0.398  0.010  1.01      2 vertical  1.00  vertical [20]
+  V4 L6 E        V1 L5 E           68  0.256  0.043  1.22     12 FB        1.00  FB [120]
+  FEF L1 VIP     FEF L2/3 E        67  0.399  0.011  1.09      2 vertical  1.00  vertical [20]
+  FEF L6 E       FEF L5 E          61  0.261  0.010  1.42      2 vertical  1.00  vertical [20]
+  FEF L4 E       FEF L5 E          57  0.396  0.011  1.72      2 vertical  1.00  vertical [20]
+  V4 L5 E        V4 L4 E           57  0.396  0.012  1.44      2 vertical  1.00  vertical [20]
+  PFC L4 E       PFC L5 E          56  0.471  0.011  1.69      2 vertical  1.00  vertical [20]
+  PFC L5 E       PFC L4 E          56  0.471  0.011  1.68      2 vertical  1.00  vertical [20]
+  PFC L6 E       PFC L5 E          54  0.265  0.013  2.22      2 vertical  1.00  vertical [20]
+  V1 L2/3 E      V1 L4 E           54  0.273  0.011  1.60      2 vertical  1.00  vertical [20]
+  V4 L1 VIP      V4 L1 VIP         54  0.844  0.010  1.66      2 local     1.00  local [20]
+  FEF L4 E       FEF L2/3 E        53  0.315  0.016  2.08      2 vertical  1.00  vertical [20]
+  FEF L5 E       FEF L4 E          53  0.368  0.009  1.36      2 vertical  1.00  vertical [20]
+  PFC L4 E       PFC L2/3 E        52  0.371  0.012  1.24      2 vertical  1.00  vertical [20]
+  V1 L2/3 E      V4 L4 E           52  0.295  0.066  1.06      8 FF        1.00  FF [80]
+  V1 L4 E        V1 L4 E           52  0.642  0.009  1.61      2 local     1.00  local [20]
+  FEF L1 VIP     FEF L1 VIP        51  0.797  0.012  1.30      2 local     1.00  local [20]
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L5 E edges=48 p=0.667 Wmean=0.014 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L4 PV->V4 L2/3 E edges=43 p=0.489 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L2/3 E edges=41 p=0.651 Wmean=0.018 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L2/3 PV->V4 L2/3 E edges=39 p=0.443 Wmean=0.011 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L5 PV->V1 L5 E edges=37 p=0.649 Wmean=0.010 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L2/3 PV->PFC L2/3 E edges=36 p=0.600 Wmean=0.011 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L4 PV->V1 L2/3 E edges=36 p=0.545 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L2/3 PV->V1 L2/3 E edges=34 p=0.515 Wmean=0.009 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L6 E edges=32 p=0.615 Wmean=0.008 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L5 PV->V4 L5 E edges=30 p=0.417 Wmean=0.014 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L5 PV->PFC L5 E edges=28 p=0.412 Wmean=0.017 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L5 PV->V1 L6 E edges=28 p=0.667 Wmean=0.010 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L6 E edges=26 p=0.667 Wmean=0.009 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L2/3 E edges=25 p=0.397 Wmean=0.019 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L6 PV->V4 L6 E edges=24 p=0.571 Wmean=0.015 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L6 PV->PFC L6 E edges=22 p=0.611 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L1 VIP edges=21 p=0.875 Wmean=0.014 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L4 PV->PFC L2/3 E edges=21 p=0.350 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L5 PV->V4 L6 E edges=19 p=0.339 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L5 E edges=18 p=0.333 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L4 E edges=17 p=0.531 Wmean=0.011 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L4 PV->V1 L4 E edges=17 p=0.630 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L4 E edges=16 p=0.667 Wmean=0.012 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L4 PV->PFC L5 E edges=16 p=0.314 Wmean=0.012 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L5 PV->V4 L4 E edges=16 p=0.500 Wmean=0.018 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L4 PV->V1 L5 E edges=15 p=0.263 Wmean=0.013 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L5 PV->V1 L4 E edges=15 p=0.556 Wmean=0.007 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L4 PV->V4 L5 E edges=15 p=0.208 Wmean=0.009 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): PFC L1 VIP->PFC L2/3 SST edges=14 p=0.438 Wmean=0.102 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L5 PV->PFC L2/3 E edges=14 p=0.175 Wmean=0.019 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L6 PV->V1 L6 E edges=13 p=0.464 Wmean=0.016 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L4 PV->V4 L4 E edges=13 p=0.406 Wmean=0.015 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L5 PV edges=12 p=0.750 Wmean=0.005 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L5 PV->PFC L6 E edges=12 p=0.250 Wmean=0.008 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L4 PV->PFC L4 E edges=11 p=0.524 Wmean=0.012 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L5 PV->PFC L4 E edges=11 p=0.393 Wmean=0.021 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L5 PV->V4 L2/3 E edges=11 p=0.125 Wmean=0.016 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V1 L1 VIP->V1 L2/3 SST edges=10 p=0.625 Wmean=0.068 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L6 PV->V1 L5 E edges=10 p=0.263 Wmean=0.010 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L6 PV->V4 L5 E edges=9 p=0.167 Wmean=0.007 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L4 PV edges=8 p=0.667 Wmean=0.010 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): PFC L2/3 VIP->PFC L2/3 SST edges=8 p=0.667 Wmean=0.045 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L6 PV->PFC L5 E edges=8 p=0.157 Wmean=0.014 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): FEF L2/3 VIP->FEF L2/3 SST edges=7 p=0.778 Wmean=0.060 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L5 SST edges=7 p=0.583 Wmean=0.006 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L2/3 PV->V1 L4 E edges=7 p=0.259 Wmean=0.030 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V4 L1 VIP->V4 L2/3 SST edges=7 p=0.438 Wmean=0.025 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L2/3 VIP edges=6 p=0.667 Wmean=0.004 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L2/3 SST edges=6 p=0.667 Wmean=0.016 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L2/3 VIP edges=6 p=0.667 Wmean=0.011 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L5 VIP edges=6 p=0.750 Wmean=0.009 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L6 PV edges=6 p=0.667 Wmean=0.005 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L6 VIP edges=6 p=1.000 Wmean=0.010 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L2/3 SST edges=5 p=0.556 Wmean=0.008 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L5 PV edges=5 p=0.417 Wmean=0.004 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L5 SST edges=5 p=0.556 Wmean=0.009 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L5 E edges=5 p=0.093 Wmean=0.009 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): PFC L2/3 VIP->PFC L4 SST edges=5 p=0.556 Wmean=0.042 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L4 E edges=4 p=0.167 Wmean=0.017 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L4 PV edges=4 p=0.444 Wmean=0.012 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L4 VIP edges=4 p=0.500 Wmean=0.010 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L6 SST edges=4 p=0.667 Wmean=0.013 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): PFC L4 VIP->PFC L4 SST edges=4 p=0.667 Wmean=0.021 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): PFC L6 VIP->PFC L6 SST edges=4 p=0.667 Wmean=0.018 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L2/3 VIP->V1 L2/3 SST edges=4 p=0.667 Wmean=0.012 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L5 VIP->V1 L5 SST edges=4 p=0.667 Wmean=0.033 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L6 VIP->V1 L6 SST edges=4 p=1.000 Wmean=0.069 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L2/3 PV edges=3 p=0.333 Wmean=0.006 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L4 VIP edges=3 p=0.500 Wmean=0.003 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L5 VIP edges=3 p=0.500 Wmean=0.009 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): FEF L4 VIP->FEF L4 SST edges=3 p=0.750 Wmean=0.012 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L6 PV edges=3 p=0.250 Wmean=0.010 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L6 VIP edges=3 p=0.375 Wmean=0.009 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L5 VIP edges=3 p=0.500 Wmean=0.012 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): FEF L6 VIP->FEF L6 SST edges=3 p=0.750 Wmean=0.066 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): PFC L5 VIP->PFC L6 SST edges=3 p=0.500 Wmean=0.018 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): PFC L6 VIP->PFC L5 SST edges=3 p=0.375 Wmean=0.057 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L5 PV->V1 L2/3 E edges=3 p=0.045 Wmean=0.010 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V4 L4 VIP->V4 L5 SST edges=3 p=1.000 Wmean=0.023 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L2/3 PV edges=2 p=0.222 Wmean=0.004 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L4 SST edges=2 p=0.333 Wmean=0.002 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L5 E edges=2 p=0.037 Wmean=0.001 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): FEF L2/3 VIP->FEF L4 SST edges=2 p=0.333 Wmean=0.068 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L4 SST edges=2 p=0.333 Wmean=0.026 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): FEF L4 VIP->FEF L2/3 SST edges=2 p=0.333 Wmean=0.012 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): FEF L4 VIP->FEF L5 SST edges=2 p=0.333 Wmean=0.023 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L2/3 E edges=2 p=0.024 Wmean=0.009 delay=2ms gain=1.30
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L4 SST edges=2 p=0.250 Wmean=0.002 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L6 SST edges=2 p=0.250 Wmean=0.010 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L2/3 PV->PFC L4 E edges=2 p=0.095 Wmean=0.008 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): PFC L4 VIP->PFC L5 SST edges=2 p=0.250 Wmean=0.032 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): PFC L5 VIP->PFC L5 SST edges=2 p=0.250 Wmean=0.056 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L5 VIP->V1 L4 SST edges=2 p=0.500 Wmean=0.059 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L5 VIP->V1 L6 SST edges=2 p=0.500 Wmean=0.027 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L2/3 PV->V4 L5 E edges=2 p=0.028 Wmean=0.006 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V4 L2/3 VIP->V4 L2/3 SST edges=2 p=0.500 Wmean=0.031 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V4 L2/3 VIP->V4 L4 SST edges=2 p=0.500 Wmean=0.032 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V4 L2/3 VIP->V4 L5 SST edges=2 p=0.333 Wmean=0.072 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L4 PV->V4 L6 E edges=2 p=0.036 Wmean=0.011 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V4 L6 VIP->V4 L6 SST edges=2 p=1.000 Wmean=0.089 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): FEF L1 VIP->FEF L2/3 SST edges=1 p=0.042 Wmean=0.009 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L4 PV edges=1 p=0.111 Wmean=0.004 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L2/3 PV->FEF L4 VIP edges=1 p=0.167 Wmean=0.007 delay=2ms gain=1.00
+  ... required VIP->SST (5.00 disinh): FEF L2/3 VIP->FEF L5 SST edges=1 p=0.111 Wmean=0.047 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L6 PV edges=1 p=0.111 Wmean=0.002 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L4 PV->FEF L6 VIP edges=1 p=0.167 Wmean=0.010 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L2/3 SST edges=1 p=0.083 Wmean=0.007 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L5 PV->FEF L2/3 VIP edges=1 p=0.083 Wmean=0.001 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): FEF L6 PV->FEF L4 VIP edges=1 p=0.167 Wmean=0.003 delay=2ms gain=1.00
+  ... required PV->E (fastEI g_fastEI 1.3×): PFC L4 PV->PFC L6 E edges=1 p=0.028 Wmean=0.012 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): PFC L4 VIP->PFC L2/3 SST edges=1 p=0.125 Wmean=0.017 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): PFC L5 VIP->PFC L4 SST edges=1 p=0.167 Wmean=0.009 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L2/3 PV->V1 L5 E edges=1 p=0.018 Wmean=0.021 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V1 L2/3 VIP->V1 L4 SST edges=1 p=0.167 Wmean=0.004 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L2/3 VIP->V1 L6 SST edges=1 p=0.167 Wmean=0.111 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V1 L4 PV->V1 L6 E edges=1 p=0.024 Wmean=0.006 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V1 L4 VIP->V1 L2/3 SST edges=1 p=0.500 Wmean=0.039 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L4 VIP->V1 L4 SST edges=1 p=0.500 Wmean=0.067 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V1 L4 VIP->V1 L6 SST edges=1 p=0.500 Wmean=0.012 delay=2ms gain=5.00
+  ... required PV->E (fastEI g_fastEI 1.3×): V4 L2/3 PV->V4 L4 E edges=1 p=0.031 Wmean=0.003 delay=2ms gain=1.30
+  ... required VIP->SST (5.00 disinh): V4 L4 VIP->V4 L4 SST edges=1 p=0.500 Wmean=0.005 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V4 L5 VIP->V4 L2/3 SST edges=1 p=0.250 Wmean=0.049 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V4 L5 VIP->V4 L5 SST edges=1 p=0.167 Wmean=0.068 delay=2ms gain=5.00
+  ... required VIP->SST (5.00 disinh): V4 L5 VIP->V4 L6 SST edges=1 p=0.250 Wmean=0.064 delay=2ms gain=5.00
+  Provenance: builder.py:62 MOTIF_GAIN 16 gains + builder.py:90 FF L2/3->L4 FB L6->L1/L5 delays 20/80/120 + jaxfne/emitters.py:545 edge_list_with_delay_ms
+  Delays: within 2ms (20 steps) FF 8ms (80) FB 12ms (120) (builder.py:90, jaxfne/emitters.py:545)
+------------------------------------------------------------------------------------------------
+OUTPUT BASIS — measurement graph and basis
+  Fast_neural:
+    V_m: (n_steps, 400) float32 — membrane voltage per neuron per dt0.1
+    spikes: (n_steps, 400) bool — threshold crossings V>=30
+    provenance: jaxfne/emitters.py:211 _izhikevich_dv_du dv=0.04v²+5v+140-u+I du=a(bv-u) v>=30→c u+=d; jaxfne/_signals.py Signals.V_m/spikes
+    classification: X (fast, per advisor)
+  Adaptive:
+    H: (400,) scalar H per neuron (conceptual 5 dims taus 0.1/1/10/100/1000) — gated B0 H_conceptual vs H_implemented mismatch until M-06
+    Theta: (2,) population restoring vector (tau_theta 1000s >> tau_X, lr1e-4, bounds [-0.1,0.1], channels edge_weight+intrinsic_drive)
+    delay_history: ring buffer (120 ×400) — delay_state B_t legacy spike_history
+    provenance: jomission/dynamics/h_state.py:28-69 H_COORDINATES 5 taus + jomission/dynamics/hdp.py:14 HDPConfig tau_theta 1000 + jaxfne/_pipeline.py DynamicState.H/w + ContinuationState.delay_state
+    classification: A (H,Theta,delay/history)
+  Source:
+    q: source_proxy (400,) — source_scale*(I_native + gain*spikes) relative current per neuron
+    provenance: jaxfne/emitters.py:55 source_scale + jaxfne/presets.py DEFAULT_SPIKE_IMPULSE_GAIN + jomission/network/builder.py:1592 simulation_with_background_poisson
+    classification: q (source/current)
+  Field:
+    phi: phi (n_contacts or depth × time) — laminar proxy field mean_zero_neumann gauge
+    provenance: jaxfne/_config.py field(source_mode='proxy_no_field_solve') + jaxfne/fields.py project_laminar_sources
+    classification: phi (field)
+  Probe:
+    y: y (n_contacts=16 × time) — probe readout per laminar contact; CSD = d²phi/dz² DERIVED_FROM(field)
+    provenance: jomission/network/builder.py:410 cfg.probe(n_contacts=16) + jaxfne/fields.py probe_laminar_modes
+    classification: y (probe/CSD)
+    derived_mark: CSD, V_i - bar V are DERIVED_FROM(field), not independent state
+  Equation: y_t = P * L * q( X_t(V_m,spikes), A_t(H,Theta,delay) ; W, drive ) + noise; phi_t = L q_t; q_t = f( X_t, A_t )
+================================================================================================
+ObservableBasis: C_t -> X_t -> q_t -> phi_t -> y_t  (see observable_basis() for full table name/owner/dim/units/independence/parent)
+  X: V_m spikes syn_state (fast)  A: H Theta delay/history  q: source/current  phi: field  y: probe/CSD
+  DERIVED_FROM(field): V_i - bar V (parent V_m), CSD (parent phi) — not independent state, not counted in N_total
+  DERIVED_FROM(q): phi (parent q); DERIVED_FROM(phi): y/CSD (parent phi)
+================================================================================================

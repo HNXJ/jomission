@@ -1,0 +1,34 @@
+{
+ "tag": "t8_rflat_n4000_s2_T8",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 5,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.17266985884638558,
+ "r_ab": -0.7168147910803943,
+ "r_gm": 0.5024973340722084,
+ "r_ab_manuscript": -0.7147785754102878,
+ "r_gm_manuscript": 0.46073650337669114,
+ "perm_rank": 3,
+ "smooth_p95": 0.3801444538242715,
+ "identical_control": -0.07733331760965233,
+ "identity_r": 0.17266985884638558,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.1705906432794741,
+  "r2": 0.17674013774172753,
+  "se1": 0.014126128556165615,
+  "se2": 0.014456724711502663,
+  "se_diff": 0.020212481227436907,
+  "agree": true
+ },
+ "pass": false
+}

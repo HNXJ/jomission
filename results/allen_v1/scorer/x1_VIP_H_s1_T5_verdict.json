@@ -1,0 +1,35 @@
+{
+ "tag": "x1_VIP_H_s1_T5",
+ "units": [
+  "L2/3",
+  "L4",
+  "L5",
+  "L6"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 2,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.16636884742765154,
+ "r_ab": 0.7179224774524395,
+ "r_gm": -0.13023501357196146,
+ "r_ab_manuscript": 0.7240225938226766,
+ "r_gm_manuscript": -0.049896052933591915,
+ "perm_rank": 10,
+ "smooth_p95": 0.674932737008237,
+ "identical_control": 0.13526233638209695,
+ "identity_r": 0.16636884742765154,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.035841572892375405,
+  "r2": 0.23543034962431966,
+  "se1": NaN,
+  "se2": NaN,
+  "se_diff": NaN,
+  "agree": false
+ },
+ "pass": false
+}

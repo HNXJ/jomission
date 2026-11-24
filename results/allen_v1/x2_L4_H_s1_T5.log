@@ -1,0 +1,7 @@
+{"steps_done": 10000, "of": 50000, "wall_s": 362.8}
+{"steps_done": 20000, "of": 50000, "wall_s": 720.0}
+{"steps_done": 30000, "of": 50000, "wall_s": 1077.0}
+{"steps_done": 40000, "of": 50000, "wall_s": 1427.0}
+{"steps_done": 50000, "of": 50000, "wall_s": 1762.9}
+{"n_total": 66552, "edge_check": {"examined": 353, "failed": [], "edges_total": 23854994, "edges_expected": 23847017.353940085}, "silenced_zero_spikes": true, "wall_s": {"construct": 42.83396124839783, "simulate": 1762.913341999054, "total": 1811.2329273223877}, "checks_pass": true}
+{"L1_Inh": 5.09, "L2/3_Exc": 2.28, "L2/3_PV": 29.21, "L2/3_SST": 7.75, "L2/3_VIP": 1.05, "L4_Exc": 0.0, "L4_PV": 0.0, "L4_SST": 0.0, "L4_VIP": 0.0, "L5_ET": 1.1, "L5_IT": 1.72, "L5_NP": 9.45, "L5_PV": 16.24, "L5_SST": 1.1, "L5_VIP": 1.8, "L6_Exc": 2.15, "L6_PV": 19.11, "L6_SST": 7.99, "L6_VIP": 6.44}

@@ -1,0 +1,74 @@
+2026-11-10T07:47:33Z driver6: X0 20 s run exited
+2026-11-10T07:47:33Z start id58_full_H_s1_T0p5 T=0.5 sha=519f1ed00e1ce9acaed8955b0889447f7116f581 args=H 1 jaxfne=0.5.8
+2026-11-10T07:51:07Z run_end id58_full_H_s1_T0p5 rc=0
+2026-11-10T07:51:07Z done id58_full_H_s1_T0p5
+2026-11-10T07:51:07Z start id59_full_H_s1_T0p5 T=0.5 sha=519f1ed00e1ce9acaed8955b0889447f7116f581 args=H 1
+2026-11-10T07:54:59Z run_end id59_full_H_s1_T0p5 rc=0
+2026-11-10T07:55:02Z done id59_full_H_s1_T0p5
+2026-11-10T07:55:02Z start x0rerun_H_s1_T5 T=5 sha=519f1ed00e1ce9acaed8955b0889447f7116f581 args=H 1
+2026-11-10T08:25:40Z run_end x0rerun_H_s1_T5 rc=0
+2026-11-10T08:25:44Z done x0rerun_H_s1_T5
+2026-11-10T08:25:44Z start x0rerun_A0_s1_T5 T=5 sha=0bf4b621e1e7be93ce15de36b589bc97eb6b65dd args=A0 1
+2026-11-10T08:56:06Z run_end x0rerun_A0_s1_T5 rc=0
+2026-11-10T08:56:10Z done x0rerun_A0_s1_T5
+2026-11-10T08:56:10Z start x1_PV_H_s1_T5 T=5 sha=0bf4b621e1e7be93ce15de36b589bc97eb6b65dd args=H 1 PV
+2026-11-10T09:26:32Z run_end x1_PV_H_s1_T5 rc=0
+2026-11-10T09:26:37Z done x1_PV_H_s1_T5
+2026-11-10T09:26:37Z start x3_iso_L4_H_s1_T5 T=5 sha=0bf4b621e1e7be93ce15de36b589bc97eb6b65dd args=H 1 isolate:L4
+2026-11-10T09:57:06Z run_end x3_iso_L4_H_s1_T5 rc=0
+2026-11-10T09:57:10Z done x3_iso_L4_H_s1_T5
+2026-11-10T09:57:10Z start x2_L4_H_s1_T5 T=5 sha=0bf4b621e1e7be93ce15de36b589bc97eb6b65dd args=H 1 layer:L4
+2026-11-10T10:27:24Z run_end x2_L4_H_s1_T5 rc=0
+2026-11-10T10:27:27Z done x2_L4_H_s1_T5
+2026-11-10T10:27:27Z start x4_swap_iso_L4_H_s1_T5 T=5 sha=eadeb72b478cb930338a6da96578be09b243e315 args=H 1 isolate:L4 swap
+2026-11-10T10:56:24Z run_end x4_swap_iso_L4_H_s1_T5 rc=0
+2026-11-10T10:56:28Z done x4_swap_iso_L4_H_s1_T5
+2026-11-10T10:56:28Z start x1_SST_H_s1_T5 T=5 sha=ad40cbedd0710001289728011bda51b9472222e7 args=H 1 SST
+2026-11-10T11:26:56Z run_end x1_SST_H_s1_T5 rc=0
+2026-11-10T11:27:00Z done x1_SST_H_s1_T5
+2026-11-10T11:27:00Z start x1_VIP_H_s1_T5 T=5 sha=ad40cbedd0710001289728011bda51b9472222e7 args=H 1 VIP
+2026-11-10T11:59:27Z run_end x1_VIP_H_s1_T5 rc=0
+2026-11-10T11:59:31Z done x1_VIP_H_s1_T5
+2026-11-10T11:59:31Z start x2_L1_H_s1_T5 T=5 sha=df7606f193086e7f16ac55184eb42077bcb44f18 args=H 1 layer:L1
+2026-11-10T12:31:00Z run_end x2_L1_H_s1_T5 rc=0
+2026-11-10T12:31:04Z done x2_L1_H_s1_T5
+2026-11-10T12:31:04Z start x2_L23_H_s1_T5 T=5 sha=df7606f193086e7f16ac55184eb42077bcb44f18 args=H 1 layer:L2/3
+2026-11-10T13:01:44Z run_end x2_L23_H_s1_T5 rc=0
+2026-11-10T13:01:48Z done x2_L23_H_s1_T5
+2026-11-10T13:01:48Z start x2_L5_H_s1_T5 T=5 sha=df7606f193086e7f16ac55184eb42077bcb44f18 args=H 1 layer:L5
+2026-11-10T13:33:07Z run_end x2_L5_H_s1_T5 rc=0
+2026-11-10T13:33:12Z done x2_L5_H_s1_T5
+2026-11-10T13:33:12Z start x2_L6_H_s1_T5 T=5 sha=8519540163e843afc94c12549bdca700e1f64899 args=H 1 layer:L6
+2026-11-10T14:10:15Z run_end x2_L6_H_s1_T5 rc=0
+2026-11-10T14:10:20Z done x2_L6_H_s1_T5
+2026-11-10T14:10:20Z start x3_iso_L23_H_s1_T5 T=5 sha=34d95128619bd082412851013af77e41879b860c args=H 1 isolate:L2/3
+2026-11-10T15:01:59Z run_end x3_iso_L23_H_s1_T5 rc=0
+2026-11-10T15:02:03Z done x3_iso_L23_H_s1_T5
+2026-11-10T15:02:03Z start x3_iso_L5_H_s1_T5 T=5 sha=b0b7fb84fbe24fe2f296e7404015d8c21f18c748 args=H 1 isolate:L5
+2026-11-10T15:30:52Z run_end x3_iso_L5_H_s1_T5 rc=0
+2026-11-10T15:30:56Z done x3_iso_L5_H_s1_T5
+2026-11-10T15:30:56Z start x3_iso_L6_H_s1_T5 T=5 sha=12842de6065427e66222d574d690bb728a4a5f99 args=H 1 isolate:L6
+2026-11-10T16:02:20Z run_end x3_iso_L6_H_s1_T5 rc=0
+2026-11-10T16:02:24Z done x3_iso_L6_H_s1_T5
+2026-11-10T16:02:24Z driver6: queue done
+2026-11-10T16:03:24Z driver7: queue driver exited, starting X1b
+2026-11-10T16:03:24Z start x1b_PVL56_H_s1_T5 T=5 sha=5cf65ac9096dbc203f24f578a435814611c12582 args=H 1 PV@L5,L6
+/private/tmp/claude-501/-Users-hamednejat-workspace-dev-jomission/1b5c20a3-1196-47de-b058-f4092256af1c/scratchpad/_temp_run_wt.sh: line 11: results/allen_v1/x1b_PVL56_H_s1_T5.log: No such file or directory
+2026-11-10T16:03:24Z run_end x1b_PVL56_H_s1_T5 rc=1
+/private/tmp/claude-501/-Users-hamednejat-workspace-dev-jomission/1b5c20a3-1196-47de-b058-f4092256af1c/scratchpad/_temp_run_wt.sh: line 14: results/allen_v1/x1b_PVL56_H_s1_T5_figure.log: No such file or directory
+/private/tmp/claude-501/-Users-hamednejat-workspace-dev-jomission/1b5c20a3-1196-47de-b058-f4092256af1c/scratchpad/_temp_run_wt.sh: line 15: results/allen_v1/x1b_PVL56_H_s1_T5_similarity.log: No such file or directory
+/private/tmp/claude-501/-Users-hamednejat-workspace-dev-jomission/1b5c20a3-1196-47de-b058-f4092256af1c/scratchpad/_temp_run_wt.sh: line 16: results/allen_v1/x1b_PVL56_H_s1_T5.authority.json: No such file or directory
+2026-11-10T16:03:24Z done x1b_PVL56_H_s1_T5
+2026-11-10T16:03:24Z driver7: X1b done
+2026-11-10T16:04:17Z driver10: X1b driver exited; identity check 734fede tree (0.5 s)
+2026-11-10T16:04:17Z start id734_full_H_s1_T0p5 T=0.5 tree=/private/tmp/claude-501/-Users-hamednejat-workspace-dev-jomission/1b5c20a3-1196-47de-b058-f4092256af1c/scratchpad/code_734fede args=H 1
+2026-11-10T16:07:39Z run_end id734_full_H_s1_T0p5 rc=0
+2026-11-10T16:07:39Z done id734_full_H_s1_T0p5 (tree run; no figure)
+2026-11-10T16:07:39Z driver10: identity check at HEAD (0.5 s)
+2026-11-10T16:07:39Z start idHEAD_full_H_s1_T0p5 T=0.5 sha=965e7c15ad8757a49a3c43af2142d6d7b1128bf0 args=H 1
+2026-11-10T16:10:55Z run_end idHEAD_full_H_s1_T0p5 rc=0
+2026-11-10T16:10:58Z done idHEAD_full_H_s1_T0p5
+2026-11-10T16:10:58Z driver10: identity check done; queue empty after X1b
+2026-11-11T14:12:37Z start x1b_PVL56_H_s1_T5 T=5 sha=5cf65ac9096dbc203f24f578a435814611c12582 clean-clone args=H 1 PV@L5,L6
+2026-11-11T14:37:26Z run_end x1b_PVL56_H_s1_T5 rc=0
+2026-11-11T14:37:30Z done x1b_PVL56_H_s1_T5

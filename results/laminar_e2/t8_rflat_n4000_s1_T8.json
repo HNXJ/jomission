@@ -1,0 +1,171 @@
+{
+ "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
+ "layout": "e2_3unit_n4000_dens_k1_kd1_sst15_rhof0p794",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "depth_rel_L4": {
+  "S": -0.4,
+  "M": 0.0,
+  "D": 0.3
+ },
+ "seed": 1,
+ "T_s": 8.0,
+ "dt_ms": 0.1,
+ "p_inter": null,
+ "k_inter": 80.0,
+ "rho": {
+  "S": 0.794,
+  "M": 0.794,
+  "D": 0.794
+ },
+ "sizes": {
+  "S": {
+   "E": 5785,
+   "PV": 605,
+   "SOM": 480
+  },
+  "M": {
+   "E": 3668,
+   "PV": 384,
+   "SOM": 304
+  },
+  "D": {
+   "E": 2547,
+   "PV": 266,
+   "SOM": 212
+  }
+ },
+ "edges": {
+  "e_e_S": 4684637,
+  "e_pv_S": 491937,
+  "e_sst_S": 388228,
+  "pv_e_S": 490039,
+  "pv_pv_S": 51146,
+  "sst_e_S": 389735,
+  "sst_pv_S": 40508,
+  "e_e_M": 1882762,
+  "e_pv_M": 197221,
+  "e_sst_M": 156379,
+  "pv_e_M": 197150,
+  "pv_pv_M": 20606,
+  "sst_e_M": 155559,
+  "sst_pv_M": 16480,
+  "e_e_D": 907526,
+  "e_pv_D": 94359,
+  "e_sst_D": 75260,
+  "pv_e_D": 94834,
+  "pv_pv_D": 9926,
+  "sst_e_D": 75540,
+  "sst_pv_D": 7804,
+  "x_S_M_e_e": 294237,
+  "x_S_M_e_pv": 31224,
+  "x_S_M_e_som": 24318,
+  "x_M_S_e_e": 925008,
+  "x_M_S_e_pv": 96753,
+  "x_M_S_e_som": 76945,
+  "x_M_D_e_e": 408273,
+  "x_M_D_e_pv": 42620,
+  "x_M_D_e_som": 33669,
+  "x_D_M_e_e": 292676,
+  "x_D_M_e_pv": 30823,
+  "x_D_M_e_som": 24260
+ },
+ "tau_sst_e_ms": {
+  "S": 15.0,
+  "M": 15.0,
+  "D": 15.0
+ },
+ "modifiers": {
+  "n": 4000.0,
+  "dens": 1.0,
+  "k": 1.0,
+  "kd": 1.0,
+  "sst": 15.0,
+  "rhof": 0.794
+ },
+ "p_local": {
+  "S": 0.13999660483390391,
+  "M": 0.13999990985175864,
+  "D": 0.14000784126408145
+ },
+ "triple_drive": null,
+ "g_columns": [
+  [
+   "S",
+   "ampa"
+  ],
+  [
+   "S",
+   "gaba"
+  ],
+  [
+   "S",
+   "gaba_sst"
+  ],
+  [
+   "M",
+   "ampa"
+  ],
+  [
+   "M",
+   "gaba"
+  ],
+  [
+   "M",
+   "gaba_sst"
+  ],
+  [
+   "D",
+   "ampa"
+  ],
+  [
+   "D",
+   "gaba"
+  ],
+  [
+   "D",
+   "gaba_sst"
+  ]
+ ],
+ "g_reversal_mV": [
+  0.0,
+  -80.0,
+  -80.0,
+  0.0,
+  -80.0,
+  -80.0,
+  0.0,
+  -80.0,
+  -80.0
+ ],
+ "g_tau_ms": [
+  2.0,
+  8.0,
+  15.0,
+  2.0,
+  8.0,
+  15.0,
+  2.0,
+  8.0,
+  15.0
+ ],
+ "lfp_proxy": "|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed -65.0 mV, recurrent only",
+ "wall_s": {
+  "construct": 21.33330726623535,
+  "simulate": 268.3526301383972,
+  "total": 320.25057196617126
+ },
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "/private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/_temp_jaxfne351wt/jaxfne/__init__.py",
+ "edge_delivery": "event",
+ "jaxfne_git_sha": "351f6048c2f80b32dcaf27d47e59c3c22507eef6",
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "git_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+ "git_dirty": true,
+ "jaxfne_source": null
+}

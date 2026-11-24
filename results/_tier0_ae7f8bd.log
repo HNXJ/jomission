@@ -1,0 +1,42 @@
+................................F....................................... [ 27%]
+........................................................................ [ 55%]
+........................................................................ [ 83%]
+..........................................                               [100%]
+=================================== FAILURES ===================================
+_______________ test_jomission_import_resolves_to_this_checkout ________________
+
+    def test_jomission_import_resolves_to_this_checkout():
+        env = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
+        with tempfile.TemporaryDirectory() as cwd:
+            out = subprocess.run(
+                [sys.executable, "-c", "import jomission; print(jomission.__file__)"],
+                cwd=cwd, env=env, capture_output=True, text=True, timeout=120)
+        assert out.returncode == 0, out.stderr[-2000:]
+        resolved = Path(out.stdout.strip().splitlines()[-1]).resolve()
+>       assert resolved.is_relative_to(ROOT), (
+            f"jomission imports from {resolved}, not {ROOT}; "
+            f"reinstall: {sys.executable} -m pip install --no-deps -e {ROOT}")
+E       AssertionError: jomission imports from /Users/hamednejat/workspace/dev/jomission/jomission/__init__.py, not /private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/clone_ae7f8bd; reinstall: /usr/local/bin/python3 -m pip install --no-deps -e /private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/clone_ae7f8bd
+E       assert False
+E        +  where False = is_relative_to(PosixPath('/private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/clone_ae7f8bd'))
+E        +    where is_relative_to = PosixPath('/Users/hamednejat/workspace/dev/jomission/jomission/__init__.py').is_relative_to
+
+tests/test_environment_provenance.py:26: AssertionError
+-------------------------- environment classification --------------------------
+ENVIRONMENT ['ENV-STALE-EDITABLE']: see manifests/harness/environment_failures.json; not evidence about the model
+=============================== warnings summary ===============================
+tests/test_whole_system_ei_native_state.py::test_representative_cell_identities_and_indices
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+    return lax_numpy.astype(self, dtype, copy=copy, device=device)
+
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/clone_ae7f8bd/jomission/tfne/o_authority.py:147: RuntimeWarning: invalid value encountered in divide
+    "max_rel_error": float((err / g).max()),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_environment_provenance.py::test_jomission_import_resolves_to_this_checkout
+1 failed, 257 passed, 5 warnings in 27.57s

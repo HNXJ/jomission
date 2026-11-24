@@ -1,0 +1,25 @@
+Executor A_RFoff_RateRef started 2026-08-25T17:45:27+00:00
+Config 4f9fdeae7428199a hp f327f9d2ad64cc88 dt 0.1
+Schedule: 260 exposure, 96 testing
+[pre 0] step 46240 sim 4624.0 cursor AAAB ckpt None
+[pre 1] step 92480 sim 9248.0 cursor AXAB ckpt None
+[pre 2] step 138720 sim 13872.0 cursor AAXB ckpt None
+[pre 3] step 184960 sim 18496.0 cursor AAAX ckpt None
+[pre 4] step 231200 sim 23120.0 cursor BBBA ckpt None
+[pre 5] step 277440 sim 27744.0 cursor BXBA ckpt None
+[pre 6] step 323680 sim 32368.0 cursor BBXA ckpt None
+[pre 7] step 369920 sim 36992.0 cursor BBBX ckpt None
+[pre 8] step 416160 sim 41616.0 cursor RRRR ckpt None
+...
+[post 92] step 20761760 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[post 93] step 20808000 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[post 94] step 20854240 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[post 95] step 20900480 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 0] step 20946720 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 1] step 20992960 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 2] step 21039200 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 3] step 21085440 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 4] step 21131680 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+[recovery 5] step 21177920 ckpt results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0260
+Completed 21177920 steps 2117792.0ms exposure 1202.24s checkpoints 26/0
+Worker progress verified True monotonic True

@@ -1,0 +1,2332 @@
+{
+  "schema": "jomission.E_B_analysis_complete.v0.1.0",
+  "generated_at_utc": "2026-08-26T19:41:43.950199+00:00",
+  "cell": "B_RFon_RateRef",
+  "cell_identity": {
+    "directory_name": "B_RFon_RateRef",
+    "factors_observed": {
+      "RF": "on",
+      "Rate": "standard(ref)"
+    },
+    "maps_to_frozen_manifest_cell": "C_RFon_RateStd",
+    "K_HDP": 0.003,
+    "tau_0_ms": 5.0,
+    "tau_eff_E_s_design": 4.1,
+    "config_hash": "e5e331a140ebd37e",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "config_hash_distinct_from_canonical": true,
+    "hp_hash": "f327f9d2ad64cc88",
+    "hp_hash_matches_frozen_manifest_cell": true,
+    "evidence_class": "CANONICAL_CONFIRMATORY",
+    "namespace": "canonical_confirmatory",
+    "phase": "post",
+    "seed": 0,
+    "initial_state_hash": "05734f901293a4ab",
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFon",
+    "mark": "MEASURED (EvidenceRef.json/result.json/design manifest literals)"
+  },
+  "run_completion_status": {
+    "trials_completed": {
+      "pre": {
+        "v": 96,
+        "mark": "MEASURED"
+      },
+      "exposure": {
+        "v": 260,
+        "mark": "MEASURED"
+      },
+      "post": {
+        "v": 96,
+        "mark": "MEASURED"
+      }
+    },
+    "result_json_numerical_valid": {
+      "v": true,
+      "mark": "MEASURED"
+    },
+    "result_json_terminated_by_schedule": {
+      "v": true,
+      "mark": "MEASURED"
+    },
+    "worker_progress_verified": {
+      "v": true,
+      "mark": "MEASURED"
+    },
+    "continuation_verified": {
+      "v": true,
+      "mark": "MEASURED"
+    },
+    "checkpoint_ok": {
+      "v": 26,
+      "mark": "MEASURED"
+    },
+    "checkpoint_fail": {
+      "v": 0,
+      "mark": "MEASURED"
+    },
+    "stability_issues": [],
+    "post_recordings_complete": "OBSERVED (event_ledger 452 trials, H_t.json, continuation_state.json, spikes_example_AAAB/AXAB/BBBA.npz, result.json, EvidenceRef.json, artifact_hashes.json all present and hashed)"
+  },
+  "provenance": {
+    "generated_owner": "results/rf_rate_factorial/B_RFon_RateRef",
+    "generator_script": "/Users/hamednejat/workspace/computational/jomission/scratch/analyze_B_RFon_RateRef_complete.py",
+    "generator_sha256_16": "721dd2f3e26da8d6",
+    "code_sha": "3ea1038b1b3d",
+    "config_hash": "e5e331a140ebd37e",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "seed_model_build": 0,
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFon",
+    "design_manifest": {
+      "path": "manifests/rf_rate_factorial_design.json",
+      "version": "rf_rate_factorial.v0.1.0",
+      "manifest_sha256_16": "0c2972525d1d0496"
+    },
+    "inputs_verified_against_seal": {
+      "recording/H_t.json": {
+        "sha256_16": "6027879343ee7982",
+        "sealed_sha256_16": "6027879343ee7982",
+        "matches_sealed": true
+      },
+      "recording/H_t_dense.npz": {
+        "sha256_16": "1e1ab41f8d5a1e42",
+        "sealed_sha256_16": "1e1ab41f8d5a1e42",
+        "matches_sealed": true
+      },
+      "recording/RF_operator.npz": {
+        "sha256_16": "2b6a1433b7f94a67",
+        "sealed_sha256_16": "2b6a1433b7f94a67",
+        "matches_sealed": true
+      },
+      "recording/continuation_state.json": {
+        "sha256_16": "29478d6898d57ccd",
+        "sealed_sha256_16": "29478d6898d57ccd",
+        "matches_sealed": true
+      },
+      "recording/event_ledger.json": {
+        "sha256_16": "c33757f5f1952dbf",
+        "sealed_sha256_16": "c33757f5f1952dbf",
+        "matches_sealed": true
+      },
+      "recording/external_drive_examples.npz": {
+        "sha256_16": "e4a57cd77b36065d",
+        "sealed_sha256_16": "e4a57cd77b36065d",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_manifest.json": {
+        "sha256_16": "0834cf5b5cd3421d",
+        "sealed_sha256_16": "0834cf5b5cd3421d",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_pre_0000.npz": {
+        "sha256_16": "cea88fc5f7e3c749",
+        "sealed_sha256_16": "cea88fc5f7e3c749",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_pre_0001.npz": {
+        "sha256_16": "d0ed990f7a397177",
+        "sealed_sha256_16": "d0ed990f7a397177",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_pre_0002.npz": {
+        "sha256_16": "1f832efee3ef946b",
+        "sealed_sha256_16": "1f832efee3ef946b",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_pre_0003.npz": {
+        "sha256_16": "bca9170cb45ef3b8",
+        "sealed_sha256_16": "bca9170cb45ef3b8",
+        "matches_sealed": true
+      },
+      "recording/field_proxy_pre_0004.npz": {
+        "sha256_16": "2b8f8bf6b035e10c",
+        "sealed_sha256_16": "2b8f8bf6b035e10c",
+        "matches_sealed": true
+      },
+      "recording/rate_summary.json": {
+        "sha256_16": "8000e0b11b292bf4",
+        "sealed_sha256_16": "8000e0b11b292bf4",
+        "matches_sealed": true
+      },
+      "recording/recording_union.json": {
+        "sha256_16": "0f98f292f5a76f1c",
+        "sealed_sha256_16": "0f98f292f5a76f1c",
+        "matches_sealed": true
+      },
+      "recording/spikes_example_AAAB.npz": {
+        "sha256_16": "fc04a533bf2ccbc4",
+        "sealed_sha256_16": "fc04a533bf2ccbc4",
+        "matches_sealed": true
+      },
+      "recording/spikes_example_AXAB.npz": {
+        "sha256_16": "40fd93b9ac58bba1",
+        "sealed_sha256_16": "40fd93b9ac58bba1",
+        "matches_sealed": true
+      },
+      "recording/spikes_example_BBBA.npz": {
+        "sha256_16": "2b28130a65c23a5b",
+        "sealed_sha256_16": "2b28130a65c23a5b",
+        "matches_sealed": true
+      },
+      "recording/visual_field_patterns.npz": {
+        "sha256_16": "84508099f526f0e6",
+        "sealed_sha256_16": "84508099f526f0e6",
+        "matches_sealed": true
+      },
+      "heartbeat.jsonl": {
+        "sha256_16": "fa04d52bdfd57d68",
+        "sealed_sha256_16": "fa04d52bdfd57d68",
+        "matches_sealed": true
+      },
+      "B_RFon_RateRef_result.json": {
+        "sha256_16": "58ee1358a0f8df2f",
+        "sealed_sha256_16": "58ee1358a0f8df2f",
+        "matches_sealed": true
+      },
+      "EvidenceRef.json": {
+        "sha256_16": "33ab1e3dc3a49ab3",
+        "sealed_sha256_16": "33ab1e3dc3a49ab3",
+        "matches_sealed": true
+      },
+      "artifact_hashes.json": {
+        "sha256_16": "c3010144f128e7ef",
+        "sealed_sha256_16": null,
+        "matches_sealed": false
+      }
+    },
+    "hash_mismatches": [],
+    "cross_cell_interpretation": "NONE (single-cell analysis per task directive; factorial contrasts deferred)",
+    "mutation_statement": "additive artifact only; inputs re-hashed after write and asserted unchanged by generator"
+  },
+  "schedule_observed": {
+    "pre_trials": 96,
+    "exposure_trials": 260,
+    "post_trials": 96,
+    "trial_ms": 4624.0,
+    "exposure_wall_s": 1202.24,
+    "sequence_verified": {
+      "pre_sequence_matches_CONDITIONS_x8": true,
+      "post_sequence_matches_CONDITIONS_x8": true,
+      "exposure_alternates_AAAB_BBBA": true
+    }
+  },
+  "delta_exposure_per_area": {
+    "estimand_definition": "Delta_exposure = Y_omission^{post} - Y_omission^{pre} per replicate per cell, Y = phenotype (H_mean, w_mean, rate_omission_effect, field_low_gamma, etc.)",
+    "estimand_version": "Delta_exposure = Y_omission^{post} - Y_omission^{pre} per replicate per cell, Y = phenotype (H_mean, w_mean, rate_omission_effect, field_low_gamma, etc.)",
+    "source": "event_ledger.json per-trial area_rates, all 452 trials; Y_pre = mean over pre battery (8 reps/cond), Y_post = mean over post battery (8 reps/cond)",
+    "per_condition_area": {
+      "AAAB": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.559526,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.547361,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.012165,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.079423,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.076449,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.002974,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.367863,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.349751,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.018112,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.906034,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.91117,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.005136,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "AXAB": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.532223,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.524654,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.007569,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.067258,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.050768,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.01649,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.344074,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.3484,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.004326,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.902249,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.907385,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.005136,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "AAXB": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.525465,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.530601,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.005136,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.062122,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.074016,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.011894,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.347588,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.358672,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.011083,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.896842,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.870891,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.025952,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "AAAX": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.360024,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.365971,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.005947,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.06861,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.069691,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.001081,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.356239,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.348129,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.00811,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.89495,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.901708,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.006758,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "BBBA": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.865268,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.844994,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.020275,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.07726,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.062122,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.015138,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.356239,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.34894,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.007299,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.905222,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.907926,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.002703,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "BXBA": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.66144,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.664955,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.003514,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.059418,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.053471,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.005947,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.349481,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.350291,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.000811,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.877379,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.898735,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.021356,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "BBXA": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.687392,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.676038,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.011354,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.06888,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.066988,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.001892,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.367052,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.338668,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.028384,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.903871,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.87035,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.033521,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "BBBX": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 11.830396,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.824178,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.006218,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.07726,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.06104,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.01622,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.354076,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.362186,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.00811,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.898194,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.920091,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.021897,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "RRRR": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 12.887651,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.906304,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.018653,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.063203,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.070232,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.007029,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.337046,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.36516,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.028114,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.879541,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.901979,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.022437,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "RXRR": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 12.480807,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.482158,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.001351,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.05239,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.080234,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.027844,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.346507,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.350832,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.004325,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.905493,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.894139,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.011354,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "RRXR": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 12.495405,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.50027,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.004866,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.06077,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.049146,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.011624,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.349211,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.348129,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.001082,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.889003,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.875216,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.013787,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      },
+      "RRRX": {
+        "V1": {
+          "y_pre_hz": {
+            "v": 12.50027,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.504055,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.003785,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "V4": {
+          "y_pre_hz": {
+            "v": 11.069961,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.07726,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": 0.007299,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "FEF": {
+          "y_pre_hz": {
+            "v": 11.358402,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 11.355157,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.003244,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        },
+        "PFC": {
+          "y_pre_hz": {
+            "v": 12.919009,
+            "mark": "DERIVED (mean of 8 MEASURED pre-trial area rates)"
+          },
+          "y_post_hz": {
+            "v": 12.91171,
+            "mark": "DERIVED (mean of 8 MEASURED post-trial area rates)"
+          },
+          "delta_exposure_hz": {
+            "v": -0.007299,
+            "mark": "DERIVED (y_post - y_pre)"
+          }
+        }
+      }
+    },
+    "aggregate_per_area": {
+      "V1": {
+        "y_pre_hz": {
+          "v": 11.948822,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "y_post_hz": {
+          "v": 11.947628,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.001194,
+          "mark": "DERIVED (y_post - y_pre)"
+        },
+        "polarity_vs_0.5Hz_threshold": {
+          "v": "UNRESOLVED",
+          "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+        }
+      },
+      "V4": {
+        "y_pre_hz": {
+          "v": 11.067213,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "y_post_hz": {
+          "v": 11.065951,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.001262,
+          "mark": "DERIVED (y_post - y_pre)"
+        },
+        "polarity_vs_0.5Hz_threshold": {
+          "v": "UNRESOLVED",
+          "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+        }
+      },
+      "FEF": {
+        "y_pre_hz": {
+          "v": 11.352815,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "y_post_hz": {
+          "v": 11.352026,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.000789,
+          "mark": "DERIVED (y_post - y_pre)"
+        },
+        "polarity_vs_0.5Hz_threshold": {
+          "v": "UNRESOLVED",
+          "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+        }
+      },
+      "PFC": {
+        "y_pre_hz": {
+          "v": 12.898149,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "y_post_hz": {
+          "v": 12.897608,
+          "mark": "DERIVED (12-condition equal-weight mean)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.000541,
+          "mark": "DERIVED (y_post - y_pre)"
+        },
+        "polarity_vs_0.5Hz_threshold": {
+          "v": "UNRESOLVED",
+          "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+        }
+      }
+    },
+    "per_condition_whole_trial": {
+      "AAAB": {
+        "y_pre_hz": {
+          "v": 11.728211,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.721183,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.007029,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "AXAB": {
+        "y_pre_hz": {
+          "v": 11.711451,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.707802,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.00365,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "AAXB": {
+        "y_pre_hz": {
+          "v": 11.708004,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.708545,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.000541,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "AAAX": {
+        "y_pre_hz": {
+          "v": 11.669956,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.671375,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.001419,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "BBBA": {
+        "y_pre_hz": {
+          "v": 11.800997,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.790995,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.010002,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "BXBA": {
+        "y_pre_hz": {
+          "v": 11.736929,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.741863,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.004933,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "BBXA": {
+        "y_pre_hz": {
+          "v": 11.756799,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.738011,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.018788,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "BBBX": {
+        "y_pre_hz": {
+          "v": 11.789982,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.791874,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.001892,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "RRRR": {
+        "y_pre_hz": {
+          "v": 12.04186,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 12.060919,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.019058,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "RXRR": {
+        "y_pre_hz": {
+          "v": 11.946299,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.951841,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.005541,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "RRXR": {
+        "y_pre_hz": {
+          "v": 11.948597,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.943191,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": -0.005406,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      },
+      "RRRX": {
+        "y_pre_hz": {
+          "v": 11.961911,
+          "mark": "DERIVED (mean of 8 MEASURED pre-trial rate_hz)"
+        },
+        "y_post_hz": {
+          "v": 11.962045,
+          "mark": "DERIVED (mean of 8 MEASURED post-trial rate_hz)"
+        },
+        "delta_exposure_hz": {
+          "v": 0.000135,
+          "mark": "DERIVED (y_post - y_pre)"
+        }
+      }
+    },
+    "spikes_example_corroboration": {
+      "AAAB": {
+        "source": "fresh example trial simulated post-exposure with seed=777 (executor exec_B_RFon_RateRef.py lines 372-378); NOT a battery trial",
+        "provenance_mark": "INFERENCE (deterministic from executor source; seed 777 recorded in source only)",
+        "per_area_rate_hz": {
+          "V1": {
+            "v": 11.622,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "V4": {
+            "v": 11.1462,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "FEF": {
+            "v": 11.4317,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "PFC": {
+            "v": 12.9974,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          }
+        },
+        "note": "corroborating single-replicate post-exposure rates; not used in Y_post means above"
+      },
+      "AXAB": {
+        "source": "fresh example trial simulated post-exposure with seed=777 (executor exec_B_RFon_RateRef.py lines 372-378); NOT a battery trial",
+        "provenance_mark": "INFERENCE (deterministic from executor source; seed 777 recorded in source only)",
+        "per_area_rate_hz": {
+          "V1": {
+            "v": 11.5917,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "V4": {
+            "v": 11.144,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "FEF": {
+            "v": 11.4317,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "PFC": {
+            "v": 12.9996,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          }
+        },
+        "note": "corroborating single-replicate post-exposure rates; not used in Y_post means above"
+      },
+      "BBBA": {
+        "source": "fresh example trial simulated post-exposure with seed=777 (executor exec_B_RFon_RateRef.py lines 372-378); NOT a battery trial",
+        "provenance_mark": "INFERENCE (deterministic from executor source; seed 777 recorded in source only)",
+        "per_area_rate_hz": {
+          "V1": {
+            "v": 11.9312,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "V4": {
+            "v": 11.144,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "FEF": {
+            "v": 11.4317,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          },
+          "PFC": {
+            "v": 12.9996,
+            "mark": "DERIVED (MEASURED spike raster, 100-neuron area population rate)"
+          }
+        },
+        "note": "corroborating single-replicate post-exposure rates; not used in Y_post means above"
+      }
+    },
+    "threshold_rate_hz": {
+      "v": 0.5,
+      "mark": "MODEL_ASSUMPTION"
+    },
+    "confound_flag": "PRE battery contains the startup relaxation transient ordered by battery position (trial 0 H=1.0406 -> steady ~1.062 within ~5 trials; whole-trial rates similar but slightly depressed in the first ~3 trials); condition order is fixed, so raw Y_pre for early-battery positions absorbs the transient -> raw deltas for early positions are inflated. Drop-first-pre-replicate sensitivity provided."
+  },
+  "omission_vs_intact_per_position": {
+    "pooling_rule": "DO NOT pool p2/p3/p4 until per-position test (primary per-position, pooled secondary)",
+    "matching": "within-replicate paired by seed, same condition order, same RNG, same trial battery (12 cond x8 reps=96)",
+    "per_context": {
+      "A": {
+        "intact_cond": "AAAB",
+        "p2": {
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.027303,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.022708,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.004596,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.012165,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.025681,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.013516,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.023789,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.001351,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.022438,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.003785,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.003785,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.0,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p3": {
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.034062,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.016761,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.017301,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.017301,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.002433,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.014868,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.020275,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.008921,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.029196,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.009191,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.040279,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.031088,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p4": {
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.199502,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.18139,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.018112,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.010813,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.006758,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.004055,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.011624,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.001622,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.010002,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.011083,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.009462,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.001622,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        }
+      },
+      "B": {
+        "intact_cond": "BBBA",
+        "p2": {
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.203828,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.180039,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.023789,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.017842,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.008651,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.009191,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.006758,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.001351,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.00811,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.027844,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.009191,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.018652,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p3": {
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.177877,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.168956,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.008921,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.00838,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.004866,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.013246,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.010813,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.010273,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.021086,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.001351,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.037576,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.036224,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p4": {
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.034873,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.020815,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.014057,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.0,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.001081,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.001081,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.002163,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.013246,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.015408,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.007028,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.012165,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.019193,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        }
+      },
+      "R": {
+        "intact_cond": "RRRR",
+        "p2": {
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.406844,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.424145,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.017301,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.010813,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.010002,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.020815,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.009462,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.014327,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.023789,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.025952,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.00784,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.033791,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p3": {
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.392246,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.406033,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.013787,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.002433,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.021086,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.018653,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.012165,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.01703,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.029196,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.009461,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.026762,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.036224,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        },
+        "p4": {
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "per_area": {
+            "V1": {
+              "omission_minus_intact_pre_hz": {
+                "v": -0.38738,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.402249,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.014868,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "V4": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.006758,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.007028,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": 0.00027,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "FEF": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.021356,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": -0.010002,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.031358,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            },
+            "PFC": {
+              "omission_minus_intact_pre_hz": {
+                "v": 0.039468,
+                "mark": "DERIVED (mean_omission_pre - mean_intact_pre)"
+              },
+              "omission_minus_intact_post_hz": {
+                "v": 0.009732,
+                "mark": "DERIVED (mean_omission_post - mean_intact_post)"
+              },
+              "delta_exposure_of_omission_effect_hz": {
+                "v": -0.029736,
+                "mark": "DERIVED (effect_post - effect_pre)"
+              },
+              "polarity_pre": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              },
+              "polarity_post": {
+                "v": "UNRESOLVED",
+                "mark": "DERIVED (classification; threshold MODEL_ASSUMPTION)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "coverage_note": "all 12 conditions x 8 reps present in BOTH pre and post batteries -> full coverage per area and position"
+  },
+  "H_Theta_observables": {
+    "trajectory_source": "recording/H_t.json / H_t_dense.npz / event_ledger.json (identical per-trial values; exact match verified)",
+    "resolution": {
+      "n_points": {
+        "v": 452,
+        "mark": "MEASURED"
+      },
+      "spacing_ms": {
+        "v": 4624.0,
+        "mark": "MODEL_ASSUMPTION (frozen schedule); array spacing per-trial"
+      },
+      "time_base": "trial order via event_ledger phase/condition sequence"
+    },
+    "declared_dense_sampling_materialized": {
+      "v": false,
+      "mark": "OBSERVED (arrays are per-trial means; dt_ms=0.1 metadata does not reflect array spacing)"
+    },
+    "H_extrema_run_level": {
+      "min": {
+        "v": 1.0405547618865967,
+        "mark": "MEASURED"
+      },
+      "max": {
+        "v": 1.0623377561569214,
+        "mark": "MEASURED"
+      },
+      "mean": {
+        "v": 1.062090454112112,
+        "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+      },
+      "bounds_[0.1,10]_ok": {
+        "v": true,
+        "mark": "DERIVED (bounds are MODEL_ASSUMPTION)"
+      }
+    },
+    "Theta_extrema_run_level": {
+      "min": {
+        "v": 0.0032409452833235264,
+        "mark": "MEASURED"
+      },
+      "max": {
+        "v": 0.00326800555922091,
+        "mark": "MEASURED"
+      },
+      "mean": {
+        "v": 0.003241197954537759,
+        "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+      },
+      "bounds_[0.01,10]_ok": {
+        "v": false,
+        "mark": "DERIVED (bounds are MODEL_ASSUMPTION)"
+      }
+    },
+    "per_phase": {
+      "pre": {
+        "H": {
+          "min": {
+            "v": 1.0405547618865967,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 1.0623376369476318,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 1.0618002067009609,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        },
+        "Theta": {
+          "min": {
+            "v": 0.0032409452833235264,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 0.00326800555922091,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 0.0032415286210986474,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        }
+      },
+      "exposure": {
+        "H": {
+          "min": {
+            "v": 1.0621025562286377,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 1.062267541885376,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 1.0621887560074146,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        },
+        "Theta": {
+          "min": {
+            "v": 0.0032409634441137314,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 0.0032411941792815924,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 0.0032410950982011853,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        }
+      },
+      "post": {
+        "H": {
+          "min": {
+            "v": 1.0618849992752075,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 1.0623377561569214,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 1.0621144672234852,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        },
+        "Theta": {
+          "min": {
+            "v": 0.00324095506221056,
+            "mark": "MEASURED"
+          },
+          "max": {
+            "v": 0.003241356462240219,
+            "mark": "MEASURED"
+          },
+          "mean": {
+            "v": 0.0032411458572217575,
+            "mark": "DERIVED (arithmetic mean of MEASURED per-trial values)"
+          }
+        }
+      }
+    },
+    "stationarity_quantified": {
+      "exposure_H_std": {
+        "v": 7.143e-05,
+        "mark": "DERIVED"
+      },
+      "exposure_Theta_ptp": {
+        "v": 2.307e-07,
+        "mark": "DERIVED"
+      },
+      "interpretation": "H and Theta stationary to <1e-4 across the 1202.24 s exposure; no adaptation transient survives into per-trial means during exposure",
+      "interpretation_mark": "INFERENCE"
+    },
+    "effective_timescale": {
+      "status": "NOT_OBSERVED_FROM_RECORDING",
+      "reason": "H recorded at per-trial resolution (4624 ms); dense 0.1 ms per-step trace declared in the observables union was not materialized (executor fallback saved per-trial means)",
+      "exploratory_coarse_fit": {
+        "status": "EXPLORATORY_COARSE_FIT",
+        "window": "first 15 pre trials (startup relaxation)",
+        "model": "H_inf - A*exp(-t/tau)",
+        "H_inf_s": {
+          "v": 1.062102,
+          "mark": "DERIVED (fit parameter)"
+        },
+        "amplitude": {
+          "v": 0.07994,
+          "mark": "DERIVED (fit parameter)"
+        },
+        "tau_eff_s_fit": {
+          "v": 3.528006,
+          "mark": "DERIVED (fit parameter)"
+        },
+        "residual_std": {
+          "v": 0.0001278,
+          "mark": "DERIVED (fit residual std)"
+        },
+        "sampling_period_s": {
+          "v": 4.624,
+          "mark": "MODEL_ASSUMPTION (frozen schedule)"
+        },
+        "identifiability_caveat": "sampling period 4.624 s >= design tau 4.1 s: fewer than 2 samples per time constant and only ~4 points above half-amplitude -> fit is under-determined; value EXPLORATORY, NOT an OBSERVED timescale",
+        "caveat_mark": "INFERENCE",
+        "vs_design_specified_tau_eff_E_s": {
+          "v": 4.1,
+          "mark": "MODEL_ASSUMPTION (frozen design value)"
+        }
+      },
+      "design_specified_reference": {
+        "tau_eff_E_s": 4.1,
+        "authority": "manifests/rf_rate_factorial_design.json factors.Rate.operational.standard.tau_eff_E_s",
+        "level": "SPECIFIED_NOT_MEASURED_FOR_THIS_RUN"
+      },
+      "Theta_effective_timescale": {
+        "status": "NO_RESOLVABLE_DYNAMICS",
+        "reason": "Theta per-trial means constant to ~1e-6 across all phases; no relaxation process present to fit",
+        "mark": "INFERENCE (from MEASURED per-trial Theta values)"
+      }
+    },
+    "consistency_flags": [
+      {
+        "flag": "UNRESOLVED: entire Theta trajectory (max 0.003268) lies BELOW w_floor=0.01 while RF is on (K_HDP=0.003); either clamping is applied downstream of the recorded mean or the barrier term does not bind at this operating point; not adjudicated here",
+        "mark": "UNRESOLVED"
+      }
+    ]
+  },
+  "field_proxy_note": {
+    "status": "NOT_RECORDED_for_delta_exposure",
+    "reason": "only 5 PRE-phase field_proxy volumes exist (field_proxy_pre_0000..0004); zero POST-phase field volumes recorded -> delta_exposure of field-low-gamma effect cannot be computed",
+    "mark": "OBSERVED|NOT_RECORDED (per estimand policy: never impute absent post volumes)"
+  },
+  "evidence_marks_legend": {
+    "MEASURED": "value read directly from an artifact (array element, ledger field, sealed hash, schedule literal in result.json)",
+    "DERIVED": "computed from MEASURED values (mean over replicates, difference, ratio, fit parameter, classification against a MODEL_ASSUMPTION threshold)",
+    "MODEL_ASSUMPTION": "frozen design value (thresholds, bounds, tau_eff, schedule constants) taken from the design manifest / executor",
+    "INFERENCE": "conclusion drawn from MEASURED evidence or deterministic source-code reading",
+    "UNRESOLVED": "cannot be decided from the recorded evidence (no imputation applied)"
+  },
+  "warnings": [
+    "H(t)/Theta(t) stored as per-trial means (452 points, 4624 ms spacing); dt_ms=0.1 metadata in H_t_dense.npz does not match array spacing -> effective timescale NOT observable at declared dense resolution",
+    "Theta trajectory lies entirely below w_floor=0.01 while RF is on: flagged UNRESOLVED (not adjudicated here)",
+    "spikes_example_*.npz are fresh post-exposure example trials (executor seed=777), not members of the pre/post batteries; their battery membership is not defined",
+    "artifact_hashes.json present and all recording inputs match sealed hashes (checked %d files); no mismatches"
+  ],
+  "limitations_summary": [
+    "Per-area Y_post is now OBSERVED for all 12 conditions (n=8) from the complete event ledger; nothing imputed",
+    "Raw per-condition H deltas are confounded by the PRE-phase startup relaxation for early-battery positions; a drop-first-pre-replicate sensitivity is standard practice and available in prior E_B_analysis.json",
+    "Effective timescale is limited to the startup relaxation at 4.624 s sampling and remains an under-determined EXPLORATORY fit, not an OBSERVED timescale",
+    "Spikes-example corroboration is single-replicate (seed 777) and condition-labelled by filename only",
+    "Field-low-gamma delta_exposure remains NOT_RECORDED (no post field volumes)"
+  ]
+}

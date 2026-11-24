@@ -1,0 +1,36 @@
+{
+  "namespace": "canonical_confirmatory",
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88",
+  "boundaries": [
+    {
+      "phase": "pre",
+      "global_step": 4439040,
+      "simulated_time_ms": 443904.0,
+      "n_trials": 96,
+      "state_identity": "d876f265e7ccf193"
+    },
+    {
+      "phase": "exposure",
+      "global_step": 16461440,
+      "simulated_time_ms": 1646144.0,
+      "n_trials": 260,
+      "state_identity": "541cfc88fa17c4b9"
+    },
+    {
+      "phase": "post",
+      "global_step": 20900480,
+      "simulated_time_ms": 2090048.0,
+      "n_trials": 96,
+      "state_identity": "76c8660234091428"
+    },
+    {
+      "phase": "recovery",
+      "global_step": 21177920,
+      "simulated_time_ms": 2117792.0,
+      "n_trials": 6,
+      "state_identity": "7362edd4dcc5cdf3"
+    }
+  ],
+  "wall_time_s": 8598.594789028168
+}

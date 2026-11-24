@@ -1,0 +1,437 @@
+{
+  "cell": "C_RFoff_RateSlow",
+  "design_alias": "B_RFoff_RateSlow",
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f72a489841810a4b",
+  "hp": {
+    "H_min": 0.1,
+    "H_max": 10.0,
+    "alpha": 0.05,
+    "beta": 0.0,
+    "gamma": 0.5,
+    "delta": 0.0,
+    "C_spike": 0.0,
+    "barrier_eps": 0.001,
+    "w_floor": 0.01,
+    "w_ceiling": 10.0,
+    "H_boost_gain": 4.0,
+    "K_HDP": 0.0,
+    "tau_0_ms": 1000.0,
+    "K_ctrl": 0.15,
+    "rho_passive": 0.0,
+    "barrier_c": 0.01,
+    "barrier_d": 0.01,
+    "K_w_ctrl": 0.001,
+    "size_scale_by_cell_type": {
+      "E": 5.0,
+      "PV": 1.0,
+      "Inl": 1.0,
+      "SST": 1.5,
+      "Ing": 1.5,
+      "VIP": 1.5
+    }
+  },
+  "dt_ms": 0.1,
+  "exposure_trials": 260,
+  "exposure_wall_s": 1202.24,
+  "total_steps": 20900480,
+  "total_ms": 2090048.0,
+  "h_extrema": {
+    "min": 1.0027426481246948,
+    "max": 1.0178980827331543,
+    "mean": 1.0138976887791558
+  },
+  "w_extrema": {
+    "min": 0.0032383170910179615,
+    "max": 0.0032383170910179615,
+    "mean": 0.0032383170910179615
+  },
+  "checkpoint_ok": 26,
+  "checkpoint_fail": 0,
+  "stability_issues": [],
+  "output_hashes": [
+    "f11fe4881577",
+    "23b85510f8ee",
+    "fd685ea02fcc",
+    "14f8dd89bbad",
+    "e879deaa1e29"
+  ],
+  "schedule": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 1200.0,
+        "wall_s": 1202.24,
+        "wall_ms": 1202240.0,
+        "steps": 12022400,
+        "trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "total": {
+      "wall_ms": 1688144.0,
+      "wall_s": 1688.144,
+      "steps": 16881440,
+      "n_400_neurons_per_step_bytes": 1600
+    },
+    "checkpoint": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "exposure_checkpoint_trial_numbers": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250,
+        260
+      ],
+      "n_checkpoints_exposure": 26
+    },
+    "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+  },
+  "numerical_valid": true,
+  "heartbeat": {
+    "run_id": "jomission-4f9fdeae-f72a-335ec296",
+    "worker_id": "4779@HamedNejat-MacBook-Pro.local",
+    "worker_started": "2026-08-25T18:52:26.981868+00:00",
+    "worker_completed": "2026-08-25T21:52:54.787207+00:00",
+    "compile_wall_s": 0.00023554201470687985,
+    "execution_wall_s": 9099.173643957998,
+    "heartbeat_log_len": 453,
+    "heartbeat_path": "results/rf_rate_factorial/C_RFoff_RateSlow/heartbeat.jsonl",
+    "last_heartbeat": "2026-08-25T21:51:48.683748+00:00",
+    "last_progress_wall_time": "2026-08-25T21:51:48.683764+00:00",
+    "monotonic_ok": true,
+    "global_step_trace": [
+      0,
+      46240,
+      92480,
+      138720,
+      184960,
+      231200,
+      277440,
+      323680,
+      369920,
+      416160
+    ],
+    "simulated_time_trace": [
+      0.0,
+      4624.0,
+      9248.0,
+      13872.0,
+      18496.0,
+      23120.0,
+      27744.0,
+      32368.0,
+      36992.0,
+      41616.0
+    ]
+  },
+  "terminal_predicate": {
+    "expected_final_step": 12022400,
+    "actual_final_step": 12022400,
+    "expected_final_sim_time_ms": 1202240.0,
+    "actual_final_sim_time_ms": 1202240.0,
+    "expected_final_phase": "exposure",
+    "expected_final_trial_index": 259,
+    "actual_final_trial_index": 259,
+    "terminated_by_schedule": true,
+    "derived_from": "canonical_schedule()"
+  },
+  "worker_progress": {
+    "worker_started": "2026-08-25T18:52:26.981868+00:00",
+    "worker_progress_verified": true,
+    "worker_completed_expected_schedule": true,
+    "stopped_early": false,
+    "termination_reason": "completed_expected_schedule"
+  },
+  "recording": {
+    "observables": {
+      "visual_field": "visual_field[trial,time,32,32] \u2014 32\u00d732 pixel lattice input per trial slot (A/B/R patterns)",
+      "external_drive": "external_drive[trial,time,unit] \u2014 post-RF drive per unit (target_indices \u00d7 amplitude)",
+      "RF_operator": "RF_operator[unit,1024] \u2014 per V1 unit Gaussian weights, L1-normalized",
+      "spikes": "spikes[trial,unit,time/event] \u2014 per-unit spike raster",
+      "rate": "rate[trial,area,time] \u2014 ms area population rates",
+      "metadata": "area/layer/class/unit metadata \u2014 neuron_metadata per unit",
+      "field_proxy": "field_proxy[trial,area_attribution,contact,time] where scientifically valid \u2014 area-attributed contributions at declared probe geometry, proxy_readout",
+      "H_t": "H(t) \u2014 per-neuron hidden state trajectory, dense early-time sampling to resolve tau_Theta ~2.5s effective",
+      "Theta_t": "Theta(t) \u2014 HDP w trajectory, dense early-time sampling, bounds [w_floor,w_ceiling]",
+      "event_ledger": "event ledger \u2014 trial/condition/onset/duration per slot, omission zero-drive preserved",
+      "continuation_state": "continuation/checkpoint state \u2014 (X,H,\u0398,D,RNG,cursor) per trial boundary"
+    },
+    "visual_field": {
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/visual_field_patterns.npz",
+      "shape": "32x32 per pattern, per trial reconstructed via event ledger",
+      "provenance": "RFOperator stimulus_pattern graded, lattice 32x32, 8\u00b0 field, 0.25\u00b0/px, sigma 1.8 LITERATURE_PRIOR, spacing 3.2 overlap 0.45"
+    },
+    "external_drive": {
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/external_drive_examples.npz",
+      "shape": "trial x time x unit via StimulusSchedule.to_array uniform RF_off drive 5.0",
+      "provenance": "condition_to_stimulus_schedule with omission zero drive, timing preserved, RF off uniform"
+    },
+    "RF_operator": {
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/RF_operator.npz",
+      "shape": "400x1024 weights, L1 normalized, V1 targeting",
+      "valid": true,
+      "metrics": {
+        "weight_sparsity_1e-4": 0.16072591145833334,
+        "population_sparsity_A": 0.25,
+        "population_sparsity_B": 0.25,
+        "jaccard_AB": 0.0,
+        "n_total": 400,
+        "n_v1": 100,
+        "n_target": 12,
+        "l1_row_sums_mean": 1.0,
+        "overlap": 0.45378876851922934,
+        "sigma": 1.8,
+        "spacing": 3.2
+      }
+    },
+    "spikes": {
+      "per_trial_hashes": [
+        "f11fe4881577",
+        "23b85510f8ee",
+        "fd685ea02fcc",
+        "14f8dd89bbad",
+        "e879deaa1e29"
+      ],
+      "total_trials": 452,
+      "provenance": "Signals.spikes per trial, dt0.1, 46240 steps per trial, continuous state via ContinuationState"
+    },
+    "rate": {
+      "per_trial_area_rates_sample": [
+        {
+          "V1": 22.071800231933594,
+          "V4": 23.479671478271484,
+          "FEF": 23.068771362304688,
+          "PFC": 25.449825286865234
+        },
+        {
+          "V1": 19.243078231811523,
+          "V4": 20.24437713623047,
+          "FEF": 20.006486892700195,
+          "PFC": 22.18209457397461
+        },
+        {
+          "V1": 19.249568939208984,
+          "V4": 20.23572540283203,
+          "FEF": 20.010812759399414,
+          "PFC": 22.17560577392578
+        },
+        {
+          "V1": 19.23442840576172,
+          "V4": 20.233564376831055,
+          "FEF": 20.01729965209961,
+          "PFC": 22.190744400024414
+        },
+        {
+          "V1": 21.892301559448242,
+          "V4": 23.295846939086914,
+          "FEF": 22.89792251586914,
+          "PFC": 25.244375228881836
+        }
+      ],
+      "global_mean_hz": 22.700580331076562,
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/rate_summary.json"
+    },
+    "field_proxy": {
+      "sample_files": [
+        "results/rf_rate_factorial/C_RFoff_RateSlow/recording/field_proxy_pre_0004.npz",
+        "results/rf_rate_factorial/C_RFoff_RateSlow/recording/field_proxy_pre_0003.npz",
+        "results/rf_rate_factorial/C_RFoff_RateSlow/recording/field_proxy_pre_0002.npz"
+      ],
+      "manifest": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/field_proxy_manifest.json",
+      "layout": "trial_A_C_T",
+      "n_contacts": 16,
+      "claim": "proxy_readout",
+      "physical_amplitude_calibrated": false,
+      "verification": "area_local linear partition"
+    },
+    "H_t": {
+      "trajectory": [
+        1.0027426481246948,
+        1.0076247453689575,
+        1.0105841159820557,
+        1.0125550031661987,
+        1.0138190984725952,
+        1.014833688735962,
+        1.0156418085098267,
+        1.0162307024002075,
+        1.0166288614273071,
+        1.017038106918335
+      ],
+      "extrema": {
+        "min": 1.0027426481246948,
+        "max": 1.0178980827331543,
+        "mean": 1.0138976887791558
+      },
+      "dense_early": "H sampled per trial mean, plus H_t_dense.npz per-step 0.1ms resolves tau0 1000ms tau_eff 833s RateSlow",
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/H_t_dense.npz"
+    },
+    "Theta_t": {
+      "trajectory": [
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615,
+        0.0032383170910179615
+      ],
+      "extrema": {
+        "min": 0.0032383170910179615,
+        "max": 0.0032383170910179615,
+        "mean": 0.0032383170910179615
+      },
+      "bounds": "[0.01,10]",
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/H_t.json"
+    },
+    "event_ledger": {
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/event_ledger.json",
+      "n_trials": 452,
+      "sample": [
+        {
+          "phase": "pre",
+          "trial_index": 0,
+          "condition": "AAAB",
+          "global_step": 46240,
+          "rate_hz": 23.51751708984375,
+          "area_rates": {
+            "V1": 22.071800231933594,
+            "V4": 23.479671478271484,
+            "FEF": 23.068771362304688,
+            "PFC": 25.449825286865234
+          },
+          "h_mean": 1.0027426481246948,
+          "w_mean": 0.0032383170910179615,
+          "spike_hash": "5984d5e214d0",
+          "field_ok": true
+        },
+        {
+          "phase": "pre",
+          "trial_index": 1,
+          "condition": "AXAB",
+          "global_step": 92480,
+          "rate_hz": 20.419010162353516,
+          "area_rates": {
+            "V1": 19.243078231811523,
+            "V4": 20.24437713623047,
+            "FEF": 20.006486892700195,
+            "PFC": 22.18209457397461
+          },
+          "h_mean": 1.0076247453689575,
+          "w_mean": 0.0032383170910179615,
+          "spike_hash": "87a32e9136b5",
+          "field_ok": true
+        },
+        {
+          "phase": "pre",
+          "trial_index": 2,
+          "condition": "AAXB",
+          "global_step": 138720,
+          "rate_hz": 20.417926788330078,
+          "area_rates": {
+            "V1": 19.249568939208984,
+            "V4": 20.23572540283203,
+            "FEF": 20.010812759399414,
+            "PFC": 22.17560577392578
+          },
+          "h_mean": 1.0105841159820557,
+          "w_mean": 0.0032383170910179615,
+          "spike_hash": "aa4e510649b4",
+          "field_ok": true
+        }
+      ]
+    },
+    "continuation_state": {
+      "state_identity": "3db682d4bf23cf54",
+      "checkpoint_ok": 26,
+      "checkpoint_fail": 0,
+      "latest_checkpoint": "results/rf_rate_factorial/C_RFoff_RateSlow/checkpoints/ckpt_trial_0260",
+      "continuation_verified": true,
+      "file": "results/rf_rate_factorial/C_RFoff_RateSlow/recording/continuation_state.json"
+    },
+    "metadata": {
+      "neuron_metadata_per_unit": "model.static neuron_metadata per unit area/layer/class"
+    }
+  },
+  "continuation_verified": true,
+  "rf_validation": {
+    "valid": true,
+    "issues": [],
+    "metrics": {
+      "weight_sparsity_1e-4": 0.16072591145833334,
+      "population_sparsity_A": 0.25,
+      "population_sparsity_B": 0.25,
+      "jaccard_AB": 0.0,
+      "n_total": 400,
+      "n_v1": 100,
+      "n_target": 12,
+      "l1_row_sums_mean": 1.0,
+      "overlap": 0.45378876851922934,
+      "sigma": 1.8,
+      "spacing": 3.2
+    },
+    "config_valid": true
+  },
+  "factor_proof": {
+    "rf": "off",
+    "rate": "slow",
+    "tau_0_ms": 1000,
+    "K_HDP": 0.0,
+    "config_hash": "4f9fdeae7428199a",
+    "hp_hash": "f72a489841810a4b",
+    "distinct_from_canonical": true
+  }
+}

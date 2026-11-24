@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/hamednejat/workspace/dev/jomission/scripts/allen_v1_similarity.py", line 75, in <module>
+    main(a[0], float(a[1]) if len(a) == 2 else 2.0)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hamednejat/workspace/dev/jomission/scripts/allen_v1_similarity.py", line 61, in main
+    maps = rp_maps(tag, discard_s)
+  File "/Users/hamednejat/workspace/dev/jomission/scripts/allen_v1_similarity.py", line 45, in rp_maps
+    x = x[: n1 * k].reshape(n1, k, -1).mean(axis=1)
+        ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+ValueError: cannot reshape array of size 0 into shape (0,10,newaxis)

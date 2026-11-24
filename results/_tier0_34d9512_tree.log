@@ -1,0 +1,16 @@
+[ok] workspace: git toplevel /Users/hamednejat/workspace/dev/jomission
+      branch dev @ 34d9512
+[ok] tree clean: 0 modified tracked files
+[ok] scientific head ancestry: main be0db96 in HEAD history
+[ok] jaxfne identity: installed 0.5.8, execution authority 0.5.8
+[ok] editable install: jomission -> /Users/hamednejat/workspace/dev/jomission/jomission/__init__.py
+[ok] todo
+[ok] current_state
+[ok] sealed artifacts
+[ok] lineage registry
+[ok] skills
+[ok] sealed-write guard: denies jomission/harness/oscillation.py; installed by tests/conftest.py
+      next authorized task: SCI-AGSDR-CALIBRATION
+      current gate: V2_LOCAL_OPERATION = FAIL
+[FAIL] tier-0 tests: 1 failed, 257 passed, 5 warnings, 1 error in 41.15s
+PROJECT_CHECK_FAIL: tier-0 tests: 1 failed, 257 passed, 5 warnings, 1 error in 41.15s

@@ -1,0 +1,12 @@
+{
+  "schema": "jomission.E_D_analysis.v0.1.0",
+  "generated_owner": "results/rf_rate_factorial/D_RFon_RateSlow",
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "MECHANISTIC",
+  "n_trials": 452,
+  "heartbeat_len": 453,
+  "last_global_step": 20900480,
+  "last_sim_time": 2090048.0,
+  "note": "E_D pilot analysis \u2014 \u0394_exposure and T1-T7 pending full per-condition recording; RF on + LONG tau 833s distinct per factorial_cells",
+  "status": "SMOKE_VALID"
+}

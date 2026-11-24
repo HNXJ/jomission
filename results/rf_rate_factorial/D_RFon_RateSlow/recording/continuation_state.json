@@ -1,0 +1,19 @@
+{
+  "global_step": 20900480,
+  "simulated_time_ms": 2090048.0,
+  "state_identity": "3db682d4bf23cf54",
+  "checkpoint_ok": 26,
+  "checkpoint_fail": 0,
+  "latest_checkpoint": "results/rf_rate_factorial/D_RFon_RateSlow/checkpoints/ckpt_trial_0260",
+  "continuation_verified": true,
+  "H_extrema": {
+    "min": 1.0044218301773071,
+    "max": 1.0248957872390747,
+    "mean": 1.0225069351428377
+  },
+  "w_extrema": {
+    "min": 0.0032558003440499306,
+    "max": 0.003338769543915987,
+    "mean": 0.003330615073013886
+  }
+}

@@ -1,0 +1,10 @@
+{"seed": 3, "T_s": 8.0, "wall_s": {"construct": 19.747036933898926, "simulate": 273.791090965271, "total": 323.49796199798584}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.10220579345038149, 'jackknife_se': 0.010713677372497211, 'z': -9.539749041981718, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean manuscript {'contrast_M': -0.10333261028186495, 'jackknife_se': 0.007177686117694993, 'z': -14.396367936335546, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean peak_hz_unit {'S': 11.0, 'M': 10.0, 'D': 42.0}
+sum_over_cells image {'contrast_M': -0.021878995624892435, 'jackknife_se': 0.0020906053067176462, 'z': -10.465387969020101, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells manuscript {'contrast_M': -0.022067378138563448, 'jackknife_se': 0.0012829296794576426, 'z': -17.2007698410192, 'crossing_2se': False, 'zero_depth_first': -0.4812632465204696} shuffle_p 1.0
+sum_over_cells peak_hz_unit {'S': 11.0, 'M': 10.0, 'D': 42.0}
+{"tag": "t8_rrev_n4000_s3_T8", "row": "per_cell_mean", "r_proto": 0.145, "r_area": 0.148, "r_map": 0.155, "r_ab": -0.728, "r_gm": 0.426, "null95": 0.26}
+{"tag": "t8_rrev_n4000_s3_T8", "row": "sum_over_cells", "r_proto": 0.147, "r_area": 0.149, "r_map": 0.157, "r_ab": -0.738, "r_gm": 0.438, "null95": 0.267}
+{"tag": "t8_rrev_n4000_s3_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.14674284646346966, "r_ab": -0.7392927450307487, "r_gm": 0.49318791083771035, "r_ab_manuscript": -0.7377978462566132, "r_gm_manuscript": 0.4383060877614544, "perm_rank": 3, "smooth_p95": 0.3801444538242715, "identical_control": -0.07733331760965234, "identity_r": 0.14674284646346966, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.15348987837340378, "r2": 0.14312950469811048, "se1": 0.006900702416646573, "se2": 0.009956321375064898, "se_diff": 0.012113960094316228, "agree": true}, "pass": false}

@@ -1,0 +1,17 @@
+{
+  "code_sha": "57365e6f9afd",
+  "parent_run": null,
+  "config_hash": "4f9fdeae7428199a",
+  "numerical_config_hash": "1b5fd1cc13cd4547",
+  "hp_hash": "f327f9d2ad64cc88",
+  "dt_ms": 0.1,
+  "seed": 0,
+  "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list",
+  "phase": "post",
+  "initial_state_hash": "f60cb90ec3e3e392",
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "CANONICAL_CONFIRMATORY",
+  "estimand_version": "jomission_comparison_matrix.v0.1.0",
+  "generated_owner": "results/rf_rate_factorial/A_RFoff_RateRef",
+  "artifact_hash": "0e529983ae1b39f3"
+}

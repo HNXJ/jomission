@@ -1,0 +1,35 @@
+{
+ "tag": "x1b_PVL56_H_s1_T5",
+ "units": [
+  "L2/3",
+  "L4",
+  "L5",
+  "L6"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 2,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": true,
+ "r_proto": 0.1224318884203919,
+ "r_ab": 0.903269471142997,
+ "r_gm": -0.20266163637639306,
+ "r_ab_manuscript": 0.8851655838894459,
+ "r_gm_manuscript": -0.12357117686296548,
+ "perm_rank": 10,
+ "smooth_p95": 0.674932737008237,
+ "identical_control": 0.13526233638209695,
+ "identity_r": 0.12243188842039193,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.10379820128807524,
+  "r2": 0.13197580217557783,
+  "se1": NaN,
+  "se2": NaN,
+  "se_diff": NaN,
+  "agree": false
+ },
+ "pass": false
+}

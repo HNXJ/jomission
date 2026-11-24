@@ -1,0 +1,1363 @@
+{
+  "schema": "jomission.E_C_analysis.v0.1.0",
+  "generated_at_utc": "2026-08-25T23:17:28.970849+00:00",
+  "cell": "C_RFoff_RateSlow",
+  "factorial_cell_identity": {
+    "directory_name": "C_RFoff_RateSlow",
+    "design_alias_declared_in_result_json": "B_RFoff_RateSlow",
+    "maps_to_frozen_manifest_cell": "B_RFoff_RateSlow",
+    "factors_observed": {
+      "RF": "off (K_HDP=0 intervention)",
+      "Rate": "slow (tau_0_ms=1000)"
+    },
+    "K_HDP": 0.0,
+    "tau_0_ms": 1000.0,
+    "tau_eff_E_s_design": 833.0,
+    "tau_eff_authority": "manifests/rf_rate_factorial_design.json factors.Rate.operational.slow.tau_eff_E_s (200x slow, 76% at 1200 s); executor log asserts 'hp tau_0_ms 1000.0 K_HDP 0.0 => tau_eff ~833s'",
+    "config_hash": "4f9fdeae7428199a",
+    "numerical_config_hash": "f9e8818a6697e1a6",
+    "hp_hash": "f72a489841810a4b",
+    "hp_hash_matches_frozen_manifest_cell": true,
+    "evidence_class": "CANONICAL_CONFIRMATORY",
+    "namespace": "canonical_confirmatory"
+  },
+  "estimand_version": "jomission_comparison_matrix.v0.1.0",
+  "run_completion_status": {
+    "trials_completed": {
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "heartbeat_complete": true,
+    "sealed_artifacts_present": true,
+    "terminated_by_schedule": true,
+    "stability_issues": []
+  },
+  "provenance": {
+    "generated_owner": "results/rf_rate_factorial/C_RFoff_RateSlow",
+    "generator_script": "/Users/hamednejat/workspace/computational/jomission/scratch/analyze_C_RFoff_RateSlow.py",
+    "generator_sha256_16": "b894fa52101f3a3d",
+    "code_sha": "57365e6f9afd",
+    "config_hash": "4f9fdeae7428199a",
+    "numerical_config_hash": "f9e8818a6697e1a6",
+    "hp_hash": "f72a489841810a4b",
+    "dt_ms": 0.1,
+    "seed_model_build": 0,
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFoff RateSlow",
+    "parent_EvidenceRef_artifact_hash": "d76ede5509189977",
+    "initial_state_hash": "05734f901293a4ab",
+    "design_manifest": {
+      "path": "manifests/rf_rate_factorial_design.json",
+      "version": "rf_rate_factorial.v0.1.0",
+      "manifest_sha256_16": "0c2972525d1d0496"
+    },
+    "inputs_verified": {
+      "heartbeat.jsonl": {
+        "sha256_16": "656d38b0af247d9a",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "C_RFoff_RateSlow_result.json": {
+        "sha256_16": "d76ede5509189977",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "EvidenceRef.json": {
+        "sha256_16": "fe73e88b53382f4f",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/event_ledger.json": {
+        "sha256_16": "c5c706dd3ccc05eb",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/rate_summary.json": {
+        "sha256_16": "00146d2c23031d02",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/H_t.json": {
+        "sha256_16": "695ff12e4d9916ca",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/H_t_dense.npz": {
+        "sha256_16": "b40148e294323ade",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/recording_union.json": {
+        "sha256_16": "5b9682438df703a3",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/continuation_state.json": {
+        "sha256_16": "4071e7812d254aef",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_manifest.json": {
+        "sha256_16": "ef1a0ee96b326275",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/external_drive_examples.npz": {
+        "sha256_16": "7eaf5b11f3b93b2e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_AAAB.npz": {
+        "sha256_16": "015f2f1041cf861a",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_AXAB.npz": {
+        "sha256_16": "fa59d241fcc46722",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/spikes_example_BBBA.npz": {
+        "sha256_16": "015f2f1041cf861a",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0000.npz": {
+        "sha256_16": "3cd866eef8dccb11",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0001.npz": {
+        "sha256_16": "d4860a4c679ffb29",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0002.npz": {
+        "sha256_16": "f4da19c6f565efa5",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0003.npz": {
+        "sha256_16": "a39359a835be3ae9",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "recording/field_proxy_pre_0004.npz": {
+        "sha256_16": "a7480cbf3bc7a568",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0010.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0010.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0260.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "checkpoints/ckpt_trial_0260.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      }
+    },
+    "tool_versions": {
+      "python": "3.13.7",
+      "numpy": "2.4.6"
+    },
+    "cross_cell_interpretation": "NONE (single-cell analysis per task directive; factorial contrasts deferred)",
+    "mutation_statement": "additive artifact only; inputs re-hashed after write and asserted unchanged by generator"
+  },
+  "input_integrity": {
+    "files_checked": 23,
+    "all_match_sealed_manifest": true
+  },
+  "schedule_observed": {
+    "pre_trials": 96,
+    "exposure_trials": 260,
+    "post_trials": 96,
+    "trial_ms": 4624.0,
+    "exposure_wall_s": 1202.24,
+    "checkpoint_ok": 26,
+    "checkpoint_fail": 0,
+    "numerical_valid": true
+  },
+  "heartbeat_verification": {
+    "log_len": 453,
+    "phases": {
+      "compile": 1,
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "monotonic_global_step_and_sim_time": true,
+    "sim_time_equals_global_step_x_dt": true,
+    "final_global_step": 20900480,
+    "matches_expected_total_steps": true,
+    "canonical_schedule_sequences_verified": {
+      "pre_sequence_matches_CONDITIONS_x8": true,
+      "exposure_alternates_AAAB_BBBA": true,
+      "post_sequence_matches_CONDITIONS_x8": true
+    },
+    "checkpoint_reference_chain_ok": true,
+    "terminal_predicate_terminated_by_schedule": true,
+    "terminal_predicate_steps_match": true,
+    "matches_result_json_heartbeat_claims": true,
+    "run_id": "jomission-4f9fdeae-f72a-335ec296",
+    "worker_id": "4779@HamedNejat-MacBook-Pro.local",
+    "execution_wall_s": 9099.173643957998
+  },
+  "checkpoints_verification": {
+    "n_pairs_enumerated": 26,
+    "all_pairs_load_and_leaf_consistent": true,
+    "checkpoint_ok_vs_result_json": true,
+    "static_top_level_keys": [
+      "geometry",
+      "n_contacts",
+      "neuron_metadata",
+      "neuron_metadata_summary",
+      "operator_status"
+    ],
+    "dynamic_or_hdp_state_stored": false,
+    "dynamic_state_note": "sidecar static keys contain geometry/metadata/operator_status only; continuation_state.json holds boundary summary (state_identity, latest_checkpoint=ckpt_trial_0260, continuation_verified=true)",
+    "neuron_count_per_area_from_geometry": {
+      "V1": 100,
+      "V4": 100,
+      "FEF": 100,
+      "PFC": 100
+    },
+    "neuron_count_per_area_ok": true
+  },
+  "event_ledger_verification": {
+    "rows": 452,
+    "phase_condition_orders_match_canonical_schedule": true,
+    "global_step_consistent_with_phase_offset_trial_index": true,
+    "h_mean_equals_dense_trajectory_exactly": true,
+    "Theta_single_value_across_run": true,
+    "field_ok_all_trials": true,
+    "spike_hash_scheme": "sha256(str(total_spike_count))[:12] per exec source line 187 (weak content hash)",
+    "p2_onset_authority_ms": 1031.0,
+    "p2_onset_verified_against_external_drive_idx": true,
+    "rf_off_omission_zero_drive_in_slot_verified": true,
+    "rf_off_intact_AAAB_p2_drive_sum": 10620000.0
+  },
+  "example_raster_provenance": {
+    "status": "EXCLUDED_FROM_ESTIMANDS_ISOLATED_PROBE_SIMULATIONS",
+    "byte_identical_AAAB_BBBA": true,
+    "source_grounded_explanation": "exec_C_RFoff_RateSlow.py lines 315-321: each spikes_example_<COND>.npz is a fresh single-trial Simulation(seed=777, continuation=None) driven by condition_to_stimulus_schedule(cond, drive_amplitude=5.0); with RF off the drive is a condition-independent uniform 5.0 except omission slots, so AAAB and BBBA yield identical stimulus schedules -> identical dynamics -> byte-identical archives",
+    "consequence": "examples carry no information about run-state (continuation) dynamics and support NO AAAB-vs-BBBA contrast; AXAB differs only via its zero p2 slot",
+    "ledger_spike_hash_pinning_possible": false,
+    "source_assertion_verified": true
+  },
+  "delta_exposure": {
+    "estimand_definition": "Delta_exposure = Y_post - Y_pre (jomission_comparison_matrix.v0.1.0 primary estimand); here Y = whole-trial [-500,4124] ms mean population rate per area from recording/event_ledger.json",
+    "estimand_fidelity_note": "PRIMARY estimand is slot-resolved [0,531] ms rate omission effect; ledger retains whole-trial rates only, so slot-resolved Y remains NOT RECOVERABLE from artifacts (same limitation class as cells A/B)",
+    "window_used": "whole-trial proxy (executor computes area_rates over the full 4624 ms trial)",
+    "replicates": {
+      "pre_per_condition": 8,
+      "post_per_condition": 8,
+      "paired_by": "identical condition order in pre/post batteries (verified against canonical schedule via heartbeat + ledger)"
+    },
+    "phenotypes": {
+      "whole_trial_rate_per_area": {
+        "status": "OBSERVED",
+        "delta_hz_per_condition": {
+          "AAAB": {
+            "V1": 0.619052,
+            "V4": 0.604726,
+            "FEF": 0.584452,
+            "PFC": 0.549849,
+            "paired_rep_std": {
+              "V1": 0.096962,
+              "V4": 0.104496,
+              "FEF": 0.087825,
+              "PFC": 0.093343
+            },
+            "mean_over_areas_hz": 0.58952
+          },
+          "AXAB": {
+            "V1": 0.463615,
+            "V4": 0.469291,
+            "FEF": 0.457127,
+            "PFC": 0.425767,
+            "paired_rep_std": {
+              "V1": 0.045621,
+              "V4": 0.037908,
+              "FEF": 0.038866,
+              "PFC": 0.035279
+            },
+            "mean_over_areas_hz": 0.45395
+          },
+          "AAXB": {
+            "V1": 0.397654,
+            "V4": 0.398195,
+            "FEF": 0.379272,
+            "PFC": 0.38603,
+            "paired_rep_std": {
+              "V1": 0.023328,
+              "V4": 0.01211,
+              "FEF": 0.02077,
+              "PFC": 0.032762
+            },
+            "mean_over_areas_hz": 0.390288
+          },
+          "AAAX": {
+            "V1": 0.472535,
+            "V4": 0.46848,
+            "FEF": 0.448476,
+            "PFC": 0.413602,
+            "paired_rep_std": {
+              "V1": 0.055884,
+              "V4": 0.049315,
+              "FEF": 0.058531,
+              "PFC": 0.052404
+            },
+            "mean_over_areas_hz": 0.450773
+          },
+          "BBBA": {
+            "V1": 0.643924,
+            "V4": 0.639058,
+            "FEF": 0.612836,
+            "PFC": 0.584451,
+            "paired_rep_std": {
+              "V1": 0.05098,
+              "V4": 0.031432,
+              "FEF": 0.036891,
+              "PFC": 0.03841
+            },
+            "mean_over_areas_hz": 0.620067
+          },
+          "BXBA": {
+            "V1": 0.461722,
+            "V4": 0.461182,
+            "FEF": 0.454964,
+            "PFC": 0.440906,
+            "paired_rep_std": {
+              "V1": 0.037723,
+              "V4": 0.043059,
+              "FEF": 0.040401,
+              "PFC": 0.043487
+            },
+            "mean_over_areas_hz": 0.454693
+          },
+          "BBXA": {
+            "V1": 0.399547,
+            "V4": 0.40252,
+            "FEF": 0.383868,
+            "PFC": 0.381704,
+            "paired_rep_std": {
+              "V1": 0.026547,
+              "V4": 0.00768,
+              "FEF": 0.015966,
+              "PFC": 0.031265
+            },
+            "mean_over_areas_hz": 0.39191
+          },
+          "BBBX": {
+            "V1": 0.45929,
+            "V4": 0.465507,
+            "FEF": 0.446043,
+            "PFC": 0.417387,
+            "paired_rep_std": {
+              "V1": 0.052751,
+              "V4": 0.049549,
+              "FEF": 0.051675,
+              "PFC": 0.05831
+            },
+            "mean_over_areas_hz": 0.447056
+          },
+          "RRRR": {
+            "V1": 0.638516,
+            "V4": 0.628784,
+            "FEF": 0.607159,
+            "PFC": 0.588505,
+            "paired_rep_std": {
+              "V1": 0.052716,
+              "V4": 0.031129,
+              "FEF": 0.033604,
+              "PFC": 0.03842
+            },
+            "mean_over_areas_hz": 0.615741
+          },
+          "RXRR": {
+            "V1": 0.458748,
+            "V4": 0.459559,
+            "FEF": 0.457126,
+            "PFC": 0.433606,
+            "paired_rep_std": {
+              "V1": 0.035968,
+              "V4": 0.038368,
+              "FEF": 0.037783,
+              "PFC": 0.045761
+            },
+            "mean_over_areas_hz": 0.45226
+          },
+          "RRXR": {
+            "V1": 0.399547,
+            "V4": 0.404953,
+            "FEF": 0.38657,
+            "PFC": 0.371701,
+            "paired_rep_std": {
+              "V1": 0.027732,
+              "V4": 0.008768,
+              "FEF": 0.01112,
+              "PFC": 0.021258
+            },
+            "mean_over_areas_hz": 0.390693
+          },
+          "RRRX": {
+            "V1": 0.467129,
+            "V4": 0.462533,
+            "FEF": 0.446314,
+            "PFC": 0.420361,
+            "paired_rep_std": {
+              "V1": 0.053709,
+              "V4": 0.04829,
+              "FEF": 0.053149,
+              "PFC": 0.054345
+            },
+            "mean_over_areas_hz": 0.449084
+          }
+        },
+        "grand_delta_per_area_hz": {
+          "V1": 0.490107,
+          "V4": 0.488732,
+          "FEF": 0.472017,
+          "PFC": 0.451156
+        },
+        "Y_pre_grand_per_area_hz": {
+          "V1": 19.948322,
+          "V4": 21.023644,
+          "FEF": 20.756942,
+          "PFC": 22.959807
+        },
+        "Y_post_grand_per_area_hz": {
+          "V1": 20.438428,
+          "V4": 21.512377,
+          "FEF": 21.228959,
+          "PFC": 23.410963
+        },
+        "threshold_h_delta_hz": 0.5,
+        "polarity_per_area_grand": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        },
+        "confound_flag": "PRE contains a startup relaxation ordered by battery position (trial 0 H=1.0027 -> peak ~trial 22); because condition order is fixed, early-battery conditions absorb transient into Y_pre",
+        "sensitivity_drop_first_pre_replicate": {
+          "delta_hz_per_condition": {
+            "AAAB": {
+              "V1": 0.65126,
+              "V4": 0.642611,
+              "FEF": 0.615733,
+              "PFC": 0.583292,
+              "mean_over_areas_hz": 0.623224
+            },
+            "AXAB": {
+              "V1": 0.461568,
+              "V4": 0.467437,
+              "FEF": 0.455698,
+              "PFC": 0.432216,
+              "mean_over_areas_hz": 0.45423
+            },
+            "AAXB": {
+              "V1": 0.395144,
+              "V4": 0.39638,
+              "FEF": 0.374136,
+              "PFC": 0.374135,
+              "mean_over_areas_hz": 0.384949
+            },
+            "AAAX": {
+              "V1": 0.480413,
+              "V4": 0.477324,
+              "FEF": 0.458787,
+              "PFC": 0.418931,
+              "mean_over_areas_hz": 0.458864
+            },
+            "BBBA": {
+              "V1": 0.644155,
+              "V4": 0.647554,
+              "FEF": 0.620367,
+              "PFC": 0.59287,
+              "mean_over_areas_hz": 0.626236
+            },
+            "BXBA": {
+              "V1": 0.460332,
+              "V4": 0.45817,
+              "FEF": 0.451372,
+              "PFC": 0.446119,
+              "mean_over_areas_hz": 0.453998
+            },
+            "BBXA": {
+              "V1": 0.397925,
+              "V4": 0.401941,
+              "FEF": 0.382477,
+              "PFC": 0.370119,
+              "mean_over_areas_hz": 0.388115
+            },
+            "BBBX": {
+              "V1": 0.465275,
+              "V4": 0.475161,
+              "FEF": 0.45508,
+              "PFC": 0.42511,
+              "mean_over_areas_hz": 0.455157
+            },
+            "RRRR": {
+              "V1": 0.638594,
+              "V4": 0.633032,
+              "FEF": 0.613261,
+              "PFC": 0.598121,
+              "mean_over_areas_hz": 0.620752
+            },
+            "RXRR": {
+              "V1": 0.456006,
+              "V4": 0.458169,
+              "FEF": 0.453844,
+              "PFC": 0.437159,
+              "mean_over_areas_hz": 0.451294
+            },
+            "RRXR": {
+              "V1": 0.397307,
+              "V4": 0.406266,
+              "FEF": 0.384639,
+              "PFC": 0.364248,
+              "mean_over_areas_hz": 0.388115
+            },
+            "RRRX": {
+              "V1": 0.475162,
+              "V4": 0.471763,
+              "FEF": 0.456007,
+              "PFC": 0.429436,
+              "mean_over_areas_hz": 0.458092
+            }
+          },
+          "grand_delta_per_area_hz": {
+            "V1": 0.493595,
+            "V4": 0.494651,
+            "FEF": 0.476783,
+            "PFC": 0.45598
+          },
+          "note": "Y_pre over pre reps 2..8 only"
+        },
+        "cross_check_rate_summary": {
+          "first10_pre_trial_means_match_ledger": true,
+          "note": "rate_summary.per_trial_area_rates retains only first 10 pre trials; ledger is the complete authority"
+        }
+      },
+      "H_mean": {
+        "status": "OBSERVED",
+        "source": "recording/event_ledger.json h_mean (= H_t_dense.npz trajectory, verified equal)",
+        "Y_pre_mean_hz_scale": 1.016916,
+        "Y_post_mean": 1.011764,
+        "delta_per_condition": {
+          "AAAB": -0.003856,
+          "AXAB": -0.004429,
+          "AAXB": -0.004781,
+          "AAAX": -0.00502,
+          "BBBA": -0.005182,
+          "BXBA": -0.0053,
+          "BBXA": -0.005403,
+          "BBBX": -0.005478,
+          "RRRR": -0.005536,
+          "RXRR": -0.005579,
+          "RRXR": -0.005619,
+          "RRRX": -0.00564
+        },
+        "note": "filled below after H segmentation",
+        "threshold_h_delta": 0.01,
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED"
+        },
+        "sensitivity_drop_first_pre_replicate": {
+          "AAAB": -0.005649,
+          "AXAB": -0.00567,
+          "AAXB": -0.005683,
+          "AAAX": -0.005691,
+          "BBBA": -0.005696,
+          "BXBA": -0.005698,
+          "BBXA": -0.005706,
+          "BBBX": -0.005709,
+          "RRRR": -0.005708,
+          "RXRR": -0.005704,
+          "RRXR": -0.00571,
+          "RRRX": -0.005705
+        }
+      },
+      "Theta_w_mean": {
+        "status": "FROZEN_BY_INTERVENTION",
+        "reason": "K_HDP=0 (RF off): w cannot follow H; recorded Theta is a single constant 0.003238317091 across all 452 trials",
+        "delta_per_condition": {
+          "AAAB": 0.0,
+          "AXAB": 0.0,
+          "AAXB": 0.0,
+          "AAAX": 0.0,
+          "BBBA": 0.0,
+          "BXBA": 0.0,
+          "BBXA": 0.0,
+          "BBBX": 0.0,
+          "RRRR": 0.0,
+          "RXRR": 0.0,
+          "RRXR": 0.0,
+          "RRRX": 0.0
+        },
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED"
+        },
+        "w_floor_flag": "recorded Theta lies BELOW w_floor=0.01 (design bounds [0.01,10]); flagged UNRESOLVED, consistent with cells A/B, not adjudicated here"
+      }
+    },
+    "claim_level": "DESCRIPTIVE_MULTI_PHENOTYPE (rate n_rep=8 paired; H n_rep=8; Theta frozen)",
+    "cross_cell_note": "within-cell only; no comparison to any other factorial cell performed"
+  },
+  "omission_vs_intact_per_position": {
+    "pooling_rule": "within-replicate paired by seed, same condition order, same RNG, same trial battery (12 cond x8 reps=96); DO NOT pool p2/p3/p4 (design pooling_rule): reported separately per context and position",
+    "coverage": "full: ledger retains all 12 conditions x 8 replicates in BOTH batteries, so every context x position cell is OBSERVED (unlike cells A/B)",
+    "pre_whole_trial_proxy_n8": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.674633,
+            "V4": -3.078233,
+            "FEF": -2.913874,
+            "PFC": -3.103102
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.058499,
+            "V4": 0.05959,
+            "FEF": 0.056828,
+            "PFC": 0.06348
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.675984,
+            "V4": -3.082018,
+            "FEF": -2.908467,
+            "PFC": -3.104183
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.055611,
+            "V4": 0.062739,
+            "FEF": 0.05675,
+            "PFC": 0.06468
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.679498,
+            "V4": -3.079044,
+            "FEF": -2.91036,
+            "PFC": -3.087423
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.060167,
+            "V4": 0.064152,
+            "FEF": 0.053923,
+            "PFC": 0.066092
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.651655,
+            "V4": -3.052282,
+            "FEF": -2.882515,
+            "PFC": -3.079584
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.008337,
+            "V4": 0.012791,
+            "FEF": 0.012397,
+            "PFC": 0.009112
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.653007,
+            "V4": -3.056878,
+            "FEF": -2.884948,
+            "PFC": -3.074177
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.008288,
+            "V4": 0.007008,
+            "FEF": 0.008582,
+            "PFC": 0.008651
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.654088,
+            "V4": -3.05066,
+            "FEF": -2.882245,
+            "PFC": -3.064445
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.009955,
+            "V4": 0.008978,
+            "FEF": 0.008217,
+            "PFC": 0.014984
+          }
+        }
+      },
+      "R": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.648952,
+            "V4": -3.052282,
+            "FEF": -2.884137,
+            "PFC": -3.076882
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.010783,
+            "V4": 0.010646,
+            "FEF": 0.01048,
+            "PFC": 0.011329
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.652195,
+            "V4": -3.064717,
+            "FEF": -2.883596,
+            "PFC": -3.071204
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.010025,
+            "V4": 0.016128,
+            "FEF": 0.010646,
+            "PFC": 0.00768
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.653007,
+            "V4": -3.053093,
+            "FEF": -2.87792,
+            "PFC": -3.063094
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.009896,
+            "V4": 0.005898,
+            "FEF": 0.015957,
+            "PFC": 0.007085
+          }
+        }
+      }
+    },
+    "post_whole_trial_proxy_n8": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.83007,
+            "V4": -3.213668,
+            "FEF": -3.041199,
+            "PFC": -3.227184
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.061596,
+            "V4": 0.061111,
+            "FEF": 0.052772,
+            "PFC": 0.047711
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.897382,
+            "V4": -3.288549,
+            "FEF": -3.113647,
+            "PFC": -3.268003
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.051435,
+            "V4": 0.049409,
+            "FEF": 0.049443,
+            "PFC": 0.068109
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.826016,
+            "V4": -3.21529,
+            "FEF": -3.046335,
+            "PFC": -3.223669
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.042375,
+            "V4": 0.036602,
+            "FEF": 0.033953,
+            "PFC": 0.034971
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.833856,
+            "V4": -3.230158,
+            "FEF": -3.040388,
+            "PFC": -3.223129
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.051903,
+            "V4": 0.049138,
+            "FEF": 0.052054,
+            "PFC": 0.044753
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.897383,
+            "V4": -3.293415,
+            "FEF": -3.113917,
+            "PFC": -3.276924
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.048428,
+            "V4": 0.035345,
+            "FEF": 0.042385,
+            "PFC": 0.069582
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "effect_hz_per_area": {
+            "V1": -2.838722,
+            "V4": -3.224211,
+            "FEF": -3.049038,
+            "PFC": -3.23151
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.049458,
+            "V4": 0.035296,
+            "FEF": 0.036082,
+            "PFC": 0.023311
+          }
+        }
+      },
+      "R": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.82872,
+            "V4": -3.221506,
+            "FEF": -3.03417,
+            "PFC": -3.231781
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.051428,
+            "V4": 0.039226,
+            "FEF": 0.047071,
+            "PFC": 0.051233
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.891165,
+            "V4": -3.288548,
+            "FEF": -3.104185,
+            "PFC": -3.288008
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.045433,
+            "V4": 0.029013,
+            "FEF": 0.039876,
+            "PFC": 0.055295
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "effect_hz_per_area": {
+            "V1": -2.824394,
+            "V4": -3.219344,
+            "FEF": -3.038765,
+            "PFC": -3.231239
+          },
+          "effect_paired_rep_std": {
+            "V1": 0.038261,
+            "V4": 0.039405,
+            "FEF": 0.033824,
+            "PFC": 0.036097
+          }
+        }
+      }
+    },
+    "delta_exposure_of_omission_effect": {
+      "A_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AXAB",
+          "intact": "AAAB"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.155437,
+          "V4": -0.135435,
+          "FEF": -0.127325,
+          "PFC": -0.124082
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "A_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AAXB",
+          "intact": "AAAB"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.221398,
+          "V4": -0.206531,
+          "FEF": -0.20518,
+          "PFC": -0.16382
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "A_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "AAAX",
+          "intact": "AAAB"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.146518,
+          "V4": -0.136246,
+          "FEF": -0.135975,
+          "PFC": -0.136246
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "B_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BXBA",
+          "intact": "BBBA"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.182201,
+          "V4": -0.177876,
+          "FEF": -0.157873,
+          "PFC": -0.143545
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "B_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BBXA",
+          "intact": "BBBA"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.244376,
+          "V4": -0.236537,
+          "FEF": -0.228969,
+          "PFC": -0.202747
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "B_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "BBBX",
+          "intact": "BBBA"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.184634,
+          "V4": -0.173551,
+          "FEF": -0.166793,
+          "PFC": -0.167065
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "R_context_p2": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RXRR",
+          "intact": "RRRR"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.179768,
+          "V4": -0.169224,
+          "FEF": -0.150033,
+          "PFC": -0.154899
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "R_context_p3": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RRXR",
+          "intact": "RRRR"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.23897,
+          "V4": -0.223831,
+          "FEF": -0.220589,
+          "PFC": -0.216804
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      },
+      "R_context_p4": {
+        "status": "OBSERVED_SINGLE_CELL_N8",
+        "conditions": {
+          "omission": "RRRX",
+          "intact": "RRRR"
+        },
+        "delta_omission_effect_hz": {
+          "V1": -0.171387,
+          "V4": -0.166251,
+          "FEF": -0.160845,
+          "PFC": -0.168145
+        },
+        "polarity_sign_only_descriptive": {
+          "V1": "UNRESOLVED",
+          "V4": "UNRESOLVED",
+          "FEF": "UNRESOLVED",
+          "PFC": "UNRESOLVED"
+        }
+      }
+    },
+    "inferential_note": "sign-only descriptive polarity at n_rep=8; frozen comparison-matrix significance machinery NOT re-run here"
+  },
+  "field_proxy_low_gamma_pre": {
+    "band_hz_frozen": [
+      30.0,
+      50.0
+    ],
+    "windows_relative_to_p2_onset_ms": {
+      "baseline": [
+        -250.0,
+        -50.0
+      ],
+      "slot": [
+        0.0,
+        531.0
+      ]
+    },
+    "p2_onset_authority_ms": 1031.0,
+    "rf_omission_zero_drive_in_slot": true,
+    "physical_amplitude_calibrated": false,
+    "claim": "proxy_readout; ln(bandpower_omission/bandpower_intact) per area, PRE phase only (single replicate per condition)",
+    "per_position_A_context": {
+      "A_context_p2": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AXAB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": -0.806997,
+          "V4": -0.803436,
+          "FEF": -0.768565,
+          "PFC": -0.627024,
+          "frontal_minus_V1": 0.109202
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.592627,
+          "V4": 0.61394,
+          "FEF": 0.518662,
+          "PFC": 0.566252,
+          "frontal_minus_V1": -0.05017
+        }
+      },
+      "A_context_p3": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAXB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": 0.18969,
+          "V4": 0.162136,
+          "FEF": 0.22393,
+          "PFC": 0.29092,
+          "frontal_minus_V1": 0.067735
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.549442,
+          "V4": 0.62227,
+          "FEF": 0.529985,
+          "PFC": 0.693231,
+          "frontal_minus_V1": 0.062166
+        }
+      },
+      "A_context_p4": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAAX",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": 0.163489,
+          "V4": 0.113227,
+          "FEF": 0.260907,
+          "PFC": 0.337581,
+          "frontal_minus_V1": 0.135755
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.452589,
+          "V4": 0.572705,
+          "FEF": 0.515345,
+          "PFC": 0.604209,
+          "frontal_minus_V1": 0.107188
+        }
+      }
+    },
+    "delta_exposure_of_field_effect": {
+      "status": "NOT_RECORDED",
+      "reason": "no POST-phase field_proxy volumes exist (only pre_0000..pre_0004; executor saves field proxies for trial_idx<5 within a phase and phase offsets make those the first five PRE trials)"
+    }
+  },
+  "H_Theta_observables": {
+    "trajectory_source": "recording/H_t_dense.npz (fallback variant: per-trial HDP H means, 452 points; ledger h_mean verified equal)",
+    "declared_dense_sampling_materialized": false,
+    "metadata_inconsistency_flag": "file stores dt_ms=0.1 but arrays are per-trial means with effective spacing 4624.0 ms; executor attempted the dense H_trace probe (isolated AAAB trial) first and the engine returned no H_trace -> fallback branch taken (exec source lines 280-293); dense early-time sampling declared in recording_union.observables.H_t was NOT materialized",
+    "resolution": {
+      "n_points": 452,
+      "spacing_ms": 4624.0,
+      "time_base": "trial order via canonical schedule (heartbeat-verified)"
+    },
+    "H_extrema_run_level_recomputed": {
+      "min": 1.002743,
+      "max": 1.017898,
+      "mean": 1.013898,
+      "bounds_[0.1,10]_ok": true
+    },
+    "H_extrema_result_json_agreement": true,
+    "Theta_extrema_run_level": {
+      "min": 0.003238,
+      "max": 0.003238,
+      "mean": 0.003238,
+      "bounds_[0.01,10]_ok": false
+    },
+    "shape_description": {
+      "argmax_trial_1based": 23,
+      "regime": "fast rise from initial condition (H[0]=1.002743) to peak, then monotone slow decay through the rest of PRE, all of EXPOSURE, and POST",
+      "endpoint_values": {
+        "trial1": 1.002743,
+        "peak": 1.017898,
+        "last": 1.011111
+      }
+    },
+    "per_phase": {
+      "pre": {
+        "H": {
+          "min": 1.002743,
+          "max": 1.017898,
+          "mean": 1.016916
+        },
+        "Theta": {
+          "min": 0.003238317,
+          "max": 0.003238317,
+          "mean": 0.003238317
+        }
+      },
+      "exposure": {
+        "H": {
+          "min": 1.011448,
+          "max": 1.016741,
+          "mean": 1.013571
+        },
+        "Theta": {
+          "min": 0.003238317,
+          "max": 0.003238317,
+          "mean": 0.003238317
+        }
+      },
+      "post": {
+        "H": {
+          "min": 1.011084,
+          "max": 1.012369,
+          "mean": 1.011764
+        },
+        "Theta": {
+          "min": 0.003238317,
+          "max": 0.003238317,
+          "mean": 0.003238317
+        }
+      }
+    },
+    "drift_quantified": {
+      "exposure_H_ptp": 0.005294,
+      "exposure_to_post_H_shift": -0.001807,
+      "interpretation": "H is NOT stationary across exposure: a slow decay of ~5.3e-03 (ptp) spans the 1202.24 s exposure, consistent with an unresolved slow relaxation rather than an adaptation transient that settles"
+    },
+    "effective_timescale": {
+      "status": "EXPLORATORY_FIT_WELL_SAMPLED_FOR_SLOW_COMPONENT",
+      "design_specified_reference": {
+        "tau_eff_E_s": 833.0,
+        "authority": "manifests/rf_rate_factorial_design.json factors.Rate.operational.slow (+ EvidenceRef network_realization 'RateSlow'; exec log '=> tau_eff ~833s')",
+        "level": "SPECIFIED"
+      },
+      "slow_decay_fit_full_run": {
+        "window": "trials 23..452 (1-based)",
+        "model": "H_inf - A*exp(-(t-t0)/tau)",
+        "H_inf": 1.00989,
+        "amplitude_signed": -0.008509,
+        "direction": "decay_toward_H_inf_from_above",
+        "tau_eff_s_fit": 1092.693962,
+        "residual_std": 0.0002562,
+        "n_points": 430,
+        "sampling_period_s": 4.624,
+        "samples_per_e_fold": 236.309248,
+        "half_amplitude_time_s_after_window_start": 757.397739
+      },
+      "slow_decay_fit_exposure_plus_post_only": {
+        "window": "trials 97..452 (1-based)",
+        "model": "H_inf - A*exp(-(t-t0)/tau)",
+        "H_inf": 1.009886,
+        "amplitude_signed": -0.00608,
+        "direction": "decay_toward_H_inf_from_above",
+        "tau_eff_s_fit": 1123.759933,
+        "residual_std": 0.0002162,
+        "n_points": 356,
+        "sampling_period_s": 4.624,
+        "samples_per_e_fold": 243.027667,
+        "half_amplitude_time_s_after_window_start": 778.931029
+      },
+      "ratio_measured_over_design_full_run_fit": 1.311757,
+      "assessment": "sampling is adequate for the slow component (period 4.624 s << tau; >230 samples per e-fold), unlike cell B; residual caveats: phase-dependent drive shifts the local fixed point so a single exponential is an approximation, and the fitted process mixes the tail of the startup rise with the slow relaxation; value reported EXPLORATORY, not an OBSERVED design-level timescale",
+      "startup_rise_fit": {
+        "status": "EXPLORATORY_UNDER_SAMPLED",
+        "window": "first 10 pre trials (startup rise from initial condition toward fast component)",
+        "H_inf": 1.017331,
+        "amplitude": 0.020827,
+        "tau_rise_s_fit": 12.559431,
+        "residual_std": 0.0001678,
+        "sampling_period_s": 4.624,
+        "identifiability_caveat": "sampling period 4.624 s vs sub-30-trial rise: few samples above half-amplitude -> EXPLORATORY only"
+      },
+      "Theta_effective_timescale": {
+        "status": "NO_RESOLVABLE_DYNAMICS",
+        "reason": "Theta constant to machine precision across all phases (K_HDP=0); no relaxation process exists to fit"
+      }
+    },
+    "consistency_flags": [
+      "UNRESOLVED: entire Theta trajectory (0.00323832) lies BELOW w_floor=0.01 while design bounds are [0.01,10]; either clamping is applied downstream of the recorded mean or the barrier term does not bind at this operating point; same flag class as cells A/B"
+    ]
+  },
+  "warnings": [],
+  "limitations_summary": [
+    "Delta_exposure for rates uses the whole-trial [-500,4124] ms proxy from event_ledger area_rates (n=8 paired replicates per condition); slot-resolved [0,531] ms primary estimands remain NOT RECOVERABLE from artifacts",
+    "PRE-phase startup relaxation is ordered by fixed battery position; raw deltas for early-battery conditions absorb it; a drop-first-replicate sensitivity variant is provided for both rate and H phenotypes",
+    "effective timescale of the slow H decay is an EXPLORATORY well-sampled exponential fit (single-exponential approximation over phase-varying drive); design tau_eff_E_s=833 s remains the SPECIFIED reference",
+    "Theta(w) frozen at 0.00323832 (K_HDP=0), below w_floor=0.01: flagged UNRESOLVED, not adjudicated",
+    "declared dense early-time H sampling was not materialized (engine returned no H_trace); H(t) available at per-trial resolution only",
+    "spikes_example_* files are isolated seed-777 probe simulations (AAAB/BBBA byte-identical); excluded from all estimands",
+    "field low-gamma effects are PRE-only single-replicate proxy readouts (amplitudes uncalibrated)"
+  ]
+}

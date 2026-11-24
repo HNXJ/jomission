@@ -1,0 +1,289 @@
+{
+  "schema": "jomission.claim_ledger.v0.1.0",
+  "namespace": "rf_rate_factorial",
+  "generated_from": "results/rf_rate_factorial/dossier/00-11 + sealed manifests",
+  "verdict_enum": ["SUPPORTED", "CONTRADICTED", "UNRESOLVED", "DESCRIPTIVE_ONLY"],
+  "verdict_rule": "CONTRADICTED = reproduced-test came out absent/opposite (sealed NEGATIVE); SUPPORTED = reproduced (sealed POSITIVE); UNRESOLVED = not measurable/not executed, never rendered negative; DESCRIPTIVE_ONLY = MEASURED magnitude with no inferential SE/p-value.",
+  "claims": [
+    {
+      "id": "C-01",
+      "claim": "T1: sparse, omission-selective spiking in a minority of units",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "fraction_significant_units (omission > intact +2 Hz) pre/post",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-02",
+      "claim": "T2: higher-order / frontal-prediction enrichment of omission",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "enriched unit count / frontal bias",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-03",
+      "claim": "T3: weak (relatively spared) V1 omission response",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "V1 omission effect (Hz) vs intact",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-04",
+      "claim": "T4: frontal low-gamma enhancement on omission",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "field_low_gamma (30-50 Hz) omission vs intact, frontal_minus_V1",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F3/F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-05",
+      "claim": "T5: gamma-rate coupling exceeds lower-frequency aggregate (specificity-limited)",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "trial-resolved gamma x rate covariance vs lower-frequency aggregate; gamma-vs-beta",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_*.npz + spikes_example_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F3/F5",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "id": "C-06",
+      "claim": "T6: weaker coupling of omission-selective units",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "coupling distribution of T1-selective units",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-07",
+      "claim": "T7: absence of strong fixed between-area lead/lag (predictive timing)",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "per-position inter-area mean |lag|; has_fixed flag; positive/null control FPR",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_*.npz",
+      "evidence_ref": "manifests/t1_t7_final_corrected.json",
+      "figure": "F5",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "id": "C-08",
+      "claim": "Q1 / Delta_rate: no firing-rate habituation across 260-trial exposure",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "Delta_exposure = Y_post - Y_pre (rate), whole-trial",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/rate_summary.json",
+      "evidence_ref": "manifests/canonical_science_seal.json",
+      "figure": "F4",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-09",
+      "claim": "Omission response does not habituate or become predictive with exposure",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "Delta_omission_effect (AXAB-AAAB) pre vs post",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/E_A_analysis.json; C_RFoff_RateSlow/E_C_analysis.json",
+      "evidence_ref": "manifests/canonical_science_seal.json",
+      "figure": "F4/F5",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-10",
+      "claim": "Q8: H stores exposure history (predictive carrier) at the rate level",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "rate delta under H_post->H_pre state replacement",
+      "artifact": "results/q8_state_replacement/q8_state_replacement_seed*_dt0p1.json",
+      "evidence_ref": "manifests/q8_canonical_closure_dt01.json",
+      "figure": "F5/F9",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-11",
+      "claim": "Q8: Theta (w) stores exposure history at the rate level",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "rate delta under Theta_post->Theta_pre state replacement",
+      "artifact": "results/q8_state_replacement/q8_state_replacement_seed*_dt0p1.json",
+      "evidence_ref": "manifests/q8_canonical_closure_dt01.json",
+      "figure": "F5/F9",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-12",
+      "claim": "Q8: H or Theta stores exposure history at the field/recovery level",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "field low-gamma / recovery rate delta under state replacement",
+      "artifact": "results/q8_evaluation/*.json",
+      "evidence_ref": "manifests/q8_canonical_closure_dt01.json (field_claim pending)",
+      "figure": "F5/F9",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-13",
+      "claim": "beta_RF_h: RF-on raises H_mean by +0.033",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "beta_RF_h = (B - A) H_mean contrast",
+      "artifact": "results/rf_rate_factorial/B_RFon_RateRef/E_B_analysis.json; A_RFoff_RateRef/E_A_analysis.json",
+      "evidence_ref": "manifests/rf_rate_factorial_estimator.json",
+      "figure": "F8",
+      "verdict": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "id": "C-14",
+      "claim": "beta_tau_h: LONG (slow) rate lowers H_mean by -0.015",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "beta_tau_h = (C - A) H_mean contrast",
+      "artifact": "results/rf_rate_factorial/C_RFoff_RateSlow/E_C_analysis.json; A_RFoff_RateRef/E_A_analysis.json",
+      "evidence_ref": "manifests/rf_rate_factorial_estimator.json",
+      "figure": "F8",
+      "verdict": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "id": "C-15",
+      "claim": "beta_RFxTau_h: non-additive RF x Rate interaction on H_mean",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "(D - C) - (B - A) H_mean contrast",
+      "artifact": "results/rf_rate_factorial/D_RFon_RateSlow/ (post NOT_RECORDED)",
+      "evidence_ref": "manifests/rf_rate_factorial_estimator.json",
+      "figure": "F8",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-16",
+      "claim": "Full RF x Rate 2-way ANOVA (rate-level Delta_exposure) resolves RF/Rate/interaction effects",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "Y ~ RF + Rate + RF:Rate on rate-level Delta_exposure",
+      "artifact": "results/rf_rate_factorial/B_RFon_RateRef + D_RFon_RateSlow (post lost)",
+      "evidence_ref": "manifests/rf_rate_factorial_repro_review.json",
+      "figure": "F8/F11",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-17",
+      "claim": "Rate-level / field low-gamma / recovery / slot-resolved Delta_exposure across factorial",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "Delta_exposure (rate, field_low_gamma), recovery, slot-resolved [0,531]ms",
+      "artifact": "results/rf_rate_factorial/*/recording/* (B,D post NOT_RECORDED; A,C slot-resolved NOT_RECOVERABLE)",
+      "evidence_ref": "manifests/rf_rate_factorial_estimator.json",
+      "figure": "F8",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-18",
+      "claim": "B and D factorial cells provide no phenotype evidence (save crash)",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "post rate/field/H/Theta phenotypes for cells B, D",
+      "artifact": "results/rf_rate_factorial/B_RFon_RateRef, D_RFon_RateSlow (result.json/EvidenceRef/artifact_hashes absent)",
+      "evidence_ref": "manifests/rf_rate_factorial_repro_review.json; four_cell_lifecycle_seal.json",
+      "figure": "F8/F12",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-19",
+      "claim": "LONG (rate-only, 200x) intervention produces exposure-scale H drift",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "tau_eff_E (fitted) and H exposure ptp / exposure->post shift, cell C",
+      "artifact": "results/rf_rate_factorial/C_RFoff_RateSlow/E_C_analysis.json",
+      "evidence_ref": "manifests/four_cell_lifecycle_seal.json; docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md",
+      "figure": "F7",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "id": "C-20",
+      "claim": "Declared tau_theta_s=1000 s is a dead key (never consumed by the engine)",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "consumer audit of bare tau_theta_s in jaxfne",
+      "artifact": "jomission/dynamics/hdp.py; configs/default.json; jaxfne emitters/_hdp_adaptive",
+      "evidence_ref": "dossier R07 section 1 (audit)",
+      "figure": "F7",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "id": "C-21",
+      "claim": "Stimulus-specific adaptation (SSA) present / testable",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "standard vs deviant / equiprobable specificity control",
+      "artifact": "manifests/rf_rate_factorial_design.json (12-condition battery, no SSA control)",
+      "evidence_ref": "dossier R04 section 4",
+      "figure": "F4",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-22",
+      "claim": "E population exhibits within-area firing-rate heterogeneity (balanced E/I)",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "per-unit E whole-trial rate heterogeneity; class-level rate CV",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz",
+      "evidence_ref": "dossier R02 section 2b; dossier_receipt.json class_stats",
+      "figure": "F2",
+      "verdict": "CONTRADICTED"
+    },
+    {
+      "id": "C-23",
+      "claim": "Emergent receptive fields measured in simulated V1 units",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "reverse-correlation / spatial tuning / contrast response of V1 units",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/RF_operator.npz (input geometry only)",
+      "evidence_ref": "dossier R06 section 7",
+      "figure": "F6",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-24",
+      "claim": "E/I synaptic-current balance measured",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "I_syn excitatory/inhibitory conductance ratio",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/ (no current traces)",
+      "evidence_ref": "dossier R02 section 5",
+      "figure": "F2",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-25",
+      "claim": "Field proxy is physically amplitude-calibrated",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "physical amplitude calibration of proxy_readout field",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_manifest.json",
+      "evidence_ref": "dossier R03 section 9",
+      "figure": "F3",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-26",
+      "claim": "Cell A realized the RF-off (K_HDP=0) intervention at the hp level",
+      "evidence_class": "MECHANISTIC",
+      "estimand": "effective K_HDP during A run (hp_hash f327f9d2ad64cc88 vs design RF-off bb8277e7a8e0bca2)",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/A_RFoff_RateRef_result.json; exec_A_RFoff_RateRef.py",
+      "evidence_ref": "dossier R01 section 5; R04 section 6; R06 section 8",
+      "figure": "F1/F8",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-27",
+      "claim": "ISI / temporal-CV spiking statistics computable",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "inter-spike-interval and temporal CV",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_*.npz (counts only, no timestamps)",
+      "evidence_ref": "dossier R01 section 3; R02 section 6",
+      "figure": "F1/F2",
+      "verdict": "UNRESOLVED"
+    },
+    {
+      "id": "C-28",
+      "claim": "Effective H/Theta timescale and per-trial H series measurable for cell A",
+      "evidence_class": "CANONICAL_CONFIRMATORY",
+      "estimand": "H/Theta effective exponential timescale (dense early-time sampling)",
+      "artifact": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t_dense.npz (5 constant points, no time base)",
+      "evidence_ref": "dossier R01 section 4; R04 section 5; R07 section 6",
+      "figure": "F1/F7",
+      "verdict": "UNRESOLVED"
+    }
+  ]
+}

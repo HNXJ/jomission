@@ -1,0 +1,16 @@
+t8_dflat_n4000_s3_T8 rc=0
+t8_dflat_n4000_s1_T8 rc=0
+t8_dflat_n4000_s2_T8 rc=0
+t8_rflat_n4000_s1_T8 rc=0
+t8_ref_n4000_s1_T8 rc=0
+t8_rrev_n4000_s3_T8 rc=0
+t8_drev_n4000_s2_T8 rc=0
+t8_drev_n4000_s3_T8 rc=0
+t8_ref_n4000_s2_T8 rc=0
+t8_rrev_n4000_s1_T8 rc=0
+t8_rflat_n4000_s2_T8 rc=0
+t8_rflat_n4000_s3_T8 rc=0
+t8_rrev_n4000_s2_T8 rc=0
+t8_ref_n4000_s3_T8 rc=0
+t8_drev_n4000_s1_T8 rc=0
+t8 done

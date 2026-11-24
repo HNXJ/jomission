@@ -1,0 +1,22 @@
+{"steps_done": 10000, "of": 200000, "wall_s": 345.7}
+{"steps_done": 20000, "of": 200000, "wall_s": 682.8}
+{"steps_done": 30000, "of": 200000, "wall_s": 1036.1}
+{"steps_done": 40000, "of": 200000, "wall_s": 2221.9}
+{"steps_done": 50000, "of": 200000, "wall_s": 3381.7}
+{"steps_done": 60000, "of": 200000, "wall_s": 4223.8}
+{"steps_done": 70000, "of": 200000, "wall_s": 4689.5}
+{"steps_done": 80000, "of": 200000, "wall_s": 5065.5}
+{"steps_done": 90000, "of": 200000, "wall_s": 5445.5}
+{"steps_done": 100000, "of": 200000, "wall_s": 5823.1}
+{"steps_done": 110000, "of": 200000, "wall_s": 6207.4}
+{"steps_done": 120000, "of": 200000, "wall_s": 7012.4}
+{"steps_done": 130000, "of": 200000, "wall_s": 7811.1}
+{"steps_done": 140000, "of": 200000, "wall_s": 8567.1}
+{"steps_done": 150000, "of": 200000, "wall_s": 9220.2}
+{"steps_done": 160000, "of": 200000, "wall_s": 10004.1}
+{"steps_done": 170000, "of": 200000, "wall_s": 10908.1}
+{"steps_done": 180000, "of": 200000, "wall_s": 11373.2}
+{"steps_done": 190000, "of": 200000, "wall_s": 11813.0}
+{"steps_done": 200000, "of": 200000, "wall_s": 12245.6}
+{"n_total": 66552, "edge_check": {"examined": 353, "failed": [], "edges_total": 23854994, "edges_expected": 23847017.353940085}, "silenced_zero_spikes": true, "wall_s": {"construct": 72.07684421539307, "simulate": 12245.640182733536, "total": 12321.546624183655}, "checks_pass": true}
+{"L1_Inh": 5.42, "L2/3_Exc": 1.55, "L2/3_PV": 18.44, "L2/3_SST": 1.37, "L2/3_VIP": 1.22, "L4_Exc": 2.25, "L4_PV": 13.66, "L4_SST": 0.96, "L4_VIP": 0.95, "L5_ET": 0.67, "L5_IT": 1.57, "L5_NP": 10.78, "L5_PV": 13.75, "L5_SST": 0.4, "L5_VIP": 1.38, "L6_Exc": 2.04, "L6_PV": 19.93, "L6_SST": 7.67, "L6_VIP": 5.74}

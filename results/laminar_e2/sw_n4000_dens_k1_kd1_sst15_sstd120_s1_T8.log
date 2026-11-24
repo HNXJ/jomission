@@ -1,0 +1,9 @@
+{"seed": 1, "T_s": 8.0, "wall_s": {"construct": 6.985896825790405, "simulate": 1419.0928308963776, "total": 1429.8590457439423}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': 0.8705286087012215, 'jackknife_se': 0.4040626298793232, 'z': 2.1544397930618144, 'crossing_2se': True, 'zero_depth_first': -0.2219959128831234} shuffle_p 0.16666666666666666
+per_cell_mean manuscript {'contrast_M': 0.8863830558562291, 'jackknife_se': 0.36389500587908047, 'z': 2.4358208866179587, 'crossing_2se': True, 'zero_depth_first': -0.20392345803190215} shuffle_p 0.16666666666666666
+per_cell_mean peak_hz_unit {'S': 31.0, 'M': 5.0, 'D': 6.0}
+sum_over_cells image {'contrast_M': 0.5693431558762639, 'jackknife_se': 0.07561861694610628, 'z': 7.529140030186446, 'crossing_2se': False, 'zero_depth_first': -0.30788626333067537} shuffle_p 0.16666666666666666
+sum_over_cells manuscript {'contrast_M': 0.6286066393946612, 'jackknife_se': 0.05424740275045591, 'z': 11.587773930603124, 'crossing_2se': False, 'zero_depth_first': -0.28298015378999397} shuffle_p 0.16666666666666666
+sum_over_cells peak_hz_unit {'S': 31.0, 'M': 5.0, 'D': 6.0}
+{"tag": "sw_n4000_dens_k1_kd1_sst15_sstd120_s1_T8", "row": "per_cell_mean", "r_proto": 0.17, "r_area": 0.159, "r_map": 0.218, "r_ab": 0.724, "r_gm": 0.201, "null95": 0.241}
+{"tag": "sw_n4000_dens_k1_kd1_sst15_sstd120_s1_T8", "row": "sum_over_cells", "r_proto": 0.225, "r_area": 0.213, "r_map": 0.262, "r_ab": -0.169, "r_gm": 0.417, "null95": 0.266}

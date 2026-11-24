@@ -1,0 +1,136 @@
+{
+ "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
+ "layout": "e2_3unit_n4000_dens_k0p3",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "depth_rel_L4": {
+  "S": -0.4,
+  "M": 0.0,
+  "D": 0.3
+ },
+ "seed": 1,
+ "T_s": 8.0,
+ "dt_ms": 0.1,
+ "p_inter": null,
+ "k_inter": 80.0,
+ "rho": {
+  "S": 0.25,
+  "M": 1.0,
+  "D": 2.0
+ },
+ "sizes": {
+  "S": {
+   "E": 5785,
+   "PV": 868,
+   "SOM": 217
+  },
+  "M": {
+   "E": 3668,
+   "PV": 344,
+   "SOM": 344
+  },
+  "D": {
+   "E": 2547,
+   "PV": 159,
+   "SOM": 319
+  }
+ },
+ "edges": {
+  "e_e_S": 3239930,
+  "e_pv_S": 486738,
+  "e_sst_S": 121285,
+  "pv_e_S": 485920,
+  "pv_pv_S": 73136,
+  "sst_e_S": 121780,
+  "sst_pv_S": 18209,
+  "e_e_M": 2053665,
+  "e_pv_M": 192450,
+  "e_sst_M": 192949,
+  "pv_e_M": 192325,
+  "pv_pv_M": 18063,
+  "sst_e_M": 191977,
+  "sst_pv_M": 18242,
+  "e_e_D": 1425489,
+  "e_pv_D": 88914,
+  "e_sst_D": 178200,
+  "pv_e_D": 88931,
+  "pv_pv_D": 5642,
+  "sst_e_D": 178767,
+  "sst_pv_D": 10980,
+  "x_S_M_e_e": 88372,
+  "x_S_M_e_pv": 8324,
+  "x_S_M_e_som": 8300,
+  "x_M_S_e_e": 277095,
+  "x_M_S_e_pv": 41537,
+  "x_M_S_e_som": 10503,
+  "x_M_D_e_e": 122594,
+  "x_M_D_e_pv": 7648,
+  "x_M_D_e_som": 15396,
+  "x_D_M_e_e": 87862,
+  "x_D_M_e_pv": 8234,
+  "x_D_M_e_som": 8379
+ },
+ "tau_sst_e_ms": null,
+ "modifiers": {
+  "n": 4000.0,
+  "dens": 1.0,
+  "k": 0.3
+ },
+ "g_columns": [
+  [
+   "S",
+   "ampa"
+  ],
+  [
+   "S",
+   "gaba"
+  ],
+  [
+   "M",
+   "ampa"
+  ],
+  [
+   "M",
+   "gaba"
+  ],
+  [
+   "D",
+   "ampa"
+  ],
+  [
+   "D",
+   "gaba"
+  ]
+ ],
+ "g_reversal_mV": [
+  0.0,
+  -80.0,
+  0.0,
+  -80.0,
+  0.0,
+  -80.0
+ ],
+ "g_tau_ms": [
+  2.0,
+  8.0,
+  2.0,
+  8.0,
+  2.0,
+  8.0
+ ],
+ "lfp_proxy": "|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed -65.0 mV, recurrent only",
+ "wall_s": {
+  "construct": 15.012280941009521,
+  "simulate": 2707.328518152237,
+  "total": 2735.866064786911
+ },
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "/private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/jaxfne-0.5.9-site/jaxfne/__init__.py",
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "git_sha": "771c8144656539f6dc00ed65762325e2171b0b08"
+}

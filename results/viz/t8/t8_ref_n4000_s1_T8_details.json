@@ -1,0 +1,1074 @@
+{
+ "tag": "t8_ref_n4000_s1_T8",
+ "layout": "e2_3unit_n4000_dens_k1_kd1_sst15",
+ "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
+ "N": 14251,
+ "measure_units": {
+  "voltage": "mV",
+  "time": "ms",
+  "capacitance": "pF",
+  "conductance": "nS",
+  "current": "pA",
+  "rate": "Hz",
+  "source": "caminos_e0.py docstring (JaxFNE units)"
+ },
+ "modules": [
+  {
+   "name": "S",
+   "depth_rel_L4": -0.4,
+   "rho": 0.25,
+   "N_E": 5785,
+   "N_PV": 868,
+   "N_SOM": 217,
+   "N": 6870
+  },
+  {
+   "name": "M",
+   "depth_rel_L4": 0.0,
+   "rho": 1.0,
+   "N_E": 3668,
+   "N_PV": 344,
+   "N_SOM": 344,
+   "N": 4356
+  },
+  {
+   "name": "D",
+   "depth_rel_L4": 0.3,
+   "rho": 2.0,
+   "N_E": 2547,
+   "N_PV": 159,
+   "N_SOM": 319,
+   "N": 3025
+  }
+ ],
+ "rules": [
+  {
+   "rule": "e_e_S",
+   "pre": "E",
+   "post": "E",
+   "module": "S",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 4684637
+  },
+  {
+   "rule": "e_pv_S",
+   "pre": "E",
+   "post": "PV",
+   "module": "S",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 705032
+  },
+  {
+   "rule": "e_sst_S",
+   "pre": "E",
+   "post": "SOM",
+   "module": "S",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 175640
+  },
+  {
+   "rule": "pv_e_S",
+   "pre": "PV",
+   "post": "E",
+   "module": "S",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 703143
+  },
+  {
+   "rule": "pv_pv_S",
+   "pre": "PV",
+   "post": "PV",
+   "module": "S",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 105504
+  },
+  {
+   "rule": "sst_e_S",
+   "pre": "SOM",
+   "post": "E",
+   "module": "S",
+   "Q_nS": 5.0,
+   "weight_nS": 2.6666666666666665,
+   "mechanism": "gaba_sst (15 ms)",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; weight x TAU_I/tau (caminos_stack.build_config); tau agent choice",
+   "edges": 176231
+  },
+  {
+   "rule": "sst_pv_S",
+   "pre": "SOM",
+   "post": "PV",
+   "module": "S",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 26316
+  },
+  {
+   "rule": "e_e_M",
+   "pre": "E",
+   "post": "E",
+   "module": "M",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 1882762
+  },
+  {
+   "rule": "e_pv_M",
+   "pre": "E",
+   "post": "PV",
+   "module": "M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 176635
+  },
+  {
+   "rule": "e_sst_M",
+   "pre": "E",
+   "post": "SOM",
+   "module": "M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 177001
+  },
+  {
+   "rule": "pv_e_M",
+   "pre": "PV",
+   "post": "E",
+   "module": "M",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 176551
+  },
+  {
+   "rule": "pv_pv_M",
+   "pre": "PV",
+   "post": "PV",
+   "module": "M",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 16577
+  },
+  {
+   "rule": "sst_e_M",
+   "pre": "SOM",
+   "post": "E",
+   "module": "M",
+   "Q_nS": 5.0,
+   "weight_nS": 2.6666666666666665,
+   "mechanism": "gaba_sst (15 ms)",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; weight x TAU_I/tau (caminos_stack.build_config); tau agent choice",
+   "edges": 175993
+  },
+  {
+   "rule": "sst_pv_M",
+   "pre": "SOM",
+   "post": "PV",
+   "module": "M",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 16697
+  },
+  {
+   "rule": "e_e_D",
+   "pre": "E",
+   "post": "E",
+   "module": "D",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 907526
+  },
+  {
+   "rule": "e_pv_D",
+   "pre": "E",
+   "post": "PV",
+   "module": "D",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 56442
+  },
+  {
+   "rule": "e_sst_D",
+   "pre": "E",
+   "post": "SOM",
+   "module": "D",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; ampa receptor",
+   "edges": 113463
+  },
+  {
+   "rule": "pv_e_D",
+   "pre": "PV",
+   "post": "E",
+   "module": "D",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 56463
+  },
+  {
+   "rule": "pv_pv_D",
+   "pre": "PV",
+   "post": "PV",
+   "module": "D",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 3581
+  },
+  {
+   "rule": "sst_e_D",
+   "pre": "SOM",
+   "post": "E",
+   "module": "D",
+   "Q_nS": 5.0,
+   "weight_nS": 2.6666666666666665,
+   "mechanism": "gaba_sst (15 ms)",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; weight x TAU_I/tau (caminos_stack.build_config); tau agent choice",
+   "edges": 113760
+  },
+  {
+   "rule": "sst_pv_D",
+   "pre": "SOM",
+   "post": "PV",
+   "module": "D",
+   "Q_nS": 5.0,
+   "weight_nS": 5.0,
+   "mechanism": "gaba",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q; gaba receptor",
+   "edges": 6958
+  },
+  {
+   "rule": "x_S_M_e_e",
+   "pre": "E",
+   "post": "E",
+   "module": "S->M",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 294237
+  },
+  {
+   "rule": "x_S_M_e_pv",
+   "pre": "E",
+   "post": "PV",
+   "module": "S->M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 27958
+  },
+  {
+   "rule": "x_S_M_e_som",
+   "pre": "E",
+   "post": "SOM",
+   "module": "S->M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 27672
+  },
+  {
+   "rule": "x_M_S_e_e",
+   "pre": "E",
+   "post": "E",
+   "module": "M->S",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 925008
+  },
+  {
+   "rule": "x_M_S_e_pv",
+   "pre": "E",
+   "post": "PV",
+   "module": "M->S",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 138762
+  },
+  {
+   "rule": "x_M_S_e_som",
+   "pre": "E",
+   "post": "SOM",
+   "module": "M->S",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 34793
+  },
+  {
+   "rule": "x_M_D_e_e",
+   "pre": "E",
+   "post": "E",
+   "module": "M->D",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 408273
+  },
+  {
+   "rule": "x_M_D_e_pv",
+   "pre": "E",
+   "post": "PV",
+   "module": "M->D",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 25433
+  },
+  {
+   "rule": "x_M_D_e_som",
+   "pre": "E",
+   "post": "SOM",
+   "module": "M->D",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 50841
+  },
+  {
+   "rule": "x_D_M_e_e",
+   "pre": "E",
+   "post": "E",
+   "module": "D->M",
+   "Q_nS": 2.0,
+   "weight_nS": 2.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 292676
+  },
+  {
+   "rule": "x_D_M_e_pv",
+   "pre": "E",
+   "post": "PV",
+   "module": "D->M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 27622
+  },
+  {
+   "rule": "x_D_M_e_som",
+   "pre": "E",
+   "post": "SOM",
+   "module": "D->M",
+   "Q_nS": 3.0,
+   "weight_nS": 3.0,
+   "mechanism": "ampa",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) Q applied to inter-module edges (caminos_stack); K_INTER agent choice",
+   "edges": 27430
+  }
+ ],
+ "edges": {
+  "e_e_S": 4684637,
+  "e_pv_S": 705032,
+  "e_sst_S": 175640,
+  "pv_e_S": 703143,
+  "pv_pv_S": 105504,
+  "sst_e_S": 176231,
+  "sst_pv_S": 26316,
+  "e_e_M": 1882762,
+  "e_pv_M": 176635,
+  "e_sst_M": 177001,
+  "pv_e_M": 176551,
+  "pv_pv_M": 16577,
+  "sst_e_M": 175993,
+  "sst_pv_M": 16697,
+  "e_e_D": 907526,
+  "e_pv_D": 56442,
+  "e_sst_D": 113463,
+  "pv_e_D": 56463,
+  "pv_pv_D": 3581,
+  "sst_e_D": 113760,
+  "sst_pv_D": 6958,
+  "x_S_M_e_e": 294237,
+  "x_S_M_e_pv": 27958,
+  "x_S_M_e_som": 27672,
+  "x_M_S_e_e": 925008,
+  "x_M_S_e_pv": 138762,
+  "x_M_S_e_som": 34793,
+  "x_M_D_e_e": 408273,
+  "x_M_D_e_pv": 25433,
+  "x_M_D_e_som": 50841,
+  "x_D_M_e_e": 292676,
+  "x_D_M_e_pv": 27622,
+  "x_D_M_e_som": 27430
+ },
+ "parameters": [
+  {
+   "group": "neuron",
+   "name": "E VT_mV",
+   "value": -50.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV VT_mV",
+   "value": -50.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM VT_mV",
+   "value": -50.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E Delta_mV",
+   "value": 2.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV Delta_mV",
+   "value": 0.5,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM Delta_mV",
+   "value": 2.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E Tref_ms",
+   "value": 5.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV Tref_ms",
+   "value": 5.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM Tref_ms",
+   "value": 5.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E tauw_ms",
+   "value": 500.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV tauw_ms",
+   "value": 500.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM tauw_ms",
+   "value": 500.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E a_nS",
+   "value": 4.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV a_nS",
+   "value": 0.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM a_nS",
+   "value": 4.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E b_pA",
+   "value": 50.0,
+   "unit": "pA",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV b_pA",
+   "value": 0.0,
+   "unit": "pA",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM b_pA",
+   "value": 80.0,
+   "unit": "pA",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E C_pF",
+   "value": 200.0,
+   "unit": "pF",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV C_pF",
+   "value": 200.0,
+   "unit": "pF",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM C_pF",
+   "value": 200.0,
+   "unit": "pF",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E gL_nS",
+   "value": 10.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV gL_nS",
+   "value": 10.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM gL_nS",
+   "value": 10.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E EL_mV",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV EL_mV",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM EL_mV",
+   "value": -55.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "E Vreset_mV",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "PV Vreset_mV",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "SOM Vreset_mV",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "neuron",
+   "name": "spike registered at",
+   "value": "V >= VT + 5 Delta",
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "tau_delay",
+   "value": 2.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "tau_E (AMPA)",
+   "value": 2.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "tau_I (GABA)",
+   "value": 8.0,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "E_rev E (AMPA)",
+   "value": 0.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "E_rev I (GABA)",
+   "value": -80.0,
+   "unit": "mV",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "Q E->E",
+   "value": 2.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "Q E->PV, E->SOM",
+   "value": 3.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "Q PV->E, PV->PV, SOM->E, SOM->PV",
+   "value": 5.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "synapse",
+   "name": "Q PV->SOM, SOM->SOM",
+   "value": 0.0,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) (absent in the reference model)"
+  },
+  {
+   "group": "drive",
+   "name": "Q external -> E, PV",
+   "value": 2.5,
+   "unit": "nS",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "drive",
+   "name": "external sources per E and PV cell",
+   "value": 560,
+   "unit": "count",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) (round(p NE), p 0.07; per-cell sources are the port's assumption)"
+  },
+  {
+   "group": "drive",
+   "name": "external rate per source",
+   "value": 4.0,
+   "unit": "Hz",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "drive",
+   "name": "external drive to SOM",
+   "value": "none",
+   "unit": "",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "network",
+   "name": "dt",
+   "value": 0.1,
+   "unit": "ms",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) (Brian2 Euler dt; caminos_e0 DT_MS)"
+  },
+  {
+   "group": "network",
+   "name": "N_E, N_PV, N_SOM (reference)",
+   "value": "8000, 750, 750",
+   "unit": "count",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "network",
+   "name": "within-module p (CAMINOS)",
+   "value": 0.07,
+   "unit": "",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo)"
+  },
+  {
+   "group": "network",
+   "name": "K_E = N_E p (E inputs per cell)",
+   "value": 560.0,
+   "unit": "count",
+   "source": "PORT_SPEC (Tahvili, Vinck, di Volo) (caminos_stack.K_E)"
+  },
+  {
+   "group": "network",
+   "name": "K_INTER (inter-module E inputs per cell per neighbour)",
+   "value": 80.0,
+   "unit": "count",
+   "source": "agent choice (caminos_stack.K_INTER; the code comment cites owner ruling 2026-11-09 for p 0.01 of 8000)"
+  },
+  {
+   "group": "network",
+   "name": "k (inter-module in-degree scale)",
+   "value": 1.0,
+   "unit": "",
+   "source": "agent choice (set)"
+  },
+  {
+   "group": "network",
+   "name": "inter-module in-degree per target E cell",
+   "value": "80 from each neighbour; end module 160 from its one neighbour",
+   "unit": "count",
+   "source": "caminos_stack.build_config; K_INTER agent choice"
+  },
+  {
+   "group": "network",
+   "name": "inter-module p",
+   "value": "null: K_INTER based",
+   "unit": "",
+   "source": "run JSON p_inter; caminos_stack.build_config"
+  },
+  {
+   "group": "network",
+   "name": "within-module p (S)",
+   "value": 0.13999660483390391,
+   "unit": "",
+   "source": "derived: K_E/N_E x (density/mean density)^kd (caminos_stack.local_p); kd agent choice"
+  },
+  {
+   "group": "network",
+   "name": "within-module p (M)",
+   "value": 0.13999990985175864,
+   "unit": "",
+   "source": "derived: K_E/N_E x (density/mean density)^kd (caminos_stack.local_p); kd agent choice"
+  },
+  {
+   "group": "network",
+   "name": "within-module p (D)",
+   "value": 0.14000784126408145,
+   "unit": "",
+   "source": "derived: K_E/N_E x (density/mean density)^kd (caminos_stack.local_p); kd agent choice"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E tau (S)",
+   "value": 15.0,
+   "unit": "ms",
+   "source": "agent choice (sst modifier)"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E weight (S)",
+   "value": 2.6666666666666665,
+   "unit": "nS",
+   "source": "derived: Q_INH x TAU_I/tau (caminos_stack.build_config); tau agent choice"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E tau (M)",
+   "value": 15.0,
+   "unit": "ms",
+   "source": "agent choice (sst modifier)"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E weight (M)",
+   "value": 2.6666666666666665,
+   "unit": "nS",
+   "source": "derived: Q_INH x TAU_I/tau (caminos_stack.build_config); tau agent choice"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E tau (D)",
+   "value": 15.0,
+   "unit": "ms",
+   "source": "agent choice (sst modifier)"
+  },
+  {
+   "group": "synapse",
+   "name": "SOM->E weight (D)",
+   "value": 2.6666666666666665,
+   "unit": "nS",
+   "source": "derived: Q_INH x TAU_I/tau (caminos_stack.build_config); tau agent choice"
+  },
+  {
+   "group": "module",
+   "name": "rho = N_SOM/N_PV (S)",
+   "value": 0.25,
+   "unit": "",
+   "source": "owner ruling 2026-11-09 (caminos_stack.RHO comment); rho 1 = PORT_SPEC 750/750"
+  },
+  {
+   "group": "module",
+   "name": "depth rel L4 (S)",
+   "value": -0.4,
+   "unit": "",
+   "source": "agent choice (caminos_stack.layout)"
+  },
+  {
+   "group": "module",
+   "name": "rho = N_SOM/N_PV (M)",
+   "value": 1.0,
+   "unit": "",
+   "source": "owner ruling 2026-11-09 (caminos_stack.RHO comment); rho 1 = PORT_SPEC 750/750"
+  },
+  {
+   "group": "module",
+   "name": "depth rel L4 (M)",
+   "value": 0.0,
+   "unit": "",
+   "source": "agent choice (caminos_stack.layout)"
+  },
+  {
+   "group": "module",
+   "name": "rho = N_SOM/N_PV (D)",
+   "value": 2.0,
+   "unit": "",
+   "source": "owner ruling 2026-11-09 (caminos_stack.RHO comment); rho 1 = PORT_SPEC 750/750"
+  },
+  {
+   "group": "module",
+   "name": "depth rel L4 (D)",
+   "value": 0.3,
+   "unit": "",
+   "source": "agent choice (caminos_stack.layout)"
+  },
+  {
+   "group": "module",
+   "name": "MODULE_BINS (S)",
+   "value": "-0.6 to -0.2 (9 bins)",
+   "unit": "",
+   "source": "agent choice (caminos_stack.MODULE_BINS on lansa_density_X.json bins)"
+  },
+  {
+   "group": "module",
+   "name": "MODULE_BINS (M)",
+   "value": "-0.15 to 0.15 (7 bins)",
+   "unit": "",
+   "source": "agent choice (caminos_stack.MODULE_BINS on lansa_density_X.json bins)"
+  },
+  {
+   "group": "module",
+   "name": "MODULE_BINS (D)",
+   "value": "0.2 to 0.4 (5 bins)",
+   "unit": "",
+   "source": "agent choice (caminos_stack.MODULE_BINS on lansa_density_X.json bins)"
+  },
+  {
+   "group": "modifier",
+   "name": "n (mean E cells per module)",
+   "value": 4000.0,
+   "unit": "count",
+   "source": "agent choice (layout modifier n)"
+  },
+  {
+   "group": "modifier",
+   "name": "dens (E cells proportional to LANSA density)",
+   "value": "on",
+   "unit": "",
+   "source": "agent choice (layout modifier dens)"
+  },
+  {
+   "group": "modifier",
+   "name": "kd (local in-degree exponent)",
+   "value": 1.0,
+   "unit": "",
+   "source": "agent choice (layout modifier kd)"
+  },
+  {
+   "group": "modifier",
+   "name": "sst (SOM->E decay, all modules)",
+   "value": 15.0,
+   "unit": "ms",
+   "source": "agent choice (layout modifier sst)"
+  },
+  {
+   "group": "analysis",
+   "name": "sigma (probe Gaussian, relative depth)",
+   "value": 0.15,
+   "unit": "",
+   "source": "agent choice (e2_motif_figure.SIGMA)"
+  },
+  {
+   "group": "analysis",
+   "name": "V_ref (current proxy)",
+   "value": -65.0,
+   "unit": "mV",
+   "source": "agent choice (e2_motif_figure.V_REF_MV)"
+  },
+  {
+   "group": "analysis",
+   "name": "discard",
+   "value": 2.0,
+   "unit": "s",
+   "source": "PLAN_LANSA_E2.md, C6 (2 s discarded)"
+  },
+  {
+   "group": "analysis",
+   "name": "multitaper half-bandwidth (smoothing)",
+   "value": 2.0,
+   "unit": "Hz",
+   "source": "e2_motif_figure.SMOOTH_HZ (as the published analysis)"
+  },
+  {
+   "group": "analysis",
+   "name": "RWS delay",
+   "value": 6.0,
+   "unit": "ms",
+   "source": "Mazzoni et al. 2015 (e2_motif_figure.py; plan section 0)"
+  },
+  {
+   "group": "analysis",
+   "name": "RWS alpha",
+   "value": 1.65,
+   "unit": "",
+   "source": "Mazzoni et al. 2015 (e2_motif_figure.py; plan section 0)"
+  },
+  {
+   "group": "analysis",
+   "name": "bands alpha-beta / gamma",
+   "value": "10-30 / 50-150",
+   "unit": "Hz",
+   "source": "owner ruling 2026-11-09 (PLAN_LANSA_E2.md, Owner rulings)"
+  },
+  {
+   "group": "analysis",
+   "name": "probe contacts",
+   "value": "21 at -0.6 to 0.4 rel. L4",
+   "unit": "",
+   "source": "LANSA bin centres (lansa_density_X.json axes; e2_motif_figure.CHANNELS)"
+  }
+ ],
+ "run": [
+  {
+   "key": "layout",
+   "value": "e2_3unit_n4000_dens_k1_kd1_sst15"
+  },
+  {
+   "key": "experiment",
+   "value": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)"
+  },
+  {
+   "key": "seed",
+   "value": 1
+  },
+  {
+   "key": "T_s",
+   "value": 8.0
+  },
+  {
+   "key": "dt_ms",
+   "value": 0.1
+  },
+  {
+   "key": "jaxfne_version",
+   "value": "0.5.9"
+  },
+  {
+   "key": "jaxfne_source sha",
+   "value": "not recorded"
+  },
+  {
+   "key": "jax_devices",
+   "value": [
+    "cpu:0"
+   ]
+  },
+  {
+   "key": "git_sha (run)",
+   "value": "2afef4da71b385277b9a404b3e91d7817b37c1da"
+  },
+  {
+   "key": "git_dirty",
+   "value": true
+  },
+  {
+   "key": "wall_s",
+   "value": 322.5479328632355
+  }
+ ],
+ "notes": [
+  "Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is 0.5.9; PLAN_LANSA_E2.md section 0 and OPEN-37 name 0.5.8 as the project authority.",
+  "Raster: sampled cells only (200 E, 50 PV and 50 SOM per module, a random sample by run_e2_stack.py).",
+  "Module N is the sum of the recorded cell counts; the run JSON has no N key.",
+  "Local p and the inter-module edges are as recorded; the inter-module autapse rule is not checked here."
+ ]
+}

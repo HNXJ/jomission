@@ -1,0 +1,5788 @@
+{
+  "namespace": "q8_evaluation",
+  "owner": "generated",
+  "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+  "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+  "frozen": {
+    "config_hash": "4f9fdeae7428199a",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "frozen_config_hash": "4f9fdeae7428199a",
+    "frozen_hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 2.0,
+    "dt_canonical": 0.1,
+    "seed": 0,
+    "trial_conditions": [
+      "AAAB",
+      "AXAB",
+      "BBBA",
+      "BXBA"
+    ],
+    "duration_ms": 100.0
+  },
+  "capture": {
+    "n_pre_trials": 1,
+    "n_exposure_trials": 1,
+    "pre_H_mean": 0.8207171559333801,
+    "post_H_mean": 0.8045798540115356,
+    "pre_w_mean": 0.0032062919344753027,
+    "post_w_mean": 0.0031714225187897682,
+    "pre_state_hash": "90c6918f6cbd2dca",
+    "post_state_hash": "735f84a5a0d46bc4",
+    "canonical_valid": true
+  },
+  "criteria": {
+    "version": "q8_criteria.v0.1.0",
+    "rate": {
+      "effect_threshold_hz": 0.5,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+    },
+    "field": {
+      "log_ratio_threshold": 0.1,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "min_window_ms": 500.0,
+      "min_trials": 4
+    },
+    "recovery": {
+      "effect_threshold_hz": 0.3,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "window_ms": [
+        531.0,
+        1000.0
+      ]
+    },
+    "t1t7_relevant": {
+      "alpha": 0.05,
+      "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+    },
+    "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+  },
+  "matrix": [
+    {
+      "counterfactual": "H_post_to_H_pre",
+      "carrier": "H",
+      "replaced": [
+        "H"
+      ],
+      "rate_omission_slot_effect_hz": NaN,
+      "rate_omission_slot_polarity": "UNRESOLVED",
+      "rate_overall_effect_hz": 0.0,
+      "rate_overall_polarity": "UNRESOLVED",
+      "field_low_gamma_log_ratio": NaN,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "recovery_effect_hz": NaN,
+      "recovery_polarity": "UNRESOLVED",
+      "t1_delta_hz": NaN,
+      "t1_polarity": "UNRESOLVED",
+      "overall_polarity": "UNRESOLVED",
+      "matched_RNG_preserved": true,
+      "technical_valid": true,
+      "verification_valid": true,
+      "n_trials": 4,
+      "dt_ms": 2.0,
+      "duration_ms": 100.0,
+      "limitations": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered; short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED; recovery window not covered by duration; duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000); dt 2.0 != canonical 0.1 ms (pilot config)"
+    },
+    {
+      "counterfactual": "Theta_post_to_Theta_pre",
+      "carrier": "Theta",
+      "replaced": [
+        "w"
+      ],
+      "rate_omission_slot_effect_hz": NaN,
+      "rate_omission_slot_polarity": "UNRESOLVED",
+      "rate_overall_effect_hz": 0.0,
+      "rate_overall_polarity": "UNRESOLVED",
+      "field_low_gamma_log_ratio": NaN,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "recovery_effect_hz": NaN,
+      "recovery_polarity": "UNRESOLVED",
+      "t1_delta_hz": NaN,
+      "t1_polarity": "UNRESOLVED",
+      "overall_polarity": "UNRESOLVED",
+      "matched_RNG_preserved": true,
+      "technical_valid": true,
+      "verification_valid": true,
+      "n_trials": 4,
+      "dt_ms": 2.0,
+      "duration_ms": 100.0,
+      "limitations": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered; short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED; recovery window not covered by duration; duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000); dt 2.0 != canonical 0.1 ms (pilot config)"
+    },
+    {
+      "counterfactual": "HTheta_post_to_HTheta_pre",
+      "carrier": "H+Theta",
+      "replaced": [
+        "H",
+        "w"
+      ],
+      "rate_omission_slot_effect_hz": NaN,
+      "rate_omission_slot_polarity": "UNRESOLVED",
+      "rate_overall_effect_hz": 0.0,
+      "rate_overall_polarity": "UNRESOLVED",
+      "field_low_gamma_log_ratio": NaN,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "recovery_effect_hz": NaN,
+      "recovery_polarity": "UNRESOLVED",
+      "t1_delta_hz": NaN,
+      "t1_polarity": "UNRESOLVED",
+      "overall_polarity": "UNRESOLVED",
+      "matched_RNG_preserved": true,
+      "technical_valid": true,
+      "verification_valid": true,
+      "n_trials": 4,
+      "dt_ms": 2.0,
+      "duration_ms": 100.0,
+      "limitations": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered; short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED; recovery window not covered by duration; duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000); dt 2.0 != canonical 0.1 ms (pilot config)"
+    },
+    {
+      "counterfactual": "fast_X_post_to_X_pre",
+      "carrier": "X_fast",
+      "replaced": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state"
+      ],
+      "rate_omission_slot_effect_hz": NaN,
+      "rate_omission_slot_polarity": "UNRESOLVED",
+      "rate_overall_effect_hz": -0.3000030517578125,
+      "rate_overall_polarity": "NEGATIVE",
+      "field_low_gamma_log_ratio": NaN,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "recovery_effect_hz": NaN,
+      "recovery_polarity": "UNRESOLVED",
+      "t1_delta_hz": NaN,
+      "t1_polarity": "UNRESOLVED",
+      "overall_polarity": "UNRESOLVED",
+      "matched_RNG_preserved": true,
+      "technical_valid": true,
+      "verification_valid": true,
+      "n_trials": 4,
+      "dt_ms": 2.0,
+      "duration_ms": 100.0,
+      "limitations": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered; short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED; recovery window not covered by duration; duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000); dt 2.0 != canonical 0.1 ms (pilot config)"
+    },
+    {
+      "counterfactual": "history_valid_HTheta_vs_fast",
+      "carrier": "history_valid",
+      "replaced": [
+        "H",
+        "w"
+      ],
+      "rate_omission_slot_effect_hz": NaN,
+      "rate_omission_slot_polarity": "UNRESOLVED",
+      "rate_overall_effect_hz": 0.0,
+      "rate_overall_polarity": "UNRESOLVED",
+      "field_low_gamma_log_ratio": NaN,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "recovery_effect_hz": NaN,
+      "recovery_polarity": "UNRESOLVED",
+      "t1_delta_hz": NaN,
+      "t1_polarity": "UNRESOLVED",
+      "overall_polarity": "UNRESOLVED",
+      "matched_RNG_preserved": true,
+      "technical_valid": true,
+      "verification_valid": true,
+      "n_trials": 4,
+      "dt_ms": 2.0,
+      "duration_ms": 100.0,
+      "limitations": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered; short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED; recovery window not covered by duration; duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000); dt 2.0 != canonical 0.1 ms (pilot config)"
+    }
+  ],
+  "per_counterfactual": {
+    "H_post_to_H_pre": {
+      "replacement_name": "H_post_to_H_pre",
+      "spec": {
+        "replaced": [
+          "H"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "w",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+        "carrier": "H"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "735f84a5a0d46bc4"
+          },
+          "pre": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "b55d3f4f969a8370",
+            "step_index": "1a6562590ef19d10",
+            "delay_state": "None",
+            "_combined": "90c6918f6cbd2dca"
+          },
+          "replaced": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "f218af4ba47fbe2d",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "3184eedeffd82753"
+          }
+        },
+        "declared_replaced": [
+          "H"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "matched_RNG_preserved": true,
+      "matched_inputs": {
+        "trial_conditions": [
+          "AAAB",
+          "AXAB",
+          "BBBA",
+          "BXBA"
+        ],
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "seed_base": 1755
+      },
+      "hashes": {
+        "post": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "735f84a5a0d46bc4"
+        },
+        "pre": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "b55d3f4f969a8370",
+          "step_index": "1a6562590ef19d10",
+          "delay_state": "None",
+          "_combined": "90c6918f6cbd2dca"
+        },
+        "replaced": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "f218af4ba47fbe2d",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "3184eedeffd82753"
+        }
+      },
+      "rate_phenotype": {
+        "overall_rate": {
+          "effect_rep_minus_post_hz": 0.0,
+          "mean_post_hz": 91.0250015258789,
+          "mean_rep_hz": 91.0250015258789,
+          "sd_post": 0.0,
+          "sd_rep": 0.0,
+          "n": 4,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": 0.0,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_rep": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_diff": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "omission_slot_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "recovery_window_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "area_rates": {
+          "V1": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 85.69999694824219,
+            "mean_rep_hz": 85.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_rep": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "V4": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 87.30000305175781,
+            "mean_rep_hz": 87.30000305175781,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_rep": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "FEF": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 92.69999694824219,
+            "mean_rep_hz": 92.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_rep": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "PFC": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 98.39999389648438,
+            "mean_rep_hz": 98.39999389648438,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_rep": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "denominators": {
+          "n_trials": 4,
+          "trial_conditions": [
+            "AAAB",
+            "AXAB",
+            "BBBA",
+            "BXBA"
+          ]
+        },
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false
+      },
+      "field_phenotype": {
+        "per_band_area": {
+          "theta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "alpha": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "beta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "low_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "high_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          }
+        },
+        "per_trial_bandpower_post": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "per_trial_bandpower_rep": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "low_gamma_frontal_mean_log_ratio": NaN,
+        "low_gamma_v1_log_ratio": NaN,
+        "low_gamma_frontal_minus_v1": NaN,
+        "low_gamma_polarity": "UNRESOLVED",
+        "overall_field_polarity": "UNRESOLVED",
+        "n_trials": 4,
+        "n_time": 50,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "field_solver_status": "linear_solver",
+        "provenance": {
+          "method": "linear_partition_of_laminar_proxy (area_local) + periodogram bandpower",
+          "bands": {
+            "theta": [
+              4.0,
+              8.0
+            ],
+            "alpha": [
+              8.0,
+              14.0
+            ],
+            "beta": [
+              14.0,
+              30.0
+            ],
+            "low_gamma": [
+              30.0,
+              50.0
+            ],
+            "high_gamma": [
+              50.0,
+              80.0
+            ]
+          },
+          "areas": [
+            "V1",
+            "V4",
+            "FEF",
+            "PFC"
+          ],
+          "window": [
+            0.0,
+            531.0
+          ],
+          "owner": "generated"
+        }
+      },
+      "recovery_trajectory": {
+        "bins_ms": [
+          -1000.0,
+          -900.0,
+          -800.0,
+          -700.0,
+          -600.0,
+          -500.0,
+          -400.0,
+          -300.0,
+          -200.0,
+          -100.0,
+          0.0,
+          100.0,
+          200.0,
+          300.0,
+          400.0,
+          500.0,
+          600.0,
+          700.0,
+          800.0,
+          900.0,
+          1000.0
+        ],
+        "bin_centers_ms": [
+          -950.0,
+          -850.0,
+          -750.0,
+          -650.0,
+          -550.0,
+          -450.0,
+          -350.0,
+          -250.0,
+          -150.0,
+          -50.0,
+          50.0,
+          150.0,
+          250.0,
+          350.0,
+          450.0,
+          550.0,
+          650.0,
+          750.0,
+          850.0,
+          950.0
+        ],
+        "avg_diff_rep_minus_post_hz": [
+          1.2867660522460938,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN
+        ],
+        "per_bin_counts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recovery_effect_hz": NaN,
+        "recovery_polarity": "UNRESOLVED",
+        "p_value": NaN,
+        "cohens_d": NaN,
+        "n_p2_trials": 2,
+        "limitation": "recovery window not covered by duration",
+        "per_trial_post_binned": [
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "per_trial_rep_binned": [
+          [
+            93.52941131591797,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            93.52941131591797,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "polarity": "UNRESOLVED"
+      },
+      "t1t7_relevant": {
+        "t1_omission_effect_post_hz": NaN,
+        "t1_omission_effect_rep_hz": NaN,
+        "t1_delta_rep_minus_post_hz": NaN,
+        "t1_polarity": "UNRESOLVED",
+        "t3_v1_omission_effect_post_hz": NaN,
+        "t3_v1_omission_effect_rep_hz": NaN,
+        "t3_delta_hz": NaN,
+        "t3_polarity": "UNRESOLVED",
+        "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
+        "limitation": null
+      },
+      "overall_polarity": "UNRESOLVED",
+      "primary_polarities": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "technical_limitations": [
+        "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "recovery window not covered by duration",
+        "duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)",
+        "dt 2.0 != canonical 0.1 ms (pilot config)"
+      ],
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    "Theta_post_to_Theta_pre": {
+      "replacement_name": "Theta_post_to_Theta_pre",
+      "spec": {
+        "replaced": [
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "H",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+        "carrier": "Theta"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "735f84a5a0d46bc4"
+          },
+          "pre": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "b55d3f4f969a8370",
+            "step_index": "1a6562590ef19d10",
+            "delay_state": "None",
+            "_combined": "90c6918f6cbd2dca"
+          },
+          "replaced": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "cd9a1a5b194b2c79"
+          }
+        },
+        "declared_replaced": [
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "matched_RNG_preserved": true,
+      "matched_inputs": {
+        "trial_conditions": [
+          "AAAB",
+          "AXAB",
+          "BBBA",
+          "BXBA"
+        ],
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "seed_base": 1849
+      },
+      "hashes": {
+        "post": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "735f84a5a0d46bc4"
+        },
+        "pre": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "b55d3f4f969a8370",
+          "step_index": "1a6562590ef19d10",
+          "delay_state": "None",
+          "_combined": "90c6918f6cbd2dca"
+        },
+        "replaced": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "cd9a1a5b194b2c79"
+        }
+      },
+      "rate_phenotype": {
+        "overall_rate": {
+          "effect_rep_minus_post_hz": 0.0,
+          "mean_post_hz": 91.0250015258789,
+          "mean_rep_hz": 91.0250015258789,
+          "sd_post": 0.0,
+          "sd_rep": 0.0,
+          "n": 4,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": 0.0,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_rep": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_diff": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "omission_slot_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "recovery_window_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "area_rates": {
+          "V1": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 85.69999694824219,
+            "mean_rep_hz": 85.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_rep": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "V4": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 87.30000305175781,
+            "mean_rep_hz": 87.30000305175781,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_rep": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "FEF": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 92.69999694824219,
+            "mean_rep_hz": 92.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_rep": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "PFC": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 98.39999389648438,
+            "mean_rep_hz": 98.39999389648438,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_rep": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "denominators": {
+          "n_trials": 4,
+          "trial_conditions": [
+            "AAAB",
+            "AXAB",
+            "BBBA",
+            "BXBA"
+          ]
+        },
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false
+      },
+      "field_phenotype": {
+        "per_band_area": {
+          "theta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "alpha": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "beta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "low_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "high_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          }
+        },
+        "per_trial_bandpower_post": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "per_trial_bandpower_rep": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "low_gamma_frontal_mean_log_ratio": NaN,
+        "low_gamma_v1_log_ratio": NaN,
+        "low_gamma_frontal_minus_v1": NaN,
+        "low_gamma_polarity": "UNRESOLVED",
+        "overall_field_polarity": "UNRESOLVED",
+        "n_trials": 4,
+        "n_time": 50,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "field_solver_status": "linear_solver",
+        "provenance": {
+          "method": "linear_partition_of_laminar_proxy (area_local) + periodogram bandpower",
+          "bands": {
+            "theta": [
+              4.0,
+              8.0
+            ],
+            "alpha": [
+              8.0,
+              14.0
+            ],
+            "beta": [
+              14.0,
+              30.0
+            ],
+            "low_gamma": [
+              30.0,
+              50.0
+            ],
+            "high_gamma": [
+              50.0,
+              80.0
+            ]
+          },
+          "areas": [
+            "V1",
+            "V4",
+            "FEF",
+            "PFC"
+          ],
+          "window": [
+            0.0,
+            531.0
+          ],
+          "owner": "generated"
+        }
+      },
+      "recovery_trajectory": {
+        "bins_ms": [
+          -1000.0,
+          -900.0,
+          -800.0,
+          -700.0,
+          -600.0,
+          -500.0,
+          -400.0,
+          -300.0,
+          -200.0,
+          -100.0,
+          0.0,
+          100.0,
+          200.0,
+          300.0,
+          400.0,
+          500.0,
+          600.0,
+          700.0,
+          800.0,
+          900.0,
+          1000.0
+        ],
+        "bin_centers_ms": [
+          -950.0,
+          -850.0,
+          -750.0,
+          -650.0,
+          -550.0,
+          -450.0,
+          -350.0,
+          -250.0,
+          -150.0,
+          -50.0,
+          50.0,
+          150.0,
+          250.0,
+          350.0,
+          450.0,
+          550.0,
+          650.0,
+          750.0,
+          850.0,
+          950.0
+        ],
+        "avg_diff_rep_minus_post_hz": [
+          0.22058868408203125,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN
+        ],
+        "per_bin_counts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recovery_effect_hz": NaN,
+        "recovery_polarity": "UNRESOLVED",
+        "p_value": NaN,
+        "cohens_d": NaN,
+        "n_p2_trials": 2,
+        "limitation": "recovery window not covered by duration",
+        "per_trial_post_binned": [
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "per_trial_rep_binned": [
+          [
+            92.4632339477539,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.4632339477539,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "polarity": "UNRESOLVED"
+      },
+      "t1t7_relevant": {
+        "t1_omission_effect_post_hz": NaN,
+        "t1_omission_effect_rep_hz": NaN,
+        "t1_delta_rep_minus_post_hz": NaN,
+        "t1_polarity": "UNRESOLVED",
+        "t3_v1_omission_effect_post_hz": NaN,
+        "t3_v1_omission_effect_rep_hz": NaN,
+        "t3_delta_hz": NaN,
+        "t3_polarity": "UNRESOLVED",
+        "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
+        "limitation": null
+      },
+      "overall_polarity": "UNRESOLVED",
+      "primary_polarities": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "technical_limitations": [
+        "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "recovery window not covered by duration",
+        "duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)",
+        "dt 2.0 != canonical 0.1 ms (pilot config)"
+      ],
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "replacement_name": "HTheta_post_to_HTheta_pre",
+      "spec": {
+        "replaced": [
+          "H",
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+        "carrier": "H+Theta"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "735f84a5a0d46bc4"
+          },
+          "pre": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "b55d3f4f969a8370",
+            "step_index": "1a6562590ef19d10",
+            "delay_state": "None",
+            "_combined": "90c6918f6cbd2dca"
+          },
+          "replaced": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "14bbcba648c0396b"
+          }
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "matched_RNG_preserved": true,
+      "matched_inputs": {
+        "trial_conditions": [
+          "AAAB",
+          "AXAB",
+          "BBBA",
+          "BXBA"
+        ],
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "seed_base": 1744
+      },
+      "hashes": {
+        "post": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "735f84a5a0d46bc4"
+        },
+        "pre": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "b55d3f4f969a8370",
+          "step_index": "1a6562590ef19d10",
+          "delay_state": "None",
+          "_combined": "90c6918f6cbd2dca"
+        },
+        "replaced": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "14bbcba648c0396b"
+        }
+      },
+      "rate_phenotype": {
+        "overall_rate": {
+          "effect_rep_minus_post_hz": 0.0,
+          "mean_post_hz": 91.0250015258789,
+          "mean_rep_hz": 91.0250015258789,
+          "sd_post": 0.0,
+          "sd_rep": 0.0,
+          "n": 4,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": 0.0,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_rep": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_diff": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "omission_slot_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "recovery_window_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "area_rates": {
+          "V1": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 85.69999694824219,
+            "mean_rep_hz": 85.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_rep": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "V4": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 87.30000305175781,
+            "mean_rep_hz": 87.30000305175781,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_rep": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "FEF": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 92.69999694824219,
+            "mean_rep_hz": 92.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_rep": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "PFC": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 98.39999389648438,
+            "mean_rep_hz": 98.39999389648438,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_rep": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "denominators": {
+          "n_trials": 4,
+          "trial_conditions": [
+            "AAAB",
+            "AXAB",
+            "BBBA",
+            "BXBA"
+          ]
+        },
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false
+      },
+      "field_phenotype": {
+        "per_band_area": {
+          "theta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "alpha": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "beta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "low_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "high_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          }
+        },
+        "per_trial_bandpower_post": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "per_trial_bandpower_rep": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "low_gamma_frontal_mean_log_ratio": NaN,
+        "low_gamma_v1_log_ratio": NaN,
+        "low_gamma_frontal_minus_v1": NaN,
+        "low_gamma_polarity": "UNRESOLVED",
+        "overall_field_polarity": "UNRESOLVED",
+        "n_trials": 4,
+        "n_time": 50,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "field_solver_status": "linear_solver",
+        "provenance": {
+          "method": "linear_partition_of_laminar_proxy (area_local) + periodogram bandpower",
+          "bands": {
+            "theta": [
+              4.0,
+              8.0
+            ],
+            "alpha": [
+              8.0,
+              14.0
+            ],
+            "beta": [
+              14.0,
+              30.0
+            ],
+            "low_gamma": [
+              30.0,
+              50.0
+            ],
+            "high_gamma": [
+              50.0,
+              80.0
+            ]
+          },
+          "areas": [
+            "V1",
+            "V4",
+            "FEF",
+            "PFC"
+          ],
+          "window": [
+            0.0,
+            531.0
+          ],
+          "owner": "generated"
+        }
+      },
+      "recovery_trajectory": {
+        "bins_ms": [
+          -1000.0,
+          -900.0,
+          -800.0,
+          -700.0,
+          -600.0,
+          -500.0,
+          -400.0,
+          -300.0,
+          -200.0,
+          -100.0,
+          0.0,
+          100.0,
+          200.0,
+          300.0,
+          400.0,
+          500.0,
+          600.0,
+          700.0,
+          800.0,
+          900.0,
+          1000.0
+        ],
+        "bin_centers_ms": [
+          -950.0,
+          -850.0,
+          -750.0,
+          -650.0,
+          -550.0,
+          -450.0,
+          -350.0,
+          -250.0,
+          -150.0,
+          -50.0,
+          50.0,
+          150.0,
+          250.0,
+          350.0,
+          450.0,
+          550.0,
+          650.0,
+          750.0,
+          850.0,
+          950.0
+        ],
+        "avg_diff_rep_minus_post_hz": [
+          1.4338226318359375,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN
+        ],
+        "per_bin_counts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recovery_effect_hz": NaN,
+        "recovery_polarity": "UNRESOLVED",
+        "p_value": NaN,
+        "cohens_d": NaN,
+        "n_p2_trials": 2,
+        "limitation": "recovery window not covered by duration",
+        "per_trial_post_binned": [
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "per_trial_rep_binned": [
+          [
+            93.67646789550781,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            93.67646789550781,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "polarity": "UNRESOLVED"
+      },
+      "t1t7_relevant": {
+        "t1_omission_effect_post_hz": NaN,
+        "t1_omission_effect_rep_hz": NaN,
+        "t1_delta_rep_minus_post_hz": NaN,
+        "t1_polarity": "UNRESOLVED",
+        "t3_v1_omission_effect_post_hz": NaN,
+        "t3_v1_omission_effect_rep_hz": NaN,
+        "t3_delta_hz": NaN,
+        "t3_polarity": "UNRESOLVED",
+        "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
+        "limitation": null
+      },
+      "overall_polarity": "UNRESOLVED",
+      "primary_polarities": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "technical_limitations": [
+        "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "recovery window not covered by duration",
+        "duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)",
+        "dt 2.0 != canonical 0.1 ms (pilot config)"
+      ],
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    "fast_X_post_to_X_pre": {
+      "replacement_name": "fast_X_post_to_X_pre",
+      "spec": {
+        "replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ],
+        "preserved": [
+          "H",
+          "w",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+        "carrier": "X_fast"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "735f84a5a0d46bc4"
+          },
+          "pre": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "b55d3f4f969a8370",
+            "step_index": "1a6562590ef19d10",
+            "delay_state": "None",
+            "_combined": "90c6918f6cbd2dca"
+          },
+          "replaced": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "553073596cbe89b0"
+          }
+        },
+        "declared_replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "matched_RNG_preserved": true,
+      "matched_inputs": {
+        "trial_conditions": [
+          "AAAB",
+          "AXAB",
+          "BBBA",
+          "BXBA"
+        ],
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "seed_base": 1302
+      },
+      "hashes": {
+        "post": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "735f84a5a0d46bc4"
+        },
+        "pre": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "b55d3f4f969a8370",
+          "step_index": "1a6562590ef19d10",
+          "delay_state": "None",
+          "_combined": "90c6918f6cbd2dca"
+        },
+        "replaced": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "553073596cbe89b0"
+        }
+      },
+      "rate_phenotype": {
+        "overall_rate": {
+          "effect_rep_minus_post_hz": -0.3000030517578125,
+          "mean_post_hz": 91.0250015258789,
+          "mean_rep_hz": 90.7249984741211,
+          "sd_post": 0.0,
+          "sd_rep": 0.0,
+          "n": 4,
+          "t_stat": NaN,
+          "p_value": 0.0,
+          "cohens_d": 0.0,
+          "polarity": "NEGATIVE",
+          "per_trial_post": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_rep": [
+            90.7249984741211,
+            90.7249984741211,
+            90.7249984741211,
+            90.7249984741211
+          ],
+          "per_trial_diff": [
+            -0.3000030517578125,
+            -0.3000030517578125,
+            -0.3000030517578125,
+            -0.3000030517578125
+          ]
+        },
+        "omission_slot_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "recovery_window_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "area_rates": {
+          "V1": {
+            "effect_rep_minus_post_hz": 0.600006103515625,
+            "mean_post_hz": 85.69999694824219,
+            "mean_rep_hz": 86.30000305175781,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": 0.0,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              86.30000305175781,
+              86.30000305175781,
+              86.30000305175781,
+              86.30000305175781
+            ],
+            "per_trial_rep": [
+              86.30000305175781,
+              86.30000305175781,
+              86.30000305175781,
+              86.30000305175781
+            ],
+            "per_trial_diff": [
+              0.600006103515625,
+              0.600006103515625,
+              0.600006103515625,
+              0.600006103515625
+            ]
+          },
+          "V4": {
+            "effect_rep_minus_post_hz": 0.1999969482421875,
+            "mean_post_hz": 87.30000305175781,
+            "mean_rep_hz": 87.5,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": 0.0,
+            "cohens_d": 0.0,
+            "polarity": "NEGATIVE",
+            "per_trial_post": [
+              87.5,
+              87.5,
+              87.5,
+              87.5
+            ],
+            "per_trial_rep": [
+              87.5,
+              87.5,
+              87.5,
+              87.5
+            ],
+            "per_trial_diff": [
+              0.1999969482421875,
+              0.1999969482421875,
+              0.1999969482421875,
+              0.1999969482421875
+            ]
+          },
+          "FEF": {
+            "effect_rep_minus_post_hz": -0.0999908447265625,
+            "mean_post_hz": 92.69999694824219,
+            "mean_rep_hz": 92.60000610351562,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": 0.0,
+            "cohens_d": 0.0,
+            "polarity": "NEGATIVE",
+            "per_trial_post": [
+              92.60000610351562,
+              92.60000610351562,
+              92.60000610351562,
+              92.60000610351562
+            ],
+            "per_trial_rep": [
+              92.60000610351562,
+              92.60000610351562,
+              92.60000610351562,
+              92.60000610351562
+            ],
+            "per_trial_diff": [
+              -0.0999908447265625,
+              -0.0999908447265625,
+              -0.0999908447265625,
+              -0.0999908447265625
+            ]
+          },
+          "PFC": {
+            "effect_rep_minus_post_hz": -1.899993896484375,
+            "mean_post_hz": 98.39999389648438,
+            "mean_rep_hz": 96.5,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": 0.0,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              96.5,
+              96.5,
+              96.5,
+              96.5
+            ],
+            "per_trial_rep": [
+              96.5,
+              96.5,
+              96.5,
+              96.5
+            ],
+            "per_trial_diff": [
+              -1.899993896484375,
+              -1.899993896484375,
+              -1.899993896484375,
+              -1.899993896484375
+            ]
+          }
+        },
+        "denominators": {
+          "n_trials": 4,
+          "trial_conditions": [
+            "AAAB",
+            "AXAB",
+            "BBBA",
+            "BXBA"
+          ]
+        },
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false
+      },
+      "field_phenotype": {
+        "per_band_area": {
+          "theta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "alpha": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "beta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "low_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "high_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          }
+        },
+        "per_trial_bandpower_post": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "per_trial_bandpower_rep": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "low_gamma_frontal_mean_log_ratio": NaN,
+        "low_gamma_v1_log_ratio": NaN,
+        "low_gamma_frontal_minus_v1": NaN,
+        "low_gamma_polarity": "UNRESOLVED",
+        "overall_field_polarity": "UNRESOLVED",
+        "n_trials": 4,
+        "n_time": 50,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "field_solver_status": "linear_solver",
+        "provenance": {
+          "method": "linear_partition_of_laminar_proxy (area_local) + periodogram bandpower",
+          "bands": {
+            "theta": [
+              4.0,
+              8.0
+            ],
+            "alpha": [
+              8.0,
+              14.0
+            ],
+            "beta": [
+              14.0,
+              30.0
+            ],
+            "low_gamma": [
+              30.0,
+              50.0
+            ],
+            "high_gamma": [
+              50.0,
+              80.0
+            ]
+          },
+          "areas": [
+            "V1",
+            "V4",
+            "FEF",
+            "PFC"
+          ],
+          "window": [
+            0.0,
+            531.0
+          ],
+          "owner": "generated"
+        }
+      },
+      "recovery_trajectory": {
+        "bins_ms": [
+          -1000.0,
+          -900.0,
+          -800.0,
+          -700.0,
+          -600.0,
+          -500.0,
+          -400.0,
+          -300.0,
+          -200.0,
+          -100.0,
+          0.0,
+          100.0,
+          200.0,
+          300.0,
+          400.0,
+          500.0,
+          600.0,
+          700.0,
+          800.0,
+          900.0,
+          1000.0
+        ],
+        "bin_centers_ms": [
+          -950.0,
+          -850.0,
+          -750.0,
+          -650.0,
+          -550.0,
+          -450.0,
+          -350.0,
+          -250.0,
+          -150.0,
+          -50.0,
+          50.0,
+          150.0,
+          250.0,
+          350.0,
+          450.0,
+          550.0,
+          650.0,
+          750.0,
+          850.0,
+          950.0
+        ],
+        "avg_diff_rep_minus_post_hz": [
+          0.5514755249023438,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN
+        ],
+        "per_bin_counts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recovery_effect_hz": NaN,
+        "recovery_polarity": "UNRESOLVED",
+        "p_value": NaN,
+        "cohens_d": NaN,
+        "n_p2_trials": 2,
+        "limitation": "recovery window not covered by duration",
+        "per_trial_post_binned": [
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "per_trial_rep_binned": [
+          [
+            92.79412078857422,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.79412078857422,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "polarity": "UNRESOLVED"
+      },
+      "t1t7_relevant": {
+        "t1_omission_effect_post_hz": NaN,
+        "t1_omission_effect_rep_hz": NaN,
+        "t1_delta_rep_minus_post_hz": NaN,
+        "t1_polarity": "UNRESOLVED",
+        "t3_v1_omission_effect_post_hz": NaN,
+        "t3_v1_omission_effect_rep_hz": NaN,
+        "t3_delta_hz": NaN,
+        "t3_polarity": "UNRESOLVED",
+        "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
+        "limitation": null
+      },
+      "overall_polarity": "UNRESOLVED",
+      "primary_polarities": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "technical_limitations": [
+        "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "recovery window not covered by duration",
+        "duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)",
+        "dt 2.0 != canonical 0.1 ms (pilot config)"
+      ],
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    "history_valid_HTheta_vs_fast": {
+      "replacement_name": "history_valid_HTheta_vs_fast",
+      "spec": {
+        "replaced": [
+          "H",
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+        "carrier": "history_valid",
+        "alias_of": "HTheta_post_to_HTheta_pre"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "9a58dad0c89d7bf6",
+            "w": "07e4ea367959b89c",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "735f84a5a0d46bc4"
+          },
+          "pre": {
+            "v": "7bf53ef9eb33c50d",
+            "u": "a52ac1895a6beec2",
+            "prev_spikes": "1c7d9cccdf4b0b8f",
+            "syn_state": "23e31527335c558f",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "b55d3f4f969a8370",
+            "step_index": "1a6562590ef19d10",
+            "delay_state": "None",
+            "_combined": "90c6918f6cbd2dca"
+          },
+          "replaced": {
+            "v": "2f8411d0074a2a2f",
+            "u": "35865c05123b825d",
+            "prev_spikes": "0f7f18f47e88307f",
+            "syn_state": "15f3c63564d95f1e",
+            "H": "f218af4ba47fbe2d",
+            "w": "46d1d949c3ff2a6e",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "14bbcba648c0396b"
+          }
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "matched_RNG_preserved": true,
+      "matched_inputs": {
+        "trial_conditions": [
+          "AAAB",
+          "AXAB",
+          "BBBA",
+          "BXBA"
+        ],
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "seed_base": 1157
+      },
+      "hashes": {
+        "post": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "9a58dad0c89d7bf6",
+          "w": "07e4ea367959b89c",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "735f84a5a0d46bc4"
+        },
+        "pre": {
+          "v": "7bf53ef9eb33c50d",
+          "u": "a52ac1895a6beec2",
+          "prev_spikes": "1c7d9cccdf4b0b8f",
+          "syn_state": "23e31527335c558f",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "b55d3f4f969a8370",
+          "step_index": "1a6562590ef19d10",
+          "delay_state": "None",
+          "_combined": "90c6918f6cbd2dca"
+        },
+        "replaced": {
+          "v": "2f8411d0074a2a2f",
+          "u": "35865c05123b825d",
+          "prev_spikes": "0f7f18f47e88307f",
+          "syn_state": "15f3c63564d95f1e",
+          "H": "f218af4ba47fbe2d",
+          "w": "46d1d949c3ff2a6e",
+          "prng_key": "376f799491fe537e",
+          "step_index": "ad57366865126e55",
+          "delay_state": "None",
+          "_combined": "14bbcba648c0396b"
+        }
+      },
+      "rate_phenotype": {
+        "overall_rate": {
+          "effect_rep_minus_post_hz": 0.0,
+          "mean_post_hz": 91.0250015258789,
+          "mean_rep_hz": 91.0250015258789,
+          "sd_post": 0.0,
+          "sd_rep": 0.0,
+          "n": 4,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": 0.0,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_rep": [
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789,
+            91.0250015258789
+          ],
+          "per_trial_diff": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "omission_slot_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "recovery_window_rate": {
+          "effect_rep_minus_post_hz": NaN,
+          "mean_post_hz": NaN,
+          "mean_rep_hz": NaN,
+          "sd_post": NaN,
+          "sd_rep": NaN,
+          "n": 0,
+          "t_stat": NaN,
+          "p_value": NaN,
+          "cohens_d": NaN,
+          "polarity": "UNRESOLVED",
+          "per_trial_post": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_rep": [
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          "per_trial_diff": []
+        },
+        "area_rates": {
+          "V1": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 85.69999694824219,
+            "mean_rep_hz": 85.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_rep": [
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219,
+              85.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "V4": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 87.30000305175781,
+            "mean_rep_hz": 87.30000305175781,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_rep": [
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781,
+              87.30000305175781
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "FEF": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 92.69999694824219,
+            "mean_rep_hz": 92.69999694824219,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_rep": [
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219,
+              92.69999694824219
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "PFC": {
+            "effect_rep_minus_post_hz": 0.0,
+            "mean_post_hz": 98.39999389648438,
+            "mean_rep_hz": 98.39999389648438,
+            "sd_post": 0.0,
+            "sd_rep": 0.0,
+            "n": 4,
+            "t_stat": NaN,
+            "p_value": NaN,
+            "cohens_d": 0.0,
+            "polarity": "UNRESOLVED",
+            "per_trial_post": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_rep": [
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438,
+              98.39999389648438
+            ],
+            "per_trial_diff": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "denominators": {
+          "n_trials": 4,
+          "trial_conditions": [
+            "AAAB",
+            "AXAB",
+            "BBBA",
+            "BXBA"
+          ]
+        },
+        "dt_ms": 2.0,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false
+      },
+      "field_phenotype": {
+        "per_band_area": {
+          "theta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "alpha": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "beta": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "low_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          },
+          "high_gamma": {
+            "V1": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "V4": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "FEF": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            },
+            "PFC": {
+              "n": 0,
+              "mean_post": NaN,
+              "mean_rep": NaN,
+              "log_ratio_rep_over_post": NaN,
+              "t_stat": NaN,
+              "p_value": NaN,
+              "cohens_d": NaN,
+              "polarity": "UNRESOLVED",
+              "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED"
+            }
+          }
+        },
+        "per_trial_bandpower_post": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "per_trial_bandpower_rep": [
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ],
+          [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ]
+          ]
+        ],
+        "low_gamma_frontal_mean_log_ratio": NaN,
+        "low_gamma_v1_log_ratio": NaN,
+        "low_gamma_frontal_minus_v1": NaN,
+        "low_gamma_polarity": "UNRESOLVED",
+        "overall_field_polarity": "UNRESOLVED",
+        "n_trials": 4,
+        "n_time": 50,
+        "duration_ms": 100.0,
+        "limitation": "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "field_solver_status": "linear_solver",
+        "provenance": {
+          "method": "linear_partition_of_laminar_proxy (area_local) + periodogram bandpower",
+          "bands": {
+            "theta": [
+              4.0,
+              8.0
+            ],
+            "alpha": [
+              8.0,
+              14.0
+            ],
+            "beta": [
+              14.0,
+              30.0
+            ],
+            "low_gamma": [
+              30.0,
+              50.0
+            ],
+            "high_gamma": [
+              50.0,
+              80.0
+            ]
+          },
+          "areas": [
+            "V1",
+            "V4",
+            "FEF",
+            "PFC"
+          ],
+          "window": [
+            0.0,
+            531.0
+          ],
+          "owner": "generated"
+        }
+      },
+      "recovery_trajectory": {
+        "bins_ms": [
+          -1000.0,
+          -900.0,
+          -800.0,
+          -700.0,
+          -600.0,
+          -500.0,
+          -400.0,
+          -300.0,
+          -200.0,
+          -100.0,
+          0.0,
+          100.0,
+          200.0,
+          300.0,
+          400.0,
+          500.0,
+          600.0,
+          700.0,
+          800.0,
+          900.0,
+          1000.0
+        ],
+        "bin_centers_ms": [
+          -950.0,
+          -850.0,
+          -750.0,
+          -650.0,
+          -550.0,
+          -450.0,
+          -350.0,
+          -250.0,
+          -150.0,
+          -50.0,
+          50.0,
+          150.0,
+          250.0,
+          350.0,
+          450.0,
+          550.0,
+          650.0,
+          750.0,
+          850.0,
+          950.0
+        ],
+        "avg_diff_rep_minus_post_hz": [
+          1.4338226318359375,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN,
+          NaN
+        ],
+        "per_bin_counts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recovery_effect_hz": NaN,
+        "recovery_polarity": "UNRESOLVED",
+        "p_value": NaN,
+        "cohens_d": NaN,
+        "n_p2_trials": 2,
+        "limitation": "recovery window not covered by duration",
+        "per_trial_post_binned": [
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            92.24264526367188,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "per_trial_rep_binned": [
+          [
+            93.67646789550781,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ],
+          [
+            93.67646789550781,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN
+          ]
+        ],
+        "polarity": "UNRESOLVED"
+      },
+      "t1t7_relevant": {
+        "t1_omission_effect_post_hz": NaN,
+        "t1_omission_effect_rep_hz": NaN,
+        "t1_delta_rep_minus_post_hz": NaN,
+        "t1_polarity": "UNRESOLVED",
+        "t3_v1_omission_effect_post_hz": NaN,
+        "t3_v1_omission_effect_rep_hz": NaN,
+        "t3_delta_hz": NaN,
+        "t3_polarity": "UNRESOLVED",
+        "provenance": "rate slot [0,531] omission vs intact; mirrors T1/T3 estimands but reports Q8 delta (rep-post)",
+        "limitation": null
+      },
+      "overall_polarity": "UNRESOLVED",
+      "primary_polarities": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "technical_limitations": [
+        "short_duration 100.0ms <1000ms; slot/recovery estimates underpowered",
+        "short_duration 100.0ms < 500.0ms; bandpower UNRESOLVED",
+        "recovery window not covered by duration",
+        "duration 100.0ms insufficient for full OMISSION_LOCAL (-1000,+1000) or POST_OMISSION (531,1000)",
+        "dt 2.0 != canonical 0.1 ms (pilot config)"
+      ],
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    }
+  },
+  "verification_summary": {
+    "H_post_to_H_pre": {
+      "overall_polarity": "UNRESOLVED",
+      "rate_polarity": "UNRESOLVED",
+      "field_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED",
+      "technical_valid": true,
+      "verification_valid": true,
+      "matched_RNG_preserved": true
+    },
+    "Theta_post_to_Theta_pre": {
+      "overall_polarity": "UNRESOLVED",
+      "rate_polarity": "UNRESOLVED",
+      "field_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED",
+      "technical_valid": true,
+      "verification_valid": true,
+      "matched_RNG_preserved": true
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "overall_polarity": "UNRESOLVED",
+      "rate_polarity": "UNRESOLVED",
+      "field_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED",
+      "technical_valid": true,
+      "verification_valid": true,
+      "matched_RNG_preserved": true
+    },
+    "fast_X_post_to_X_pre": {
+      "overall_polarity": "UNRESOLVED",
+      "rate_polarity": "UNRESOLVED",
+      "field_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED",
+      "technical_valid": true,
+      "verification_valid": true,
+      "matched_RNG_preserved": true
+    },
+    "history_valid_HTheta_vs_fast": {
+      "overall_polarity": "UNRESOLVED",
+      "rate_polarity": "UNRESOLVED",
+      "field_polarity": "UNRESOLVED",
+      "recovery_polarity": "UNRESOLVED",
+      "technical_valid": true,
+      "verification_valid": true,
+      "matched_RNG_preserved": true
+    }
+  },
+  "field_claim_level": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "field_solver_status": "linear_solver",
+  "T1_T7_intact": {
+    "valid": true,
+    "ids": [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7"
+    ],
+    "matrix_version": "jomission_comparison_matrix.v0.1.0"
+  },
+  "continuous_state_note": "C_t=(X,H,\u0398,D,RNG,cursor) preserved except declared carrier; matched inputs/RNG per probe battery",
+  "inference": {
+    "H": "POSITIVE if H_post_to_H_pre rate/field/recovery POSITIVE (history in H)",
+    "Theta": "POSITIVE if Theta_post_to_Theta_pre POSITIVE (history in Theta)",
+    "fast_control": "fast_X_post_to_X_pre is valid fast/history contrast; POSITIVE suggests general sensitivity",
+    "history_valid": "history_valid_HTheta_vs_fast same as HTheta contrasted vs fast for inference"
+  },
+  "provenance": {
+    "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_matrix",
+    "consumes": "state_replacement capture_pre_post_states + apply_replacement_by_name (same carrier sets)",
+    "estimators": "rate (slot, overall, area, recovery) + field (periodogram bandpower, area_local) + recovery trajectory + T1/T3 relevant",
+    "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD; no causal field->spike"
+  }
+}

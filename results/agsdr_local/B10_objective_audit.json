@@ -1,0 +1,7 @@
+{
+  "hits": [],
+  "clean": true,
+  "n_candidates": 24,
+  "note": "FORBIDDEN_TERMS_B10 0 hits required",
+  "objective_text_sample": "{\"soft_keys\": [\"J_rates\", \"J_irregularity\", \"J_synchrony\", \"J_Fano\", \"J_hetero\", \"J_EI\", \"J_CL1C\"], \"description\": \"J uses firing_regime heterogeneity asynchronous_irregular E/I propagation FF/FB H response Theta memory retention etc\"}"
+}

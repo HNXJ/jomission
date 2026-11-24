@@ -1,0 +1,16 @@
+seed,replacement,carrier,replaced,rate_delta_hz,V_m_max_abs_diff,V_m_mean_abs_diff,verification_valid,technical_valid,matched_RNG_preserved,dt_ms,duration_ms,condition,pre_state_hash,post_state_hash,replaced_hash
+0,H_post_to_H_pre,H,H,-0.0059490203857421875,101.10107421875,0.9235700964927673,True,True,True,0.1,4624.0,AXAB,c0b99ef26b53b793,dbefd17988ed3e8b,0ef92d6c86749adb
+0,Theta_post_to_Theta_pre,Theta,w,-0.003246307373046875,101.00289154052734,0.9682155847549438,True,True,True,0.1,4624.0,AXAB,c0b99ef26b53b793,dbefd17988ed3e8b,2f4d770e20de3f8e
+0,HTheta_post_to_HTheta_pre,H+Theta,"H,w",-0.0048656463623046875,100.7669677734375,0.9319027066230774,True,True,True,0.1,4624.0,AXAB,c0b99ef26b53b793,dbefd17988ed3e8b,dc34a87ceaaca141
+0,fast_X_post_to_X_pre,X_fast,"v,u,prev_spikes,syn_state",-0.0010833740234375,104.23991394042969,1.2233690023422241,True,True,True,0.1,4624.0,AXAB,c0b99ef26b53b793,dbefd17988ed3e8b,3b4268ebbfe5e790
+0,history_valid_HTheta_vs_fast,history_valid,"H,w",-0.0048656463623046875,100.7669677734375,0.9319027066230774,True,True,True,0.1,4624.0,AXAB,c0b99ef26b53b793,dbefd17988ed3e8b,dc34a87ceaaca141
+1,H_post_to_H_pre,H,H,0.002162933349609375,103.68217468261719,0.8867394328117371,True,True,True,0.1,4624.0,AXAB,2052fc6df2bfa4b2,68fd7a577fecc3df,51e13e127dbdad4c
+1,Theta_post_to_Theta_pre,Theta,w,0.002162933349609375,103.09473419189453,0.9518745541572571,True,True,True,0.1,4624.0,AXAB,2052fc6df2bfa4b2,68fd7a577fecc3df,4ea5bcfaa0662e07
+1,HTheta_post_to_HTheta_pre,H+Theta,"H,w",0.002704620361328125,102.65338897705078,0.9329871535301208,True,True,True,0.1,4624.0,AXAB,2052fc6df2bfa4b2,68fd7a577fecc3df,120c8c54365fedc9
+1,fast_X_post_to_X_pre,X_fast,"v,u,prev_spikes,syn_state",0.002704620361328125,103.94906616210938,1.2360032796859741,True,True,True,0.1,4624.0,AXAB,2052fc6df2bfa4b2,68fd7a577fecc3df,1554b561bc00b0f8
+1,history_valid_HTheta_vs_fast,history_valid,"H,w",0.002704620361328125,102.65338897705078,0.9329871535301208,True,True,True,0.1,4624.0,AXAB,2052fc6df2bfa4b2,68fd7a577fecc3df,120c8c54365fedc9
+2,H_post_to_H_pre,H,H,0.0054073333740234375,103.96913146972656,0.8925026059150696,True,True,True,0.1,4624.0,AXAB,9478bc5908d58874,1aa1ec089ed4906b,ff6f1cf4dae55bab
+2,Theta_post_to_Theta_pre,Theta,w,0.0048675537109375,102.47614288330078,0.9510105848312378,True,True,True,0.1,4624.0,AXAB,9478bc5908d58874,1aa1ec089ed4906b,01471a7d0d1de83f
+2,HTheta_post_to_HTheta_pre,H+Theta,"H,w",0.0010833740234375,99.68697357177734,0.9718931913375854,True,True,True,0.1,4624.0,AXAB,9478bc5908d58874,1aa1ec089ed4906b,f618d8542275417d
+2,fast_X_post_to_X_pre,X_fast,"v,u,prev_spikes,syn_state",-0.0037822723388671875,103.29887390136719,1.2047499418258667,True,True,True,0.1,4624.0,AXAB,9478bc5908d58874,1aa1ec089ed4906b,f812f39deaf48d3d
+2,history_valid_HTheta_vs_fast,history_valid,"H,w",0.0010833740234375,99.68697357177734,0.9718931913375854,True,True,True,0.1,4624.0,AXAB,9478bc5908d58874,1aa1ec089ed4906b,f618d8542275417d

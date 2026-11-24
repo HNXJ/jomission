@@ -1,0 +1,56 @@
+{
+ "tag": "smoke_s1_T0p5",
+ "discard_s": 0.1,
+ "modules": {
+  "S": {
+   "rho": 0.25,
+   "estimator_E_rate": {
+    "note": "run too short for the E0 estimator"
+   },
+   "lfp_peak_Hz_4_150": 40.0,
+   "lfp_band_power": {
+    "alpha_beta": 453789099641.88184,
+    "gamma": 5187077093096.301
+   },
+   "lfp_gamma_over_alpha_beta": 11.430589886777366,
+   "lfp_relative_power": {
+    "alpha_beta": 0.01285797954290406,
+    "gamma": 0.49033737679311235
+   }
+  },
+  "M": {
+   "rho": 1.0,
+   "estimator_E_rate": {
+    "note": "run too short for the E0 estimator"
+   },
+   "lfp_peak_Hz_4_150": 22.5,
+   "lfp_band_power": {
+    "alpha_beta": 6231060777372.904,
+    "gamma": 2758139488506.152
+   },
+   "lfp_gamma_over_alpha_beta": 0.4426436504233584,
+   "lfp_relative_power": {
+    "alpha_beta": 0.17655525897224134,
+    "gamma": 0.2607285099779208
+   }
+  },
+  "D": {
+   "rho": 2.0,
+   "estimator_E_rate": {
+    "note": "run too short for the E0 estimator"
+   },
+   "lfp_peak_Hz_4_150": 22.5,
+   "lfp_band_power": {
+    "alpha_beta": 35292411076537.66,
+    "gamma": 10578588006120.691
+   },
+   "lfp_gamma_over_alpha_beta": 0.2997411535068887,
+   "lfp_relative_power": {
+    "alpha_beta": 1.0,
+    "gamma": 1.0
+   }
+  }
+ },
+ "alpha_beta_peak_module": "D",
+ "gamma_peak_module": "D"
+}

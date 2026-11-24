@@ -1,0 +1,257 @@
+{
+  "observables": {
+    "visual_field": "visual_field[trial,time,32,32] \u2014 32\u00d732 pixel lattice input per trial slot (A/B/R patterns)",
+    "external_drive": "external_drive[trial,time,unit] \u2014 post-RF drive per unit (target_indices \u00d7 amplitude)",
+    "RF_operator": "RF_operator[unit,1024] \u2014 per V1 unit Gaussian weights, L1-normalized",
+    "spikes": "spikes[trial,unit,time/event] \u2014 per-unit spike raster",
+    "rate": "rate[trial,area,time] \u2014 ms area population rates",
+    "metadata": "area/layer/class/unit metadata \u2014 neuron_metadata per unit",
+    "field_proxy": "field_proxy[trial,area_attribution,contact,time] where scientifically valid \u2014 area-attributed contributions at declared probe geometry, proxy_readout",
+    "H_t": "H(t) \u2014 per-neuron hidden state trajectory, dense early-time sampling to resolve tau_Theta ~2.5s effective",
+    "Theta_t": "Theta(t) \u2014 HDP w trajectory, dense early-time sampling, bounds [w_floor,w_ceiling]",
+    "event_ledger": "event ledger \u2014 trial/condition/onset/duration per slot, omission zero-drive preserved",
+    "continuation_state": "continuation/checkpoint state \u2014 (X,H,\u0398,D,RNG,cursor) per trial boundary"
+  },
+  "visual_field": {
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/visual_field_patterns.npz",
+    "shape": "32x32 per pattern, per trial reconstructed via event ledger",
+    "provenance": "RFOperator stimulus_pattern graded, lattice 32x32, 8\u00b0 field, 0.25\u00b0/px, sigma 1.8 LITERATURE_PRIOR, spacing 3.2 overlap 0.45"
+  },
+  "external_drive": {
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/external_drive_examples.npz",
+    "shape": "trial x time x unit via StimulusSchedule.to_array with RF graded heterogeneity, V1 targeted",
+    "provenance": "RFOperator.to_stimulus_schedule with per-unit amplitude, omission zero drive p2 for AXAB, timing preserved, V1 L4 E/PV"
+  },
+  "RF_operator": {
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/RF_operator.npz",
+    "shape": "400x1024 weights, L1 normalized, V1 targeting, sparse graded",
+    "valid": true,
+    "metrics": {
+      "weight_sparsity_1e-4": 0.16072591145833334,
+      "population_sparsity_A": 0.25,
+      "population_sparsity_B": 0.25,
+      "jaccard_AB": 0.0,
+      "n_total": 400,
+      "n_v1": 100,
+      "n_target": 12,
+      "l1_row_sums_mean": 1.0,
+      "overlap": 0.45378876851922934,
+      "sigma": 1.8,
+      "spacing": 3.2
+    },
+    "config": {
+      "lattice_size": 32,
+      "field_dva": 8.0,
+      "sigma_px": 1.8,
+      "spacing_px": 3.2,
+      "blob_center_A": [
+        8.0,
+        8.0
+      ],
+      "blob_center_B": [
+        24.0,
+        24.0
+      ],
+      "stimulus_sigma_px": 2.5,
+      "sparsity_threshold": 0.2,
+      "sparsity_range": [
+        0.18,
+        0.3
+      ],
+      "jaccard_threshold": 0.15,
+      "target_area": "V1",
+      "target_layers": [
+        "L4"
+      ],
+      "target_cell_types": [
+        "E",
+        "PV"
+      ],
+      "tier": "graded",
+      "base_amplitude": 5.0,
+      "seed": 0,
+      "l1_normalize": true,
+      "sparse_threshold": 0.0001,
+      "lattice_dtype": "float32",
+      "version": "rf.v0.1.0",
+      "dva_per_px": 0.25,
+      "n_pixels": 1024,
+      "overlap": 0.45378876851922934,
+      "field_shape": [
+        32,
+        32
+      ]
+    }
+  },
+  "spikes": {
+    "per_trial_hashes": [
+      "3cbd398e6d84",
+      "a6f703a7aea9",
+      "69db5cd71d77",
+      "98ab72e4a35f",
+      "b9d85be09c27"
+    ],
+    "total_trials": 452,
+    "provenance": "Signals.spikes per trial, dt0.1, 46240 steps per trial, continuous state via ContinuationState"
+  },
+  "rate": {
+    "per_trial_area_rates_sample": [
+      {
+        "V1": 11.62413501739502,
+        "V4": 11.146194458007812,
+        "FEF": 11.429497718811035,
+        "PFC": 12.997405052185059
+      },
+      {
+        "V1": 11.537629127502441,
+        "V4": 11.07915210723877,
+        "FEF": 11.3602933883667,
+        "PFC": 12.930363655090332
+      },
+      {
+        "V1": 11.535467147827148,
+        "V4": 11.081315040588379,
+        "FEF": 11.36894416809082,
+        "PFC": 12.928200721740723
+      },
+      {
+        "V1": 11.384082794189453,
+        "V4": 11.07915210723877,
+        "FEF": 11.362456321716309,
+        "PFC": 12.919549942016602
+      },
+      {
+        "V1": 11.872838020324707,
+        "V4": 11.085639953613281,
+        "FEF": 11.373269081115723,
+        "PFC": 12.811418533325195
+      }
+    ],
+    "global_mean_hz": 11.922387692780621,
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/rate_summary.json"
+  },
+  "field_proxy": {
+    "sample_files": [
+      "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0004.npz",
+      "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0003.npz",
+      "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0002.npz"
+    ],
+    "manifest": "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_manifest.json",
+    "layout": "trial_A_C_T",
+    "n_contacts": 16,
+    "claim": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "verification": "area_local linear partition"
+  },
+  "H_t": {
+    "trajectory": [
+      1.0044218301773071,
+      1.0106642246246338,
+      1.0146089792251587,
+      1.0170778036117554,
+      1.0188237428665161,
+      1.0201777219772339,
+      1.021080493927002,
+      1.0217242240905762,
+      1.0222408771514893,
+      1.0226774215698242
+    ],
+    "extrema": {
+      "min": 1.0044218301773071,
+      "max": 1.0248957872390747,
+      "mean": 1.0225069351428377
+    },
+    "dense_early": "H sampled per trial mean, plus H_t_dense.npz per-step 0.1ms resolves tau0 1000ms tau_eff 833s RateSlow",
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/H_t_dense.npz"
+  },
+  "Theta_t": {
+    "trajectory": [
+      0.0032558003440499306,
+      0.0032704330515116453,
+      0.003282161895185709,
+      0.0032909500878304243,
+      0.0032982442062348127,
+      0.003304046578705311,
+      0.003308094572275877,
+      0.0033112228848040104,
+      0.0033139309380203485,
+      0.0033160399179905653
+    ],
+    "extrema": {
+      "min": 0.0032558003440499306,
+      "max": 0.003338769543915987,
+      "mean": 0.003330615073013886
+    },
+    "bounds": "[0.01,10]",
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/H_t.json"
+  },
+  "event_ledger": {
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/event_ledger.json",
+    "n_trials": 452,
+    "sample": [
+      {
+        "phase": "pre",
+        "trial_index": 0,
+        "condition": "AAAB",
+        "global_step": 46240,
+        "rate_hz": 11.799307823181152,
+        "area_rates": {
+          "V1": 11.62413501739502,
+          "V4": 11.146194458007812,
+          "FEF": 11.429497718811035,
+          "PFC": 12.997405052185059
+        },
+        "h_mean": 1.0044218301773071,
+        "w_mean": 0.0032558003440499306,
+        "spike_hash": "35b5a30eebd0",
+        "field_ok": true
+      },
+      {
+        "phase": "pre",
+        "trial_index": 1,
+        "condition": "AXAB",
+        "global_step": 92480,
+        "rate_hz": 11.726860046386719,
+        "area_rates": {
+          "V1": 11.537629127502441,
+          "V4": 11.07915210723877,
+          "FEF": 11.3602933883667,
+          "PFC": 12.930363655090332
+        },
+        "h_mean": 1.0106642246246338,
+        "w_mean": 0.0032704330515116453,
+        "spike_hash": "b4d5fbdfc425",
+        "field_ok": true
+      },
+      {
+        "phase": "pre",
+        "trial_index": 2,
+        "condition": "AAXB",
+        "global_step": 138720,
+        "rate_hz": 11.72848129272461,
+        "area_rates": {
+          "V1": 11.535467147827148,
+          "V4": 11.081315040588379,
+          "FEF": 11.36894416809082,
+          "PFC": 12.928200721740723
+        },
+        "h_mean": 1.0146089792251587,
+        "w_mean": 0.003282161895185709,
+        "spike_hash": "859b714f7b9b",
+        "field_ok": true
+      }
+    ]
+  },
+  "continuation_state": {
+    "state_identity": "3db682d4bf23cf54",
+    "checkpoint_ok": 26,
+    "checkpoint_fail": 0,
+    "latest_checkpoint": "results/rf_rate_factorial/D_RFon_RateSlow/checkpoints/ckpt_trial_0260",
+    "continuation_verified": true,
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/continuation_state.json"
+  },
+  "metadata": {
+    "file": "results/rf_rate_factorial/D_RFon_RateSlow/recording/recording_union.json",
+    "neuron_metadata": "model.static neuron_metadata per unit area/layer/class"
+  }
+}

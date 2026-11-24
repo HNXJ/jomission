@@ -1,0 +1,3979 @@
+{
+  "namespace": "q8_evaluation",
+  "owner": "generated",
+  "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+  "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+  "frozen": {
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "hp_hash_full": "f327f9d2ad64cc88",
+    "dt_canonical": 0.1,
+    "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+    "q8_criteria_version": "q8_criteria.v0.1.0"
+  },
+  "criteria": {
+    "version": "q8_criteria.v0.1.0",
+    "rate": {
+      "effect_threshold_hz": 0.5,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+    },
+    "field": {
+      "log_ratio_threshold": 0.1,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "min_window_ms": 500.0,
+      "min_trials": 4
+    },
+    "recovery": {
+      "effect_threshold_hz": 0.3,
+      "alpha": 0.05,
+      "cohen_d_threshold": 0.2,
+      "window_ms": [
+        531.0,
+        1000.0
+      ]
+    },
+    "t1t7_relevant": {
+      "alpha": 0.05,
+      "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+    },
+    "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+  },
+  "artifacts_consumed": [
+    "results/q8_state_replacement/q8_state_replacement_seed0_dt0p1.json",
+    "results/q8_state_replacement/q8_state_replacement_seed1_dt0p1.json",
+    "results/q8_state_replacement/q8_state_replacement_seed2_dt0p1.json"
+  ],
+  "per_seed_artifact_hashes": [
+    "dbefd17988ed3e8b",
+    "68fd7a577fecc3df",
+    "1aa1ec089ed4906b"
+  ],
+  "per_seed_details": {
+    "0": {
+      "H_post_to_H_pre": {
+        "rate_delta_hz": -0.0059490203857421875,
+        "rate_post_hz": 20.421173095703125,
+        "rate_rep_hz": 20.415224075317383,
+        "spikes_post": 37771.0,
+        "spikes_rep": 37760.0,
+        "V_m_max_abs_diff": 101.10107421875,
+        "V_m_mean_abs_diff": 0.9235700964927673,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "replaced_hash": "0ef92d6c86749adb",
+        "frozen": {
+          "config_hash": "4f9fdeae7428199a",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 0
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.053282380104065,
+          "post_H_mean": 1.0547029972076416,
+          "pre_w_mean": 0.003249748842790723,
+          "post_w_mean": 0.0032450330909341574,
+          "pre_state_hash": "c0b99ef26b53b793",
+          "post_state_hash": "dbefd17988ed3e8b",
+          "canonical_valid": true
+        }
+      },
+      "Theta_post_to_Theta_pre": {
+        "rate_delta_hz": -0.003246307373046875,
+        "rate_post_hz": 20.421173095703125,
+        "rate_rep_hz": 20.417926788330078,
+        "spikes_post": 37771.0,
+        "spikes_rep": 37765.0,
+        "V_m_max_abs_diff": 101.00289154052734,
+        "V_m_mean_abs_diff": 0.9682155847549438,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "replaced_hash": "2f4d770e20de3f8e",
+        "frozen": {
+          "config_hash": "4f9fdeae7428199a",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 0
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.053282380104065,
+          "post_H_mean": 1.0547029972076416,
+          "pre_w_mean": 0.003249748842790723,
+          "post_w_mean": 0.0032450330909341574,
+          "pre_state_hash": "c0b99ef26b53b793",
+          "post_state_hash": "dbefd17988ed3e8b",
+          "canonical_valid": true
+        }
+      },
+      "HTheta_post_to_HTheta_pre": {
+        "rate_delta_hz": -0.0048656463623046875,
+        "rate_post_hz": 20.421173095703125,
+        "rate_rep_hz": 20.41630744934082,
+        "spikes_post": 37771.0,
+        "spikes_rep": 37762.0,
+        "V_m_max_abs_diff": 100.7669677734375,
+        "V_m_mean_abs_diff": 0.9319027066230774,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "replaced_hash": "dc34a87ceaaca141",
+        "frozen": {
+          "config_hash": "4f9fdeae7428199a",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 0
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.053282380104065,
+          "post_H_mean": 1.0547029972076416,
+          "pre_w_mean": 0.003249748842790723,
+          "post_w_mean": 0.0032450330909341574,
+          "pre_state_hash": "c0b99ef26b53b793",
+          "post_state_hash": "dbefd17988ed3e8b",
+          "canonical_valid": true
+        }
+      },
+      "fast_X_post_to_X_pre": {
+        "rate_delta_hz": -0.0010833740234375,
+        "rate_post_hz": 20.421173095703125,
+        "rate_rep_hz": 20.420089721679688,
+        "spikes_post": 37771.0,
+        "spikes_rep": 37769.0,
+        "V_m_max_abs_diff": 104.23991394042969,
+        "V_m_mean_abs_diff": 1.2233690023422241,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "replaced_hash": "3b4268ebbfe5e790",
+        "frozen": {
+          "config_hash": "4f9fdeae7428199a",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 0
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.053282380104065,
+          "post_H_mean": 1.0547029972076416,
+          "pre_w_mean": 0.003249748842790723,
+          "post_w_mean": 0.0032450330909341574,
+          "pre_state_hash": "c0b99ef26b53b793",
+          "post_state_hash": "dbefd17988ed3e8b",
+          "canonical_valid": true
+        }
+      },
+      "history_valid_HTheta_vs_fast": {
+        "rate_delta_hz": -0.0048656463623046875,
+        "rate_post_hz": 20.421173095703125,
+        "rate_rep_hz": 20.41630744934082,
+        "spikes_post": 37771.0,
+        "spikes_rep": 37762.0,
+        "V_m_max_abs_diff": 100.7669677734375,
+        "V_m_mean_abs_diff": 0.9319027066230774,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "replaced_hash": "dc34a87ceaaca141",
+        "frozen": {
+          "config_hash": "4f9fdeae7428199a",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 0
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.053282380104065,
+          "post_H_mean": 1.0547029972076416,
+          "pre_w_mean": 0.003249748842790723,
+          "post_w_mean": 0.0032450330909341574,
+          "pre_state_hash": "c0b99ef26b53b793",
+          "post_state_hash": "dbefd17988ed3e8b",
+          "canonical_valid": true
+        }
+      }
+    },
+    "1": {
+      "H_post_to_H_pre": {
+        "rate_delta_hz": 0.002162933349609375,
+        "rate_post_hz": 20.4233341217041,
+        "rate_rep_hz": 20.42549705505371,
+        "spikes_post": 37775.0,
+        "spikes_rep": 37779.0,
+        "V_m_max_abs_diff": 103.68217468261719,
+        "V_m_mean_abs_diff": 0.8867394328117371,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "replaced_hash": "51e13e127dbdad4c",
+        "frozen": {
+          "config_hash": "9236a6a3741f9633",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 1
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0534104108810425,
+          "post_H_mean": 1.0549507141113281,
+          "pre_w_mean": 0.003319620620459318,
+          "post_w_mean": 0.003314063884317875,
+          "pre_state_hash": "2052fc6df2bfa4b2",
+          "post_state_hash": "68fd7a577fecc3df",
+          "canonical_valid": true
+        }
+      },
+      "Theta_post_to_Theta_pre": {
+        "rate_delta_hz": 0.002162933349609375,
+        "rate_post_hz": 20.4233341217041,
+        "rate_rep_hz": 20.42549705505371,
+        "spikes_post": 37775.0,
+        "spikes_rep": 37779.0,
+        "V_m_max_abs_diff": 103.09473419189453,
+        "V_m_mean_abs_diff": 0.9518745541572571,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "replaced_hash": "4ea5bcfaa0662e07",
+        "frozen": {
+          "config_hash": "9236a6a3741f9633",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 1
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0534104108810425,
+          "post_H_mean": 1.0549507141113281,
+          "pre_w_mean": 0.003319620620459318,
+          "post_w_mean": 0.003314063884317875,
+          "pre_state_hash": "2052fc6df2bfa4b2",
+          "post_state_hash": "68fd7a577fecc3df",
+          "canonical_valid": true
+        }
+      },
+      "HTheta_post_to_HTheta_pre": {
+        "rate_delta_hz": 0.002704620361328125,
+        "rate_post_hz": 20.4233341217041,
+        "rate_rep_hz": 20.42603874206543,
+        "spikes_post": 37775.0,
+        "spikes_rep": 37780.0,
+        "V_m_max_abs_diff": 102.65338897705078,
+        "V_m_mean_abs_diff": 0.9329871535301208,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "replaced_hash": "120c8c54365fedc9",
+        "frozen": {
+          "config_hash": "9236a6a3741f9633",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 1
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0534104108810425,
+          "post_H_mean": 1.0549507141113281,
+          "pre_w_mean": 0.003319620620459318,
+          "post_w_mean": 0.003314063884317875,
+          "pre_state_hash": "2052fc6df2bfa4b2",
+          "post_state_hash": "68fd7a577fecc3df",
+          "canonical_valid": true
+        }
+      },
+      "fast_X_post_to_X_pre": {
+        "rate_delta_hz": 0.002704620361328125,
+        "rate_post_hz": 20.4233341217041,
+        "rate_rep_hz": 20.42603874206543,
+        "spikes_post": 37775.0,
+        "spikes_rep": 37780.0,
+        "V_m_max_abs_diff": 103.94906616210938,
+        "V_m_mean_abs_diff": 1.2360032796859741,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "replaced_hash": "1554b561bc00b0f8",
+        "frozen": {
+          "config_hash": "9236a6a3741f9633",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 1
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0534104108810425,
+          "post_H_mean": 1.0549507141113281,
+          "pre_w_mean": 0.003319620620459318,
+          "post_w_mean": 0.003314063884317875,
+          "pre_state_hash": "2052fc6df2bfa4b2",
+          "post_state_hash": "68fd7a577fecc3df",
+          "canonical_valid": true
+        }
+      },
+      "history_valid_HTheta_vs_fast": {
+        "rate_delta_hz": 0.002704620361328125,
+        "rate_post_hz": 20.4233341217041,
+        "rate_rep_hz": 20.42603874206543,
+        "spikes_post": 37775.0,
+        "spikes_rep": 37780.0,
+        "V_m_max_abs_diff": 102.65338897705078,
+        "V_m_mean_abs_diff": 0.9329871535301208,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "replaced_hash": "120c8c54365fedc9",
+        "frozen": {
+          "config_hash": "9236a6a3741f9633",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 1
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0534104108810425,
+          "post_H_mean": 1.0549507141113281,
+          "pre_w_mean": 0.003319620620459318,
+          "post_w_mean": 0.003314063884317875,
+          "pre_state_hash": "2052fc6df2bfa4b2",
+          "post_state_hash": "68fd7a577fecc3df",
+          "canonical_valid": true
+        }
+      }
+    },
+    "2": {
+      "H_post_to_H_pre": {
+        "rate_delta_hz": 0.0054073333740234375,
+        "rate_post_hz": 20.420089721679688,
+        "rate_rep_hz": 20.42549705505371,
+        "spikes_post": 37769.0,
+        "spikes_rep": 37779.0,
+        "V_m_max_abs_diff": 103.96913146972656,
+        "V_m_mean_abs_diff": 0.8925026059150696,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "replaced_hash": "ff6f1cf4dae55bab",
+        "frozen": {
+          "config_hash": "51d78ee006495849",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 2
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0532619953155518,
+          "post_H_mean": 1.0548293590545654,
+          "pre_w_mean": 0.003260581521317363,
+          "post_w_mean": 0.003256361000239849,
+          "pre_state_hash": "9478bc5908d58874",
+          "post_state_hash": "1aa1ec089ed4906b",
+          "canonical_valid": true
+        }
+      },
+      "Theta_post_to_Theta_pre": {
+        "rate_delta_hz": 0.0048675537109375,
+        "rate_post_hz": 20.420089721679688,
+        "rate_rep_hz": 20.424957275390625,
+        "spikes_post": 37769.0,
+        "spikes_rep": 37778.0,
+        "V_m_max_abs_diff": 102.47614288330078,
+        "V_m_mean_abs_diff": 0.9510105848312378,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "replaced_hash": "01471a7d0d1de83f",
+        "frozen": {
+          "config_hash": "51d78ee006495849",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 2
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0532619953155518,
+          "post_H_mean": 1.0548293590545654,
+          "pre_w_mean": 0.003260581521317363,
+          "post_w_mean": 0.003256361000239849,
+          "pre_state_hash": "9478bc5908d58874",
+          "post_state_hash": "1aa1ec089ed4906b",
+          "canonical_valid": true
+        }
+      },
+      "HTheta_post_to_HTheta_pre": {
+        "rate_delta_hz": 0.0010833740234375,
+        "rate_post_hz": 20.420089721679688,
+        "rate_rep_hz": 20.421173095703125,
+        "spikes_post": 37769.0,
+        "spikes_rep": 37771.0,
+        "V_m_max_abs_diff": 99.68697357177734,
+        "V_m_mean_abs_diff": 0.9718931913375854,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "replaced_hash": "f618d8542275417d",
+        "frozen": {
+          "config_hash": "51d78ee006495849",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 2
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0532619953155518,
+          "post_H_mean": 1.0548293590545654,
+          "pre_w_mean": 0.003260581521317363,
+          "post_w_mean": 0.003256361000239849,
+          "pre_state_hash": "9478bc5908d58874",
+          "post_state_hash": "1aa1ec089ed4906b",
+          "canonical_valid": true
+        }
+      },
+      "fast_X_post_to_X_pre": {
+        "rate_delta_hz": -0.0037822723388671875,
+        "rate_post_hz": 20.420089721679688,
+        "rate_rep_hz": 20.41630744934082,
+        "spikes_post": 37769.0,
+        "spikes_rep": 37762.0,
+        "V_m_max_abs_diff": 103.29887390136719,
+        "V_m_mean_abs_diff": 1.2047499418258667,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "replaced_hash": "f812f39deaf48d3d",
+        "frozen": {
+          "config_hash": "51d78ee006495849",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 2
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0532619953155518,
+          "post_H_mean": 1.0548293590545654,
+          "pre_w_mean": 0.003260581521317363,
+          "post_w_mean": 0.003256361000239849,
+          "pre_state_hash": "9478bc5908d58874",
+          "post_state_hash": "1aa1ec089ed4906b",
+          "canonical_valid": true
+        }
+      },
+      "history_valid_HTheta_vs_fast": {
+        "rate_delta_hz": 0.0010833740234375,
+        "rate_post_hz": 20.420089721679688,
+        "rate_rep_hz": 20.421173095703125,
+        "spikes_post": 37769.0,
+        "spikes_rep": 37771.0,
+        "V_m_max_abs_diff": 99.68697357177734,
+        "V_m_mean_abs_diff": 0.9718931913375854,
+        "verification_valid": true,
+        "technical_valid": true,
+        "matched_RNG_preserved": true,
+        "verification_checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "replaced_hash": "f618d8542275417d",
+        "frozen": {
+          "config_hash": "51d78ee006495849",
+          "config_hash_canonical": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_hash": "f327f9d2ad64cc88",
+          "dt_ms": 0.1,
+          "dt_canonical": 0.1,
+          "seed": 2
+        },
+        "capture": {
+          "n_pre_trials": 2,
+          "n_exposure_trials": 4,
+          "duration_ms": 4624.0,
+          "pre_H_mean": 1.0532619953155518,
+          "post_H_mean": 1.0548293590545654,
+          "pre_w_mean": 0.003260581521317363,
+          "post_w_mean": 0.003256361000239849,
+          "pre_state_hash": "9478bc5908d58874",
+          "post_state_hash": "1aa1ec089ed4906b",
+          "canonical_valid": true
+        }
+      }
+    }
+  },
+  "per_seed_matrices": [
+    {
+      "namespace": "q8_evaluation",
+      "owner": "generated",
+      "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+      "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+      "frozen": {
+        "config_hash": "4f9fdeae7428199a",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 0
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.053282380104065,
+        "post_H_mean": 1.0547029972076416,
+        "pre_w_mean": 0.003249748842790723,
+        "post_w_mean": 0.0032450330909341574,
+        "pre_state_hash": "c0b99ef26b53b793",
+        "post_state_hash": "dbefd17988ed3e8b",
+        "canonical_valid": true
+      },
+      "criteria": {
+        "version": "q8_criteria.v0.1.0",
+        "rate": {
+          "effect_threshold_hz": 0.5,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+        },
+        "field": {
+          "log_ratio_threshold": 0.1,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "min_window_ms": 500.0,
+          "min_trials": 4
+        },
+        "recovery": {
+          "effect_threshold_hz": 0.3,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "window_ms": [
+            531.0,
+            1000.0
+          ]
+        },
+        "t1t7_relevant": {
+          "alpha": 0.05,
+          "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+        },
+        "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+      },
+      "matrix": [
+        {
+          "counterfactual": "H_post_to_H_pre",
+          "carrier": "H",
+          "replaced": [
+            "H"
+          ],
+          "rate_delta_hz_single_probe": -0.0059490203857421875,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "Theta_post_to_Theta_pre",
+          "carrier": "Theta",
+          "replaced": [
+            "w"
+          ],
+          "rate_delta_hz_single_probe": -0.003246307373046875,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "HTheta_post_to_HTheta_pre",
+          "carrier": "H+Theta",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": -0.0048656463623046875,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "fast_X_post_to_X_pre",
+          "carrier": "X_fast",
+          "replaced": [
+            "v",
+            "u",
+            "prev_spikes",
+            "syn_state"
+          ],
+          "rate_delta_hz_single_probe": -0.0010833740234375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "history_valid_HTheta_vs_fast",
+          "carrier": "history_valid",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": -0.0048656463623046875,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        }
+      ],
+      "per_counterfactual": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": -0.0059490203857421875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37771.0,
+            "spikes_rep": 37760.0,
+            "rate_post_hz": 20.421173095703125,
+            "rate_rep_hz": 20.415224075317383,
+            "rate_delta_hz": -0.0059490203857421875,
+            "V_m_max_abs_diff": 101.10107421875,
+            "V_m_mean_abs_diff": 0.9235700964927673
+          },
+          "spec": {
+            "replaced": [
+              "H"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+            "carrier": "H"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dbefd17988ed3e8b"
+              },
+              "pre": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "a288b8ef2976ed39",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "c0b99ef26b53b793"
+              },
+              "replaced": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "18fa1014fd3bf682",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "0ef92d6c86749adb"
+              }
+            },
+            "declared_replaced": [
+              "H"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "4f9fdeae7428199a",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 0
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": -0.003246307373046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37771.0,
+            "spikes_rep": 37765.0,
+            "rate_post_hz": 20.421173095703125,
+            "rate_rep_hz": 20.417926788330078,
+            "rate_delta_hz": -0.003246307373046875,
+            "V_m_max_abs_diff": 101.00289154052734,
+            "V_m_mean_abs_diff": 0.9682155847549438
+          },
+          "spec": {
+            "replaced": [
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "H",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+            "carrier": "Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dbefd17988ed3e8b"
+              },
+              "pre": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "a288b8ef2976ed39",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "c0b99ef26b53b793"
+              },
+              "replaced": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "2f4d770e20de3f8e"
+              }
+            },
+            "declared_replaced": [
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "4f9fdeae7428199a",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 0
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": -0.0048656463623046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37771.0,
+            "spikes_rep": 37762.0,
+            "rate_post_hz": 20.421173095703125,
+            "rate_rep_hz": 20.41630744934082,
+            "rate_delta_hz": -0.0048656463623046875,
+            "V_m_max_abs_diff": 100.7669677734375,
+            "V_m_mean_abs_diff": 0.9319027066230774
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+            "carrier": "H+Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dbefd17988ed3e8b"
+              },
+              "pre": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "a288b8ef2976ed39",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "c0b99ef26b53b793"
+              },
+              "replaced": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dc34a87ceaaca141"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "4f9fdeae7428199a",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 0
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": -0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37771.0,
+            "spikes_rep": 37769.0,
+            "rate_post_hz": 20.421173095703125,
+            "rate_rep_hz": 20.420089721679688,
+            "rate_delta_hz": -0.0010833740234375,
+            "V_m_max_abs_diff": 104.23991394042969,
+            "V_m_mean_abs_diff": 1.2233690023422241
+          },
+          "spec": {
+            "replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ],
+            "preserved": [
+              "H",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+            "carrier": "X_fast"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dbefd17988ed3e8b"
+              },
+              "pre": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "a288b8ef2976ed39",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "c0b99ef26b53b793"
+              },
+              "replaced": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "3b4268ebbfe5e790"
+              }
+            },
+            "declared_replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "4f9fdeae7428199a",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 0
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": -0.0048656463623046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37771.0,
+            "spikes_rep": 37762.0,
+            "rate_post_hz": 20.421173095703125,
+            "rate_rep_hz": 20.41630744934082,
+            "rate_delta_hz": -0.0048656463623046875,
+            "V_m_max_abs_diff": 100.7669677734375,
+            "V_m_mean_abs_diff": 0.9319027066230774
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+            "carrier": "history_valid",
+            "alias_of": "HTheta_post_to_HTheta_pre"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "2700d3fd68505415",
+                "w": "0c1a4b7074f7dcf9",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dbefd17988ed3e8b"
+              },
+              "pre": {
+                "v": "0774b7266454892b",
+                "u": "61c96204d8812183",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "1a084ae18e8c5146",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "a288b8ef2976ed39",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "c0b99ef26b53b793"
+              },
+              "replaced": {
+                "v": "830b38121647aa88",
+                "u": "04e6e1b8ce606377",
+                "prev_spikes": "ae05ba209ee5c1bd",
+                "syn_state": "98c8e2bcf8edc9d4",
+                "H": "18fa1014fd3bf682",
+                "w": "abf4a25cb629e5e0",
+                "prng_key": "29867c24526c482e",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "dc34a87ceaaca141"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "4f9fdeae7428199a",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 0
+            }
+          },
+          "matched_RNG_preserved": true
+        }
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": -0.0059490203857421875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": -0.003246307373046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": -0.0048656463623046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": -0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": -0.0048656463623046875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        }
+      },
+      "provenance": {
+        "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_from_state_replacement_artifact",
+        "consumes": "results/q8_state_replacement/q8_state_replacement_seed0_dt0p1.json",
+        "artifact_owner": "generated",
+        "artifact_namespace": "q8_state_replacement",
+        "estimators": "rate (single probe) + field UNRESOLVED + recovery UNRESOLVED",
+        "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+        "note": "This fast path consumes A's artifact (matched RNG/inputs verified via hashes); full area-resolved field/recovery requires re-run with 4624ms battery (see evaluate_q8_matrix)."
+      },
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false,
+      "T1_T7_intact": {
+        "valid": true,
+        "ids": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6",
+          "T7"
+        ],
+        "matrix_version": "jomission_comparison_matrix.v0.1.0"
+      }
+    },
+    {
+      "namespace": "q8_evaluation",
+      "owner": "generated",
+      "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+      "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+      "frozen": {
+        "config_hash": "9236a6a3741f9633",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 1
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.0534104108810425,
+        "post_H_mean": 1.0549507141113281,
+        "pre_w_mean": 0.003319620620459318,
+        "post_w_mean": 0.003314063884317875,
+        "pre_state_hash": "2052fc6df2bfa4b2",
+        "post_state_hash": "68fd7a577fecc3df",
+        "canonical_valid": true
+      },
+      "criteria": {
+        "version": "q8_criteria.v0.1.0",
+        "rate": {
+          "effect_threshold_hz": 0.5,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+        },
+        "field": {
+          "log_ratio_threshold": 0.1,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "min_window_ms": 500.0,
+          "min_trials": 4
+        },
+        "recovery": {
+          "effect_threshold_hz": 0.3,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "window_ms": [
+            531.0,
+            1000.0
+          ]
+        },
+        "t1t7_relevant": {
+          "alpha": 0.05,
+          "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+        },
+        "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+      },
+      "matrix": [
+        {
+          "counterfactual": "H_post_to_H_pre",
+          "carrier": "H",
+          "replaced": [
+            "H"
+          ],
+          "rate_delta_hz_single_probe": 0.002162933349609375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "Theta_post_to_Theta_pre",
+          "carrier": "Theta",
+          "replaced": [
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.002162933349609375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "HTheta_post_to_HTheta_pre",
+          "carrier": "H+Theta",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.002704620361328125,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "fast_X_post_to_X_pre",
+          "carrier": "X_fast",
+          "replaced": [
+            "v",
+            "u",
+            "prev_spikes",
+            "syn_state"
+          ],
+          "rate_delta_hz_single_probe": 0.002704620361328125,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "history_valid_HTheta_vs_fast",
+          "carrier": "history_valid",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.002704620361328125,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        }
+      ],
+      "per_counterfactual": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": 0.002162933349609375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37775.0,
+            "spikes_rep": 37779.0,
+            "rate_post_hz": 20.4233341217041,
+            "rate_rep_hz": 20.42549705505371,
+            "rate_delta_hz": 0.002162933349609375,
+            "V_m_max_abs_diff": 103.68217468261719,
+            "V_m_mean_abs_diff": 0.8867394328117371
+          },
+          "spec": {
+            "replaced": [
+              "H"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+            "carrier": "H"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "68fd7a577fecc3df"
+              },
+              "pre": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "4db4b5af613e82a7",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "2052fc6df2bfa4b2"
+              },
+              "replaced": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "6caa9e42a9ba6393",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "51e13e127dbdad4c"
+              }
+            },
+            "declared_replaced": [
+              "H"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "9236a6a3741f9633",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 1
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": 0.002162933349609375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37775.0,
+            "spikes_rep": 37779.0,
+            "rate_post_hz": 20.4233341217041,
+            "rate_rep_hz": 20.42549705505371,
+            "rate_delta_hz": 0.002162933349609375,
+            "V_m_max_abs_diff": 103.09473419189453,
+            "V_m_mean_abs_diff": 0.9518745541572571
+          },
+          "spec": {
+            "replaced": [
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "H",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+            "carrier": "Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "68fd7a577fecc3df"
+              },
+              "pre": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "4db4b5af613e82a7",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "2052fc6df2bfa4b2"
+              },
+              "replaced": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "4ea5bcfaa0662e07"
+              }
+            },
+            "declared_replaced": [
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "9236a6a3741f9633",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 1
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37775.0,
+            "spikes_rep": 37780.0,
+            "rate_post_hz": 20.4233341217041,
+            "rate_rep_hz": 20.42603874206543,
+            "rate_delta_hz": 0.002704620361328125,
+            "V_m_max_abs_diff": 102.65338897705078,
+            "V_m_mean_abs_diff": 0.9329871535301208
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+            "carrier": "H+Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "68fd7a577fecc3df"
+              },
+              "pre": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "4db4b5af613e82a7",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "2052fc6df2bfa4b2"
+              },
+              "replaced": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "120c8c54365fedc9"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "9236a6a3741f9633",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 1
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37775.0,
+            "spikes_rep": 37780.0,
+            "rate_post_hz": 20.4233341217041,
+            "rate_rep_hz": 20.42603874206543,
+            "rate_delta_hz": 0.002704620361328125,
+            "V_m_max_abs_diff": 103.94906616210938,
+            "V_m_mean_abs_diff": 1.2360032796859741
+          },
+          "spec": {
+            "replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ],
+            "preserved": [
+              "H",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+            "carrier": "X_fast"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "68fd7a577fecc3df"
+              },
+              "pre": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "4db4b5af613e82a7",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "2052fc6df2bfa4b2"
+              },
+              "replaced": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1554b561bc00b0f8"
+              }
+            },
+            "declared_replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "9236a6a3741f9633",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 1
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37775.0,
+            "spikes_rep": 37780.0,
+            "rate_post_hz": 20.4233341217041,
+            "rate_rep_hz": 20.42603874206543,
+            "rate_delta_hz": 0.002704620361328125,
+            "V_m_max_abs_diff": 102.65338897705078,
+            "V_m_mean_abs_diff": 0.9329871535301208
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+            "carrier": "history_valid",
+            "alias_of": "HTheta_post_to_HTheta_pre"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "34d247030a8e07aa",
+                "w": "053cb0ac62ac9948",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "68fd7a577fecc3df"
+              },
+              "pre": {
+                "v": "48576e68a591e24b",
+                "u": "5156add9de4fa75d",
+                "prev_spikes": "2e382ee7762ad5da",
+                "syn_state": "d21175a6c76e8b8e",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "4db4b5af613e82a7",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "2052fc6df2bfa4b2"
+              },
+              "replaced": {
+                "v": "668b1b17f2949a88",
+                "u": "b2428d16428a556f",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "2a918d4efe1b73c5",
+                "H": "6caa9e42a9ba6393",
+                "w": "f5123210ac19c9fe",
+                "prng_key": "f2e8715e83051e1b",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "120c8c54365fedc9"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "9236a6a3741f9633",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 1
+            }
+          },
+          "matched_RNG_preserved": true
+        }
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": 0.002162933349609375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": 0.002162933349609375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": 0.002704620361328125,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        }
+      },
+      "provenance": {
+        "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_from_state_replacement_artifact",
+        "consumes": "results/q8_state_replacement/q8_state_replacement_seed1_dt0p1.json",
+        "artifact_owner": "generated",
+        "artifact_namespace": "q8_state_replacement",
+        "estimators": "rate (single probe) + field UNRESOLVED + recovery UNRESOLVED",
+        "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+        "note": "This fast path consumes A's artifact (matched RNG/inputs verified via hashes); full area-resolved field/recovery requires re-run with 4624ms battery (see evaluate_q8_matrix)."
+      },
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false,
+      "T1_T7_intact": {
+        "valid": true,
+        "ids": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6",
+          "T7"
+        ],
+        "matrix_version": "jomission_comparison_matrix.v0.1.0"
+      }
+    },
+    {
+      "namespace": "q8_evaluation",
+      "owner": "generated",
+      "q8_matrix_version": "jomission_q8_matrix.v0.1.0",
+      "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+      "frozen": {
+        "config_hash": "51d78ee006495849",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_hash": "f327f9d2ad64cc88",
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "seed": 2
+      },
+      "capture": {
+        "n_pre_trials": 2,
+        "n_exposure_trials": 4,
+        "duration_ms": 4624.0,
+        "pre_H_mean": 1.0532619953155518,
+        "post_H_mean": 1.0548293590545654,
+        "pre_w_mean": 0.003260581521317363,
+        "post_w_mean": 0.003256361000239849,
+        "pre_state_hash": "9478bc5908d58874",
+        "post_state_hash": "1aa1ec089ed4906b",
+        "canonical_valid": true
+      },
+      "criteria": {
+        "version": "q8_criteria.v0.1.0",
+        "rate": {
+          "effect_threshold_hz": 0.5,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+        },
+        "field": {
+          "log_ratio_threshold": 0.1,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "min_window_ms": 500.0,
+          "min_trials": 4
+        },
+        "recovery": {
+          "effect_threshold_hz": 0.3,
+          "alpha": 0.05,
+          "cohen_d_threshold": 0.2,
+          "window_ms": [
+            531.0,
+            1000.0
+          ]
+        },
+        "t1t7_relevant": {
+          "alpha": 0.05,
+          "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+        },
+        "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+        "field_claim_level": "proxy_readout",
+        "physical_amplitude_calibrated": false,
+        "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+      },
+      "matrix": [
+        {
+          "counterfactual": "H_post_to_H_pre",
+          "carrier": "H",
+          "replaced": [
+            "H"
+          ],
+          "rate_delta_hz_single_probe": 0.0054073333740234375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "Theta_post_to_Theta_pre",
+          "carrier": "Theta",
+          "replaced": [
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.0048675537109375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "HTheta_post_to_HTheta_pre",
+          "carrier": "H+Theta",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.0010833740234375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "fast_X_post_to_X_pre",
+          "carrier": "X_fast",
+          "replaced": [
+            "v",
+            "u",
+            "prev_spikes",
+            "syn_state"
+          ],
+          "rate_delta_hz_single_probe": -0.0037822723388671875,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        },
+        {
+          "counterfactual": "history_valid_HTheta_vs_fast",
+          "carrier": "history_valid",
+          "replaced": [
+            "H",
+            "w"
+          ],
+          "rate_delta_hz_single_probe": 0.0010833740234375,
+          "rate_polarity_frozen_n1": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_low_gamma_polarity": "UNRESOLVED",
+          "field_overall_polarity": "UNRESOLVED",
+          "field_limitation": "pending area-resolved spectral replay (500ms+ window, n>=4)",
+          "recovery_polarity": "UNRESOLVED",
+          "recovery_limitation": "pending recovery trajectory 531-1000ms window with n>=4",
+          "overall_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true,
+          "verification_valid": true,
+          "technical_valid": true,
+          "n_trials_this_artifact": 1,
+          "dt_ms": 0.1,
+          "duration_ms": 4624.0,
+          "limitations": "single_trial n=1 UNRESOLVED per frozen n<3; field/recovery pending area_local 4624ms battery; dt pilot vs canonical 0.1"
+        }
+      ],
+      "per_counterfactual": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": 0.0054073333740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37769.0,
+            "spikes_rep": 37779.0,
+            "rate_post_hz": 20.420089721679688,
+            "rate_rep_hz": 20.42549705505371,
+            "rate_delta_hz": 0.0054073333740234375,
+            "V_m_max_abs_diff": 103.96913146972656,
+            "V_m_mean_abs_diff": 0.8925026059150696
+          },
+          "spec": {
+            "replaced": [
+              "H"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+            "carrier": "H"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1aa1ec089ed4906b"
+              },
+              "pre": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "45d860e3517a2d04",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "9478bc5908d58874"
+              },
+              "replaced": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "9dac3ca671eca506",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "ff6f1cf4dae55bab"
+              }
+            },
+            "declared_replaced": [
+              "H"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "51d78ee006495849",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 2
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": 0.0048675537109375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37769.0,
+            "spikes_rep": 37778.0,
+            "rate_post_hz": 20.420089721679688,
+            "rate_rep_hz": 20.424957275390625,
+            "rate_delta_hz": 0.0048675537109375,
+            "V_m_max_abs_diff": 102.47614288330078,
+            "V_m_mean_abs_diff": 0.9510105848312378
+          },
+          "spec": {
+            "replaced": [
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "H",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+            "carrier": "Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1aa1ec089ed4906b"
+              },
+              "pre": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "45d860e3517a2d04",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "9478bc5908d58874"
+              },
+              "replaced": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "01471a7d0d1de83f"
+              }
+            },
+            "declared_replaced": [
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "51d78ee006495849",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 2
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": 0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37769.0,
+            "spikes_rep": 37771.0,
+            "rate_post_hz": 20.420089721679688,
+            "rate_rep_hz": 20.421173095703125,
+            "rate_delta_hz": 0.0010833740234375,
+            "V_m_max_abs_diff": 99.68697357177734,
+            "V_m_mean_abs_diff": 0.9718931913375854
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+            "carrier": "H+Theta"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1aa1ec089ed4906b"
+              },
+              "pre": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "45d860e3517a2d04",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "9478bc5908d58874"
+              },
+              "replaced": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "f618d8542275417d"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "51d78ee006495849",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 2
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": -0.0037822723388671875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37769.0,
+            "spikes_rep": 37762.0,
+            "rate_post_hz": 20.420089721679688,
+            "rate_rep_hz": 20.41630744934082,
+            "rate_delta_hz": -0.0037822723388671875,
+            "V_m_max_abs_diff": 103.29887390136719,
+            "V_m_mean_abs_diff": 1.2047499418258667
+          },
+          "spec": {
+            "replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ],
+            "preserved": [
+              "H",
+              "w",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+            "carrier": "X_fast"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1aa1ec089ed4906b"
+              },
+              "pre": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "45d860e3517a2d04",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "9478bc5908d58874"
+              },
+              "replaced": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "f812f39deaf48d3d"
+              }
+            },
+            "declared_replaced": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "51d78ee006495849",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 2
+            }
+          },
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": 0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "probe": {
+            "spikes_post": 37769.0,
+            "spikes_rep": 37771.0,
+            "rate_post_hz": 20.420089721679688,
+            "rate_rep_hz": 20.421173095703125,
+            "rate_delta_hz": 0.0010833740234375,
+            "V_m_max_abs_diff": 99.68697357177734,
+            "V_m_mean_abs_diff": 0.9718931913375854
+          },
+          "spec": {
+            "replaced": [
+              "H",
+              "w"
+            ],
+            "preserved": [
+              "v",
+              "u",
+              "prev_spikes",
+              "syn_state",
+              "prng_key",
+              "step_index",
+              "delay_state"
+            ],
+            "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+            "carrier": "history_valid",
+            "alias_of": "HTheta_post_to_HTheta_pre"
+          },
+          "verification": {
+            "valid": true,
+            "issues": [],
+            "checks": {
+              "v": true,
+              "u": true,
+              "prev_spikes": true,
+              "syn_state": true,
+              "H": true,
+              "w": true,
+              "prng_key": true,
+              "step_index": true,
+              "delay_state": true
+            },
+            "hashes": {
+              "post": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "c31584e12ae48ffd",
+                "w": "7ea1df67a3d79baa",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "1aa1ec089ed4906b"
+              },
+              "pre": {
+                "v": "9d74445390d5ad89",
+                "u": "42540421a21fbea1",
+                "prev_spikes": "d514b9bc0e18e9c2",
+                "syn_state": "9071359d6e53c17f",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "45d860e3517a2d04",
+                "step_index": "f8ac27c280e65a0c",
+                "delay_state": "None",
+                "_combined": "9478bc5908d58874"
+              },
+              "replaced": {
+                "v": "431c507862b2cdbd",
+                "u": "00ba3aa07a4e3759",
+                "prev_spikes": "0ac4f4f2b43bd26e",
+                "syn_state": "ca130062e2bb3d52",
+                "H": "9dac3ca671eca506",
+                "w": "6e2f45e0dddda01a",
+                "prng_key": "f741285442a68102",
+                "step_index": "0757cb127115cf45",
+                "delay_state": "None",
+                "_combined": "f618d8542275417d"
+              }
+            },
+            "declared_replaced": [
+              "H",
+              "w"
+            ]
+          },
+          "technical_validity": {
+            "valid": true,
+            "issues": [],
+            "cfg": {
+              "config_hash": "51d78ee006495849",
+              "hp_hash": "f327f9d2ad64cc88",
+              "frozen_config_hash": "4f9fdeae7428199a",
+              "frozen_hp_prefix": "f327f9d2",
+              "valid": true,
+              "dt_ms_cfg": 0.1,
+              "seed": 2
+            }
+          },
+          "matched_RNG_preserved": true
+        }
+      },
+      "verification_summary": {
+        "H_post_to_H_pre": {
+          "rate_delta_hz": 0.0054073333740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "Theta_post_to_Theta_pre": {
+          "rate_delta_hz": 0.0048675537109375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "HTheta_post_to_HTheta_pre": {
+          "rate_delta_hz": 0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "fast_X_post_to_X_pre": {
+          "rate_delta_hz": -0.0037822723388671875,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        },
+        "history_valid_HTheta_vs_fast": {
+          "rate_delta_hz": 0.0010833740234375,
+          "rate_polarity_frozen": "UNRESOLVED",
+          "magnitude_hint": "NEGATIVE_hint",
+          "field_polarity": "UNRESOLVED",
+          "recovery_polarity": "UNRESOLVED",
+          "matched_RNG_preserved": true
+        }
+      },
+      "provenance": {
+        "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_from_state_replacement_artifact",
+        "consumes": "results/q8_state_replacement/q8_state_replacement_seed2_dt0p1.json",
+        "artifact_owner": "generated",
+        "artifact_namespace": "q8_state_replacement",
+        "estimators": "rate (single probe) + field UNRESOLVED + recovery UNRESOLVED",
+        "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+        "note": "This fast path consumes A's artifact (matched RNG/inputs verified via hashes); full area-resolved field/recovery requires re-run with 4624ms battery (see evaluate_q8_matrix)."
+      },
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false,
+      "T1_T7_intact": {
+        "valid": true,
+        "ids": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6",
+          "T7"
+        ],
+        "matrix_version": "jomission_comparison_matrix.v0.1.0"
+      }
+    }
+  ],
+  "aggregated_per_carrier": {
+    "H_post_to_H_pre": {
+      "values_hz": [
+        -0.0059490203857421875,
+        0.002162933349609375,
+        0.0054073333740234375
+      ],
+      "mean_hz": 0.0005404154459635416,
+      "sd_hz": 0.005849454328394587,
+      "sem_hz": 0.0033771840311110366,
+      "ci95_lo_hz": -0.013990434644362651,
+      "ci95_hi_hz": 0.015071265536289733,
+      "t_stat": 0.16001954320083472,
+      "p_value": 0.8875665565822419,
+      "cohens_d": 0.09238732634260287,
+      "n": 3,
+      "threshold_hz": 0.5,
+      "polarity": "NEGATIVE",
+      "abs_mean_hz": 0.0005404154459635416,
+      "exceeds_threshold": false,
+      "per_seed": [
+        -0.0059490203857421875,
+        0.002162933349609375,
+        0.0054073333740234375
+      ]
+    },
+    "Theta_post_to_Theta_pre": {
+      "values_hz": [
+        -0.003246307373046875,
+        0.002162933349609375,
+        0.0048675537109375
+      ],
+      "mean_hz": 0.0012613932291666667,
+      "sd_hz": 0.004131375843968316,
+      "sem_hz": 0.0023852509556386244,
+      "ci95_lo_hz": -0.009001513306249374,
+      "ci95_hi_hz": 0.011524299764582706,
+      "t_stat": 0.5288304051130513,
+      "p_value": 0.6497475149263177,
+      "cohens_d": 0.30532037674767903,
+      "n": 3,
+      "threshold_hz": 0.5,
+      "polarity": "NEGATIVE",
+      "abs_mean_hz": 0.0012613932291666667,
+      "exceeds_threshold": false,
+      "per_seed": [
+        -0.003246307373046875,
+        0.002162933349609375,
+        0.0048675537109375
+      ]
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "values_hz": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ],
+      "mean_hz": -0.0003592173258463542,
+      "sd_hz": 0.003985980044795386,
+      "sem_hz": 0.0023013066518470927,
+      "ci95_lo_hz": -0.010260940673406842,
+      "ci95_hi_hz": 0.009542506021714135,
+      "t_stat": -0.15609276823583523,
+      "p_value": 0.8902919798012724,
+      "cohens_d": -0.09012020175951332,
+      "n": 3,
+      "threshold_hz": 0.5,
+      "polarity": "NEGATIVE",
+      "abs_mean_hz": 0.0003592173258463542,
+      "exceeds_threshold": false,
+      "per_seed": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ]
+    },
+    "fast_X_post_to_X_pre": {
+      "values_hz": [
+        -0.0010833740234375,
+        0.002704620361328125,
+        -0.0037822723388671875
+      ],
+      "mean_hz": -0.0007203420003255209,
+      "sd_hz": 0.003258648249399648,
+      "sem_hz": 0.0018813814439851897,
+      "ci95_lo_hz": -0.008815273005988382,
+      "ci95_hi_hz": 0.00737458900533734,
+      "t_stat": -0.38287929469511206,
+      "p_value": 0.7386715652008963,
+      "cohens_d": -0.221055463859357,
+      "n": 3,
+      "threshold_hz": 0.5,
+      "polarity": "NEGATIVE",
+      "abs_mean_hz": 0.0007203420003255209,
+      "exceeds_threshold": false,
+      "per_seed": [
+        -0.0010833740234375,
+        0.002704620361328125,
+        -0.0037822723388671875
+      ]
+    },
+    "history_valid_HTheta_vs_fast": {
+      "values_hz": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ],
+      "mean_hz": -0.0003592173258463542,
+      "sd_hz": 0.003985980044795386,
+      "sem_hz": 0.0023013066518470927,
+      "ci95_lo_hz": -0.010260940673406842,
+      "ci95_hi_hz": 0.009542506021714135,
+      "t_stat": -0.15609276823583523,
+      "p_value": 0.8902919798012724,
+      "cohens_d": -0.09012020175951332,
+      "n": 3,
+      "threshold_hz": 0.5,
+      "polarity": "NEGATIVE",
+      "abs_mean_hz": 0.0003592173258463542,
+      "exceeds_threshold": false,
+      "per_seed": [
+        -0.0048656463623046875,
+        0.002704620361328125,
+        0.0010833740234375
+      ]
+    }
+  },
+  "matrix": [
+    {
+      "counterfactual": "H_post_to_H_pre",
+      "carrier": "H",
+      "replaced": "H",
+      "rate_per_seed_hz": "-0.005949;0.002163;0.005407",
+      "rate_mean_hz": 0.0005404154459635416,
+      "rate_sd_hz": 0.005849454328394587,
+      "rate_sem_hz": 0.0033771840311110366,
+      "rate_ci95_lo_hz": -0.013990434644362651,
+      "rate_ci95_hi_hz": 0.015071265536289733,
+      "rate_t_stat": 0.16001954320083472,
+      "rate_p_value": 0.8875665565822419,
+      "rate_cohens_d": 0.09238732634260287,
+      "rate_n": 3,
+      "rate_threshold_hz": 0.5,
+      "rate_polarity": "NEGATIVE",
+      "rate_exceeds_threshold": false,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "field_limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+      "overall_polarity": "NEGATIVE",
+      "verification_valid": true,
+      "technical_valid": true,
+      "matched_RNG_preserved": true,
+      "isolation_verified": true,
+      "dt_ms": 0.1,
+      "duration_ms": 4624.0,
+      "n_seeds": 3,
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    {
+      "counterfactual": "Theta_post_to_Theta_pre",
+      "carrier": "Theta",
+      "replaced": "w",
+      "rate_per_seed_hz": "-0.003246;0.002163;0.004868",
+      "rate_mean_hz": 0.0012613932291666667,
+      "rate_sd_hz": 0.004131375843968316,
+      "rate_sem_hz": 0.0023852509556386244,
+      "rate_ci95_lo_hz": -0.009001513306249374,
+      "rate_ci95_hi_hz": 0.011524299764582706,
+      "rate_t_stat": 0.5288304051130513,
+      "rate_p_value": 0.6497475149263177,
+      "rate_cohens_d": 0.30532037674767903,
+      "rate_n": 3,
+      "rate_threshold_hz": 0.5,
+      "rate_polarity": "NEGATIVE",
+      "rate_exceeds_threshold": false,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "field_limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+      "overall_polarity": "NEGATIVE",
+      "verification_valid": true,
+      "technical_valid": true,
+      "matched_RNG_preserved": true,
+      "isolation_verified": true,
+      "dt_ms": 0.1,
+      "duration_ms": 4624.0,
+      "n_seeds": 3,
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    {
+      "counterfactual": "HTheta_post_to_HTheta_pre",
+      "carrier": "H+Theta",
+      "replaced": "H,w",
+      "rate_per_seed_hz": "-0.004866;0.002705;0.001083",
+      "rate_mean_hz": -0.0003592173258463542,
+      "rate_sd_hz": 0.003985980044795386,
+      "rate_sem_hz": 0.0023013066518470927,
+      "rate_ci95_lo_hz": -0.010260940673406842,
+      "rate_ci95_hi_hz": 0.009542506021714135,
+      "rate_t_stat": -0.15609276823583523,
+      "rate_p_value": 0.8902919798012724,
+      "rate_cohens_d": -0.09012020175951332,
+      "rate_n": 3,
+      "rate_threshold_hz": 0.5,
+      "rate_polarity": "NEGATIVE",
+      "rate_exceeds_threshold": false,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "field_limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+      "overall_polarity": "NEGATIVE",
+      "verification_valid": true,
+      "technical_valid": true,
+      "matched_RNG_preserved": true,
+      "isolation_verified": true,
+      "dt_ms": 0.1,
+      "duration_ms": 4624.0,
+      "n_seeds": 3,
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    {
+      "counterfactual": "fast_X_post_to_X_pre",
+      "carrier": "X_fast",
+      "replaced": "v,u,prev_spikes,syn_state",
+      "rate_per_seed_hz": "-0.001083;0.002705;-0.003782",
+      "rate_mean_hz": -0.0007203420003255209,
+      "rate_sd_hz": 0.003258648249399648,
+      "rate_sem_hz": 0.0018813814439851897,
+      "rate_ci95_lo_hz": -0.008815273005988382,
+      "rate_ci95_hi_hz": 0.00737458900533734,
+      "rate_t_stat": -0.38287929469511206,
+      "rate_p_value": 0.7386715652008963,
+      "rate_cohens_d": -0.221055463859357,
+      "rate_n": 3,
+      "rate_threshold_hz": 0.5,
+      "rate_polarity": "NEGATIVE",
+      "rate_exceeds_threshold": false,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "field_limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+      "overall_polarity": "NEGATIVE",
+      "verification_valid": true,
+      "technical_valid": true,
+      "matched_RNG_preserved": true,
+      "isolation_verified": true,
+      "dt_ms": 0.1,
+      "duration_ms": 4624.0,
+      "n_seeds": 3,
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    },
+    {
+      "counterfactual": "history_valid_HTheta_vs_fast",
+      "carrier": "history_valid",
+      "replaced": "H,w",
+      "rate_per_seed_hz": "-0.004866;0.002705;0.001083",
+      "rate_mean_hz": -0.0003592173258463542,
+      "rate_sd_hz": 0.003985980044795386,
+      "rate_sem_hz": 0.0023013066518470927,
+      "rate_ci95_lo_hz": -0.010260940673406842,
+      "rate_ci95_hi_hz": 0.009542506021714135,
+      "rate_t_stat": -0.15609276823583523,
+      "rate_p_value": 0.8902919798012724,
+      "rate_cohens_d": -0.09012020175951332,
+      "rate_n": 3,
+      "rate_threshold_hz": 0.5,
+      "rate_polarity": "NEGATIVE",
+      "rate_exceeds_threshold": false,
+      "field_low_gamma_polarity": "UNRESOLVED",
+      "field_overall_polarity": "UNRESOLVED",
+      "field_limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+      "recovery_polarity": "UNRESOLVED",
+      "recovery_limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+      "overall_polarity": "NEGATIVE",
+      "verification_valid": true,
+      "technical_valid": true,
+      "matched_RNG_preserved": true,
+      "isolation_verified": true,
+      "dt_ms": 0.1,
+      "duration_ms": 4624.0,
+      "n_seeds": 3,
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false
+    }
+  ],
+  "verification": {
+    "T1_T7_intact": true,
+    "T1_T7_ids": [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7"
+    ],
+    "comparison_matrix_version": "jomission_comparison_matrix.v0.1.0",
+    "isolation_verified": true,
+    "isolation_details": {
+      "seed0_H_post_to_H_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H"
+        ],
+        "issues": []
+      },
+      "seed0_Theta_post_to_Theta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "w"
+        ],
+        "issues": []
+      },
+      "seed0_HTheta_post_to_HTheta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      },
+      "seed0_fast_X_post_to_X_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ],
+        "issues": []
+      },
+      "seed0_history_valid_HTheta_vs_fast": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      },
+      "seed1_H_post_to_H_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H"
+        ],
+        "issues": []
+      },
+      "seed1_Theta_post_to_Theta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "w"
+        ],
+        "issues": []
+      },
+      "seed1_HTheta_post_to_HTheta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      },
+      "seed1_fast_X_post_to_X_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ],
+        "issues": []
+      },
+      "seed1_history_valid_HTheta_vs_fast": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      },
+      "seed2_H_post_to_H_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H"
+        ],
+        "issues": []
+      },
+      "seed2_Theta_post_to_Theta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "w"
+        ],
+        "issues": []
+      },
+      "seed2_HTheta_post_to_HTheta_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      },
+      "seed2_fast_X_post_to_X_pre": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ],
+        "issues": []
+      },
+      "seed2_history_valid_HTheta_vs_fast": {
+        "valid": true,
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ],
+        "issues": []
+      }
+    },
+    "matched_RNG_preserved": true,
+    "matched_RNG_details": {
+      "seed0_H_post_to_H_pre": {
+        "preserved": true,
+        "prng_post": "29867c24526c482e",
+        "prng_replaced": "29867c24526c482e"
+      },
+      "seed0_Theta_post_to_Theta_pre": {
+        "preserved": true,
+        "prng_post": "29867c24526c482e",
+        "prng_replaced": "29867c24526c482e"
+      },
+      "seed0_HTheta_post_to_HTheta_pre": {
+        "preserved": true,
+        "prng_post": "29867c24526c482e",
+        "prng_replaced": "29867c24526c482e"
+      },
+      "seed0_fast_X_post_to_X_pre": {
+        "preserved": true,
+        "prng_post": "29867c24526c482e",
+        "prng_replaced": "29867c24526c482e"
+      },
+      "seed0_history_valid_HTheta_vs_fast": {
+        "preserved": true,
+        "prng_post": "29867c24526c482e",
+        "prng_replaced": "29867c24526c482e"
+      },
+      "seed1_H_post_to_H_pre": {
+        "preserved": true,
+        "prng_post": "f2e8715e83051e1b",
+        "prng_replaced": "f2e8715e83051e1b"
+      },
+      "seed1_Theta_post_to_Theta_pre": {
+        "preserved": true,
+        "prng_post": "f2e8715e83051e1b",
+        "prng_replaced": "f2e8715e83051e1b"
+      },
+      "seed1_HTheta_post_to_HTheta_pre": {
+        "preserved": true,
+        "prng_post": "f2e8715e83051e1b",
+        "prng_replaced": "f2e8715e83051e1b"
+      },
+      "seed1_fast_X_post_to_X_pre": {
+        "preserved": true,
+        "prng_post": "f2e8715e83051e1b",
+        "prng_replaced": "f2e8715e83051e1b"
+      },
+      "seed1_history_valid_HTheta_vs_fast": {
+        "preserved": true,
+        "prng_post": "f2e8715e83051e1b",
+        "prng_replaced": "f2e8715e83051e1b"
+      },
+      "seed2_H_post_to_H_pre": {
+        "preserved": true,
+        "prng_post": "f741285442a68102",
+        "prng_replaced": "f741285442a68102"
+      },
+      "seed2_Theta_post_to_Theta_pre": {
+        "preserved": true,
+        "prng_post": "f741285442a68102",
+        "prng_replaced": "f741285442a68102"
+      },
+      "seed2_HTheta_post_to_HTheta_pre": {
+        "preserved": true,
+        "prng_post": "f741285442a68102",
+        "prng_replaced": "f741285442a68102"
+      },
+      "seed2_fast_X_post_to_X_pre": {
+        "preserved": true,
+        "prng_post": "f741285442a68102",
+        "prng_replaced": "f741285442a68102"
+      },
+      "seed2_history_valid_HTheta_vs_fast": {
+        "preserved": true,
+        "prng_post": "f741285442a68102",
+        "prng_replaced": "f741285442a68102"
+      }
+    },
+    "technical_valid_all": true,
+    "frozen_config_per_seed": {
+      "seed0": {
+        "config_hash": "4f9fdeae7428199a",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_full": "f327f9d2ad64cc88",
+        "config_match": true,
+        "hp_match": true,
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "dt_match": true,
+        "canonical_valid": true,
+        "pre_H_mean": 1.053282380104065,
+        "post_H_mean": 1.0547029972076416,
+        "pre_w_mean": 0.003249748842790723,
+        "post_w_mean": 0.0032450330909341574,
+        "pre_post_hashes_diff": true
+      },
+      "seed1": {
+        "config_hash": "9236a6a3741f9633",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_full": "f327f9d2ad64cc88",
+        "config_match": true,
+        "hp_match": true,
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "dt_match": true,
+        "canonical_valid": true,
+        "pre_H_mean": 1.0534104108810425,
+        "post_H_mean": 1.0549507141113281,
+        "pre_w_mean": 0.003319620620459318,
+        "post_w_mean": 0.003314063884317875,
+        "pre_post_hashes_diff": true
+      },
+      "seed2": {
+        "config_hash": "51d78ee006495849",
+        "config_hash_canonical": "4f9fdeae7428199a",
+        "hp_hash": "f327f9d2ad64cc88",
+        "frozen_config_hash": "4f9fdeae7428199a",
+        "frozen_hp_full": "f327f9d2ad64cc88",
+        "config_match": true,
+        "hp_match": true,
+        "dt_ms": 0.1,
+        "dt_canonical": 0.1,
+        "dt_match": true,
+        "canonical_valid": true,
+        "pre_H_mean": 1.0532619953155518,
+        "post_H_mean": 1.0548293590545654,
+        "pre_w_mean": 0.003260581521317363,
+        "post_w_mean": 0.003256361000239849,
+        "pre_post_hashes_diff": true
+      }
+    },
+    "frozen_ok_canonical_seed0": true,
+    "frozen_ok_all_seeds_structural": true,
+    "delay_state_verified": true,
+    "delay_note": "D=delay_state=None for current model (no delays); preserved true for all replacements; verified via hash None"
+  },
+  "field_bands": {
+    "bands": {
+      "theta": [
+        4.0,
+        8.0
+      ],
+      "alpha": [
+        8.0,
+        14.0
+      ],
+      "beta": [
+        14.0,
+        30.0
+      ],
+      "low_gamma": [
+        30.0,
+        50.0
+      ],
+      "high_gamma": [
+        50.0,
+        80.0
+      ]
+    },
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "field_solver_status": "linear_solver (area_local partition)",
+    "window_coverage": {
+      "duration_ms": 4624.0,
+      "dt_ms": 0.1,
+      "n_steps": 46240,
+      "omission_slot_abs_ms": [
+        1031,
+        1562
+      ],
+      "recovery_abs_ms": [
+        1562,
+        2031
+      ],
+      "slot_steps": 5310,
+      "recovery_steps": 4690,
+      "slot_covered": true,
+      "recovery_covered": true,
+      "min_window_ms_required": 500.0,
+      "window_satisfied": true
+    },
+    "n_trials_this_artifact": 1,
+    "min_trials_required": 4,
+    "trials_satisfied": false,
+    "overall_polarity": "UNRESOLVED",
+    "limitation": "n=1 <4 per artifact (frozen field min_trials=4); bandpower estimate underpowered; also single condition AXAB not full 12-condition battery",
+    "per_band_polarity": "UNRESOLVED for all 5 bands x 4 areas (20 cells) due to n<4 and single probe",
+    "log_ratio_threshold": 0.1,
+    "note": "Field remains proxy_readout, physical_amplitude_calibrated=False, no causal field->spike; window now satisfied (4624ms) but n insufficient; full q8_phenotype full battery (12 cond, n>=4, dt0.1) required to upgrade"
+  },
+  "recovery_trajectory": {
+    "window_ms": [
+      531.0,
+      1000.0
+    ],
+    "window_abs_ms": [
+      1562,
+      2031
+    ],
+    "effect_threshold_hz": 0.3,
+    "bins_ms": "OMISSION_LOCAL (-1000,1000) step 100ms -> recovery bins 531-1000 (469ms coverage)",
+    "n_p2_trials_this_artifact": 1,
+    "overall_polarity": "UNRESOLVED",
+    "limitation": "single probe n=1 <3 (frozen n<3 => UNRESOLVED); also need n>=4 for stable trajectory; 12-condition battery needed",
+    "note": "Recovery trajectory 531-1000ms pending area-resolved spectral replay with n>=4; window coverage satisfied at 4624ms",
+    "window_coverage_satisfied": true,
+    "trials_satisfied": false
+  },
+  "t1t7_relevant": {
+    "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators; not recomputed here (frozen). T1/T3 relevant deltas at rate level would mirror rate slot NEGATIVE.",
+    "T1_T3_relevant_polarity_hint": "NEGATIVE (rate slot NEGATIVE, all carriers)"
+  },
+  "technical_limitations": [
+    "single_probe n=1 per counterfactual per seed in artifact-consuming path -> per-seed polarity UNRESOLVED per frozen n<3; aggregated n=3 enables rate polarity per frozen (n>=3)",
+    "field/recovery UNRESOLVED pending 4624ms battery with >=4 trials per condition, 500ms+ window, dt0.1 canonical, full 12-condition battery (artifact has 1 condition AXAB, n=1); window coverage satisfied (531 steps) but n insufficient",
+    "exposure mini 2 pre +4 exposure trials 4624ms (canonical ledger would be larger); but pre/post states differ (hash pre != post, H_mean shift 1.053->1.054) indicating history captured",
+    "physical_amplitude_calibrated=false; field remains proxy_readout (area_local linear partition + periodogram), no causal field->spike",
+    "config_hash for seeds 1,2 differ from frozen due to seed in metadata (9236a6...,51d78e... vs 4f9f...), but canonical_valid true per structural check (seed 0 canonical 4f9f..., hp f327f...), as documented in q8_canonical_closure_dt01.json frozen_issues"
+  ],
+  "inference": {
+    "H": "NEGATIVE (mean 0.000540 Hz, SD 0.00585, 95CI [-0.01399,0.01507], t=0.16 p=0.888 d=0.09 <<0.5 thr) -> history not in H at rate level",
+    "Theta": "NEGATIVE (mean 0.001261 Hz, SD 0.00413, CI [-0.00900,0.01152], p=0.650 d=0.305 <<0.5) -> history not in Theta at rate level",
+    "HTheta": "NEGATIVE (mean -0.000359 Hz, SD 0.00399, p=0.890) -> combined H+Theta also NEGATIVE; Theta adds nothing beyond H",
+    "fast_X": "NEGATIVE (mean -0.000720 Hz, SD 0.00326, p=0.739) -> fast control also NEGATIVE, general sensitivity not confounded",
+    "history_valid": "NEGATIVE (same as HTheta) vs fast: no history-specific excess; H effect not larger than fast (both NEGATIVE)",
+    "overall": "NEGATIVE at rate level for all carriers at canonical dt0.1 4624ms (all delta <0.01 Hz <<0.5 thr, p>0.6, |d|<0.31); history not stored in H or Theta at rate level under these exposure conditions; field/recovery UNRESOLVED (window satisfied but n insufficient) -> cannot claim field POSITIVE, but rate NEGATIVE dominates per frozen overall_rule",
+    "field": "UNRESOLVED pending area-resolved spectral replay (5 bands x4 areas, low_gamma threshold log_ratio 0.1); physical_amplitude_calibrated=False so even if POSITIVE would remain proxy_readout",
+    "recovery": "UNRESOLVED pending 531-1000ms trajectory with n>=4",
+    "q8_question_answer": "Does H or Theta store exposure history despite rate \u0394\u22480? At canonical dt0.1 4624ms, n=3 aggregated: No \u2014 replacing H or Theta does not revert post probe toward pre-like rate (\u0394\u22480, NEGATIVE per 0.5 Hz threshold).",
+    "contrast_pilot": "Pilot dt1.0 100ms H -2.7 Hz POSITIVE_hint (n=1 UNRESOLVED) not reproduced at canonical dt0.1 4624ms full-trial averaging; pilot effect not canonical or diluted by full-trial mean vs slot-specific"
+  },
+  "provenance": {
+    "generated_by": "jomission.analysis.q8_phenotype.evaluate_q8_from_state_replacement_artifact (Subagent B independent)",
+    "consumes": "results/q8_state_replacement/q8_state_replacement_seed[0,1,2]_dt0p1.json (owner generated, config 4f9f.../f327f..., dt0.1, 4624ms, AXAB probe)",
+    "estimators": "rate (full-trial mean, omission slot [0,531] not separately in artifact but full-trial proxy; paired seed-level mean/CI/t/d per frozen) + field (area_local linear partition + periodogram 5 bands, threshold log_ratio 0.1) + recovery (531-1000) + isolation hash verification + matched RNG",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence tested (mirrors T4/T7); here only p2 (AXAB) used",
+    "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD; T1-T7 not altered",
+    "estimator_not_altered": true,
+    "frozen_criteria_used": {
+      "version": "q8_criteria.v0.1.0",
+      "rate": {
+        "effect_threshold_hz": 0.5,
+        "alpha": 0.05,
+        "cohen_d_threshold": 0.2,
+        "note": "POSITIVE if effect>thr and p<alpha and |d|>0.2; NEGATIVE if effect<thr and p>=alpha; else UNRESOLVED if underpowered"
+      },
+      "field": {
+        "log_ratio_threshold": 0.1,
+        "alpha": 0.05,
+        "cohen_d_threshold": 0.2,
+        "min_window_ms": 500.0,
+        "min_trials": 4
+      },
+      "recovery": {
+        "effect_threshold_hz": 0.3,
+        "alpha": 0.05,
+        "cohen_d_threshold": 0.2,
+        "window_ms": [
+          531.0,
+          1000.0
+        ]
+      },
+      "t1t7_relevant": {
+        "alpha": 0.05,
+        "note": "T1-T7 remain frozen NEGATIVE/POSITIVE per comparison_matrix; Q8 reports delta relative to post reference on same estimators"
+      },
+      "overall_rule": "carrier POSITIVE if any primary phenotype (rate_omission_slot or field_low_gamma or recovery) POSITIVE and not explained by fast control; UNRESOLVED if technical_limitation (short duration, n too small, field proxy insufficient)",
+      "field_claim_level": "proxy_readout",
+      "physical_amplitude_calibrated": false,
+      "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (mirrors T4/T7)"
+    },
+    "BANDS": {
+      "theta": [
+        4.0,
+        8.0
+      ],
+      "alpha": [
+        8.0,
+        14.0
+      ],
+      "beta": [
+        14.0,
+        30.0
+      ],
+      "low_gamma": [
+        30.0,
+        50.0
+      ],
+      "high_gamma": [
+        50.0,
+        80.0
+      ]
+    },
+    "AREAS_CANONICAL": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ]
+  },
+  "field_claim_level": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "continuous_state_note": "C_t=(X,H,\u0398,D,RNG,cursor) preserved except declared carrier; verified via hash per replacement; matched inputs (same condition AXAB, same seed 999, same dt/duration) and matched RNG (prng_key preserved) per probe"
+}

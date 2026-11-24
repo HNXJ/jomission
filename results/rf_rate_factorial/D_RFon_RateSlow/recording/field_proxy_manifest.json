@@ -1,0 +1,21 @@
+{
+  "layout": "trial_A_C_T",
+  "n_contacts": 16,
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "field_claim": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "verification": "area_local linear partition, sum_a field_a == global within 7e-04",
+  "sample_files": [
+    "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0004.npz",
+    "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0003.npz",
+    "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0002.npz",
+    "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0000.npz",
+    "results/rf_rate_factorial/D_RFon_RateSlow/recording/field_proxy_pre_0001.npz"
+  ],
+  "provenance": "jomission.recording.area_local.field_by_area_array"
+}

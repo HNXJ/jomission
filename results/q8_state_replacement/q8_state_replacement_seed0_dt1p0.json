@@ -1,0 +1,797 @@
+{
+  "namespace": "q8_state_replacement",
+  "owner": "generated",
+  "frozen": {
+    "config_hash": "4f9fdeae7428199a",
+    "config_hash_canonical": "4f9fdeae7428199a",
+    "hp_hash": "f327f9d2ad64cc88",
+    "frozen_config_hash": "4f9fdeae7428199a",
+    "frozen_hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 1.0,
+    "dt_canonical": 0.1,
+    "seed": 0
+  },
+  "capture": {
+    "n_pre_trials": 1,
+    "n_exposure_trials": 2,
+    "duration_ms": 100.0,
+    "pre_H_mean": 0.9338512420654297,
+    "post_H_mean": 0.9215458631515503,
+    "pre_w_mean": 0.0032189369667321444,
+    "post_w_mean": 0.003150118049234152,
+    "pre_state_hash": "d0621edb7e8a4490",
+    "post_state_hash": "cb39d3fff39957c2",
+    "canonical_valid": true
+  },
+  "continuous_state_note": "C_t=(X,H,\u0398,D,RNG,cursor) preserved except declared carrier; X=(v,u,prev_spikes,syn_state), H=H, \u0398=w, D=delay_state, RNG=prng_key, cursor=step_index",
+  "replacements": {
+    "H_post_to_H_pre": {
+      "replaced": [
+        "H"
+      ],
+      "preserved": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state",
+        "w",
+        "prng_key",
+        "step_index",
+        "delay_state"
+      ],
+      "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+      "carrier": "H"
+    },
+    "Theta_post_to_Theta_pre": {
+      "replaced": [
+        "w"
+      ],
+      "preserved": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state",
+        "H",
+        "prng_key",
+        "step_index",
+        "delay_state"
+      ],
+      "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+      "carrier": "Theta"
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "replaced": [
+        "H",
+        "w"
+      ],
+      "preserved": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state",
+        "prng_key",
+        "step_index",
+        "delay_state"
+      ],
+      "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+      "carrier": "H+Theta"
+    },
+    "fast_X_post_to_X_pre": {
+      "replaced": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state"
+      ],
+      "preserved": [
+        "H",
+        "w",
+        "prng_key",
+        "step_index",
+        "delay_state"
+      ],
+      "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+      "carrier": "X_fast"
+    },
+    "history_valid_HTheta_vs_fast": {
+      "replaced": [
+        "H",
+        "w"
+      ],
+      "preserved": [
+        "v",
+        "u",
+        "prev_spikes",
+        "syn_state",
+        "prng_key",
+        "step_index",
+        "delay_state"
+      ],
+      "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+      "carrier": "history_valid",
+      "alias_of": "HTheta_post_to_HTheta_pre"
+    }
+  },
+  "results": {
+    "H_post_to_H_pre": {
+      "replacement_name": "H_post_to_H_pre",
+      "spec": {
+        "replaced": [
+          "H"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "w",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "H_post\u2192H_pre: per-neuron history trace from pre-exposure",
+        "carrier": "H"
+      },
+      "replaced_hashes": {
+        "v": "5a068246671db8af",
+        "u": "b39353a5b28b9088",
+        "prev_spikes": "0575b5268b781d97",
+        "syn_state": "ebd625b201b67a71",
+        "H": "605fa87275da1f0c",
+        "w": "faa55d2147b001b2",
+        "prng_key": "21ff7d96d0ed0372",
+        "step_index": "983bd614bb5afece",
+        "delay_state": "None",
+        "_combined": "5ddd712a17e47984"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "cb39d3fff39957c2"
+          },
+          "pre": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "d0621edb7e8a4490"
+          },
+          "replaced": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "605fa87275da1f0c",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "5ddd712a17e47984"
+          }
+        },
+        "declared_replaced": [
+          "H"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "source_hash_pre": "d0621edb7e8a4490",
+      "post_hash": "cb39d3fff39957c2",
+      "matched_inputs": {
+        "condition": "AXAB",
+        "dt_ms": 1.0,
+        "duration_ms": 100.0,
+        "seed": 999
+      },
+      "matched_RNG": {
+        "prng_key_post": "21ff7d96d0ed0372",
+        "prng_key_replaced": "21ff7d96d0ed0372",
+        "preserved": true
+      },
+      "probe_results": {
+        "spikes_post": 2322.0,
+        "spikes_rep": 2214.0,
+        "rate_post_hz": 58.04999923706055,
+        "rate_rep_hz": 55.349998474121094,
+        "rate_delta_hz": -2.700000762939453,
+        "V_m_max_abs_diff": 101.38204193115234,
+        "V_m_mean_abs_diff": 4.318478107452393
+      },
+      "artifact_hashes": {
+        "post_state_hash": "cb39d3fff39957c2",
+        "pre_state_hash": "d0621edb7e8a4490",
+        "replaced_state_hash": "5ddd712a17e47984"
+      }
+    },
+    "Theta_post_to_Theta_pre": {
+      "replacement_name": "Theta_post_to_Theta_pre",
+      "spec": {
+        "replaced": [
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "H",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "\u0398_post\u2192\u0398_pre: adaptive weights w from pre-exposure",
+        "carrier": "Theta"
+      },
+      "replaced_hashes": {
+        "v": "5a068246671db8af",
+        "u": "b39353a5b28b9088",
+        "prev_spikes": "0575b5268b781d97",
+        "syn_state": "ebd625b201b67a71",
+        "H": "10f040321bd9ce9b",
+        "w": "53df8a00091d0a11",
+        "prng_key": "21ff7d96d0ed0372",
+        "step_index": "983bd614bb5afece",
+        "delay_state": "None",
+        "_combined": "a193b3cc9fe58bf0"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "cb39d3fff39957c2"
+          },
+          "pre": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "d0621edb7e8a4490"
+          },
+          "replaced": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "53df8a00091d0a11",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "a193b3cc9fe58bf0"
+          }
+        },
+        "declared_replaced": [
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "source_hash_pre": "d0621edb7e8a4490",
+      "post_hash": "cb39d3fff39957c2",
+      "matched_inputs": {
+        "condition": "AXAB",
+        "dt_ms": 1.0,
+        "duration_ms": 100.0,
+        "seed": 999
+      },
+      "matched_RNG": {
+        "prng_key_post": "21ff7d96d0ed0372",
+        "prng_key_replaced": "21ff7d96d0ed0372",
+        "preserved": true
+      },
+      "probe_results": {
+        "spikes_post": 2322.0,
+        "spikes_rep": 2321.0,
+        "rate_post_hz": 58.04999923706055,
+        "rate_rep_hz": 58.02499771118164,
+        "rate_delta_hz": -0.02500152587890625,
+        "V_m_max_abs_diff": 102.51342010498047,
+        "V_m_mean_abs_diff": 0.5368741154670715
+      },
+      "artifact_hashes": {
+        "post_state_hash": "cb39d3fff39957c2",
+        "pre_state_hash": "d0621edb7e8a4490",
+        "replaced_state_hash": "a193b3cc9fe58bf0"
+      }
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "replacement_name": "HTheta_post_to_HTheta_pre",
+      "spec": {
+        "replaced": [
+          "H",
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "H+\u0398 \u2192 pre: both history carriers from pre",
+        "carrier": "H+Theta"
+      },
+      "replaced_hashes": {
+        "v": "5a068246671db8af",
+        "u": "b39353a5b28b9088",
+        "prev_spikes": "0575b5268b781d97",
+        "syn_state": "ebd625b201b67a71",
+        "H": "605fa87275da1f0c",
+        "w": "53df8a00091d0a11",
+        "prng_key": "21ff7d96d0ed0372",
+        "step_index": "983bd614bb5afece",
+        "delay_state": "None",
+        "_combined": "9a049a66806bf264"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "cb39d3fff39957c2"
+          },
+          "pre": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "d0621edb7e8a4490"
+          },
+          "replaced": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "9a049a66806bf264"
+          }
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "source_hash_pre": "d0621edb7e8a4490",
+      "post_hash": "cb39d3fff39957c2",
+      "matched_inputs": {
+        "condition": "AXAB",
+        "dt_ms": 1.0,
+        "duration_ms": 100.0,
+        "seed": 999
+      },
+      "matched_RNG": {
+        "prng_key_post": "21ff7d96d0ed0372",
+        "prng_key_replaced": "21ff7d96d0ed0372",
+        "preserved": true
+      },
+      "probe_results": {
+        "spikes_post": 2322.0,
+        "spikes_rep": 2215.0,
+        "rate_post_hz": 58.04999923706055,
+        "rate_rep_hz": 55.375,
+        "rate_delta_hz": -2.674999237060547,
+        "V_m_max_abs_diff": 101.42830657958984,
+        "V_m_mean_abs_diff": 4.496899127960205
+      },
+      "artifact_hashes": {
+        "post_state_hash": "cb39d3fff39957c2",
+        "pre_state_hash": "d0621edb7e8a4490",
+        "replaced_state_hash": "9a049a66806bf264"
+      }
+    },
+    "fast_X_post_to_X_pre": {
+      "replacement_name": "fast_X_post_to_X_pre",
+      "spec": {
+        "replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ],
+        "preserved": [
+          "H",
+          "w",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "fast X\u2192pre: v,u,prev_spikes,syn_state from pre (valid fast control)",
+        "carrier": "X_fast"
+      },
+      "replaced_hashes": {
+        "v": "5307fa9d3faf23c6",
+        "u": "077537ceaf0db7d1",
+        "prev_spikes": "2b7ab20d65ae15ce",
+        "syn_state": "d3945f4be1c5f33c",
+        "H": "10f040321bd9ce9b",
+        "w": "faa55d2147b001b2",
+        "prng_key": "21ff7d96d0ed0372",
+        "step_index": "983bd614bb5afece",
+        "delay_state": "None",
+        "_combined": "ef8f0f62ad961cf5"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "cb39d3fff39957c2"
+          },
+          "pre": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "d0621edb7e8a4490"
+          },
+          "replaced": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "ef8f0f62ad961cf5"
+          }
+        },
+        "declared_replaced": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "source_hash_pre": "d0621edb7e8a4490",
+      "post_hash": "cb39d3fff39957c2",
+      "matched_inputs": {
+        "condition": "AXAB",
+        "dt_ms": 1.0,
+        "duration_ms": 100.0,
+        "seed": 999
+      },
+      "matched_RNG": {
+        "prng_key_post": "21ff7d96d0ed0372",
+        "prng_key_replaced": "21ff7d96d0ed0372",
+        "preserved": true
+      },
+      "probe_results": {
+        "spikes_post": 2322.0,
+        "spikes_rep": 2353.0,
+        "rate_post_hz": 58.04999923706055,
+        "rate_rep_hz": 58.82500076293945,
+        "rate_delta_hz": 0.7750015258789062,
+        "V_m_max_abs_diff": 103.36084747314453,
+        "V_m_mean_abs_diff": 8.405782699584961
+      },
+      "artifact_hashes": {
+        "post_state_hash": "cb39d3fff39957c2",
+        "pre_state_hash": "d0621edb7e8a4490",
+        "replaced_state_hash": "ef8f0f62ad961cf5"
+      }
+    },
+    "history_valid_HTheta_vs_fast": {
+      "replacement_name": "history_valid_HTheta_vs_fast",
+      "spec": {
+        "replaced": [
+          "H",
+          "w"
+        ],
+        "preserved": [
+          "v",
+          "u",
+          "prev_spikes",
+          "syn_state",
+          "prng_key",
+          "step_index",
+          "delay_state"
+        ],
+        "description": "history valid (same as HTheta) contrasted vs fast_X for inference",
+        "carrier": "history_valid",
+        "alias_of": "HTheta_post_to_HTheta_pre"
+      },
+      "replaced_hashes": {
+        "v": "5a068246671db8af",
+        "u": "b39353a5b28b9088",
+        "prev_spikes": "0575b5268b781d97",
+        "syn_state": "ebd625b201b67a71",
+        "H": "605fa87275da1f0c",
+        "w": "53df8a00091d0a11",
+        "prng_key": "21ff7d96d0ed0372",
+        "step_index": "983bd614bb5afece",
+        "delay_state": "None",
+        "_combined": "9a049a66806bf264"
+      },
+      "verification": {
+        "valid": true,
+        "issues": [],
+        "checks": {
+          "v": true,
+          "u": true,
+          "prev_spikes": true,
+          "syn_state": true,
+          "H": true,
+          "w": true,
+          "prng_key": true,
+          "step_index": true,
+          "delay_state": true
+        },
+        "hashes": {
+          "post": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "10f040321bd9ce9b",
+            "w": "faa55d2147b001b2",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "cb39d3fff39957c2"
+          },
+          "pre": {
+            "v": "5307fa9d3faf23c6",
+            "u": "077537ceaf0db7d1",
+            "prev_spikes": "2b7ab20d65ae15ce",
+            "syn_state": "d3945f4be1c5f33c",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "376f799491fe537e",
+            "step_index": "ad57366865126e55",
+            "delay_state": "None",
+            "_combined": "d0621edb7e8a4490"
+          },
+          "replaced": {
+            "v": "5a068246671db8af",
+            "u": "b39353a5b28b9088",
+            "prev_spikes": "0575b5268b781d97",
+            "syn_state": "ebd625b201b67a71",
+            "H": "605fa87275da1f0c",
+            "w": "53df8a00091d0a11",
+            "prng_key": "21ff7d96d0ed0372",
+            "step_index": "983bd614bb5afece",
+            "delay_state": "None",
+            "_combined": "9a049a66806bf264"
+          }
+        },
+        "declared_replaced": [
+          "H",
+          "w"
+        ]
+      },
+      "technical_validity": {
+        "valid": true,
+        "issues": [],
+        "cfg": {
+          "config_hash": "4f9fdeae7428199a",
+          "hp_hash": "f327f9d2ad64cc88",
+          "frozen_config_hash": "4f9fdeae7428199a",
+          "frozen_hp_prefix": "f327f9d2",
+          "valid": true,
+          "dt_ms_cfg": 0.1,
+          "seed": 0
+        }
+      },
+      "source_hash_pre": "d0621edb7e8a4490",
+      "post_hash": "cb39d3fff39957c2",
+      "matched_inputs": {
+        "condition": "AXAB",
+        "dt_ms": 1.0,
+        "duration_ms": 100.0,
+        "seed": 999
+      },
+      "matched_RNG": {
+        "prng_key_post": "21ff7d96d0ed0372",
+        "prng_key_replaced": "21ff7d96d0ed0372",
+        "preserved": true
+      },
+      "probe_results": {
+        "spikes_post": 2322.0,
+        "spikes_rep": 2215.0,
+        "rate_post_hz": 58.04999923706055,
+        "rate_rep_hz": 55.375,
+        "rate_delta_hz": -2.674999237060547,
+        "V_m_max_abs_diff": 101.42830657958984,
+        "V_m_mean_abs_diff": 4.496899127960205
+      },
+      "artifact_hashes": {
+        "post_state_hash": "cb39d3fff39957c2",
+        "pre_state_hash": "d0621edb7e8a4490",
+        "replaced_state_hash": "9a049a66806bf264"
+      }
+    }
+  },
+  "verification_summary": {
+    "H_post_to_H_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.700000762939453,
+      "matched_RNG_preserved": true
+    },
+    "Theta_post_to_Theta_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -0.02500152587890625,
+      "matched_RNG_preserved": true
+    },
+    "HTheta_post_to_HTheta_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.674999237060547,
+      "matched_RNG_preserved": true
+    },
+    "fast_X_post_to_X_pre": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": 0.7750015258789062,
+      "matched_RNG_preserved": true
+    },
+    "history_valid_HTheta_vs_fast": {
+      "valid": true,
+      "technical_valid": true,
+      "rate_delta_hz": -2.674999237060547,
+      "matched_RNG_preserved": true
+    }
+  },
+  "q8_question": "Does H or \u0398 store exposure history despite rate \u0394\u22480?",
+  "interpretation_rule": "If replacing H or \u0398 reverts post probe toward pre-like response, that carrier stores history; if not, history not in that carrier at rate level (field \u0394 pending)."
+}

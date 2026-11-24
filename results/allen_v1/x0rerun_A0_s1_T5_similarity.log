@@ -1,0 +1,4 @@
+{"tag": "x0rerun_A0_s1_T5", "probe": "spec", "row": "per_cell_mean", "r_proto": -0.109, "r_area": -0.126, "r_map": -0.115, "r_ab": 0.803, "r_gm": -0.463, "null95": 0.203}
+{"tag": "x0rerun_A0_s1_T5", "probe": "spec", "row": "sum_over_cells", "r_proto": -0.05, "r_area": -0.073, "r_map": -0.076, "r_ab": 0.788, "r_gm": -0.358, "null95": 0.199}
+{"tag": "x0rerun_A0_s1_T5", "probe": "lansa", "row": "per_cell_mean", "r_proto": -0.23, "r_area": -0.23, "r_map": -0.187, "r_ab": 0.696, "r_gm": -0.608, "null95": 0.223}
+{"tag": "x0rerun_A0_s1_T5", "probe": "lansa", "row": "sum_over_cells", "r_proto": -0.138, "r_area": -0.15, "r_map": -0.118, "r_ab": 0.689, "r_gm": -0.456, "null95": 0.22}

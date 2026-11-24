@@ -1,0 +1,10 @@
+{"seed": 2, "T_s": 8.0, "wall_s": {"construct": 8.226609945297241, "simulate": 299.9675257205963, "total": 314.11261081695557}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': 0.17580939714618385, 'jackknife_se': 0.19102259092437338, 'z': 0.9203591904780912, 'crossing_2se': False, 'zero_depth_first': -0.20611699347720946} shuffle_p 0.5
+per_cell_mean manuscript {'contrast_M': 0.262458558664825, 'jackknife_se': 0.1692891931305595, 'z': 1.5503562502209531, 'crossing_2se': False, 'zero_depth_first': -0.2030194444917589} shuffle_p 0.5
+per_cell_mean peak_hz_unit {'S': 42.0, 'M': 11.0, 'D': 9.0}
+sum_over_cells image {'contrast_M': 0.3397340175026679, 'jackknife_se': 0.16033598936299467, 'z': 2.1188880852789875, 'crossing_2se': False, 'zero_depth_first': -0.2563635293184232} shuffle_p 0.5
+sum_over_cells manuscript {'contrast_M': 0.355018514437983, 'jackknife_se': 0.1744990468073098, 'z': 2.034501167390395, 'crossing_2se': False, 'zero_depth_first': -0.25285730428422204} shuffle_p 0.5
+sum_over_cells peak_hz_unit {'S': 42.0, 'M': 11.0, 'D': 9.0}
+{"tag": "t1_sstd30_n4000_s2_T8", "row": "per_cell_mean", "r_proto": 0.077, "r_area": 0.08, "r_map": 0.037, "r_ab": 0.409, "r_gm": 0.072, "null95": 0.24}
+{"tag": "t1_sstd30_n4000_s2_T8", "row": "sum_over_cells", "r_proto": 0.286, "r_area": 0.272, "r_map": 0.285, "r_ab": -0.11, "r_gm": 0.453, "null95": 0.263}
+{"tag": "t1_sstd30_n4000_s2_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.28615033143802665, "r_ab": -0.12265803324729962, "r_gm": 0.47078645139410624, "r_ab_manuscript": -0.11000881312619001, "r_gm_manuscript": 0.45251566462716, "perm_rank": 1, "smooth_p95": 0.3801444538242715, "identical_control": -0.07733331760965231, "identity_r": 0.28615033143802665, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.2685485017158218, "r2": 0.30946850015023986, "se1": 0.019533616113396185, "se2": 0.03430798457826116, "se_diff": 0.039479107946960204, "agree": true}, "pass": false}

@@ -1,0 +1,35 @@
+{
+ "tag": "x2_L23_H_s1_T5",
+ "units": [
+  "L2/3",
+  "L4",
+  "L5",
+  "L6"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 2,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": -0.12278368297426828,
+ "r_ab": 0.8027191548854382,
+ "r_gm": -0.48735535069602287,
+ "r_ab_manuscript": 0.7915017128296644,
+ "r_gm_manuscript": -0.41778026637039706,
+ "perm_rank": 19,
+ "smooth_p95": 0.674932737008237,
+ "identical_control": 0.13526233638209695,
+ "identity_r": -0.12278368297426828,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": -0.11854427385095614,
+  "r2": -0.08755539654030597,
+  "se1": NaN,
+  "se2": NaN,
+  "se_diff": NaN,
+  "agree": false
+ },
+ "pass": false
+}

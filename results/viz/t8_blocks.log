@@ -1,0 +1,10 @@
+{"tag": "t8_ref_n4000_s1_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_dflat_n4000_s1_T8", "N": 14250, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_drev_n4000_s1_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_rflat_n4000_s1_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_rrev_n4000_s1_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_ref_n4000_s3_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_dflat_n4000_s3_T8", "N": 14250, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_drev_n4000_s3_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_rflat_n4000_s3_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}
+{"tag": "t8_rrev_n4000_s3_T8", "N": 14251, "rules": 33, "parameters": 82, "out_dir": "results/viz/t8"}

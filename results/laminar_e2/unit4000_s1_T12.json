@@ -1,0 +1,46 @@
+{
+ "experiment": "E2 stack, first pass (unsealed; owner rulings 2026-11-09)",
+ "layout": "unit4000",
+ "units": [
+  "U"
+ ],
+ "depth_rel_L4": {
+  "U": 0.0
+ },
+ "seed": 1,
+ "T_s": 12.0,
+ "dt_ms": 0.1,
+ "p_inter": null,
+ "k_inter": 80.0,
+ "rho": {
+  "U": 1.0
+ },
+ "sizes": {
+  "U": {
+   "E": 4000,
+   "PV": 375,
+   "SOM": 375
+  }
+ },
+ "edges": {
+  "e_e_U": 2241090,
+  "e_pv_U": 210834,
+  "e_sst_U": 209836,
+  "pv_e_U": 209902,
+  "pv_pv_U": 19521,
+  "sst_e_U": 210498,
+  "sst_pv_U": 19600
+ },
+ "lfp_proxy": "|g_ampa (V-0)| + |g_gaba (V+80)| onto E cells per module, V fixed -65.0 mV, recurrent only",
+ "wall_s": {
+  "construct": 3.4548659324645996,
+  "simulate": 2506.3548378944397,
+  "total": 2510.8393218517303
+ },
+ "jaxfne_version": "0.5.9",
+ "jaxfne_file": "/private/tmp/claude-501/-Users-hamednejat--claude-spares-spare-jBbGKM/2c881f3f-a0c3-458a-b674-01ea223bd40f/scratchpad/jaxfne-0.5.9-site/jaxfne/__init__.py",
+ "jax_devices": [
+  "cpu:0"
+ ],
+ "git_sha": "f8cc9cf4e3af83521912d856dc09f6326a50e978"
+}

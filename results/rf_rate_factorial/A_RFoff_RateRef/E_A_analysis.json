@@ -1,0 +1,510 @@
+{
+  "schema": "jomission.E_A_analysis.v0.1.0",
+  "generated_at_utc": "2026-08-25T22:56:05.455059+00:00",
+  "cell": "A_RFoff_RateRef",
+  "factorial_cell_identity": {
+    "RF": "off",
+    "Rate": "standard(ref)",
+    "K_HDP": 0.0,
+    "tau_0_ms": 5.0,
+    "design": "rf_rate_factorial.v0.1.0",
+    "hp_hash_note": "executor asserted hp_hash==canonical f327f9d2ad64cc88 at runtime; RF-off realized via intervention (K_HDP=0), see exec_A_RFoff_RateRef.py assertion"
+  },
+  "estimand_version": "jomission_comparison_matrix.v0.1.0",
+  "provenance": {
+    "generated_owner": "results/rf_rate_factorial/A_RFoff_RateRef",
+    "generator_script": "/Users/hamednejat/workspace/computational/jomission/scratch/analyze_A_RFoff_RateRef.py",
+    "generator_sha256_16": "d97da5e572f8a531",
+    "code_sha": "57365e6f9afd",
+    "config_hash": "4f9fdeae7428199a",
+    "numerical_config_hash": "1b5fd1cc13cd4547",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "seed": 0,
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list",
+    "parent_EvidenceRef_artifact_hash": "0e529983ae1b39f3",
+    "inputs_verified": {
+      "result.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/A_RFoff_RateRef_result.json",
+        "sha256_16": "0e529983ae1b39f3",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "EvidenceRef.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/EvidenceRef.json",
+        "sha256_16": "3be84901b97d0283",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "heartbeat.jsonl": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/heartbeat.jsonl",
+        "sha256_16": "fa1297281ddc962b",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "event_ledger.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/event_ledger.json",
+        "sha256_16": "17f15541f5b7b5c3",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "H_t.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t.json",
+        "sha256_16": "f155497c1d979e95",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "rate_summary.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/rate_summary.json",
+        "sha256_16": "cd0de991c88ca1c2",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "spikes_example_AAAB.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_AAAB.npz",
+        "sha256_16": "11e33f3f1d0c89f0",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "spikes_example_AXAB.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_AXAB.npz",
+        "sha256_16": "9f3fedcde635cc80",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "spikes_example_BBBA.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_BBBA.npz",
+        "sha256_16": "178ad97e08bd704f",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "field_proxy_pre_0000.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_pre_0000.npz",
+        "sha256_16": "7616c3b46e84d489",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "field_proxy_pre_0001.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_pre_0001.npz",
+        "sha256_16": "dabfbb287a4cf45d",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "field_proxy_example_AAAB.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_AAAB.npz",
+        "sha256_16": "d3e0c56bf3771db8",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "field_proxy_example_AXAB.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_AXAB.npz",
+        "sha256_16": "d6fd897ea13ed96d",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "field_proxy_example_BBBA.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_example_BBBA.npz",
+        "sha256_16": "39b63fe69c907ed8",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "ckpt_trial_0010.npz": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0010.npz",
+        "sha256_16": "ff025dd8c747a26e",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      },
+      "ckpt_trial_0010.json": {
+        "path": "results/rf_rate_factorial/A_RFoff_RateRef/checkpoints/ckpt_trial_0010.json",
+        "sha256_16": "64ff1e8f151b35ae",
+        "matches_sealed_manifest": true,
+        "sealed_or_new": "sealed"
+      }
+    },
+    "tool_versions": {
+      "python": "3.13.7",
+      "numpy": "2.4.6"
+    },
+    "cross_cell_interpretation": "NONE (single-cell analysis per task directive; factorial contrasts deferred)",
+    "mutation_statement": "additive artifact; no sealed/frozen input mutated (all input hashes re-verified post-write by caller)"
+  },
+  "input_integrity": {
+    "files_checked": 16,
+    "all_match_sealed_manifest": true
+  },
+  "schedule_observed": {
+    "pre_trials": 96,
+    "exposure_trials": 260,
+    "post_trials": 96,
+    "trial_ms": 4624.0,
+    "terminal_predicate_ok": true,
+    "checkpoint_ok": 26,
+    "checkpoint_fail": 0,
+    "numerical_valid": true
+  },
+  "heartbeat_verification": {
+    "log_len": 459,
+    "monotonic_global_step_and_sim_time": true,
+    "phases": {
+      "compile": 1,
+      "pre": 96,
+      "exposure": 260,
+      "post": 96,
+      "recovery": 6
+    },
+    "last_wall_time": "2026-08-25T20:13:14.400000+00:00",
+    "matches_result_json_claim": true
+  },
+  "delta_exposure": {
+    "estimand_definition": "Delta_exposure = Y_post - Y_pre (per comparison_matrix v0.1.0); here Y = whole-trial mean population rate per area",
+    "estimand_fidelity_note": "PRIMARY estimand is slot-resolved [0,531]ms rate_omission_effect; recording retains whole-trial rates only (ledger has no rate fields; rate_summary stores 5 pre-trial samples; post examples are whole-trial per-unit counts). Slot-resolved Y NOT RECOVERABLE from artifacts.",
+    "window_used": "whole-trial [-500,4124] ms proxy",
+    "replicates_available": {
+      "pre": 1,
+      "post": 1,
+      "of_8_recorded_by_design": 8
+    },
+    "matched_conditions": [
+      "AAAB",
+      "AXAB",
+      "BBBA"
+    ],
+    "per_condition": {
+      "AAAB": {
+        "context": "A",
+        "position_label": "intact",
+        "delta_hz": {
+          "V1": 0.002163,
+          "V4": 0.006488,
+          "FEF": -0.019463,
+          "PFC": 0.004326
+        },
+        "Y_pre_hz": {
+          "V1": 22.065311,
+          "V4": 23.475346,
+          "FEF": 23.081747,
+          "PFC": 25.46929
+        },
+        "Y_post_hz": {
+          "V1": 22.067474,
+          "V4": 23.481834,
+          "FEF": 23.062284,
+          "PFC": 25.473616
+        }
+      },
+      "AXAB": {
+        "context": "A",
+        "position_label": "p2",
+        "delta_hz": {
+          "V1": -0.183823,
+          "V4": -0.183823,
+          "FEF": -0.188149,
+          "PFC": -0.095156
+        },
+        "Y_pre_hz": {
+          "V1": 19.42474,
+          "V4": 20.41955,
+          "FEF": 20.192474,
+          "PFC": 22.283737
+        },
+        "Y_post_hz": {
+          "V1": 19.240917,
+          "V4": 20.235727,
+          "FEF": 20.004325,
+          "PFC": 22.188581
+        }
+      },
+      "BBBA": {
+        "context": "B",
+        "position_label": "intact",
+        "delta_hz": {
+          "V1": -0.173011,
+          "V4": -0.16436,
+          "FEF": -0.181661,
+          "PFC": -0.194636
+        },
+        "Y_pre_hz": {
+          "V1": 22.0718,
+          "V4": 23.468859,
+          "FEF": 23.073097,
+          "PFC": 25.473616
+        },
+        "Y_post_hz": {
+          "V1": 21.898789,
+          "V4": 23.304498,
+          "FEF": 22.891436,
+          "PFC": 25.278979
+        }
+      }
+    },
+    "claim_level": "DESCRIPTIVE_SINGLE_REPLICATE_PROXY",
+    "polarity": {
+      "AAAB": "UNRESOLVED",
+      "AXAB": "UNRESOLVED",
+      "BBBA": "UNRESOLVED"
+    },
+    "polarity_note": "sign-only descriptive polarity at n_rep=1; no inferential test possible (design requires n>=4)"
+  },
+  "omission_vs_intact_per_position": {
+    "pooling_rule": "DO NOT pool p2/p3/p4 (comparison_matrix v0.1.0); reported separately per context",
+    "pre_whole_trial_proxy": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.640572,
+            "V4": -3.055796,
+            "FEF": -2.889273,
+            "PFC": -3.185553
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.638409,
+            "V4": -3.044983,
+            "FEF": -2.882786,
+            "PFC": -3.070932
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.647058,
+            "V4": -3.060122,
+            "FEF": -2.891436,
+            "PFC": -3.081745
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        },
+        "p3": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        },
+        "p4": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        }
+      }
+    },
+    "post_whole_trial_proxy": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "effect_hz_per_area": {
+            "V1": -2.826557,
+            "V4": -3.246107,
+            "FEF": -3.057958,
+            "PFC": -3.285035
+          }
+        },
+        "p3": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        },
+        "p4": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        },
+        "p3": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        },
+        "p4": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained artifacts"
+        }
+      }
+    },
+    "delta_exposure_of_omission_effect": {
+      "A_context_p2": {
+        "delta_omission_effect_hz": {
+          "V1": -0.185985,
+          "V4": -0.190311,
+          "FEF": -0.168685,
+          "PFC": -0.099482
+        },
+        "conditions": {
+          "omission": "AXAB",
+          "intact": "AAAB"
+        },
+        "status": "OBSERVED_SINGLE_REPLICATE_PROXY"
+      },
+      "A_context_p3": {
+        "status": "NOT_RECORDED",
+        "reason": "post:missing omission condition in retained artifacts"
+      },
+      "A_context_p4": {
+        "status": "NOT_RECORDED",
+        "reason": "post:missing omission condition in retained artifacts"
+      },
+      "B_context_p2": {
+        "status": "NOT_RECORDED",
+        "reason": "pre:missing omission condition in retained artifacts; post:missing omission condition in retained artifacts"
+      },
+      "B_context_p3": {
+        "status": "NOT_RECORDED",
+        "reason": "pre:missing omission condition in retained artifacts; post:missing omission condition in retained artifacts"
+      },
+      "B_context_p4": {
+        "status": "NOT_RECORDED",
+        "reason": "pre:missing omission condition in retained artifacts; post:missing omission condition in retained artifacts"
+      }
+    },
+    "coverage_note": "Retained artifacts cover 5 pre trials (AAAB,AXAB,AAXB,AAAX,BBBA) and 3 example trials (post-assumed: AAAB,AXAB,BBBA). B-context omissions (BXBA/BBXA/BBBX) and all R-context conditions are absent from both batteries in the recording."
+  },
+  "H_Theta_observables": {
+    "H_extrema_run_level": {
+      "min": 0.9838340878486633,
+      "max": 1.0900883674621582,
+      "mean": 1.0289663,
+      "source": "result.json (executor-computed over full run)",
+      "within_bounds_[0.1,10]": true
+    },
+    "Theta_extrema_run_level": {
+      "min": -0.01944640837609768,
+      "max": 0.10926507413387299,
+      "mean": 0.0032665,
+      "source": "result.json (executor-computed over full run)"
+    },
+    "trajectory_saved_resolution": {
+      "n_points": 5,
+      "all_constant": true,
+      "constant_value_H": 1.0289663076400757,
+      "constant_value_Theta": 0.0032665161415934563,
+      "note": "recording/H_t.json saves a 5-point sample with zero variance; timestamps not recorded; dense early-time sampling declared in observables union was NOT materialized on disk"
+    },
+    "consistency_flags": [
+      "H_t.json constant sample equals result.json h_extrema.mean exactly while run-level min/max differ -> saved trajectory is not the run-level extremal source; provenance of the two summaries unreconcilable from artifacts"
+    ],
+    "effective_timescale": {
+      "status": "NOT_OBSERVED_FROM_RECORDING",
+      "reason": "saved H(t)/Theta(t) trajectories have <2 distinct points and no time base; exponential fit impossible from artifacts; checkpoints store model.params only (edge_list/izhikevich/positions), no HDP state",
+      "design_specified_reference": {
+        "tau_eff_E_s": 4.1,
+        "authority": "docs/RF_RATE_FACTORIAL_DESIGN.md (Rate=std tau_0_ms=5.0 cube-law) ; docs/PLASTICITY_RATE_INTERVENTION_DESIGN.md empirical tau=3.87 s at x1",
+        "level": "SPECIFIED_NOT_MEASURED_FOR_THIS_RUN"
+      },
+      "Theta_effective_timescale": {
+        "status": "FROZEN_BY_INTERVENTION",
+        "reason": "K_HDP=0 (RF off): w cannot follow H; Theta update restricted to K_w_ctrl control term"
+      }
+    },
+    "bounds_check": {
+      "w_floor_violation_in_result_json_extrema": true,
+      "note": "result.json w_extrema.min=-0.019446 < w_floor=0.01 (design bounds w in [0.01,10]); recording/H_t.json w sample sits at 0.0032665 (< floor). Either extrema were taken pre-clamp or over an unclamped intermediate; flagged UNRESOLVED, not adjudicated here."
+    }
+  },
+  "T1_T7_relevant": {
+    "matrix_version": "jomission_comparison_matrix.v0.1.0",
+    "scope_note": "lightweight phenotype-level proxies mirroring q8 evaluate_t1t7_relevant philosophy; full frozen T1-T7 significance machinery NOT re-run",
+    "T1_sparse_omission_spiking": {
+      "status": "NOT_ESTIMABLE_FROM_ARTIFACTS",
+      "reason": "fraction_significant_units requires per-unit rates across multi-replicate omission/intact trials; retained artifacts hold 3 single-replicate example trials (whole-trial counts only)",
+      "relevant_proxy_computed": "see positions_block whole-trial omission effects"
+    },
+    "T2_higher_order_bias": {
+      "status": "NOT_ESTIMABLE_FROM_ARTIFACTS",
+      "reason": "requires T1+ unit set (T1 not estimable)"
+    },
+    "T3_weak_V1_population_spiking": {
+      "status": "PARTIAL_WHOLE_TRIAL_PROXY",
+      "v1_omission_minus_intact_hz": {
+        "pre_p2": -2.640572,
+        "pre_p3": -2.638409,
+        "pre_p4": -2.647058,
+        "post_p2": -2.826557
+      },
+      "limitation": "whole-trial window proxy, single replicate; slot-resolved PSTH per-ms t-test not recoverable"
+    },
+    "T4_frontal_low_gamma": {
+      "claim_level": "proxy_readout (physical_amplitude_calibrated=False)",
+      "band_hz": [
+        20.0,
+        50.0
+      ],
+      "position": "p2",
+      "context": "A",
+      "windows_relative_to_p2_onset_ms": {
+        "baseline": [
+          -250.0,
+          -50.0
+        ],
+        "slot": [
+          0.0,
+          531.0
+        ]
+      },
+      "estimand": "T4-relevant: ln(bandpower_omission/bandpower_intact) per area + frontal(FEF,PFC)-minus-V1 log contrast (comparison_matrix T4 contrast)",
+      "slot_window_log_ratio_pre": {
+        "V1": -1.1925050123181804,
+        "V4": -1.1817548749974736,
+        "FEF": -1.096455233243114,
+        "PFC": -1.0485660796435488,
+        "frontal_minus_V1": 0.11999435587484908
+      },
+      "slot_window_log_ratio_post": {
+        "V1": -1.1375522983826205,
+        "V4": -1.1742427513661267,
+        "FEF": -1.170978018104184,
+        "PFC": -1.029572700319864,
+        "frontal_minus_V1": 0.03727693917059649
+      },
+      "baseline_window_log_ratio_pre": {
+        "V1": -0.09949270958718585,
+        "V4": -0.040032650285172264,
+        "FEF": -0.08841929510830619,
+        "PFC": -0.01768704308946674,
+        "frontal_minus_V1": 0.04643954048829939
+      },
+      "baseline_window_log_ratio_post": {
+        "V1": 0.5045908191549084,
+        "V4": 0.4863129279263452,
+        "FEF": 0.4419295113978841,
+        "PFC": 0.46880500553101756,
+        "frontal_minus_V1": -0.049223560690457635
+      },
+      "delta_exposure_frontal_minus_V1": -0.08271741670425259,
+      "status": "OBSERVED_SINGLE_REPLICATE_PROXY",
+      "limitation": "n=1 replicate per condition; B/R contexts and p3/p4 positions not recorded; amplitude uncalibrated -> log-ratios only"
+    },
+    "T5_gamma_rate_coupling": {
+      "status": "NOT_ESTIMABLE_FROM_ARTIFACTS",
+      "reason": "requires trial-resolved gamma power x spike rate covariance across trials; only single-trial examples retained"
+    },
+    "T6_weaker_coupling_T1plus": {
+      "status": "NOT_ESTIMABLE_FROM_ARTIFACTS",
+      "reason": "requires SFC per unit and T1+/T1- partition"
+    },
+    "T7_cross_area_lag": {
+      "status": "NOT_ESTIMABLE_FROM_ARTIFACTS",
+      "reason": "requires cross-area series cohort across trials for peak-lag distribution; single-trial field proxies insufficient; frozen estimand not expanded ad hoc"
+    }
+  },
+  "warnings": [],
+  "limitations_summary": [
+    "recording union was declared for slot-resolved/multi-replicate observables but the materialized artifacts retain only: 5 pre whole-trial area-rate samples, 3 example whole-trial per-unit count vectors, 5 single-trial field-proxy volumes, 5-point constant H/Theta samples",
+    "primary slot-resolved [0,531]ms estimands therefore computed only as whole-trial/single-replicate proxies or marked NOT_RECORDED",
+    "post-phase provenance of *_example_* files inferred (naming/ordering/non-identity-with-pre), not content-verifiable",
+    "w-floor inconsistency between result.json extrema and design bounds flagged UNRESOLVED"
+  ]
+}

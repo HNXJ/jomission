@@ -1,0 +1,29 @@
+{
+  "observables": {
+    "visual_field": "visual_field[trial,time,32,32] \u2014 32\u00d732 pixel lattice input per trial slot (A/B/R patterns)",
+    "external_drive": "external_drive[trial,time,unit] \u2014 post-RF drive per unit (target_indices \u00d7 amplitude)",
+    "RF_operator": "RF_operator[unit,1024] \u2014 per V1 unit Gaussian weights, L1-normalized",
+    "spikes": "spikes[trial,unit,time/event] \u2014 per-unit spike raster",
+    "rate": "rate[trial,area,time] \u2014 ms area population rates",
+    "metadata": "area/layer/class/unit metadata \u2014 neuron_metadata per unit",
+    "field_proxy": "field_proxy[trial,area_attribution,contact,time] where scientifically valid \u2014 area-attributed contributions at declared probe geometry, proxy_readout",
+    "H_t": "H(t) \u2014 per-neuron hidden state trajectory, dense early-time sampling to resolve tau_Theta ~2.5s effective",
+    "Theta_t": "Theta(t) \u2014 HDP w trajectory, dense early-time sampling, bounds [w_floor,w_ceiling]",
+    "event_ledger": "event ledger \u2014 trial/condition/onset/duration per slot, omission zero-drive preserved",
+    "continuation_state": "continuation/checkpoint state \u2014 (X,H,\u0398,D,RNG,cursor) per trial boundary"
+  },
+  "files": {
+    "visual_field": "results/rf_rate_factorial/A_RFoff_RateRef/recording/visual_field_patterns.npz",
+    "external_drive": "results/rf_rate_factorial/A_RFoff_RateRef/recording/external_drive_examples.npz",
+    "RF_operator": "results/rf_rate_factorial/A_RFoff_RateRef/recording/RF_operator.npz",
+    "spikes": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_AAAB.npz",
+    "rate": "results/rf_rate_factorial/A_RFoff_RateRef/recording/rate_summary.json",
+    "field_proxy": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_manifest.json",
+    "H_t": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t_dense.npz",
+    "Theta_t": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t.json",
+    "event_ledger": "results/rf_rate_factorial/A_RFoff_RateRef/recording/event_ledger.json",
+    "continuation_state": "results/rf_rate_factorial/A_RFoff_RateRef/recording/continuation_state.json",
+    "metadata": "results/rf_rate_factorial/A_RFoff_RateRef/recording/recording_union.json"
+  },
+  "provenance": "recording per observables union compiled before expensive compute, all owned by recorder, field proxy_readout not calibrated"
+}

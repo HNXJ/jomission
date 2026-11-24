@@ -1,0 +1,17 @@
+{
+  "code_sha": "57365e6f9afd",
+  "parent_run": null,
+  "config_hash": "4f9fdeae7428199a",
+  "numerical_config_hash": "f9e8818a6697e1a6",
+  "hp_hash": "f72a489841810a4b",
+  "dt_ms": 0.1,
+  "seed": 0,
+  "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFoff RateSlow",
+  "phase": "post",
+  "initial_state_hash": "05734f901293a4ab",
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "CANONICAL_CONFIRMATORY",
+  "estimand_version": "jomission_comparison_matrix.v0.1.0",
+  "generated_owner": "results/rf_rate_factorial/C_RFoff_RateSlow",
+  "artifact_hash": "d76ede5509189977"
+}

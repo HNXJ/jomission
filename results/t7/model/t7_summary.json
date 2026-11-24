@@ -1,0 +1,709 @@
+{
+  "namespace": "canonical_confirmatory",
+  "generated_by": "jomission.analysis.t7_lag.run_t7_analysis",
+  "owner": "generated",
+  "field_claim_level": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "method": "data-driven cross-correlation peak; no anatomical delay inference",
+  "fs_hz": 1000.0,
+  "dt_ms": 1.0,
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "pairs": [
+    [
+      "V1",
+      "V4"
+    ],
+    [
+      "V1",
+      "FEF"
+    ],
+    [
+      "V1",
+      "PFC"
+    ],
+    [
+      "V4",
+      "FEF"
+    ],
+    [
+      "V4",
+      "PFC"
+    ],
+    [
+      "FEF",
+      "PFC"
+    ]
+  ],
+  "window_ms": [
+    -1000.0,
+    1000.0
+  ],
+  "max_lag_ms": 200.0,
+  "per_position_summary": {
+    "p2": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444373,
+        "p_vs_zero": 0.017180487343013168,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.6685579234215214,
+        "p_vs_zero": 0.05380358204027793,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.5,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.674199862463242,
+        "p_vs_zero": 0.026094682241525783,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.621581560508061,
+        "p_vs_zero": 0.19105429809656926,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444371,
+        "p_vs_zero": 0.5862993069206738,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.16666666666666666,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.3892494720807615,
+        "p_vs_zero": 0.1660868135182955,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    },
+    "p3": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.8528028654224418,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.6030226891555273,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.7929614610987591,
+        "p_vs_zero": 0.09601366565607411,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.5149286505444371,
+        "p_vs_zero": 0.5862993069206738,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.7537783614444091,
+        "p_vs_zero": 0.27496148552409866,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.25,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.9653072991634227,
+        "p_vs_zero": 0.3888523281417135,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    },
+    "p4": {
+      "V1-V4": {
+        "n_finite": 12,
+        "mean_lag_ms": -0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.378954368902449,
+        "p_vs_zero": 0.3176854047677475,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.0,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 0.9534625892455924,
+        "p_vs_zero": 1.0,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V1-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.6764862244009224,
+        "p_vs_zero": 0.4076388871998877,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-FEF": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.08333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.8319554050414562,
+        "p_vs_zero": 0.8776449678354765,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "V4-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.4166666666666667,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.378954368902449,
+        "p_vs_zero": 0.3176854047677475,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      },
+      "FEF-PFC": {
+        "n_finite": 12,
+        "mean_lag_ms": 0.3333333333333333,
+        "median_lag_ms": 0.0,
+        "sd_lag_ms": 1.0730867399773196,
+        "p_vs_zero": 0.3049372317414359,
+        "prop_within_10ms": 1.0,
+        "has_fixed_lag": false
+      }
+    }
+  },
+  "pooled_secondary": {
+    "V1-V4": {
+      "n_pooled": 24,
+      "mean_lag_ms": -0.027777777777777773,
+      "sd_lag_ms": 1.1750903620991147,
+      "t_vs_zero": -0.11580621191111107,
+      "p_vs_zero": 0.9088113054253748,
+      "lags_pooled": [
+        0.3333333333333333,
+        -0.0,
+        -0.0,
+        -3.0,
+        0.6666666666666666,
+        -0.0,
+        1.0,
+        2.0,
+        0.0,
+        1.0,
+        -2.0,
+        1.0,
+        0.0,
+        1.0,
+        -0.0,
+        -2.0,
+        -0.3333333333333333,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.3333333333333333,
+        1.0,
+        1.0,
+        -2.0
+      ],
+      "corrs_pooled": [
+        0.6201123372898499,
+        0.6801756254230018,
+        0.661907473096383,
+        0.5473751519555228,
+        0.6181077275083133,
+        0.7033107206433097,
+        0.6544615118710677,
+        0.5211866605453725,
+        0.6168075101102284,
+        0.6993415992527217,
+        0.6230975844823962,
+        0.5047760971848442,
+        0.6372210311405246,
+        0.7072573341400504,
+        0.6649709370723871,
+        0.5471392833932165,
+        0.624979590112522,
+        0.6934248615898321,
+        0.6611824328426028,
+        0.5425091885869118,
+        0.6275595553083705,
+        0.6730978540076376,
+        0.6694904301964452,
+        0.5221955784169908
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    },
+    "V1-FEF": {
+      "n_pooled": 24,
+      "mean_lag_ms": 0.20833333333333334,
+      "sd_lag_ms": 0.7665248766174716,
+      "t_vs_zero": 1.3314906760279754,
+      "p_vs_zero": 0.19607457689592359,
+      "lags_pooled": [
+        1.0,
+        1.0,
+        -0.0,
+        1.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.6666666666666666,
+        -0.0,
+        -0.0,
+        -2.0,
+        -0.3333333333333333,
+        2.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        -0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "corrs_pooled": [
+        0.6388971654714949,
+        0.6626544078991713,
+        0.6519112589462077,
+        0.538153775739112,
+        0.6114214038545943,
+        0.684111165993375,
+        0.6283173407760073,
+        0.5148575349132087,
+        0.6090424974005838,
+        0.6861045575514317,
+        0.6372245672239054,
+        0.5280511281508993,
+        0.6219101140641535,
+        0.6743649106080458,
+        0.6597875158468232,
+        0.5452387558932773,
+        0.6156625707972488,
+        0.6690193822354762,
+        0.6460225940728174,
+        0.5600612318072226,
+        0.6282478580728402,
+        0.679665105720715,
+        0.650599448350473,
+        0.5068470422154872
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    },
+    "V1-PFC": {
+      "n_pooled": 24,
+      "mean_lag_ms": 0.6111111111111112,
+      "sd_lag_ms": 1.2727795543144294,
+      "t_vs_zero": 2.352191144638232,
+      "p_vs_zero": 0.02759435994498916,
+      "lags_pooled": [
+        0.3333333333333333,
+        -0.0,
+        1.0,
+        -1.0,
+        0.3333333333333333,
+        -0.0,
+        1.0,
+        5.0,
+        0.0,
+        1.0,
+        -0.0,
+        1.0,
+        0.0,
+        2.0,
+        1.0,
+        -1.0,
+        0.0,
+        1.0,
+        -1.0,
+        2.0,
+        0.0,
+        -0.0,
+        2.0,
+        -0.0
+      ],
+      "corrs_pooled": [
+        0.613011652754908,
+        0.634707587141859,
+        0.6431508374894641,
+        0.475119644220549,
+        0.5772821927781467,
+        0.6382076905275482,
+        0.6251905649152875,
+        0.43151191939588723,
+        0.5879380314809065,
+        0.6338886212106452,
+        0.6350236032126284,
+        0.49502497402627366,
+        0.5855823087333581,
+        0.6426466254276574,
+        0.618417082737569,
+        0.47432658924350635,
+        0.5763828298300561,
+        0.6442096664110755,
+        0.6163978506727966,
+        0.47820967604973025,
+        0.6218305787246626,
+        0.6855183848102524,
+        0.652338808631759,
+        0.48843706945913734
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    },
+    "V4-FEF": {
+      "n_pooled": 24,
+      "mean_lag_ms": 0.18055555555555555,
+      "sd_lag_ms": 1.344084073553209,
+      "t_vs_zero": 0.6580971979924933,
+      "p_vs_zero": 0.5170092386157785,
+      "lags_pooled": [
+        0.0,
+        2.0,
+        -0.0,
+        3.0,
+        0.0,
+        -0.0,
+        1.0,
+        -0.0,
+        -0.3333333333333333,
+        -0.0,
+        1.0,
+        -4.0,
+        0.3333333333333333,
+        1.0,
+        -0.0,
+        1.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -2.0,
+        0.3333333333333333,
+        -0.0,
+        -1.0,
+        2.0
+      ],
+      "corrs_pooled": [
+        0.6254629217112165,
+        0.6546754398503466,
+        0.6361015037611585,
+        0.5562935772967612,
+        0.6238169061020077,
+        0.6825770845307041,
+        0.6436670695821677,
+        0.5571325751608495,
+        0.6069724322713644,
+        0.6947826336369474,
+        0.6503357956540982,
+        0.4914536173562627,
+        0.6279908862124375,
+        0.6806763778028708,
+        0.6880859359359306,
+        0.5647099350751579,
+        0.6247325448349123,
+        0.6750599069828682,
+        0.6568423122008104,
+        0.539565752263341,
+        0.6240619943249461,
+        0.6628784593882858,
+        0.6419145311417753,
+        0.5358728704477362
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    },
+    "V4-PFC": {
+      "n_pooled": 24,
+      "mean_lag_ms": 0.40277777777777785,
+      "sd_lag_ms": 1.030825224818632,
+      "t_vs_zero": 1.914194591932412,
+      "p_vs_zero": 0.06811787911315698,
+      "lags_pooled": [
+        -0.3333333333333333,
+        -0.0,
+        -0.0,
+        3.0,
+        0.0,
+        -0.0,
+        -0.0,
+        1.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.3333333333333333,
+        1.0,
+        2.0,
+        1.0,
+        0.3333333333333333,
+        -0.0,
+        -1.0,
+        3.0,
+        0.0,
+        -1.0,
+        1.0,
+        -0.0
+      ],
+      "corrs_pooled": [
+        0.6121546690189096,
+        0.640738503465002,
+        0.6322632046405381,
+        0.5468986254619497,
+        0.6137485742491208,
+        0.6519660765293781,
+        0.6361195625843162,
+        0.48695285912003006,
+        0.5824482848228615,
+        0.6616262931530543,
+        0.6321202330134548,
+        0.5302804755097972,
+        0.6135611511481531,
+        0.6553959893197164,
+        0.6201970951331021,
+        0.5025077437916177,
+        0.596742350662587,
+        0.6418371316756427,
+        0.631380414217601,
+        0.49341021793497586,
+        0.6362761081465782,
+        0.659212492637973,
+        0.658345119374239,
+        0.49594801183041887
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    },
+    "FEF-PFC": {
+      "n_pooled": 24,
+      "mean_lag_ms": 0.375,
+      "sd_lag_ms": 0.9746174772971907,
+      "t_vs_zero": 1.8849624082076564,
+      "p_vs_zero": 0.07213233456527997,
+      "lags_pooled": [
+        -0.3333333333333333,
+        1.0,
+        -1.0,
+        -0.0,
+        0.0,
+        -0.0,
+        2.0,
+        2.0,
+        0.3333333333333333,
+        -0.0,
+        1.0,
+        2.0,
+        0.0,
+        -0.0,
+        1.0,
+        -2.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        -0.0,
+        1.0,
+        1.0
+      ],
+      "corrs_pooled": [
+        0.6076385389405403,
+        0.6269935115747435,
+        0.6336453562851463,
+        0.524182209714719,
+        0.5993302025541678,
+        0.6374770673974762,
+        0.602997854301929,
+        0.4553373618238638,
+        0.5769586517430073,
+        0.6392992412911298,
+        0.6345505438488391,
+        0.4862321676424644,
+        0.5991821374280862,
+        0.665371797207904,
+        0.6170177336501386,
+        0.5159289514945978,
+        0.590478962546273,
+        0.6696458855538223,
+        0.6118960289917775,
+        0.4902267174986032,
+        0.6354289140295851,
+        0.6731103717512501,
+        0.6294605972682513,
+        0.4989778926755047
+      ],
+      "note": "pooled p2/p3/p4; primary is per-position (see pooling_rule DO NOT pool until tested)"
+    }
+  },
+  "denominators": {
+    "p2": {
+      "omission_conditions": [
+        "AXAB",
+        "BXBA",
+        "RXRR"
+      ],
+      "intact_conditions": [
+        "AAAB",
+        "BBBA",
+        "RRRR"
+      ],
+      "n_omission_trials": 6,
+      "n_intact_trials": 6
+    },
+    "p3": {
+      "omission_conditions": [
+        "AAXB",
+        "BBXA",
+        "RRXR"
+      ],
+      "intact_conditions": [
+        "AAAB",
+        "BBBA",
+        "RRRR"
+      ],
+      "n_omission_trials": 6,
+      "n_intact_trials": 6
+    },
+    "p4": {
+      "omission_conditions": [
+        "AAAX",
+        "BBBX",
+        "RRRX"
+      ],
+      "intact_conditions": [
+        "AAAB",
+        "BBBA",
+        "RRRR"
+      ],
+      "n_omission_trials": 6,
+      "n_intact_trials": 6
+    },
+    "total_trials": 24,
+    "pairs": [
+      [
+        "V1",
+        "V4"
+      ],
+      [
+        "V1",
+        "FEF"
+      ],
+      [
+        "V1",
+        "PFC"
+      ],
+      [
+        "V4",
+        "FEF"
+      ],
+      [
+        "V4",
+        "PFC"
+      ],
+      [
+        "FEF",
+        "PFC"
+      ]
+    ]
+  },
+  "provenance": {
+    "field_claim_level": "proxy_readout",
+    "physical_amplitude_calibrated": false,
+    "method": "data-driven cross-correlation peak; no anatomical delay inference",
+    "areas": [
+      "V1",
+      "V4",
+      "FEF",
+      "PFC"
+    ],
+    "positions": [
+      "p2",
+      "p3",
+      "p4"
+    ],
+    "pairs": [
+      [
+        "V1",
+        "V4"
+      ],
+      [
+        "V1",
+        "FEF"
+      ],
+      [
+        "V1",
+        "PFC"
+      ],
+      [
+        "V4",
+        "FEF"
+      ],
+      [
+        "V4",
+        "PFC"
+      ],
+      [
+        "FEF",
+        "PFC"
+      ]
+    ],
+    "n_trials": 24,
+    "n_time": 4624,
+    "fs_hz": 1000.0,
+    "dt_ms": 1.0,
+    "window_ms": [
+      -1000.0,
+      1000.0
+    ],
+    "max_lag_ms": 200.0,
+    "normalize": "zscore",
+    "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (Q11); pooled values secondary",
+    "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+    "estimator": "estimate_lag_single (data-driven xcorr peak, unbiased)",
+    "anatomical_delay_inference": "none \u2014 estimator never reads connectivity/delay tables",
+    "owner": "generated",
+    "generated_by": "jomission.analysis.t7_lag.compute_t7",
+    "window_note": "not spectral; T7 is cross-area lag (field/rate) \u2014 window_ms and max_lag_ms frozen"
+  }
+}

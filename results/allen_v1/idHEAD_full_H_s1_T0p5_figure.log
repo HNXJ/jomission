@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/hamednejat/workspace/dev/jomission/scripts/allen_v1_figure.py", line 118, in <module>
+    main(a[0], float(a[1]) if len(a) == 2 else 2.0)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hamednejat/workspace/dev/jomission/scripts/allen_v1_figure.py", line 76, in main
+    x = x[: n1 * k].reshape(n1, k, -1).mean(axis=1)
+        ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+ValueError: cannot reshape array of size 0 into shape (0,10,newaxis)

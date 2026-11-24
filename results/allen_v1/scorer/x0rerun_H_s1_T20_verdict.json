@@ -1,0 +1,35 @@
+{
+ "tag": "x0rerun_H_s1_T20",
+ "units": [
+  "L2/3",
+  "L4",
+  "L5",
+  "L6"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 17,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.15179058880856583,
+ "r_ab": 0.7765759262486635,
+ "r_gm": -0.1634823762688802,
+ "r_ab_manuscript": 0.7870384574342442,
+ "r_gm_manuscript": -0.07372221650557122,
+ "perm_rank": 10,
+ "smooth_p95": 0.674932737008237,
+ "identical_control": 0.13526233638209695,
+ "identity_r": 0.15179058880856586,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.1630833408557677,
+  "r2": 0.13424573551098815,
+  "se1": 0.07508249527233461,
+  "se2": 0.013045955075382165,
+  "se_diff": 0.07620746708918384,
+  "agree": true
+ },
+ "pass": false
+}

@@ -1,0 +1,3 @@
+{"steps_done": 5000, "of": 5000, "wall_s": 158.6}
+{"n_total": 66552, "edge_check": {"examined": 353, "failed": [], "edges_total": 23854994, "edges_expected": 23847017.353940085}, "silenced_zero_spikes": true, "wall_s": {"construct": 48.0359091758728, "simulate": 158.58507585525513, "total": 211.83429980278015}, "checks_pass": true}
+{"L1_Inh": 11.66, "L2/3_Exc": 2.94, "L2/3_PV": 22.41, "L2/3_SST": 9.25, "L2/3_VIP": 6.34, "L4_Exc": 3.81, "L4_PV": 19.27, "L4_SST": 4.5, "L4_VIP": 6.12, "L5_ET": 1.5, "L5_IT": 2.73, "L5_NP": 14.67, "L5_PV": 19.53, "L5_SST": 5.2, "L5_VIP": 6.29, "L6_Exc": 3.79, "L6_PV": 22.48, "L6_SST": 11.34, "L6_VIP": 12.47}

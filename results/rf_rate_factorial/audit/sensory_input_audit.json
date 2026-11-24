@@ -1,0 +1,217 @@
+{
+  "schema": "jomission.sensory_input_audit.v0.1.0",
+  "audit": "sensory-input biophysical audit (adversarial follow-up)",
+  "mode": "READ_ONLY",
+  "generated_at_utc": "2026-08-26T00:00:00Z",
+  "auditor": "sensory-input-biophysical-auditor",
+  "cells_in_scope": {
+    "A": "A_RFoff_RateRef",
+    "B": "B_RFon_RateRef",
+    "C": "C_RFoff_RateSlow"
+  },
+  "artifacts_hash_verified": true,
+  "hash_verification": {
+    "policy": "sha256_16 compared against each cell artifact_hashes.json (sealed)",
+    "result": "ALL_CONSUMED_ARTIFACTS_MATCH",
+    "items_checked": {
+      "A": [
+        "recording/spikes_example_AAAB.npz",
+        "recording/spikes_example_AXAB.npz",
+        "recording/spikes_example_BBBA.npz",
+        "recording/rate_summary.json",
+        "recording/H_t_dense.npz",
+        "recording/external_drive_examples.npz",
+        "recording/RF_operator.npz",
+        "checkpoints/ckpt_trial_0010.json"
+      ],
+      "B": [
+        "recording/spikes_example_AAAB.npz",
+        "recording/spikes_example_AXAB.npz",
+        "recording/rate_summary.json",
+        "recording/H_t_dense.npz",
+        "recording/external_drive_examples.npz",
+        "recording/RF_operator.npz",
+        "recording/event_ledger.json"
+      ],
+      "C": [
+        "recording/spikes_example_AAAB.npz",
+        "recording/spikes_example_AXAB.npz",
+        "recording/rate_summary.json",
+        "recording/H_t_dense.npz",
+        "recording/external_drive_examples.npz",
+        "recording/RF_operator.npz"
+      ]
+    }
+  },
+  "claim_1_185x_drive_energy": {
+    "claim": "RFoff (uniform drive all 400, sum 42.48M) vs RFon (V1-targeted graded, 12 targets, sum 230k) -> ~185x discrepancy",
+    "verdict": "CONFIRMED",
+    "method": "computed exact per-slot/per-trial/per-unit energies from sealed external_drive_examples.npz (drive_AAAB) via StimulusSchedule.to_array output",
+    "measured": {
+      "A_RFoff_RateRef": {
+        "config_hash": "4f9fdeae7428199a",
+        "construction": "condition_to_stimulus_schedule(n_neurons=400, drive_amplitude=5.0) -> uniform drive to all 400 units, amplitude 5.0 on p1-p4",
+        "trial_total_AAAB": 42480000.0,
+        "trial_total_AXAB": 31860000.0,
+        "per_slot_energy": 10620000.0,
+        "per_unit_per_slot": 26550.0,
+        "per_unit_per_trial": 106200.0,
+        "n_driven_units": "400/400",
+        "drive_max": 5.0,
+        "units": "amplitude x steps; 5310 steps/slot x 5.0 = 26550/unit/slot; 4 slots x 400 units x 26550 = 42.48M"
+      },
+      "B_RFon_RateRef": {
+        "config_hash": "e5e331a140ebd37e",
+        "construction": "RFOperator.to_stimulus_schedule(tier='graded', base_amplitude=5.0) -> per-unit graded amplitude on V1 L4 E/PV target_indices only",
+        "trial_total_AAAB": 230180.8125,
+        "trial_total_AXAB": 172652.53125,
+        "per_slot_energy_p1": 57528.44140625,
+        "per_slot_energy_p2": 57528.44140625,
+        "per_slot_energy_p3": 57528.44140625,
+        "per_slot_energy_p4": 57595.87109375,
+        "n_target_indices": 12,
+        "n_driven_units_AAAB": 6,
+        "driven_units_AAAB": [41, 42, 43, 46, 47, 48],
+        "graded_amplitudes_A_blob": {"41": 2.919, "42": 5.0, "43": 2.915},
+        "graded_amplitudes_B_blob": {"46": 2.912, "47": 5.0, "48": 2.935},
+        "target_indices_identity": "V1 L4 E units 38-46 (9), V1 L4 PV units 47-49 (3)"
+      },
+      "ratio_A_over_B": 184.55,
+      "ratio_per_slot_A_over_B": 184.6,
+      "note": "the '12 targets' is the configured target set; the AAAB trial actually drives 6 of 12 (A-blob 3, B-blob 3)"
+    },
+    "evidence_state": "OBSERVED",
+    "polarity": "POSITIVE"
+  },
+  "claim_2_zero_E_spike_count_variance": {
+    "claim": "all E units exactly 74 spikes/trial (zero excitatory spike-count variance)",
+    "verdict": "CONFIRMED_FOR_RFOFF",
+    "measured": {
+      "A_AAAB": {"E_mean": 74.0, "E_std": 0.0, "E_min": 74, "E_max": 74, "E_unique": 1, "n_E": 242},
+      "A_AXAB": {"E_mean": 67.0, "E_std": 0.0, "E_min": 67, "E_max": 67, "E_unique": 1, "n_E": 242},
+      "A_BBBA": {"E_mean": 73.0, "E_std": 0.0, "E_min": 73, "E_max": 73, "E_unique": 1, "n_E": 242},
+      "C_AAAB": {"E_mean": 74.0, "E_std": 0.0, "E_min": 74, "E_max": 74, "E_unique": 1, "n_E": 242},
+      "C_AXAB": {"E_mean": 68.0, "E_std": 0.0, "E_min": 68, "E_max": 68, "E_unique": 1, "n_E": 242},
+      "B_AAAB": {
+        "V1_E": {"mean": 49.73, "std": 3.14, "unique": 4},
+        "V4_E": {"mean": 49.0, "std": 0.0, "unique": 1},
+        "FEF_E": {"mean": 49.0, "std": 0.0, "unique": 1},
+        "PFC_E": {"mean": 49.0, "std": 0.0, "unique": 1}
+      },
+      "note": "zero-variance E counts hold for all 4 areas (V1/V4/FEF/PFC) in the RFoff cells; RFon cell has zero variance only outside the driven V1 area"
+    },
+    "evidence_state": "OBSERVED",
+    "polarity": "POSITIVE"
+  },
+  "heterogeneity_trace": {
+    "stage_drive": {
+      "measured": true,
+      "A": "uniform per-unit: all 400 units identical amplitude 5.0, identical per-slot energy 26550.0",
+      "B": "graded per-unit: only 6/12 target units driven in AAAB, amplitudes 2.91-5.0; non-target units zero",
+      "finding": "RFoff heterogeneity is ABSENT at the earliest stage (input); RFon heterogeneity present at input (V1 only)"
+    },
+    "stage_params": {
+      "measured": true,
+      "method": "in-memory model build with seed=0, config_hash re-verified = 4f9fdeae7428199a",
+      "a_b_c_d": "identical within (area, cell_type) class (unique=1 per class); E: a=0.02,b=0.20,c=-65,d=8",
+      "drive_sign_u0": "identical within class (u0=-13 for E)",
+      "v0": "400 unique values (per-neuron random initial V_m)",
+      "finding": "Izhikevich (a,b,c,d,drive,sign,u0) are class-constant; only v0 is per-neuron random"
+    },
+    "stage_connectivity": {
+      "measured": true,
+      "method": "model.params emitter.W (400x400)",
+      "finding": "E rows NOT identical (max abs row diff 0.075-0.099); row sparsity 99-109 nonzeros/row; random sparse heterogeneous connectivity present"
+    },
+    "stage_synaptic_input": {
+      "measured": false,
+      "status": "UNRESOLVED",
+      "reason": "no per-step synaptic current/membrane traces retained for the full population; only V_m[:1000,:10] subsample in B/C spikes_example npz (no unit metadata)"
+    },
+    "stage_Vm": {
+      "measured": "partial",
+      "status": "UNRESOLVED_POPULATION",
+      "reason": "retained V_m subsample (1000 steps x 10 units, units 0-9) for B/C shows unit variance (col std 0.90-10.24 mV) but is not population-representative and has no unit metadata; A retains no V_m",
+      "sample_col_means": [-85.07, -85.23, -86.15, -84.82, -86.03, -84.91, -85.26, -86.20, -67.11, -67.46],
+      "sample_col_std": [2.14, 1.00, 6.08, 3.68, 6.50, 3.19, 1.00, 5.79, 8.55, 7.60]
+    },
+    "stage_spike_timing": {
+      "measured": true,
+      "finding": "E rasters NOT identical within class (V1 E mean pairwise mismatch 0.31% of 46240 steps, min 0.28% max 0.32% in C), yet integrated counts identical -> near-phase-locked firing; timing heterogeneity present but does not change counts",
+      "evidence_state": "OBSERVED"
+    },
+    "stage_integrated_count": {
+      "measured": true,
+      "finding": "E count variance = 0 in RFoff (count is a degenerate observable of class-identical params + uniform drive); RFon V1 E count variance > 0 (graded drive)"
+    },
+    "stage_HDP_H": {
+      "measured": "partial",
+      "finding": "A H_t constant 1.02897 over 5 samples (no adaptation dynamics in recorded window); B/C H_trajectory scalar drift (452 samples, population scalar, not per-neuron); per-unit H heterogeneity UNRESOLVED"
+    },
+    "conclusion": "heterogeneity that EXISTS (v0, connectivity W, spike timing) is INSUFFICIENT to differentiate the integrated E count in RFoff; count degeneracy is produced by (class-identical Izhikevich params) x (uniform per-unit drive). In RFon the same degeneracy holds everywhere except the graded-drive V1 target units."
+  },
+  "claim_3_omission_drive_vs_rate_decrement": {
+    "claim": "identical E counts (var=0) + 185x energy difference => omission phenotype dominated by drive construction",
+    "measured": {
+      "A_omission_drive_diff": {
+        "per_unit": 26550.0,
+        "all_400_units": true,
+        "network_total": 10620000.0,
+        "nature": "spatially uniform global withdrawal (p2 slot zeroed for every unit) - a global flash-off, not a local retinotopic omission",
+        "per_E_unit_count_decrement": 7,
+        "per_E_unit_hz_decrement": 1.51,
+        "area_hz_decrement_pre": {"V1": -2.641, "V4": -3.056, "FEF": -2.889, "PFC": -3.186},
+        "area_hz_decrement_post": {"V1": -2.827, "V4": -3.246, "FEF": -3.058, "PFC": -3.285}
+      },
+      "B_omission_drive_diff": {
+        "affected_units": [41, 42, 43],
+        "per_unit": {"41": 15499.7, "42": 26550.0, "43": 15478.8},
+        "all_other_units": 0.0,
+        "network_total": 57528.3,
+        "nature": "retinotopically localized to 3 V1 L4 target units",
+        "unit_count_decrement_41_42_43": "61->57, 68->62, 61->57 (4,6,4 spikes)",
+        "area_hz_decrement_pre": {"V1": -0.027, "V4": -0.012, "FEF": -0.024, "PFC": -0.004}
+      },
+      "coupling": {
+        "drive_energy_ratio_A_over_B": 184.55,
+        "omission_effect_ratio_A_over_B_V1": 97.8,
+        "note": "the ~185x drive difference maps to ~100x omission-effect difference; omission amplitude is a near-linear readout of removed drive energy"
+      }
+    },
+    "verdict": "CONFIRMED",
+    "mechanism": "RFoff omission = uniform global drive step-down; every E unit loses identical drive (26550) and shows identical decrement (7 spikes; -1.51 Hz). The -2.6..-3.2 Hz area decrements and the zero-variance E counts are both direct consequences of the drive construction (uniform x all 400 units x amplitude 5.0). Hierarchy modulates the decrement's area distribution (V1 -2.64 vs PFC -3.19) but the dominant control variable is the drive.",
+    "evidence_state": "OBSERVED",
+    "polarity": "POSITIVE"
+  },
+  "verdict": {
+    "classification": "DRIVE_DOMINATED",
+    "definition": "the omission phenotype amplitude, its spatial uniformity, and the zero E spike-count variance are controlled by how external drive is constructed (uniform global vs retinotopic graded) and by its energy, not by cortical-hierarchy/HDP mechanism",
+    "supporting_facts": [
+      "185.55x (184.55x exact) drive-energy gap between RFoff (42.48M) and RFon (230.18k) in the AAAB trial",
+      "RFoff omission removes identical 26550 drive from all 400 units (global flash-off); RFon removes 15.5-26.6k from only 3 V1 target units (local)",
+      "omission effect scales ~linearly with removed drive energy: RFoff -2.6..-3.2 Hz vs RFon -0.004..-0.027 Hz (~1%)",
+      "E spike counts have exact zero variance in RFoff because count is a degenerate observable of (class-identical a/b/c/d + uniform drive); the 0.31% raster-timing jitter from v0/connectivity does not change counts",
+      "HDP H is constant in A (1.02897) over the recorded window - no adaptation dynamics driving the phenotype in the retained samples"
+    ],
+    "caveats": [
+      "hierarchy is NOT inert: area decrements differ (V1 -2.64 vs PFC -3.19 Hz) within RFoff, so connectivity modulates the response",
+      "per-unit synaptic input and population V_m are UNRESOLVED (no full-population current/membrane traces retained)",
+      "per-unit H heterogeneity UNRESOLVED (H recorded as population scalar)",
+      "B omission effect (~0.01-0.03 Hz) is near the noise floor; B's omission phenotype is essentially ABSENT, consistent with drive-energy starvation rather than an RF-specific mechanism"
+    ],
+    "is_bug": false,
+    "is_model_property": true,
+    "recommendation": {
+      "v0.1": "record as F-01 in the failure atlas (MODEL property: drive-construction dominates the omission phenotype; RF factor confounded with 185x drive-energy difference)",
+      "v0.2_requirement": "BEFORE interpreting RF effects, Factorial v0.2 design MUST include a drive-energy-matched control (e.g., RFoff at matched total energy, or normalized per-unit drive, or energy-normalized RFon) so the RF factor is not co-varied with drive magnitude; this is a design constraint, not a model repair - do not alter the v0.1 model",
+      "do_not_repair_before_factorial": true
+    }
+  },
+  "limitations_summary": [
+    "external_drive_examples.npz retained only AAAB/AXAB; per-slot energy derived from slot-index windows at dt=0.1ms",
+    "A retains spike counts only (no rasters); raster-timing analysis used C (RFoff) as the RFoff representative",
+    "V_m retained only as 1000x10 subsample without unit metadata in B/C; none in A",
+    "H_trajectory is a population scalar, not per-neuron",
+    "no full-population synaptic-current traces retained"
+  ]
+}

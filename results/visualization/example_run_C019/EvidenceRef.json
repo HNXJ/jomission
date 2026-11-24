@@ -1,0 +1,17 @@
+{
+  "code_sha": "a8a8b0ffedb8",
+  "parent_run": null,
+  "config_hash": "be9b96ab679c9802",
+  "numerical_config_hash": "1422587441f44a8f",
+  "hp_hash": "f327f9d2ad64cc88",
+  "dt_ms": 0.1,
+  "seed": 0,
+  "network_realization": "V1\u2192V4\u2192FEF\u2192PFC 100/area izhikevich edge_list spatial 0.08 max25 delays [20,80,120] (builder.py:62,90,395)",
+  "phase": "spontaneous",
+  "initial_state_hash": "6aed39f5b241d806",
+  "namespace": "canonical_confirmatory",
+  "evidence_class": "CANONICAL_CONFIRMATORY",
+  "estimand_version": "jomission.visualization.run_report.v0",
+  "generated_owner": "results/visualization/example_run_C019",
+  "artifact_hash": "6204f2a96448e3fa"
+}

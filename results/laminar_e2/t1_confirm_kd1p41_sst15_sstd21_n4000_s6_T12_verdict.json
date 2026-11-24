@@ -1,0 +1,34 @@
+{
+ "tag": "t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 9,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": true,
+ "r_proto": 0.3772281615182982,
+ "r_ab": 0.3701224264965592,
+ "r_gm": 0.4978883355969235,
+ "r_ab_manuscript": 0.37400733434788025,
+ "r_gm_manuscript": 0.46581056567516377,
+ "perm_rank": 1,
+ "smooth_p95": 0.3801444538242715,
+ "identical_control": -0.07733331760965233,
+ "identity_r": 0.3772281615182982,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.32883613766249453,
+  "r2": 0.3900198894020739,
+  "se1": 0.027230050362108422,
+  "se2": 0.014284262642679273,
+  "se_diff": 0.030749240673031322,
+  "agree": true
+ },
+ "pass": false
+}

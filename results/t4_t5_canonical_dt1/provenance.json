@@ -1,0 +1,39 @@
+{
+  "generated_by": "t4_t5_analysis.run_t4_t5_analysis",
+  "owner": "generated",
+  "field_claim_level": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "field_solver_status": "linear_solver",
+  "no_causal_field_to_spike": true,
+  "bands": {
+    "theta": [
+      4.0,
+      8.0
+    ],
+    "alpha": [
+      8.0,
+      14.0
+    ],
+    "beta": [
+      14.0,
+      30.0
+    ],
+    "low_gamma": [
+      30.0,
+      50.0
+    ],
+    "high_gamma": [
+      50.0,
+      80.0
+    ]
+  },
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "fs_hz": 1000.0,
+  "dt_ms": 1.0,
+  "hash": "1565785cc0de"
+}

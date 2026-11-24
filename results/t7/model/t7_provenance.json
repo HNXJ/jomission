@@ -1,0 +1,59 @@
+{
+  "field_claim_level": "proxy_readout",
+  "physical_amplitude_calibrated": false,
+  "method": "data-driven cross-correlation peak; no anatomical delay inference",
+  "areas": [
+    "V1",
+    "V4",
+    "FEF",
+    "PFC"
+  ],
+  "positions": [
+    "p2",
+    "p3",
+    "p4"
+  ],
+  "pairs": [
+    [
+      "V1",
+      "V4"
+    ],
+    [
+      "V1",
+      "FEF"
+    ],
+    [
+      "V1",
+      "PFC"
+    ],
+    [
+      "V4",
+      "FEF"
+    ],
+    [
+      "V4",
+      "PFC"
+    ],
+    [
+      "FEF",
+      "PFC"
+    ]
+  ],
+  "n_trials": 24,
+  "n_time": 4624,
+  "fs_hz": 1000.0,
+  "dt_ms": 1.0,
+  "window_ms": [
+    -1000.0,
+    1000.0
+  ],
+  "max_lag_ms": 200.0,
+  "normalize": "zscore",
+  "pooling_rule": "DO NOT pool p2/p3/p4 until position dependence explicitly tested (Q11); pooled values secondary",
+  "language_rule": "lfp_proxy remains proxy; never promote to physical LFP/CSD",
+  "estimator": "estimate_lag_single (data-driven xcorr peak, unbiased)",
+  "anatomical_delay_inference": "none \u2014 estimator never reads connectivity/delay tables",
+  "owner": "generated",
+  "generated_by": "jomission.analysis.t7_lag.compute_t7",
+  "window_note": "not spectral; T7 is cross-area lag (field/rate) \u2014 window_ms and max_lag_ms frozen"
+}

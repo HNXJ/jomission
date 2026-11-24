@@ -1,0 +1,1 @@
+{"run_id": "jomission-4f9fdeae-f327-9ae7c9af", "worker_id": "14707@HamedNejat-MacBook-Pro.local", "phase": "compile", "replicate": 0, "global_step": 0, "simulated_time_ms": 0.0, "trial_index": -1, "event_cursor": "compile_start", "latest_checkpoint": null, "wall_time": "2026-08-24T16:02:11.796468+00:00", "last_progress_wall_time": "2026-08-24T16:02:11.796470+00:00"}

@@ -1,0 +1,784 @@
+{
+  "schema": "jomission.E_B_analysis.v0.1.0",
+  "generated_at_utc": "2026-08-25T23:05:30.431693+00:00",
+  "cell": "B_RFon_RateRef",
+  "factorial_cell_identity": {
+    "directory_name": "B_RFon_RateRef",
+    "factors_observed": {
+      "RF": "on",
+      "Rate": "standard(ref)"
+    },
+    "maps_to_frozen_manifest_cell": "C_RFon_RateStd",
+    "K_HDP": 0.003,
+    "tau_0_ms": 5.0,
+    "tau_eff_E_s_design": 4.1,
+    "config_hash_observed_exec_log": "e5e331a140ebd37e",
+    "config_hash_distinct_from_canonical": true,
+    "hp_hash": "f327f9d2ad64cc88",
+    "hp_hash_matches_frozen_manifest_cell": true,
+    "note": "directory naming differs from manifest cell names; factor-level identity established from executor assertions + run_id + hp_hash"
+  },
+  "run_completion_status": {
+    "trials_completed": {
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "heartbeat_complete": true,
+    "recording_union_finalized": false,
+    "crash_signature": "TypeError: cannot unpack non-iterable Signals object (exec_B.log; spikes_example save step)",
+    "missing_sealed_artifacts": [
+      "B_RFon_RateRef_result.json",
+      "EvidenceRef.json",
+      "artifact_hashes.json",
+      "recording/event_ledger.json",
+      "recording/H_t.json",
+      "recording/continuation_state.json",
+      "recording/recording_union.json",
+      "recording/spikes_example_AAAB.npz"
+    ],
+    "consequence": "post-phase phenotypes unrecoverable; all such estimands marked NOT_RECORDED"
+  },
+  "provenance": {
+    "generated_owner": "results/rf_rate_factorial/B_RFon_RateRef",
+    "generator_script": "/Users/hamednejat/workspace/computational/jomission/scratch/analyze_B_RFon_RateRef.py",
+    "generator_sha256_16": "386065d780d30de7",
+    "code_sha": "unknown (EvidenceRef.json absent; executor crashed before git capture)",
+    "config_hash": "e5e331a140ebd37e",
+    "hp_hash": "f327f9d2ad64cc88",
+    "dt_ms": 0.1,
+    "seed_model_build": 0,
+    "network_realization": "V1->V4->FEF->PFC 100/area izhikevich edge_list RFon graded tier",
+    "design_manifest": {
+      "path": "manifests/rf_rate_factorial_design.json",
+      "version": "rf_rate_factorial.v0.1.0",
+      "manifest_sha256_16": "0c2972525d1d0496"
+    },
+    "inputs_verified": {
+      "heartbeat.jsonl": {
+        "sha256_16": "8b60f2fec33e0c04",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/rate_summary.json": {
+        "sha256_16": "8000e0b11b292bf4",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/H_t_dense.npz": {
+        "sha256_16": "1e1ab41f8d5a1e42",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_manifest.json": {
+        "sha256_16": "0834cf5b5cd3421d",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_pre_0000.npz": {
+        "sha256_16": "cea88fc5f7e3c749",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_pre_0001.npz": {
+        "sha256_16": "d0ed990f7a397177",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_pre_0002.npz": {
+        "sha256_16": "1f832efee3ef946b",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_pre_0003.npz": {
+        "sha256_16": "bca9170cb45ef3b8",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/field_proxy_pre_0004.npz": {
+        "sha256_16": "2b8f8bf6b035e10c",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/external_drive_examples.npz": {
+        "sha256_16": "e4a57cd77b36065d",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/RF_operator.npz": {
+        "sha256_16": "2b6a1433b7f94a67",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "recording/visual_field_patterns.npz": {
+        "sha256_16": "84508099f526f0e6",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "checkpoints/ckpt_trial_0010.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "checkpoints/ckpt_trial_0010.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "checkpoints/ckpt_trial_0260.json": {
+        "sha256_16": "64ff1e8f151b35ae",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      },
+      "checkpoints/ckpt_trial_0260.npz": {
+        "sha256_16": "ff025dd8c747a26e",
+        "sealed_or_new": "unsealed-input-no-sealed-manifest"
+      }
+    },
+    "sealed_input_manifest_present": false,
+    "tool_versions": {
+      "python": "3.13.7",
+      "numpy": "2.4.6"
+    },
+    "cross_cell_interpretation": "NONE (single-cell analysis per task directive; factorial contrasts deferred)",
+    "mutation_statement": "additive artifact only; inputs re-hashed after write and asserted unchanged by generator"
+  },
+  "input_integrity": {
+    "files_checked": 16,
+    "all_match_sealed_manifest": null,
+    "note": "no sealed manifest exists for this cell (run crashed pre-seal); hashes recorded fresh for future sealing"
+  },
+  "schedule_observed": {
+    "pre_trials": 96,
+    "exposure_trials": 260,
+    "post_trials": 96,
+    "trial_ms": 4624.0,
+    "exposure_wall_s": 1202.24,
+    "terminal_predicate": "terminated_by_schedule TRUE per exec_B.log ('POST done') despite downstream crash"
+  },
+  "heartbeat_verification": {
+    "log_len": 453,
+    "phases": {
+      "compile": 1,
+      "pre": 96,
+      "exposure": 260,
+      "post": 96
+    },
+    "monotonic_global_step_and_sim_time": true,
+    "sim_time_equals_global_step_x_dt": true,
+    "final_global_step": 20900480,
+    "matches_expected_total_steps": true,
+    "canonical_schedule_sequences_verified": {
+      "pre_sequence_matches_CONDITIONS_x8": true,
+      "exposure_alternates_AAAB_BBBA": true,
+      "post_sequence_matches_CONDITIONS_x8": true
+    },
+    "checkpoint_reference_chain_ok": true,
+    "run_id": "jomission-e5e331a1-f327-1c1fcda2",
+    "worker_id": "98198@HamedNejat-MacBook-Pro.local",
+    "first_wall_time": "2026-08-25T17:56:32.576471+00:00",
+    "last_wall_time": "2026-08-25T20:22:39.407873+00:00"
+  },
+  "checkpoints_verification": {
+    "n_pairs_enumerated": 26,
+    "all_pairs_load_and_leaf_consistent": true,
+    "static_top_level_keys": [
+      "geometry",
+      "n_contacts",
+      "neuron_metadata",
+      "neuron_metadata_summary",
+      "operator_status"
+    ],
+    "dynamic_or_hdp_state_stored": false,
+    "dynamic_state_note": "sidecar static keys contain geometry/metadata/operator_status only; no dynamic/HDP leaf section -> checkpoints hold model params + static, not continuation state",
+    "neuron_count_per_area_from_geometry": {
+      "V1": 100,
+      "V4": 100,
+      "FEF": 100,
+      "PFC": 100
+    },
+    "neuron_count_per_area_ok": true,
+    "checkpoint_ok_observed": 26,
+    "checkpoint_fail_observed": 0
+  },
+  "delta_exposure": {
+    "estimand_definition": "Delta_exposure = Y_omission^{post} - Y_omission^{pre} per replicate per cell, Y = phenotype (H_mean, w_mean, rate_omission_effect, field_low_gamma, etc.)",
+    "estimand_version": "jomission_comparison_matrix.v0.1.0 (per executor source; EvidenceRef.json absent)",
+    "phenotypes": {
+      "H_mean": {
+        "status": "OBSERVED",
+        "source": "recording/H_t_dense.npz H_trajectory (per-trial HDP H mean), segmented by phase via heartbeat schedule",
+        "delta_hz_per_condition": {
+          "AAAB": 0.002713,
+          "AXAB": 0.000752,
+          "AAXB": 0.000216,
+          "AAAX": 6.3e-05,
+          "BBBA": 1.9e-05,
+          "BXBA": 2e-06,
+          "BBXA": 1e-06,
+          "BBBX": 1e-06,
+          "RRRR": 1e-06,
+          "RXRR": -2e-06,
+          "RRXR": -0.0,
+          "RRRX": 3e-06
+        },
+        "Y_pre_mean_hz": {
+          "AAAB": 1.059504,
+          "AXAB": 1.061507,
+          "AAXB": 1.062056,
+          "AAAX": 1.062272,
+          "BBBA": 1.06213,
+          "BXBA": 1.062178,
+          "BBXA": 1.062177,
+          "BBBX": 1.062119,
+          "RRRR": 1.061892,
+          "RXRR": 1.06193,
+          "RRXR": 1.061922,
+          "RRRX": 1.061916
+        },
+        "Y_post_mean_hz": {
+          "AAAB": 1.062217,
+          "AXAB": 1.062259,
+          "AAXB": 1.062272,
+          "AAAX": 1.062335,
+          "BBBA": 1.062149,
+          "BXBA": 1.06218,
+          "BBXA": 1.062179,
+          "BBBX": 1.06212,
+          "RRRR": 1.061893,
+          "RXRR": 1.061929,
+          "RRXR": 1.061922,
+          "RRRX": 1.061918
+        },
+        "threshold_h_delta": 0.01,
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED"
+        },
+        "confound_flag": "PRE phase contains a startup relaxation transient ordered by battery position (trial 0 H=1.0406 -> steady ~1.0622 within ~5 trials); because condition order is fixed, raw Y_pre for early-battery conditions absorbs transient, inflating delta for early positions (largest: AAAB, battery position 1)",
+        "sensitivity_drop_first_pre_rep": {
+          "delta_hz_per_condition": {
+            "AAAB": 6e-06,
+            "AXAB": 0.0,
+            "AAXB": 1e-06,
+            "AAAX": 2e-06,
+            "BBBA": 2e-06,
+            "BXBA": -3e-06,
+            "BBXA": -0.0,
+            "BBBX": 0.0,
+            "RRRR": 1e-06,
+            "RXRR": -2e-06,
+            "RRXR": -0.0,
+            "RRRX": 2e-06
+          },
+          "note": "Y_pre over pre reps 2..8 only; residual deltas shrink >=10x vs raw for A-context early positions"
+        }
+      },
+      "Theta_w_mean": {
+        "status": "OBSERVED",
+        "source": "recording/H_t_dense.npz Theta_trajectory (per-trial w mean)",
+        "delta_per_condition": {
+          "AAAB": -3.356e-06,
+          "AXAB": -9.327e-07,
+          "AAXB": -2.482e-07,
+          "AAAX": -6.595e-08,
+          "BBBA": -2.401e-08,
+          "BXBA": -2.363e-08,
+          "BBXA": -4.395e-09,
+          "BBBX": 1.08e-08,
+          "RRRR": 1.834e-08,
+          "RXRR": 1.193e-08,
+          "RRXR": 1.516e-08,
+          "RRRX": 5.21e-09
+        },
+        "Y_pre_mean": 0.003242,
+        "Y_post_mean": 0.003241,
+        "polarity_per_condition": {
+          "AAAB": "UNRESOLVED",
+          "AXAB": "UNRESOLVED",
+          "AAXB": "UNRESOLVED",
+          "AAAX": "UNRESOLVED",
+          "BBBA": "UNRESOLVED",
+          "BXBA": "UNRESOLVED",
+          "BBXA": "UNRESOLVED",
+          "BBBX": "UNRESOLVED",
+          "RRRR": "UNRESOLVED",
+          "RXRR": "UNRESOLVED",
+          "RRXR": "UNRESOLVED",
+          "RRRX": "UNRESOLVED"
+        },
+        "polarity_note": "no frozen threshold defined for w deltas; |max delta| = 3.36e-06, orders of magnitude below any design scale -> UNRESOLVED by magnitude-inspection policy"
+      },
+      "whole_trial_rate_per_area": {
+        "status": "NOT_RECORDED",
+        "reason": "Y_post per-area rates were never materialized: executor crashed in the spikes_example save step after POST completed (exec_B.log TypeError); recording retains only the first 10 PRE-trial area-rate rows (rate_summary.per_trial_area_rates) and phase-mixed all-trial per_area_means",
+        "phase_mixed_means_not_usable_as_Y_post": {
+          "V1": 11.808097248583769,
+          "V4": 11.06619575382334,
+          "FEF": 11.352270069375502,
+          "PFC": 12.897172488997468
+        },
+        "Y_pre_first10_pre_trials_hz": {
+          "AAAB": {
+            "V1": 11.624135,
+            "V4": 11.144032,
+            "FEF": 11.431661,
+            "PFC": 13.00173
+          },
+          "AXAB": {
+            "V1": 11.535467,
+            "V4": 11.081315,
+            "FEF": 11.364619,
+            "PFC": 12.926038
+          },
+          "AAXB": {
+            "V1": 11.533304,
+            "V4": 11.074827,
+            "FEF": 11.360293,
+            "PFC": 12.91955
+          },
+          "AAAX": {
+            "V1": 11.377595,
+            "V4": 11.083478,
+            "FEF": 11.373269,
+            "PFC": 12.928201
+          },
+          "BBBA": {
+            "V1": 11.875,
+            "V4": 11.087803,
+            "FEF": 11.364619,
+            "PFC": 12.841695
+          },
+          "BXBA": {
+            "V1": 11.689013,
+            "V4": 11.07699,
+            "FEF": 11.373269,
+            "PFC": 12.87846
+          },
+          "BBXA": {
+            "V1": 11.680364,
+            "V4": 11.081315,
+            "FEF": 11.371107,
+            "PFC": 12.921713
+          },
+          "BBBX": {
+            "V1": 11.846886,
+            "V4": 11.079152,
+            "FEF": 11.362456,
+            "PFC": 12.91955
+          },
+          "RRRR": {
+            "V1": 12.783304,
+            "V4": 11.061852,
+            "FEF": 11.24135,
+            "PFC": 12.804931
+          },
+          "RXRR": {
+            "V1": 12.493512,
+            "V4": 10.973184,
+            "FEF": 11.364619,
+            "PFC": 12.923875
+          }
+        },
+        "polarity": "UNRESOLVED"
+      },
+      "field_low_gamma_slot": {
+        "status": "NOT_RECORDED",
+        "reason": "only 5 PRE-phase field_proxy volumes exist (field_proxy_pre_0000..0004); zero POST-phase field volumes recorded",
+        "polarity": "UNRESOLVED"
+      }
+    },
+    "replicates": {
+      "pre_per_condition": 8,
+      "post_per_condition": 8,
+      "paired_by": "identical condition order in pre/post batteries (verified via heartbeat event_cursor sequences)"
+    },
+    "claim_level": "DESCRIPTIVE_MULTI_PHENOTYPE_MIXED (H/w OBSERVED n_rep=8; rate/field NOT_RECORDED)",
+    "cross_cell_note": "within-cell only; no comparison to any other factorial cell performed"
+  },
+  "omission_vs_intact_per_position": {
+    "pooling_rule": "within-replicate paired by seed, same condition order, same RNG, same trial battery (12 cond x8 reps=96); DO NOT pool p2/p3/p4 (design pooling_rule): reported separately per context and position",
+    "pre_whole_trial_rate_proxy_n1": {
+      "A": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.088668,
+            "V4": -0.062716,
+            "FEF": -0.067041,
+            "PFC": -0.075692
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.090831,
+            "V4": -0.069204,
+            "FEF": -0.071367,
+            "PFC": -0.08218
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.24654,
+            "V4": -0.060554,
+            "FEF": -0.058392,
+            "PFC": -0.073529
+          }
+        }
+      },
+      "B": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.185987,
+            "V4": -0.010813,
+            "FEF": 0.00865,
+            "PFC": 0.036765
+          }
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.194636,
+            "V4": -0.006488,
+            "FEF": 0.006488,
+            "PFC": 0.080018
+          }
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.028114,
+            "V4": -0.008651,
+            "FEF": -0.002163,
+            "PFC": 0.077855
+          }
+        }
+      },
+      "R": {
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "omission_minus_intact_hz_per_area": {
+            "V1": -0.289792,
+            "V4": -0.088668,
+            "FEF": 0.123269,
+            "PFC": 0.118944
+          }
+        },
+        "p3": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained sample"
+        },
+        "p4": {
+          "status": "NOT_RECORDED",
+          "reason": "missing omission condition in retained sample"
+        }
+      }
+    },
+    "post_whole_trial_rate_proxy": {
+      "A": {
+        "status": "NOT_RECORDED",
+        "reason": "no post-phase per-area rates recorded"
+      },
+      "B": {
+        "status": "NOT_RECORDED",
+        "reason": "no post-phase per-area rates recorded"
+      },
+      "R": {
+        "status": "NOT_RECORDED",
+        "reason": "no post-phase per-area rates recorded"
+      }
+    },
+    "delta_exposure_of_omission_effect_rate": {
+      "status": "NOT_RECORDED",
+      "reason": "requires post-phase rates; absent"
+    },
+    "H_phenotype_omission_vs_intact_per_position": {
+      "A": {
+        "positions_covered": [
+          "p2",
+          "p3",
+          "p4"
+        ],
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "AXAB",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_pre": 0.002003297,
+          "omission_minus_intact_post": 4.23044e-05
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "AAXB",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_pre": 0.002552241,
+          "omission_minus_intact_post": 5.507469e-05
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "AAAX",
+          "intact_cond": "AAAB",
+          "omission_minus_intact_pre": 0.002767727,
+          "omission_minus_intact_post": 0.0001178235
+        }
+      },
+      "B": {
+        "positions_covered": [
+          "p2",
+          "p3",
+          "p4"
+        ],
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "BXBA",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_pre": 4.765391e-05,
+          "omission_minus_intact_post": 3.014505e-05
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "BBXA",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_pre": 4.729629e-05,
+          "omission_minus_intact_post": 2.923608e-05
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "BBBX",
+          "intact_cond": "BBBA",
+          "omission_minus_intact_pre": -1.078844e-05,
+          "omission_minus_intact_post": -2.925098e-05
+        }
+      },
+      "R": {
+        "positions_covered": [
+          "p2",
+          "p3",
+          "p4"
+        ],
+        "p2": {
+          "status": "OBSERVED",
+          "omission_cond": "RXRR",
+          "intact_cond": "RRRR",
+          "omission_minus_intact_pre": 3.825128e-05,
+          "omission_minus_intact_post": 3.539026e-05
+        },
+        "p3": {
+          "status": "OBSERVED",
+          "omission_cond": "RRXR",
+          "intact_cond": "RRRR",
+          "omission_minus_intact_pre": 3.004074e-05,
+          "omission_minus_intact_post": 2.865493e-05
+        },
+        "p4": {
+          "status": "OBSERVED",
+          "omission_cond": "RRRX",
+          "intact_cond": "RRRR",
+          "omission_minus_intact_pre": 2.367795e-05,
+          "omission_minus_intact_post": 2.494454e-05
+        }
+      }
+    },
+    "coverage_note": "rate proxy covers first 10 pre trials only: A-context intact+p2/p3/p4, B-context intact+p2/p3/p4, R-context intact+p2 (RXRR); RRXR(p3)/RRRX(p4) fall outside the retained 10-row sample. H-phenotype covers all 12 conditions (n=8 reps/phase). Post phase: nothing recorded."
+  },
+  "field_proxy_low_gamma_pre": {
+    "band_hz_frozen": [
+      30.0,
+      50.0
+    ],
+    "windows_relative_to_p2_onset_ms": {
+      "baseline": [
+        -250.0,
+        -50.0
+      ],
+      "slot": [
+        0.0,
+        531.0
+      ]
+    },
+    "p2_onset_authority_ms": 1031.0,
+    "p2_onset_verified_against_external_drive_idx": true,
+    "rf_omission_zero_drive_in_slot": true,
+    "rf_drive_AAAB_p2_sum": 57528.300781,
+    "physical_amplitude_calibrated": false,
+    "claim": "proxy_readout; ln(bandpower_omission/bandpower_intact) per area, PRE phase only",
+    "per_position": {
+      "A_context_p2": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AXAB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": -0.033762,
+          "V4": -0.152822,
+          "FEF": -0.297351,
+          "PFC": -0.425399,
+          "frontal_minus_V1": -0.327613
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.227574,
+          "V4": 0.0687,
+          "FEF": 0.064162,
+          "PFC": 0.154841,
+          "frontal_minus_V1": -0.118072
+        }
+      },
+      "A_context_p3": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAXB",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": -0.04088,
+          "V4": -0.156001,
+          "FEF": -0.467903,
+          "PFC": -0.732164,
+          "frontal_minus_V1": -0.559153
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.117628,
+          "V4": 0.041429,
+          "FEF": 0.071978,
+          "PFC": -0.45431,
+          "frontal_minus_V1": -0.308794
+        }
+      },
+      "A_context_p4": {
+        "status": "OBSERVED_PRE_ONLY_SINGLE_REPLICATE",
+        "omission_cond": "AAAX",
+        "intact_cond": "AAAB",
+        "slot_window_ln_ratio": {
+          "V1": 0.015967,
+          "V4": -0.159392,
+          "FEF": -0.195761,
+          "PFC": -0.336749,
+          "frontal_minus_V1": -0.282222
+        },
+        "baseline_window_ln_ratio": {
+          "V1": 0.199485,
+          "V4": 0.35233,
+          "FEF": -0.047828,
+          "PFC": -0.796481,
+          "frontal_minus_V1": -0.62164
+        }
+      }
+    },
+    "delta_exposure_of_field_effect": {
+      "status": "NOT_RECORDED",
+      "reason": "no post-phase field_proxy volumes"
+    }
+  },
+  "H_Theta_observables": {
+    "trajectory_source": "recording/H_t_dense.npz (fallback variant: per-trial means, 452 points)",
+    "declared_dense_sampling_materialized": false,
+    "metadata_inconsistency_flag": "file stores dt_ms=0.1 but arrays are per-trial means with effective spacing 4624.0 ms; dense per-step H trace declared in the observables union was NOT materialized",
+    "resolution": {
+      "n_points": 452,
+      "spacing_ms": 4624.0,
+      "time_base": "trial order via heartbeat schedule"
+    },
+    "H_extrema_run_level": {
+      "min": 1.040555,
+      "max": 1.062338,
+      "mean": 1.06209,
+      "bounds_[0.1,10]_ok": true
+    },
+    "Theta_extrema_run_level": {
+      "min": 0.003241,
+      "max": 0.003268,
+      "mean": 0.003241,
+      "bounds_[0.01,10]_ok": false
+    },
+    "per_phase": {
+      "pre": {
+        "H": {
+          "min": 1.040555,
+          "max": 1.062338,
+          "mean": 1.0618
+        },
+        "Theta": {
+          "min": 0.003240945,
+          "max": 0.003268006,
+          "mean": 0.003241529
+        }
+      },
+      "exposure": {
+        "H": {
+          "min": 1.062103,
+          "max": 1.062268,
+          "mean": 1.062189
+        },
+        "Theta": {
+          "min": 0.003240963,
+          "max": 0.003241194,
+          "mean": 0.003241095
+        }
+      },
+      "post": {
+        "H": {
+          "min": 1.061885,
+          "max": 1.062338,
+          "mean": 1.062114
+        },
+        "Theta": {
+          "min": 0.003240955,
+          "max": 0.003241356,
+          "mean": 0.003241146
+        }
+      }
+    },
+    "stationarity_quantified": {
+      "exposure_H_std": 7.143e-05,
+      "exposure_Theta_ptp": 2.307e-07,
+      "interpretation": "H and Theta are stationary to <1e-4 across the 1202.24 s exposure; no adaptation transient survives into per-trial means during exposure"
+    },
+    "effective_timescale": {
+      "status": "NOT_OBSERVED_FROM_RECORDING",
+      "exploratory_coarse_fit": {
+        "status": "EXPLORATORY_COARSE_FIT",
+        "window": "first 15 pre trials (startup relaxation)",
+        "model": "H_inf - A*exp(-t/tau)",
+        "H_inf": 1.062102,
+        "amplitude": 0.07994,
+        "tau_eff_s_fit": 3.528006,
+        "residual_std": 0.0001278,
+        "sampling_period_s": 4.624,
+        "identifiability_caveat": "sampling period 4.624 s >= design tau 4.1 s: fewer than 2 samples per time constant and only ~4 points above half-amplitude -> fit is under-determined; value reported EXPLORATORY, NOT an OBSERVED timescale",
+        "vs_design_specified_tau_eff_E_s": 4.1
+      },
+      "design_specified_reference": {
+        "tau_eff_E_s": 4.1,
+        "authority": "manifests/rf_rate_factorial_design.json cells.C_RFon_RateStd.rate.standard.tau_eff_E_s",
+        "level": "SPECIFIED_NOT_MEASURED_FOR_THIS_RUN"
+      },
+      "Theta_effective_timescale": {
+        "status": "NO_RESOLVABLE_DYNAMICS",
+        "reason": "Theta per-trial means constant to ~1e-6 across all phases; no relaxation process present to fit"
+      }
+    },
+    "consistency_flags": [
+      "UNRESOLVED: entire Theta trajectory (max 0.003268) lies BELOW w_floor=0.01 while RF is on (K_HDP=0.003); either clamping is applied downstream of the recorded mean or the barrier term does not bind at this operating point; not adjudicated here"
+    ]
+  },
+  "warnings": [
+    "artifact_hashes.json absent (executor crashed before sealing); all inputs recorded unsealed with fresh hashes",
+    "result-level artifacts absent: ['B_RFon_RateRef_result.json', 'EvidenceRef.json', 'artifact_hashes.json', 'recording/event_ledger.json', 'recording/H_t.json', 'recording/continuation_state.json', 'recording/recording_union.json', 'recording/spikes_example_AAAB.npz']"
+  ],
+  "limitations_summary": [
+    "executor completed the full 452-trial schedule then crashed before finalizing the recording union; result.json/EvidenceRef.json/artifact_hashes.json/event_ledger.json/H_t.json/spikes_example_* were never written",
+    "Delta_exposure computed ONLY for H_mean and Theta_w_mean phenotypes (per-trial trajectory segmentation); rate and field-low-gamma phenotypes marked NOT_RECORDED",
+    "raw H-delta for early-battery conditions is confounded by the PRE-phase startup relaxation; a drop-first-replicate sensitivity variant is provided",
+    "H(t)/Theta(t) saved at per-trial resolution (4.624 s) despite dt_ms metadata claiming 0.1 ms; effective timescale reported as EXPLORATORY coarse fit only",
+    "Theta trajectory lies entirely below w_floor=0.01 while RF is on: flagged UNRESOLVED",
+    "rate-based omission effects rest on single-replicate whole-trial proxies from the first 10 pre trials; R-context p3/p4 outside the retained sample"
+  ]
+}

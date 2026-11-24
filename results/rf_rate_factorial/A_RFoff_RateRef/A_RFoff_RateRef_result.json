@@ -1,0 +1,173 @@
+{
+  "cell": "A_RFoff_RateRef",
+  "config_hash": "4f9fdeae7428199a",
+  "hp_hash": "f327f9d2ad64cc88",
+  "dt_ms": 0.1,
+  "exposure_trials": 260,
+  "exposure_wall_s": 1202.24,
+  "total_steps": 21177920,
+  "total_ms": 2117792.0,
+  "h_extrema": {
+    "min": 0.9838340878486633,
+    "max": 1.0900883674621582,
+    "mean": 1.0289663
+  },
+  "w_extrema": {
+    "min": -0.01944640837609768,
+    "max": 0.10926507413387299,
+    "mean": 0.0032665
+  },
+  "checkpoint_ok": 26,
+  "checkpoint_fail": 0,
+  "stability_issues": [],
+  "numerical_valid": true,
+  "schedule": {
+    "trial_ms": 4624.0,
+    "dt_ms": 0.1,
+    "phases": {
+      "initialization": {
+        "wall_s": 2.0,
+        "wall_ms": 2000.0,
+        "steps": 20000,
+        "trials": null
+      },
+      "baseline": {
+        "wall_s": 10.0,
+        "wall_ms": 10000.0,
+        "steps": 100000,
+        "trials": null
+      },
+      "exposure": {
+        "requested_s": 1200.0,
+        "wall_s": 1202.24,
+        "wall_ms": 1202240.0,
+        "steps": 12022400,
+        "trials": 260,
+        "note": "ceil(1200.0s / 4624.0ms) = 260 trials = 1202.24s"
+      },
+      "testing": {
+        "wall_s": 443.904,
+        "wall_ms": 443904.0,
+        "steps": 4439040,
+        "trials": 96,
+        "conditions": 12,
+        "reps": 8,
+        "note": "12\u00d78=96 trials @ 4624.0ms = 443.904s"
+      },
+      "recovery": {
+        "wall_s": 30.0,
+        "wall_ms": 30000.0,
+        "steps": 300000,
+        "trials": null
+      }
+    },
+    "total": {
+      "wall_ms": 1688144.0,
+      "wall_s": 1688.144,
+      "steps": 16881440,
+      "n_400_neurons_per_step_bytes": 1600
+    },
+    "checkpoint": {
+      "every_n_trials": 10,
+      "every_ms": 46240.0,
+      "exposure_checkpoint_trial_numbers": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250,
+        260
+      ],
+      "n_checkpoints_exposure": 26
+    },
+    "derived_from": "trial_ms=4624.0 (fx -500 to d4 4124) and dt_ms; no manual duration/trial mismatch allowed"
+  },
+  "heartbeat": {
+    "run_id": "jomission-4f9fdeae-f327-d2321c5b",
+    "worker_id": "99999@HamedNejat-MacBook-Pro.local",
+    "worker_started": "2026-08-25T17:45:27+00:00",
+    "worker_completed": "2026-08-25T20:13:14.400000+00:00",
+    "heartbeat_log_len": 459,
+    "heartbeat_path": "results/rf_rate_factorial/A_RFoff_RateRef/heartbeat.jsonl",
+    "monotonic_ok": true,
+    "last_heartbeat": "2026-08-25T20:13:14.400000+00:00",
+    "last_progress_wall_time": "2026-08-25T20:13:14.400000+00:00",
+    "execution_wall_s": 8867.4,
+    "compile_wall_s": 0.0006
+  },
+  "terminal_predicate": {
+    "expected_final_step": 12022400,
+    "actual_final_step": 12022400,
+    "expected_final_sim_time_ms": 1202240.0,
+    "actual_final_sim_time_ms": 1202240.0,
+    "expected_final_phase": "exposure",
+    "expected_final_trial_index": 259,
+    "actual_final_trial_index": 259,
+    "terminated_by_schedule": true,
+    "derived_from": "canonical_schedule()"
+  },
+  "worker_progress": {
+    "worker_started": "2026-08-25T17:45:27.253380+00:00",
+    "worker_progress_verified": true,
+    "worker_completed_expected_schedule": true,
+    "stopped_early": false,
+    "termination_reason": "completed_expected_schedule"
+  },
+  "recording": {
+    "observables": {
+      "visual_field": "visual_field[trial,time,32,32] \u2014 32\u00d732 pixel lattice input per trial slot (A/B/R patterns)",
+      "external_drive": "external_drive[trial,time,unit] \u2014 post-RF drive per unit (target_indices \u00d7 amplitude)",
+      "RF_operator": "RF_operator[unit,1024] \u2014 per V1 unit Gaussian weights, L1-normalized",
+      "spikes": "spikes[trial,unit,time/event] \u2014 per-unit spike raster",
+      "rate": "rate[trial,area,time] \u2014 ms area population rates",
+      "metadata": "area/layer/class/unit metadata \u2014 neuron_metadata per unit",
+      "field_proxy": "field_proxy[trial,area_attribution,contact,time] where scientifically valid \u2014 area-attributed contributions at declared probe geometry, proxy_readout",
+      "H_t": "H(t) \u2014 per-neuron hidden state trajectory, dense early-time sampling to resolve tau_Theta ~2.5s effective",
+      "Theta_t": "Theta(t) \u2014 HDP w trajectory, dense early-time sampling, bounds [w_floor,w_ceiling]",
+      "event_ledger": "event ledger \u2014 trial/condition/onset/duration per slot, omission zero-drive preserved",
+      "continuation_state": "continuation/checkpoint state \u2014 (X,H,\u0398,D,RNG,cursor) per trial boundary"
+    },
+    "files": {
+      "visual_field": "results/rf_rate_factorial/A_RFoff_RateRef/recording/visual_field_patterns.npz",
+      "external_drive": "results/rf_rate_factorial/A_RFoff_RateRef/recording/external_drive_examples.npz",
+      "RF_operator": "results/rf_rate_factorial/A_RFoff_RateRef/recording/RF_operator.npz",
+      "spikes": "results/rf_rate_factorial/A_RFoff_RateRef/recording/spikes_example_AAAB.npz",
+      "rate": "results/rf_rate_factorial/A_RFoff_RateRef/recording/rate_summary.json",
+      "field_proxy": "results/rf_rate_factorial/A_RFoff_RateRef/recording/field_proxy_manifest.json",
+      "H_t": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t_dense.npz",
+      "Theta_t": "results/rf_rate_factorial/A_RFoff_RateRef/recording/H_t.json",
+      "event_ledger": "results/rf_rate_factorial/A_RFoff_RateRef/recording/event_ledger.json",
+      "continuation_state": "results/rf_rate_factorial/A_RFoff_RateRef/recording/continuation_state.json",
+      "metadata": "results/rf_rate_factorial/A_RFoff_RateRef/recording/recording_union.json"
+    },
+    "provenance": "recording per observables union compiled before expensive compute, all owned by recorder, field proxy_readout not calibrated"
+  },
+  "continuation_verified": true,
+  "validation": {
+    "config_ok": true,
+    "hp_ok": true,
+    "dt_ok": true,
+    "trial_ms_ok": true,
+    "reference_reproduces_frozen": true
+  }
+}

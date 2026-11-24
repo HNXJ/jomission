@@ -1,0 +1,8 @@
+{"seed": 2, "T_s": 8.0, "wall_s": {"construct": 9.34040379524231, "simulate": 2365.423094034195, "total": 2380.4080970287323}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': 0.1865094391475329, 'jackknife_se': 0.02394968780704501, 'z': 7.787551998597222, 'crossing_2se': False, 'zero_depth_first': -0.24518620566751548} shuffle_p 0.5
+per_cell_mean manuscript {'contrast_M': 0.19700913896289277, 'jackknife_se': 0.023752897968835944, 'z': 8.294109595442665, 'crossing_2se': False, 'zero_depth_first': -0.2261494969583334} shuffle_p 0.5
+per_cell_mean peak_hz_unit {'S': 30.0, 'M': 30.0, 'D': 16.0}
+sum_over_cells image {'contrast_M': 0.41082529895386943, 'jackknife_se': 0.14414741342637308, 'z': 2.850035870839325, 'crossing_2se': False, 'zero_depth_first': -0.21449817404508137} shuffle_p 0.3333333333333333
+sum_over_cells manuscript {'contrast_M': 0.46363460837590675, 'jackknife_se': 0.12697888411816494, 'z': 3.651273293159942, 'crossing_2se': False, 'zero_depth_first': -0.20689045557545432} shuffle_p 0.3333333333333333
+sum_over_cells peak_hz_unit {'S': 30.0, 'M': 30.0, 'D': 16.0}
+wrote /Users/hamednejat/workspace/dev/jomission/results/laminar_e2/gallery.html: 14 runs

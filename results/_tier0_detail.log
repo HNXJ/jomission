@@ -1,0 +1,51 @@
+.............................................F.......................... [ 27%]
+.............................................E.......................... [ 55%]
+........................................................................ [ 83%]
+...........................................                              [100%]
+==================================== ERRORS ====================================
+___________________ ERROR at teardown of test_links_resolve ____________________
+
+    @pytest.fixture(scope="module")
+    def site_a():
+        if os.path.exists(TMP):
+            shutil.rmtree(TMP)
+        os.makedirs(TMP)
+        before = tree_hash()
+        a = run_build(os.path.join(TMP, "a"))
+        yield a
+>       assert tree_hash() == before, "build mutated scientific tree"
+E       AssertionError: build mutated scientific tree
+E       assert '704c48b78411...008fdab5580a1' == '898a0366fd52...ecc7b949e66c4'
+E         
+E         - 898a0366fd52e8f8b969eee1c25bc6bc0126f304e01a43e474cecc7b949e66c4
+E         + 704c48b78411e68a10ac31952898e8058daca0ade574dbb4f1a008fdab5580a1
+
+tests/test_pages_build.py:59: AssertionError
+=================================== FAILURES ===================================
+_______________________ test_results_coverage_registered _______________________
+
+    def test_results_coverage_registered():
+>       assert v.results_coverage() == []
+E       AssertionError: assert ['unregistere...eage record)'] == []
+E         
+E         Left contains one more item: 'unregistered result results/viz/spectrolaminar/runs.json (not in sealed registry, not named by a lineage record)'
+E         Use -v to get more diff
+
+tests/test_harness_guards.py:157: AssertionError
+=============================== warnings summary ===============================
+tests/test_whole_system_ei_native_state.py::test_representative_cell_identities_and_indices
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+    return lax_numpy.astype(self, dtype, copy=copy, device=device)
+
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /Users/hamednejat/workspace/dev/jomission/jomission/tfne/o_authority.py:147: RuntimeWarning: invalid value encountered in divide
+    "max_rel_error": float((err / g).max()),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_harness_guards.py::test_results_coverage_registered - Asser...
+ERROR tests/test_pages_build.py::test_links_resolve - AssertionError: build m...
+1 failed, 257 passed, 5 warnings, 1 error in 37.92s

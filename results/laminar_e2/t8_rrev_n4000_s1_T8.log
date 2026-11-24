@@ -1,0 +1,10 @@
+{"seed": 1, "T_s": 8.0, "wall_s": {"construct": 19.708370208740234, "simulate": 275.6685047149658, "total": 331.19007301330566}, "jaxfne_version": "0.5.9"}
+per_cell_mean image {'contrast_M': -0.13879433137890346, 'jackknife_se': 0.07157039558592287, 'z': -1.9392701443472642, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean manuscript {'contrast_M': -0.13940468129183306, 'jackknife_se': 0.06495313372836824, 'z': -2.146234881827544, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+per_cell_mean peak_hz_unit {'S': 11.0, 'M': 11.0, 'D': 45.0}
+sum_over_cells image {'contrast_M': -0.029597436303599893, 'jackknife_se': 0.01625750913598836, 'z': -1.8205394231076681, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 1.0
+sum_over_cells manuscript {'contrast_M': -0.03009325302040218, 'jackknife_se': 0.0146744678917689, 'z': -2.0507219234355936, 'crossing_2se': False, 'zero_depth_first': -0.4} shuffle_p 0.8333333333333334
+sum_over_cells peak_hz_unit {'S': 11.0, 'M': 11.0, 'D': 45.0}
+{"tag": "t8_rrev_n4000_s1_T8", "row": "per_cell_mean", "r_proto": 0.125, "r_area": 0.131, "r_map": 0.126, "r_ab": -0.73, "r_gm": 0.403, "null95": 0.263}
+{"tag": "t8_rrev_n4000_s1_T8", "row": "sum_over_cells", "r_proto": 0.143, "r_area": 0.146, "r_map": 0.151, "r_ab": -0.738, "r_gm": 0.434, "null95": 0.266}
+{"tag": "t8_rrev_n4000_s1_T8", "units": ["S", "M", "D"], "discard_s": 2.0, "n_windows": 5, "grid_size": 1, "bands": "image", "crossing_2se": false, "r_proto": 0.1434942105606095, "r_ab": -0.7393340025549318, "r_gm": 0.49063439237292866, "r_ab_manuscript": -0.7382147927705635, "r_gm_manuscript": 0.43401181454303983, "perm_rank": 3, "smooth_p95": 0.3801444538242715, "identical_control": -0.07733331760965231, "identity_r": 0.1434942105606095, "n_freq_used": 150, "nonfinite": [], "reason": null, "halves": {"r1": 0.14325654416928454, "r2": 0.14627876950949606, "se1": 0.007717101154294942, "se2": 0.013590282484461333, "se_diff": 0.015628481315632586, "agree": true}, "pass": false}

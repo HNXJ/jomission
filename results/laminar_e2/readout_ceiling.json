@@ -1,0 +1,45 @@
+{
+ "sigma": 0.15,
+ "unit_depths": {
+  "S": -0.4,
+  "M": 0.0,
+  "D": 0.3
+ },
+ "starts": 32,
+ "bands": {
+  "image_ab": {
+   "range_hz": [
+    10.0,
+    30.0
+   ],
+   "coherent": 0.949263442402257,
+   "incoherent": 0.9255420876163676
+  },
+  "image_gm": {
+   "range_hz": [
+    50.0,
+    150.0
+   ],
+   "coherent": 0.8531166422926879,
+   "incoherent": 0.657220954159153
+  },
+  "manuscript_ab": {
+   "range_hz": [
+    8.0,
+    30.0
+   ],
+   "coherent": 0.9482284588518192,
+   "incoherent": 0.9234718058731991
+  },
+  "manuscript_gm": {
+   "range_hz": [
+    31.0,
+    150.0
+   ],
+   "coherent": 0.8491154345370873,
+   "incoherent": 0.639972002665729
+  }
+ },
+ "r_proto_coherent": 0.8538231812838902,
+ "r_proto_incoherent": 0.69320040482845
+}

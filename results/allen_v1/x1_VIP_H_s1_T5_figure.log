@@ -1,0 +1,6 @@
+per_cell_mean image {'contrast_M': 0.14464772666647613, 'jackknife_se': 0.04816455211344716, 'z': 3.0031988323232355, 'crossing_2se': False, 'zero_depth_first': -0.13306529516778928} shuffle_p 0.3333333333333333 n_windows 2
+per_cell_mean manuscript {'contrast_M': 0.10750245270636534, 'jackknife_se': 0.04053239684885868, 'z': 2.6522599467095764, 'crossing_2se': False, 'zero_depth_first': -0.11488744672232283} shuffle_p 0.3333333333333333 n_windows 2
+per_cell_mean peak_hz_layer {'L2/3': 33.0, 'L4': 69.0, 'L5': 69.0, 'L6': 34.0}
+sum_over_cells image {'contrast_M': 0.20971042546676288, 'jackknife_se': 0.053795164668851085, 'z': 3.89831366364775, 'crossing_2se': False, 'zero_depth_first': -0.12667326843474885} shuffle_p 0.375 n_windows 2
+sum_over_cells manuscript {'contrast_M': 0.15840046215006798, 'jackknife_se': 0.04309277902184701, 'z': 3.6758005806439806, 'crossing_2se': False, 'zero_depth_first': -0.11162319065273502} shuffle_p 0.375 n_windows 2
+sum_over_cells peak_hz_layer {'L2/3': 33.0, 'L4': 69.0, 'L5': 69.0, 'L6': 34.0}

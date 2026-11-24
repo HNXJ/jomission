@@ -104,6 +104,21 @@ check('motorLayer 5: no cue cell reaches a readout cell by any directed path (ed
   assert.strictEqual(n.motor.filter(i => reached.has(i)).length, 0, 'a readout cell is reached from the cue');
 });
 
+check('visible note states the L5 pool identity, the L6 limit, the evidence split and the seed and alpha limits', () => {
+  const m = html.match(/<p class="note">([\s\S]*?)<\/p>/);
+  assert.ok(m, 'no note paragraph in the page');
+  const note = m[1].replace(/\s+/g, ' ');
+  for (const phrase of [
+    'the readout cells and the cue cells are the same 20 L5 E cells',
+    '16 each at 120 neurons per column with motorPerDir 4',
+    'L6 is unsupported under the current connectivity',
+    'identical at cue 0 and cue 0.2',
+    'rE and rI differ',
+    'the cue-only case (α 0) was not re-measured',
+    'seeds 1–5',
+  ]) assert.ok(note.includes(phrase), 'missing from the visible note: ' + phrase);
+});
+
 console.log(results.join('\n'));
 const failed = results.filter(r => r.startsWith('FAIL')).length;
 console.log(failed ? failed + ' FAILED' : 'all ' + results.length + ' layer checks passed');

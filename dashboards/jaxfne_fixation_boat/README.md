@@ -6,17 +6,17 @@ A single-file browser dashboard. Open `index.html` in a browser; no build step, 
 
 - A boat steered toward a target by a laminar spiking column.
 - Each area is a clone of one per-layer configuration: L1–L6 with E, PV, SST and VIP cells. L1 has no E cells by default.
-- Connectivity: within a layer, E→E, E→PV, E→SST, E→VIP, PV→E (inhibitory), SST→PV (inhibitory, one way), VIP→SST (inhibitory, an assumption). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k.
+- Connectivity is a table of routes (see Connectivity). The defaults are: within a layer, E→E, E→PV, E→SST, E→VIP, PV→E (inhibitory), SST→PV (inhibitory, one way), VIP→SST (inhibitory, an assumption); between areas, L5 E of the previous area feeds L2 E, and L5 E of the next area feeds L6 E and L1 VIP.
 - Haptic coupling α sends the boat distance into the E cells of every area (0 off, 1 maximum).
-- Motor groups are the first `motorPerDir` E cells of L5 in the top area for each direction (4 groups: +x, −x, +y, −y). Force is decoded every `ctrlSteps` × 0.5 ms (20 ms by default) and applied one interval later, as in the fixture.
+- Motor groups are the first `motorPerDir` E cells of L5 in the top area for each direction (+x, −x, +y, −y). Force is decoded every `ctrlSteps` × 0.5 ms (20 ms by default) and applied one interval later, as in the fixture.
 
 ## Parameters
 
 All model and task parameters are one object, `DEFAULTS`, in the script. The page shows it as JSON under **All parameters**:
 
-- Edit the JSON and press **Apply parameters**. Missing keys take the default. Unknown keys, unknown projection names or fields, and values outside the stated range are rejected with a message; the running network is kept.
-- **Reset to defaults** restores `DEFAULTS`.
-- Sliders change α, cue, tonic and noise live. Neurons per column, areas and seed take effect on **Apply network**. Unapplied text in the JSON panel is kept when a slider moves.
+- Edit the JSON and press **Apply parameters**. Missing keys take the default. Unknown keys, malformed routes and values outside the stated range are rejected with a message; the running network is kept.
+- **Reset to defaults** restores `DEFAULTS`. Presets and Reset overwrite unapplied text in the panel.
+- Sliders change α, cue, tonic and noise live. Neurons per column, areas and seed take effect on **Apply network**. Unapplied text is kept when a slider moves.
 - Presets (`PRESETS` in the script) set α and cue only; their labels record the measured outcome.
 - `DT` (0.5 ms) and the 2000 Hz sample rate are fixed in the code, not parameters.
 
@@ -28,27 +28,59 @@ Ranges enforced on Apply parameters:
 | `areas` | integer 1–4 |
 | `neuronsPerColumn` | integer 6–1000 |
 | `layerFrac` | 6 rows × 4 fractions in 0–1; each row sums to at most 1 |
-| `bias`, `alpha`, `cue`, `tonic`, `noise`, `hMax` | 0–1 |
-| `proj` `k` | integer 0–100 per projection (fields `k` and `w` only) |
+| `tauMembrane` | greater than 0 |
+| `refractory` | integer 0–1000 |
+| `tauSyn` | 4 values, each greater than 0 (one per type) |
+| `bias` | 4 values in 0–1 (one per type) |
+| `noise`, `tonic`, `alpha`, `cue`, `hMax` | 0–1 |
+| `motorPerDir` | integer 1–50; 4 × motorPerDir must not exceed the layer-5 E cells of the top area (refused otherwise) |
 | `forceGain` | 0–100 |
 | `forceNorm` | 1–1000 |
-| `damping` | 0–1000 (explicit Euler step is 0.0005 s) |
+| `ctrlSteps` | integer 1–10000 |
+| `damping` | 0–1000 (the explicit Euler step is 0.0005 s) |
+| `fixRadius` | 0 or more |
+| `fixWindow` | integer 1–1000000 |
 | `start`, `target` | two numbers, each |x| ≤ 50 |
-| `motorPerDir` | integer 1–50, and 4 × motorPerDir ≤ layer-5 E cells of the top area (refused otherwise) |
+| `routes` | see Connectivity |
 
-Other keys: `tauMembrane`, `refractory`, `tauSyn`, `ctrlSteps`, `fixRadius`, `fixWindow`, `bias` (4 values), `tauSyn` (4 values).
+`forceNorm` is a free parameter. Its default 20 equals 4 × `motorPerDir` (5), which keeps the default force scale; the page does not enforce that link.
 
-`forceNorm` is a separate parameter. Its default 20 equals 4 × `motorPerDir` (5), so keep the two in step when you change `motorPerDir`; otherwise the force scale changes.
+Which neuron counts allow a given `motorPerDir` depends on rounding, so the check is done when you press Apply. At 120 neurons per column the layer-5 E count of the top area is 17, so `motorPerDir` 5 is refused there and `motorPerDir` 4 or less runs. At 240 neurons per column the count is 32, so `motorPerDir` up to 8 runs.
 
-With the default `layerFrac`, the layer-5 E count is 32 at 240 neurons per column and 16 at 120. So `motorPerDir` 5 needs about 150 neurons per column or more; the 120 setting is refused with the default `motorPerDir` and runs with `motorPerDir` 4 or less.
+## Connectivity (`routes`)
+
+Each route connects a source population to every target cell of one type (in one layer, or in every layer with `"*"`). For each target cell, the routes apply in list order. Each route draws `k` presynaptic cells at random from its source population, each with weight `w`. The list order fixes the random draws, so changing the order changes the network.
+
+| field | meaning |
+|---|---|
+| `name` | label, optional; shown when the route draws no source cells |
+| `from.area` | −1 previous area, 0 same area, 1 next area |
+| `from.layer` | 0–5 (L1–L6) or `"same"` (the target's layer) |
+| `from.type` | source type: 0 E, 1 PV, 2 SST, 3 VIP |
+| `to.layer` | 0–5, or `"*"` for every layer |
+| `to.type` | target type: 0 E, 1 PV, 2 SST, 3 VIP |
+| `k`, `w` | fan-in (integer 0–100) and weight (−1 to 1); negative `w` is inhibitory |
+| `fallbackLayer` | optional, 0–5; used when the source population is empty |
+
+Limits:
+
+- At most 32 routes. The fan-in into any one target class (type and layer, counting `"*"` routes in every layer) is at most 300. A table with four routes of k = 100 into four different types is valid; four routes of k = 100 into one type is refused.
+- An inter-area route is skipped where the source area does not exist: area 0 gets no input from a previous area, and the top area gets no input from a next area.
+- `fallbackLayer` matters for L1: it has no E cells, so the default PV, SST and VIP routes into L1 draw their E input from layer 3 (index 2). Those L1 connections are therefore not within-layer.
+- A route that draws no source cells is listed under "No sources drawn for" after Apply. With one area, the inter-area routes are listed.
+
+The defaults are ten routes in `DEFAULTS.routes`: EE, PVE, E L5 → E L2 (from previous area), E L5 → E L6 (from next area), EPV, SSTPV, ESST, VIPSST, EVIP, E L5 → VIP L1 (from next area). The old `proj` key is refused; use `routes`. The defaults reproduce the wiring of the previous version exactly: the 20 s default run gives the same stats line for line.
 
 ## Status of the claims
 
 - This is a reduced current-based LIF model written for the browser. It is not the jaxfne 0.5.8 engine and is not calibrated to LANSA or to any data.
-- Measured headless (`headless_check.js`), 60 s, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift. A directional cue of 0.2 keeps the boat within the target radius, with or without haptic α 0.5.
+- Measured headless (`headless_check.js`), 60 s, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 keeps the boat within the target radius, with or without haptic α 0.5.
 - The directional cue is a labelled addition, not the frozen fixture spec, which gives direction-only output.
-- The parameter panel was checked headless (`headless_events_check.js`). Defaults give the same stats as before the panel (20 s, seed 1, compared line by line). Alpha 0 with cue 0 drifts to e ≈ 3. Invalid JSON, unknown keys, out-of-range values (start 1e308, damping 5000, a layerFrac row summing to 1000, projection k 1000), malformed projections and the motor-fit refusal are all rejected with the network unchanged. A 120-neuron, 1-area network with `motorPerDir` 3 runs, and a moved target and start run without errors.
-- A review by an independent reviewer (adversarial verification of each finding) found the blockers and majors fixed in this version: unbounded start/target froze the tab, unbounded layerFrac and k exhausted memory, unbounded damping produced NaN, and motor groups were silently truncated. The minor findings on caption accuracy (L1, rates, fixation window) are fixed in the text. The run line reads the built network's seed, areas and neurons, so it does not show unapplied topology values.
+- Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed, it is the share since the run started.
+- Speed: each frame runs at most 30 steps, so at 60 Hz the speed settings run at about 0.9× (1×), and the 2× and 4× settings are not reached. This cap predates the parameter panel.
+- The spectrum uses 2–100 Hz on a log grid, with 1024-sample Welch segments (0.512 s) and 50 % overlap.
+- Checks: the default run matches the version before the routes table line for line over 20 s at seed 1. `headless_events_check.js` covers the rejections (syntax, unknown keys, out-of-range values, malformed routes, the fan-in limit, the motor-fit refusal), route removal, the seed clamp, and the survival of unapplied text. The per-type fan-in acceptance case was checked by reading the code, not by a run.
+- An independent review by Haiku subagents (equivalence of the default routes with the previous wiring, validation, size, and documentation), with an adversarial refuter per finding, found the issues fixed in this version: the old-key refusal was unreachable, the fan-in limit was global rather than per target, route names contradicted their direction, the README baseline and thresholds were wrong, and the fixation and distance statements did not match the runs.
 - Rendering in a browser has not been checked in this version.
 
 ## Running the headless checks
@@ -63,5 +95,6 @@ Both run the page's own script with a stubbed DOM. `headless_check.js` prints th
 ## Building on it
 
 - Change a default by editing `DEFAULTS`; the JSON panel and the sliders read from it. Add the matching range in `parseCfg` when you add a key.
+- To add a connection, add a route in the JSON panel (no code change).
 - Add a preset by adding an entry to `PRESETS` and a button with `data-preset`.
-- 1000 neurons per column with 4 areas runs slower than real time in a headless check; the default 240 with 2 areas is fine.
+- Larger networks run slower than real time in a headless check: 240 neurons with 2 areas took about 22 s of wall time for 60 s of frames. 1000 neurons with 4 areas has not been measured.

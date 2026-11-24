@@ -87,7 +87,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
 
   <details class="cfg">
     <summary>All parameters (JSON)</summary>
-    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. Sliders change α, cue, tonic and noise live; neurons per column, areas and seed take effect on Apply network. Unapplied text in this panel is kept when a slider moves. DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
+    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. Sliders change α, cue, tonic and noise live; neurons per column, areas and seed take effect on Apply network. Unapplied text in this panel is kept when a slider moves; presets and Reset overwrite it. DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
     <textarea id="cfgText" spellcheck="false" aria-label="Parameters as JSON"></textarea>
     <div class="bar">
       <button id="applyCfg" type="button">Apply parameters</button>
@@ -116,7 +116,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
       <div class="legend" id="motifLegend"></div></figure>
   </div>
 
-  <p class="note">Defaults, unless changed in All parameters. Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift away from the target (e 3 → 3–4). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5 (the stat label shows the window in use).</p>
+  <p class="note">Defaults, unless changed in All parameters (the connectivity is the routes table there). Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed it is the share since the run started (the stat label shows the window in use).</p>
 </main>
 
 <script>
@@ -139,14 +139,23 @@ const DEFAULTS = {
   layerFrac: [[0, 0.4, 0.2, 0.4], [0.8, 0.1, 0.05, 0.05], [0.8, 0.1, 0.05, 0.05], [0.85, 0.1, 0.03, 0.02], [0.8, 0.12, 0.06, 0.02], [0.8, 0.1, 0.07, 0.03]],
   bias: [0.11, 0.105, 0.09, 0.09],
   noise: 0.05, tonic: 0, alpha: 0.5, hMax: 0.03, cue: 0.2,
-  // fan-in k and weight w per projection; E=0, PV=1, SST=2, VIP=3 in the rules of build()
-  proj: {
-    EE: { k: 6, w: 0.01 }, PVE: { k: 4, w: -0.05 },
-    EPV: { k: 18, w: 0.04 }, SSTPV: { k: 4, w: -0.03 },
-    ESST: { k: 18, w: 0.02 }, VIPSST: { k: 4, w: -0.05 },
-    EVIP: { k: 12, w: 0.02 },
-    interArea: { k: 6, w: 0.02 },
-  },
+  // Connectivity table. Each route gives every target cell of type to.type (in layer to.layer, '*' = any)
+  // k presynaptic cells drawn at random from the source population, each with weight w.
+  // from.area: -1 previous area, 0 same area, 1 next area. from.layer: 0–5 or 'same'.
+  // Type codes: 0 E, 1 PV, 2 SST, 3 VIP. fallbackLayer: used when the source population is empty.
+  // Routes are applied in list order for each target cell, so the order fixes the random draws.
+  routes: [
+    { name: 'EE', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 0 }, k: 6, w: 0.01 },
+    { name: 'PVE', from: { area: 0, layer: 'same', type: 1 }, to: { layer: '*', type: 0 }, k: 4, w: -0.05 },
+    { name: 'E L5 -> E L2 (from previous area)', from: { area: -1, layer: 4, type: 0 }, to: { layer: 1, type: 0 }, k: 6, w: 0.02 },
+    { name: 'E L5 -> E L6 (from next area)', from: { area: 1, layer: 4, type: 0 }, to: { layer: 5, type: 0 }, k: 6, w: 0.02 },
+    { name: 'EPV', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 1 }, k: 18, w: 0.04, fallbackLayer: 2 },
+    { name: 'SSTPV', from: { area: 0, layer: 'same', type: 2 }, to: { layer: '*', type: 1 }, k: 4, w: -0.03 },
+    { name: 'ESST', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 2 }, k: 18, w: 0.02, fallbackLayer: 2 },
+    { name: 'VIPSST', from: { area: 0, layer: 'same', type: 3 }, to: { layer: '*', type: 2 }, k: 4, w: -0.05 },
+    { name: 'EVIP', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 3 }, k: 12, w: 0.02, fallbackLayer: 2 },
+    { name: 'E L5 -> VIP L1 (from next area)', from: { area: 1, layer: 4, type: 0 }, to: { layer: 0, type: 3 }, k: 6, w: 0.02 },
+  ],
   motorPerDir: 5, forceGain: 5, forceNorm: 20,
   ctrlSteps: 40, damping: 0.8, fixRadius: 0.5, fixWindow: 1500,
   start: [3, 0], target: [0, 0],
@@ -156,6 +165,33 @@ const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
 const isInt = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
 const numArr = (v, n) => Array.isArray(v) && v.length === n && v.every(isNum);
 const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const ROUTE_KEYS = ['name', 'from', 'to', 'k', 'w', 'fallbackLayer'];
+function checkRoutes(rs) {
+  if (!Array.isArray(rs) || rs.length > 32) throw new Error('routes must be an array of at most 32 entries');
+  rs.forEach((R, i) => {
+    const tag = 'route ' + i;
+    if (!R || typeof R !== 'object' || Array.isArray(R)) throw new Error(tag + ' must be an object');
+    for (const f of Object.keys(R)) if (!ROUTE_KEYS.includes(f)) throw new Error('unknown field "' + f + '" in ' + tag);
+    if (R.name !== undefined && typeof R.name !== 'string') throw new Error(tag + ': name must be a string');
+    const F = R.from, T = R.to;
+    if (!F || typeof F !== 'object' || !T || typeof T !== 'object') throw new Error(tag + ' needs from and to objects');
+    for (const f of Object.keys(F)) if (!['area', 'layer', 'type'].includes(f)) throw new Error('unknown field "' + f + '" in ' + tag + ' from');
+    for (const f of Object.keys(T)) if (!['layer', 'type'].includes(f)) throw new Error('unknown field "' + f + '" in ' + tag + ' to');
+    if (![-1, 0, 1].includes(F.area)) throw new Error(tag + ': from.area must be -1, 0 or 1');
+    if (!(F.layer === 'same' || isInt(F.layer, 0, 5))) throw new Error(tag + ": from.layer must be 0–5 or 'same'");
+    if (!isInt(F.type, 0, 3)) throw new Error(tag + ': from.type must be 0–3');
+    if (!(T.layer === '*' || isInt(T.layer, 0, 5))) throw new Error(tag + ": to.layer must be 0–5 or '*'");
+    if (!isInt(T.type, 0, 3)) throw new Error(tag + ': to.type must be 0–3');
+    if (!isInt(R.k, 0, 100)) throw new Error(tag + ': k must be an integer 0–100');
+    if (!isNum(R.w) || Math.abs(R.w) > 1) throw new Error(tag + ': w must be a number between −1 and 1');
+    if (R.fallbackLayer !== undefined && !isInt(R.fallbackLayer, 0, 5)) throw new Error(tag + ': fallbackLayer must be 0–5');
+  });
+  // fan-in per target cell: routes that reach a given type in a given layer ('*' reaches every layer)
+  for (let t = 0; t < TYPES; t++) for (let l = 0; l < LAYERS; l++) {
+    const sum = rs.reduce((s, R) => s + ((R.to.type === t && (R.to.layer === '*' || R.to.layer === l)) ? R.k : 0), 0);
+    if (sum > 300) throw new Error('routes: fan-in into type ' + t + ' in layer ' + (l + 1) + ' is ' + sum + '; the limit is 300 per target cell');
+  }
+}
 
 function parseCfg(text) {
   let obj;
@@ -163,19 +199,11 @@ function parseCfg(text) {
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('parameters must be a JSON object');
   const out = clone(DEFAULTS);
   for (const k of Object.keys(obj)) {
+    if (k === 'proj') throw new Error('"proj" was replaced by "routes" (see the README, Connectivity)');
     if (!has(DEFAULTS, k)) throw new Error('unknown key "' + k + '"');
-    if (k === 'proj') {
-      if (!obj.proj || typeof obj.proj !== 'object' || Array.isArray(obj.proj)) throw new Error('proj must be an object');
-      for (const p of Object.keys(obj.proj)) {
-        if (!has(DEFAULTS.proj, p)) throw new Error('unknown projection "' + p + '"');
-        const q = obj.proj[p];
-        if (!q || typeof q !== 'object' || Array.isArray(q)) throw new Error('projection ' + p + ' must be an object with k and w');
-        for (const f of Object.keys(q)) if (f !== 'k' && f !== 'w') throw new Error('unknown field "' + f + '" in projection ' + p);
-        out.proj[p] = Object.assign({}, DEFAULTS.proj[p], q);
-        if (!isInt(out.proj[p].k, 0, 100) || !isNum(out.proj[p].w)) throw new Error('projection ' + p + ': k must be an integer 0–100, w a number');
-      }
-    } else out[k] = obj[k];
+    out[k] = obj[k];
   }
+  checkRoutes(out.routes);
   const ok = {
     seed: isInt(out.seed, 1, 999999),
     areas: isInt(out.areas, 1, 4),
@@ -226,28 +254,26 @@ function build(cfg) {
   }
   const N = type.length;
   const start = new Int32Array(N + 1), pre = [], wt = [];
+  const used = cfg.routes.map(() => false);  // routes that drew at least one source cell
   const pick = (arr, K, w) => { if (!arr || !arr.length) return; for (let k = 0; k < K; k++) { pre.push(arr[Math.floor(r() * arr.length)]); wt.push(w); } };
-  const Pj = cfg.proj;
   for (let n = 0; n < N; n++) {
     start[n] = pre.length;
     const t = type[n], a = area[n], l = layer[n];
-    const E = pop[key(a, l, 0)] || [], PV = pop[key(a, l, 1)] || [], SST = pop[key(a, l, 2)] || [], VIP = pop[key(a, l, 3)] || [];
-    const Eeff = E.length ? E : (pop[key(a, 2, 0)] || []);
-    if (t === 0) {
-      pick(E, Pj.EE.k, Pj.EE.w); pick(PV, Pj.PVE.k, Pj.PVE.w);
-      if (l === 1 && a > 0) pick(pop[key(a - 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
-      if (l === 5 && a < A - 1) pick(pop[key(a + 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
-    } else if (t === 1) {
-      pick(Eeff, Pj.EPV.k, Pj.EPV.w); pick(SST, Pj.SSTPV.k, Pj.SSTPV.w);
-    } else if (t === 2) {
-      pick(Eeff, Pj.ESST.k, Pj.ESST.w); pick(VIP, Pj.VIPSST.k, Pj.VIPSST.w);
-    } else {
-      pick(Eeff, Pj.EVIP.k, Pj.EVIP.w);
-      if (l === 0 && a < A - 1) pick(pop[key(a + 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
+    for (let ri = 0; ri < cfg.routes.length; ri++) {
+      const R = cfg.routes[ri];
+      if (R.to.type !== t || !(R.to.layer === '*' || R.to.layer === l)) continue;
+      const sa = a + R.from.area;
+      if (sa < 0 || sa >= A) continue;
+      const sl = R.from.layer === 'same' ? l : R.from.layer;
+      let src = pop[key(sa, sl, R.from.type)] || [];
+      if (!src.length && R.fallbackLayer !== undefined) src = pop[key(sa, R.fallbackLayer, R.from.type)] || [];
+      if (src.length) used[ri] = true;
+      pick(src, R.k, R.w);
     }
   }
   start[N] = pre.length;
-  const tau = Float64Array.from(type, t => Math.exp(-DT / cfg.tauSyn[t]));
+  const unused = cfg.routes.flatMap((R, i) => (used[i] ? [] : [R.name || 'route ' + i]));
+  const tau =Float64Array.from(type, t => Math.exp(-DT / cfg.tauSyn[t]));
   const motor = [];
   const top = A - 1, m5 = pop[key(top, 4, 0)] || [];
   const nMotor = 4 * cfg.motorPerDir;
@@ -257,7 +283,7 @@ function build(cfg) {
   for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
   const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
   return {
-    N, A, nL, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
+    N, A, nL, unused, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
     bias: Float64Array.from(type, t => cfg.bias[t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
     tau, motor, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
     v: new Float64Array(N), refr: new Int16Array(N), x: new Float64Array(N), spk: new Uint8Array(N),
@@ -473,6 +499,7 @@ function install(cfg) {
   BUILT = { seed: cfg.seed, areas: cfg.areas, neurons: cfg.neuronsPerColumn };
   fixRing = new Uint8Array(CFG.fixWindow); fixI = 0; fixN = 0;
   rebuildBuffers(); resetBoat();
+  return net.unused;
 }
 function resetBoat() {
   boat.x = CFG.start[0]; boat.y = CFG.start[1]; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: boat.x, y: boat.y }];
@@ -518,7 +545,11 @@ document.getElementById('apply').addEventListener('click', () => {
   showCfg();
 });
 document.getElementById('applyCfg').addEventListener('click', () => {
-  try { const next = parseCfg(ta().value); install(next); cfgDirty = false; syncControls(); setMsg('Applied. Network rebuilt, boat reset.', false); }
+  try {
+    const next = parseCfg(ta().value);
+    const unused = install(next); cfgDirty = false; syncControls();
+    setMsg('Applied. Network rebuilt, boat reset.' + (unused.length ? ' No sources drawn for: ' + unused.join('; ') + '.' : ''), false);
+  }
   catch (e) { setMsg('Error: ' + e.message + ' (parameters not applied)', true); }
 });
 document.getElementById('resetCfg').addEventListener('click', () => {

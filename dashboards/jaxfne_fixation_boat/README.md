@@ -10,6 +10,8 @@ A single-file browser dashboard. Open `index.html` in a browser; no build step, 
 - Haptic coupling α sends the boat distance into the E cells of every area (0 off, 1 maximum).
 - Motor readout: four pools of `motorPerDir` E cells (+x, −x, +y, −y), the first cells of layer `motorLayer` (default L5) in the top area. Force is decoded every `ctrlSteps` × 0.5 ms (20 ms by default) and applied one interval later, as in the fixture.
 - Directional cue: always drives the first E cells of L5 in the top area, whatever `motorLayer` is. So `motorLayer` changes only which cells are read out, not the cue. The cue is a labelled addition.
+- With the default `motorLayer` 4, the readout pool and the cue pool are the same cells (the first 20 L5 E cells of the top area; 16 at 120 neurons per column with `motorPerDir` 4). The default readout is therefore the cue's own cells. Interpret default performance with this in mind.
+- With `motorLayer` 5 the readout pool is L6 and disjoint from the cue pool. No route carries L5 activity to L6 in the top area, so under the current connectivity no cue cell reaches the L6 readout.
 
 ## Parameters
 
@@ -77,14 +79,20 @@ The defaults are ten routes in `DEFAULTS.routes`: EE, PVE, E L5 → E L2 (from p
 ## Status of the claims
 
 - This is a reduced current-based LIF model written for the browser. It is not the jaxfne 0.5.8 engine and is not calibrated to LANSA or to any data.
-- Measured headless (`headless_check.js`), 60 s, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 keeps the boat within the target radius, with or without haptic α 0.5.
+- Measured headless (`headless_check.js`), 60 s, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 keeps the boat within the target radius with haptic α 0.5. The cue-only case (α 0) is not re-measured here.
+- Motor readout in L6 (`motorLayer` 5) is unsupported under the current connectivity. This is not an experimental result that L6 is inferior. The readout is unreachable from the cue: a seed-1 wiring check finds 0 of 20 readout cells reachable from the cue cells by any directed path. Five-seed 60 s runs (seeds 1–5, α 0.5) give these values at 60 s (e = distance to target):
+  - L5 readout, cue 0.2: e 0.14 on average (0.10–0.17), fixation 100%.
+  - L5 readout, cue 0: e 5.6 (4.1–8.2), fixation 0%.
+  - L6 readout, cue 0.2 and cue 0: e 5.1 (2.2–7.8), fixation 0%.
+  - For L6, the boat statistics (e, fixation, force) are identical at cue 0 and cue 0.2, while the layer rates `rE` and `rI` differ. The cue drives network activity but not the L6 readout.
+- Evidence limits: the five seeds are at α 0.5 only; the wiring check covers seed 1 only.
 - The directional cue is a labelled addition, not the frozen fixture spec, which gives direction-only output.
 - Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed, it is the share since the run started.
 - Speed: each frame runs at most 30 steps, so at 60 Hz the speed settings run at about 0.9× (1×), and the 2× and 4× settings are not reached. This cap predates the parameter panel.
 - The spectrum uses 2–100 Hz on a log grid, with 1024-sample Welch segments (0.512 s) and 50 % overlap.
-- Checks: the default run matches the version before the routes table line for line over 20 s at seed 1. `headless_events_check.js` covers the rejections (syntax, unknown keys, out-of-range values, malformed routes, the fan-in limit, the motor-fit refusal), route removal, the seed clamp, and the survival of unapplied text. The per-type fan-in pair (four routes of k = 100 into four types accepted; four into one type refused) is checked by a run: cases 45 and 24 of `headless_events_check.js`, with the expected messages compared. `headless_layer_check.js` checks the readout and cue pools: with `motorLayer` 5 the readout moves to L6 and the cue pool and the wiring do not change; default equals explicit 4; the boundary and refusal cases.
+- Checks: the default run matches the version before the routes table line for line over 20 s at seed 1. `headless_events_check.js` covers the rejections (syntax, unknown keys, out-of-range values, malformed routes, the fan-in limit, the motor-fit refusal), route removal, the seed clamp, and the survival of unapplied text. The per-type fan-in pair (four routes of k = 100 into four types accepted; four into one type refused) is checked by a run: cases 45 and 24 of `headless_events_check.js`, with the expected messages compared. `headless_layer_check.js` checks the readout and cue pools: with `motorLayer` 5 the readout moves to L6 and the cue pool and the wiring do not change; default equals explicit 4; the default readout equals the cue pool at 240 and at 120 neurons; with `motorLayer` 5 the readout pool is disjoint from the cue pool and no directed path reaches it (seed 1, current connectivity); the boundary and refusal cases.
 - An independent review by Haiku subagents (equivalence of the default routes with the previous wiring, validation, size, and documentation), with an adversarial refuter per finding, found the issues fixed in this version: the old-key refusal was unreachable, the fan-in limit was global rather than per target, route names contradicted their direction, the README baseline and thresholds were wrong, and the fixation and distance statements did not match the runs.
-- Rendering in a browser has not been checked in this version.
+- Browser: the page was rendered once for this version. It loads with no console errors, and applying `motorLayer` 5 rebuilds the network and shows the status message. Layout and other controls were not re-checked.
 
 ## Running the headless checks
 

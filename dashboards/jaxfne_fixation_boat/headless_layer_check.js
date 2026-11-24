@@ -85,6 +85,25 @@ check('defaults object carries motorLayer 4', () => {
   assert.strictEqual(DEFAULTS.motorLayer, 4);
 });
 
+check('default at 120 neurons, motorPerDir 4: readout and cue are the same 16 L5 cells', () => {
+  const n = net({ neuronsPerColumn: 120, areas: 1, motorPerDir: 4 });
+  assert.deepStrictEqual(Array.from(n.cueCells), Array.from(n.motor));
+  assert.deepStrictEqual(cellInfo(n.motor, n), { count: 16, layers: [4], types: [0], areas: [0] });
+});
+check('motorLayer 5: readout pool is disjoint from the cue pool (L6 vs L5)', () => {
+  const n = net({ motorLayer: 5 });
+  const cue = new Set(n.cueCells);
+  assert.strictEqual(n.motor.filter(i => cue.has(i)).length, 0);
+});
+check('motorLayer 5: no cue cell reaches a readout cell by any directed path (edge pre[k] -> n)', () => {
+  const n = net({ motorLayer: 5 });
+  const out = Array.from({ length: n.type.length }, () => []);
+  for (let t = 0; t < n.type.length; t++) for (let k = n.start[t]; k < n.start[t + 1]; k++) out[n.pre[k]].push(t);
+  const reached = new Set(n.cueCells), queue = Array.from(n.cueCells);
+  while (queue.length) { const s = queue.shift(); for (const t of out[s]) if (!reached.has(t)) { reached.add(t); queue.push(t); } }
+  assert.strictEqual(n.motor.filter(i => reached.has(i)).length, 0, 'a readout cell is reached from the cue');
+});
+
 console.log(results.join('\n'));
 const failed = results.filter(r => r.startsWith('FAIL')).length;
 console.log(failed ? failed + ' FAILED' : 'all ' + results.length + ' layer checks passed');

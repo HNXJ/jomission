@@ -1,7 +1,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>Jaxfne Cortical Fixation Boat Task</title>
 <style>
-/* Laminar column, L1–L6, E/PV/SST/VIP per layer. Each area is an identical clone of the same per-layer config.
+/* Laminar column, L1–L6, E/PV/SST/VIP per layer (L1 has no E cells by default). Each area is an identical clone of the same per-layer config.
    E drives PV, SST and VIP; SST inhibits PV (one way); VIP inhibits SST; PV inhibits E.
    Haptic coupling alpha feeds the boat distance into E cells of every area. */
 :root{
@@ -62,7 +62,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
 
 <main>
   <h1>Jaxfne Cortical Fixation Boat Task</h1>
-  <p class="sub">A boat is steered toward a target by a laminar spiking column. Each area is a clone of the same per-layer configuration (L1–L6, each with E, PV, SST and VIP cells). Haptic coupling α sends the boat distance into the E cells of every area: 0 is off, 1 is the maximum. This is a reduced current-based LIF model in the browser, not the jaxfne 0.5.8 engine, and it is not calibrated.</p>
+  <p class="sub">A boat is steered toward a target by a laminar spiking column. Each area is a clone of the same per-layer configuration (L1–L6 with E, PV, SST and VIP cells; L1 has no E cells by default). Haptic coupling α sends the boat distance into the E cells of every area: 0 is off, 1 is the maximum. This is a reduced current-based LIF model in the browser, not the jaxfne 0.5.8 engine, and it is not calibrated.</p>
 
   <div class="presets" role="group" aria-label="Fixation presets">
     <button type="button" data-preset="spec">Distance only, α 0 (drifts)</button>
@@ -87,7 +87,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
 
   <details class="cfg">
     <summary>All parameters (JSON)</summary>
-    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. The sliders above change the same values live. Dynamics: DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
+    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. Sliders change α, cue, tonic and noise live; neurons per column, areas and seed take effect on Apply network. Unapplied text in this panel is kept when a slider moves. DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
     <textarea id="cfgText" spellcheck="false" aria-label="Parameters as JSON"></textarea>
     <div class="bar">
       <button id="applyCfg" type="button">Apply parameters</button>
@@ -103,20 +103,20 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
     <div class="stat"><b id="s_fix">–</b><span id="l_fix">time within 0.5 of target, last 30 s</span></div>
     <div class="stat"><b id="s_f">–</b><span>applied force (x, y)</span></div>
     <div class="stat"><b id="s_v">–</b><span>boat speed</span></div>
-    <div class="stat"><b id="s_rE">–</b><span>E rate, area 1, mean over layers (Hz)</span></div>
+    <div class="stat"><b id="s_rE">–</b><span>E rate, area 1, mean over 6 layers, L1 = 0 (Hz)</span></div>
     <div class="stat"><b id="s_rI">–</b><span>PV / SST / VIP rate, area 1 (Hz)</span></div>
   </div>
 
   <div class="grid">
     <figure class="card"><h2>Boat</h2><p class="cap">Position in the plane. Target at p* (origin by default), dashed circle at 2. Trail: one point per control interval (20 ms by default).</p><canvas id="cBoat" width="640" height="520" aria-label="Boat trajectory"></canvas></figure>
-    <figure class="card"><h2>Laminar layers, area 1</h2><p class="cap">Mean rate per layer and population over the last 1 s. Bars share one scale.</p><canvas id="cLayers" width="640" height="520" aria-label="Layer rates"></canvas>
+    <figure class="card"><h2>Laminar layers, area 1</h2><p class="cap">Mean rate per layer and population, exponential average with τ = 1 s. Bars share one scale.</p><canvas id="cLayers" width="640" height="520" aria-label="Layer rates"></canvas>
       <div class="legend"><span><i style="background:var(--E)"></i>E</span><span><i style="background:var(--PV)"></i>PV</span><span><i style="background:var(--SST)"></i>SST</span><span><i style="background:var(--VIP)"></i>VIP</span></div></figure>
-    <figure class="card wide"><h2>Spiking, area 1</h2><p class="cap">Last 2 s. Subsample per layer: 4 E, 2 PV, 2 SST, 2 VIP cells.</p><canvas id="cRaster" width="1200" height="620" aria-label="Raster"></canvas></figure>
+    <figure class="card wide"><h2>Spiking, area 1</h2><p class="cap">Last 2 s. Subsample per layer: up to 4 E, 2 PV, 2 SST, 2 VIP cells (L1 has no E cells by default).</p><canvas id="cRaster" width="1200" height="620" aria-label="Raster"></canvas></figure>
     <figure class="card wide"><h2>Spectrolaminar motif, area 1</h2><p class="cap">Relative power R(f) = P_layer(f) / max over layers, Welch PSD of the layer field proxy over the last 4 s, log frequency, smoothed in log f. Proxy = ΣE trace − 1.65 · Σ(PV+SST+VIP) trace; it is not an LFP recording. Weak layers are amplified by the normalisation.</p><canvas id="cMotif" width="1200" height="460" aria-label="Spectrolaminar motif"></canvas>
       <div class="legend" id="motifLegend"></div></figure>
   </div>
 
-  <p class="note">Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift away from the target (e 3 → 3–4). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5.</p>
+  <p class="note">Defaults, unless changed in All parameters. Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift away from the target (e 3 → 3–4). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5 (the stat label shows the window in use).</p>
 </main>
 
 <script>
@@ -168,8 +168,11 @@ function parseCfg(text) {
       if (!obj.proj || typeof obj.proj !== 'object' || Array.isArray(obj.proj)) throw new Error('proj must be an object');
       for (const p of Object.keys(obj.proj)) {
         if (!has(DEFAULTS.proj, p)) throw new Error('unknown projection "' + p + '"');
-        out.proj[p] = Object.assign({}, DEFAULTS.proj[p], obj.proj[p]);
-        if (!isInt(out.proj[p].k, 0, 1000) || !isNum(out.proj[p].w)) throw new Error('projection ' + p + ': k must be an integer 0–1000, w a number');
+        const q = obj.proj[p];
+        if (!q || typeof q !== 'object' || Array.isArray(q)) throw new Error('projection ' + p + ' must be an object with k and w');
+        for (const f of Object.keys(q)) if (f !== 'k' && f !== 'w') throw new Error('unknown field "' + f + '" in projection ' + p);
+        out.proj[p] = Object.assign({}, DEFAULTS.proj[p], q);
+        if (!isInt(out.proj[p].k, 0, 100) || !isNum(out.proj[p].w)) throw new Error('projection ' + p + ': k must be an integer 0–100, w a number');
       }
     } else out[k] = obj[k];
   }
@@ -180,22 +183,22 @@ function parseCfg(text) {
     tauMembrane: isNum(out.tauMembrane) && out.tauMembrane > 0,
     refractory: isInt(out.refractory, 0, 1000),
     tauSyn: numArr(out.tauSyn, 4) && out.tauSyn.every((t) => t > 0),
-    layerFrac: Array.isArray(out.layerFrac) && out.layerFrac.length === LAYERS && out.layerFrac.every((r) => numArr(r, TYPES) && r.every((x) => x >= 0)),
-    bias: numArr(out.bias, 4),
-    noise: isNum(out.noise) && out.noise >= 0,
-    tonic: isNum(out.tonic),
-    alpha: isNum(out.alpha),
-    hMax: isNum(out.hMax) && out.hMax >= 0,
-    cue: isNum(out.cue),
+    layerFrac: Array.isArray(out.layerFrac) && out.layerFrac.length === LAYERS && out.layerFrac.every((r) => numArr(r, TYPES) && r.every((x) => x >= 0 && x <= 1) && r.reduce((a, b) => a + b, 0) <= 1 + 1e-9),
+    bias: numArr(out.bias, 4) && out.bias.every((b) => b >= 0 && b <= 1),
+    noise: isNum(out.noise) && out.noise >= 0 && out.noise <= 1,
+    tonic: isNum(out.tonic) && out.tonic >= 0 && out.tonic <= 1,
+    alpha: isNum(out.alpha) && out.alpha >= 0 && out.alpha <= 1,
+    hMax: isNum(out.hMax) && out.hMax >= 0 && out.hMax <= 1,
+    cue: isNum(out.cue) && out.cue >= 0 && out.cue <= 1,
     motorPerDir: isInt(out.motorPerDir, 1, 50),
-    forceGain: isNum(out.forceGain),
-    forceNorm: isNum(out.forceNorm) && out.forceNorm > 0,
+    forceGain: isNum(out.forceGain) && out.forceGain >= 0 && out.forceGain <= 100,
+    forceNorm: isNum(out.forceNorm) && out.forceNorm >= 1 && out.forceNorm <= 1000,
     ctrlSteps: isInt(out.ctrlSteps, 1, 10000),
-    damping: isNum(out.damping),
+    damping: isNum(out.damping) && out.damping >= 0 && out.damping <= 1000,
     fixRadius: isNum(out.fixRadius) && out.fixRadius >= 0,
     fixWindow: isInt(out.fixWindow, 1, 1000000),
-    start: numArr(out.start, 2),
-    target: numArr(out.target, 2),
+    start: numArr(out.start, 2) && out.start.every((x) => Math.abs(x) <= 50),
+    target: numArr(out.target, 2) && out.target.every((x) => Math.abs(x) <= 50),
   };
   for (const k of Object.keys(ok)) if (!ok[k]) throw new Error('invalid value for "' + k + '"');
   return out;
@@ -213,7 +216,8 @@ function build(cfg) {
   const r = rng(cfg.seed);
   const LAY = LAYERS, A = cfg.areas;
   const nL = Math.max(6, Math.round(cfg.neuronsPerColumn / LAY));
-  const counts = cfg.layerFrac.map(f => { const c = f.map(x => Math.round(x * nL)); c[0] += nL - c.reduce((a, b) => a + b, 0); return c; });
+  // rounding remainder goes to the layer's largest fraction, so layers with no E cells keep none
+  const counts = cfg.layerFrac.map(f => { const c = f.map(x => Math.round(x * nL)); const top = f.indexOf(Math.max(...f)); c[top] += nL - c.reduce((a, b) => a + b, 0); return c; });
   const type = [], area = [], layer = [], pop = {};
   const key = (a, l, t) => a * 100 + l * 10 + t;
   for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) for (let t = 0; t < TYPES; t++) {
@@ -247,7 +251,8 @@ function build(cfg) {
   const motor = [];
   const top = A - 1, m5 = pop[key(top, 4, 0)] || [];
   const nMotor = 4 * cfg.motorPerDir;
-  for (let i = 0; i < Math.min(nMotor, m5.length); i++) motor.push(m5[i]);
+  if (m5.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' layer-5 E cells in the top area; this network has ' + m5.length + '. Raise neuronsPerColumn or lower motorPerDir.');
+  for (let i = 0; i < nMotor; i++) motor.push(m5[i]);
   const groups = [];
   for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
   const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
@@ -362,7 +367,7 @@ function drawBoat() {
   const { ctx, w, h, dpr } = fit(document.getElementById('cBoat'));
   ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
   const [tx, ty] = CFG.target;
-  const span = Math.max(4.4, 1 + Math.max(Math.abs(CFG.start[0]), Math.abs(CFG.start[1]), Math.abs(tx), Math.abs(ty)));
+  const span = Math.max(4.4, 1 + Math.max(Math.abs(CFG.start[0]), Math.abs(CFG.start[1]), Math.abs(tx) + 2, Math.abs(ty) + 2));
   const G = Math.floor(span);
   const pad = 40 * dpr, sc = (w - 2 * pad) / (2 * span);
   const X = x => w / 2 + x * sc, Y = y => h / 2 - y * sc;
@@ -455,23 +460,31 @@ function updateStats() {
   setText('s_v', Math.hypot(boat.vx, boat.vy).toFixed(2));
   const rates = layerRates();
   const meanCol = t => rates.reduce((a, row) => a + row[t], 0) / LAYERS;
-  setText('s_rE', meanCol(0).toFixed(1));
+  setText('s_rE', meanCol(0).toFixed(1));  // L1 has no E cells by default; its rate counts as 0 in the mean
   setText('s_rI', meanCol(1).toFixed(1) + ' / ' + meanCol(2).toFixed(1) + ' / ' + meanCol(3).toFixed(1));
-  setText('runinfo', 'Run: seed ' + CFG.seed + ' · ' + CFG.areas + ' area(s), each cloned from one per-layer config · ' + CFG.neuronsPerColumn + ' neurons per column · α ' + CFG.alpha.toFixed(2) + ' · cue ' + CFG.cue.toFixed(2) + ' · tonic ' + CFG.tonic.toFixed(3) + ' · noise ' + CFG.noise.toFixed(3) + ' · ' + (NET ? NET.N : 0) + ' cells total');
+  setText('runinfo', 'Run: seed ' + BUILT.seed + ' · ' + BUILT.areas + ' area(s), each cloned from one per-layer config · ' + BUILT.neurons + ' neurons per column · α ' + CFG.alpha.toFixed(2) + ' · cue ' + CFG.cue.toFixed(2) + ' · tonic ' + CFG.tonic.toFixed(3) + ' · noise ' + CFG.noise.toFixed(3) + ' · ' + (NET ? NET.N : 0) + ' cells total');
 }
 
 // Install a parameter set: build first, so a failed build leaves the running network untouched.
+let BUILT = { seed: 1, areas: 2, neurons: 240 };  // topology of the running network (the run line reads it)
 function install(cfg) {
-  const net = build(cfg);
+  const net = build(cfg);   // throws before anything is committed
   CFG = cfg; NET = net; head = 0; filled = 0;
+  BUILT = { seed: cfg.seed, areas: cfg.areas, neurons: cfg.neuronsPerColumn };
   fixRing = new Uint8Array(CFG.fixWindow); fixI = 0; fixN = 0;
   rebuildBuffers(); resetBoat();
 }
-function resetBoat() { boat.x = CFG.start[0]; boat.y = CFG.start[1]; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: boat.x, y: boat.y }]; pendF = [0, 0]; appF = [0, 0]; lastF = [0, 0]; }
+function resetBoat() {
+  boat.x = CFG.start[0]; boat.y = CFG.start[1]; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: boat.x, y: boat.y }];
+  pendF = [0, 0]; appF = [0, 0]; lastF = [0, 0];
+  ctrlStep = 0; cnt = [0, 0, 0, 0]; fixRing.fill(0); fixI = 0; fixN = 0;
+}
 
 // controls
 const ta = () => document.getElementById('cfgText');
-function showCfg() { const el = ta(); if (el) el.value = JSON.stringify(CFG, null, 2); }
+let cfgDirty = false;  // unapplied text in the JSON panel; sliders must not overwrite it
+function showCfg() { const el = ta(); if (el && !cfgDirty) el.value = JSON.stringify(CFG, null, 2); }
+ta().addEventListener('input', () => { cfgDirty = true; });
 function setMsg(msg, bad) { const el = document.getElementById('cfgMsg'); if (!el) return; el.textContent = msg; el.className = bad ? 'err' : ''; }
 function syncControls() {
   const put = (id, out, v, fmt) => { const el = document.getElementById(id); if (el) el.value = v; setText(out, fmt(v)); };
@@ -495,7 +508,7 @@ bindSlider('tonic', 'o_tonic', 'tonic', v => v.toFixed(3), ident);
 bindSlider('noise', 'o_noise', 'noise', v => v.toFixed(3), ident);
 bindSlider('ncol', 'o_ncol', 'neuronsPerColumn', v => String(v), rnd);
 bindSlider('areas', 'o_areas', 'areas', v => String(v), rnd);
-document.getElementById('seed').addEventListener('change', e => { CFG.seed = Math.max(1, parseInt(e.target.value, 10) || 1); showCfg(); });
+document.getElementById('seed').addEventListener('change', e => { CFG.seed = Math.min(999999, Math.max(1, parseInt(e.target.value, 10) || 1)); showCfg(); });
 document.getElementById('speed').addEventListener('change', e => { P.speed = parseInt(e.target.value, 10); });
 document.getElementById('play').addEventListener('click', e => { P.run = !P.run; e.target.textContent = P.run ? 'Pause' : 'Play'; });
 document.getElementById('reset').addEventListener('click', resetBoat);
@@ -505,11 +518,11 @@ document.getElementById('apply').addEventListener('click', () => {
   showCfg();
 });
 document.getElementById('applyCfg').addEventListener('click', () => {
-  try { const next = parseCfg(ta().value); install(next); syncControls(); setMsg('Applied. Network rebuilt, boat reset.', false); }
+  try { const next = parseCfg(ta().value); install(next); cfgDirty = false; syncControls(); setMsg('Applied. Network rebuilt, boat reset.', false); }
   catch (e) { setMsg('Error: ' + e.message + ' (parameters not applied)', true); }
 });
 document.getElementById('resetCfg').addEventListener('click', () => {
-  try { install(clone(DEFAULTS)); syncControls(); setMsg('Reset to defaults.', false); }
+  try { install(clone(DEFAULTS)); cfgDirty = false; syncControls(); setMsg('Reset to defaults.', false); }
   catch (e) { setMsg('Error: ' + e.message, true); }
 });
 const PRESETS = {
@@ -521,6 +534,7 @@ const PRESETS = {
 document.querySelectorAll('[data-preset]').forEach(btn => btn.addEventListener('click', () => {
   const p = PRESETS[btn.getAttribute('data-preset')];
   Object.assign(CFG, p);
+  cfgDirty = false;
   syncControls();
   resetBoat();
 }));

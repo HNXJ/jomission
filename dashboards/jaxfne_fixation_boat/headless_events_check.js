@@ -1,6 +1,7 @@
 // Headless check with event capture: runs the page script with a stubbed DOM and fires its
-// listeners on a schedule (apply JSON, invalid JSON, unknown key, bad fan-in, play/pause,
-// network size, reset, preset, moved target/start).
+// listeners on a schedule. Covers apply, rejected inputs (syntax, unknown keys, bounds that the
+// review flagged), the motor-fit refusal, preset, reset, moved target/start, seed clamp, and
+// that unapplied JSON text survives a slider move.
 const fs = require('fs');
 const vm = require('vm');
 const src = fs.readFileSync(process.argv[2], 'utf8');
@@ -45,27 +46,37 @@ const snap = (label) => {
   console.log(`[${label}] e=${mkEl('s_e').textContent} fix=${mkEl('s_fix').textContent} cells=${cells} ` +
     `label="${mkEl('l_fix').textContent}" alpha="${mkEl('o_alpha').textContent}" cue="${mkEl('o_cue').textContent}"`);
 };
+const reject = (label, obj) => { setJSON(obj); fire('applyCfg'); console.log(label + ': ' + msg()); };
 
 const actions = {
   5: () => snap('defaults, 5 s'),
   8: () => { setJSON({ alpha: 0, cue: 0 }); fire('applyCfg'); console.log('apply alpha 0, cue 0: ' + msg()); },
-  12: () => snap('alpha 0 cue 0, 12 s (expect drift)'),
-  13: () => { setJSON('{ "alpha": 0,'); fire('applyCfg'); console.log('invalid JSON: ' + msg()); },
-  14: () => { setJSON({ foo: 1 }); fire('applyCfg'); console.log('unknown key: ' + msg()); },
-  15: () => { setJSON({ proj: { EE: { k: -3, w: 0.01 } } }); fire('applyCfg'); console.log('negative fan-in: ' + msg()); },
-  16: () => { setJSON({ alpha: 'x' }); fire('applyCfg'); console.log('non-numeric alpha: ' + msg()); },
-  17: () => snap('after 4 rejected inputs (unchanged from 12 s)'),
-  18: () => { fire('play'); console.log('paused: label ' + mkEl('play').textContent); },
-  19: () => { fire('play'); console.log('resumed: label ' + mkEl('play').textContent); },
-  20: () => { setJSON({ neuronsPerColumn: 120, areas: 1 }); fire('applyCfg'); console.log('120 neurons, 1 area: ' + msg()); },
-  22: () => snap('120 neurons, 1 area (expect cells 120 x 1 area = 120)'),
-  23: () => { fire('resetCfg'); console.log('reset: ' + msg()); },
-  24: () => snap('after reset (expect defaults: 480 cells, alpha 0.50)'),
-  25: () => { firePreset('cue'); console.log('cue preset clicked'); },
-  27: () => snap('cue preset (alpha 0, cue 0.20)'),
-  28: () => { setJSON({ target: [1, 0.5], start: [-2, 0], fixWindow: 300 }); fire('applyCfg'); console.log('moved target/start, fixWindow 300: ' + msg()); },
-  31: () => snap('moved target (expect label 10 s window)'),
-  32: () => { fire('reset'); snap('boat reset button'); },
+  12: () => snap('alpha 0 cue 0, 12 s (expect drift, e about 3)'),
+  13: () => reject('invalid JSON', '{ "alpha": 0,'),
+  14: () => reject('unknown key', { foo: 1 }),
+  15: () => reject('negative fan-in', { proj: { EE: { k: -3, w: 0.01 } } }),
+  16: () => reject('non-numeric alpha', { alpha: 'x' }),
+  17: () => reject('start 1e308 (review blocker)', { start: [1e308, 0] }),
+  18: () => reject('layerFrac row sums to 1000 (review blocker)', { layerFrac: [[0, 1000, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]] }),
+  19: () => reject('damping 5000 (review blocker)', { damping: 5000 }),
+  20: () => reject('projection k 1000 (review major)', { proj: { EE: { k: 1000 } } }),
+  21: () => reject('projection with string value (review minor)', { proj: { EE: 'abc' } }),
+  22: () => reject('projection with extra field', { proj: { EE: { k: 6, kk: 1 } } }),
+  23: () => reject('120 neurons with motorPerDir 5 (expect motor refusal)', { neuronsPerColumn: 120, areas: 1 }),
+  24: () => snap('after 7 rejected inputs (unchanged, cells 480)'),
+  25: () => { reject('120 neurons, 1 area, motorPerDir 3', { neuronsPerColumn: 120, areas: 1, motorPerDir: 3 }); },
+  27: () => snap('120/1 network (expect cells 120, run line 1 area)'),
+  28: () => { fire('resetCfg'); console.log('reset: ' + msg()); },
+  29: () => snap('after reset (expect 480 cells)'),
+  30: () => { firePreset('cue'); console.log('cue preset clicked'); },
+  31: () => snap('cue preset (alpha 0, cue 0.20)'),
+  32: () => { setJSON({ target: [1, 0.5], start: [-2, 0], fixWindow: 300 }); fire('applyCfg'); console.log('moved target/start, fixWindow 300: ' + msg()); },
+  33: () => snap('moved target (expect label 6 s window)'),
+  34: () => { mkEl('seed').value = '99999999'; fire('seed', 'change'); console.log('seed typed 99999999 -> JSON seed ' + (mkEl('cfgText').value.match(/"seed": (\d+)/) || [])[1]); },
+  35: () => { fire('applyCfg'); console.log('apply after seed clamp: ' + msg()); },
+  36: () => { fire('resetCfg'); setJSON('{"start":[1,1]}'); fire('cfgText', 'input'); mkEl('alpha').value = '0.3'; fire('alpha', 'input'); console.log('pending text kept after slider move: ' + (mkEl('cfgText').value.indexOf('"start":[1,1]') >= 0 ? 'YES' : 'NO')); },
+  37: () => { fire('applyCfg'); console.log('apply pending text: ' + msg()); },
+  38: () => { fire('reset'); snap('boat reset button'); },
 };
 
 const t0 = Date.now();

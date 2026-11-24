@@ -90,7 +90,7 @@ and varies $\rho$ from 0.25 to 4. Arm B fixes $N_\text{PV} = 750$ and sets $N_\t
 criteria are unchanged except the peak band, now 10--80 Hz, with edge 2 Hz and excess threshold 4. A second local maximum at least 8 Hz from $f_\text{pk}$ with excess at least 4 sets a multimodal flag that changes neither the call nor $f_\text{pk}$; four readouts carry it: second peaks at 50 Hz (excess 11.45), 37 Hz (6.42) and 77 Hz (5.08) in arm A at $\rho = 0.25$ seed 7, $\rho = 0.25$ seed 8 and $\rho = 0.5$ seed 7, and at 33 Hz (4.91) in arm B at $\rho = 0.25$ seed 6. The $\rho = 1$ runs are
 shared by both arms. Gates before scoring: builder sizes and edge counts, the E0 and E1 tests, a positive control (the
 sealed 20--80 Hz readout reproduces all 15 E1 calls on the saved counts), and a permutation null that must not pass
-($p = 0.2149$).
+($p = 0.2149$). Disclosure: before sealing, the draft runner also computed the spectral readout on one 3 s smoke run (arm B, $\rho = 4$, seed 0, not a matrix seed), which gave a 26 Hz peak with excess 22 under the 10--80 Hz band. It was seen before sealing and changed no value in the draft; the runner now skips the readout for smoke runs.
 
 \subsection{Readouts}
 
@@ -335,9 +335,9 @@ verdict file (reference, seed 1) had been read, not before any.
 
 Per-unit weight runs (\texttt{e2x\_w}$RUX$\ldots, Table~\ref{tab:weights}) start from the T1 axis-1 winner ($B = 1.41$, SOM$\to$E 15 ms in every unit) at
 $N = 4000$, seed 1, 8 s; each setting was chosen by hand after the previous result, so none is a test. Depth
-placement re-reads saved runs with the three unit depths moved over a grid (1330 placements) and compares against a
-null in which each unit's spectrum is circularly shifted in frequency with its total power kept (20 draws;
-\rec{R9}).
+placement re-reads saved runs with the three unit depths moved over a grid (1,330 placements) and compares against a
+null in which each unit's spectrum is circularly shifted in frequency with its total power kept, on incoherent (diagonal) spectra (20 draws;
+\rec{R9}). A draw with no placement meeting both band thresholds counts as not exceeding the observed value; $p = (k+1)/(n+1)$ with $k$ draws exceeding it and $n = 20$.
 
 \subsection{Data and code}
 

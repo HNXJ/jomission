@@ -230,8 +230,8 @@ def parameter_rows(rec: dict) -> list[dict]:
         _param("analysis", "discard", DISCARD_S, "s", "PLAN_LANSA_E2.md, C6 (2 s discarded)"),
         _param("analysis", "multitaper half-bandwidth (smoothing)", mf.SMOOTH_HZ, "Hz",
                "e2_motif_figure.SMOOTH_HZ (as the published analysis)"),
-        _param("analysis", "RWS delay", mf.RWS_DELAY_MS, "ms", "e2_motif_figure.py RWS_DELAY_MS; Mazzoni et al. 2015 as cited"),
-        _param("analysis", "RWS alpha", mf.RWS_ALPHA, "", "e2_motif_figure.py RWS_ALPHA; Mazzoni et al. 2015 as cited"),
+        _param("analysis", "RWS delay", mf.RWS_DELAY_MS, "ms", "e2_motif_figure.py RWS_DELAY_MS; origin not verified"),
+        _param("analysis", "RWS alpha", mf.RWS_ALPHA, "", "e2_motif_figure.py RWS_ALPHA; origin not verified"),
         _param("analysis", "bands alpha-beta / gamma",
                f"{mf.BANDS[mf.FIG_BANDS][0][0]:g}-{mf.BANDS[mf.FIG_BANDS][0][1]:g} / "
                f"{mf.BANDS[mf.FIG_BANDS][1][0]:g}-{mf.BANDS[mf.FIG_BANDS][1][1]:g}", "Hz", OWNER_BANDS),

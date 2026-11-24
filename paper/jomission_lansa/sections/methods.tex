@@ -100,8 +100,7 @@ with the transmembrane currents as sources, and in an ohmic, homogeneous medium 
 \begin{equation*}
 \phi(\mathbf{r},t) = \frac{1}{4\pi\sigma_e}\sum_n \frac{I_n(t)}{|\mathbf{r}-\mathbf{r}_n|},
 \end{equation*}
-a sum over all membrane segments $n$. \citet{Mazzoni2015} computed their reference LFP of multicompartment
-pyramidal cells with the line-source form of this volume-conduction sum. Two properties make a current-based proxy defensible. First,
+a sum over all membrane segments $n$. This is the standard point-source form of the volume-conductor sum in an ohmic medium. A current-based proxy is motivated by linearity. First,
 $\phi$ is linear in the $I_n$, and if synaptic inputs are treated as current sources into passive dendrites, the
 $I_n$ are linear filters of those currents (the cable equation is linear); with conductance-based synapses this
 holds to the extent that driving-force fluctuations are small. The potential at a contact at depth $z$ is then
@@ -109,21 +108,7 @@ holds to the extent that driving-force fluctuations are small. The potential at 
 \phi_z(t) = \sum_u \sum_{r\in\{\text{AMPA},\text{GABA}\}} \bigl(h_{z,u,r} * I_{u,r}\bigr)(t),
 \end{equation*}
 where $I_{u,r}$ is the total synaptic current of receptor $r$ onto unit $u$'s pyramidal cells and $h_{z,u,r}$ is
-a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. Second, in the multicompartment network of
-\citet{Mazzoni2015} the contribution of the interneurons was negligible (their Figs.~3 and 8: stellate
-dendrites with symmetrically placed synapses form a closed field), so the LFP is set by the synaptic currents onto pyramidal cells,
-including the GABA currents that interneurons supply. They reported that a weighted sum of delayed currents,
-$c_\text{AMPA} = 1$, $c_\text{GABA} = -1.65$, $\tau_\text{AMPA} = 6$ ms and $\tau_\text{GABA} = 0$ (the RWS proxy),
-explained the variance of the multicompartment LFP time course over the recording positions
-they tested, including depths along the column axis, performing poorly only where the LFP itself
-was small, such as near its inversion point; that the proxies predicted the LFP gamma peak frequency; and that they tended to underestimate low frequencies and overestimate gamma. The
-weights were fitted to their morphology, synapse placement and positions ($\alpha = 1.65$). Using them as a
-separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA
-and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so
-their contributions differ in profile and can differ in sign above and below the soma. Mazzoni et al. report that
-this proxy accounts for most of the LFP variance in their multicompartment network (the 90\% figure and their
-Figs.~3 and 8 are not verified here); it is external evidence, not a validation of the proxy for this model's
-cells and synapses or for the macaque LFP.
+a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. We take the LFP to be set by the synaptic currents onto pyramidal cells, including the GABA currents that interneurons supply; this is ASSUMED and not verified here. The proxy's form, a delayed AMPA term minus a scaled GABA term, is the RWS construction attributed to \citet{Mazzoni2015}. We have not verified that paper's figures, fitted values or validation claims, so none is used. The weights and delays below are our choices, not validated against that model or the macaque LFP. Taking them as a separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so their contributions differ in profile and can differ in sign above and below the soma.
 
 \textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
 1.65\,|I_{\text{GABA},u}(t)|$, summed over the unit's E cells, and the spatial weights $w_{zu} = K_{zu} =

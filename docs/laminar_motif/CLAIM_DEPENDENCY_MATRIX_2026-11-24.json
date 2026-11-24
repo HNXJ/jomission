@@ -1,0 +1,2144 @@
+{
+  "title": "Claim-to-run dependency matrix",
+  "date": "2026-11-24",
+  "status": "PROVISIONAL. Scientific gate HOLD. No reruns, no simulations, no tracked-file edits.",
+  "inputs": [
+    "D:/tmp/claude/b9c33328480eedeb/be52d61d-f54a-4b08-a042-26bf4e773002/scratchpad/_temp_claim_inventory.json",
+    "D:/jomission/paper/jomission_lansa/sections/abstract.tex",
+    "D:/jomission/paper/jomission_lansa/sections/results.tex",
+    "D:/jomission/paper/jomission_lansa/sections/discussion.tex",
+    "D:/jomission/docs/laminar_motif/PROVENANCE_MATRIX_2026-11-24.md"
+  ],
+  "evidence_labels": {
+    "OBSERVED": "manuscript text; inventory fields; file existence",
+    "DERIVED": "counts from the inventory by predicate (this script)",
+    "INFERRED": "mapping of a cited run set to families where the text names no file",
+    "ASSUMED": "none",
+    "UNKNOWN": "runners, shift-null script, r_ab M3 definition"
+  },
+  "status_vocabulary": {
+    "SUPPORTED-VERIFIED": "all required runs have VERIFIED executed-code identity: 0 records in the inventory, so no claim can carry it",
+    "SUPPORTED-PARTIAL": "all required runs are PARTIAL (commit identified, executed bytes unverified); conditions noted",
+    "UNSUPPORTED-PROVENANCE": "at least one required run is UNKNOWN, or required runs are not on the record for a claim that needs them",
+    "NOT-ESTABLISHED": "no run record located, or the claim has no definition, or its pre-registered criterion is undefined"
+  },
+  "verified_records_in_inventory": 0,
+  "claims": [
+    {
+      "id": "C01",
+      "claim": "Single unit reproduces its published rhythm (E0)",
+      "manuscript": "abstract.tex l.6-7; results.tex sec 2 (E0)",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 5,
+      "present_n": 5,
+      "n_partial": 0,
+      "n_unknown": 5,
+      "n_verified": 0,
+      "distinct_jomission_sha": 0,
+      "admissibility": "0.5.9, E0 seal Amendment 1 (matrix sec 2): ADMISSIBLE",
+      "missing": "none in inventory; e0_result.json (aggregate) not counted",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "All 5 inventory rows are alias_of D:/jomission/results/laminar_e0 with jomission_sha null. Matrix sec 7 does not list them and F8 reports 0 E0 runs in either inventory (conflict, blocker B1).",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e0/e0_seed1.json",
+          "family": "E0",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e0/e0_seed1.json",
+          "sha256": "7049b810212d6001e9d766cccc806be710d58e8ff90758a21a4b847b2ddd9f15"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e0/e0_seed2.json",
+          "family": "E0",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e0/e0_seed2.json",
+          "sha256": "6e8e3fdb93f01e959b51a0b3870530a47ded4f049604f212e0faa8dadee09b37"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e0/e0_seed3.json",
+          "family": "E0",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e0/e0_seed3.json",
+          "sha256": "28686249794a403b15e890cce4971d87064cf71495217b55f969634af2d60821"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e0/e0_seed4.json",
+          "family": "E0",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e0/e0_seed4.json",
+          "sha256": "4f7b75af38c3fe03bf2bcffbf4267345177811258df2743ba52bbad3aac72a02"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e0/e0_seed5.json",
+          "family": "E0",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e0/e0_seed5.json",
+          "sha256": "e2feb302ae2de4c17b2ece3ec6ca7a27c4d36a002348482e12796e84ba17e5e2"
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "claim": "E1: peak frequency falls as rho rises 0.25 to 2 (slope -6.27 Hz/oct); no oscillation at rho 4 (seeds 1-3)",
+      "manuscript": "abstract.tex l.7-8; results.tex sec 2 (E1, table tab:e0e1)",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 15,
+      "present_n": 15,
+      "n_partial": 0,
+      "n_unknown": 15,
+      "n_verified": 0,
+      "distinct_jomission_sha": 0,
+      "admissibility": "E1 not in matrix sec 2 governing-seal table (E1_SEAL.md exists on disk; matrix silent). Not covered by ruling.",
+      "missing": "none in inventory; e1_result.json (aggregate) not counted",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "All 15 rows are alias_of D:/jomission/results/laminar_e1 (blocker B1). Frequency-drop criterion undefined because rho 4 is silent; E1 verdict INCONCLUSIVE (results.tex). Minimum for the slope: 12 files (rho 0.25, 0.5, 1, 2 x seeds 1-3); rho 4 adds 3 for the no-oscillation statement.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.25_seed1.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.25_seed1.json",
+          "sha256": "f343c095780a6863e3c704d21173ac3cbdd36be57a107285567cf90ef7f2e76e"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.25_seed2.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.25_seed2.json",
+          "sha256": "5c21c5b6ef597b1a90508d0001be53f7aa8dbf6ff5d8f68b595f93de1d987219"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.25_seed3.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.25_seed3.json",
+          "sha256": "987471da27a72c3709a64baee24976d8518befe6206e91058263856bfa2be828"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.5_seed1.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.5_seed1.json",
+          "sha256": "feb490cafd39ea99ed08c9a735030374ef8caa1c917d57f8c58521d72073a32e"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.5_seed2.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.5_seed2.json",
+          "sha256": "3f593378f58f9d7d226918da0964a26d1b8f80a88f6af45fd374f423a6d579d3"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho0.5_seed3.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho0.5_seed3.json",
+          "sha256": "f0a22f087330610861d309f1e17274679904384c4cc8f539ed3cdce40627ecf0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho1_seed1.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho1_seed1.json",
+          "sha256": "6ca3eafdbdba15968c48855d46f53ea3621c5dac8fbe8d9c1106dc7127594e63"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho1_seed2.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho1_seed2.json",
+          "sha256": "51e1b564464b8d01acf45583060bd8c9f045136cdfea94b18aebb222dd18b742"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho1_seed3.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho1_seed3.json",
+          "sha256": "1369112e5a3a7f2a783227303082cbbace1ccbe209f8fa4fa1c3cde0b68749d4"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho2_seed1.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho2_seed1.json",
+          "sha256": "8cccf1d77a97cc3b7a5271a2c76e31b27f7375802e9af0804177dedddff52fa4"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho2_seed2.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho2_seed2.json",
+          "sha256": "11ff5b3f167d1f322b43670046e667eb17ccaa53b0445bbf7ed625062128cda0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho2_seed3.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho2_seed3.json",
+          "sha256": "f5d38523e05562e8c07f062f90d731d1f81b51eb9fab772f4201b6921e43a421"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho4_seed1.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho4_seed1.json",
+          "sha256": "f807553a914e208c5e8007c3d42bc18c14983814174b2e89ba6c032bd16cfac8"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho4_seed2.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho4_seed2.json",
+          "sha256": "476ff1ba18dd63828701ecf3610e14288e092c31f54530f68574e38309272286"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e1/e1_rho4_seed3.json",
+          "family": "E1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": "0.5.9",
+          "alias_of": "D:/jomission/results/laminar_e1/e1_rho4_seed3.json",
+          "sha256": "0459d1da162de536128ce677736ba63a170f84ad0cdca893944187615ccff455"
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "claim": "E1b replication on fresh seeds 6-8: arm A negative slope, one of three arm-A runs oscillates at rho 4; arm B five of five rho oscillate, slope -4.3 Hz/oct",
+      "manuscript": "abstract.tex l.8-9; results.tex sec 2 (E1b arm A, arm B)",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 30,
+      "present_n": 27,
+      "n_partial": 0,
+      "n_unknown": 27,
+      "n_verified": 0,
+      "distinct_jomission_sha": 1,
+      "admissibility": "0.5.9, E1B seal (matrix sec 2): ADMISSIBLE",
+      "missing": "e1bB_rho1 seeds 6-8 (3 records) absent from inventory: arm B has rho 0.25, 0.5, 2, 4 only; the seed-0 arm-B rho-4 smoke run (Methods) absent",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "Inventory cites .receipt.json files; the only recorded SHA is the driver git_head 4c99e05 (matrix sec 5). Arm B cannot show five of five rho from the inventory without the rho-1 records.",
+      "files": [
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.25_seed6.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "3010bfc604317bc5cd439b603022b4f103f568597959640bf20cc5d3dbae3678"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.25_seed7.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "9a39c6b1c50daa04419715bdeb6e2bf76c5af6c5b19990ca62d2fddb3655b9b9"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.25_seed8.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5dc7c58c88916fc0c845db435c5443b23456bd31442ac9bb3e1f9062fb5654f4"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.5_seed6.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "1bd15511c24bd9761f330e80a50565909ebc00871adc7a7c1f13b96411f455a4"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.5_seed7.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2a8fb7d9b4b17ffccb31b2bdb59fba13111d859355018aaafa4556cbfe3684ee"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho0.5_seed8.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "3d8fd1ba7f879fb0edaa40a3d7fe0973a8995de213023ec35df5c7563c09007d"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho1_seed6.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a49294cb7c1ff5c591908b240130a0992e5dbf2b45209aa417832a4b384205c8"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho1_seed7.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "13547df0336aa351ba492a54166b629042d1f8deceab16d85e1b2af33a6479e4"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho1_seed8.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "9633c9e10531d88b147417a46c472e43bb92916bd14716605f2913a883a08ed4"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho2_seed6.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "12891233ad386ea3c4cdab24c81b7fa78c0802356ef9c851cff024c60c0228f7"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho2_seed7.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "dcc496717bc2314d140568faa710ed2b5a12732e7bbeacff84e714676f0c25cc"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho2_seed8.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "96aae268512a50c8256435d368fcdb7bbc698f13581044b0f7b5f2f3195cbf56"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho4_seed6.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "51ffa2349f4822146779603315ac529d9bde2ea7f1330716a8f7914d2325890e"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho4_seed7.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "e55911a8dc39d6c6a3074fc2a7794975643825f6cd010a42e3708a8648e54687"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bA_rho4_seed8.receipt.json",
+          "family": "E1b-A",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "59100cf1c785b2ce2a4d6bca236987a68ffff74249333f0a945acd885b2a80cc"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.25_seed6.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "b51623d3508989a3155ba6915df064e8d3041f421619e18e988277848739ecba"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.25_seed7.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2dddce341e28c1dbed1006f3005b18a531fd4bb81f796554b88e45d7c1161bf8"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.25_seed8.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "6c9d1df07990f3a50a27eda708ea1002ab674fbb001c02e1996ba1151e143fab"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.5_seed6.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "f977fb1e5f1b3db1e0b5829cbd8714ba981cc0000a3766b1774a04b6f05012eb"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.5_seed7.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "34f3804778615216e00c914fc9660eb47a9b542f8814b1172fc34e1b9a08aa87"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho0.5_seed8.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "238b833aa98799d3df8ba10525e63c53f0c254a1838921c980a171488c54de61"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho2_seed6.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2f657f17ce46166765f3889c3a9fc2fa115140ef19743896b6634307269a6693"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho2_seed7.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "ecea446378ab4b1b30c88819375b5112180d017eec93f2a6c923693ce72bfab6"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho2_seed8.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "170c35aa62e3fcb59f45b2f75a75af41f0f6059faa89fa6dd174d85ef4dd4f72"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho4_seed6.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "9fa887dafc005778e018bc7a5d975c247cadf1bf5cf3a9ea0b55dca40f068f30"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho4_seed7.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "031931daa405f6a970e2efb0232a43225ce195a9c3aa42ccbdbb4e81386e8528"
+        },
+        {
+          "file": "D:/jomission/results/laminar_e1b/e1bB_rho4_seed8.receipt.json",
+          "family": "E1b-B",
+          "tree": "repo",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "4c99e05602c19d66af416efb6b5d2b5098147fdb",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "807f0d607bfd0cd87c0b19ce6a1e3bb908f723cd581b0bae5824fe9443d9498b"
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "claim": "T1 search, pre-registered (seeds 1-3, N=4000): axis 1 (B), axis 2 (SOM->E decay all), axis 3 (SOM->E decay deep) selected B=1.41, 15 ms (S,M), 21 ms (D)",
+      "manuscript": "results.tex sec 2b (T1, tab:t1); discussion.tex l.5-11; seal SEAL_T1.md",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 57,
+      "present_n": 57,
+      "n_partial": 18,
+      "n_unknown": 39,
+      "n_verified": 0,
+      "distinct_jomission_sha": 11,
+      "admissibility": "axis 1 and 2: 0.5.8, ADMISSIBLE (minimum); axis 3: 0.5.9 event, NOT COVERED; reference: 0.5.9, NOT COVERED",
+      "missing": "reference seed 3 has no named record (T8 t8_ref_n4000_s3 is the candidate, PARTIAL); inventory holds 6 new levels per axis, the 7th level being the reference; the claim 'B=1.41 appears under three axes' is not visible (kd1p41 files are in axis 1 only)",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "Selection rests on 36 UNKNOWN records (axes 1-2) and 18 PARTIAL (axis 3). The fresh-seed failure (C05) uses the setting this search picked.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p25_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "42f0e8d251a9ee23602d1311d62e958ad15d7d2f",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "a103cd1aecad7cc19a9d025bb31fa5774238c7194f288b9532d66cfe2dda55bc"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p25_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "42f0e8d251a9ee23602d1311d62e958ad15d7d2f",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "9ec0068afed48a1dbe579ca14b1b03764fd8212e4943f58e2152d930d7daec44"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p25_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "519f1ed00e1ce9acaed8955b0889447f7116f581",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "b01a1332e7140f79effef35c11329890d88da5d088e7608c21dc0d069d6a976c"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p35_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "519f1ed00e1ce9acaed8955b0889447f7116f581",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e5f28773da670f4d8541b8f8d4f90291794d36e03a056dfe668f4192f6f9b210"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p35_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "7acdd7534ca6bc0d8c12463bc7568096c2fd86fabb8f3a2d8fddcafe74090078"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p35_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d7ce383736cb65882ccbfbf4b292cded935a63c1b3edc4cabed7f1799ba4d398"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p5_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "02cf842a603f75223695aecca26da1d5e8450b4f7308f3109a3d2b3904e70ad1"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p5_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "344282668f45d557265f48030d9855a42e97e510807c0bf5c8fbd07e1470a4ac"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p5_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "a5e77ebd58870735eb8abccc32b4ffdb8bfb80672897b54bd0fc467257a52436"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p71_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d133a4a53d11b578071d08bee7a77ae0822ad771be0e88c8c73070d7ee0a3122"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p71_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d559401a2fd1b0192465afb1d15e2b3eb00778c5d26ca91993bb1de2e56f173e"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd0p71_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d24f5a64762550d3583e18095691d59c86a21713de5c65afbb9594332b45566d"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "898dbd7b77f7e92915ff4ea90447a73cb0e132607d0c4f1812f030f643ef22f7"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "0090954cd66d0418bb6e3c0c09a6e44b042633febb07c79bc96c633bb382c13f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "a57fad7ef24943469adb743afb89e4ef4db26897123b401b7e723fbf366e3a2d"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd2_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "bf81ae75118b262f9b23dbd26f171b102c56a63dbdc1f798c33dc9633b5553ba"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd2_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "551453b0c9db1a9dd6be7208f590300985f2e04108b05660d2013f3bd1888682"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd2_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "40d1f28d2a44213f4d98177957b58198138516223bfa90d64c87e9f52ed48332"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst10p6_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "7b56f024f603f2c2e7dd152b5a4e29bca4f323bd096a1d2ce321e73b1da30211"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst10p6_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "236d99ad5730e5ec4aefadacacf753f42e627f70e6bc36b7d53d35f38a02c451"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst10p6_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d2007a1ff719c558ec0b5b072694232fd50fb6c6fd2492d1702421ae47946dea"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst21_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "0b7a49e6a92ec130e2dc2e1e2866abda6a96a3efd3bdf591a8b26d1cebff074f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst21_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "cdf2b58c043345f8029857b1548e49a1fdd6a64621a974f2d906fe702aad684d"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst21_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "df7606f193086e7f16ac55184eb42077bcb44f18",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d515287c99ec2691812055b0af4ac79cb37c4186ae4d61000d5926186a1ebb9f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst30_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "1bef838eb7e513f3d262994be1cb247064c72226",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "bdc87d0ffe9b6767bad8d87a890e242c9357fcec67ffaf2447c94b1e5d695727"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst30_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "1bef838eb7e513f3d262994be1cb247064c72226",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "65b91c94066e4b7b65f221cc4410ef5666570c56e2e0ba242960b5fc42e85dcd"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst30_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "61afbbc9e5ef709d5e071a22af750c37370ff1eb5e19f64639d73f6e651f87d3"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst42_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "2c67fff742acd289d0e276529799bdc6a81346d2935be1d5f76d8c84d3b10315"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst42_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "bd925b7284017e10d49749a2bcd7dadc4cc94fa10bb1130864ef0486c282f453"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst42_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "29eb35d794f9d0fdc9821c49115b7807a8e21f3bc19d3c173410e72a7a972ff1"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst5p3_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e49f2150ee8db9f7de48980a81f40eff4b6d073c4f2fa4d02561c522c61cd806"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst5p3_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "63d2bede97f04cab77cdddfd1cadd095a60fca61d8aa66910e8864a8d85c8416"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst5p3_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e86b4a5f8b3ceef31969a6a3f3f990611f25ee682335671cac1ec3cbbb374085"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst7p5_n4000_s1_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "22d42e9923fad20c0409b0a1a8ef047ed599309783206c3405082b616c33f499"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst7p5_n4000_s2_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "d07cadf954e158064cd4f8d02cefb0c9f778653b06674570910854c13dae6c68"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sst7p5_n4000_s3_T8.json",
+          "family": "T1-ax2",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "ad40cbedd0710001289728011bda51b9472222e7",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "749bb8a918f8065b38f68ee5dc808030fda23abe5911c064498f5622c6a60430"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd10p6_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "b1791c37637ad291ba4c5fcd04683d8f31f2b9345c793f7899803287cb47c4bc"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd10p6_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "56c49e9b80d8d155bb6684e6fceaebf7c95f4d33efb0cbf2e9dd258372f01de4"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd10p6_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "58774b3e7ec8219119fe0392dc4d438cdd0bf2ed2632a5b1316aa9a26c7b9085"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd21_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "03d36e1e83265fa6c9a53afd5b66dda0d2869cf2d7538880d7ee932747a37a3f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd21_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "faa716b0c8acdedd13c42089abe658e789f7b4d06e280d6c4115867402b7e873"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd21_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "14177e4aa6919d08410078dc60ad289cf4c8644fd7eeb5983b870b31a140ac65"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd30_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "eb2d21172d8435bb15ac4116f21cc569555ff2e31647ae5329e610e87bad692a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd30_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "c96ab6a0f5e1b6eb08735ebabeeaa9c10af907cc1b289e645eada1c5aa0138ec"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd30_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "ebe53fa4aa7407039e5c991749dda49fd57aab4a1572ee8bbdffc6c52710ea11"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd42_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "8657e3a3aa011f67f20211e9bb43ed623e2628387f68271fd51c5e92ffb21b9b"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd42_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "76f39528e72a2f4365e204d1e9a7194287b48ffa0e13594e0587ad516bcb0d6a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd42_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "704f0b91a7a49cf228dccdcdcd49c25255462dc053b274d06b85e798599e9655"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd60_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "cc41742fa8175c75f85e9b01e8e8ecaa73a8b09e6dd0ac5818c6e70ce3074586"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd60_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "193b9135c9c1918e0b17b38bf7b43ea6cbf819ba637876ad6cea7895c02df83e"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd60_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "c3b147c4fa98d9f8b532c47ba57c54a312874b176077a0b67b1a8abb7625c44a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd7p5_n4000_s1_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "4b37face8b7d8e7f4fa8eed9f63e555d95f2fd628bed7637dbea4c863c111048"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd7p5_n4000_s2_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "ea7777774884a24604da066ed042e278b04ee538c410c6049db35c35dc3271e8"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_sstd7p5_n4000_s3_T8.json",
+          "family": "T1-ax3",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "65d56f551781e649fee410d0fc8fbcaf8b9af52edd4ef93caf8139958ca9e045"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8.json",
+          "family": "ref-seed1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "5992eb736979e731aba788892346761926393cfc",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a17869ecf68c41790821010e8779cccff0fa5e3783cb08807c9c0678393d34f0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_s1_T8.json",
+          "family": "sweeps",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "54e426bd2ef0776496f82743a8bad466877f0df7",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "7a6a4c607cc53616d52c3fd915565c5a6feb023c713149c392bdc913a4b9c0bf"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_s2_T8.json",
+          "family": "sweeps",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "5992eb736979e731aba788892346761926393cfc",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5709db4004a0bca702e8d09a8064fe3616121e0ffaa9ea3025942c6daf197b86"
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "claim": "T1 pre-registered test fails on fresh seeds 4-6 (12 s): r_proto 0.377, 0.365, 0.377; r_ab 0.35-0.47; no pass",
+      "manuscript": "results.tex sec 2b (T1 confirmation); discussion.tex l.5-6",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 3,
+      "present_n": 3,
+      "n_partial": 3,
+      "n_unknown": 0,
+      "n_verified": 0,
+      "distinct_jomission_sha": 1,
+      "admissibility": "0.5.9 event delivery: NOT COVERED (matrix sec 2)",
+      "missing": "verdict files t1_confirm_*_T12_verdict.json cited in results.tex are not in the inventory (existence not checked here)",
+      "highest_status": "SUPPORTED-PARTIAL",
+      "notes": "Ceiling covers the failure on these 3 runs only. It is conditional on an owner ruling for the NOT COVERED version. The setting's selection (C04) is UNKNOWN, so any statement that the search chose it is UNSUPPORTED-PROVENANCE.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s4_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "1a2343da0da87bfd397ac932d3c4fa8afc32a50983a5d72907a427a75bd1ea55"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s5_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5c166e1d6981df8a08107fb8b3e476f66d84519efc46fd5beae07a7d6e1b1c57"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "826511fc9ee3942db0c1f47aa9d639aa82d8a8e18ee149d4292b400900f3af4f"
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "claim": "Size ladder N=1000, 2000, 4000 (seeds 1-3): no run passes; r_gm < 0.6 in all runs",
+      "manuscript": "results.tex sec 2 (size ladder, tab:ladder); discussion.tex l.5-8",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 9,
+      "present_n": 9,
+      "n_partial": 0,
+      "n_unknown": 9,
+      "n_verified": 0,
+      "distinct_jomission_sha": 8,
+      "admissibility": "lfs_*: 0.5.8, ADMISSIBLE (minimum); ref-seed1: 0.5.9, NOT COVERED",
+      "missing": "no record named lfs_n4000_s1; the N=4000 seed-1 cell is the ref-seed1 file (sw_n4000_dens_k1_kd1_sst15_s1_T8), matched by mapping, not by name",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "All 9 records UNKNOWN. Seal SEAL_LFS.md governs lfs_* (matrix sec 2).",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8.json",
+          "family": "ref-seed1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "5992eb736979e731aba788892346761926393cfc",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a17869ecf68c41790821010e8779cccff0fa5e3783cb08807c9c0678393d34f0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "78d245cac33bee847561517d9930e86011fd68e3",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "17143b19117a091f975bfc39b98b80785f2695b96adfe78a84d66ca2117d6647"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8f999bfe0d1c05cdce72f95dd3ab8ea91992c246",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "33e3be762dd8954e63e52523aa2e8b46f1e6246d2233527bcd588a267fd8df80"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "9bf3606fcbe681283ceed85de2cae890df100c85934d0670ff7758cf76d6c761"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "be692037167160282bc41b6241e5bbe527705c348132825d6b36ea90ce8ff106"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c40131b210f830fbf89e50c02b821fa2d554ad80",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "47ef27b27a3be63080d307c9ce12bcd3b00a307d391bb426f419499718619e07"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "3d8686943184adf6d8592df763fea6c6c60f8522",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "83cd8b004dde64a5e86484573541178e595e620bf6ecf6e321dd1e6f07bb6415"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c676c5eb5b88d364d4866a540f419a962524ef79",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "dbeb940b1f42bbc3066429f3f2239da0a43b2dee99933220101b2f770a84c058"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "244d544622d406cd44855e29d101c00cf93f4662",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e472753f034d6c279874f14d57251f8ddd1ae5fade2ba083e8c3e53a22e81958"
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "claim": "Mid-depth relative gamma 0.19-0.31 (observed 0.85) across 12 ladder and confirmation runs; reference 0.23-0.26; T8 controls 0.04-0.23",
+      "manuscript": "abstract.tex l.9-10; results.tex sec 2 (scored runs, tab:sigma); discussion.tex l.4",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 12,
+      "present_n": 12,
+      "n_partial": 3,
+      "n_unknown": 9,
+      "n_verified": 0,
+      "distinct_jomission_sha": 9,
+      "admissibility": "mixed: lfs_* ADMISSIBLE (0.5.8); ref-seed1 NOT COVERED; T1 confirm NOT COVERED",
+      "missing": "the T8 control values (0.04-0.23) come from T8 records (PARTIAL) and are not in this 12-run set; their inclusion in the abstract range is not traced here",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "9 ladder records UNKNOWN, 3 confirmation records PARTIAL. The sigma rescoring (tab:sigma) uses the same spectra; it adds no run record.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8.json",
+          "family": "ref-seed1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "5992eb736979e731aba788892346761926393cfc",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a17869ecf68c41790821010e8779cccff0fa5e3783cb08807c9c0678393d34f0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "78d245cac33bee847561517d9930e86011fd68e3",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "17143b19117a091f975bfc39b98b80785f2695b96adfe78a84d66ca2117d6647"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8f999bfe0d1c05cdce72f95dd3ab8ea91992c246",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "33e3be762dd8954e63e52523aa2e8b46f1e6246d2233527bcd588a267fd8df80"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s4_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "1a2343da0da87bfd397ac932d3c4fa8afc32a50983a5d72907a427a75bd1ea55"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s5_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5c166e1d6981df8a08107fb8b3e476f66d84519efc46fd5beae07a7d6e1b1c57"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "826511fc9ee3942db0c1f47aa9d639aa82d8a8e18ee149d4292b400900f3af4f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "9bf3606fcbe681283ceed85de2cae890df100c85934d0670ff7758cf76d6c761"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "be692037167160282bc41b6241e5bbe527705c348132825d6b36ea90ce8ff106"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c40131b210f830fbf89e50c02b821fa2d554ad80",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "47ef27b27a3be63080d307c9ce12bcd3b00a307d391bb426f419499718619e07"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "3d8686943184adf6d8592df763fea6c6c60f8522",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "83cd8b004dde64a5e86484573541178e595e620bf6ecf6e321dd1e6f07bb6415"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c676c5eb5b88d364d4866a540f419a962524ef79",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "dbeb940b1f42bbc3066429f3f2239da0a43b2dee99933220101b2f770a84c058"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "244d544622d406cd44855e29d101c00cf93f4662",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e472753f034d6c279874f14d57251f8ddd1ae5fade2ba083e8c3e53a22e81958"
+        }
+      ]
+    },
+    {
+      "id": "C08",
+      "claim": "r_gm ladder: r_gm >= 0.6 in no ladder run at the declared sigma = 0.15; at sigma 0.20 and 0.25, 9 of 12 and 11 of 12 (not passes)",
+      "manuscript": "results.tex sec 2 (r_gm, tab:sigma, tab:ladder); abstract.tex l.9-10",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 12,
+      "present_n": 12,
+      "n_partial": 3,
+      "n_unknown": 9,
+      "n_verified": 0,
+      "distinct_jomission_sha": 9,
+      "admissibility": "as C07",
+      "missing": "same record set as C07",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "Scorer nulls and ceilings computed at sigma 0.15 only (results.tex l.133). Same records as C07; the claim differs in metric.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/sw_n4000_dens_k1_kd1_sst15_s1_T8.json",
+          "family": "ref-seed1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "5992eb736979e731aba788892346761926393cfc",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a17869ecf68c41790821010e8779cccff0fa5e3783cb08807c9c0678393d34f0"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "78d245cac33bee847561517d9930e86011fd68e3",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "17143b19117a091f975bfc39b98b80785f2695b96adfe78a84d66ca2117d6647"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8f999bfe0d1c05cdce72f95dd3ab8ea91992c246",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "33e3be762dd8954e63e52523aa2e8b46f1e6246d2233527bcd588a267fd8df80"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s4_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "1a2343da0da87bfd397ac932d3c4fa8afc32a50983a5d72907a427a75bd1ea55"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s5_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5c166e1d6981df8a08107fb8b3e476f66d84519efc46fd5beae07a7d6e1b1c57"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12.json",
+          "family": "T1-confirm",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "b0b7fb84fbe24fe2f296e7404015d8c21f18c748",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "826511fc9ee3942db0c1f47aa9d639aa82d8a8e18ee149d4292b400900f3af4f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "9bf3606fcbe681283ceed85de2cae890df100c85934d0670ff7758cf76d6c761"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "be692037167160282bc41b6241e5bbe527705c348132825d6b36ea90ce8ff106"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c40131b210f830fbf89e50c02b821fa2d554ad80",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "47ef27b27a3be63080d307c9ce12bcd3b00a307d391bb426f419499718619e07"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "3d8686943184adf6d8592df763fea6c6c60f8522",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "83cd8b004dde64a5e86484573541178e595e620bf6ecf6e321dd1e6f07bb6415"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c676c5eb5b88d364d4866a540f419a962524ef79",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "dbeb940b1f42bbc3066429f3f2239da0a43b2dee99933220101b2f770a84c058"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "244d544622d406cd44855e29d101c00cf93f4662",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e472753f034d6c279874f14d57251f8ddd1ae5fade2ba083e8c3e53a22e81958"
+        }
+      ]
+    },
+    {
+      "id": "C09",
+      "claim": "T8 density and SOM/PV controls: changing the SOM/PV ramp hands dominance to the superficial unit, changing density hands it to the deep unit; no control raises mid-depth gamma; reference r_ab 0.83-0.86 is above controls",
+      "manuscript": "results.tex sec 3 (tab:t8, fig:t8); discussion.tex l.17-23",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 15,
+      "present_n": 15,
+      "n_partial": 15,
+      "n_unknown": 0,
+      "n_verified": 0,
+      "distinct_jomission_sha": 1,
+      "admissibility": "0.5.9 event delivery: NOT COVERED (matrix sec 2); SEAL_T8.md on disk",
+      "missing": "reference r_ab 0.83-0.86 (seeds 1-3) is taken from the UNKNOWN reference records (C04, C06), not from t8_ref; the claim that t8_ref equals earlier reference runs bitwise (D9) cannot be checked from file hashes (0 duplicate sha256, matrix F9)",
+      "highest_status": "SUPPORTED-PARTIAL (control-vs-control outputs); UNSUPPORTED-PROVENANCE for reference-baseline comparisons",
+      "notes": "All 15 PARTIAL, one shared jomission SHA (2afef4d). Paired comparisons are descriptive, uncorrected (results.tex l.342-347).",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_dflat_n4000_s1_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "3abab7380da38880c7c65fa2c2b54b61a110efd747f17552f2ce5e9f932862e6"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_dflat_n4000_s2_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "3bddfdfaa8a47ea3f40720101a590abd5e3a561b30477358777e008b1bfd214f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_dflat_n4000_s3_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a2b09fe19c8654fef1f902997a257f517a842ec00fdb78686534a09f0725b7b7"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_drev_n4000_s1_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "a651423f91edc7b055f533e3c436b76bfd35944446e240bd4ffdc3ee3570adf2"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_drev_n4000_s2_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "8150fefda257c0626e3d5e2c02daa3bbe6b52ba27767564757908a3afd484907"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_drev_n4000_s3_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "e18d467d673f88ba42b83226ab8d52cc8d473c16f9b163c950b0e05a4ca80994"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_ref_n4000_s1_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2d02d98a48c5ecce2bb1dcacbf58c8161e17e40726f44a36a97bfe5383fb721e"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_ref_n4000_s2_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "fefd35b03be00bb752cb0615e05e8b8a450c31f6c5c8beef471137bc6b7c541a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_ref_n4000_s3_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "daec5863f061bc48f73c6438788eb03d83e67f8ad20e9fa78e5e9ffffdf1a85f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rflat_n4000_s1_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "3c6d74217f13091e57cb11c5d9163f4d1f7f0849ff72d8060d610eb4379f5425"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rflat_n4000_s2_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "882a8cf9b7617f91277a5ccf08b560437fc07ac0f73e0b9b3f08a6a4121f470a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rflat_n4000_s3_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5115cae63384e393d88a62a3bd59038824b53ecdfda7ef2f2caaa7e909f30996"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rrev_n4000_s1_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "617ee276c2c72be1a366176f0347d748329d7250c35906de1b19d80d23b9df35"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rrev_n4000_s2_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "db0158566eb40a8332923779d280f23d6ce4695e8ccd6aec7c6044fc5b393260"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t8_rrev_n4000_s3_T8.json",
+          "family": "T8",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "2afef4da71b385277b9a404b3e91d7817b37c1da",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "5fc4a64f3d40c28458c68e128cff377f52f9011f97685037a1e6194e22590838"
+        }
+      ]
+    },
+    {
+      "id": "C10",
+      "claim": "Weight runs (seed 1): raising M's E->E weight lifts r_gm and moves alpha-beta to M; adding PV->E restores the crossing at cost of M gamma; M recurrent excitation sets both bands",
+      "manuscript": "results.tex sec 2d (tab:weights, fig:weights); discussion.tex l.29-34",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 13,
+      "present_n": 14,
+      "n_partial": 14,
+      "n_unknown": 0,
+      "n_verified": 0,
+      "distinct_jomission_sha": 2,
+      "admissibility": "e2x_*: no governing seal (matrix sec 2, F15); 0.5.9 NOT COVERED",
+      "missing": "base row (B=1.41, no scaling) is not in the weight family; use t8_ref_n4000_s1 (PARTIAL) or ref-seed1 (UNKNOWN); 2 extra records (weeM1p41_T2, weeM2_T2) are not in the table",
+      "highest_status": "SUPPORTED-PARTIAL (descriptive table only; single seed, unsealed); mechanism NOT-ESTABLISHED (paper labels it inferred)",
+      "notes": "14 PARTIAL records (13 at jomission 8519540, 1 at 34d9512). Hand-chosen settings, one seed.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p2_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "50062a93e0fb85cdfecb731d3658837caea0ded9aae5a61fa94a7dca19923073"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p41_kd1p41_n4000_s1_T2.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "9ca58dd12019dac1f05d827727a68bba347e4c3db1053d1fb672adcda7115295"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p41_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "d67222faccadc5f13a2064d2f400a4749b2e882e813cf4e760779af008e50503"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p41_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "e6b74566930824d67fc7aab51d702997b0723c1552b9167cd2bbc2afea9f9cb6"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "c320e544efc98a153a5d08469f86e748300d8cbf1b9025cfa14d19dbf808f0d1"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "d281f0db3128fd332293e757c8b8dfc7e44c3d05e57d4645e15bef1f096f0509"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wesD1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2a5d257b0ca9ddc4e7d1a9748e42eebdebd6f05dca220d5b1628fafe3c99fc5a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wesM0p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "71574117defed9e5a48e52bfed8f148c19db9ccf372adc079b22458b9de118e8"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wesM0p5_wpeM1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "b946fdc96202c414f7d449780ea6a688f92de1b369a0347cae76f5294f1094ae"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wpeM1p25_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "34d95128619bd082412851013af77e41879b860c",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "2eee85a9fe09aac661ee69a6b117506ec41e440337da1599b2667a70dd9147bb"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "9e653151b197bffa8e10436ba218990ac370507326701b44f1c342c66178128a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM1p68_wesS0p5_wpeM1p5_wepM1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "29acbd233581608d8a51a53683e6d73556b36b177c7b72e3dc9ba0ab19a76e2a"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM2_kd1p41_n4000_s1_T2.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "4421538485e85e49bb88d67b4cd72313f9c47338f6215b1ac36a9252b36889a8"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/e2x_weeM2_wesS0p5_wpeM1p5_kd1p41_n4000_s1_T8.json",
+          "family": "weight-runs",
+          "tree": "cowork",
+          "jaxfne_status": "PARTIAL",
+          "jomission_sha": "8519540163e843afc94c12549bdca700e1f64899",
+          "version": "0.5.9",
+          "alias_of": null,
+          "sha256": "e5829e6976735f691e1bb3393f934ea7c37f0b6cc9de1761c0be9d45458381ef"
+        }
+      ]
+    },
+    {
+      "id": "C11",
+      "claim": "Spectral shift null: circular shift of unit spectra with diagonal (incoherent) search does not separate content from geometry (p = (3+1)/(20+1) = 0.19; unshifted best 0.725 from 70 of 1,330 placements)",
+      "manuscript": "results.tex sec 2e (readout, shift null); discussion.tex l.51-52",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 21,
+      "present_n": 0,
+      "n_partial": 0,
+      "n_unknown": 0,
+      "n_verified": 0,
+      "distinct_jomission_sha": 0,
+      "admissibility": "not applicable: no run record located",
+      "missing": "all 20 shifted draws and the unshifted incoherent search have no inventory record; depth_placement.json is the only related record and is untracked (results.tex l.484); the analysis script is UNKNOWN",
+      "highest_status": "NOT-ESTABLISHED",
+      "notes": "Runner UNKNOWN; not inferred from names. The paper calls the weak test 20 draws.",
+      "files": []
+    },
+    {
+      "id": "C12",
+      "claim": "Depth-placement readout: moving only the three unit depths raises r_proto from 0.38 (unmoved) to 0.720; 59 of 1,330 placements meet both band thresholds on the selection run",
+      "manuscript": "results.tex sec 2e (geometry, l.481-488); abstract.tex l.15-17; discussion.tex l.50-52",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": 12,
+      "present_n": 12,
+      "n_partial": 0,
+      "n_unknown": 12,
+      "n_verified": 0,
+      "distinct_jomission_sha": 8,
+      "admissibility": "as the source runs (C04, C06)",
+      "missing": "depth_placement.json is untracked (results.tex l.484); the selection run is not named by seed; the 8 other ladder runs are used",
+      "highest_status": "UNSUPPORTED-PROVENANCE",
+      "notes": "Unmoved r_proto is 0.38 in the abstract and results; the same selected setting shows seed mean 0.361 (tab:t1) and seed-1 0.36 (tab:weights). Reconcile before use (blocker B9). Analysis script UNKNOWN.",
+      "files": [
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s1_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "898dbd7b77f7e92915ff4ea90447a73cb0e132607d0c4f1812f030f643ef22f7"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s2_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "0090954cd66d0418bb6e3c0c09a6e44b042633febb07c79bc96c633bb382c13f"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/t1_kd1p41_n4000_s3_T8.json",
+          "family": "T1-ax1",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "0bf4b621e1e7be93ce15de36b589bc97eb6b65dd",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "a57fad7ef24943469adb743afb89e4ef4db26897123b401b7e723fbf366e3a2d"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "78d245cac33bee847561517d9930e86011fd68e3",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "17143b19117a091f975bfc39b98b80785f2695b96adfe78a84d66ca2117d6647"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n4000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "8f999bfe0d1c05cdce72f95dd3ab8ea91992c246",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "33e3be762dd8954e63e52523aa2e8b46f1e6246d2233527bcd588a267fd8df80"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "9bf3606fcbe681283ceed85de2cae890df100c85934d0670ff7758cf76d6c761"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "88d282da92d7ab68673a278b9293772794c25f0e",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "be692037167160282bc41b6241e5bbe527705c348132825d6b36ea90ce8ff106"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n1000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c40131b210f830fbf89e50c02b821fa2d554ad80",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "47ef27b27a3be63080d307c9ce12bcd3b00a307d391bb426f419499718619e07"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s1_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "3d8686943184adf6d8592df763fea6c6c60f8522",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "83cd8b004dde64a5e86484573541178e595e620bf6ecf6e321dd1e6f07bb6415"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s2_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "c676c5eb5b88d364d4866a540f419a962524ef79",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "dbeb940b1f42bbc3066429f3f2239da0a43b2dee99933220101b2f770a84c058"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/lfs_n2000_s3_T8.json",
+          "family": "size-ladder",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": "244d544622d406cd44855e29d101c00cf93f4662",
+          "version": "0.5.8",
+          "alias_of": null,
+          "sha256": "e472753f034d6c279874f14d57251f8ddd1ae5fade2ba083e8c3e53a22e81958"
+        },
+        {
+          "file": "D:/cowork/jomission/results/laminar_e2/depth_placement.json",
+          "family": "depth-derived",
+          "tree": "cowork",
+          "jaxfne_status": "UNKNOWN",
+          "jomission_sha": null,
+          "version": null,
+          "alias_of": null,
+          "sha256": "4c3b9a67aea203cfa39eb71539e7bfa47c1e0dbf5ec2a5a53d2b626d3a2e76ea"
+        }
+      ]
+    },
+    {
+      "id": "C13",
+      "claim": "r_ab M3 discrepancy",
+      "manuscript": "none located (no M3 token in paper sections; docs grep in blocker B11)",
+      "runner": "UNKNOWN (no runner field in inventory; not inferred from names)",
+      "expected_n": null,
+      "present_n": 0,
+      "n_partial": 0,
+      "n_unknown": 0,
+      "n_verified": 0,
+      "distinct_jomission_sha": 0,
+      "admissibility": "not applicable",
+      "missing": "claim has no definition in the manuscript or docs; no run mapping possible",
+      "highest_status": "NOT-ESTABLISHED",
+      "notes": "The M3 tokens in docs are an E1b trace label (HANDOUT_LANSA_STAGE10_E1B_2026-11-19.md l.11) and a PCA split label (ITEM03_SEAL_PROPOSAL.md l.39). Neither is an r_ab item. The owner must define the discrepancy.",
+      "files": []
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B1",
+      "issue": "E0/E1 classification conflict. Inventory lists 20 cowork E0/E1 rows as alias_of D:/jomission/results/laminar_e0|e1 (both trees hold the files). Matrix sec 7 lists 9 aliases, none E0/E1, and F8 reports 0 E0 runs.",
+      "effect": "C01, C02 provenance basis unreconciled",
+      "action": "Reconcile alias rules between inventory and matrix"
+    },
+    {
+      "id": "B2",
+      "issue": "Denominators do not agree. Inventory 739 rows (23 alias_of, 515 unmatched, 47 o38s-repo, 12 other-nonclaim, 165 claim-family rows incl. aggregates). Matrix 201 runs + 9 aliases. Ruling 146 and 158.",
+      "effect": "Coverage cannot be stated",
+      "action": "Reconcile per ruling before any coverage figure"
+    },
+    {
+      "id": "B3",
+      "issue": "jomission SHA count: inventory 36 distinct; ruling 29; Methods l.44 says 32 distinct.",
+      "effect": "The ruling's 29 is not reproduced",
+      "action": "Reconcile"
+    },
+    {
+      "id": "B4",
+      "issue": "E1b arm B rho 1 (seeds 6-8): 3 records absent. Seed-0 arm-B smoke run absent.",
+      "effect": "C03 five-of-five rho unsupported by inventory",
+      "action": "Locate records or correct the claim"
+    },
+    {
+      "id": "B5",
+      "issue": "Reference: no named seed-3 record; seed 1 has two records (ref-seed1 sst15, sweeps kd1_s1). D9 bitwise equality not checkable (0 duplicate sha256).",
+      "effect": "C04, C06, C09 baseline",
+      "action": "Name the reference record per seed"
+    },
+    {
+      "id": "B6",
+      "issue": "51 PARTIAL records (T1 axis 3 18, T1 confirm 3, T8 15, weights 14, evchk 1) are 0.5.9 outside E0/E1b seals: NOT COVERED per matrix sec 2. The ruling quoted in matrix sec 1 covers the 0.5.8 minimum and not these.",
+      "effect": "All PARTIAL ceilings are conditional",
+      "action": "Owner ruling on version coverage (not a rerun)"
+    },
+    {
+      "id": "B7",
+      "issue": "The 51 PARTIAL records name JaxFNE commit 351f6048 in receipts (matrix sec 5), not in the inventory jomission_sha field. Executed-code identity not verified.",
+      "effect": "Accepted as PARTIAL per ruling; no VERIFIED anywhere",
+      "action": "None; recorded"
+    },
+    {
+      "id": "B8",
+      "issue": "No inventory record for the 20 shifted draws or the unshifted incoherent search. depth_placement.json untracked. Analysis scripts UNKNOWN.",
+      "effect": "C11, C12 cannot be traced to runs",
+      "action": "Track and name the scripts and outputs"
+    },
+    {
+      "id": "B9",
+      "issue": "Unmoved r_proto: 0.38 (abstract, results) vs 0.361 (tab:t1 seed mean, same setting) vs 0.36 (tab:weights seed 1).",
+      "effect": "C12 baseline ambiguous",
+      "action": "Reconcile"
+    },
+    {
+      "id": "B10",
+      "issue": "'B=1.41 appears under three axes': kd1p41 records are in axis 1 only; axes 2 and 3 hold sst and sstd levels.",
+      "effect": "C04 scored-three-times statement unverifiable",
+      "action": "Name the records scored per axis"
+    },
+    {
+      "id": "B11",
+      "issue": "'r_ab M3 discrepancy' has no definition in the manuscript or docs.",
+      "effect": "C13 NOT-ESTABLISHED",
+      "action": "Owner to define"
+    },
+    {
+      "id": "B12",
+      "issue": "The inventory has no runner field; no record maps runs to scripts.",
+      "effect": "All runners UNKNOWN; none inferred from names",
+      "action": "Record runner per run family"
+    }
+  ]
+}

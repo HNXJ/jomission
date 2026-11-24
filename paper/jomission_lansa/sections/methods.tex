@@ -41,7 +41,7 @@ Tables~S1--S4 give its counts, edges and parameters with sources.
 
 \textbf{Software.} All runs use JaxFNE with $dt = 0.1$ ms; the version is read from each run record. E0, E1 and the
 $N = 4000$ seed-1 reference ran on a 0.5.9 side install with dense delivery; the other ladder runs and T1 axes 1--2
-on 0.5.8, dense; T1 axis 3, the confirmation and the weight runs on 0.5.9 at commit 351f6048 (unreleased) with event delivery.
+on 0.5.8, dense; T1 axis 3 (its 15 ms level excepted: 0.5.8 dense, identical to the axis-1 run), the confirmation runs and the weight runs on 0.5.9 with event delivery, at the commits in their run records. The commit 351f6048 cited earlier does not resolve in either repository; the run records name 34d95128, b0b7fb84 and 85195401.
 The software authority is 0.5.8. Spike trajectories depend on the compiled executable, so bitwise equality here means
 equality within one software environment. Re-running E0 seed 1 under jax 0.10.1 matched the original per-step
 counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz; \rec{D12}); under a fixed jax 0.10.2 environment,
@@ -59,7 +59,7 @@ at the commits in Table~\ref{tab:records}.
 spiked in the step. It was compared with the dense route on all 22 saved output arrays in two layouts: one 8 s T1
 run (\texttt{kd1p41}, seed 1; 248\,116 spikes, equal edge tables) and the three T8 reference runs
 (\texttt{e2\_3unit\_n4000\_dens\_k1\_kd1\_sst15}, seeds 1--3; \rec{D9}). The event runs used JaxFNE 0.5.9 at
-351f6048; the dense runs they were compared with used 0.5.8, except reference seed 1 (0.5.9 side install). All
+the commits in their run records (see Software); the dense runs they were compared with used 0.5.8, except reference seed 1 (0.5.9 side install). All
 arrays were bitwise equal; as a negative control reported in \rec{N1}~\S5, a different layout differed in 21 of 22
 arrays. One timed pair on one machine took 140 s against 1387 s dense (9.9-fold;
 \rec{N1}~\S5); the speed-up is specific to that configuration. T1 axis 3, the confirmation, the weight runs and

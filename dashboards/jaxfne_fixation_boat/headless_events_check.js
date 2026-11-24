@@ -6,7 +6,7 @@
 const fs = require('fs');
 const vm = require('vm');
 const src = fs.readFileSync(process.argv[2], 'utf8');
-const seconds = parseInt(process.argv[3] || '40', 10);
+const seconds = parseInt(process.argv[3] || '50', 10);
 
 const ctx = new Proxy({ measureText: () => ({ width: 10 }) }, {
   get: (t, p) => (p in t ? t[p] : () => {}),
@@ -47,7 +47,7 @@ const snap = (label) => {
   console.log(`[${label}] e=${mkEl('s_e').textContent} fix=${mkEl('s_fix').textContent} cells=${cells} ` +
     `label="${mkEl('l_fix').textContent}" alpha="${mkEl('o_alpha').textContent}" cue="${mkEl('o_cue').textContent}"`);
 };
-const reject = (label, obj) => { setJSON(obj); fire('applyCfg'); console.log(label + ': ' + msg()); };
+const reject = (label, obj, expect) => { setJSON(obj); fire('applyCfg'); const ok = expect === undefined ? '' : (msg().includes(expect) ? ' [OK]' : ' [MISMATCH: expected "' + expect + '"]'); console.log(label + ': ' + msg() + ok); };
 
 // default routes without the VIP->SST route (weight edit test: removing one connection)
 const R = (name, from, to, k, w, fb) => Object.assign({ name, from, to, k, w }, fb !== undefined ? { fallbackLayer: fb } : {});
@@ -80,11 +80,14 @@ const actions = {
   21: () => reject('route to.layer 6', { routes: [R('x', { area: 0, layer: 'same', type: 0 }, { layer: 6, type: 0 }, 6, 0.01)] }),
   22: () => reject('route from.area 2', { routes: [{ from: { area: 2, layer: 'same', type: 0 }, to: { layer: '*', type: 0 }, k: 6, w: 0.01 }] }),
   23: () => reject('route with extra field', { routes: [Object.assign(R('x', { area: 0, layer: 'same', type: 0 }, { layer: '*', type: 0 }, 6, 0.01), { bogus: 1 })] }),
-  24: () => reject('fan-in budget 4 x 100 = 400', { routes: [0, 1, 2, 3].map(i => R('b' + i, { area: 0, layer: 'same', type: 0 }, { layer: '*', type: 0 }, 100, 0.01)) }),
+  24: () => reject('fan-in budget 4 x 100 = 400', { routes: [0, 1, 2, 3].map(i => R('b' + i, { area: 0, layer: 'same', type: 0 }, { layer: '*', type: 0 }, 100, 0.01)) }, 'fan-in into type 0 in layer 1 is 400'),
   25: () => snap('after 9 rejected inputs (unchanged, cells 480)'),
-  45: () => { const four = (t) => [0, 1, 2, 3].map(i => R('p' + i, { area: 0, layer: 'same', type: 0 }, { layer: '*', type: i }, 100, 0.01)); reject('POSITIVE per-target: four k=100 routes, one per target type (total 400, valid)', { routes: four() }); },
-  46: () => { const one = [0, 1, 2, 3].map(i => R('n' + i, { area: 0, layer: 'same', type: 0 }, { layer: '*', type: 0 }, 100, 0.01)); reject('NEGATIVE per-target: four k=100 routes into type 0 (400 into one target class)', { routes: one }); },
-  47: () => snap('after positive case (expect 480 cells) and negative case unchanged'),
+  45: () => { const four = (t) => [0, 1, 2, 3].map(i => R('p' + i, { area: 0, layer: 'same', type: 0 }, { layer: '*', type: i }, 100, 0.01)); reject('POSITIVE per-target: four k=100 routes, one per target type (total 400, valid)', { routes: four() }, 'Applied.'); },
+  48: () => reject('layerOffset 1.5 (out of range)', { layerOffset: [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,1.5],[0,0,0,0]] }),
+  49: () => { setJSON({ layerOffset: [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0.05,0,0],[0,0,0,0]] }); fire('applyCfg'); console.log('layerOffset L5 PV +0.05: ' + msg()); },
+  50: () => snap('L5 PV drive +0.05 (expect PV rate in area 1 to move)'),
+  51: () => { fire('resetCfg'); console.log('reset: ' + msg()); },
+  47: () => snap('after positive case (expect 480 cells, unchanged by routes)'),
   26: () => { setJSON({ routes: withoutVIPSST }); fire('applyCfg'); console.log('remove VIP->SST route: ' + msg()); },
   28: () => snap('VIP->SST removed (expect cells 480, state rebuilt)'),
   29: () => reject('120 neurons with motorPerDir 5 (expect motor refusal)', { neuronsPerColumn: 120, areas: 1 }),
@@ -104,18 +107,21 @@ const actions = {
 };
 
 const t0 = Date.now();
+const fired = new Set();
 vm.runInThisContext(src);
 const FR = 1000 / 60;
 const errors = [];
 for (let f = 1; f <= seconds * 60; f++) {
   now += FR;
   const sec = Math.round(f / 60);
-  if (f % 60 === 0 && actions[sec]) actions[sec]();
+  if (f % 60 === 0 && actions[sec]) { actions[sec](); fired.add(sec); }
   const cbs = frames; frames = [];
   for (const cb of cbs) {
     try { cb(now); } catch (e) { errors.push(String(e && e.stack || e).slice(0, 300)); }
   }
   if (errors.length > 2) break;
 }
+const missing = Object.keys(actions).map(Number).filter(k => k <= seconds && !fired.has(k));
+console.log(missing.length ? 'MISSING actions (not run): ' + missing.join(', ') : 'all scheduled actions ran');
 console.log(errors.length ? 'ERRORS: ' + errors.join(' | ') : 'no runtime errors');
 console.log('wall ' + ((Date.now() - t0) / 1000).toFixed(1) + ' s');

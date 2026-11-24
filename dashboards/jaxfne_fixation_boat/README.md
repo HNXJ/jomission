@@ -32,6 +32,7 @@ Ranges enforced on Apply parameters:
 | `refractory` | integer 0–1000 |
 | `tauSyn` | 4 values, each greater than 0 (one per type) |
 | `bias` | 4 values in 0–1 (one per type) |
+| `layerOffset` | 6 rows × 4 values in −1–1: per-layer drive added to `bias[type]`; zero by default |
 | `noise`, `tonic`, `alpha`, `cue`, `hMax` | 0–1 |
 | `motorPerDir` | integer 1–50; 4 × motorPerDir must not exceed the layer-5 E cells of the top area (refused otherwise) |
 | `forceGain` | 0–100 |
@@ -79,7 +80,7 @@ The defaults are ten routes in `DEFAULTS.routes`: EE, PVE, E L5 → E L2 (from p
 - Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed, it is the share since the run started.
 - Speed: each frame runs at most 30 steps, so at 60 Hz the speed settings run at about 0.9× (1×), and the 2× and 4× settings are not reached. This cap predates the parameter panel.
 - The spectrum uses 2–100 Hz on a log grid, with 1024-sample Welch segments (0.512 s) and 50 % overlap.
-- Checks: the default run matches the version before the routes table line for line over 20 s at seed 1. `headless_events_check.js` covers the rejections (syntax, unknown keys, out-of-range values, malformed routes, the fan-in limit, the motor-fit refusal), route removal, the seed clamp, and the survival of unapplied text. The per-type fan-in acceptance case was checked by reading the code, not by a run.
+- Checks: the default run matches the version before the routes table line for line over 20 s at seed 1. `headless_events_check.js` covers the rejections (syntax, unknown keys, out-of-range values, malformed routes, the fan-in limit, the motor-fit refusal), route removal, the seed clamp, and the survival of unapplied text. The per-type fan-in pair (four routes of k = 100 into four types accepted; four into one type refused) is checked by a run: cases 45 and 24 of `headless_events_check.js`, with the expected messages compared.
 - An independent review by Haiku subagents (equivalence of the default routes with the previous wiring, validation, size, and documentation), with an adversarial refuter per finding, found the issues fixed in this version: the old-key refusal was unreachable, the fan-in limit was global rather than per target, route names contradicted their direction, the README baseline and thresholds were wrong, and the fixation and distance statements did not match the runs.
 - Rendering in a browser has not been checked in this version.
 

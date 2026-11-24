@@ -140,6 +140,8 @@ const DEFAULTS = {
   tauMembrane: 10, refractory: 4, tauSyn: [5, 8, 8, 8],
   layerFrac: [[0, 0.4, 0.2, 0.4], [0.8, 0.1, 0.05, 0.05], [0.8, 0.1, 0.05, 0.05], [0.85, 0.1, 0.03, 0.02], [0.8, 0.12, 0.06, 0.02], [0.8, 0.1, 0.07, 0.03]],
   bias: [0.11, 0.105, 0.09, 0.09],
+  // per-layer additive drive (rows L1–L6, columns E, PV, SST, VIP), added to bias[type]; zero by default
+  layerOffset: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
   noise: 0.05, tonic: 0, alpha: 0.5, hMax: 0.03, cue: 0.2,
   // Connectivity table. Each route gives every target cell of type to.type (in layer to.layer, '*' = any)
   // k presynaptic cells drawn at random from the source population, each with weight w.
@@ -215,6 +217,7 @@ function parseCfg(text) {
     tauSyn: numArr(out.tauSyn, 4) && out.tauSyn.every((t) => t > 0),
     layerFrac: Array.isArray(out.layerFrac) && out.layerFrac.length === LAYERS && out.layerFrac.every((r) => numArr(r, TYPES) && r.every((x) => x >= 0 && x <= 1) && r.reduce((a, b) => a + b, 0) <= 1 + 1e-9),
     bias: numArr(out.bias, 4) && out.bias.every((b) => b >= 0 && b <= 1),
+    layerOffset: Array.isArray(out.layerOffset) && out.layerOffset.length === LAYERS && out.layerOffset.every((r) => numArr(r, TYPES) && r.every((x) => x >= -1 && x <= 1)),
     noise: isNum(out.noise) && out.noise >= 0 && out.noise <= 1,
     tonic: isNum(out.tonic) && out.tonic >= 0 && out.tonic <= 1,
     alpha: isNum(out.alpha) && out.alpha >= 0 && out.alpha <= 1,
@@ -286,7 +289,7 @@ function build(cfg) {
   const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
   return {
     N, A, nL, unused, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
-    bias: Float64Array.from(type, t => cfg.bias[t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
+    bias: Float64Array.from(type, (t, n) => cfg.bias[t] + cfg.layerOffset[layer[n]][t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
     tau, motor, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
     v: new Float64Array(N), refr: new Int16Array(N), x: new Float64Array(N), spk: new Uint8Array(N),
     rate: new Float64Array(N), I: new Float64Array(N),

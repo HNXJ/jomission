@@ -118,7 +118,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
       <div class="legend" id="motifLegend"></div></figure>
   </div>
 
-  <p class="note">Defaults, unless changed in All parameters (the connectivity is the routes table there). Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed it is the share since the run started (the stat label shows the window in use).</p>
+  <p class="note">Defaults, unless changed in All parameters (the connectivity is the routes table there). Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of the readout layer (motorLayer, default L5) in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y); the directional cue always drives the first E cells of L5, decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed it is the share since the run started (the stat label shows the window in use).</p>
 </main>
 
 <script>
@@ -160,7 +160,8 @@ const DEFAULTS = {
     { name: 'EVIP', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 3 }, k: 12, w: 0.02, fallbackLayer: 2 },
     { name: 'E L5 -> VIP L1 (from next area)', from: { area: 1, layer: 4, type: 0 }, to: { layer: 0, type: 3 }, k: 6, w: 0.02 },
   ],
-  motorPerDir: 5, forceGain: 5, forceNorm: 20,
+  // motor readout layer, 0–5 (4 = L5, as in the brief and the fixture; 5 = L6, as in the reference lab)
+  motorLayer: 4, motorPerDir: 5, forceGain: 5, forceNorm: 20,
   ctrlSteps: 40, damping: 0.8, fixRadius: 0.5, fixWindow: 1500,
   start: [3, 0], target: [0, 0],
 };
@@ -223,6 +224,7 @@ function parseCfg(text) {
     alpha: isNum(out.alpha) && out.alpha >= 0 && out.alpha <= 1,
     hMax: isNum(out.hMax) && out.hMax >= 0 && out.hMax <= 1,
     cue: isNum(out.cue) && out.cue >= 0 && out.cue <= 1,
+    motorLayer: isInt(out.motorLayer, 0, 5),
     motorPerDir: isInt(out.motorPerDir, 1, 50),
     forceGain: isNum(out.forceGain) && out.forceGain >= 0 && out.forceGain <= 100,
     forceNorm: isNum(out.forceNorm) && out.forceNorm >= 1 && out.forceNorm <= 1000,
@@ -279,18 +281,20 @@ function build(cfg) {
   start[N] = pre.length;
   const unused = cfg.routes.flatMap((R, i) => (used[i] ? [] : [R.name || 'route ' + i]));
   const tau =Float64Array.from(type, t => Math.exp(-DT / cfg.tauSyn[t]));
-  const motor = [];
-  const top = A - 1, m5 = pop[key(top, 4, 0)] || [];
-  const nMotor = 4 * cfg.motorPerDir;
-  if (m5.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' layer-5 E cells in the top area; this network has ' + m5.length + '. Raise neuronsPerColumn or lower motorPerDir.');
-  for (let i = 0; i < nMotor; i++) motor.push(m5[i]);
+  const motor = [], cueCells = [];
+  // the directional cue always drives the first E cells of L5 (as in the brief); motorLayer only moves the readout
+  const top = A - 1, nMotor = 4 * cfg.motorPerDir;
+  const cuePop = pop[key(top, 4, 0)] || [], mPop = pop[key(top, cfg.motorLayer, 0)] || [];
+  if (cuePop.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' E cells in layer 5 of the top area (cue); this network has ' + cuePop.length + '. Raise neuronsPerColumn or lower motorPerDir.');
+  if (mPop.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' E cells in layer ' + (cfg.motorLayer + 1) + ' of the top area (readout); this network has ' + mPop.length + '. Raise neuronsPerColumn, lower motorPerDir, or change motorLayer.');
+  for (let i = 0; i < nMotor; i++) { motor.push(mPop[i]); cueCells.push(cuePop[i]); }
   const groups = [];
   for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
   const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
   return {
     N, A, nL, unused, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
     bias: Float64Array.from(type, (t, n) => cfg.bias[t] + cfg.layerOffset[layer[n]][t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
-    tau, motor, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
+    tau, motor, cueCells, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
     v: new Float64Array(N), refr: new Int16Array(N), x: new Float64Array(N), spk: new Uint8Array(N),
     rate: new Float64Array(N), I: new Float64Array(N),
     raster: null, lfp: Array.from({ length: LAY }, () => new Float32Array(BUF4)),
@@ -314,13 +318,13 @@ function step() {
   const net = NET, N = net.N, d = distance();
   const hap = CFG.alpha * CFG.hMax * Math.tanh(d);
   const ux = CFG.target[0] - boat.x, uy = CFG.target[1] - boat.y, nn = Math.hypot(ux, uy) || 1;
-  const cue = new Float64Array(net.motor.length);
-  for (let i = 0; i < net.motor.length; i++) { const g = Math.floor(i / net.mpd); cue[i] = CFG.cue * Math.max(0, DIRS[g][0] * ux / nn + DIRS[g][1] * uy / nn); }
-  const motorPos = new Map(net.motor.map((n, i) => [n, i]));
+  const cue = new Float64Array(net.cueCells.length);
+  for (let i = 0; i < net.cueCells.length; i++) { const g = Math.floor(i / net.mpd); cue[i] = CFG.cue * Math.max(0, DIRS[g][0] * ux / nn + DIRS[g][1] * uy / nn); }
+  const cuePos = new Map(net.cueCells.map((n, i) => [n, i]));
   for (let n = 0; n < N; n++) {
     let I = net.bias[n] + CFG.noise * (net.rand() - 0.5);
     if (net.type[n] === 0) I += CFG.tonic + hap;
-    const mi = motorPos.get(n); if (mi !== undefined) I += cue[mi];
+    const ci = cuePos.get(n); if (ci !== undefined) I += cue[ci];
     for (let k = net.start[n]; k < net.start[n + 1]; k++) I += net.w[k] * net.x[net.pre[k]];
     net.I[n] = I;
   }

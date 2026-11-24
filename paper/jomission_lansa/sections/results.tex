@@ -320,7 +320,7 @@ Fig.~\ref{fig:scorer}.}
 \label{fig:weights}
 \end{figure}
 
-\subsection{Density and SOM/PV changes have opposing effects: one unit dominates at most frequencies}
+\subsection{Density and SOM/PV changes have opposing effects: the dominant unit moves with the input}
 
 The reference column changes density and SOM/PV ratio together across depth, so the runs above do not separate
 them. We rebuilt the reference with one construction rule changed at a time, at fixed total cell count
@@ -329,9 +329,7 @@ and D exchanged), SOM/PV flat (0.79 in every unit, the geometric mean of the ram
 from S to D), each on seeds 1--3 at 8 s (Methods).
 
 The two kinds of change had opposite effects (Fig.~\ref{fig:t8}). With density flattened or permuted, the deep
-unit dominated relative power at most frequencies; with the SOM/PV ramp flattened or reversed, the superficial
-unit did. In both cases the reference's frequency-dependent split, alpha-beta in M and D and gamma in S, gave way to
-one unit dominating most frequencies, and the band correlations followed that unit's depth (Table~\ref{tab:t8}).
+unit held at least half the relative power (at each frequency, over the summed unit auto-spectra, 1--150 Hz) at 87--100\% of frequencies; with the SOM/PV ramp flattened or reversed, the superficial unit did at 100\%. The reference is also dominated, by S at 69--89\% of frequencies, so the change is in which unit dominates rather than in whether one does. The band correlations followed that unit's depth (Table~\ref{tab:t8}).
 The ratio changes turned the alpha-beta correlation from 0.83--0.86 to $-0.74$ (reversed) and $-0.72$ (flat) on
 every seed, while raising $r_{gm}$ to about 0.5 through superficial dominance at all frequencies. The density
 changes turned the gamma correlation from 0.14--0.41 to $-0.83$ (flat) and $-0.85$ (permuted) and the whole-map
@@ -362,7 +360,7 @@ split needs a balance between units that each control breaks; the controls do no
 \caption{Density and SOM/PV changes: seed-mean relative-power maps (power divided by its maximum over depth at each
 frequency; seeds 1--3, 8 s, 2 s discarded) of the reference and the four modified columns, beside the observed
 11-area mean (A). Panel titles give the seed means of $r_{ab}$, $r_{gm}$ and $r_\text{proto}$. In B the
-alpha-beta maximum lies in M and D and the gamma maximum in S; in C and D the deep unit dominates most frequencies, in E and F the superficial unit does. Per-condition
+alpha-beta maximum lies in M and D and the gamma maximum in S; in C and D the deep unit holds at least half the relative power at most frequencies, in E and F the superficial unit does. Per-condition
 architecture and 1 s rasters: \rec{R11}.}
 \label{fig:t8}
 \end{figure}

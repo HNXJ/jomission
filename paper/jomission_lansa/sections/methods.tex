@@ -41,7 +41,7 @@ Tables~S1--S4 give its counts, edges and parameters with sources.
 
 \textbf{Software.} All runs use JaxFNE with $dt = 0.1$ ms; the version is read from each run record. E0, E1 and the
 $N = 4000$ seed-1 reference ran on a 0.5.9 side install with dense delivery; the other ladder runs and T1 axes 1--2
-on 0.5.8, dense; T1 axis 3 (its 15 ms level excepted: 0.5.8 dense, identical to the axis-1 run), the confirmation runs and the weight runs on 0.5.9 with event delivery, at the commits in their run records. The commit 351f6048 cited earlier does not resolve in either repository; the run records name 34d95128, b0b7fb84 and 85195401.
+on 0.5.8, dense. Each run record names its jomission commit (32 distinct, all present in the repository) and its JaxFNE version: the ladder and T1 axes 1--2 are 0.5.8 dense; the T1 sstd levels other than 15 ms, the confirmation runs, the T8 controls and the weight runs are 0.5.9 with event delivery; most sweep runs are 0.5.9 dense. The commit 351f6048 cited in earlier drafts does not exist in this repository and is withdrawn. The declared software authority (0.5.8, below) does not match the 0.5.9 T8 and weight runs; this conflict is unresolved.
 The software authority is 0.5.8. Spike trajectories depend on the compiled executable, so bitwise equality here means
 equality within one software environment. Re-running E0 seed 1 under jax 0.10.1 matched the original per-step
 counts to step 8087 and then diverged (peak frequency 33.0 against 34.0 Hz; \rec{D12}); under a fixed jax 0.10.2 environment,
@@ -120,9 +120,10 @@ was small, such as near its inversion point; that the proxies predicted the LFP 
 weights were fitted to their morphology, synapse placement and positions ($\alpha = 1.65$). Using them as a
 separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA
 and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so
-their contributions differ in profile and can differ in sign above and below the soma. The 90\% figure
-validates the proxy against Mazzoni et al.'s own multicompartment model; it is external evidence, not a
-validation of the proxy for this model's cells and synapses or for the macaque LFP.
+their contributions differ in profile and can differ in sign above and below the soma. Mazzoni et al. report that
+this proxy accounts for most of the LFP variance in their multicompartment network (the 90\% figure and their
+Figs.~3 and 8 are not verified here); it is external evidence, not a validation of the proxy for this model's
+cells and synapses or for the macaque LFP.
 
 \textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
 1.65\,|I_{\text{GABA},u}(t)|$, summed over the unit's E cells, and the spatial weights $w_{zu} = K_{zu} =
@@ -161,7 +162,7 @@ primary alpha-beta 10--30 Hz and gamma 50--150 Hz. The LANSA-style bands 8--30 a
 
 \subsection{Shared scorer}
 
-\textbf{Metrics.} After the 2 s discard the summed RWS signal of each unit is cut into 1 s windows; the cross-spectra
+\textbf{Metrics.} After the 2 s discard the summed RWS signal of each unit (shortened by the 6 ms RWS delay) is cut into complete 1 s windows: five in an 8 s run and nine in a 12 s run, the final partial second dropped (the jackknife SE uses these windows); the cross-spectra
 of the units, weighted by the Gaussian contact kernel, give power per contact at 1--150 Hz (1 Hz bins), averaged over
 windows. The relative-power map divides each frequency's power by its maximum over the 21 contacts, as for LANSA.
 $r_\text{proto}$ is the Pearson correlation over contacts between the model and the observed 11-area map, averaged
@@ -326,8 +327,7 @@ difference''. Primary outcome $r_{ab}$; secondary $r_{gm}$, $r_\text{proto}$ and
 crossing, verdict and unit rates tabulated. A stop state (as T1) or a refusal in any seed makes an arm not
 evaluable. The reference reruns are compared array by array with the saved dense reference runs (\rec{C13}).
 Summary \rec{C12}, atlas \rec{C14}, modifiers in \rec{C1} with tests that failed on the builder before them.
-Deviations: the launcher started all 15 runs at once instead of two at a time (a throttle bug, fixed after the
-runs; the reference reruns equal the earlier runs bitwise, \rec{D9}), and the V1 rasters were drawn after one
+Deviations: the launch mode of the 15 runs is not recorded in the repository, so the intended two-at-a-time throttle is unverified; the reference reruns equal the earlier runs bitwise, \rec{D9}), and the V1 rasters were drawn after one
 verdict file (reference, seed 1) had been read, not before any.
 \end{description}
 

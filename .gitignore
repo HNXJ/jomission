@@ -39,3 +39,7 @@ results/viz/_gallery/
 scratch/
 
 .pages_test_tmp/
+
+# macOS AppleDouble metadata (._name), untracked 2026-11-24 under owner authorization; the
+# 46 tracked copies were removed from the index with git rm --cached, files kept on disk.
+**/._*

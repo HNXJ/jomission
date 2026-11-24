@@ -34,8 +34,16 @@ h1{font:600 22px/1.2 "Space Grotesk",Inter,system-ui,sans-serif;margin:0 0 4px;l
 .bar output{font-variant-numeric:tabular-nums;color:var(--fg)}
 button{font:inherit;background:var(--fg);color:var(--bg);border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
 button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--PV);outline-offset:2px}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--PV);outline-offset:2px}
 select,input[type=number]{font:inherit;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 6px}
+.cfg{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px;min-width:0}
+.cfg summary{cursor:pointer;font-weight:600}
+.cfg .cap{margin:6px 0 0;color:var(--muted);font-size:12px;max-width:92ch}
+.cfg textarea{display:block;width:100%;min-height:260px;max-width:100%;margin-top:8px;padding:8px;resize:vertical;
+  font:12px/1.4 ui-monospace,Consolas,"Courier New",monospace;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+.cfg .bar{margin:8px 0 0;padding:0;border:0;background:none}
+#cfgMsg{font-size:12px;color:var(--muted)}
+#cfgMsg.err{color:var(--warn)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;min-width:0}
 .stat b{display:block;font:600 19px/1.2 "Space Grotesk",Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums}
@@ -77,11 +85,22 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
     <button id="reset" class="ghost" type="button">Reset boat</button>
   </div>
 
+  <details class="cfg">
+    <summary>All parameters (JSON)</summary>
+    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. The sliders above change the same values live. Dynamics: DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
+    <textarea id="cfgText" spellcheck="false" aria-label="Parameters as JSON"></textarea>
+    <div class="bar">
+      <button id="applyCfg" type="button">Apply parameters</button>
+      <button id="resetCfg" class="ghost" type="button">Reset to defaults</button>
+      <span id="cfgMsg" role="status" aria-live="polite"></span>
+    </div>
+  </details>
+
   <p class="run" id="runinfo" aria-live="off"></p>
 
   <div class="stats">
     <div class="stat"><b id="s_e">–</b><span>distance e = |p − p*|</span></div>
-    <div class="stat"><b id="s_fix">–</b><span>time within 0.5 of target, last 30 s</span></div>
+    <div class="stat"><b id="s_fix">–</b><span id="l_fix">time within 0.5 of target, last 30 s</span></div>
     <div class="stat"><b id="s_f">–</b><span>applied force (x, y)</span></div>
     <div class="stat"><b id="s_v">–</b><span>boat speed</span></div>
     <div class="stat"><b id="s_rE">–</b><span>E rate, area 1, mean over layers (Hz)</span></div>
@@ -89,7 +108,7 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
   </div>
 
   <div class="grid">
-    <figure class="card"><h2>Boat</h2><p class="cap">Position in the plane. Target at the origin, dashed circle at 2. Trail: one point per 20 ms control interval.</p><canvas id="cBoat" width="640" height="520" aria-label="Boat trajectory"></canvas></figure>
+    <figure class="card"><h2>Boat</h2><p class="cap">Position in the plane. Target at p* (origin by default), dashed circle at 2. Trail: one point per control interval (20 ms by default).</p><canvas id="cBoat" width="640" height="520" aria-label="Boat trajectory"></canvas></figure>
     <figure class="card"><h2>Laminar layers, area 1</h2><p class="cap">Mean rate per layer and population over the last 1 s. Bars share one scale.</p><canvas id="cLayers" width="640" height="520" aria-label="Layer rates"></canvas>
       <div class="legend"><span><i style="background:var(--E)"></i>E</span><span><i style="background:var(--PV)"></i>PV</span><span><i style="background:var(--SST)"></i>SST</span><span><i style="background:var(--VIP)"></i>VIP</span></div></figure>
     <figure class="card wide"><h2>Spiking, area 1</h2><p class="cap">Last 2 s. Subsample per layer: 4 E, 2 PV, 2 SST, 2 VIP cells.</p><canvas id="cRaster" width="1200" height="620" aria-label="Raster"></canvas></figure>
@@ -97,77 +116,148 @@ canvas{display:block;width:100%;height:auto;max-width:100%}
       <div class="legend" id="motifLegend"></div></figure>
   </div>
 
-  <p class="note">Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L2/3. Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first 20 E cells of L5 in the top area: +x, −x, +y, −y, 5 cells each, decoded every 20 ms and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift away from the target (e 3 → 3–4). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5.</p>
+  <p class="note">Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of L5 in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y), decoded every control interval and applied one interval later, as in the fixture. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) and haptic α 1 alone both drift away from the target (e 3 → 3–4). A directional cue of 0.2 holds the boat within e ≈ 0.1 with 100% time within 0.5 of the target from 40 s onward, with or without haptic α 0.5. The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5.</p>
 </main>
 
 <script>
 (() => {
-const DT = 0.5, FS = 2000, TAUM = 10, REFR = 4, TAU_TYPE = [5, 8, 8, 8];
+// Fixed by the model, not parameters: time step (ms) and sample rate (Hz).
+const DT = 0.5, FS = 2000;
 const LAYERS = 6, TYPES = 4;
-const LAYER_FRAC = [[0, 0.4, 0.2, 0.4], [0.8, 0.1, 0.05, 0.05], [0.8, 0.1, 0.05, 0.05], [0.85, 0.1, 0.03, 0.02], [0.8, 0.12, 0.06, 0.02], [0.8, 0.1, 0.07, 0.03]];
-const BIAS = [0.11, 0.105, 0.09, 0.09];
-const CTRL = 40, F0 = 5, KD = 0.8, FIX_R = 0.5, FIX_WIN = 1500, H_MAX = 0.03;
+const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 const COLS = { E: '#7b2fa3', PV: '#1f6fd0', SST: '#f08c00', VIP: '#2a9d8f' };
 const LCOL = ['#7b2fa3', '#1f6fd0', '#2a9d8f', '#f08c00', '#e76f51', '#264653'];
-const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
 function rng(seed) { let s = seed >>> 0 || 1; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
 
-const P = { alpha: 0.5, cue: 0.2, tonic: 0, noise: 0.05, speed: 2, run: true, Ncol: 240, areas: 2, seed: 1 };
+// Every model and task parameter. The JSON panel edits exactly this object.
+const DEFAULTS = {
+  seed: 1, areas: 2, neuronsPerColumn: 240,
+  tauMembrane: 10, refractory: 4, tauSyn: [5, 8, 8, 8],
+  layerFrac: [[0, 0.4, 0.2, 0.4], [0.8, 0.1, 0.05, 0.05], [0.8, 0.1, 0.05, 0.05], [0.85, 0.1, 0.03, 0.02], [0.8, 0.12, 0.06, 0.02], [0.8, 0.1, 0.07, 0.03]],
+  bias: [0.11, 0.105, 0.09, 0.09],
+  noise: 0.05, tonic: 0, alpha: 0.5, hMax: 0.03, cue: 0.2,
+  // fan-in k and weight w per projection; E=0, PV=1, SST=2, VIP=3 in the rules of build()
+  proj: {
+    EE: { k: 6, w: 0.01 }, PVE: { k: 4, w: -0.05 },
+    EPV: { k: 18, w: 0.04 }, SSTPV: { k: 4, w: -0.03 },
+    ESST: { k: 18, w: 0.02 }, VIPSST: { k: 4, w: -0.05 },
+    EVIP: { k: 12, w: 0.02 },
+    interArea: { k: 6, w: 0.02 },
+  },
+  motorPerDir: 5, forceGain: 5, forceNorm: 20,
+  ctrlSteps: 40, damping: 0.8, fixRadius: 0.5, fixWindow: 1500,
+  start: [3, 0], target: [0, 0],
+};
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
+const isInt = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
+const numArr = (v, n) => Array.isArray(v) && v.length === n && v.every(isNum);
+const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+
+function parseCfg(text) {
+  let obj;
+  try { obj = JSON.parse(text); } catch (e) { throw new Error('not valid JSON: ' + e.message); }
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('parameters must be a JSON object');
+  const out = clone(DEFAULTS);
+  for (const k of Object.keys(obj)) {
+    if (!has(DEFAULTS, k)) throw new Error('unknown key "' + k + '"');
+    if (k === 'proj') {
+      if (!obj.proj || typeof obj.proj !== 'object' || Array.isArray(obj.proj)) throw new Error('proj must be an object');
+      for (const p of Object.keys(obj.proj)) {
+        if (!has(DEFAULTS.proj, p)) throw new Error('unknown projection "' + p + '"');
+        out.proj[p] = Object.assign({}, DEFAULTS.proj[p], obj.proj[p]);
+        if (!isInt(out.proj[p].k, 0, 1000) || !isNum(out.proj[p].w)) throw new Error('projection ' + p + ': k must be an integer 0–1000, w a number');
+      }
+    } else out[k] = obj[k];
+  }
+  const ok = {
+    seed: isInt(out.seed, 1, 999999),
+    areas: isInt(out.areas, 1, 4),
+    neuronsPerColumn: isInt(out.neuronsPerColumn, 6, 1000),
+    tauMembrane: isNum(out.tauMembrane) && out.tauMembrane > 0,
+    refractory: isInt(out.refractory, 0, 1000),
+    tauSyn: numArr(out.tauSyn, 4) && out.tauSyn.every((t) => t > 0),
+    layerFrac: Array.isArray(out.layerFrac) && out.layerFrac.length === LAYERS && out.layerFrac.every((r) => numArr(r, TYPES) && r.every((x) => x >= 0)),
+    bias: numArr(out.bias, 4),
+    noise: isNum(out.noise) && out.noise >= 0,
+    tonic: isNum(out.tonic),
+    alpha: isNum(out.alpha),
+    hMax: isNum(out.hMax) && out.hMax >= 0,
+    cue: isNum(out.cue),
+    motorPerDir: isInt(out.motorPerDir, 1, 50),
+    forceGain: isNum(out.forceGain),
+    forceNorm: isNum(out.forceNorm) && out.forceNorm > 0,
+    ctrlSteps: isInt(out.ctrlSteps, 1, 10000),
+    damping: isNum(out.damping),
+    fixRadius: isNum(out.fixRadius) && out.fixRadius >= 0,
+    fixWindow: isInt(out.fixWindow, 1, 1000000),
+    start: numArr(out.start, 2),
+    target: numArr(out.target, 2),
+  };
+  for (const k of Object.keys(ok)) if (!ok[k]) throw new Error('invalid value for "' + k + '"');
+  return out;
+}
+
+let CFG = clone(DEFAULTS);
 let NET = null, head = 0, filled = 0;
 const BUF2 = 4000, BUF4 = 8000;
 const boat = { x: 3, y: 0, vx: 0, vy: 0, trail: [{ x: 3, y: 0 }] };
-const target = { x: 0, y: 0 };
 let ctrlStep = 0, cnt = [0, 0, 0, 0], pendF = [0, 0], appF = [0, 0], lastF = [0, 0];
-let fixRing = new Uint8Array(FIX_WIN), fixI = 0, fixN = 0;
+let fixRing = new Uint8Array(DEFAULTS.fixWindow), fixI = 0, fixN = 0;
+const P = { run: true, speed: 2 };
 
 function build(cfg) {
   const r = rng(cfg.seed);
-  const nL = Math.max(6, Math.round(cfg.Ncol / LAYERS)), A = cfg.areas;
-  const counts = LAYER_FRAC.map(f => { const c = f.map(x => Math.round(x * nL)); c[0] += nL - c.reduce((a, b) => a + b, 0); return c; });
+  const LAY = LAYERS, A = cfg.areas;
+  const nL = Math.max(6, Math.round(cfg.neuronsPerColumn / LAY));
+  const counts = cfg.layerFrac.map(f => { const c = f.map(x => Math.round(x * nL)); c[0] += nL - c.reduce((a, b) => a + b, 0); return c; });
   const type = [], area = [], layer = [], pop = {};
   const key = (a, l, t) => a * 100 + l * 10 + t;
-  for (let a = 0; a < A; a++) for (let l = 0; l < LAYERS; l++) for (let t = 0; t < TYPES; t++) {
+  for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) for (let t = 0; t < TYPES; t++) {
     pop[key(a, l, t)] = [];
     for (let k = 0; k < counts[l][t]; k++) { const n = type.length; type.push(t); area.push(a); layer.push(l); pop[key(a, l, t)].push(n); }
   }
   const N = type.length;
-  const pick = (arr, K, out, w, sign) => { if (!arr || !arr.length) return; for (let k = 0; k < K; k++) { out.push(arr[Math.floor(r() * arr.length)]); w.push(sign); } };
   const start = new Int32Array(N + 1), pre = [], wt = [];
+  const pick = (arr, K, w) => { if (!arr || !arr.length) return; for (let k = 0; k < K; k++) { pre.push(arr[Math.floor(r() * arr.length)]); wt.push(w); } };
+  const Pj = cfg.proj;
   for (let n = 0; n < N; n++) {
     start[n] = pre.length;
     const t = type[n], a = area[n], l = layer[n];
     const E = pop[key(a, l, 0)] || [], PV = pop[key(a, l, 1)] || [], SST = pop[key(a, l, 2)] || [], VIP = pop[key(a, l, 3)] || [];
     const Eeff = E.length ? E : (pop[key(a, 2, 0)] || []);
     if (t === 0) {
-      pick(E, 6, pre, wt, 0.01); pick(PV, 4, pre, wt, -0.05);
-      if (l === 1 && a > 0) pick(pop[key(a - 1, 4, 0)], 6, pre, wt, 0.02);
-      if (l === 5 && a < A - 1) pick(pop[key(a + 1, 4, 0)], 6, pre, wt, 0.02);
+      pick(E, Pj.EE.k, Pj.EE.w); pick(PV, Pj.PVE.k, Pj.PVE.w);
+      if (l === 1 && a > 0) pick(pop[key(a - 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
+      if (l === 5 && a < A - 1) pick(pop[key(a + 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
     } else if (t === 1) {
-      pick(Eeff, 18, pre, wt, 0.04); pick(SST, 4, pre, wt, -0.03);
+      pick(Eeff, Pj.EPV.k, Pj.EPV.w); pick(SST, Pj.SSTPV.k, Pj.SSTPV.w);
     } else if (t === 2) {
-      pick(Eeff, 18, pre, wt, 0.02); pick(VIP, 4, pre, wt, -0.05);
+      pick(Eeff, Pj.ESST.k, Pj.ESST.w); pick(VIP, Pj.VIPSST.k, Pj.VIPSST.w);
     } else {
-      pick(Eeff, 12, pre, wt, 0.02);
-      if (l === 0 && a < A - 1) pick(pop[key(a + 1, 4, 0)], 6, pre, wt, 0.02);
+      pick(Eeff, Pj.EVIP.k, Pj.EVIP.w);
+      if (l === 0 && a < A - 1) pick(pop[key(a + 1, 4, 0)], Pj.interArea.k, Pj.interArea.w);
     }
   }
   start[N] = pre.length;
-  const tau = Float64Array.from(type, t => Math.exp(-DT / TAU_TYPE[t]));
+  const tau = Float64Array.from(type, t => Math.exp(-DT / cfg.tauSyn[t]));
   const motor = [];
   const top = A - 1, m5 = pop[key(top, 4, 0)] || [];
-  for (let i = 0; i < Math.min(20, m5.length); i++) motor.push(m5[i]);
+  const nMotor = 4 * cfg.motorPerDir;
+  for (let i = 0; i < Math.min(nMotor, m5.length); i++) motor.push(m5[i]);
   const groups = [];
-  for (let a = 0; a < A; a++) for (let l = 0; l < LAYERS; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
+  for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
   const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
   return {
     N, A, nL, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
-    bias: Float64Array.from(type, t => BIAS[t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
-    tau, motor, groups, lfpSign,
+    bias: Float64Array.from(type, t => cfg.bias[t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
+    tau, motor, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
     v: new Float64Array(N), refr: new Int16Array(N), x: new Float64Array(N), spk: new Uint8Array(N),
     rate: new Float64Array(N), I: new Float64Array(N),
-    raster: null, lfp: Array.from({ length: LAYERS }, () => new Float32Array(BUF4)),
+    raster: null, lfp: Array.from({ length: LAY }, () => new Float32Array(BUF4)),
     rand: rng(cfg.seed * 7919 + 1),
   };
 }
@@ -182,18 +272,18 @@ function rebuildBuffers() {
   net.rbuf = net.rasterIdx.map(list => list.map(() => new Uint8Array(BUF2)));
 }
 
-function distance() { return Math.hypot(boat.x - target.x, boat.y - target.y); }
+function distance() { return Math.hypot(boat.x - CFG.target[0], boat.y - CFG.target[1]); }
 
 function step() {
   const net = NET, N = net.N, d = distance();
-  const hap = P.alpha * H_MAX * Math.tanh(d);
-  const ux = target.x - boat.x, uy = target.y - boat.y, nn = Math.hypot(ux, uy) || 1;
-  const cue = new Float64Array(20);
-  for (let i = 0; i < net.motor.length; i++) { const g = Math.floor(i / 5); cue[i] = P.cue * Math.max(0, DIRS[g][0] * ux / nn + DIRS[g][1] * uy / nn); }
+  const hap = CFG.alpha * CFG.hMax * Math.tanh(d);
+  const ux = CFG.target[0] - boat.x, uy = CFG.target[1] - boat.y, nn = Math.hypot(ux, uy) || 1;
+  const cue = new Float64Array(net.motor.length);
+  for (let i = 0; i < net.motor.length; i++) { const g = Math.floor(i / net.mpd); cue[i] = CFG.cue * Math.max(0, DIRS[g][0] * ux / nn + DIRS[g][1] * uy / nn); }
   const motorPos = new Map(net.motor.map((n, i) => [n, i]));
   for (let n = 0; n < N; n++) {
-    let I = net.bias[n] + P.noise * (net.rand() - 0.5);
-    if (net.type[n] === 0) I += P.tonic + hap;
+    let I = net.bias[n] + CFG.noise * (net.rand() - 0.5);
+    if (net.type[n] === 0) I += CFG.tonic + hap;
     const mi = motorPos.get(n); if (mi !== undefined) I += cue[mi];
     for (let k = net.start[n]; k < net.start[n + 1]; k++) I += net.w[k] * net.x[net.pre[k]];
     net.I[n] = I;
@@ -201,7 +291,7 @@ function step() {
   for (let n = 0; n < N; n++) {
     net.spk[n] = 0;
     if (net.refr[n] > 0) { net.refr[n]--; net.v[n] = 0; }
-    else { let v = net.v[n] + DT * (-net.v[n] / TAUM + net.I[n]); if (v >= 1) { net.spk[n] = 1; v = 0; net.refr[n] = REFR; } else if (v < -0.5) v = -0.5; net.v[n] = v; }
+    else { let v = net.v[n] + DT * (-net.v[n] / net.tauM + net.I[n]); if (v >= 1) { net.spk[n] = 1; v = 0; net.refr[n] = net.refrSteps; } else if (v < -0.5) v = -0.5; net.v[n] = v; }
   }
   const a = DT / 1000;
   for (let n = 0; n < N; n++) { net.x[n] = net.x[n] * net.tau[n] + net.spk[n]; net.rate[n] += a * (net.spk[n] * FS - net.rate[n]); }
@@ -213,18 +303,18 @@ function step() {
     net.lfp[l][head] = s;
   }
   // motor decode
-  for (let i = 0; i < net.motor.length; i++) cnt[Math.floor(i / 5)] += net.spk[net.motor[i]];
+  for (let i = 0; i < net.motor.length; i++) cnt[Math.floor(i / net.mpd)] += net.spk[net.motor[i]];
   head = (head + 1) % BUF4; filled = Math.min(filled + 1, BUF4);
   ctrlStep++;
-  if (ctrlStep >= CTRL) {
+  if (ctrlStep >= CFG.ctrlSteps) {
     ctrlStep = 0;
-    const nf = [F0 * (cnt[0] - cnt[1]) / 20, F0 * (cnt[2] - cnt[3]) / 20];
+    const nf = [CFG.forceGain * (cnt[0] - cnt[1]) / CFG.forceNorm, CFG.forceGain * (cnt[2] - cnt[3]) / CFG.forceNorm];
     appF = pendF; pendF = nf; lastF = appF; cnt = [0, 0, 0, 0];
     boat.trail.push({ x: boat.x, y: boat.y }); if (boat.trail.length > 400) boat.trail.shift();
-    fixRing[fixI] = distance() <= FIX_R ? 1 : 0; fixI = (fixI + 1) % FIX_WIN; fixN = Math.min(fixN + 1, FIX_WIN);
+    fixRing[fixI] = distance() <= CFG.fixRadius ? 1 : 0; fixI = (fixI + 1) % fixRing.length; fixN = Math.min(fixN + 1, fixRing.length);
   }
   const dts = DT / 1000;
-  boat.vx += dts * (appF[0] - KD * boat.vx); boat.vy += dts * (appF[1] - KD * boat.vy);
+  boat.vx += dts * (appF[0] - CFG.damping * boat.vx); boat.vy += dts * (appF[1] - CFG.damping * boat.vy);
   boat.x += dts * boat.vx; boat.y += dts * boat.vy;
 }
 
@@ -271,14 +361,17 @@ function txt(ctx, s, x, y, col, size, align, base) { ctx.fillStyle = col; ctx.fo
 function drawBoat() {
   const { ctx, w, h, dpr } = fit(document.getElementById('cBoat'));
   ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
-  const pad = 40 * dpr, span = 4.4, sc = (w - 2 * pad) / (2 * span);
+  const [tx, ty] = CFG.target;
+  const span = Math.max(4.4, 1 + Math.max(Math.abs(CFG.start[0]), Math.abs(CFG.start[1]), Math.abs(tx), Math.abs(ty)));
+  const G = Math.floor(span);
+  const pad = 40 * dpr, sc = (w - 2 * pad) / (2 * span);
   const X = x => w / 2 + x * sc, Y = y => h / 2 - y * sc;
   ctx.strokeStyle = line; ctx.lineWidth = dpr;
-  for (let v = -4; v <= 4; v++) { ctx.beginPath(); ctx.moveTo(X(v), Y(-4)); ctx.lineTo(X(v), Y(4)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(-4), Y(v)); ctx.lineTo(X(4), Y(v)); ctx.stroke(); }
-  ctx.strokeStyle = mu; ctx.setLineDash([4 * dpr, 4 * dpr]); ctx.beginPath(); ctx.arc(X(0), Y(0), 2 * sc, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]);
+  for (let v = -G; v <= G; v++) { ctx.beginPath(); ctx.moveTo(X(v), Y(-G)); ctx.lineTo(X(v), Y(G)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(-G), Y(v)); ctx.lineTo(X(G), Y(v)); ctx.stroke(); }
+  ctx.strokeStyle = mu; ctx.setLineDash([4 * dpr, 4 * dpr]); ctx.beginPath(); ctx.arc(X(tx), Y(ty), 2 * sc, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]);
   if (boat.trail.length > 1) { ctx.strokeStyle = COLS.PV; ctx.lineWidth = 2 * dpr; ctx.beginPath(); smoothPath(ctx, boat.trail.map(p => [X(p.x), Y(p.y)])); ctx.stroke(); }
-  ctx.fillStyle = COLS.SST; ctx.beginPath(); ctx.arc(X(0), Y(0), 6 * dpr, 0, 2 * Math.PI); ctx.fill();
-  txt(ctx, 'target p*', X(0) + 10 * dpr, Y(0) - 10 * dpr, mu, 11 * dpr, 'left', 'alphabetic');
+  ctx.fillStyle = COLS.SST; ctx.beginPath(); ctx.arc(X(tx), Y(ty), 6 * dpr, 0, 2 * Math.PI); ctx.fill();
+  txt(ctx, 'target p*', X(tx) + 10 * dpr, Y(ty) - 10 * dpr, mu, 11 * dpr, 'left', 'alphabetic');
   const bx = X(boat.x), by = Y(boat.y);
   ctx.fillStyle = COLS.E; ctx.beginPath(); ctx.arc(bx, by, 7 * dpr, 0, 2 * Math.PI); ctx.fill();
   const fx = lastF[0], fy = lastF[1];
@@ -354,40 +447,70 @@ function drawMotif() {
   }
 }
 
-function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
 function updateStats() {
   const e = distance(); setText('s_e', e.toFixed(2));
   setText('s_fix', fixN ? Math.round(100 * fixRing.reduce((a, b) => a + b, 0) / fixN) + '%' : '–');
+  setText('l_fix', 'time within ' + CFG.fixRadius + ' of target, last ' + (+(CFG.fixWindow * CFG.ctrlSteps * DT / 1000).toFixed(2)) + ' s');
   setText('s_f', '(' + lastF[0].toFixed(2) + ', ' + lastF[1].toFixed(2) + ')');
   setText('s_v', Math.hypot(boat.vx, boat.vy).toFixed(2));
   const rates = layerRates();
   const meanCol = t => rates.reduce((a, row) => a + row[t], 0) / LAYERS;
   setText('s_rE', meanCol(0).toFixed(1));
   setText('s_rI', meanCol(1).toFixed(1) + ' / ' + meanCol(2).toFixed(1) + ' / ' + meanCol(3).toFixed(1));
-  setText('runinfo', 'Run: seed ' + P.seed + ' · ' + P.areas + ' area(s), each cloned from one per-layer config · ' + P.Ncol + ' neurons per column · α ' + P.alpha.toFixed(2) + ' · cue ' + P.cue.toFixed(2) + ' · tonic ' + P.tonic.toFixed(3) + ' · noise ' + P.noise.toFixed(3) + ' · ' + (NET ? NET.N : 0) + ' cells total');
+  setText('runinfo', 'Run: seed ' + CFG.seed + ' · ' + CFG.areas + ' area(s), each cloned from one per-layer config · ' + CFG.neuronsPerColumn + ' neurons per column · α ' + CFG.alpha.toFixed(2) + ' · cue ' + CFG.cue.toFixed(2) + ' · tonic ' + CFG.tonic.toFixed(3) + ' · noise ' + CFG.noise.toFixed(3) + ' · ' + (NET ? NET.N : 0) + ' cells total');
 }
 
-function rebuild() { NET = build(P); head = 0; filled = 0; rebuildBuffers(); fixRing.fill(0); fixI = 0; fixN = 0; resetBoat(); }
-function resetBoat() { boat.x = 3; boat.y = 0; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: 3, y: 0 }]; pendF = [0, 0]; appF = [0, 0]; lastF = [0, 0]; }
+// Install a parameter set: build first, so a failed build leaves the running network untouched.
+function install(cfg) {
+  const net = build(cfg);
+  CFG = cfg; NET = net; head = 0; filled = 0;
+  fixRing = new Uint8Array(CFG.fixWindow); fixI = 0; fixN = 0;
+  rebuildBuffers(); resetBoat();
+}
+function resetBoat() { boat.x = CFG.start[0]; boat.y = CFG.start[1]; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: boat.x, y: boat.y }]; pendF = [0, 0]; appF = [0, 0]; lastF = [0, 0]; }
 
 // controls
-function setSlider(id, out, v, fmt) { const el = document.getElementById(id); if (el) el.value = v; if (out) setText(out, fmt(v)); }
-const bind = (id, out, key, fmt, rebuildOnChange) => { const el = document.getElementById(id); el.addEventListener('input', () => { P[key] = parseFloat(el.value); if (out) setText(out, fmt(P[key])); if (rebuildOnChange) { /* applied by button */ } }); };
-bind('alpha', 'o_alpha', 'alpha', v => v.toFixed(2));
-bind('cue', 'o_cue', 'cue', v => v.toFixed(2));
-bind('tonic', 'o_tonic', 'tonic', v => v.toFixed(3));
-bind('noise', 'o_noise', 'noise', v => v.toFixed(3));
-bind('ncol', 'o_ncol', 'Ncol', v => String(Math.round(v)));
-bind('areas', 'o_areas', 'areas', v => String(Math.round(v)));
-document.getElementById('seed').addEventListener('change', e => { P.seed = Math.max(1, parseInt(e.target.value, 10) || 1); });
+const ta = () => document.getElementById('cfgText');
+function showCfg() { const el = ta(); if (el) el.value = JSON.stringify(CFG, null, 2); }
+function setMsg(msg, bad) { const el = document.getElementById('cfgMsg'); if (!el) return; el.textContent = msg; el.className = bad ? 'err' : ''; }
+function syncControls() {
+  const put = (id, out, v, fmt) => { const el = document.getElementById(id); if (el) el.value = v; setText(out, fmt(v)); };
+  put('alpha', 'o_alpha', CFG.alpha, v => v.toFixed(2));
+  put('cue', 'o_cue', CFG.cue, v => v.toFixed(2));
+  put('tonic', 'o_tonic', CFG.tonic, v => v.toFixed(3));
+  put('noise', 'o_noise', CFG.noise, v => v.toFixed(3));
+  put('ncol', 'o_ncol', CFG.neuronsPerColumn, v => String(Math.round(v)));
+  put('areas', 'o_areas', CFG.areas, v => String(Math.round(v)));
+  const seed = document.getElementById('seed'); if (seed) seed.value = CFG.seed;
+  showCfg();
+}
+const bindSlider = (id, out, key, fmt, conv) => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => { CFG[key] = conv(parseFloat(el.value)); setText(out, fmt(CFG[key])); showCfg(); });
+};
+const ident = v => v, rnd = v => Math.round(v);
+bindSlider('alpha', 'o_alpha', 'alpha', v => v.toFixed(2), ident);
+bindSlider('cue', 'o_cue', 'cue', v => v.toFixed(2), ident);
+bindSlider('tonic', 'o_tonic', 'tonic', v => v.toFixed(3), ident);
+bindSlider('noise', 'o_noise', 'noise', v => v.toFixed(3), ident);
+bindSlider('ncol', 'o_ncol', 'neuronsPerColumn', v => String(v), rnd);
+bindSlider('areas', 'o_areas', 'areas', v => String(v), rnd);
+document.getElementById('seed').addEventListener('change', e => { CFG.seed = Math.max(1, parseInt(e.target.value, 10) || 1); showCfg(); });
 document.getElementById('speed').addEventListener('change', e => { P.speed = parseInt(e.target.value, 10); });
 document.getElementById('play').addEventListener('click', e => { P.run = !P.run; e.target.textContent = P.run ? 'Pause' : 'Play'; });
 document.getElementById('reset').addEventListener('click', resetBoat);
 document.getElementById('apply').addEventListener('click', () => {
-  P.Ncol = Math.round(parseFloat(document.getElementById('ncol').value));
-  P.areas = Math.round(parseFloat(document.getElementById('areas').value));
-  P.seed = Math.max(1, parseInt(document.getElementById('seed').value, 10) || 1);
-  rebuild();
+  try { install(CFG); setMsg('Network rebuilt from the current values.', false); }
+  catch (e) { setMsg('Error: ' + e.message, true); }
+  showCfg();
+});
+document.getElementById('applyCfg').addEventListener('click', () => {
+  try { const next = parseCfg(ta().value); install(next); syncControls(); setMsg('Applied. Network rebuilt, boat reset.', false); }
+  catch (e) { setMsg('Error: ' + e.message + ' (parameters not applied)', true); }
+});
+document.getElementById('resetCfg').addEventListener('click', () => {
+  try { install(clone(DEFAULTS)); syncControls(); setMsg('Reset to defaults.', false); }
+  catch (e) { setMsg('Error: ' + e.message, true); }
 });
 const PRESETS = {
   spec: { alpha: 0, cue: 0 },
@@ -397,15 +520,15 @@ const PRESETS = {
 };
 document.querySelectorAll('[data-preset]').forEach(btn => btn.addEventListener('click', () => {
   const p = PRESETS[btn.getAttribute('data-preset')];
-  P.alpha = p.alpha; P.cue = p.cue;
-  setSlider('alpha', 'o_alpha', p.alpha, v => v.toFixed(2));
-  setSlider('cue', 'o_cue', p.cue, v => v.toFixed(2));
+  Object.assign(CFG, p);
+  syncControls();
   resetBoat();
 }));
 // legend for motif layers
 document.getElementById('motifLegend').innerHTML = LCOL.map((c, i) => '<span><i style="background:' + c + '"></i>L' + (i + 1) + '</span>').join('');
 
-rebuild();
+install(CFG);
+syncControls();
 
 // loop
 let last = performance.now(), lastMotif = 0;

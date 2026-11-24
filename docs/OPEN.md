@@ -16,7 +16,7 @@ Three projects, separate acceptance: (A) jomission science program, (B) LANSA pr
 | 5 | PV drive scan (item 18) | owner gate | A | approve or retire a matched-state scan spec | Hamm | OPEN-31 |
 | 6 | Goals not ratified (item 33) | owner gate | A | ratify or revise docs/GOALS_PROPOSED.md | Hamm | checklist item 33 |
 | 7 | Compile-cache trust (item 35) | owner decision | C | user-owned cache directory, or accept a trusted cache | Hamm | OPEN-17 |
-| 8 | JaxFNE version conflict | owner + migration | A, C | keep 0.5.8 historical authority separate from a 0.5.9 migration lineage | Hamm | OPEN-37, OPEN-41 |
+| 8 | JaxFNE version conflict | owner + migration | A, C | keep 0.5.8 historical authority separate from a 0.5.9 migration lineage. Minimum ruled 2026-11-24 (docs/AUTHORITY_RULING_2026-11-24.md): JaxFNE >=0.5.8; experiment-specific admissibility remains open for runs outside E0 and E1b; OPEN-37 and OPEN-41 stay open | Hamm | OPEN-37, OPEN-41 |
 | 9 | Canonical state stale (next_authorized_task = SCI-AGSDR-CALIBRATION) | owner authorization | B, C | Hamm chooses the next task; no silent change | Hamm | OPEN-43 |
 | 10 | origin/dev failures; 342279db not on origin | reproduction gate | C | recover the exact failing SHA, reproduce, then reconcile; no merge | Hamm (rulings), agent (reproduction) | OPEN-47 |
 | 11 | Deck candidate 076ffefb unreviewed; p3 "N" and p9 counts | owner + reviewer | B | fresh review; rule on p3 and p9 | Hamm, reviewer | OPEN-46 |

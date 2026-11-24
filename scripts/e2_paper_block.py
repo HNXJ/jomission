@@ -268,7 +268,7 @@ def run_rows(rec: dict) -> list[dict]:
 def _notes(rec: dict) -> list[str]:
     notes = [
         "Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is "
-        f"{rec['jaxfne_version']}; OPEN-37 names 0.5.8 as the execution authority.",
+        f"{rec['jaxfne_version']}; Owner ruling 2026-11-24: 0.5.8 is the minimum admissible version; this run is outside E0 and E1b and is not covered by that ruling.",
         f"Raster: sampled cells only ({RASTER_SAMPLE['E']} E, {RASTER_SAMPLE['PV']} PV and "
         f"{RASTER_SAMPLE['SOM']} SOM per module, a random sample by run_e2_stack.py).",
         "Module N is the sum of the recorded cell counts; the run JSON has no N key.",

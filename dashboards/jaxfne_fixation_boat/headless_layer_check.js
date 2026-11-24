@@ -110,7 +110,7 @@ check('visible note states the L5 pool identity, the L6 limit, the evidence spli
   const note = m[1].replace(/\s+/g, ' ');
   for (const phrase of [
     'the readout cells and the cue cells are the same 20 L5 E cells',
-    '16 each at 120 neurons per column with motorPerDir 4',
+    '16 cells in total at 120 neurons per column with motorPerDir 4',
     'L6 is unsupported under the current connectivity',
     'identical at cue 0 and cue 0.2',
     'rE and rI differ',

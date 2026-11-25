@@ -35,7 +35,20 @@ Does competition between plasticity mechanisms explain the emergence, stabilizat
 - Competition within a mechanism (a constrained resource or allocation) is out of scope for B01. Starting it needs a new mechanistic definition, matched controls, a protocol freeze and a new lineage, approved by the owner.
 - Still open: the exact wording of the central question (see 4.5), and the O-6 strategy list and metric.
 
-4.5 **Central-question wording (conflict).** The owner's B01 text says "competition between plasticity mechanisms." The decided scope compares strategies. The owner must confirm either the strategy wording for the central question, or a revised question that keeps "mechanisms" for a later phase. Until then the §2 text is kept as recorded and not rewritten.
+4.5 **Central-question wording. OPEN: check done, one mismatch.** The owner approved strategy wording (2026-11-25) and gave this proposal, which is not a verified quotation: "Which of the eight candidate plasticity strategies best supports fixation occupancy under the programme's directional-observability requirements, relative to the fixed-weight reference S1?"
+
+Check against `protocol_v0.md` (dev, ef0a766 tree):
+- §5 (line 50): unit of inference is the start; "Paired contrasts against S1"; bootstrap CI. The estimand is each strategy's paired contrast with S1. There is no ranking.
+- §5 (line 48): development starts "never used to choose a strategy". Held-out starts are used once.
+- "Best" implies a selection among strategies. The protocol defines no selection rule, no held-out ranking and no multiplicity rule for one. Adding one changes the estimand, which the owner's scope excludes.
+- "Directional-observability requirements" matches protocol §1 items 1–2 (directional encoder; positive control must pass).
+- "Fixation occupancy" is the proposed primary metric (protocol §4). O-6 is open, so the question depends on it.
+
+Options for the owner (one decision):
+- A (recommended): "Which candidate strategies (S2–S8) change fixation occupancy relative to the fixed-weight reference S1, under the programme's directional-observability requirements?" Estimand: paired contrast vs S1, as §5. No new selection rule.
+- B: keep "best". Requires a written selection rule, held-out procedure and multiplicity rule, which is a new estimand and a protocol freeze.
+
+Until the owner chooses, the §2 text stays as recorded. §4.5 closes when the chosen wording is written into §2 and checked against this list.
 
 4.2 **Falsifier wording.** Choose between the owner's held-out-prediction falsifier and F-b/F-c, or combine them.
 

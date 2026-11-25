@@ -2129,6 +2129,221 @@
    "path": "results/laminar_e1b/e1b_result.json",
    "blob": "15409acebf7c32fd8ac454e29933938af1422eda",
    "sealed_in": "2cb020f"
+  },
+  {
+   "path": "docs/designs/H_ACTIVE_TEST_spec.md",
+   "blob": "bfa427e0cb65ba35f1876897f3f41a25c3d85cba",
+   "sealed_in": "3ca43f3"
+  },
+  {
+   "path": "docs/designs/H_BALANCE_MECH_spec.md",
+   "blob": "3c35224a2e6ef659bd19ee21459433884638e786",
+   "sealed_in": "7e074b2"
+  },
+  {
+   "path": "docs/designs/H_BALANCE_TEST_spec.md",
+   "blob": "7529764ad67eb69e06f92e2969f2b4da40d1fd9a",
+   "sealed_in": "ce55b01"
+  },
+  {
+   "path": "docs/designs/H_SYNC2_TEST_spec.md",
+   "blob": "9854a4b6186a4820691d212932d95f4bd9c889bc",
+   "sealed_in": "7ffa304"
+  },
+  {
+   "path": "docs/designs/H_SYNC_MECH_spec.md",
+   "blob": "2956d55bb42d97d1dfc2c0dc34a16f7b45346650",
+   "sealed_in": "024d2a6"
+  },
+  {
+   "path": "docs/designs/H_SYNC_STARTUP_spec.md",
+   "blob": "21f47b3b78e37ddba47d753e10e822a79392fdd6",
+   "sealed_in": "ac62ff0"
+  },
+  {
+   "path": "docs/designs/H_SYNC_TEST_spec.md",
+   "blob": "7bfd58f88bc483eaf50de388cf4a123819561925",
+   "sealed_in": "11c1a0f"
+  },
+  {
+   "path": "docs/receipts/h_active_test/A_normal_seed0.json",
+   "blob": "3627b9357ac31a6a5770bfea0423e392ada8d9e2",
+   "sealed_in": "87acaf5"
+  },
+  {
+   "path": "docs/receipts/h_active_test/A_normal_seed1.json",
+   "blob": "c458a6a85f43c017d3b19b2bc6eddaf9191bbc20",
+   "sealed_in": "87acaf5"
+  },
+  {
+   "path": "docs/receipts/h_active_test/B_stress_x1p5_seed0.json",
+   "blob": "55e722a3c98cfc08fa14dfc1673095dbaa284ec0",
+   "sealed_in": "87acaf5"
+  },
+  {
+   "path": "docs/receipts/h_active_test/B_stress_x1p5_seed1.json",
+   "blob": "ea88053c1743f2b3aa78ff3a0d27e256f205fb65",
+   "sealed_in": "87acaf5"
+  },
+  {
+   "path": "docs/receipts/h_active_test/summary.json",
+   "blob": "e4da0ead8f7441055867c3e493e4b79b93cfbc57",
+   "sealed_in": "87acaf5"
+  },
+  {
+   "path": "docs/receipts/h_balance_mech/A_normal_seed0.json",
+   "blob": "52e528eb238704a537e4a82bbe728cb0a83929e8",
+   "sealed_in": "99da930"
+  },
+  {
+   "path": "docs/receipts/h_balance_mech/A_normal_seed1.json",
+   "blob": "b940326db2982457d6aacf89b7320e47867b2f11",
+   "sealed_in": "99da930"
+  },
+  {
+   "path": "docs/receipts/h_balance_mech/B_stress_x1p5_seed0.json",
+   "blob": "35c122225aa188fbadbceda736c436fc45fafa10",
+   "sealed_in": "99da930"
+  },
+  {
+   "path": "docs/receipts/h_balance_mech/B_stress_x1p5_seed1.json",
+   "blob": "0b43829257ea0ac9d197f0317ed7ddc33a5883eb",
+   "sealed_in": "99da930"
+  },
+  {
+   "path": "docs/receipts/h_balance_mech/summary.json",
+   "blob": "b12fa1252677da78bbfa587833d210a577d8dff4",
+   "sealed_in": "99da930"
+  },
+  {
+   "path": "docs/receipts/h_balance_test/A_normal_seed0.json",
+   "blob": "ca76b74459c5aebb9f196e51a8ce311495371e25",
+   "sealed_in": "a7e3ae8"
+  },
+  {
+   "path": "docs/receipts/h_balance_test/A_normal_seed1.json",
+   "blob": "bea4a6fca259d4962afbf3a20ae7abc1de6b3c43",
+   "sealed_in": "a7e3ae8"
+  },
+  {
+   "path": "docs/receipts/h_balance_test/B_stress_x1p5_seed0.json",
+   "blob": "5d349b9673a2089f0fd75c9245ca4e4a4e3f0a2a",
+   "sealed_in": "a7e3ae8"
+  },
+  {
+   "path": "docs/receipts/h_balance_test/B_stress_x1p5_seed1.json",
+   "blob": "cb8f37f92ace946e72366032fbc97739ed8bdf6a",
+   "sealed_in": "a7e3ae8"
+  },
+  {
+   "path": "docs/receipts/h_balance_test/summary.json",
+   "blob": "6b628ad739fa773f17b8620eeb44a7ec906d5f3b",
+   "sealed_in": "a7e3ae8"
+  },
+  {
+   "path": "docs/receipts/h_sync2_test/selection.json",
+   "blob": "2faa9f7d03029d3c23179e99a7f560467b178a77",
+   "sealed_in": "4df8ac9"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/A_normal_seed0.json",
+   "blob": "51f76bf99e9b36dea00d74319411a0590ffff2a3",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/A_normal_seed1.json",
+   "blob": "551837be047ec04f2c908a02bd41a1f0db919405",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/B_stress_x1p5_seed0.json",
+   "blob": "f42b62fffae88aca94982bfb9c039d73ec2d4ce6",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/B_stress_x1p5_seed1.json",
+   "blob": "6f5d877bc298453b8be5c9000f26aa0a50876f0a",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/exploratory_early.txt",
+   "blob": "e5cf8a512ae60234810a3084e517af5e6bab3afb",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_mech/summary.json",
+   "blob": "b8d5febd58ec79cf3c51e408dc6aa8ce9b604d3b",
+   "sealed_in": "069f21d"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/A_normal_seed0.json",
+   "blob": "86195bd268f89110573699fb472748e7ff89fea8",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/A_normal_seed1.json",
+   "blob": "a8a5b2f2c38617054338717afda007f867832c8b",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/A_normal_seed2.json",
+   "blob": "e041ac7cf98ed77e6a74b01f8c7916481c2b3ad0",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/A_normal_seed3.json",
+   "blob": "167e563aa2fcdc0761437c11cf800966ef0862d3",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/B_stress_x1p5_seed0.json",
+   "blob": "c8a0f88830a21e6b8b1aba328d9016632de000a6",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/B_stress_x1p5_seed1.json",
+   "blob": "269c3456802f0b41b55770ce5467d702517fa0b9",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/B_stress_x1p5_seed2.json",
+   "blob": "d3217bf90a2b9691bdd7a4e76ddcd19db3d9379c",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/B_stress_x1p5_seed3.json",
+   "blob": "aec6ee866f4b1b7e725faf15938f6c9640c38864",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_startup/summary.json",
+   "blob": "8fc5d059ef7734f04c57bc3aded7cf5cdb117ea2",
+   "sealed_in": "7b21e87"
+  },
+  {
+   "path": "docs/receipts/h_sync_test/A_normal_seed0.json",
+   "blob": "ecc5ea12c65261ae00c60b048b2a43aeb8e1187f",
+   "sealed_in": "dc80abe"
+  },
+  {
+   "path": "docs/receipts/h_sync_test/A_normal_seed1.json",
+   "blob": "1da47e3235d05b3041978fba852f4f37abc899ed",
+   "sealed_in": "dc80abe"
+  },
+  {
+   "path": "docs/receipts/h_sync_test/B_stress_x1p5_seed0.json",
+   "blob": "c41407c5b30d206157ed28d1900bf49bb7f98a11",
+   "sealed_in": "dc80abe"
+  },
+  {
+   "path": "docs/receipts/h_sync_test/B_stress_x1p5_seed1.json",
+   "blob": "474a7c86166089e7e46f25cfa318d030b3fa6e68",
+   "sealed_in": "dc80abe"
+  },
+  {
+   "path": "docs/receipts/h_sync_test/summary.json",
+   "blob": "5115f43908de0ca94b94f216d4f60c0af8290145",
+   "sealed_in": "dc80abe"
   }
  ]
 }

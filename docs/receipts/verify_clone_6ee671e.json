@@ -1,0 +1,11 @@
+{
+ "kind": "verify_clone_receipt",
+ "sha": "6ee671ec0cf3fdc6e7137c8b243afec9c3213700",
+ "import_inside_clone": true,
+ "tier0_summary": "261 passed, 5 warnings in 25.99s",
+ "tier0_returncode": 0,
+ "tests_run": 33,
+ "offline": false,
+ "provisioning": "pip install -e <clone>[dev]: declared runtime and dev dependencies from PyPI into the venv",
+ "verdict": "VERIFY_CLONE_PASS"
+}

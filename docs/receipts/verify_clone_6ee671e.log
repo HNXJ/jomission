@@ -1,0 +1,27 @@
+clone /mnt/d/jomission @ 6ee671e -> /mnt/d/jomission/_temp_vc_clone
+$ /usr/bin/python3 -m venv --system-site-packages /mnt/d/jomission/_temp_vc_venv
+$ /mnt/d/jomission/_temp_vc_venv/bin/python -m pip install -e /mnt/d/jomission/_temp_vc_clone/repo[dev]
+    Created wheel for jomission: filename=jomission-0.1.0-py3-none-any.whl size=4073 sha256=1d6774990abbca7770d95dbfb405d280dedf00863389b93c67c3950ebcb03b35
+    Stored in directory: /tmp/pip-ephem-wheel-cache-ynup1brx/wheels/01/da/1b/19cbba0cd85f593002115f163ee948d64a71e049953934a347
+  Successfully built jomission
+  Installing collected packages: tzdata, ruff, pluggy, opt_einsum, numpy, narwhals, kiwisolver, iniconfig, fonttools, cycler, coverage, scipy, python-dateutil, pytest, plotly, ml_dtypes, contourpy, pytest-cov, matplotlib, jaxlib, jax, jaxfne, jomission
+  
+  Successfully installed contourpy-1.4.0 coverage-7.17.5 cycler-0.12.1 fonttools-4.68.0 iniconfig-2.3.1 jax-0.10.2 jaxfne-0.5.8 jaxlib-0.10.2 jomission-0.1.0 kiwisolver-1.5.1 matplotlib-3.11.2 ml_dtypes-0.7.0 narwhals-2.29.0 numpy-2.5.5 opt_einsum-3.4.0 plotly-7.2.0 pluggy-1.7.0 pytest-9.2.0 pytest-cov-7.1.0 python-dateutil-4.0.0 ruff-0.16.2 scipy-1.18.1 tzdata-2026.6
+$ /mnt/d/jomission/_temp_vc_venv/bin/python -c from pathlib import Path; import jomission; p = Path(jomission.__file__).resolve(); c = Path('/mnt/d/jomission/_temp_vc_clone/repo').resolve(); print('RESOLVED', p); print('INSIDE_CLONE', p.is_relative_to(c))
+  RESOLVED /mnt/d/jomission/_temp_vc_clone/repo/jomission/__init__.py
+  INSIDE_CLONE True
+$ /mnt/d/jomission/_temp_vc_venv/bin/python -m pytest -q -p no:cacheprovider tests/test_agents_policy.py tests/test_deviation_estimator.py tests/test_dropin_packets.py tests/test_environment_provenance.py tests/test_gates_single_source.py tests/test_harness_guards.py tests/test_harness_state.py tests/test_isolated_spec.py tests/test_jaxfne_vis.py tests/test_o_authority.py tests/test_oscillation.py tests/test_oscillator_spec.py tests/test_pages_build.py tests/test_series_dashboard.py tests/test_e0_verdict.py tests/test_lansa_density.py tests/test_project_memory.py tests/test_propagation_causal.py tests/test_seal_write_guard.py tests/test_tfne_v2_spec.py tests/test_v21_background_design.py tests/test_v21_background_design_r2.py tests/test_v21_pv_microstate.py tests/test_v21_pv_state_predecessor.py tests/test_v2_operation_prospective.py tests/test_visualization_contract.py tests/test_whole_system_diagnostic.py tests/test_whole_system_ei_native_state.py tests/test_whole_system_realization.py tests/test_observation_check_finite.py tests/test_b10_audit_word_boundary.py tests/test_dashboard_build.py tests/test_e1_verdict.py
+  tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+    /mnt/d/jomission/_temp_vc_clone/repo/jomission/tfne/o_authority.py:147: RuntimeWarning: invalid value encountered in divide
+      "max_rel_error": float((err / g).max()),
+  
+  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+  261 passed, 5 warnings in 25.99s
+
+--- receipt ---
+clone HEAD          : 6ee671e
+import inside clone : True
+tier 0              : 261 passed, 5 warnings in 25.99s
+receipt: docs/receipts/verify_clone_6ee671e.json
+VERIFY_CLONE_PASS
+rc=0

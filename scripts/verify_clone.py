@@ -97,10 +97,15 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     py = a.venv / "bin" / "python"
 
-    # v3: --offline skips build isolation so nothing is fetched from PyPI
-    inst_cmd = [str(py), "-m", "pip", "install", "--no-deps", "-e", str(repo)]
+    # Dependencies are provisioned explicitly from the clone's own declared set (pyproject: runtime + [dev]), not
+    # inherited from the base interpreter or from PYTHONPATH. v3: --offline skips build isolation and assumes the
+    # declared dependencies are already importable from the base interpreter (no network).
     if a.offline:
-        inst_cmd.insert(5, "--no-build-isolation")
+        inst_cmd = [str(py), "-m", "pip", "install", "--no-deps", "--no-build-isolation", "-e", str(repo)]
+        provisioning = "offline: declared dependencies taken from the base interpreter (--system-site-packages)"
+    else:
+        inst_cmd = [str(py), "-m", "pip", "install", "-e", f"{repo}[dev]"]
+        provisioning = "pip install -e <clone>[dev]: declared runtime and dev dependencies from PyPI into the venv"
     inst = run(inst_cmd)
     if inst.returncode != 0:
         print("FAIL: pip install -e clone" + (" (offline)" if a.offline else ""))
@@ -128,17 +133,20 @@ def main(argv: list[str] | None = None) -> int:
     # v4: write a tracked receipt under docs/receipts/, so the result does not live only in a commit message or a
     # chat log. Not under results/: every tracked results/*.json must be a registered scientific result
     # (tests/test_harness_guards.py::test_results_coverage_registered), and this is a harness receipt.
-    receipt = ROOT / "docs" / "receipts" / "verify_clone.json"
+    # One file per verified SHA: a run never overwrites an earlier receipt, so a FAIL cannot replace a PASS.
+    full_sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                              capture_output=True, text=True, check=True).stdout.strip()
+    receipt = ROOT / "docs" / "receipts" / f"verify_clone_{full_sha[:7]}.json"
     receipt.parent.mkdir(parents=True, exist_ok=True)
     receipt.write_text(json.dumps({
         "kind": "verify_clone_receipt",
-        "sha": subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
-                              capture_output=True, text=True, check=True).stdout.strip(),
+        "sha": full_sha,
         "import_inside_clone": True,
         "tier0_summary": summary[-1] if summary else None,
         "tier0_returncode": t0.returncode,
         "tests_run": len(tests),
         "offline": bool(a.offline),
+        "provisioning": provisioning,
         "verdict": "VERIFY_CLONE_PASS" if ok else "VERIFY_CLONE_FAIL",
     }, indent=1) + "\n", encoding="utf-8")
     print(f"receipt: {receipt.relative_to(ROOT)}")

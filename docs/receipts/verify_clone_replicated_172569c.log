@@ -1,0 +1,19 @@
+........................................................................ [ 27%]
+........................................................................ [ 55%]
+........................................................................ [ 82%]
+.............................................                            [100%]
+=============================== warnings summary ===============================
+tests/test_whole_system_ei_native_state.py::test_representative_cell_identities_and_indices
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+    return lax_numpy.astype(self, dtype, copy=copy, device=device)
+
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /mnt/d/jomission/_temp_vc_clone/repo/jomission/tfne/o_authority.py:147: RuntimeWarning: invalid value encountered in divide
+    "max_rel_error": float((err / g).max()),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+261 passed, 5 warnings in 25.86s
+rc=0

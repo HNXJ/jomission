@@ -1,0 +1,40 @@
+{
+ "kind": "verify_clone_replicated_receipt",
+ "label": "REPLICATED_PASS",
+ "note": "Manual replication of scripts/verify_clone.py steps. NOT produced by that script. The script failed on this host at this SHA (see verify_clone_failed below); this receipt does not claim the scripted gate passed.",
+ "sha": "172569c5295b9fefcaf2494706a45648bbd6a783",
+ "import_inside_clone": true,
+ "probe_output": ["RESOLVED /mnt/d/jomission/_temp_vc_clone/repo/jomission/__init__.py", "INSIDE_CLONE True"],
+ "tier0_files": 33,
+ "tier0_summary": "261 passed, 5 warnings in 25.86s",
+ "tier0_returncode": 0,
+ "log": "docs/receipts/verify_clone_replicated_172569c.log",
+ "environment": {
+  "host": "WSL2 Linux, project folder on NTFS mount /mnt/d",
+  "base_python": "/usr/bin/python3 (3.14.4)",
+  "clone_venv": "python3 -m venv --without-pip <clone venv>; pip bootstrapped with get-pip.py",
+  "dependency_bridge": "a .pth file in the clone venv site-packages lists /mnt/d/jomission/.venv/lib/python3.14/site-packages, supplying jax 0.10.2, jaxlib 0.10.2, jaxfne 0.5.8, numpy, scipy and pytest; the bridge is a path entry, not PYTHONPATH",
+  "clone_install": "pip install -q --no-deps -e <clone>/repo (jomission 0.1.0 editable into the clone venv only)",
+  "bridge_caveat": "the bridged site-packages directory also holds the project checkout's own editable install entry; that .pth is not processed when the directory is added as a path, so import jomission was verified to resolve inside the clone by the probe"
+ },
+ "commands": [
+  "git clone -q --shared /mnt/d/jomission _temp_vc_clone/repo && git -C _temp_vc_clone/repo checkout -q 172569c",
+  "python3 -m venv --without-pip _temp_vc_venv; write bridge .pth; get-pip.py",
+  "_temp_vc_venv/bin/python3 -m pip install -q --no-deps -e _temp_vc_clone/repo",
+  "_temp_vc_venv/bin/python3 probe.py (run from the clone)",
+  "python3 ~/.claude/bin/suite_lock.py --label jomission -- _temp_vc_venv/bin/python3 -m pytest -q -p no:cacheprovider <33 tier-0 files from manifests/test_tiers.json>"
+ ],
+ "verify_clone_failed": {
+  "sha": "172569c5295b9fefcaf2494706a45648bbd6a783",
+  "attempt_1": "--offline: pip install -e failed, BackendUnavailable: Cannot import 'hatchling.build' (no build backend in the venv)",
+  "attempt_2": "not offline, PYTHONPATH bridge to project site-packages: tier 0 1 failed, 260 passed; the failing test test_jomission_import_resolves_to_this_checkout strips PYTHONPATH from the child env, so the bridge was removed for that subprocess and jax was missing",
+  "receipt_overwritten_then_restored": "docs/receipts/verify_clone.json was overwritten with VERIFY_CLONE_FAIL by attempt 2 and restored from git (committed 6d6e052 PASS record unchanged)"
+ },
+ "limitations": [
+  "Not the scripted gate. scripts/verify_clone.py is still failing on this host until its provisioning is fixed and rerun.",
+  "Clone and venv were deleted after the run; the log is the only retained output.",
+  "Tier-0 file list is the manifests/test_tiers.json tier 0 list at 172569c (33 files).",
+  "Tolerance in tests/test_fi_engine_equivalence.py is unchanged by this receipt; its float tolerance is 1e-9 with exact counts."
+ ],
+ "historical_receipt": "docs/receipts/verify_clone.json (6d6e052, VERIFY_CLONE_PASS, 258 passed) is kept as written; this receipt does not replace it"
+}

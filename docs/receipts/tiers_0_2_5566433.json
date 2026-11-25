@@ -1,0 +1,15 @@
+{
+ "kind": "tiers_0_2_receipt",
+ "sha": "5566433addf691346d5db40880128699daee6b7e",
+ "where": "main checkout /mnt/d/jomission (not a clone), so the import-resolves-to-this-checkout test runs as designed",
+ "command": "python3 ~/.claude/bin/suite_lock.py --label jomission -- .venv/bin/python3 -m pytest tests -p no:cacheprovider --continue-on-collection-errors -q with the --ignore list from manifests/test_tiers.json tier 2",
+ "summary": "770 passed, 3 skipped, 144 warnings in 349.35s",
+ "failed": 0,
+ "returncode": 0,
+ "environment": "jaxfne 0.5.8, jax 0.10.2, jaxlib 0.10.2 in the project .venv (base /usr/bin/python3 3.14.4)",
+ "log": "docs/receipts/tiers_0_2_5566433.log",
+ "limits": [
+  "Tier 3 excluded by definition (manifests/test_tiers.json; owner declined, OPEN-01).",
+  "Clone-local runs of the same SHA are not this receipt."
+ ]
+}

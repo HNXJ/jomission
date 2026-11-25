@@ -1,0 +1,177 @@
+........................................................................ [  9%]
+........................................................................ [ 18%]
+........................................................................ [ 27%]
+........................................................................ [ 37%]
+........................................................................ [ 46%]
+........................................................................ [ 55%]
+........................................................................ [ 65%]
+........................................................................ [ 74%]
+..........................s.....s....................................... [ 83%]
+................s....................................................... [ 93%]
+.....................................................                    [100%]
+=============================== warnings summary ===============================
+tests/test_allen_v1_silence.py::test_silencing_pv_l5_l6_changes_only_their_thresholds_and_keeps_edges_and_drive
+tests/test_allen_v1_silence.py::test_silenced_pv_l5_l6_spike_zero_and_other_populations_still_spike
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/_construct_adex.py:460: UserWarning: Explicitly requested dtype float64 requested in asarray is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+    **{field: jnp.asarray(column, dtype=jnp.float64) for field, column in columns.items()}
+
+tests/test_area_local_field.py: 10 warnings
+tests/test_atlas_suite.py: 1 warning
+tests/test_checkpoint_restart.py: 3 warnings
+tests/test_cmin_single_cortex.py: 5 warnings
+tests/test_exposure_continuation.py: 4 warnings
+tests/test_hdp_attractor.py: 24 warnings
+tests/test_hdp_integration.py: 2 warnings
+tests/test_hdp_vectorization.py: 1 warning
+tests/test_heartbeat.py: 3 warnings
+tests/test_l1_audit.py: 1 warning
+tests/test_lite_model.py: 1 warning
+tests/test_network.py: 1 warning
+tests/test_plasticity_trajectory.py: 4 warnings
+tests/test_propagation.py: 1 warning
+tests/test_q8_phenotype.py: 1 warning
+tests/test_rf.py: 9 warnings
+tests/test_runtime_regression.py: 4 warnings
+tests/test_t2_readiness.py: 1 warning
+tests/test_t4_t5_analysis.py: 4 warnings
+tests/test_t7_lag.py: 5 warnings
+tests/test_trajectory_and_recording.py: 5 warnings
+tests/test_v21_provenance.py: 1 warning
+tests/test_whole_system_ei_native_state.py: 3 warnings
+tests/test_within_area_sparse_coverage.py: 1 warning
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+    return lax_numpy.astype(self, dtype, copy=copy, device=device)
+
+tests/test_area_local_field.py::test_field_by_area_shape_and_provenance
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 500) (B, Z, C, T) compiled 2 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_field_by_area_reconstruction
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 500) (B, Z, C, T) compiled 3 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_field_by_area_time_major_layout
+tests/test_area_local_field.py::test_field_by_area_provenance_via_metadata_only
+tests/test_area_local_field.py::test_field_by_area_4d_multi_trial
+tests/test_area_local_field.py::test_csd_by_area_and_claims
+tests/test_area_local_field.py::test_verify_reconstruction_helper
+tests/test_rf.py::test_rf_operator_simulation_smoke
+tests/test_runtime_regression.py::test_simulation_for_model_supplies_edge_list
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 400, 200) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_field_by_area_provenance_via_metadata_only
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 2 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_field_by_area_4d_multi_trial
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 3 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_field_by_area_not_contact_averaged
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 500) (B, Z, C, T) compiled 4 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_csd_by_area_and_claims
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 4 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_area_local_field.py::test_verify_reconstruction_helper
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 5 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_checkpoint_restart.py::test_event_cursor_preserved_across_checkpoint
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 400, 92480) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_cmin_single_cortex.py::test_cmin_zero_drive_baseline_finite_and_measured
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 160, 1000) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_cmin_single_cortex.py::test_repair_operating_point_acceptance
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 160, 10000) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_lite_model.py::test_lite_model_builds_with_200_neurons_and_simulates_finitely
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 200, 500) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_network.py::test_model_construct_and_simulate
+tests/test_trajectory_and_recording.py::test_source_readout_proxy
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 400, 2000) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_q8_phenotype.py::test_rate_phenotype_dimensions
+tests/test_q8_phenotype.py::test_field_phenotype_proxy_and_polarity
+tests/test_q8_phenotype.py::test_recovery_trajectory_dimensions
+tests/test_q8_phenotype.py::test_t1t7_relevant_dimensions
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/scipy/stats/_axis_nan_policy.py:431: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+    return hypotest_fun_in(*args, **kwds)
+
+tests/test_rf.py::test_rf_operator_simulation_smoke
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 6 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_runtime_regression.py::test_simulation_for_model_supplies_edge_list
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 200) (B, Z, C, T) compiled 7 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t4_t5_analysis.py::test_t4_five_band_four_area_three_position_structure
+tests/test_t4_t5_analysis.py::test_t5_band_resolved_gamma_vs_low
+tests/test_t4_t5_analysis.py::test_field_rate_via_area_local_not_fabricated
+tests/test_t4_t5_analysis.py::test_t4_t5_run_generates_artifact_arrays
+tests/test_t7_lag.py::test_t7_must_not_infer_from_anatomical_delays
+tests/test_t7_lag.py::test_t7_applied_to_model_rates_ms_resolution
+tests/test_t7_lag.py::test_t7_generated_arrays_artifact_backed
+tests/test_t7_lag.py::test_t7_frozen_estimand_not_altered
+tests/test_t7_lag.py::test_t7_windows_and_pools
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 400, 4624) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_t4_t5_analysis.py::test_t5_band_resolved_gamma_vs_low
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 2 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t4_t5_analysis.py::test_field_rate_via_area_local_not_fabricated
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 3 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t4_t5_analysis.py::test_t4_t5_run_generates_artifact_arrays
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 4 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t7_lag.py::test_t7_must_not_infer_from_anatomical_delays
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 5 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t7_lag.py::test_t7_applied_to_model_rates_ms_resolution
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 6 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t7_lag.py::test_t7_generated_arrays_artifact_backed
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 7 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t7_lag.py::test_t7_frozen_estimand_not_altered
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 8 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_t7_lag.py::test_t7_windows_and_pools
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 4624) (B, Z, C, T) compiled 9 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_trajectory_and_recording.py::test_source_readout_proxy
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1330: UserWarning: Re-compilation guard alert: Function 'simulate' with signature (1, 16, 400, 2000) (B, Z, C, T) compiled 2 times! Invariant N_compile <= 1 violated.
+    warnings.warn(msg, UserWarning)
+
+tests/test_trajectory_and_recording.py::test_short_trajectory_milestone
+  /mnt/d/jomission/.venv/lib/python3.14/site-packages/jaxfne/validation.py:1318: UserWarning: Re-compilation guard alert: Function 'simulate' underwent shape mutation compile loop! Baseline signature: (1, 16, 400, 500) (B, Z, C, T), New signature: (1, 16, 400, 9248) (B, Z, C, T).
+    warnings.warn(msg, UserWarning)
+
+tests/test_whole_system_ei_native_state.py::test_driver_execution_pipeline_with_mock_continuation
+tests/test_whole_system_ei_native_state.py::test_missing_observable_fails_closed
+  /mnt/d/jomission/jomission/tfne/o_authority.py:147: RuntimeWarning: invalid value encountered in divide
+    "max_rel_error": float((err / g).max()),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+770 passed, 3 skipped, 144 warnings in 349.35s (0:05:49)

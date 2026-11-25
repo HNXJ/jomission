@@ -39,7 +39,11 @@ B01 investigates competition between plasticity strategies (the eight-strategy c
 
 Owner chose "contrast vs S1" (§2). Checked against protocol §5 (paired contrasts vs S1, no selection rule) and line 4 (competition term). The proposed "best supports" was not adopted because it implies a selection rule the protocol does not define. Its wording, which is a proposal and not a verified quotation, is kept in git history.
 
-### 4.2 Falsifier. OPEN: one owner decision
+### 4.2 Falsifier. CLOSED 2026-11-25 (owner chose the CI rule)
+
+Operational rule, owner-approved: a candidate strategy S2–S8 changes fixation occupancy relative to S1 on held-out starts (seed 2026) only if its paired 95% percentile CI excludes 0, with the protocol's effective-variation gate passed. If no strategy's CI excludes 0, B01's falsifier holds: no strategy shows a distinctive change. No threshold is added. This is the only new rejection rule; it is an owner decision and it is not in the protocol text. The protocol gap to close before the run is that the rule must be written into the frozen §5 with O-6.
+
+Earlier text kept for the record:
 
 Owner falsifier (proposal, not a verified quotation): "competitive plasticity fails to improve held-out predictions or produces no distinctive experimental signature."
 
@@ -82,9 +86,9 @@ Open: the owner's requirement "matched noncompetitive plasticity" has no protoco
 
 ## 5. O-6 (strategy list and primary metric). OPEN, narrowed
 
-Remaining before freeze:
-1. Owner freeze of protocol §3–§5 (protocol §6: locked on owner freeze).
-2. The §4.2 falsifier decision.
+Reassessed after the three reconciliations (§4.2 closed, §4.3 reconciled, §4.4 closed). Remaining before freeze:
+1. Owner decision on the noncompetitive control named in §4.3 (the owner's original "matched noncompetitive plasticity" has no protocol strategy).
+2. Owner freeze of protocol §3–§5 (protocol §6: locked on owner freeze), including the §4.2 CI rule written into §5.
 3. S4 and S8 built and passing §2 controls before use (protocol §3, line 37).
 
 Already in place: the strategy list (§3, marked proposed) and the metric (fixation occupancy, threshold 1.0, proposed, EX-20).

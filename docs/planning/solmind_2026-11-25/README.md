@@ -2,7 +2,7 @@
 
 Status: PROPOSALS and review evidence. Not canonical. Nothing here changes `manifests/`, sealed artifacts, the LANSA rubric, protocols or verdicts.
 
-Archived from `_temp_solmind` at commit `0f5e0f8` (copied byte-for-byte with `git show`). The branch is retained until the owner decides on its removal.
+Archived from `_temp_solmind` at commit `0f5e0f8` (copied byte-for-byte with `git show`). The remote branch `_temp_solmind` was deleted on 2026-11-25 with owner approval, after each archived file was checked to match its blob on that branch. The archive here is the record.
 
 | File | What it is | Status |
 |---|---|---|

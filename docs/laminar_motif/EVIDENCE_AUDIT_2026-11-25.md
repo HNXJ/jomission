@@ -9,9 +9,10 @@ Labels: OBSERVED (read from a file), DERIVED (computed here from a file), INFERR
 
 - §3 overstated the gamma-only failure. Corrected in place below.
 - The qualitative count of 21 runs (peak gamma superficial, peak alpha-beta deep, endpoint crossing) used peak > 0 as
-  "deep". Under the frozen anatomical rule (L4 lower boundary, z > +0.095) the count is 15, and 9 also pass
+  "deep". Under the provisional anatomical rule (L4 lower boundary, z > +0.095; a threshold check on mouse-model depths, see DECISIONS section 2) the count is 15, and 9 also pass
   crossing_2se. These are not 21 replications. Recount: `docs/laminar_motif/DECISIONS_2026-11-25.md` section 3.
-- Depth convention verified: `DECISIONS_2026-11-25.md` section 2.
+- Depth convention: the LANSA coordinate is verified; the layer depths come from a mouse V1 model's retired spec, not
+  macaque (`DECISIONS_2026-11-25.md` section 2).
 - The geometry paragraph in `paper/jomission_lansa/sections/results.tex` (lines 481-488) selects depths on the observed
   prototype. It is not held-out evidence: `DECISIONS_2026-11-25.md` section 4.
 

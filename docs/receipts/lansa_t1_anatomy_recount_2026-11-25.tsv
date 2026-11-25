@@ -1,4 +1,4 @@
-run	peak_gm_z	peak_ab_z	crossing_2se	A_qg	A_qa	A_qx_all3	B_qg	B_qa	B_qx_all3	C_qg	C_qa	C_qx_all3	O_qg	O_qa	O_qx_all3
+run	peak_gm_z	peak_ab_z	crossing_2se	A_qg	A_qa	A_all3	B_qg	B_qa	B_all3	C_qg	C_qa	C_all3	O_qg	O_qa	O_all3
 t1_confirm_kd1p41_sst15_sstd21_n4000_s4_T12	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
 t1_confirm_kd1p41_sst15_sstd21_n4000_s5_T12	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
 t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false

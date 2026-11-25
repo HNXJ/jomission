@@ -4,13 +4,17 @@ Usage: python scripts/lansa_t1_anatomy_recount.py [--dir DIR] [--y LANSA_Y_JSON]
 DIR defaults to the cowork laminar_e2 results, where the T1 motif receipts live (not in this repo).
 Writes a TSV to stdout and a summary after '#'. Reads only: no simulation, no verdict, no criterion.
 
-Depth convention (verified 2026-11-25): LANSA bins are cortical-depth fractions about mid-L4, negative superficial
-(docs/laminar_motif/data/lansa_density_X.json, units). Layer depths are the Allen replica layer table
-(docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md section 1, um): L4 357-505, mid-L4 431, L2/3 mid 263, L5 mid 585,
-L6 mid 747; thickness unit 779 um (scripts/allen_v1_figure.py THICK_UM). One source (V1, A-sheet): its transfer
-to the LANSA areas is unverified.
+Depth convention: LANSA bins are cortical-depth fractions about mid-L4, negative superficial
+(docs/laminar_motif/data/lansa_density_X.json, units).
+Layer depths (um): L4 357-505, mid-L4 431, L2/3 mid 263, L5 mid 585, L6 mid 747; thickness 779 um
+(scripts/allen_v1_figure.py THICK_UM). Source: the layer table of docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md
+section 1. That spec is RETIRED (owner, 2026-11-17), and its source is a mouse V1 model (AllenInstitute
+oscillations-biorealistic-mouse-v1-model, per docs/laminar_motif/OPEN38_ALT_ALLEN_INVENTORY.md). The depths are
+not re-verified against that source in this repo, and their validity for the macaque LANSA areas is UNKNOWN.
 
-Rules, frozen before this run. Gamma superficial: peak z < sup. Alpha-beta deep: peak z > deep.
+Rules were written on 2026-11-25 and not committed before the run. Gamma superficial: peak z < sup. Alpha-beta
+deep: peak z > deep. Rules A, B and C give identical counts on this data: no alpha-beta peak bin lies between
++0.095 and +0.25, and the peak bins lie on a 0.05 grid. They are threshold checks, not a sensitivity analysis.
   A  primary, anatomical: sup = z(L4 top), deep = z(L4 bottom).
   B  sensitivity: the LANSA module boundary, sup = -0.175, deep = +0.175
      (docs/laminar_motif/SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md, Laminar modules row).
@@ -46,6 +50,7 @@ RULES = {
 
 
 def peak_index(xs):
+    """First maximum: a tie goes to the more superficial bin."""
     best = 0
     for i, x in enumerate(xs):
         if x > xs[best]:
@@ -104,7 +109,7 @@ def main(argv):
     if not all(obs["A"][2:4]):
         raise SystemExit("known-positive check failed: the observed map does not satisfy rule A")
 
-    header = ["run", "peak_gm_z", "peak_ab_z", "crossing_2se"] + [f"{r}_{k}" for r in RULES for k in ("qg", "qa", "qx_all3")]
+    header = ["run", "peak_gm_z", "peak_ab_z", "crossing_2se"] + [f"{r}_{k}" for r in RULES for k in ("qg", "qa", "all3")]
     print("\t".join(header))
     counts = {r: {"qg": 0, "qa": 0, "all3": 0, "all3_cross": 0} for r in RULES}
     ab_peaks = {}

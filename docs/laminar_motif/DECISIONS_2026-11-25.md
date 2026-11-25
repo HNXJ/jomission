@@ -1,59 +1,93 @@
-# LANSA decisions, 2026-11-25: record
+# LANSA decisions, 2026-11-25: record (revision 2)
 
-Status: owner decisions recorded 2026-11-25. Done here: the depth convention verified, the T1 audit corrected, a
-recount receipt made, the geometry lineage drafted. No experiment run. No sealed spec or verdict changed. D1
-(abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
+Status: owner decisions of 2026-11-25 and the geometry checkpoint ruling. Done: depth convention checked; recount receipt
+regenerated; independent review (REVISE, addressed in this revision); Phase 1 protocol text frozen for review.
+Not done and not authorised: merge into dev, any scientific run, any change to T1 criteria, verdicts or receipts.
+D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 
-## 1. Geometry lineage: approved conditionally
+## 1. Ruling applied
 
-Draft: `docs/laminar_motif/GEOMETRY_LINEAGE_DRAFT_2026-11-25.md` (unsealed). The owner's conditions are written into it:
-T1 FAIL preserved; held-out by area (leave-one-area-out); geometry-only (Phase 1) separated from dynamics (Phase 2);
-flat-spectrum and shuffled controls. Open: the OWNER items in the draft, before any seal.
+| Item | Ruling | Applied here |
+|---|---|---|
+| Deep threshold | Anatomical L4 lower boundary, for the new anatomical recount; original T1 classification unchanged | z > +0.095. The transmitted ruling has blank values; +0.095 is the value in section 2. OWNER to confirm. |
+| D target | L5 mid primary; L6 sensitivity | L5 mid +0.198 primary; L6 mid +0.406 sensitivity |
+| Gamma criterion | Keep the existing shape criterion; do not replace it with the qualitative test | r_gm >= 0.6, unchanged |
+| Geometry grid | Smallest grid that separates placement, width and interaction | 2 x 2 plus interaction (protocol, section 5) |
+| Phase 2 | Not authorised; complete readout-only Phase 1 first | Not authorised |
+| T2-T4 reference | Keep the sealed T1 reference for comparability | Kept |
+| Checkpoint 53a3e45 | Retain as an unaccepted review checkpoint; no merge | Retained; this revision is a new commit on a new branch |
 
-## 2. Depth convention: verified; deep threshold open
+## 2. Depth convention: coordinate verified; layer source is a mouse model
 
-- Verified (observed in the repo): LANSA bins are cortical-depth fractions about mid-L4, negative superficial
-  (`docs/laminar_motif/data/lansa_density_X.json`, `units`; `docs/laminar_motif/PLAN_PAPER_JOMISSION_LANSA.md` line 29).
-- Verified: the Allen replica layer table (`docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md` section 1, um): L4 357-505,
-  mid-L4 431, mid-depths L2/3 263, L5 585, L6 747; thickness 779 um (`scripts/allen_v1_figure.py` THICK_UM). On the
-  LANSA scale: L4 spans -0.095 to +0.095; L2/3 mid -0.216; L5 mid +0.198; L6 mid +0.406.
-- Verified: the 3-unit model depths S -0.40, M 0.00, D +0.30 are hard-coded (`jomission/laminar/caminos_stack.py`
-  line 246), listed as "agent choices" (`PLAN_PAPER_JOMISSION_LANSA.md` line 135). Nothing in the repo derives them from
-  anatomy. On the Allen scale S -0.40 is at 119 um, inside L1 (50-169 um).
-- Conflict: the LANSA module rule (|z| <= 0.175; `SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md`, Laminar modules row)
-  does not match the Allen L4 bounds (+/-0.095). That row also says the boundaries are "not the same" and the V1 L4
-  convention is UNKNOWN.
-- Unknown: whether the V1 Allen boundaries transfer to the 11 LANSA areas.
-- The decision text as received has no numeric deep threshold ("A peak at does not establish deep-layer dominance").
-  Provisional candidate used here: alpha-beta deep if its peak z > +0.095 (the L4 lower boundary). OWNER to confirm.
+- Verified: LANSA bins are cortical-depth fractions about mid-L4, negative superficial (`docs/laminar_motif/data/lansa_density_X.json`,
+  `units`; `docs/laminar_motif/PLAN_PAPER_JOMISSION_LANSA.md` line 29).
+- Verified by recomputation: z = (um - 431) / 779 gives L4 -0.095 to +0.095; L2/3 mid -0.216; L5 mid +0.198; L6 mid +0.406.
+  `scripts/allen_v1_figure.py` line 35 (THICK_UM = 779) agrees.
+- Verified: the layer table is in `docs/laminar_motif/ALLEN_V1_REPLICA_SPEC.md` section 1. That spec is RETIRED (owner,
+  2026-11-17; banner, lines 3-7). Its source is a mouse V1 model: `AllenInstitute/oscillations-biorealistic-mouse-v1-model`
+  (source tag A, spec line 22; `docs/laminar_motif/OPEN38_ALT_ALLEN_INVENTORY.md`, title "mouse V1 model"). The spec prose
+  never says "mouse"; the species is taken from the repo name and the inventory title.
+- Not verified: the P2 inventory is said to re-verify the source table, but it does not repeat the layer depths (no match
+  for 169, 357, 505 or 779). The depths were not re-checked against the model's files.
+- UNKNOWN: whether any mouse-model depth applies to the macaque LANSA areas. The repo holds no macaque L4 boundary; the
+  import scripts carry bin centres only.
+- Observed: the 3-unit depths S -0.40, M 0.00, D +0.30 are hard-coded (`jomission/laminar/caminos_stack.py` line 246) and
+  listed as "agent choices" (`PLAN_PAPER_JOMISSION_LANSA.md` lines 134-135). On the mouse-model scale S -0.40 is 119 um,
+  inside L1 (50-169 um).
+- Conflict: the LANSA module rule (|z| <= 0.175; `SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md` line 164) does not match
+  the +/-0.095 L4 bounds. That row says the boundaries are "not the same" and the L4 convention is UNKNOWN.
 
-## 3. Qualitative recount under the frozen anatomical rule
-
-The 21 of 57 is not 21 replications. Rules were frozen before the run:
+## 3. Recount under the anatomical rule (receipt `docs/receipts/lansa_t1_anatomy_recount_2026-11-25.tsv`)
 
 | Rule | Gamma superficial | Alpha-beta deep | All three | All three and crossing_2se |
 |---|---|---|---|---|
-| O: 2026-11-25 count (peak < 0, peak > 0) | 55 | 25 | 21 | 15 |
-| A: anatomical, L4 boundaries (primary, provisional) | 55 | 18 | 15 | 9 |
-| B: module boundary +/-0.175 (sensitivity) | 55 | 18 | 15 | 9 |
-| C: deep at or beyond L5 mid (sensitivity) | 55 | 18 | 15 | 9 |
+| O: 2026-11-25 chat count (peak < 0, peak > 0) | 55 | 25 | 21 | 15 |
+| A: L4 boundaries (applied threshold, provisional) | 55 | 18 | 15 | 9 |
+| B: module boundary +/-0.175 | 55 | 18 | 15 | 9 |
+| C: deep at or beyond L5 mid | 55 | 18 | 15 | 9 |
 
-- Rules A, B and C coincide because no peak bin lies between +/-0.095 and +/-0.175. The alpha-beta peak bins are
-  -0.40 (15 runs), 0.00 (17), +0.05 (7), +0.25 (4), +0.30 (14). Under A, the +0.05 and 0.00 peaks are inside L4, not deep.
-- The endpoint-sign test (ab - gm < 0 at the first bin, > 0 at the last) is weak and is kept as the old rule had it.
-- Receipt: `docs/receipts/lansa_t1_anatomy_recount_2026-11-25.tsv`; script `scripts/lansa_t1_anatomy_recount.py`.
-  The script stops unless rule O gives 21 (reproduction) and the observed map passes rule A (known positive).
+- A, B and C give identical counts. No alpha-beta peak bin lies between +0.095 and +0.25, and peaks sit on a 0.05 grid.
+  They are threshold checks, not a sensitivity analysis. The earlier word "sensitivity" is withdrawn.
+- The rules were written on 2026-11-25 and not committed before the run. The earlier phrase "frozen before the run" is
+  withdrawn.
+- Reviewer check: the script output from the checkpoint is identical to the receipt except the header, which read
+  `*_qx_all3` but held the all-three flag. The header now reads `*_all3`. Rule O reproduces 21; the observed map passes rule A.
+- Result: 15 of 57 runs meet the anatomical qualitative pattern; 9 also pass crossing_2se. These are descriptive counts,
+  not confirmations of the empirical motif.
+- Alpha-beta peak bins: -0.40 (15 runs), 0.00 (17), +0.05 (7), +0.25 (4), +0.30 (14).
 
-## 4. The geometry result already in the manuscript draft
+## 4. Independence and leakage
 
-- `paper/jomission_lansa/sections/results.tex` (HEAD, lines 481-488): the depth placement was selected on the 11-area
-  mean prototype. The "held-out" runs are other model runs scored against that same prototype. Nothing is held out by
-  area. The paper marks it UNRESOLVED. Required before any geometry claim: a leave-one-area-out redo (G3 in the draft),
-  or the paragraph reworded as exploratory with the selection stated.
-- Observation only: the selected depths (-0.25, -0.05, +0.20) lie within 0.05 of the Allen mid-depths (-0.216, 0.000,
-  +0.198). The selection was on the prototype, so this is not evidence for anatomy.
+- The existing spectra are not independent of the observed prototype Y.
+  - sst 15 ms is the T1 axis-2 winner by seed-mean r_proto against the 11-area mean prototype
+    (`docs/laminar_motif/FINDINGS_2026-11-10.md` line 105). The frozen values kd 1.41, sst 15, sstd 21 are at line 137.
+    `SEAL_T1.md` itself gives the grid and the selection rule, not the values.
+  - The reference configuration `sw_n4000_dens_k1_kd1_sst15` and the finite-size receipts use sst 15. Whether sst 15 had a
+    pre-Y origin (the E1 ruling) is not verified here.
+- Depth placement (`paper/jomission_lansa/sections/results.tex` lines 481-488; `scripts/e2_depth_placement.py`):
+  `select_on` = `sw_n4000_dens_k1_kd1_sst15_s1_T8`. The "held_out" entries in `depth_placement.json` are the `lfs_*` runs,
+  scored against the same Y. Nothing is held out by area.
+- The paper's UNRESOLVED comment (results.tex, about line 485) flags the untracked `depth_placement.json`. It does not flag
+  the held-out defect, which is unflagged in the text.
+- Consequence: no existing receipt set supports a leakage-free area-held-out claim. Leave-one-area-out keeps the geometry
+  choice out of the held-out area, but the spectra carry Y-based selection of sst, kd and sstd. The anatomical condition G1
+  has no fitted geometry and is the least exposed, not exposure-free.
+- Observation only: the selected depths (-0.25, -0.05, +0.20) lie within 0.05 of the mouse-model mids (-0.216, 0.000, +0.198).
+  The selection used Y, so this is not evidence for anatomy.
 
-## 5. T2-T4: priority recorded, not executed
+## 5. Provenance (cowork, `/mnt/d/cowork/jomission`)
+
+- The 57 T1 motif JSON files equal HEAD 21b2697 byte-for-byte (57 of 57, sha256). Their scratch copies also match.
+  Verdict JSON files were not compared to HEAD.
+- Working tree: 51 tracked T1 paths are deleted (36 `.json`, 6 `.log`, 9 `.png`). Nine are `t1_kd1_*`, `t1_sst15_*` and
+  `t1_sstd15_*` `_T8.json` entries, which are symlinks at HEAD (mode 120000; three checked). For seed 1 the target
+  `sw_n4000_dens_k1_kd1_sst15_s1_T8.json` is present; the other targets were not checked. None of
+  the 57 search tags' run records is deleted. The other deletions are not classified. Nothing was restored, because the
+  working tree belongs to another agent.
+- Phase 1 would read run records through `unit_spectra` (units, dt, depth). It must read them from the committed HEAD
+  (`git show`), not from the dirty working tree.
+
+## 6. T2-T4
 
 | Priority | Experiment | Sealed spec | Modifier | Note |
 |---|---|---|---|---|
@@ -61,30 +95,42 @@ The 21 of 57 is not 21 replications. Rules were frozen before the run:
 | 2 | GABA weight scaling | `SEAL_T2_T3.md`, T2 | `giX` | every GABA weight times g |
 | 3 | PV/SOM silencing | `SEAL_T4.md`, T4 | `ipvUV` / `isomUV` | dose calibration first (`t4cal`) |
 
-- Nothing run. Specs unchanged.
-- Verified: the sealed reference is "the frozen T1 winner" (kd 1.41, sst 15, sstd 21), which fails the gamma-shape test.
-  The spec allows this. OWNER to decide whether it stays the reference.
-- Needs an owner order. Whether T2-T4 are tier-3 (AGENTS.md: tier-3 runs only inside an authorising TODO): UNKNOWN until
-  checked against `manifests/test_tiers.json`.
+- Nothing run; specs unchanged. The reference stays the sealed T1 reference, per the ruling.
+- Test tier: UNKNOWN. `manifests/test_tiers.json` lists test files (`tests/test_t2_readiness.py`, `tests/test_t4_t5_analysis.py`)
+  but no tier label for T2-T4 was found.
 
-## 6. Scientific interpretation
+## 7. Scientific interpretation
 
-- Supported: a ramp-dependent control of the signed laminar contrast M. Removing or reversing the SOM/PV ramp flips
-  M's sign and removes deep alpha-beta placement (O38 and T8 receipts). The sign follows superficial alpha-beta: density
-  arms strengthen M by suppressing superficial alpha-beta (S_ab 0.005-0.016 against 0.07-0.08 in the reference).
-- Not supported: complete reproduction of the empirical gamma profile. T1 fails the gamma-shape criterion in 57 of 57
-  runs (max r_gm 0.569 against 0.6).
-- Unresolved: whether the pattern is readout-generated or circuit-generated. The single-kernel diagnostic, the
-  depth-placement selection, the sigma = 0.15 assumption and the unit placement all bear on this. The manuscript says a
-  geometry-only account is not excluded (shift null p = 0.19).
+- Supported: ramp-dependent control of the signed contrast M. Removing or reversing the ramp flips the sign and removes deep
+  alpha-beta placement (O38 and T8 receipts). The sign follows superficial alpha-beta. From `docs/receipts/lansa_M_audit_2026-11-25.tsv`
+  (S_ab means): O38 reference 0.079 and T8 reference 0.075; density flattened 0.016, reversed 0.005; ramp flattened 0.59,
+  ramp reversed 0.58, composition 0.58 to 0.60. Density arms strengthen M by suppressing superficial alpha-beta.
+- Not supported: complete reproduction of the empirical gamma profile. T1 fails the gamma criterion in 57 of 57 runs
+  (max r_gm 0.569 against 0.6).
+- Unresolved: readout-generated versus circuit-generated, and the independence question in section 4.
 - Not claimed: weakening. No graded perturbation was run, and "diminished" has no threshold.
 
-## 7. Open for the owner
+## 8. Gates and review (checkpoint 53a3e45)
 
-1. Confirm the deep definition: rule A (provisional), rule B or rule C. On this data they give the same count.
-2. Confirm that the V1 Allen layer depths may stand in for the LANSA areas, or that the geometry lineage must test
-   them rather than assume them.
-3. Approve the geometry draft's OWNER items: the D target (L5 mid or L6 mid), the median r_gm rule, G3, and whether
-   Phase 2 is authorised.
-4. T2-T4: whether the reference stays the failed T1 winner, and the order to authorise them.
-5. The manuscript geometry paragraph: keep as exploratory with the selection stated, or hold it until the LOAO redo.
+- `scripts/project_check.py --offline --no-tests` does not pass in either interpreter tried:
+  - system python: `jaxfne` missing.
+  - `/home/hamm/.venvs/jaxfne`: `PROJECT_CHECK_FAIL: jaxfne identity: installed 0.5.9, execution authority 0.5.8`; the
+    `jomission` package is not importable there (the check asks for an editable install). The manifest's next authorised
+    task is `SCI-AGSDR-CALIBRATION`, and its current gate `V2_LOCAL_OPERATION` is FAIL. None of this comes from the
+    checkpoint's files, and nothing was changed to get past it.
+- Independent review: REVISE, minor items, no wrong numbers. Addressed in revision 2: the retired source and mouse species;
+  A, B and C identity; the "frozen" wording; the misattributed UNRESOLVED comment; the header; the PLAN citation; the tie rule.
+  Still open: the T2-T4 tier.
+
+## 9. Owner decisions needed
+
+1. Independence route. R1: accept the spectrum-level leakage and label Phase 1 exploratory (no held-out claim). R2: new
+   spectra with parameters fixed before any comparison with Y (a new lineage, with authorisation and a run).
+2. Phase 1 registration. The manifest's next authorised task does not name it. Execution needs an authorising entry.
+3. Macaque layer boundaries. A macaque source (the LANSA histology methods, not in the repo) is needed. Until then the
+   recount is a mouse-model-convention recount.
+4. Confirm the values applied from the blank ruling: +0.095, +0.198, +0.406.
+5. sigma_alt for the 2 x 2 design. The protocol proposes 0.25, with no data basis. OWNER to choose.
+6. Cowork deletions: restore, or commit the records. Owner decides; not done here.
+7. The T2-T4 test tier.
+8. The manuscript geometry paragraph: reword as exploratory, or hold it.

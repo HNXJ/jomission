@@ -56,7 +56,7 @@ Protocol check:
 - Any of these adds a rejection criterion. Not applied here.
 - F-b and F-c in `GAP_ANALYSIS.md` §5 are my earlier proposals, not protocol text. They are not part of B01's falsifier.
 
-### 4.3 Control mapping. RECONCILED 2026-11-25, pending owner confirmation of the noncompetitive control
+### 4.3 Control mapping. RECONCILED 2026-11-25; noncompetitive control removed from scope (owner)
 
 Labels are the protocol's own (§2, §3, §4). Corrections to my earlier draft are marked.
 
@@ -75,7 +75,7 @@ Labels are the protocol's own (§2, §3, §4). Corrections to my earlier draft a
 
 Falsifiers per control: none in the protocol. Each control's pass or failure is its protocol check above; a control that changes the contrast has no defined consequence.
 
-Open: the owner's requirement "matched noncompetitive plasticity" has no protocol strategy with that label. Under the strategy scope, the question is answered by S1 and S2–S8. Whether a noncompetitive control is still needed is an owner decision. Not mapped further here.
+Superseded 2026-11-25 (owner ruling). The owner's requirement "matched noncompetitive plasticity" is removed from B01's operational scope. No ninth strategy is added and no existing strategy is relabelled. S4 remains the channel-identity ablation of S5; S8 remains the unsupervised control. Provenance kept here: the owner's original requirement, recorded as a proposal and not a verified quotation.
 
 ### 4.4 Subordinate hypothesis. RESOLVED 2026-11-25 (no new estimand)
 
@@ -87,7 +87,7 @@ Open: the owner's requirement "matched noncompetitive plasticity" has no protoco
 ## 5. O-6 (strategy list and primary metric). OPEN, narrowed
 
 Reassessed after the three reconciliations (§4.2 closed, §4.3 reconciled, §4.4 closed). Remaining before freeze:
-1. Owner decision on the noncompetitive control named in §4.3 (the owner's original "matched noncompetitive plasticity" has no protocol strategy).
+1. Statistical-rule specification: `STAT_RULE_SPEC.md` (escalations U1, U2, U4, U5, U6). Done in draft; decisions pending.
 2. Owner freeze of protocol §3–§5 (protocol §6: locked on owner freeze), including the §4.2 CI rule written into §5.
 3. S4 and S8 built and passing §2 controls before use (protocol §3, line 37).
 
@@ -101,5 +101,5 @@ Already in place: the strategy list (§3, marked proposed) and the metric (fixat
 
 ## 7. Not decided here
 
-- The falsifier operational rule (§4.2) and the noncompetitive control (§4.3).
+- The statistical choices U1, U2, U4, U5, U6 and the strategy parameters E5 (`STAT_RULE_SPEC.md` §4, §6).
 - The O-6 freeze, any run, any paper or submission.

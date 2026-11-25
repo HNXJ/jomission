@@ -63,6 +63,22 @@ Base: `dev@a25ebf9`. `protocol_v0.md` is unchanged (status PROPOSED, 2026-11-19)
 
 **Blockers:** the contract §13 F-rule definitions and the S8 STDP parameters, which the owner must supply or approve. No parameter was chosen here.
 
+## 5a. Owner rulings, 2026-11-25
+
+- **U2 Multiplicity: Holm** across the seven contrasts S2–S8 vs S1. The construction of Holm with CIs is not yet decided (§5b).
+- **U1 Statistic: mean** of the per-start paired differences.
+- **E5 Parameters: the owner will supply contract §13** and the S8 STDP values. Pending. Nothing is built until they are in the repo.
+- **E6 Protocol correction: done** (`protocol_v0.md` line 37, factual, no criterion changed).
+- Still open: U4 (gate definition), U5 (stream convention), U6 (gate scope).
+
+## 5b. Holm construction (new escalation)
+
+Holm is defined on p-values, but the approved rule is stated as "CI excludes 0". Attaching them requires a construction choice:
+- (a) Holm step-down on two-sided paired-bootstrap p-values, with p = 2·min(P*(d ≤ 0), P*(d ≥ 0)). A contrast changes occupancy if its adjusted p < 0.05.
+- (b) Holm-adjusted intervals: each contrast's percentile CI at level 1 − 0.05/(8 − rank), step-down by the observed order.
+
+These are not equivalent in general. Not chosen here.
+
 ## 6. Escalations, consolidated
 
 | ID | Decision | Blocks |

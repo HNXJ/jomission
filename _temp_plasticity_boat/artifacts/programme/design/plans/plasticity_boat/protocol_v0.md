@@ -34,7 +34,7 @@ Owner decision (2026-11-19): 10-neuron fixture for validation and falsification 
 
 - F4 is dropped: it equals F2 by construction (critic finding 7b).
 - F2b is reported only in the 10-neuron registry, not among the eight.
-- S4 and S8 are not implemented. They must be built and pass the §2 controls first.
+- S2–S8 are not implemented in the tracked code. S1 corresponds to the static (no-plasticity) circuit in `code/circuit100.py`. S2–S8 must be built and pass the §2 controls first. (Corrected 2026-11-25 by owner ruling; a factual correction, no criterion changed.)
 
 ## 4. Metrics and controls (freeze before confirmatory)
 

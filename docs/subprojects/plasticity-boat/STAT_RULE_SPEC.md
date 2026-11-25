@@ -69,15 +69,15 @@ Base: `dev@a25ebf9`. `protocol_v0.md` is unchanged (status PROPOSED, 2026-11-19)
 - **U1 Statistic: mean** of the per-start paired differences.
 - **E5 Parameters: the owner will supply contract §13** and the S8 STDP values. Pending. Nothing is built until they are in the repo.
 - **E6 Protocol correction: done** (`protocol_v0.md` line 37, factual, no criterion changed).
-- Still open: U4 (gate definition), U5 (stream convention), U6 (gate scope).
+- Still open: U4 (gate definition), U5 (stream convention), U6 (gate scope), U7 (Holm step-down tie handling, §5b).
 
-## 5b. Holm construction (new escalation)
+## 5b. Holm construction: DECIDED by owner, 2026-11-25
 
-Holm is defined on p-values, but the approved rule is stated as "CI excludes 0". Attaching them requires a construction choice:
-- (a) Holm step-down on two-sided paired-bootstrap p-values, with p = 2·min(P*(d ≤ 0), P*(d ≥ 0)). A contrast changes occupancy if its adjusted p < 0.05.
-- (b) Holm-adjusted intervals: each contrast's percentile CI at level 1 − 0.05/(8 − rank), step-down by the observed order.
+Chosen: Holm step-down on two-sided paired-bootstrap p-values, p = 2·min(P*(d ≤ 0), P*(d ≥ 0)), across the seven contrasts S2–S8 vs S1. A contrast changes occupancy if its Holm-adjusted p < 0.05.
 
-These are not equivalent in general. Not chosen here.
+**Consequence to confirm at freeze.** The approved rule was written as "the paired 95% CI excludes 0". With Holm on p-values, the family-level verdict is the adjusted p, not the unadjusted CI. The per-contrast 95% percentile CI is still reported with every contrast. This follows from the choice of p-value construction; it is not a separate decision. Confirm it when §5 is frozen.
+
+Not decided here: the order of the step-down follows the observed p-values, and ties are not specified (U7, below).
 
 ## 6. Escalations, consolidated
 
@@ -88,6 +88,7 @@ These are not equivalent in general. Not chosen here.
 | U4 | Gate definition | executable gate |
 | U5 | Stream convention | reproducibility |
 | U6 | Gate scope | confirmation only |
+| U7 | Holm tie handling and step-down order | freeze of the verdict |
 | E5 | Source of F3, F3b, F5, F6 parameters (contract §13) and S8 STDP parameters | S4, S5, S6, S7, S8, S2, S3 |
 | E6 | Correct protocol §3 line 37 to list all unimplemented strategies | freeze |
 

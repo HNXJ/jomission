@@ -41,7 +41,7 @@ Owner chose "contrast vs S1" (§2). Checked against protocol §5 (paired contras
 
 ### 4.2 Falsifier. CLOSED 2026-11-25 (owner chose the CI rule)
 
-Operational rule, owner-approved: a candidate strategy S2–S8 changes fixation occupancy relative to S1 on held-out starts (seed 2026) only if its paired 95% percentile CI excludes 0, with the protocol's effective-variation gate passed. If no strategy's CI excludes 0, B01's falsifier holds: no strategy shows a distinctive change. No threshold is added. This is the only new rejection rule; it is an owner decision and it is not in the protocol text. The protocol gap to close before the run is that the rule must be written into the frozen §5 with O-6.
+Operational rule, owner-approved (construction decided 2026-11-25 in `STAT_RULE_SPEC.md` §5b): a candidate strategy S2–S8 changes fixation occupancy relative to S1 on held-out starts (seed 2026) only if its Holm-adjusted paired-bootstrap p < 0.05 (the 95% percentile CI is reported alongside), with the protocol's effective-variation gate passed. If no strategy's CI excludes 0, B01's falsifier holds: no strategy shows a distinctive change. No threshold is added. This is the only new rejection rule; it is an owner decision and it is not in the protocol text. The protocol gap to close before the run is that the rule must be written into the frozen §5 with O-6.
 
 Earlier text kept for the record:
 

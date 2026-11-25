@@ -6,6 +6,7 @@ assert equivalence: an outcome NOT_EQUIVALENT is a result, not a test failure.
 Writes nothing; the receipt is written only by scripts/fi_engine_equivalence.py.
 """
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -72,12 +73,43 @@ def test_negative_control_detects():
     assert stats["mismatch_points"] > 0, "negative control detects nothing: comparison is vacuous"
 
 
+def assert_reproduces(live, recorded, path="$"):
+    """Exact for counts, labels and verdicts; relative 1e-9 for floats.
+
+    Floats in the receipt (G6 gain summaries, informational) differ in the last digits across
+    NumPy and JAX builds (e.g. 17.137394251318312 vs 17.13739425131831). Exact float equality made
+    the test depend on the host's rounding rather than on the result.
+    """
+    if isinstance(live, dict):
+        assert isinstance(recorded, dict) and live.keys() == recorded.keys(), f"{path}: keys differ"
+        for k in live:
+            assert_reproduces(live[k], recorded[k], f"{path}.{k}")
+    elif isinstance(live, list):
+        assert isinstance(recorded, list) and len(live) == len(recorded), f"{path}: length differs"
+        for i, (x, y) in enumerate(zip(live, recorded)):
+            assert_reproduces(x, y, f"{path}[{i}]")
+    elif isinstance(live, float) or isinstance(recorded, float):
+        assert math.isclose(live, recorded, rel_tol=1e-9, abs_tol=0.0), f"{path}: {live} vs {recorded}"
+    else:
+        assert live == recorded, f"{path}: {live!r} vs {recorded!r}"
+
+
+def test_reproduction_check_is_exact_for_counts_and_tolerant_for_floats():
+    assert_reproduces({"n": 3, "g": 1.0}, {"n": 3, "g": 1.0 + 1e-15})
+    raised = False
+    try:
+        assert_reproduces({"n": 3}, {"n": 4})
+    except AssertionError:
+        raised = True
+    assert raised, "integer change must fail the reproduction check"
+
+
 def test_receipt_reproduces_and_verdict_is_consistent():
     rec = json.loads(fe.RECEIPT.read_text(encoding="utf-8"))
     live = fe.build_receipt(oracle_spike_steps)
     live.pop("provenance")
     rec_np = {k: v for k, v in rec.items() if k != "provenance"}
-    assert json.loads(json.dumps(live)) == rec_np
+    assert_reproduces(json.loads(json.dumps(live)), rec_np)
     t = rec["totals"]
     assert rec["verdict"] == t["verdict"] == fe.decide(
         t["G0_mismatch_points"], t["negative_control"]["mismatch_points"], t["G1_mismatch_points"])

@@ -41,7 +41,10 @@ def test_escape_and_values_kept():
     tex = d.to_tex("x_T8", MD)
     assert "S & $-$0.4 & 5,785 \\\\" in tex
     assert r"Q E$\to$E" in tex and r"50\% \& x" in tex and r"PORT\_SPEC" in tex
-    assert r"V $\geq$ VT" in tex and r"a \textless{} b" in tex and ">" not in tex.replace(r"\textgreater", "")
+    assert r"V $\geq$ VT" in tex and r"a \textless{} b" in tex
+    assert ">" not in tex.replace(r"\textgreater", "").replace(r">{\raggedright\arraybackslash}", "")
     assert "prose that is dropped" not in tex
     assert r"\item Total N = 14,251." in tex and r"\item Recorded JaxFNE is 0.5.9." in tex
     assert tex.count(r"\begin{longtable}") == 1 and tex.count(r"\begin{tabular}") == 1
+    # wrapped parameter columns must be ragged (justified cells showed wide word gaps)
+    assert tex.count(r">{\raggedright\arraybackslash}p{") == 3

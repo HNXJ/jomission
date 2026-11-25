@@ -82,7 +82,7 @@ wall\_s & 2367.11 \\
 
 \clearpage
 {\scriptsize
-\begin{longtable}{lp{3.6cm}p{2.6cm}lp{6.2cm}}
+\begin{longtable}{l>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{2.6cm}l>{\raggedright\arraybackslash}p{6.2cm}}
 \caption{sw\_n4000\_dens\_k1\_kd1\_sst15\_s1\_T8: Parameters.}\\
 \toprule
 \textbf{group} & \textbf{parameter} & \textbf{value} & \textbf{unit} & \textbf{source} \\
@@ -172,8 +172,8 @@ analysis & sigma (probe Gaussian, relative depth) & 0.15 &  & agent choice (e2\_
 analysis & V\_ref (current proxy) & -65 & mV & agent choice (e2\_motif\_figure.V\_REF\_MV) \\
 analysis & discard & 2 & s & PLAN\_LANSA\_E2.md, C6 (2 s discarded) \\
 analysis & multitaper half-bandwidth (smoothing) & 2 & Hz & e2\_motif\_figure.SMOOTH\_HZ (as the published analysis) \\
-analysis & RWS delay & 6 & ms & Mazzoni et al. 2015 (e2\_motif\_figure.py; plan section 0) \\
-analysis & RWS alpha & 1.65 &  & Mazzoni et al. 2015 (e2\_motif\_figure.py; plan section 0) \\
+analysis & RWS delay & 6 & ms & e2\_motif\_figure.py RWS\_DELAY\_MS; origin not verified \\
+analysis & RWS alpha & 1.65 &  & e2\_motif\_figure.py RWS\_ALPHA; origin not verified \\
 analysis & bands alpha-beta / gamma & 10-30 / 50-150 & Hz & owner ruling 2026-11-09 (PLAN\_LANSA\_E2.md, Owner rulings) \\
 analysis & probe contacts & 21 at -0.6 to 0.4 rel. L4 &  & LANSA bin centres (lansa\_density\_X.json axes; e2\_motif\_figure.CHANNELS) \\
 \end{longtable}}
@@ -181,7 +181,7 @@ analysis & probe contacts & 21 at -0.6 to 0.4 rel. L4 &  & LANSA bin centres (la
 \paragraph{Notes to the sw\_n4000\_dens\_k1\_kd1\_sst15\_s1\_T8 tables.}
 {\small\begin{itemize}
 \item Total N = 14,251.
-\item Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is 0.5.9; PLAN\_LANSA\_E2.md section 0 and OPEN-37 name 0.5.8 as the project authority.
+\item Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is 0.5.9; Owner ruling 2026-11-24: 0.5.8 is the minimum admissible version; this run is outside E0 and E1b and is not covered by that ruling.
 \item Raster: sampled cells only (200 E, 50 PV and 50 SOM per module, a random sample by run\_e2\_stack.py).
 \item Module N is the sum of the recorded cell counts; the run JSON has no N key.
 \item Local p and the inter-module edges are as recorded; the inter-module autapse rule is not checked here.

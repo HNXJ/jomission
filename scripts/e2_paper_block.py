@@ -230,8 +230,8 @@ def parameter_rows(rec: dict) -> list[dict]:
         _param("analysis", "discard", DISCARD_S, "s", "PLAN_LANSA_E2.md, C6 (2 s discarded)"),
         _param("analysis", "multitaper half-bandwidth (smoothing)", mf.SMOOTH_HZ, "Hz",
                "e2_motif_figure.SMOOTH_HZ (as the published analysis)"),
-        _param("analysis", "RWS delay", mf.RWS_DELAY_MS, "ms", "Mazzoni et al. 2015 (e2_motif_figure.py; plan section 0)"),
-        _param("analysis", "RWS alpha", mf.RWS_ALPHA, "", "Mazzoni et al. 2015 (e2_motif_figure.py; plan section 0)"),
+        _param("analysis", "RWS delay", mf.RWS_DELAY_MS, "ms", "e2_motif_figure.py RWS_DELAY_MS; origin not verified"),
+        _param("analysis", "RWS alpha", mf.RWS_ALPHA, "", "e2_motif_figure.py RWS_ALPHA; origin not verified"),
         _param("analysis", "bands alpha-beta / gamma",
                f"{mf.BANDS[mf.FIG_BANDS][0][0]:g}-{mf.BANDS[mf.FIG_BANDS][0][1]:g} / "
                f"{mf.BANDS[mf.FIG_BANDS][1][0]:g}-{mf.BANDS[mf.FIG_BANDS][1][1]:g}", "Hz", OWNER_BANDS),
@@ -268,7 +268,7 @@ def run_rows(rec: dict) -> list[dict]:
 def _notes(rec: dict) -> list[str]:
     notes = [
         "Exploratory, unsealed E2 run (run JSON experiment). The recorded JaxFNE version is "
-        f"{rec['jaxfne_version']}; PLAN_LANSA_E2.md section 0 and OPEN-37 name 0.5.8 as the project authority.",
+        f"{rec['jaxfne_version']}; Owner ruling 2026-11-24: 0.5.8 is the minimum admissible version; this run is outside E0 and E1b and is not covered by that ruling.",
         f"Raster: sampled cells only ({RASTER_SAMPLE['E']} E, {RASTER_SAMPLE['PV']} PV and "
         f"{RASTER_SAMPLE['SOM']} SOM per module, a random sample by run_e2_stack.py).",
         "Module N is the sum of the recorded cell counts; the run JSON has no N key.",

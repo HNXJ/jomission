@@ -28,7 +28,7 @@ run record and parameters with sources, from \rec{R12}.}
 \centering
 \IfFileExists{../../results/viz/paper_w6/seed_diff.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w6/seed_diff.png}}{\pendingbox{seed differences}}
 \caption{Seed agreement on the finite-size ladder. Seed pairs: SSIM 0.62--0.71, pixel $r$ 0.87--0.93; each seed
-against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}).}
+against the observed map: SSIM 0.04--0.12, $r$ 0.20--0.43 (\rec{R10}). Colour: difference in relative power, seed A minus seed B, scale $-1$ to $1$.}
 \label{fig:seeds}
 \end{figure}
 
@@ -61,8 +61,7 @@ $N = 4000$.}
 \IfFileExists{../../results/viz/t1/V3_sstd_n4000_atlas.png}{\includegraphics[width=0.9\linewidth]{../../results/viz/t1/V3_sstd_n4000_atlas.png}}{\pendingbox{sstd atlas}}
 \caption{T1 maps per level. Each panel is the mean of three seeds' relative-power maps at one level; titles give
 seed means of $r_\text{proto}$, $r_{ab}$ and $r_{gm}$. Top: local in-degree exponent $B$; middle: SOM$\to$E decay
-in all units; bottom: in the deep unit only. At every level the band from $-0.2$ to 0 is dim above 35 Hz (read
-from the figure). The same scores for every run are in Fig.~\ref{fig:scatter}.}
+in all units; bottom: in the deep unit only. The same scores for every run are in Fig.~\ref{fig:scatter}.}
 \label{fig:t1}
 \end{figure}
 
@@ -83,16 +82,28 @@ T5 & VIP population & none & deferred (AdEx has no VIP) \\
 \label{tab:notrun}
 \end{table}
 
-\begin{table}[tbp]
-\centering
-\scriptsize
+{\scriptsize
 \renewcommand{\arraystretch}{0.96}
-\begin{tabular}{@{}lp{0.40\linewidth}p{0.44\linewidth}@{}}
+\begin{longtable}{@{}lp{0.40\linewidth}p{0.44\linewidth}@{}}
+\caption{Records cited in the text. Records R1, R2 and R13 are in the project repository; run records R3 to R12 are not version-controlled JSON; four PNG figures among them are tracked (R10, R11 and R12)
+\citep{Jomission}; D6 hashes them, and Data availability states their
+availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
+gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
+\label{tab:records} \\
 \toprule
 ID & Content & Repository file \\
 \midrule
+\endfirsthead
+\toprule
+ID & Content & Repository file \\
+\midrule
+\endhead
+\multicolumn{3}{r}{\textit{continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
 \multicolumn{3}{@{}l}{\textit{Code} (commit of last change)} \\
-C1 & three-unit stack builder (8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
+C1 & three-unit stack builder (aae2bda; wRUX 8519540; T8 modifiers 6dc8a38) & \path{jomission/laminar/caminos_stack.py} \\
 C2 & scorer and pass rule (9681fc5) & \path{scripts/e2_scorer.py} \\
 C3 & mid-depth relative gamma (12842de) & \path{scripts/e2_mid_gamma.py} \\
 C4 & readout cross-term split and kernel width (8155f90) & \path{scripts/e2_readout_sensitivity.py} \\
@@ -118,14 +129,14 @@ S4 & T1 fine-tune (e78fdcf) & \path{docs/laminar_motif/SEAL_T1.md} \\
 S5 & T2, T3 (e17f6c1) & \path{docs/laminar_motif/SEAL_T2_T3.md} \\
 S6 & T4 (c87b408) & \path{docs/laminar_motif/SEAL_T4.md} \\
 S7 & T8 density and SOM/PV controls (8aa14d5; final 6dc8a38) & \path{docs/laminar_motif/SEAL_T8.md} \\
-S8 & E1b band floor and fixed-PV arm (4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
+S8 & E1b band floor and fixed-PV arm (first added 37393ff; sealed 4c99e05) & \path{docs/laminar_motif/E1B_SEAL.md} \\
 \multicolumn{3}{@{}l}{\textit{Derived data, version-controlled}} \\
 D1 & mid-depth relative gamma per run & \path{paper/jomission_lansa/data/mid_gamma.json} \\
 D2 & cross terms and kernel width & \path{paper/jomission_lansa/data/readout_sensitivity.json} \\
 D3 & readout capacity & \path{paper/jomission_lansa/data/readout_capacity.json} \\
 D4 & leave-one-area-out & \path{paper/jomission_lansa/data/readout_capacity_loao.json} \\
 D5 & joint constraint, circuit vs optimum & \path{paper/jomission_lansa/data/readout_joint.json} \\
-D6 & SHA-256 of every file cited & \path{paper/jomission_lansa/data/sources_sha256.txt} \\
+D6 & SHA-256 of 267 derived data and record files & \path{paper/jomission_lansa/data/sources_sha256.txt} \\
 D7 & joint constraint, grid check & \path{paper/jomission_lansa/data/readout_joint_grid.json} \\
 D8 & T8 per-run outcomes, rates and decisions & \path{paper/jomission_lansa/data/t8_summary.json} \\
 D9 & T8 engine check & \path{paper/jomission_lansa/data/t8_engine_check.json} \\
@@ -148,11 +159,5 @@ R12 & reference-column details, Tables S1--S4 & \path{results/viz/paper_w3/sw_n4
 R13 & E1b result, receipts and counts (27 runs) & \path{results/laminar_e1b/} \\
 \multicolumn{3}{@{}l}{\textit{Notes}} \\
 N1 & findings log, numbered sections & \path{docs/laminar_motif/FINDINGS_2026-11-10.md} \\
-\bottomrule
-\end{tabular}
-\caption{Records cited in the text. All but run records R3 to R12 are in the project repository
-\citep{Jomission}; those are not version-controlled, D6 hashes them, and Data availability states their
-availability. R13's receipts and result are in the repository; its count arrays (\texttt{*.npy}) are
-gitignored and hashed in D6 only. The model runs on JaxFNE 0.5.9 \citep{JaxFNE}.}
-\label{tab:records}
-\end{table}
+\end{longtable}
+}

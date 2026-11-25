@@ -13,6 +13,11 @@ import re
 import sys
 from pathlib import Path
 
+# Wrapped parameter columns: ragged, so long words do not justify into wide gaps. The array package
+# (>{...} column syntax) is loaded in paper/jomission_lansa/main.tex.
+LONG_SPEC = (r"l>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{2.6cm}"
+             r"l>{\raggedright\arraybackslash}p{6.2cm}")
+
 ESC = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#", "_": r"\_", "{": r"\{",
        "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}", "−": "$-$", "->": r"$\to$",
        ">=": r"$\geq$", "<=": r"$\leq$", ">": r"\textgreater{}", "<": r"\textless{}"}
@@ -48,7 +53,7 @@ def to_tex(tag: str, md: str) -> str:
         body = "\n".join(" & ".join(esc(c) for c in r) + r" \\" for r in rows[1:])
         if sec == "Parameters" and ncol == 5:  # long and wide: page-breaking longtable, wrapped columns
             parts.append(
-                "\\clearpage\n{\\scriptsize\n\\begin{longtable}{lp{3.6cm}p{2.6cm}lp{6.2cm}}\n"
+                "\\clearpage\n{\\scriptsize\n\\begin{longtable}{" + LONG_SPEC + "}\n"
                 f"\\caption{{{esc(tag)}: {esc(sec)}.}}\\\\\n\\toprule\n{head}\n\\midrule\n\\endfirsthead\n"
                 f"\\toprule\n{head}\n\\midrule\n\\endhead\n\\bottomrule\n\\endlastfoot\n{body}\n"
                 "\\end{longtable}}\n")
@@ -76,5 +81,5 @@ if __name__ == "__main__":
     src, dst = Path(sys.argv[1]), Path(sys.argv[2])
     tag = src.name.removesuffix("_details.md")
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.write_text(to_tex(tag, src.read_text(encoding="utf-8")), encoding="utf-8")
+    dst.write_text(to_tex(tag, src.read_text(encoding="utf-8")), encoding="utf-8", newline="\n")
     print(dst, len(tables(src.read_text(encoding="utf-8"))), "tables")

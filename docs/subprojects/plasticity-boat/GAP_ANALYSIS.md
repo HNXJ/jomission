@@ -75,6 +75,7 @@ score is NOT_SCORABLE until results exist.
 | O-6 | Eight-strategy list and primary metric (`HANDOFF.md` line 33) | G7, G8, confirmatory runs |
 | O-7 | 15-stage manuscript workflow, not in repo (`HANDOFF.md` line 34) | G11 |
 | new | Freeze the falsifiers in section 5 | any confirmatory run |
+| B01 | DECIDED 2026-11-25: central question is plasticity competition. Provisional formulation; "competitive" is undefined in the programme (`B01_decision.md` §4.1) | O-6 (contrast definition), falsifier wording |
 
 ## 5. Prospective contract (proposed; owner approval required before any confirmatory run)
 

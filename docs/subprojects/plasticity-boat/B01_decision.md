@@ -6,6 +6,7 @@ Scope: recorded here only. No todo item, no paper, no run, no change to sealed c
 ## 1. Decision
 
 - Central question is plasticity competition. Fixation acquisition is a candidate mechanism or measurable consequence, not a replacement.
+- Second decision, 2026-11-25 (owner): the competition B01 investigates is between plasticity strategies, not within a mechanism (section 4.1).
 - Programme's existing scientific framing is retained (`manuscript/plasticity_boat/main.md`, message and claim C2; `protocol_v0.md` §1 and §3).
 - Do not create separate papers. Do not expand scope without a demonstrated scientific need.
 - Identifiers: B01 is the planning-file id (`_temp_solmind:artifacts/fixationboat_biorxiv_stage15_review.md` line 21). It does not appear in any programme file. It is kept as a label only.
@@ -28,7 +29,13 @@ Does competition between plasticity mechanisms explain the emergence, stabilizat
 
 ## 4. Open items (owner rulings)
 
-4.1 **"Competitive" is not defined in the programme.** The protocol compares eight named strategies. S5 is "primary rule," with channel-specific eligibility; no file calls any strategy competitive or noncompetitive. The primary estimand cannot be computed until the owner defines the contrast (for example: which strategy is competitive and which is its matched noncompetitive control). Options for the owner: (a) the existing S5 vs S4 contrast; (b) a new strategy that adds an explicit resource or normalization constraint, matched to S5; (c) another definition. This is a scientific choice; not decided here.
+4.1 **RESOLVED IN PART, 2026-11-25 (owner): B01 investigates competition between plasticity strategies** (the eight-strategy comparison), not competition within a plasticity mechanism. Consequences:
+- The primary contrast is between strategies on fixation occupancy. S1 (fixed weights) is the reference control.
+- S5 vs S4 is a comparison of rules. It is not evidence that either mechanism implements competition for a constrained resource, and it is not labelled "competitive plasticity."
+- Competition within a mechanism (a constrained resource or allocation) is out of scope for B01. Starting it needs a new mechanistic definition, matched controls, a protocol freeze and a new lineage, approved by the owner.
+- Still open: the exact wording of the central question (see 4.5), and the O-6 strategy list and metric.
+
+4.5 **Central-question wording (conflict).** The owner's B01 text says "competition between plasticity mechanisms." The decided scope compares strategies. The owner must confirm either the strategy wording for the central question, or a revised question that keeps "mechanisms" for a later phase. Until then the §2 text is kept as recorded and not rewritten.
 
 4.2 **Falsifier wording.** Choose between the owner's held-out-prediction falsifier and F-b/F-c, or combine them.
 

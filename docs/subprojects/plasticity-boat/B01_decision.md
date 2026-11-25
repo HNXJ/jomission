@@ -11,9 +11,13 @@ Scope: recorded here only. No todo item, no paper, no run, no change to sealed c
 - Do not create separate papers. Do not expand scope without a demonstrated scientific need.
 - Identifiers: B01 is the planning-file id (`_temp_solmind:artifacts/fixationboat_biorxiv_stage15_review.md` line 21). It does not appear in any programme file. It is kept as a label only.
 
-## 2. Central question (owner text)
+## 2. Central question
 
-Does competition between plasticity mechanisms explain the emergence, stabilization, or suppression of learned behavior, beyond what simpler noncompetitive mechanisms predict?
+Approved wording, 2026-11-25 (owner ruling on §4.5; the term "competition" follows protocol line 4, "primary eight-strategy competition"):
+
+In the eight-strategy competition, which candidate plasticity strategies (S2–S8) change fixation occupancy relative to the fixed-weight reference S1, under the programme's directional-observability requirements?
+
+Superseded: the earlier owner text "Does competition between plasticity mechanisms explain the emergence, stabilization, or suppression of learned behavior, beyond what simpler noncompetitive mechanisms predict?" (2026-11-25, B01 scope §4.1 now rules out within-mechanism competition). Kept in git history of this file.
 
 ## 3. Scientific requirements (owner text, mapped to the programme)
 
@@ -35,7 +39,7 @@ Does competition between plasticity mechanisms explain the emergence, stabilizat
 - Competition within a mechanism (a constrained resource or allocation) is out of scope for B01. Starting it needs a new mechanistic definition, matched controls, a protocol freeze and a new lineage, approved by the owner.
 - Still open: the exact wording of the central question (see 4.5), and the O-6 strategy list and metric.
 
-4.5 **Central-question wording. OPEN: check done, one mismatch.** The owner approved strategy wording (2026-11-25) and gave this proposal, which is not a verified quotation: "Which of the eight candidate plasticity strategies best supports fixation occupancy under the programme's directional-observability requirements, relative to the fixed-weight reference S1?"
+4.5 **Central-question wording. CLOSED 2026-11-25** (owner chose "contrast vs S1"; wording in §2; checked against protocol §5 and line 4). Record of the check:  The owner approved strategy wording (2026-11-25) and gave this proposal, which is not a verified quotation: "Which of the eight candidate plasticity strategies best supports fixation occupancy under the programme's directional-observability requirements, relative to the fixed-weight reference S1?"
 
 Check against `protocol_v0.md` (dev, ef0a766 tree):
 - §5 (line 50): unit of inference is the start; "Paired contrasts against S1"; bootstrap CI. The estimand is each strategy's paired contrast with S1. There is no ranking.

@@ -1,0 +1,66 @@
+run	peak_gm_z	peak_ab_z	crossing_2se	A_qg	A_qa	A_qx_all3	B_qg	B_qa	B_qx_all3	C_qg	C_qa	C_qx_all3	O_qg	O_qa	O_qx_all3
+t1_confirm_kd1p41_sst15_sstd21_n4000_s4_T12	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_confirm_kd1p41_sst15_sstd21_n4000_s5_T12	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_confirm_kd1p41_sst15_sstd21_n4000_s6_T12	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_kd0p25_n4000_s1_T8	-0.400	+0.300	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p25_n4000_s2_T8	-0.400	+0.250	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p25_n4000_s3_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p35_n4000_s1_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p35_n4000_s2_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p35_n4000_s3_T8	-0.400	+0.250	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p5_n4000_s1_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p5_n4000_s2_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p5_n4000_s3_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_kd0p71_n4000_s1_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p71_n4000_s2_T8	-0.400	+0.250	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_kd0p71_n4000_s3_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_kd1p41_n4000_s1_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_kd1p41_n4000_s2_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_kd1p41_n4000_s3_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_kd2_n4000_s1_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_kd2_n4000_s2_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_kd2_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst10p6_n4000_s1_T8	-0.400	+0.050	false	true	false	false	true	false	false	true	false	false	true	true	false
+t1_sst10p6_n4000_s2_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst10p6_n4000_s3_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst21_n4000_s1_T8	-0.400	-0.400	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst21_n4000_s2_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst21_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst30_n4000_s1_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst30_n4000_s2_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst30_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst42_n4000_s1_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst42_n4000_s2_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst42_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst5p3_n4000_s1_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst5p3_n4000_s2_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst5p3_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst7p5_n4000_s1_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst7p5_n4000_s2_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sst7p5_n4000_s3_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd10p6_n4000_s1_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_sstd10p6_n4000_s2_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_sstd10p6_n4000_s3_T8	-0.400	+0.050	true	true	false	false	true	false	false	true	false	false	true	true	true
+t1_sstd21_n4000_s1_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd21_n4000_s2_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd21_n4000_s3_T8	-0.400	+0.000	true	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd30_n4000_s1_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd30_n4000_s2_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd30_n4000_s3_T8	-0.400	+0.000	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd42_n4000_s1_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+t1_sstd42_n4000_s2_T8	+0.250	+0.300	true	false	true	false	false	true	false	false	true	false	false	true	false
+t1_sstd42_n4000_s3_T8	+0.300	+0.300	true	false	true	false	false	true	false	false	true	false	false	true	false
+t1_sstd60_n4000_s1_T8	-0.400	+0.300	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_sstd60_n4000_s2_T8	-0.400	+0.300	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_sstd60_n4000_s3_T8	-0.400	-0.400	false	true	false	false	true	false	false	true	false	false	true	false	false
+t1_sstd7p5_n4000_s1_T8	-0.400	+0.250	false	true	true	true	true	true	true	true	true	true	true	true	true
+t1_sstd7p5_n4000_s2_T8	-0.400	+0.300	false	true	true	false	true	true	false	true	true	false	true	true	false
+t1_sstd7p5_n4000_s3_T8	-0.400	+0.300	true	true	true	true	true	true	true	true	true	true	true	true	true
+# runs 57; observed (Y): peak_gm_z=-0.200 peak_ab_z=+0.300
+# thresholds: z(L4 top)=-0.0950 z(L4 bottom)=+0.0950 z(L5 mid)=+0.1977
+# rule A: gamma superficial 55; alpha-beta deep 18; all three 15; all three and crossing_2se 9
+# rule B: gamma superficial 55; alpha-beta deep 18; all three 15; all three and crossing_2se 9
+# rule C: gamma superficial 55; alpha-beta deep 18; all three 15; all three and crossing_2se 9
+# rule O: gamma superficial 55; alpha-beta deep 25; all three 21; all three and crossing_2se 15
+# reproduction check: rule O gives 21 (matches the 2026-11-25 chat count)
+# alpha-beta peak bins (count): +0.00:17, +0.05:7, +0.25:4, +0.30:14, -0.40:15

@@ -5,6 +5,16 @@ Base: `dev@a826ce6`. Thesis: owner, 2026-11-25 (mechanism explains the superfici
 Receipts marked **cowork** are in `/mnt/d/cowork/jomission/results/` and are not in this repo. Their checksums are in `docs/receipts/lansa_M_audit_2026-11-25_t8_sha256.txt`.
 Labels: OBSERVED (read from a file), DERIVED (computed here from a file), INFERRED, UNKNOWN.
 
+## 0. Correction (2026-11-25)
+
+- §3 overstated the gamma-only failure. Corrected in place below.
+- The qualitative count of 21 runs (peak gamma superficial, peak alpha-beta deep, endpoint crossing) used peak > 0 as
+  "deep". Under the frozen anatomical rule (L4 lower boundary, z > +0.095) the count is 15, and 9 also pass
+  crossing_2se. These are not 21 replications. Recount: `docs/laminar_motif/DECISIONS_2026-11-25.md` section 3.
+- Depth convention verified: `DECISIONS_2026-11-25.md` section 2.
+- The geometry paragraph in `paper/jomission_lansa/sections/results.tex` (lines 481-488) selects depths on the observed
+  prototype. It is not held-out evidence: `DECISIONS_2026-11-25.md` section 4.
+
 ## 1. Thesis layers against the record
 
 | Layer | Claim | Status | Evidence |
@@ -12,7 +22,7 @@ Labels: OBSERVED (read from a file), DERIVED (computed here from a file), INFERR
 | Foundation | one CAMINOS module reproduces its published rhythm | PASS (E0) | `results/laminar_e0/e0_result.json` |
 | A: rate ingredient | higher SST/PV ratio lowers peak frequency, isolated module | UNDECIDED: E1 INCONCLUSIVE; E1b arm A INCONCLUSIVE, arm B PASS (confounded, §3) | `results/laminar_e1/e1_result.json`, `results/laminar_e1b/e1b_result.json` |
 | B: composition, deep alpha-beta | the prescribed SOM/PV ramp places alpha-beta deep | SUPPORTED for the reference (r_ab 0.82–0.87 over 5 seeds); lost in every non-ramp arm (O38) | `results/laminar_e2/o38s_pc_ref_*`, `o38s_s6_analysis.json` |
-| B: composition, superficial gamma | the motif's gamma shape | FAILED: T1 (r_gm ≤ 0.57 in all 57 runs; threshold 0.6) | cowork `results/laminar_e2/t1_*_verdict.json` |
+| B: composition, superficial gamma | the motif's gamma shape | FAILED: T1 (r_gm ≤ 0.57 in all 57 runs; threshold 0.6; other criteria fail in subsets, §3) | cowork `results/laminar_e2/t1_*_verdict.json` |
 | C: density | cell-count depth profile sets the motif | Flattening/reversal keeps or strengthens the canonical sign (T8 dflat, drev) | cowork `results/laminar_e2/t8_*_motif.json` |
 | D: connectivity and inhibition | GABA weight, SOM/PV ratio scale, PV/SOM silencing, +50 pA | NOT RUN. Sealed (S5, S6), no output in the repo or cowork | `docs/laminar_motif/SEAL_T2_T3.md`, `SEAL_T4.md` |
 | E: apical dendrites | SST inhibition of apical dendrites | NOT MODELLED. No compartments in the code | §5 item 5 |
@@ -43,9 +53,15 @@ Ordering of essentiality is my proposal. The owner decides which predictions are
 - Reading: the rate ingredient is neither supported nor falsified. E1b arm B continues the decrease at rho = 4 (24–26 Hz, abstract), but total inhibitory count co-varies, so the effect is not attributable to composition.
 
 **T1 (layer B, motif shape).** Verified in cowork: 54 search-level verdicts (18 non-reference levels × 3 seeds) and 3 confirmation verdicts (seeds 4–6, 12 s) are all `pass: false`. Confirmation r_proto = 0.377, 0.365, 0.377.
-- The failing condition is gamma shape. Maximum r_gm across all 57 runs is 0.569 (threshold 0.6). 26 of 57 meet r_ab ≥ 0.6, 25 are crossing, and 2 exceed the smooth-spectrum p95 on r_proto.
+- The gamma criterion is the only one that every run fails: maximum r_gm 0.569 (threshold 0.6). It is necessary and
+  never met, so it is sufficient to fail T1 on its own.
+- The other criteria fail in subsets of the 57 runs (DERIVED from the cowork verdict files): r_proto not above
+  max(smooth p95, identity control) in 55; identity rank not 1 in 38; crossing_2se false in 32; r_ab below 0.6 in 31;
+  halves disagree in 7.
 - Reference (O38 seed 1, `o38s_pc_ref_n4000_s1_T8_verdict.json`): crossing true, r_ab 0.86 PASS, r_gm 0.33 FAIL, r_proto 0.33 below smooth p95 0.38 FAIL, identity control −0.08 PASS, halves agree PASS.
-- So the motif failure is in the superficial gamma shape. The deep alpha-beta placement and the sign of the contrast are not the failing part.
+- Corrected 2026-11-25: "the deep alpha-beta placement and the sign of the contrast are not the failing part" holds for
+  the O38 reference only. Across the 57 T1 runs, r_ab and crossing fail in about half. Gamma shape is the necessary
+  failure, not the only one.
 
 **Consequence.** T1 is an essential failure of the motif claim (title and abstract). It cannot be bypassed by rewording the abstract. E1 is an essential, undecided test of the rate ingredient. D1 stays pending until both are reconciled with the claim, as the owner ruled.
 

@@ -106,9 +106,9 @@
      "the gamma criterion r_gm >= 0.6 (R_MIN, Y-exposed, retained by ruling)",
      "Y",
      "the scorer",
-     "JaxFNE 0.5.8, CPU, edge-list event runtime for scored runs"
+     "JaxFNE 0.5.8, CPU, default delivery route for scored runs"
     ],
-    "procedure": "pre-seal: P0 bitwise baseline cc33b37 vs seal code and the 1 s event-vs-default check (spec section 4); seal and push the spec; smoke (1 s, V0 and V1); seeds 7, 8, 9 at 12 s; readout conditions G0, G1, G2, G3, G1' with controls K1 and K2; V2 and V3",
+    "procedure": "pre-seal: P0 bitwise baseline cc33b37 vs seal code (spec section 4; EQUAL 2026-11-26); seal and push the spec; smoke (1 s, V0 and V1); seeds 7, 8, 9 at 12 s; readout conditions G0, G1, G2, G3, G1' with controls K1 and K2; V2 and V3",
     "acceptance": "spec section 7: support iff G1 median LOAO r_gm >= 0.6, median r_ab >= 0.6 and G1 exceeds K1; otherwise falsified",
     "stop_condition": "any pre-seal bitwise difference blocks the seal; a P0 motif failure is a result, not a reason to retune; any change of parameter or criterion is a new lineage",
     "artifacts_expected": [

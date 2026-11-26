@@ -1,4 +1,4 @@
-# Geometry R2 spec, draft 4 (not sealed; execution not authorised)
+# Geometry R2 spec, draft 5 (not sealed; execution not authorised)
 
 Status: DRAFT for owner review. Nothing here is sealed. No run starts until (a) every OWNER item in section 9 is decided,
 (b) a manifest entry authorises the lineage, and (c) the final text is committed and pushed as the seal (AGENTS.md).
@@ -53,9 +53,11 @@ Decided: P0 (Hamm 2026-11-25).
 Code-path condition (review major 2): the P0 path changed after cc33b37 (`caminos_stack.py` +218/-47 lines with
 `caminos_e0.py` and `run_e2_stack.py`; 7a83ac6 adds a refusal guard). Before the seal: run P0 with the same seed for 1 s
 at cc33b37 and at the seal commit, both on the default delivery route (`JAXFNE_EDGE_DELIVERY` unset; cc33b37 has no
-delivery switch), and compare bitwise. The cc33b37 side runs from a `git archive cc33b37` tree in session scratch, with
-`PYTHONPATH` set to that tree; the seal side runs from the seal commit. Any difference blocks the seal and is recorded;
-the seal then names which code state is P0.
+delivery switch), and compare bitwise. The cc33b37 side runs from a `git archive cc33b37` tree in session scratch; the
+seal side runs from the seal commit (the driver puts its own tree first on `sys.path`). Any difference blocks the seal
+and is recorded; the seal then names which code state is P0.
+Result 2026-11-26: EQUAL (seed 7, 1 s, CPU, 0.5.8, default route; 22 arrays and 10 fields; known negative, one flipped
+bit in `g_nS`, reads DIFFERENT). Receipt `docs/receipts/lansa_r2_preseal_2026-11-26.md`.
 
 Comparison object (review B3): each side produces its own output with its own code, `scripts/run_e2_stack.py` of that
 commit. Compared: (a) every array of the `.npz` (`counts`, `block_keys`, `g_nS`, `lfp_pA`, the per-block raster samples),
@@ -65,10 +67,12 @@ compared); (b) the run JSON fields present at both commits that describe the net
 `g_columns`, `g_reversal_mV`, `g_tau_ms`, equal as parsed JSON. Synaptic weights and delays are not serialised as such by
 either driver; they are tested only through (a), whose `g_nS` and spike arrays depend on them (INFERRED sufficiency).
 
-Delivery check, separate: at the seal commit, the same P0 seed for 1 s on the default route and with
-`JAXFNE_EDGE_DELIVERY=event`, compared bitwise on (a) and (b). Prior evidence: 1bef838 (FINDINGS section 5): run
-`evchk_kd1p41_sst15_n4000_s1_T8` (351f6048, event) equal to `t1_kd1p41_n4000_s1_T8` (0.5.8, default) in 22 arrays; both
-records read `jax_devices` `["cpu:0"]`, no matmul-precision setting recorded. It does not cover P0.
+Delivery check (drafts 3-4): dropped. The event run failed at once: JaxFNE 0.5.8 (tag `v0.5.8`) has no `edge_delivery`
+(`RuntimeConfig.__init__() got an unexpected keyword argument 'edge_delivery'`; no `edge_delivery` match in the tag's
+source). Event delivery exists from 351f6048 (`v0.5.9-107-g351f6048`), so the event-route T1 runs ran on 0.5.9, as their
+records state. Scored runs therefore use the default route (section 5); the baseline above already covers it. 1bef838
+(`evchk_kd1p41_sst15_n4000_s1_T8`, 351f6048, event, equal to `t1_kd1p41_n4000_s1_T8`, 0.5.8, default; both `cpu:0`)
+stays prior evidence only.
 
 Device and precision (review A2): every bitwise check and every scored run uses one engine (JaxFNE 0.5.8, venv
 `/home/hamm/.venvs/jomission058gpu`), one device and one precision, named in section 5. A bitwise result across devices
@@ -81,8 +85,8 @@ retune: any later change is a new lineage.
 
 - Engine: JaxFNE 0.5.8, the execution authority (`manifests/current_state.json` `jaxfne_version`). Venv
   `/home/hamm/.venvs/jomission058gpu` (decided Hamm 2026-11-25; built 2026-11-26 from tag `v0.5.8` = 11957afa): jaxfne
-  0.5.8, jax/jaxlib 0.10.2 with the CUDA 12 plugin, `jax.default_backend()` = `gpu`; jomission is not installed there and
-  is imported through `PYTHONPATH`. The gate venv `/home/hamm/.venvs/jomission058` (CPU) is not used for runs.
+  0.5.8, jax/jaxlib 0.10.2 with the CUDA 12 plugin, `jax.default_backend()` = `gpu`; jomission is not installed there; the
+  driver imports it from its own tree. The gate venv `/home/hamm/.venvs/jomission058` (CPU) is not used for runs.
 - Device: D1, decided (Hamm 2026-11-26). Options as put to him:
   - D1 (recommended): CPU, `JAX_PLATFORMS=cpu` in the same venv. Same device as 1bef838 and the T1 confirmation (neither
     1bef838 record names its venv; all three
@@ -93,13 +97,15 @@ retune: any later change is a new lineage.
     does not record precision; D2 needs a driver change to record it, which the seal commit must contain. No GPU result
     appears in cowork `results/laminar_e2` at 21b2697 (127 run records with `jax_devices`, all `cpu:0`; 8 analysis files
     carry no device field), so D2 has no continuity with T1 there; other trees were not checked.
-- Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms, `JAXFNE_EDGE_DELIVERY=event`: the T1 confirmation settings (`T_s`
-  12.0, `dt_ms` 0.1 in their run records). Discard as the scorer applies it, unchanged.
-- Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. It builds the event
-  `RuntimeConfig` only when `JAXFNE_EDGE_DELIVERY=event` is set (`runtime_kw`, lines 40-47); unset is the default route.
-  The code SHA is the seal commit. Tags: `r2_p0_n4000_s{7,8,9}_T12` (scored), `r2_smoke_p0_n4000_s7_T1` (smoke).
-- Cost reference: T1 confirmation, CPU, event route, simulate 181-194 s per 12 s run (`wall_s`); 3 runs about 10 min
-  (INFERRED; P0 has no kd or sstd token and may differ in spike count).
+- Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms (the T1 confirmation `T_s` and `dt_ms`), default delivery route:
+  `JAXFNE_EDGE_DELIVERY` unset (section 4: 0.5.8 has no event route; decided by the agent 2026-11-26 under the owner's
+  standing rule, reason: it keeps the 0.5.8 pin, needs no new ruling, and is the route the baseline proved). Discard as
+  the scorer applies it, unchanged.
+- Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. `JAXFNE_EDGE_DELIVERY` unset
+  gives the default route (`runtime_kw`, lines 40-47). The code SHA is the seal commit. Tags: `r2_p0_n4000_s{7,8,9}_T12`
+  (scored), `r2_smoke_p0_n4000_s7_T1` (smoke).
+- Cost: baseline P0, CPU, default route, simulate 211-213 s per 1 s; a 12 s run about 42 min (INFERRED, linear in T);
+  the three seeds run in parallel.
 - Smoke first: one seed, 1 s, checks construction, finite output and the V0/V1 artifacts; it is not scored against Y.
 
 ## 6. Readout conditions and controls
@@ -116,9 +122,8 @@ median summary); conditions G0, G1, G2, G3, G1'; controls K1 (flat spectrum) and
   that reports the best Y run failing it. It is Y-exposed. It is retained by the 2026-11-25 ruling and not changed here.
   Sensitivity, descriptive only: the continuous median r_gm and r_ab are reported, with pass/fail at 0.5 and 0.7 beside
   0.6. Only 0.6 carries the claim.
-- Event delivery is set explicitly with `JAXFNE_EDGE_DELIVERY=event`, which makes the driver pass
-  `RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event")`; every scored run's record (seeds 7-9) must read
-  `edge_delivery` `event`. The baseline and the default-route check record `default`.
+- Every scored run's record (seeds 7-9) must read `edge_delivery` `default`, `jaxfne_version` `0.5.8` and `jax_devices`
+  `["cpu:0"]`.
 
 ## 8. Visualization contract
 
@@ -130,6 +135,7 @@ the lineage is declared complete (`manifests/visualization_contract.json`). The 
 Decided 2026-11-25: parameter set P0; `sigma_alt` 0.25 (no data basis); depths as listed; 0.5.8 GPU venv (built
 2026-11-26). Decided 2026-11-26: device D1 (CPU); the section 7 rule; manifest entry `SCI-LANSA-GEOM-R2`. Open:
 
-1. Before the seal (agent work): the bitwise P0 baseline and the delivery check (section 4), CPU.
+1. Before the seal: the bitwise P0 baseline, EQUAL (section 4); the delivery check, dropped (0.5.8 has no event route);
+   an independent review of draft 5.
 
 Fixed and not reopened: the T1 record and FAIL, the gamma criterion, Y, the scorer.

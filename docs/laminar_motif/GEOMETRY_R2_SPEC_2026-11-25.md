@@ -1,4 +1,4 @@
-# Geometry R2 spec, draft 5 (not sealed; execution not authorised)
+# Geometry R2 spec, draft 6 (not sealed; runs wait for the seal)
 
 Status: DRAFT for owner review. Nothing here is sealed. No run starts until (a) every OWNER item in section 9 is decided,
 (b) a manifest entry authorises the lineage, and (c) the final text is committed and pushed as the seal (AGENTS.md).

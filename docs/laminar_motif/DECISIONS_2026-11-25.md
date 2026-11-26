@@ -79,11 +79,11 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 
 - The 57 T1 motif JSON files equal HEAD 21b2697 byte-for-byte (57 of 57, sha256). Their scratch copies also match.
   Verdict JSON files were not compared to HEAD.
-- Working tree: 51 tracked T1 paths are deleted (36 `.json`, 6 `.log`, 9 `.png`). Nine are `t1_kd1_*`, `t1_sst15_*` and
-  `t1_sstd15_*` `_T8.json` entries, which are symlinks at HEAD (mode 120000; three checked). For seed 1 the target
-  `sw_n4000_dens_k1_kd1_sst15_s1_T8.json` is present; the other targets were not checked. None of
-  the 57 search tags' run records is deleted. The other deletions are not classified. Nothing was restored, because the
-  working tree belongs to another agent.
+- Working tree: 51 tracked T1 paths are deleted (36 `.json`, 6 `.log`, 9 `.png`). All 51 are symlinks at HEAD (mode 120000,
+  checked for all 51). 33 targets exist in the working tree. The other 18 are `t1_sst15_*` links, themselves deleted, which
+  resolve through a second hop to `sw_n4000_dens_k1_kd1_sst15_*` files at HEAD. None of the 57 search receipts references a
+  deleted path. Nothing was restored, because the working tree belongs to another agent. Restoring or committing the links
+  is owner decision 6 in section 9 (the naming and provenance choice). Whether any script resolves the `t1_*` names is UNKNOWN.
 - Phase 1 would read run records through `unit_spectra` (units, dt, depth). It must read them from the committed HEAD
   (`git show`), not from the dirty working tree.
 

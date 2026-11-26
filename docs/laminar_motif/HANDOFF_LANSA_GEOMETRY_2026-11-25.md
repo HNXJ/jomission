@@ -75,8 +75,11 @@ Owner decisions are listed in section 5. Do not make them yourself.
    The paper's UNRESOLVED comment (about line 485) flags a different problem, an untracked file.
 3. Layer boundaries. The mouse-model depths are used only as a convention. Whether they apply to the macaque LANSA areas is
    unknown. A macaque source, such as the LANSA histology methods, is not in the repo.
-4. Cowork working tree. 51 tracked T1 paths are deleted: 36 `.json`, 6 `.log`, 9 `.png`. Nine are reference symlinks; three
-   were checked (mode 120000). The rest are not classified. None of the 57 search tags' run records is deleted.
+4. Cowork working tree. 51 tracked T1 paths are deleted: 36 `.json`, 6 `.log`, 9 `.png`. All 51 are symlinks at HEAD
+   21b2697 (mode 120000, checked for all 51). 33 targets exist in the working tree; the other 18 are `t1_sst15_*` links,
+   themselves deleted, which resolve through a second hop to `sw_n4000_dens_k1_kd1_sst15_*` files at HEAD. None of the 57
+   search receipts references a deleted path. This is an alias-naming question, not data loss; restoring or committing the
+   links is owner item 5.5. Whether any script resolves the `t1_*` names is UNKNOWN (not grepped).
 5. Gate. `scripts/project_check.py --offline --no-tests` fails. In `/home/hamm/.venvs/jaxfne`, `jaxfne` 0.5.9 is installed
    and 0.5.8 is required, and `jomission` is not importable there. The manifest's next authorised task is
    `SCI-AGSDR-CALIBRATION`, and `V2_LOCAL_OPERATION` is FAIL. The checkpoint did not cause this, and nothing was changed to

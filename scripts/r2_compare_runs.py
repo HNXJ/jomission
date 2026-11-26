@@ -34,7 +34,8 @@ def main(a: str, b: str) -> int:
         eq = f in ja and f in jb and ja[f] == jb[f]
         ok &= eq
         print(f"json {f}: {'equal' if eq else 'DIFFER'}")
-    print(f"spikes_a {int(za['counts'].sum())} devices {ja.get('jax_devices')} {jb.get('jax_devices')} "
+    spikes = int(za["counts"].sum()) if "counts" in za.files else None
+    print(f"spikes_a {spikes} devices {ja.get('jax_devices')} {jb.get('jax_devices')} "
           f"jaxfne {ja.get('jaxfne_version')} {jb.get('jaxfne_version')} "
           f"edge_delivery {ja.get('edge_delivery')} {jb.get('edge_delivery')}")
     print("EQUAL" if ok else "DIFFERENT")

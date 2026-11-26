@@ -1,7 +1,8 @@
-# Geometry R2 spec, draft 6 (not sealed; runs wait for the seal)
+# Geometry R2 spec, draft 7 (not sealed; runs wait for the seal)
 
-Status: DRAFT for owner review. Nothing here is sealed. No run starts until (a) every OWNER item in section 9 is decided,
-(b) a manifest entry authorises the lineage, and (c) the final text is committed and pushed as the seal (AGENTS.md).
+Status: DRAFT. Nothing here is sealed. No run starts until (a) every OWNER item in section 9 is decided,
+(b) `manifests/current_state.json` `next_authorized_task` names `SCI-LANSA-GEOM-R2` (AGENTS.md scope; set by the owner
+2026-11-26), and (c) the final text is committed and pushed as the seal (AGENTS.md).
 
 ## 1. Owner decision
 
@@ -9,12 +10,15 @@ Hamm, 2026-11-25, by direct answer in session jxm-dev (relayed to other lanes): 
 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` section 3): new spectra whose parameters are fixed before any comparison with
 the observed map Y. R1 is not run. Same session, same day: parameter set P0; `sigma_alt` 0.25 (no data basis); depths confirmed as listed
 (+0.095, +0.198 primary, +0.406 sensitivity; mouse-derived, macaque transfer assumed); a 0.5.8 GPU venv for execution.
-Hamm, 2026-11-26, same session, to the open items of draft 4.1 (a4b9a89: device D1 recommended, section 7 rule,
-manifest entry `SCI-LANSA-GEOM-R2`): "proceed with recommendations". Decided: device D1 (CPU); the section 7 rule as
-written; the manifest entry.
-Reviews: draft 1 (6b95a85) REVISE, `docs/receipts/lansa_r2_spec_review_2026-11-25.md` (0da32ff); draft 2 (6185106)
-REVISE (a58f3e9); draft 3 (5d4acf5) REVISE, `docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md` (a1d8ed9). All
-addressed below.
+Hamm, 2026-11-26, in Claude Code session f323fbb0-1dd8-4a90-8876-fe88be7c8e01 (cwd `/mnt/d/cowork/jomission`), to the
+open items of draft 4.1 (a4b9a89: device D1 recommended, section 7 rule, manifest entry `SCI-LANSA-GEOM-R2`): "proceed
+with recommendations". Decided: device D1 (CPU); the section 7 rule as written; the manifest entry. Same session, same
+day, "Yes, set it" to "Set next_authorized_task to SCI-LANSA-GEOM-R2 (AGSDR calibration stays OPEN)?".
+Reviews (independent, session main-jomission; receipts on `_temp_lansa_r2_handoff_20261125`): draft 1 (6b95a85)
+REVISE, `docs/receipts/lansa_r2_spec_review_2026-11-25.md` (0da32ff); draft 2 (6185106) REVISE (a58f3e9); draft 3
+(5d4acf5) REVISE, `lansa_r2_spec_rev3_review_2026-11-26.md` (a1d8ed9); draft 4 (d2df9d5) ACCEPT with wording fixes,
+`lansa_r2_spec_rev4_review_2026-11-26.md` (165f68c); draft 5 (3b2ceb1) REVISE, `lansa_r2_spec_rev5_review_2026-11-26.md`
+(8015c5e); draft 6 (bc68dbb) REVISE, `lansa_r2_spec_rev6_review_2026-11-26.md` (68d0593). All addressed below.
 
 ## 2. Question
 
@@ -95,8 +99,8 @@ retune: any later change is a new lineage.
   - D2: GPU with `JAX_DEFAULT_MATMUL_PRECISION=highest` on every side. On this GPU the default float32 matmul runs in TF32
     (probe 2026-11-26, 512^2 normal product, seed 0, max error vs float64: 3.5e-2 default, 9.5e-5 `highest`). The driver
     does not record precision; D2 needs a driver change to record it, which the seal commit must contain. No GPU result
-    appears in cowork `results/laminar_e2` at 21b2697 (127 run records with `jax_devices`, all `cpu:0`; 8 analysis files
-    carry no device field), so D2 has no continuity with T1 there; other trees were not checked.
+    appears in cowork `results/laminar_e2` at 21b2697 (493 JSON files; the 127 with `jax_devices` all read `cpu:0`; the
+    other 366 carry no device field), so D2 has no continuity with T1 there; other trees were not checked.
 - Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms (the T1 confirmation `T_s` and `dt_ms`), default delivery route:
   `JAXFNE_EDGE_DELIVERY` unset (section 4: 0.5.8 has no event route; decided by the agent 2026-11-26 under the owner's
   standing rule, reason: it keeps the 0.5.8 pin, needs no new ruling, and is the route the baseline proved). Discard as
@@ -105,12 +109,13 @@ retune: any later change is a new lineage.
   gives the default route (`runtime_kw`, lines 40-47). The code SHA is the seal commit. Tags: `r2_p0_n4000_s{7,8,9}_T12`
   (scored), `r2_smoke_p0_n4000_s7_T1` (smoke).
 - Cost: baseline P0, CPU, default route, simulate 211-213 s per 1 s; a 12 s run about 42 min (INFERRED, linear in T).
-  The T1 confirmation's 181-194 s per 12 s ran the event route on 0.5.9, a different engine; the two costs are not
-  comparable.
-- Threads: every run sets `JAX_PLATFORMS=cpu`, `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`; XLA's
+  The T1 confirmation's 181-194 s per 12 s ran the event route on 0.5.9, a different engine; the ratio, about 13-14x
+  (DERIVED from those figures), is not an engine comparison on equal work.
+- Threads: from the smoke run on, every run sets `JAX_PLATFORMS=cpu`, `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`; XLA's
   own CPU threading is left at its default. The three seeds run in parallel (24 cores). Serial-parallel equivalence: seed
   7 at 1 s run alone and alongside seeds 8 and 9, compared with `scripts/r2_compare_runs.py`; result in the pre-seal
-  receipt. A difference blocks parallel execution, and the seeds then run one at a time.
+  receipt. A difference blocks parallel execution, and the seeds then run one at a time. The section 4 baseline ran
+  with BLAS threads at default; it equals the pinned serial run (receipt section 3).
 - Smoke first: one seed, 1 s, checks construction, finite output and the V0/V1 artifacts; it is not scored against Y.
 
 ## 6. Readout conditions and controls
@@ -138,9 +143,11 @@ the lineage is declared complete (`manifests/visualization_contract.json`). The 
 ## 9. OWNER items before sealing
 
 Decided 2026-11-25: parameter set P0; `sigma_alt` 0.25 (no data basis); depths as listed; 0.5.8 GPU venv (built
-2026-11-26). Decided 2026-11-26: device D1 (CPU); the section 7 rule; manifest entry `SCI-LANSA-GEOM-R2`. Open:
+2026-11-26). Decided 2026-11-26: device D1 (CPU); the section 7 rule; manifest entry `SCI-LANSA-GEOM-R2`;
+`next_authorized_task` = `SCI-LANSA-GEOM-R2`. Open owner items: none.
 
-1. Before the seal: the bitwise P0 baseline, EQUAL (section 4); the delivery check, dropped (0.5.8 has no event route);
-   an independent review of draft 5.
+Pre-seal agent work, done: bitwise P0 baseline EQUAL (section 4); delivery check dropped (0.5.8 has no event route);
+serial-parallel EQUAL (receipt section 3). The seal requires an independent ACCEPT of this text and `project_check` PASS in
+the canonical checkout.
 
 Fixed and not reopened: the T1 record and FAIL, the gamma criterion, Y, the scorer.

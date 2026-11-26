@@ -96,8 +96,10 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 | 3 | PV/SOM silencing | `SEAL_T4.md`, T4 | `ipvUV` / `isomUV` | dose calibration first (`t4cal`) |
 
 - Nothing run; specs unchanged. The reference stays the sealed T1 reference, per the ruling.
-- Test tier: UNKNOWN. `manifests/test_tiers.json` lists test files (`tests/test_t2_readiness.py`, `tests/test_t4_t5_analysis.py`)
-  but no tier label for T2-T4 was found.
+- Test tier: OPEN. `manifests/test_tiers.json` (about lines 98-116) places `tests/test_t2_readiness.py` and
+  `tests/test_t4_t5_analysis.py` under the heading "simulating, no results writes (tier 2 covers; cost outside tier-1
+  budget)". That heading names tier 2 for this group. The tier of the T2-T4 experiments themselves is not stated, so it
+  stays open.
 
 ## 7. Scientific interpretation
 

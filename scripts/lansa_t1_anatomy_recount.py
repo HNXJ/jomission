@@ -16,9 +16,9 @@ Rules were written on 2026-11-25 and not committed before the run. Gamma superfi
 deep: peak z > deep. Rules A, B and C give identical counts on this data: no alpha-beta peak bin lies between
 +0.095 and +0.25, and the peak bins lie on a 0.05 grid. They are threshold checks, not a sensitivity analysis.
   A  primary, anatomical: sup = z(L4 top), deep = z(L4 bottom).
-  B  sensitivity: the LANSA module boundary, sup = -0.175, deep = +0.175
+  B  threshold check: the LANSA module boundary, sup = -0.175, deep = +0.175
      (docs/laminar_motif/SPEC_OPEN38_SPECTRUM_SENSITIVITY_2026-11-16.md, Laminar modules row).
-  C  sensitivity, stricter: sup = z(L4 top), deep = z(L5 mid).
+  C  threshold check, stricter: sup = z(L4 top), deep = z(L5 mid).
   O  reproduction of the 2026-11-25 chat count: sup = 0, deep = 0. Must give 21 of 57, or the script stops.
 Every rule also needs the endpoint sign crossing (ab - gm < 0 at the first bin and > 0 at the last).
 The scorer's crossing_2se is reported beside it and is not a flag here.

@@ -79,7 +79,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
    21b2697 (mode 120000, checked for all 51). 33 targets exist in the working tree; the other 18 are `t1_sst15_*` links,
    themselves deleted, which resolve through a second hop to `sw_n4000_dens_k1_kd1_sst15_*` files at HEAD. None of the 57
    search receipts references a deleted path. This is an alias-naming question, not data loss; restoring or committing the
-   links is owner item 5.5. Whether any script resolves the `t1_*` names is UNKNOWN (not grepped).
+   links is owner item 5.5 (DECISIONS section 9, decision 6). Whether any script resolves the `t1_*` names is UNKNOWN (not grepped).
 5. Gate. `scripts/project_check.py --offline --no-tests` fails. In `/home/hamm/.venvs/jaxfne`, `jaxfne` 0.5.9 is installed
    and 0.5.8 is required, and `jomission` is not importable there. The manifest's next authorised task is
    `SCI-AGSDR-CALIBRATION`, and `V2_LOCAL_OPERATION` is FAIL. The checkpoint did not cause this, and nothing was changed to

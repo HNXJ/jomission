@@ -83,7 +83,7 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
   checked for all 51). 33 targets exist in the working tree. The other 18 are `t1_sst15_*` links, themselves deleted, which
   resolve through a second hop to `sw_n4000_dens_k1_kd1_sst15_*` files at HEAD. None of the 57 search receipts references a
   deleted path. Nothing was restored, because the working tree belongs to another agent. Restoring or committing the links
-  is owner decision 6 in section 9 (the naming and provenance choice). Whether any script resolves the `t1_*` names is UNKNOWN.
+  is owner decision 6 in section 9, the same as handoff section 5, item 5 (the naming and provenance choice). Whether any script resolves the `t1_*` names is UNKNOWN.
 - Phase 1 would read run records through `unit_spectra` (units, dt, depth). It must read them from the committed HEAD
   (`git show`), not from the dirty working tree.
 

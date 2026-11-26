@@ -17,7 +17,7 @@ on the review branch, before doing anything.
 | Ref | Commit | Status |
 |---|---|---|
 | `origin/_temp_lansa_geom_20261125` | 53a3e45 | Checkpoint, unaccepted. Retained unchanged. Do not rewrite. |
-| `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Current head. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
+| `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Last reviewed revision; the tip moves, so check it with the section 7 command. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
 | `origin/dev` | 264c1e8 | Contains the original audit, uncorrected. Not the corrected version. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) exists only on the review branch.
@@ -59,7 +59,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
   +0.095): 15 of 57 meet the anatomical pattern, and 9 also pass crossing_2se. Rules A, B and C give identical counts, so
   they are threshold checks, not a sensitivity analysis. The observed Y passes rule A (a known-positive check).
 - Independent review of 53a3e45: REVISE, no wrong numbers. All items addressed in 1591c18, except the T2–T4 test-tier label.
-  Revision 2 has not been reviewed yet.
+  Revision 2 (1591c18) was reviewed: ACCEPT, two minor findings, both fixed in d4aa932 (`docs/receipts/lansa_geom_rev2_review_2026-11-25.md`).
 - T1 receipts: the 57 motif JSON files equal cowork HEAD (57 of 57, sha256). The reviewer recomputed the verdict statistics
   from the 57 verdict JSON files and they match the audit.
 - Gamma criterion, T1 record and FAIL: unchanged.
@@ -85,10 +85,17 @@ Owner decisions are listed in section 5. Do not make them yourself.
    `SCI-AGSDR-CALIBRATION`, and `V2_LOCAL_OPERATION` is FAIL. The checkpoint did not cause this, and nothing was changed to
    get past it.
 6. Phase 1 is not in the manifest. Running it needs an authorising entry first.
-7. The T2–T4 test tier is unknown. `manifests/test_tiers.json` lists test files but no tier label for T2–T4.
+7. The T2–T4 test tier is open. `manifests/test_tiers.json` (about lines 98-116) places `tests/test_t2_readiness.py` and `tests/test_t4_t5_analysis.py` under a tier-2 heading; the tier of the experiments themselves is not stated.
 8. The 15/9 counts are descriptive. They are not confirmations of the empirical motif, and must not be reported as
    replications.
 9. Do not describe the depth placement as held-out, and do not describe rules A, B and C as a sensitivity analysis.
+10. JaxFNE admissibility. The per-run `jaxfne_version` fields show: T1 axis-1 and axis-2 search runs (36 records) are 0.5.8.
+   The T1 axis-3 (sstd) search runs (18), the three confirmation runs (seeds 4-6, the T1 FAIL), the reference records
+   `sw_n4000_dens_k1_kd1_sst15_*`, and all 47 O38 records on dev are 0.5.9. E1's per-run records
+   (`results/laminar_e1/e1_rho*_seed*.json`) are 0.5.9. `docs/AUTHORITY_RULING_2026-11-24.md` lines 15-16 admit 0.5.9 only
+   for E0 (Amendment 1) and E1b (families e1bA_*, e1bB_*); every other family is NOT COVERED. So the T1 FAIL, the O38
+   analysis accepted on 2026-11-17, and E1 rest on a version the ruling does not admit. This is an owner ruling, not an
+   environment fix: changing the venv to 0.5.8 does not change these records. T8 was not checked.
 
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
@@ -103,11 +110,15 @@ Owner decisions are listed in section 5. Do not make them yourself.
 6. The T2–T4 test tier, and whether the sealed T1 reference stays as the reference (the ruling says keep it).
 7. Whether Phase 1 is registered in the manifest.
 8. The manuscript geometry paragraph: reword it as exploratory, or hold it until a held-out design exists.
+9. JaxFNE admissibility (section 4, item 10). T1 axis 3, the T1 confirmation runs, the reference `sw_*` records, all 47 O38
+   records on dev and the E1 per-run records are 0.5.9. The 2026-11-24 ruling admits 0.5.9 only for E0 and E1b. Decide
+   whether these records stand under the ruling, need a rerun on 0.5.8, or need a new ruling. A venv change does not alter
+   them. T8 not checked.
 
 ## 6. Next steps, in order
 
 1. Wait for the owner's answer on route R1 or R2 (item 5.1). Do not start Phase 1 before it is registered.
-2. Get a fresh independent review of revision 2 (1591c18). The reviewer must not be the writer.
+2. Independent review of the JaxFNE record (section 4, item 10) and the later revision-3 edits. The reviewer must not be the writer.
 3. Owner or environment task: fix the gate (`jaxfne` 0.5.8, editable install of `jomission`), then run `project_check`.
 4. Only then, and only if the owner decides, consider integration into `dev`. That is the owner's call.
 

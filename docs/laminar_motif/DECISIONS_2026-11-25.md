@@ -86,6 +86,9 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
   is owner decision 6 in section 9, the same as handoff section 5, item 5 (the naming and provenance choice). Whether any script resolves the `t1_*` names is UNKNOWN.
 - Phase 1 would read run records through `unit_spectra` (units, dt, depth). It must read them from the committed HEAD
   (`git show`), not from the dirty working tree.
+- JaxFNE, from the per-run `jaxfne_version` fields: T1 axis 1 and 2 (36 records) are 0.5.8. T1 axis 3 (18), the three
+  confirmation runs, the reference `sw_*` records and all 47 O38 records on dev are 0.5.9. E1's per-run records are 0.5.9.
+  `docs/AUTHORITY_RULING_2026-11-24.md` admits 0.5.9 only for E0 and E1b. Owner decision 9 in section 9. T8 not checked.
 
 ## 6. T2-T4
 
@@ -123,6 +126,10 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 - Independent review: REVISE, minor items, no wrong numbers. Addressed in revision 2: the retired source and mouse species;
   A, B and C identity; the "frozen" wording; the misattributed UNRESOLVED comment; the header; the PLAN citation; the tie rule.
   Still open: the T2-T4 tier.
+- Independent review of revision 2 (1591c18), by the jxm-dev reviewer: ACCEPT, two minor findings (rules B and C labelled
+  "sensitivity"; the T2-T4 tier wording), both fixed in d4aa932 (`docs/receipts/lansa_geom_rev2_review_2026-11-25.md`).
+  Not checked by that reviewer: the protocol's claim of 57 `.npz` files in cowork, and the subset counts in
+  EVIDENCE_AUDIT section 3 (55, 38, 32, 31, 7).
 
 ## 9. Owner decisions needed
 
@@ -136,3 +143,7 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 6. Cowork deletions: restore, or commit the records. Owner decides; not done here.
 7. The T2-T4 test tier.
 8. The manuscript geometry paragraph: reword as exploratory, or hold it.
+9. JaxFNE admissibility. T1 axis 3, the three T1 confirmation runs (the FAIL), the reference `sw_*` records, all 47 O38
+   records on dev and E1's per-run records are JaxFNE 0.5.9. `docs/AUTHORITY_RULING_2026-11-24.md` admits 0.5.9 only for E0
+   and E1b. Decide whether these records stand, need a rerun on 0.5.8, or need a new ruling. Changing the venv does not
+   change the records. T8 not checked.

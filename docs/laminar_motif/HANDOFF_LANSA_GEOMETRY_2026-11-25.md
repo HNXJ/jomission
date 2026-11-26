@@ -19,7 +19,8 @@ on the review branch, before doing anything.
 | `_temp_lansa_geom_20261125` (deleted after merge) | 53a3e45 | Geometry checkpoint, unaccepted. Ancestor of dev; the branch was deleted because its tip is contained in dev. Do not rewrite. |
 | `_temp_lansa_geom_review_20261125` (deleted after merge) | e52b950 | Merged into dev; e52b950 is an ancestor of dev. Revision 3 (d4aa932): wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
 | `_temp_jaxfne059_ruling_20261125` (deleted after merge) | c2e6470 | Merged into dev; c2e6470 is an ancestor of dev. Accepted ruling on JaxFNE admissibility (review ACCEPT at 3739b75; registration at d057609, review ACCEPT with one minor finding). Adds `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`; registered in `manifests/current_state.json` (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` row 8. |
-| `origin/dev` | c2e6470 | Fast-forward from 264c1e8 on Hamm's order (2026-11-25): "merge the ruling branch into dev", then "Push without tests". Carries the geometry lane (53a3e45 through e52b950) and the ruling chain (44d46f1 through c2e6470); every commit has an independent ACCEPT. Tier-0 tests NOT run; the quick gate check fails only on the editable install, which points at `/mnt/d/jomission`. |
+| `origin/_temp_lansa_r2_spec_20261125` | c33e340 | Draft 7 of the R2 spec with the Q4 fix, based on dev 54048dc (drafts 1-6 at 6b95a85, 6185106, 5d4acf5, a4b9a89, 3b2ceb1, bc68dbb; draft 7 at 73ba46b). Draft 7 answers the draft 6 review: §0(b) names `next_authorized_task`; the unsupported file count is replaced by measured counts; §9 lists no open owner items; the receipt records the comparator re-run. Draft 7 review: REVISE (`docs/receipts/lansa_r2_spec_rev7_review_2026-11-26.md`, on this branch): one receipt count (Q4). c33e340 fixes Q4 and nothing else. Text ACCEPT: `docs/receipts/lansa_r2_spec_rev8_review_2026-11-26.md`, on this branch. Not sealed; no run until the seal; the seal waits on the gate (option a, run by the peer in a dedicated venv at the seal SHA). Draft 1 reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`); draft 2 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`); draft 4 reviewed ACCEPT with three minor wording fixes (`docs/receipts/lansa_r2_spec_rev4_review_2026-11-26.md`, on this branch). |
+| `origin/dev` | 54048dc (c2e6470 before the repoint) | Fast-forward from 264c1e8 on Hamm's order (2026-11-25): "merge the ruling branch into dev", then "Push without tests". Carries the geometry lane (53a3e45 through e52b950) and the ruling chain (44d46f1 through c2e6470); every commit has an independent ACCEPT. Tier-0 tests NOT run; the quick gate check fails only on the editable install, which points at `/mnt/d/jomission`. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) is on dev, merged from the review branch at c2e6470.
 
@@ -112,9 +113,16 @@ Owner decisions are listed in section 5. Do not make them yourself.
 
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
-1. Phase 1 route. R1: run on existing spectra and label it exploratory, with no held-out claim. R2: generate new spectra
-   whose parameters are fixed before any comparison with Y. R2 is a new lineage and needs a run. Only R2 supports a
-   held-out claim.
+1. Phase 1 route: decided R2 (Hamm, 2026-11-25, by direct answer in jxm-dev's session; relayed here, not seen). R2 is a new
+   lineage and needs a run. Its draft spec is at c33e340 on `_temp_lansa_r2_spec_20261125` (draft 7 with the Q4 fix; text ACCEPT in rev8):
+   not sealed; no run until the seal. Draft 1 was reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`);
+   draft 2 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`); draft 4 was reviewed ACCEPT with three minor wording fixes (`docs/receipts/lansa_r2_spec_rev4_review_2026-11-26.md`, on this branch). The GPU venv `/home/hamm/.venvs/jomission058gpu` is built (`pip show` checked 2026-11-26). Owner choices in
+   draft 2, relayed from jxm-dev's session: P0, sigma_alt 0.25, the depths as listed, a 0.5.8 GPU venv. Decided by Hamm 2026-11-26
+   (relayed from jxm-dev's session): device D1 (CPU), the section 7 rule, the manifest entry `SCI-LANSA-GEOM-R2` in
+   `manifests/todo.json`. Set: `next_authorized_task` names SCI-LANSA-GEOM-R2 (owner ruling 2026-11-26, relayed; OPEN row 9);
+   no run until the seal. Draft 7 review REVISE (`docs/receipts/lansa_r2_spec_rev7_review_2026-11-26.md`): one receipt
+   count (Q4), fixed at c33e340. Text ACCEPT (`docs/receipts/lansa_r2_spec_rev8_review_2026-11-26.md`). The seal gate
+   (option a, the peer's dedicated venv at the seal SHA) is pending.
 2. Confirm the applied values from the ruling, whose numbers were blank in transmission: deep threshold +0.095; L5 mid
    +0.198 (primary); L6 mid +0.406 (sensitivity).
 3. `sigma_alt` for the 2 x 2 design. The protocol proposes 0.25, which has no data basis.
@@ -130,7 +138,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
 
 ## 6. Next steps, in order
 
-1. Wait for the owner's answer on route R1 or R2 (item 5.1). Do not start Phase 1 before it is registered.
+1. Route R2 is decided and `next_authorized_task` names it (section 5, item 1). Text ACCEPT at c33e340 (`docs/receipts/lansa_r2_spec_rev8_review_2026-11-26.md`). Before any run: seal the final text and run `project_check.py` to PROJECT_CHECK_PASS at the seal SHA. The gate must import the seal SHA: `/mnt/d/jomission` is on `_temp_integ_20261124` at ef0a766 and does not contain the spec, so a run there does not test this lineage. Use a dedicated venv editable-installed from a clean clone (rev7 receipt, option a).
 2. Done: the JaxFNE record was reviewed (ACCEPT at ee61a8d; F1 and F2 applied at e52b950); the ruling was reviewed (REVISE at 44d46f1, ACCEPT at 3739b75).
 3. Done: gate fixed in `/home/hamm/.venvs/jomission058` (option A'; jxm-dev reports quick-contract PASS). `V2_LOCAL_OPERATION` is still FAIL.
 4. Done: integration into dev at c2e6470, on Hamm's order (2026-11-25). Tier-0 tests were not run.

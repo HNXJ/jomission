@@ -5,8 +5,11 @@ Status: DRAFT for owner review. Nothing here is sealed. No run starts until (a) 
 
 ## 1. Owner decision
 
-Hamm, 2026-11-25: route R2 for geometry Phase 1 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` section 3): new spectra whose
-parameters are fixed before any comparison with the observed map Y. R1 is not run.
+Hamm, 2026-11-25, by direct answer in session jxm-dev (relayed to other lanes): route R2 for geometry Phase 1
+(`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` section 3): new spectra whose parameters are fixed before any comparison with
+the observed map Y. R1 is not run. Same session, same day: parameter set P0; `sigma_alt` 0.25; depths confirmed as listed
+(+0.095, +0.198 primary, +0.406 sensitivity; mouse-derived, macaque transfer assumed); a 0.5.8 GPU venv for execution.
+Review of draft 1 (6b95a85): REVISE, `docs/receipts/lansa_r2_spec_review_2026-11-25.md` (0da32ff); addressed below.
 
 ## 2. Question
 
@@ -21,7 +24,7 @@ Its parent cc33b37 (21:48:56) is the last Y-free code state.
 | Knob | Value used by T1 / sw_* / lfs_* | First appearance | Y-exposed? |
 |---|---|---|---|
 | `sstNN` (SST->E decay) | 15 ms | 89a1272, 22:31:47, commit reports "r_proto 0.38" against Y | yes (observed) |
-| `kdB` (local in-degree vs density) | B = 1, then 1.41 | value first in 734fede, "Best 3-unit run so far: kd1 + SST->E 15 ms, r_proto 0.376" | yes (observed) |
+| `kdB` (local in-degree vs density) | B = 1, then 1.41 | kd1 was queued as a plan at cc33b37 ("kd1 x SST 15/30"); first run and named best in 734fede ("kd1 + SST->E 15 ms, r_proto 0.376"); 1.41 is the T1 axis-1 winner | planned before Y, selected after Y: exposed |
 | `sstdNN` | 21 ms | T1 axis 3 winner by r_proto (FINDINGS_2026-11-10.md line 137) | yes (observed) |
 | `dens` (E cells per unit proportional to LANSA density) | on | modifier documented at cc33b37 (`caminos_stack.py` `variant` docstring) | no for the code; see X below |
 | `kX` (inter-unit in-degree K_INTER * X) | 1 | modifier at cc33b37; 1 is the identity | no |
@@ -39,6 +42,14 @@ Ranked proposals; one is chosen and sealed.
 | P0 (recommended) | `e2_3unit_n4000_dens_k1` | every value present at cc33b37, before Y; SST->E on the shared 8 ms receptor; no kd, sst or sstd token | none known from Y; X assumed independent |
 | P1 | `e2_3unit_n4000_dens_k1_kd1` | B = 1 is the linear density scaling, an a-priori form | value first used after Y and named best by r_proto: exposed |
 | P2 | P0 with an SST->E decay from a literature source | needs a cited source, none in the repo | none if the source predates and ignores Y |
+
+Decided: P0 (Hamm 2026-11-25).
+
+Code-path condition (review major 2): the P0 path changed after cc33b37 (`caminos_stack.py` +218/-47 lines with
+`caminos_e0.py` and `run_e2_stack.py`; 7a83ac6 adds a refusal guard). Before the seal: build P0 at cc33b37 and at the seal
+commit with the same seed and compare the constructed network (connectivity, weights, delays, parameters) bitwise, then a
+1 s raster bitwise under the same engine. Any difference blocks the seal and is recorded; the seal then names which code
+state is P0.
 
 P0 may fail the motif outright (FINDINGS shows the motif depends on kd and sst). A failure is a result, not a reason to
 retune: any later change is a new lineage.
@@ -64,8 +75,13 @@ median summary); conditions G0, G1, G2, G3, G1'; controls K1 (flat spectrum) and
 ## 7. Support and falsification (OWNER to confirm)
 
 - Support: G1 median LOAO r_gm >= 0.6, G1 exceeds K1 at the same geometry, and median r_ab >= 0.6.
-- Falsification: G1 median r_gm < 0.6, or G1 does not exceed K1.
-- r_gm threshold 0.6 and the 50-150 Hz band are the T1 criterion (`scripts/e2_scorer.py`), retained by ruling.
+- Falsification: G1 median r_gm < 0.6, or median r_ab < 0.6, or G1 does not exceed K1.
+- Threshold provenance (review major 1): `R_MIN = 0.6` was first set in 9681fc5 (2026-11-09 23:58, after Y), the commit
+  that reports the best Y run failing it. It is Y-exposed. It is retained by the 2026-11-25 ruling and not changed here.
+  Sensitivity, descriptive only: the continuous median r_gm and r_ab are reported, with pass/fail at 0.5 and 0.7 beside
+  0.6. Only 0.6 carries the claim.
+- Event delivery is set explicitly: `RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event")`, recorded in
+  every run record.
 
 ## 8. Visualization contract
 
@@ -74,12 +90,10 @@ the lineage is declared complete (`manifests/visualization_contract.json`). The 
 
 ## 9. OWNER items before sealing
 
-1. Parameter set: P0 (recommended), P1 or P2.
-2. `sigma_alt` for G2/G3 (protocol proposes 0.25; no data basis).
-3. Depth values: deep threshold +0.095; L5 mid +0.198 primary; L6 mid +0.406 sensitivity (ruling numbers blank in
-   transmission).
-4. Support and falsification rule (section 7) as written.
-5. Execution environment: a 0.5.8 GPU venv, or CPU runs.
-6. Manifest entry authorising the lineage (proposed id `SCI-LANSA-GEOM-R2`).
+Decided 2026-11-25: parameter set P0; `sigma_alt` 0.25; depths as listed; 0.5.8 GPU venv. Open:
+
+1. Support and falsification rule (section 7) as revised, including the threshold provenance note.
+2. Manifest entry authorising the lineage (proposed id `SCI-LANSA-GEOM-R2`).
+3. Before the seal (agent work): the bitwise P0 baseline (section 4) and the 0.5.8 GPU venv.
 
 Fixed and not reopened: the T1 record and FAIL, the gamma criterion, Y, the scorer.

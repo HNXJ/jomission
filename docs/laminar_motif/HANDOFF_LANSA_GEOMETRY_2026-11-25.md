@@ -96,6 +96,13 @@ Owner decisions are listed in section 5. Do not make them yourself.
    for E0 (Amendment 1) and E1b (families e1bA_*, e1bB_*); every other family is NOT COVERED. So the T1 FAIL, the O38
    analysis accepted on 2026-11-17, and E1 rest on a version the ruling does not admit. This is an owner ruling, not an
    environment fix: changing the venv to 0.5.8 does not change these records. T8 was not checked.
+   Two further conflicts (review ACCEPT at ee61a8d, findings F1 and F2). (a) The axis-1 reference level mixes versions:
+   `t1_kd1_n4000_s1_T8` resolves to `sw_n4000_dens_k1_kd1_sst15_s1_T8` (0.5.9); seeds 2 and 3 resolve to `lfs_n4000_s2_T8`
+   and `lfs_n4000_s3_T8` (0.5.8). The axis-1 statistics pool two versions at the reference level. Whether that matters is an
+   owner call. (b) The E1 seal (`docs/laminar_motif/E1_SEAL.md` lines 5 and 13) and `docs/laminar_motif/HANDOUT_GEMINI.md`
+   line 25 ("JaxFNE 0.5.9 for E0 and E1") name 0.5.9 for E1. Ruling line 16 marks every other family NOT COVERED, so the
+   seal does not admit it. The counts come from the per-run `jaxfne_version` key, counted by scripts in jxm-dev's scratch
+   (not in the repo). The T1 and `sw_*` counts come from cowork HEAD 21b2697 only; `/mnt/d/jomission` holds no `t1_*` records.
 
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
@@ -113,7 +120,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
 9. JaxFNE admissibility (section 4, item 10). T1 axis 3, the T1 confirmation runs, the reference `sw_*` records, all 47 O38
    records on dev and the E1 per-run records are 0.5.9. The 2026-11-24 ruling admits 0.5.9 only for E0 and E1b. Decide
    whether these records stand under the ruling, need a rerun on 0.5.8, or need a new ruling. A venv change does not alter
-   them. T8 not checked.
+   them. Also: the E1 seal and handout name 0.5.9 for E1, which the ruling does not admit (line 16); and the axis-1 reference level mixes 0.5.9 seed 1 with 0.5.8 seeds 2-3. T8 not checked.
 
 ## 6. Next steps, in order
 

@@ -18,7 +18,7 @@ on the review branch, before doing anything.
 |---|---|---|
 | `origin/_temp_lansa_geom_20261125` | 53a3e45 | Checkpoint, unaccepted. Retained unchanged. Do not rewrite. |
 | `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Last reviewed revision; the tip moves, so check it with the section 7 command. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
-| `origin/_temp_jaxfne059_ruling_20261125` | 3739b75 | Accepted ruling on JaxFNE admissibility, on top of e52b950: `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`. Not yet registered in the manifest or OPEN.md. |
+| `origin/_temp_jaxfne059_ruling_20261125` | d057609 | Accepted ruling on JaxFNE admissibility (review ACCEPT at 3739b75; registration at d057609, review ACCEPT with one minor finding). Adds `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`; registered in `manifests/current_state.json` (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` row 8. The tip moves with later record commits. |
 | `origin/dev` | 264c1e8 | Contains the original audit, uncorrected. Not the corrected version. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) exists only on the review branch.
@@ -85,7 +85,9 @@ Owner decisions are listed in section 5. Do not make them yourself.
    `jomission` not importable there). Fixed by option A' in a separate venv, `/home/hamm/.venvs/jomission058`: jaxfne 0.5.8
    from tag `v0.5.8` (11957afa), `jomission` editable. jxm-dev reports rc 0 at ef0a766, and the reviewer re-ran it with the
    same output as `docs/receipts/gate_jomission058_2026-11-25.md`. This is the quick contract only. `V2_LOCAL_OPERATION` is
-   still FAIL, independent of the environment. The shared venv is unchanged.
+   still FAIL, independent of the environment. The shared venv is unchanged. A clean run at d057609 has not been made from `/mnt/d/jomission`: the clone run fails only on
+   the editable install, which points at `/mnt/d/jomission` (expected). A clean run needs the branch checked out or merged
+   there, which is Hamm's call.
 6. Phase 1 is not in the manifest. Running it needs an authorising entry first.
 7. The T2–T4 test tier is open. `manifests/test_tiers.json` (about lines 98-116) places `tests/test_t2_readiness.py` and `tests/test_t4_t5_analysis.py` under a tier-2 heading; the tier of the experiments themselves is not stated.
 8. The 15/9 counts are descriptive. They are not confirmations of the empirical motif, and must not be reported as
@@ -104,8 +106,9 @@ Owner decisions are listed in section 5. Do not make them yourself.
    open. (b) The E1 seal (`docs/laminar_motif/E1_SEAL.md` lines 5 and 13) and `docs/laminar_motif/HANDOUT_GEMINI.md` line 25
    ("JaxFNE 0.5.9 for E0 and E1") name 0.5.9 for E1. The 2026-11-24 ruling did not admit E1; the 2026-11-25 ruling admits it
    under its own seal pin only. The seal and handout wording are unchanged. (c) The counts come from cowork HEAD 21b2697
-   (T1, `sw_*`, E1) and `origin/dev` 264c1e8 (O38); `/mnt/d/jomission` holds no `t1_*` records. The owner word is relayed
-   from jxm-dev's session; Hamm's direct confirmation is pending (section 5, item 9).
+   (T1, `sw_*`, E1) and `origin/dev` 264c1e8 (O38); `/mnt/d/jomission` holds no `t1_*` records. The owner word is relayed from
+   jxm-dev's session: ruling section 1 quotes "confirmed, register the ruling", and that session registered the ruling at
+   d057609 (section 5, item 9). Hamm's words were not seen in this lane.
 
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
@@ -120,10 +123,10 @@ Owner decisions are listed in section 5. Do not make them yourself.
 6. The T2–T4 test tier, and whether the sealed T1 reference stays as the reference (the ruling says keep it).
 7. Whether Phase 1 is registered in the manifest.
 8. The manuscript geometry paragraph: reword it as exploratory, or hold it until a held-out design exists.
-9. Hamm's direct confirmation of the 2026-11-25 JaxFNE ruling (section 4, item 10). Its owner word is relayed from jxm-dev's
-   session; the words were not seen here. After confirmation, register the ruling in `manifests/current_state.json` and
-   `docs/OPEN.md`, which is not yet done. Also open: whether the mixed axis-1 reference level matters scientifically, and
-   whether the E1 seal and handout wording need correcting.
+9. Gate at d057609: a clean `project_check` run from `/mnt/d/jomission`, once the branch is checked out or merged there. That is
+   Hamm's call. Registration of the ruling (`manifests/current_state.json`, `docs/OPEN.md` row 8) is done at d057609; the
+   owner word for it is relayed, not seen here. Also open: whether the mixed axis-1 reference level matters scientifically,
+   and whether the E1 seal and handout wording need correcting.
 
 ## 6. Next steps, in order
 

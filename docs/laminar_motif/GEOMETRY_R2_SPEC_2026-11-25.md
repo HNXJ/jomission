@@ -56,7 +56,8 @@ the seal then names which code state is P0.
 
 Comparison object (review B3): each side produces its own output with its own code, `scripts/run_e2_stack.py` of that
 commit. Compared: (a) every array of the `.npz` (`counts`, `block_keys`, `g_nS`, `lfp_pA`, the per-block raster samples),
-key sets and bytes equal; (b) the run JSON fields present at both commits that describe the network: `sizes`, `edges`
+equal key sets and, per array after loading, equal dtype, shape and `tobytes()` (the compressed container file is not
+compared); (b) the run JSON fields present at both commits that describe the network: `sizes`, `edges`
 (`caminos_stack.edge_table`, edge counts per projection), `p_local`, `p_inter`, `rho`, `depth_rel_L4`, `tau_sst_e_ms`,
 `g_columns`, `g_reversal_mV`, `g_tau_ms`, equal as parsed JSON. Synaptic weights and delays are not serialised as such by
 either driver; they are tested only through (a), whose `g_nS` and spike arrays depend on them (INFERRED sufficiency).
@@ -80,13 +81,15 @@ retune: any later change is a new lineage.
   0.5.8, jax/jaxlib 0.10.2 with the CUDA 12 plugin, `jax.default_backend()` = `gpu`; jomission is not installed there and
   is imported through `PYTHONPATH`. The gate venv `/home/hamm/.venvs/jomission058` (CPU) is not used for runs.
 - Device (OWNER, ranked):
-  - D1 (recommended): CPU, `JAX_PLATFORMS=cpu` in the same venv. Matches 1bef838 and the T1 confirmation (all three
+  - D1 (recommended): CPU, `JAX_PLATFORMS=cpu` in the same venv. Same device as 1bef838 and the T1 confirmation (neither
+    1bef838 record names its venv; all three
     `t1_confirm_*` records read `jax_devices` `["cpu:0"]`, event route, simulate 181-194 s per 12 s run). Every record's
     `jax_devices` must read `["cpu:0"]`.
   - D2: GPU with `JAX_DEFAULT_MATMUL_PRECISION=highest` on every side. On this GPU the default float32 matmul runs in TF32
     (probe 2026-11-26, 512^2 normal product, seed 0, max error vs float64: 3.5e-2 default, 9.5e-5 `highest`). The driver
     does not record precision; D2 needs a driver change to record it, which the seal commit must contain. No GPU result
-    exists for any E2 family, so D2 has no continuity with T1.
+    appears in cowork `results/laminar_e2` at 21b2697 (127 run records with `jax_devices`, all `cpu:0`; 8 analysis files
+    carry no device field), so D2 has no continuity with T1 there; other trees were not checked.
 - Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms, `JAXFNE_EDGE_DELIVERY=event`: the T1 confirmation settings (`T_s`
   12.0, `dt_ms` 0.1 in their run records). Discard as the scorer applies it, unchanged.
 - Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. It builds the event

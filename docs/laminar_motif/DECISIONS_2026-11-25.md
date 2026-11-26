@@ -138,7 +138,8 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 ## 9. Owner decisions needed
 
 1. Independence route. R1: accept the spectrum-level leakage and label Phase 1 exploratory (no held-out claim). R2: new
-   spectra with parameters fixed before any comparison with Y (a new lineage, with authorisation and a run).
+   spectra with parameters fixed before any comparison with Y (a new lineage, with authorisation and a run). Decided: R2
+   (relayed from jxm-dev's session, 2026-11-25). Draft spec at 6b95a85 reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`).
 2. Phase 1 registration. The manifest's next authorised task does not name it. Execution needs an authorising entry.
 3. Macaque layer boundaries. A macaque source (the LANSA histology methods, not in the repo) is needed. Until then the
    recount is a mouse-model-convention recount.

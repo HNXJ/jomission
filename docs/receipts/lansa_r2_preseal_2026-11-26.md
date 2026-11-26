@@ -40,3 +40,17 @@ Thread environment of section 1: `JAX_PLATFORMS=cpu` only, BLAS threads at defau
 `TypeError: RuntimeConfig.__init__() got an unexpected keyword argument 'edge_delivery'`.
 `git grep edge_delivery v0.5.8` in the JaxFNE repo: no match. 351f6048 = `v0.5.9-107-g351f6048`, a descendant of
 `v0.5.8`. Consequence (spec section 5): scored runs use the default route.
+
+## 3. Serial vs parallel: EQUAL
+
+Environment as spec section 5 threads: `JAX_PLATFORMS=cpu`, `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`,
+`MKL_NUM_THREADS=1`; code B. Seed 7, 1 s, run alone (`r2par_serial_s7_T1`, simulate 211.9 s), then seeds 7, 8, 9 at once
+(`r2par_par_s{7,8,9}_T1`, simulate 230.8, 235.8, 232.2 s). Comparator as section 1.
+
+| Pair | Verdict |
+|---|---|
+| serial s7 vs parallel s7 | EQUAL (22 arrays, 10 fields); both `.npz` sha256 `5b9876a09b7d5759778b2e2b2e5ba6e48998fc7570a483c7f996742c5c10d7a2` |
+| section 1 B (BLAS threads default) vs serial s7 (pinned) | EQUAL |
+| parallel s7 vs parallel s8 (known negative: the seed drives the network and the noise) | DIFFERENT: 21 of 22 arrays (`block_keys` equal) and `edges` differ |
+
+The three scored seeds may run in parallel.

@@ -9,6 +9,9 @@ Hamm, 2026-11-25, by direct answer in session jxm-dev (relayed to other lanes): 
 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` section 3): new spectra whose parameters are fixed before any comparison with
 the observed map Y. R1 is not run. Same session, same day: parameter set P0; `sigma_alt` 0.25 (no data basis); depths confirmed as listed
 (+0.095, +0.198 primary, +0.406 sensitivity; mouse-derived, macaque transfer assumed); a 0.5.8 GPU venv for execution.
+Hamm, 2026-11-26, same session, to the open items of draft 4.1 (a4b9a89: device D1 recommended, section 7 rule,
+manifest entry `SCI-LANSA-GEOM-R2`): "proceed with recommendations". Decided: device D1 (CPU); the section 7 rule as
+written; the manifest entry.
 Reviews: draft 1 (6b95a85) REVISE, `docs/receipts/lansa_r2_spec_review_2026-11-25.md` (0da32ff); draft 2 (6185106)
 REVISE (a58f3e9); draft 3 (5d4acf5) REVISE, `docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md` (a1d8ed9). All
 addressed below.
@@ -80,7 +83,7 @@ retune: any later change is a new lineage.
   `/home/hamm/.venvs/jomission058gpu` (decided Hamm 2026-11-25; built 2026-11-26 from tag `v0.5.8` = 11957afa): jaxfne
   0.5.8, jax/jaxlib 0.10.2 with the CUDA 12 plugin, `jax.default_backend()` = `gpu`; jomission is not installed there and
   is imported through `PYTHONPATH`. The gate venv `/home/hamm/.venvs/jomission058` (CPU) is not used for runs.
-- Device (OWNER, ranked):
+- Device: D1, decided (Hamm 2026-11-26). Options as put to him:
   - D1 (recommended): CPU, `JAX_PLATFORMS=cpu` in the same venv. Same device as 1bef838 and the T1 confirmation (neither
     1bef838 record names its venv; all three
     `t1_confirm_*` records read `jax_devices` `["cpu:0"]`, event route, simulate 181-194 s per 12 s run). Every record's
@@ -94,7 +97,7 @@ retune: any later change is a new lineage.
   12.0, `dt_ms` 0.1 in their run records). Discard as the scorer applies it, unchanged.
 - Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. It builds the event
   `RuntimeConfig` only when `JAXFNE_EDGE_DELIVERY=event` is set (`runtime_kw`, lines 40-47); unset is the default route.
-  The code SHA is the seal commit.
+  The code SHA is the seal commit. Tags: `r2_p0_n4000_s{7,8,9}_T12` (scored), `r2_smoke_p0_n4000_s7_T1` (smoke).
 - Cost reference: T1 confirmation, CPU, event route, simulate 181-194 s per 12 s run (`wall_s`); 3 runs about 10 min
   (INFERRED; P0 has no kd or sstd token and may differ in spike count).
 - Smoke first: one seed, 1 s, checks construction, finite output and the V0/V1 artifacts; it is not scored against Y.
@@ -105,7 +108,7 @@ As `GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6, unchanged: estimand pe
 median summary); conditions G0, G1, G2, G3, G1'; controls K1 (flat spectrum) and K2 (depth-shuffled null) required.
 `sigma_alt` = 0.25 (Hamm 2026-11-25; no data basis, a contrast to the baseline 0.15, itself an assumption).
 
-## 7. Support and falsification (OWNER to confirm)
+## 7. Support and falsification (decided, Hamm 2026-11-26)
 
 - Support: G1 median LOAO r_gm >= 0.6, G1 exceeds K1 at the same geometry, and median r_ab >= 0.6.
 - Falsification: G1 median r_gm < 0.6, or median r_ab < 0.6, or G1 does not exceed K1.
@@ -125,11 +128,8 @@ the lineage is declared complete (`manifests/visualization_contract.json`). The 
 ## 9. OWNER items before sealing
 
 Decided 2026-11-25: parameter set P0; `sigma_alt` 0.25 (no data basis); depths as listed; 0.5.8 GPU venv (built
-2026-11-26). Open:
+2026-11-26). Decided 2026-11-26: device D1 (CPU); the section 7 rule; manifest entry `SCI-LANSA-GEOM-R2`. Open:
 
-1. Device and precision (section 5): D1 CPU or D2 GPU at `highest`.
-2. Support and falsification rule (section 7) as revised, including the threshold provenance note.
-3. Manifest entry authorising the lineage (proposed id `SCI-LANSA-GEOM-R2`).
-4. Before the seal (agent work, after item 1): the bitwise P0 baseline and the delivery check (section 4).
+1. Before the seal (agent work): the bitwise P0 baseline and the delivery check (section 4), CPU.
 
 Fixed and not reopened: the T1 record and FAIL, the gamma criterion, Y, the scorer.

@@ -89,6 +89,36 @@
     "blocked_by": "P3 owner authorization (native BMTK/NEST reference on the Dropbox checkpoint data; readout comparison defined first)"
    },
   {
+    "id": "SCI-LANSA-GEOM-R2",
+    "status": "OPEN",
+    "trigger": "owner 2026-11-25: geometry Phase 1 route R2, parameter set P0, sigma_alt 0.25, depths as listed, 0.5.8 GPU venv; owner 2026-11-26 \"proceed with recommendations\": device D1 (CPU), the section 7 rule, this entry",
+    "goal": "test whether an anatomically placed readout (fixed depths, fixed sigma) of unit spectra generated without any Y-informed parameter reproduces each held-out area's gamma depth profile (LOAO over 11 LANSA areas)",
+    "parent_authority": "owner 2026-11-25 and 2026-11-26 rulings recorded in docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md section 1; this item authorises the lineage alongside next_authorized_task, which is unchanged",
+    "principal_delta": "new lineage: unit spectra from P0 (e2_3unit_n4000_dens_k1, every value present at cc33b37 before Y) instead of the Y-selected T1 spectra; readout per GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md sections 4-6",
+    "required_inputs": [
+     "docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md",
+     "docs/laminar_motif/GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md",
+     "docs/laminar_motif/data/lansa_lfp_Y.json",
+     "scripts/run_e2_stack.py"
+    ],
+    "frozen": [
+     "the T1 record and FAIL",
+     "the gamma criterion r_gm >= 0.6 (R_MIN, Y-exposed, retained by ruling)",
+     "Y",
+     "the scorer",
+     "JaxFNE 0.5.8, CPU, edge-list event runtime for scored runs"
+    ],
+    "procedure": "pre-seal: P0 bitwise baseline cc33b37 vs seal code and the 1 s event-vs-default check (spec section 4); seal and push the spec; smoke (1 s, V0 and V1); seeds 7, 8, 9 at 12 s; readout conditions G0, G1, G2, G3, G1' with controls K1 and K2; V2 and V3",
+    "acceptance": "spec section 7: support iff G1 median LOAO r_gm >= 0.6, median r_ab >= 0.6 and G1 exceeds K1; otherwise falsified",
+    "stop_condition": "any pre-seal bitwise difference blocks the seal; a P0 motif failure is a result, not a reason to retune; any change of parameter or criterion is a new lineage",
+    "artifacts_expected": [
+     "docs/receipts/lansa_r2_preseal_2026-11-26.md",
+     "results/laminar_e2/r2_p0_n4000_s{7,8,9}_T12.json"
+    ],
+    "downstream_unlock": [],
+    "blocked_by": "the pre-seal checks and the seal"
+   },
+  {
     "id": "SCI-PROP-QUALIFIED-1",
     "status": "LOCKED",
     "trigger": "owner assessment 2026-09-19: after the repaired regime, ask whether ordered trajectory propagation survives in a locally viable cortical regime",

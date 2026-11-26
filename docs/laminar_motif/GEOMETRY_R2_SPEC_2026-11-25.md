@@ -7,7 +7,7 @@ Status: DRAFT for owner review. Nothing here is sealed. No run starts until (a) 
 
 Hamm, 2026-11-25, by direct answer in session jxm-dev (relayed to other lanes): route R2 for geometry Phase 1
 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` section 3): new spectra whose parameters are fixed before any comparison with
-the observed map Y. R1 is not run. Same session, same day: parameter set P0; `sigma_alt` 0.25; depths confirmed as listed
+the observed map Y. R1 is not run. Same session, same day: parameter set P0; `sigma_alt` 0.25 (no data basis); depths confirmed as listed
 (+0.095, +0.198 primary, +0.406 sensitivity; mouse-derived, macaque transfer assumed); a 0.5.8 GPU venv for execution.
 Review of draft 1 (6b95a85): REVISE, `docs/receipts/lansa_r2_spec_review_2026-11-25.md` (0da32ff); addressed below.
 
@@ -24,7 +24,7 @@ Its parent cc33b37 (21:48:56) is the last Y-free code state.
 | Knob | Value used by T1 / sw_* / lfs_* | First appearance | Y-exposed? |
 |---|---|---|---|
 | `sstNN` (SST->E decay) | 15 ms | 89a1272, 22:31:47, commit reports "r_proto 0.38" against Y | yes (observed) |
-| `kdB` (local in-degree vs density) | B = 1, then 1.41 | kd1 was queued as a plan at cc33b37 ("kd1 x SST 15/30"); first run and named best in 734fede ("kd1 + SST->E 15 ms, r_proto 0.376"); 1.41 is the T1 axis-1 winner | planned before Y, selected after Y: exposed |
+| `kdB` (local in-degree vs density) | B = 1, then 1.41 | kd1 was queued as a plan at cc33b37 ("kd1 x SST 15/30"); first run and named best in 734fede ("kd1 + SST->E 15 ms, r_proto 0.376"); 1.41 is the T1 axis-1 winner (FINDINGS_2026-11-10.md line 72) | planned before Y, selected after Y: exposed |
 | `sstdNN` | 21 ms | T1 axis 3 winner by r_proto (FINDINGS_2026-11-10.md line 137) | yes (observed) |
 | `dens` (E cells per unit proportional to LANSA density) | on | modifier documented at cc33b37 (`caminos_stack.py` `variant` docstring) | no for the code; see X below |
 | `kX` (inter-unit in-degree K_INTER * X) | 1 | modifier at cc33b37; 1 is the identity | no |
@@ -48,8 +48,14 @@ Decided: P0 (Hamm 2026-11-25).
 Code-path condition (review major 2): the P0 path changed after cc33b37 (`caminos_stack.py` +218/-47 lines with
 `caminos_e0.py` and `run_e2_stack.py`; 7a83ac6 adds a refusal guard). Before the seal: build P0 at cc33b37 and at the seal
 commit with the same seed and compare the constructed network (connectivity, weights, delays, parameters) bitwise, then a
-1 s raster bitwise under the same engine. Any difference blocks the seal and is recorded; the seal then names which code
-state is P0.
+1 s raster bitwise under the same engine, both sides on the default delivery route (`JAXFNE_EDGE_DELIVERY` unset;
+cc33b37 has no delivery switch). The cc33b37 side runs from a `git archive cc33b37` tree in session scratch, with
+`PYTHONPATH` set to that tree and the 0.5.8 engine; the seal side runs from the seal commit. Any difference blocks the
+seal and is recorded; the seal then names which code state is P0.
+
+Delivery check, separate: at the seal commit, the same P0 seed for 1 s on the default route and with
+`JAXFNE_EDGE_DELIVERY=event`, compared bitwise. Prior evidence: 1bef838 (one 8 s run on 351f6048 equal across the two
+routes, 22 arrays); it does not cover P0.
 
 P0 may fail the motif outright (FINDINGS shows the motif depends on kd and sst). A failure is a result, not a reason to
 retune: any later change is a new lineage.
@@ -57,11 +63,12 @@ retune: any later change is a new lineage.
 ## 5. Execution (proposed)
 
 - Engine: JaxFNE 0.5.8, the execution authority (`manifests/current_state.json` `jaxfne_version`). The gate venv
-  `/home/hamm/.venvs/jomission058` has CPU jaxlib only; a 0.5.8 GPU environment is an OWNER/environment item.
-- Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms, event delivery: the T1 confirmation settings (`T_s` 12.0, `dt_ms`
-  0.1 in their run records). Discard as the scorer applies it, unchanged.
-- Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`, `edge_delivery="event"`) with the sealed layout; the
-  code SHA is the seal commit.
+  `/home/hamm/.venvs/jomission058` has CPU jaxlib only. A 0.5.8 GPU venv is decided (Hamm 2026-11-25) and not yet built.
+- Seeds 7, 8, 9 (T1 used 1-6). T = 12 s, dt 0.1 ms, `JAXFNE_EDGE_DELIVERY=event`: the T1 confirmation settings (`T_s`
+  12.0, `dt_ms` 0.1 in their run records). Discard as the scorer applies it, unchanged.
+- Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. It builds the event
+  `RuntimeConfig` only when `JAXFNE_EDGE_DELIVERY=event` is set (`runtime_kw`, lines 40-47); unset is the default route.
+  The code SHA is the seal commit.
 - Cost reference: `lfs_n4000_s2_T8` simulate 1518 s for 8 s on its recorded machine (`wall_s`); 3 runs of 12 s are
   roughly 3 x 38 min there (INFERRED by scaling; hardware differs).
 - Smoke first: one seed, 1 s, checks construction, finite output and the V0/V1 artifacts; it is not scored against Y.
@@ -70,7 +77,7 @@ retune: any later change is a new lineage.
 
 As `GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6, unchanged: estimand per held-out area (LOAO over 11 areas,
 median summary); conditions G0, G1, G2, G3, G1'; controls K1 (flat spectrum) and K2 (depth-shuffled null) required.
-`sigma_alt` is OWNER (section 9).
+`sigma_alt` = 0.25 (Hamm 2026-11-25; no data basis, a contrast to the baseline 0.15, itself an assumption).
 
 ## 7. Support and falsification (OWNER to confirm)
 
@@ -80,8 +87,9 @@ median summary); conditions G0, G1, G2, G3, G1'; controls K1 (flat spectrum) and
   that reports the best Y run failing it. It is Y-exposed. It is retained by the 2026-11-25 ruling and not changed here.
   Sensitivity, descriptive only: the continuous median r_gm and r_ab are reported, with pass/fail at 0.5 and 0.7 beside
   0.6. Only 0.6 carries the claim.
-- Event delivery is set explicitly: `RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event")`, recorded in
-  every run record.
+- Event delivery is set explicitly with `JAXFNE_EDGE_DELIVERY=event`, which makes the driver pass
+  `RuntimeConfig(recurrent_backend="edge_list", edge_delivery="event")`; each run record's `edge_delivery` field must read
+  `event`.
 
 ## 8. Visualization contract
 

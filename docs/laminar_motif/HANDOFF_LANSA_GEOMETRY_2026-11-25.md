@@ -18,6 +18,7 @@ on the review branch, before doing anything.
 |---|---|---|
 | `origin/_temp_lansa_geom_20261125` | 53a3e45 | Checkpoint, unaccepted. Retained unchanged. Do not rewrite. |
 | `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Last reviewed revision; the tip moves, so check it with the section 7 command. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
+| `origin/_temp_jaxfne059_ruling_20261125` | 3739b75 | Accepted ruling on JaxFNE admissibility, on top of e52b950: `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`. Not yet registered in the manifest or OPEN.md. |
 | `origin/dev` | 264c1e8 | Contains the original audit, uncorrected. Not the corrected version. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) exists only on the review branch.
@@ -80,29 +81,31 @@ Owner decisions are listed in section 5. Do not make them yourself.
    themselves deleted, which resolve through a second hop to `sw_n4000_dens_k1_kd1_sst15_*` files at HEAD. None of the 57
    search receipts references a deleted path. This is an alias-naming question, not data loss; restoring or committing the
    links is owner item 5.5 (DECISIONS section 9, decision 6). Whether any script resolves the `t1_*` names is UNKNOWN (not grepped).
-5. Gate. `scripts/project_check.py --offline --no-tests` fails. In `/home/hamm/.venvs/jaxfne`, `jaxfne` 0.5.9 is installed
-   and 0.5.8 is required, and `jomission` is not importable there. The manifest's next authorised task is
-   `SCI-AGSDR-CALIBRATION`, and `V2_LOCAL_OPERATION` is FAIL. The checkpoint did not cause this, and nothing was changed to
-   get past it.
+5. Gate. `scripts/project_check.py --offline --no-tests` failed in the shared venv (`jaxfne` 0.5.9 installed, 0.5.8 required;
+   `jomission` not importable there). Fixed by option A' in a separate venv, `/home/hamm/.venvs/jomission058`: jaxfne 0.5.8
+   from tag `v0.5.8` (11957afa), `jomission` editable. jxm-dev reports rc 0 at ef0a766, and the reviewer re-ran it with the
+   same output as `docs/receipts/gate_jomission058_2026-11-25.md`. This is the quick contract only. `V2_LOCAL_OPERATION` is
+   still FAIL, independent of the environment. The shared venv is unchanged.
 6. Phase 1 is not in the manifest. Running it needs an authorising entry first.
 7. The T2–T4 test tier is open. `manifests/test_tiers.json` (about lines 98-116) places `tests/test_t2_readiness.py` and `tests/test_t4_t5_analysis.py` under a tier-2 heading; the tier of the experiments themselves is not stated.
 8. The 15/9 counts are descriptive. They are not confirmations of the empirical motif, and must not be reported as
    replications.
 9. Do not describe the depth placement as held-out, and do not describe rules A, B and C as a sensitivity analysis.
-10. JaxFNE admissibility. The per-run `jaxfne_version` fields show: T1 axis-1 and axis-2 search runs (36 records) are 0.5.8.
-   The T1 axis-3 (sstd) search runs (18), the three confirmation runs (seeds 4-6, the T1 FAIL), the reference records
-   `sw_n4000_dens_k1_kd1_sst15_*`, and all 47 O38 records on dev are 0.5.9. E1's per-run records
-   (`results/laminar_e1/e1_rho*_seed*.json`) are 0.5.9. `docs/AUTHORITY_RULING_2026-11-24.md` lines 15-16 admit 0.5.9 only
-   for E0 (Amendment 1) and E1b (families e1bA_*, e1bB_*); every other family is NOT COVERED. So the T1 FAIL, the O38
-   analysis accepted on 2026-11-17, and E1 rest on a version the ruling does not admit. This is an owner ruling, not an
-   environment fix: changing the venv to 0.5.8 does not change these records. T8 was not checked.
-   Two further conflicts (review ACCEPT at ee61a8d, findings F1 and F2). (a) The axis-1 reference level mixes versions:
-   `t1_kd1_n4000_s1_T8` resolves to `sw_n4000_dens_k1_kd1_sst15_s1_T8` (0.5.9); seeds 2 and 3 resolve to `lfs_n4000_s2_T8`
-   and `lfs_n4000_s3_T8` (0.5.8). The axis-1 statistics pool two versions at the reference level. Whether that matters is an
-   owner call. (b) The E1 seal (`docs/laminar_motif/E1_SEAL.md` lines 5 and 13) and `docs/laminar_motif/HANDOUT_GEMINI.md`
-   line 25 ("JaxFNE 0.5.9 for E0 and E1") name 0.5.9 for E1. Ruling line 16 marks every other family NOT COVERED, so the
-   seal does not admit it. The counts come from the per-run `jaxfne_version` key, counted by scripts in jxm-dev's scratch
-   (not in the repo). The T1 and `sw_*` counts come from cowork HEAD 21b2697 only; `/mnt/d/jomission` holds no `t1_*` records.
+10. JaxFNE admissibility, now resolved by a family-scoped ruling. The per-run `jaxfne_version` counts (by script; reviewer
+   ACCEPT at ee61a8d) are: T1 axis-1 and axis-2 search runs (36 records) 0.5.8; T1 axis-3 (sstd) search runs (18), the three
+   confirmation runs (seeds 4-6, the T1 FAIL), the reference `sw_n4000_dens_k1_kd1_sst15_*` records (7), all 47 O38 records
+   on dev (45 accepted, 2 smoke) and E1's per-run records (15) 0.5.9. `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` (on
+   `_temp_jaxfne059_ruling_20261125` at 3739b75, reviewer ACCEPT) admits 0.5.9 for exactly these families. It grants no
+   scientific acceptance: the T1 FAIL stands, each run keeps its exact version, and T8 and anything above 0.5.9 stay NOT
+   COVERED. OPEN-37 and OPEN-41 stay open.
+   Conditions the ruling keeps, and the review findings F1 and F2. (a) The axis-1 reference level mixes versions:
+   `t1_kd1_n4000_s1_T8` resolves to `sw_n4000_dens_k1_kd1_sst15_s1_T8` (0.5.9); seeds 2 and 3 resolve to `lfs_n4000_s2_T8` and
+   `lfs_n4000_s3_T8` (0.5.8). Any statistic pooled over that level must state the mix; whether it matters scientifically is
+   open. (b) The E1 seal (`docs/laminar_motif/E1_SEAL.md` lines 5 and 13) and `docs/laminar_motif/HANDOUT_GEMINI.md` line 25
+   ("JaxFNE 0.5.9 for E0 and E1") name 0.5.9 for E1. The 2026-11-24 ruling did not admit E1; the 2026-11-25 ruling admits it
+   under its own seal pin only. The seal and handout wording are unchanged. (c) The counts come from cowork HEAD 21b2697
+   (T1, `sw_*`, E1) and `origin/dev` 264c1e8 (O38); `/mnt/d/jomission` holds no `t1_*` records. The owner word is relayed
+   from jxm-dev's session; Hamm's direct confirmation is pending (section 5, item 9).
 
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
@@ -117,16 +120,16 @@ Owner decisions are listed in section 5. Do not make them yourself.
 6. The T2–T4 test tier, and whether the sealed T1 reference stays as the reference (the ruling says keep it).
 7. Whether Phase 1 is registered in the manifest.
 8. The manuscript geometry paragraph: reword it as exploratory, or hold it until a held-out design exists.
-9. JaxFNE admissibility (section 4, item 10). T1 axis 3, the T1 confirmation runs, the reference `sw_*` records, all 47 O38
-   records on dev and the E1 per-run records are 0.5.9. The 2026-11-24 ruling admits 0.5.9 only for E0 and E1b. Decide
-   whether these records stand under the ruling, need a rerun on 0.5.8, or need a new ruling. A venv change does not alter
-   them. Also: the E1 seal and handout name 0.5.9 for E1, which the ruling does not admit (line 16); and the axis-1 reference level mixes 0.5.9 seed 1 with 0.5.8 seeds 2-3. T8 not checked.
+9. Hamm's direct confirmation of the 2026-11-25 JaxFNE ruling (section 4, item 10). Its owner word is relayed from jxm-dev's
+   session; the words were not seen here. After confirmation, register the ruling in `manifests/current_state.json` and
+   `docs/OPEN.md`, which is not yet done. Also open: whether the mixed axis-1 reference level matters scientifically, and
+   whether the E1 seal and handout wording need correcting.
 
 ## 6. Next steps, in order
 
 1. Wait for the owner's answer on route R1 or R2 (item 5.1). Do not start Phase 1 before it is registered.
-2. Independent review of the JaxFNE record (section 4, item 10) and the later revision-3 edits. The reviewer must not be the writer.
-3. Owner or environment task: fix the gate (`jaxfne` 0.5.8, editable install of `jomission`), then run `project_check`.
+2. Done: the JaxFNE record was reviewed (ACCEPT at ee61a8d; F1 and F2 applied at e52b950); the ruling was reviewed (REVISE at 44d46f1, ACCEPT at 3739b75).
+3. Done: gate fixed in `/home/hamm/.venvs/jomission058` (option A'; jxm-dev reports quick-contract PASS). `V2_LOCAL_OPERATION` is still FAIL.
 4. Only then, and only if the owner decides, consider integration into `dev`. That is the owner's call.
 
 ## 7. Commands

@@ -88,7 +88,7 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
   (`git show`), not from the dirty working tree.
 - JaxFNE, from the per-run `jaxfne_version` fields: T1 axis 1 and 2 (36 records) are 0.5.8. T1 axis 3 (18), the three
   confirmation runs, the reference `sw_*` records and all 47 O38 records on dev are 0.5.9. E1's per-run records are 0.5.9.
-  `docs/AUTHORITY_RULING_2026-11-24.md` admits 0.5.9 only for E0 and E1b (lines 15-16); line 16 marks every other family NOT COVERED. The E1 seal (`E1_SEAL.md` lines 5 and 13) and `HANDOUT_GEMINI.md` line 25 name 0.5.9 for E1, which is not E1b. That conflict is stated here so that no reader takes the E1 seal as admitting 0.5.9. The axis-1 reference level mixes versions (seed 1 at 0.5.9, seeds 2 and 3 at 0.5.8). OPEN-37 is still open (`docs/OPEN.md` line 63). The T1 and `sw_*` counts come from cowork HEAD 21b2697 only. Owner decision 9 in section 9. T8 not checked.
+  `docs/AUTHORITY_RULING_2026-11-24.md` admits 0.5.9 only for E0 and E1b (lines 15-16); line 16 marks every other family NOT COVERED. The E1 seal (`E1_SEAL.md` lines 5 and 13) and `HANDOUT_GEMINI.md` line 25 name 0.5.9 for E1, which is not E1b. That conflict is stated here so that no reader takes the E1 seal as admitting 0.5.9. The axis-1 reference level mixes versions (seed 1 at 0.5.9, seeds 2 and 3 at 0.5.8). OPEN-37 is still open (`docs/OPEN.md` line 63). The T1 and `sw_*` counts come from cowork HEAD 21b2697 only. Owner decision 9 in section 9, now resolved by the 2026-11-25 ruling (`docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md`, at 3739b75): admitted by family scope with the 2026-11-24 conditions; owner word relayed, direct confirmation pending. T8 not covered.
 
 ## 6. T2-T4
 
@@ -123,6 +123,9 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
     `jomission` package is not importable there (the check asks for an editable install). The manifest's next authorised
     task is `SCI-AGSDR-CALIBRATION`, and its current gate `V2_LOCAL_OPERATION` is FAIL. None of this comes from the
     checkpoint's files, and nothing was changed to get past it.
+- Later, 2026-11-25: gate fixed by option A' (venv `/home/hamm/.venvs/jomission058`, jaxfne 0.5.8 from tag v0.5.8). Quick
+  contract PASS (rc 0) at ef0a766, reported by jxm-dev and re-run by the reviewer; `V2_LOCAL_OPERATION` still FAIL. The
+  bullets above describe the checkpoint, not the current state.
 - Independent review: REVISE, minor items, no wrong numbers. Addressed in revision 2: the retired source and mouse species;
   A, B and C identity; the "frozen" wording; the misattributed UNRESOLVED comment; the header; the PLAN citation; the tie rule.
   Still open: the T2-T4 tier.
@@ -143,7 +146,9 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 6. Cowork deletions: restore, or commit the records. Owner decides; not done here.
 7. The T2-T4 test tier.
 8. The manuscript geometry paragraph: reword as exploratory, or hold it.
-9. JaxFNE admissibility. T1 axis 3, the three T1 confirmation runs (the FAIL), the reference `sw_*` records, all 47 O38
-   records on dev and E1's per-run records are JaxFNE 0.5.9. `docs/AUTHORITY_RULING_2026-11-24.md` admits 0.5.9 only for E0
-   and E1b. Decide whether these records stand, need a rerun on 0.5.8, or need a new ruling. Changing the venv does not
-   change the records. Also decide: the E1 seal and handout name 0.5.9 for E1, which the ruling does not admit; and whether the axis-1 reference level, which mixes 0.5.9 seed 1 with 0.5.8 seeds 2-3, matters. T8 not checked.
+9. JaxFNE admissibility, resolved by the 2026-11-25 ruling (`docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md`, at 3739b75).
+   T1 axis 3, the three T1 confirmation runs (the FAIL), the reference `sw_*` records, all 47 O38 records on dev and E1's
+   per-run records are JaxFNE 0.5.9; the ruling admits them by family scope with the 2026-11-24 conditions. The owner word
+   is relayed from jxm-dev's session; Hamm's direct confirmation is pending. Still open: whether the axis-1 reference mix
+   (seed 1 at 0.5.9, seeds 2-3 at 0.5.8) matters scientifically, and whether the E1 seal and handout wording (0.5.9 for E1)
+   needs correcting. T8 not covered.

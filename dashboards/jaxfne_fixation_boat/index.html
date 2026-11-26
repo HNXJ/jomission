@@ -1,0 +1,601 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Jaxfne Cortical Fixation Boat Task</title>
+<style>
+/* Laminar column, L1–L6, E/PV/SST/VIP per layer (L1 has no E cells by default). Each area is an identical clone of the same per-layer config.
+   E drives PV, SST and VIP; SST inhibits PV (one way); VIP inhibits SST; PV inhibits E.
+   Haptic coupling alpha feeds the boat distance into E cells of every area. */
+:root{
+  --bg:#fbfaf7; --fg:#1d1d1f; --muted:#6b6b72; --line:#dedbd3; --card:#ffffff;
+  --E:#7b2fa3; --PV:#1f6fd0; --SST:#f08c00; --VIP:#2a9d8f;
+  --good:#2b8a3e; --warn:#c2410c; color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15151a; --fg:#ecebe6; --muted:#9b9aa3; --line:#2c2c34; --card:#1d1d24;
+    --E:#b98be0; --PV:#6fa8ff; --SST:#ffb84d; --VIP:#5cc9bb;
+    --good:#7ccf8c; --warn:#ff9b6b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15151a; --fg:#ecebe6; --muted:#9b9aa3; --line:#2c2c34; --card:#1d1d24;
+  --E:#b98be0; --PV:#6fa8ff; --SST:#ffb84d; --VIP:#5cc9bb;
+  --good:#7ccf8c; --warn:#ff9b6b; color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+main{max-width:1180px;margin:0 auto;padding-block:18px 40px}
+h1{font:600 22px/1.2 "Space Grotesk",Inter,system-ui,sans-serif;margin:0 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 14px;max-width:76ch}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.bar label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted);min-width:0}
+.bar input[type=range]{width:140px}
+.bar output{font-variant-numeric:tabular-nums;color:var(--fg)}
+button{font:inherit;background:var(--fg);color:var(--bg);border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
+button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--PV);outline-offset:2px}
+select,input[type=number]{font:inherit;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 6px}
+.cfg{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px;min-width:0}
+.cfg summary{cursor:pointer;font-weight:600}
+.cfg .cap{margin:6px 0 0;color:var(--muted);font-size:12px;max-width:92ch}
+.cfg textarea{display:block;width:100%;min-height:260px;max-width:100%;margin-top:8px;padding:8px;resize:vertical;
+  font:12px/1.4 ui-monospace,Consolas,"Courier New",monospace;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+.cfg .bar{margin:8px 0 0;padding:0;border:0;background:none}
+#cfgMsg{font-size:12px;color:var(--muted)}
+#cfgMsg.err{color:var(--warn)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;min-width:0}
+.stat b{display:block;font:600 19px/1.2 "Space Grotesk",Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.run{font-size:12px;color:var(--muted);margin:0 0 10px;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:900px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+.card{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 8px;min-width:0}
+.card h2{font:600 14px/1.3 Inter,system-ui,sans-serif;margin:0 0 2px}
+.card p.cap{margin:0 0 6px;color:var(--muted);font-size:12px}
+canvas{display:block;width:100%;height:auto;max-width:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:4px 0 0}
+.legend i{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+.note{font-size:12px;color:var(--muted);max-width:92ch;margin-top:14px}
+</style>
+
+<main>
+  <h1>Jaxfne Cortical Fixation Boat Task</h1>
+  <p class="sub">A boat is steered toward a target by a laminar spiking column. Each area is a clone of the same per-layer configuration (L1–L6 with E, PV, SST and VIP cells; L1 has no E cells by default). Haptic coupling α sends the boat distance into the E cells of every area: 0 is off, 1 is the maximum. This is a reduced current-based LIF model in the browser, not the jaxfne 0.5.8 engine, and it is not calibrated.</p>
+
+  <div class="presets" role="group" aria-label="Fixation presets">
+    <button type="button" data-preset="spec">Distance only, α 0 (drifts)</button>
+    <button type="button" data-preset="haptic">Haptic α 1 only (drifts)</button>
+    <button type="button" data-preset="cue">Cue 0.2, α 0 (fixes)</button>
+    <button type="button" data-preset="mixed">Cue 0.2, α 0.5 (fixes)</button>
+  </div>
+
+  <div class="bar" role="group" aria-label="Controls">
+    <button id="play" type="button">Pause</button>
+    <label>Speed <select id="speed"><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option></select></label>
+    <label>Haptic α <span><input id="alpha" type="range" min="0" max="1" step="0.01" value="0.5"> <output id="o_alpha">0.50</output></span></label>
+    <label>Directional cue <span><input id="cue" type="range" min="0" max="0.3" step="0.01" value="0.2"> <output id="o_cue">0.20</output></span></label>
+    <label>Tonic E drive <span><input id="tonic" type="range" min="0" max="0.1" step="0.002" value="0"> <output id="o_tonic">0.000</output></span></label>
+    <label>Noise <span><input id="noise" type="range" min="0" max="0.2" step="0.005" value="0.05"> <output id="o_noise">0.050</output></span></label>
+    <label>Neurons per column <span><input id="ncol" type="range" min="120" max="1000" step="20" value="240"> <output id="o_ncol">240</output></span></label>
+    <label>Areas <span><input id="areas" type="range" min="1" max="4" step="1" value="2"> <output id="o_areas">2</output></span></label>
+    <label>Seed <input id="seed" type="number" min="1" max="9999" value="1" style="width:76px"></label>
+    <button id="apply" class="ghost" type="button">Apply network</button>
+    <button id="reset" class="ghost" type="button">Reset boat</button>
+  </div>
+
+  <details class="cfg">
+    <summary>All parameters (JSON)</summary>
+    <p class="cap">Every model and task parameter, in one object. Missing keys take the default; unknown keys and out-of-range values are rejected with a message and the running network is kept. Apply parameters rebuilds the network and resets the boat. Sliders change α, cue, tonic and noise live; neurons per column, areas and seed take effect on Apply network. Unapplied text in this panel is kept when a slider moves; presets and Reset overwrite it. DT = 0.5 ms and the 2000 Hz sample rate are fixed in the code.</p>
+    <textarea id="cfgText" spellcheck="false" aria-label="Parameters as JSON"></textarea>
+    <div class="bar">
+      <button id="applyCfg" type="button">Apply parameters</button>
+      <button id="resetCfg" class="ghost" type="button">Reset to defaults</button>
+      <span id="cfgMsg" role="status" aria-live="polite"></span>
+    </div>
+  </details>
+
+  <p class="run" id="runinfo" aria-live="off"></p>
+
+  <div class="stats">
+    <div class="stat"><b id="s_e">–</b><span>distance e = |p − p*|</span></div>
+    <div class="stat"><b id="s_fix">–</b><span id="l_fix">time within 0.5 of target, last 30 s</span></div>
+    <div class="stat"><b id="s_f">–</b><span>applied force (x, y)</span></div>
+    <div class="stat"><b id="s_v">–</b><span>boat speed</span></div>
+    <div class="stat"><b id="s_rE">–</b><span>E rate, area 1, mean over 6 layers, L1 = 0 (Hz)</span></div>
+    <div class="stat"><b id="s_rI">–</b><span>PV / SST / VIP rate, area 1 (Hz)</span></div>
+  </div>
+
+  <div class="grid">
+    <figure class="card"><h2>Boat</h2><p class="cap">Position in the plane. Target at p* (origin by default), dashed circle at 2. Trail: one point per control interval (20 ms by default).</p><canvas id="cBoat" width="640" height="520" aria-label="Boat trajectory"></canvas></figure>
+    <figure class="card"><h2>Laminar layers, area 1</h2><p class="cap">Mean rate per layer and population, exponential average with τ = 1 s. Bars share one scale.</p><canvas id="cLayers" width="640" height="520" aria-label="Layer rates"></canvas>
+      <div class="legend"><span><i style="background:var(--E)"></i>E</span><span><i style="background:var(--PV)"></i>PV</span><span><i style="background:var(--SST)"></i>SST</span><span><i style="background:var(--VIP)"></i>VIP</span></div></figure>
+    <figure class="card wide"><h2>Spiking, area 1</h2><p class="cap">Last 2 s. Subsample per layer: up to 4 E, 2 PV, 2 SST, 2 VIP cells (L1 has no E cells by default).</p><canvas id="cRaster" width="1200" height="620" aria-label="Raster"></canvas></figure>
+    <figure class="card wide"><h2>Spectrolaminar motif, area 1</h2><p class="cap">Relative power R(f) = P_layer(f) / max over layers, Welch PSD of the layer field proxy over the last 4 s, log frequency, smoothed in log f. Proxy = ΣE trace − 1.65 · Σ(PV+SST+VIP) trace; it is not an LFP recording. Weak layers are amplified by the normalisation.</p><canvas id="cMotif" width="1200" height="460" aria-label="Spectrolaminar motif"></canvas>
+      <div class="legend" id="motifLegend"></div></figure>
+  </div>
+
+  <p class="note">Defaults, unless changed in All parameters (the connectivity is the routes table there). Connectivity per area: within a layer, E→E (6 inputs), E→PV (18), E→SST (18), E→VIP (12), PV→E inhibitory (4), SST→PV inhibitory one way (4), VIP→SST inhibitory (4, assumed; not in the brief). Layers with no E cells (L1) take E input from L3 (the layer index 2 E population, as in the first version). Between areas, L5 E of area k feeds L2 E of area k+1, and L5 E of area k+1 feeds L6 E and L1 VIP of area k. Motor groups are the first E cells of the readout layer (motorLayer, default L5) in the top area (4 groups of motorPerDir cells: +x, −x, +y, −y); the directional cue always drives the first E cells of L5, decoded every control interval and applied one interval later, as in the fixture. Under the default motorLayer 4 (L5), the readout cells and the cue cells are the same 20 L5 E cells of the top area (16 cells in total at 120 neurons per column with motorPerDir 4, four per direction), so the default readout is the cue's own cells. With motorLayer 5 (L6), the readout is disjoint from the cue, and under the tested wiring (seed 1 checked) no cue cell reaches it: L6 is unsupported under the current connectivity, not shown to be an inferior readout. Defaults are not calibrated. Measured headless, 60 s per run, seed 1, 240 neurons per column, 2 areas: distance only (α 0, cue 0) gives e ≈ 3 at 60 s, and haptic α 1 alone drifts further (e ≈ 4.8 at 60 s). With cue 0.2 and haptic α 0.5, seeds 1–5 at 60 s give e 0.10–0.17 and 100% of the last 30 s within 0.5 of the target; the cue-only case (α 0) was not re-measured. L6 comparison (seeds 1–5, α 0.5, 60 s): with the L5 readout, cue 0 gives e 5.6 (4.1–8.2) and 0% fixation. With the L6 readout, the boat statistics (e, fixation, force) are identical at cue 0 and cue 0.2 (e 5.1, 2.2–7.8, 0% fixation), while the layer rates rE and rI differ. The cue therefore changes network activity but not the boat statistics; with the seed-1 path check, this is consistent with the cue not reaching the L6 readout (inferred, not measured directly). The cue is a labelled addition, not the frozen spec. Fixation is the share of the last 30 s with e ≤ 0.5; before 30 s have passed it is the share since the run started (the stat label shows the window in use).</p>
+</main>
+
+<script>
+(() => {
+// Fixed by the model, not parameters: time step (ms) and sample rate (Hz).
+const DT = 0.5, FS = 2000;
+const LAYERS = 6, TYPES = 4;
+const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+const COLS = { E: '#7b2fa3', PV: '#1f6fd0', SST: '#f08c00', VIP: '#2a9d8f' };
+const LCOL = ['#7b2fa3', '#1f6fd0', '#2a9d8f', '#f08c00', '#e76f51', '#264653'];
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+function rng(seed) { let s = seed >>> 0 || 1; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+// Every model and task parameter. The JSON panel edits exactly this object.
+const DEFAULTS = {
+  seed: 1, areas: 2, neuronsPerColumn: 240,
+  tauMembrane: 10, refractory: 4, tauSyn: [5, 8, 8, 8],
+  layerFrac: [[0, 0.4, 0.2, 0.4], [0.8, 0.1, 0.05, 0.05], [0.8, 0.1, 0.05, 0.05], [0.85, 0.1, 0.03, 0.02], [0.8, 0.12, 0.06, 0.02], [0.8, 0.1, 0.07, 0.03]],
+  bias: [0.11, 0.105, 0.09, 0.09],
+  // per-layer additive drive (rows L1–L6, columns E, PV, SST, VIP), added to bias[type]; zero by default
+  layerOffset: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+  noise: 0.05, tonic: 0, alpha: 0.5, hMax: 0.03, cue: 0.2,
+  // Connectivity table. Each route gives every target cell of type to.type (in layer to.layer, '*' = any)
+  // k presynaptic cells drawn at random from the source population, each with weight w.
+  // from.area: -1 previous area, 0 same area, 1 next area. from.layer: 0–5 or 'same'.
+  // Type codes: 0 E, 1 PV, 2 SST, 3 VIP. fallbackLayer: used when the source population is empty.
+  // Routes are applied in list order for each target cell, so the order fixes the random draws.
+  routes: [
+    { name: 'EE', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 0 }, k: 6, w: 0.01 },
+    { name: 'PVE', from: { area: 0, layer: 'same', type: 1 }, to: { layer: '*', type: 0 }, k: 4, w: -0.05 },
+    { name: 'E L5 -> E L2 (from previous area)', from: { area: -1, layer: 4, type: 0 }, to: { layer: 1, type: 0 }, k: 6, w: 0.02 },
+    { name: 'E L5 -> E L6 (from next area)', from: { area: 1, layer: 4, type: 0 }, to: { layer: 5, type: 0 }, k: 6, w: 0.02 },
+    { name: 'EPV', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 1 }, k: 18, w: 0.04, fallbackLayer: 2 },
+    { name: 'SSTPV', from: { area: 0, layer: 'same', type: 2 }, to: { layer: '*', type: 1 }, k: 4, w: -0.03 },
+    { name: 'ESST', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 2 }, k: 18, w: 0.02, fallbackLayer: 2 },
+    { name: 'VIPSST', from: { area: 0, layer: 'same', type: 3 }, to: { layer: '*', type: 2 }, k: 4, w: -0.05 },
+    { name: 'EVIP', from: { area: 0, layer: 'same', type: 0 }, to: { layer: '*', type: 3 }, k: 12, w: 0.02, fallbackLayer: 2 },
+    { name: 'E L5 -> VIP L1 (from next area)', from: { area: 1, layer: 4, type: 0 }, to: { layer: 0, type: 3 }, k: 6, w: 0.02 },
+  ],
+  // motor readout layer, 0–5 (4 = L5, as in the brief and the fixture; 5 = L6, as in the reference lab)
+  motorLayer: 4, motorPerDir: 5, forceGain: 5, forceNorm: 20,
+  ctrlSteps: 40, damping: 0.8, fixRadius: 0.5, fixWindow: 1500,
+  start: [3, 0], target: [0, 0],
+};
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
+const isInt = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
+const numArr = (v, n) => Array.isArray(v) && v.length === n && v.every(isNum);
+const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const ROUTE_KEYS = ['name', 'from', 'to', 'k', 'w', 'fallbackLayer'];
+function checkRoutes(rs) {
+  if (!Array.isArray(rs) || rs.length > 32) throw new Error('routes must be an array of at most 32 entries');
+  rs.forEach((R, i) => {
+    const tag = 'route ' + i;
+    if (!R || typeof R !== 'object' || Array.isArray(R)) throw new Error(tag + ' must be an object');
+    for (const f of Object.keys(R)) if (!ROUTE_KEYS.includes(f)) throw new Error('unknown field "' + f + '" in ' + tag);
+    if (R.name !== undefined && typeof R.name !== 'string') throw new Error(tag + ': name must be a string');
+    const F = R.from, T = R.to;
+    if (!F || typeof F !== 'object' || !T || typeof T !== 'object') throw new Error(tag + ' needs from and to objects');
+    for (const f of Object.keys(F)) if (!['area', 'layer', 'type'].includes(f)) throw new Error('unknown field "' + f + '" in ' + tag + ' from');
+    for (const f of Object.keys(T)) if (!['layer', 'type'].includes(f)) throw new Error('unknown field "' + f + '" in ' + tag + ' to');
+    if (![-1, 0, 1].includes(F.area)) throw new Error(tag + ': from.area must be -1, 0 or 1');
+    if (!(F.layer === 'same' || isInt(F.layer, 0, 5))) throw new Error(tag + ": from.layer must be 0–5 or 'same'");
+    if (!isInt(F.type, 0, 3)) throw new Error(tag + ': from.type must be 0–3');
+    if (!(T.layer === '*' || isInt(T.layer, 0, 5))) throw new Error(tag + ": to.layer must be 0–5 or '*'");
+    if (!isInt(T.type, 0, 3)) throw new Error(tag + ': to.type must be 0–3');
+    if (!isInt(R.k, 0, 100)) throw new Error(tag + ': k must be an integer 0–100');
+    if (!isNum(R.w) || Math.abs(R.w) > 1) throw new Error(tag + ': w must be a number between −1 and 1');
+    if (R.fallbackLayer !== undefined && !isInt(R.fallbackLayer, 0, 5)) throw new Error(tag + ': fallbackLayer must be 0–5');
+  });
+  // fan-in per target cell: routes that reach a given type in a given layer ('*' reaches every layer)
+  for (let t = 0; t < TYPES; t++) for (let l = 0; l < LAYERS; l++) {
+    const sum = rs.reduce((s, R) => s + ((R.to.type === t && (R.to.layer === '*' || R.to.layer === l)) ? R.k : 0), 0);
+    if (sum > 300) throw new Error('routes: fan-in into type ' + t + ' in layer ' + (l + 1) + ' is ' + sum + '; the limit is 300 per target cell');
+  }
+}
+
+function parseCfg(text) {
+  let obj;
+  try { obj = JSON.parse(text); } catch (e) { throw new Error('not valid JSON: ' + e.message); }
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('parameters must be a JSON object');
+  const out = clone(DEFAULTS);
+  for (const k of Object.keys(obj)) {
+    if (k === 'proj') throw new Error('"proj" was replaced by "routes" (see the README, Connectivity)');
+    if (!has(DEFAULTS, k)) throw new Error('unknown key "' + k + '"');
+    out[k] = obj[k];
+  }
+  checkRoutes(out.routes);
+  const ok = {
+    seed: isInt(out.seed, 1, 999999),
+    areas: isInt(out.areas, 1, 4),
+    neuronsPerColumn: isInt(out.neuronsPerColumn, 6, 1000),
+    tauMembrane: isNum(out.tauMembrane) && out.tauMembrane > 0,
+    refractory: isInt(out.refractory, 0, 1000),
+    tauSyn: numArr(out.tauSyn, 4) && out.tauSyn.every((t) => t > 0),
+    layerFrac: Array.isArray(out.layerFrac) && out.layerFrac.length === LAYERS && out.layerFrac.every((r) => numArr(r, TYPES) && r.every((x) => x >= 0 && x <= 1) && r.reduce((a, b) => a + b, 0) <= 1 + 1e-9),
+    bias: numArr(out.bias, 4) && out.bias.every((b) => b >= 0 && b <= 1),
+    layerOffset: Array.isArray(out.layerOffset) && out.layerOffset.length === LAYERS && out.layerOffset.every((r) => numArr(r, TYPES) && r.every((x) => x >= -1 && x <= 1)),
+    noise: isNum(out.noise) && out.noise >= 0 && out.noise <= 1,
+    tonic: isNum(out.tonic) && out.tonic >= 0 && out.tonic <= 1,
+    alpha: isNum(out.alpha) && out.alpha >= 0 && out.alpha <= 1,
+    hMax: isNum(out.hMax) && out.hMax >= 0 && out.hMax <= 1,
+    cue: isNum(out.cue) && out.cue >= 0 && out.cue <= 1,
+    motorLayer: isInt(out.motorLayer, 0, 5),
+    motorPerDir: isInt(out.motorPerDir, 1, 50),
+    forceGain: isNum(out.forceGain) && out.forceGain >= 0 && out.forceGain <= 100,
+    forceNorm: isNum(out.forceNorm) && out.forceNorm >= 1 && out.forceNorm <= 1000,
+    ctrlSteps: isInt(out.ctrlSteps, 1, 10000),
+    damping: isNum(out.damping) && out.damping >= 0 && out.damping <= 1000,
+    fixRadius: isNum(out.fixRadius) && out.fixRadius >= 0,
+    fixWindow: isInt(out.fixWindow, 1, 1000000),
+    start: numArr(out.start, 2) && out.start.every((x) => Math.abs(x) <= 50),
+    target: numArr(out.target, 2) && out.target.every((x) => Math.abs(x) <= 50),
+  };
+  for (const k of Object.keys(ok)) if (!ok[k]) throw new Error('invalid value for "' + k + '"');
+  return out;
+}
+
+let CFG = clone(DEFAULTS);
+let NET = null, head = 0, filled = 0;
+const BUF2 = 4000, BUF4 = 8000;
+const boat = { x: 3, y: 0, vx: 0, vy: 0, trail: [{ x: 3, y: 0 }] };
+let ctrlStep = 0, cnt = [0, 0, 0, 0], pendF = [0, 0], appF = [0, 0], lastF = [0, 0];
+let fixRing = new Uint8Array(DEFAULTS.fixWindow), fixI = 0, fixN = 0;
+const P = { run: true, speed: 2 };
+
+function build(cfg) {
+  const r = rng(cfg.seed);
+  const LAY = LAYERS, A = cfg.areas;
+  const nL = Math.max(6, Math.round(cfg.neuronsPerColumn / LAY));
+  // rounding remainder goes to the layer's largest fraction, so layers with no E cells keep none
+  const counts = cfg.layerFrac.map(f => { const c = f.map(x => Math.round(x * nL)); const top = f.indexOf(Math.max(...f)); c[top] += nL - c.reduce((a, b) => a + b, 0); return c; });
+  const type = [], area = [], layer = [], pop = {};
+  const key = (a, l, t) => a * 100 + l * 10 + t;
+  for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) for (let t = 0; t < TYPES; t++) {
+    pop[key(a, l, t)] = [];
+    for (let k = 0; k < counts[l][t]; k++) { const n = type.length; type.push(t); area.push(a); layer.push(l); pop[key(a, l, t)].push(n); }
+  }
+  const N = type.length;
+  const start = new Int32Array(N + 1), pre = [], wt = [];
+  const used = cfg.routes.map(() => false);  // routes that drew at least one source cell
+  const pick = (arr, K, w) => { if (!arr || !arr.length) return; for (let k = 0; k < K; k++) { pre.push(arr[Math.floor(r() * arr.length)]); wt.push(w); } };
+  for (let n = 0; n < N; n++) {
+    start[n] = pre.length;
+    const t = type[n], a = area[n], l = layer[n];
+    for (let ri = 0; ri < cfg.routes.length; ri++) {
+      const R = cfg.routes[ri];
+      if (R.to.type !== t || !(R.to.layer === '*' || R.to.layer === l)) continue;
+      const sa = a + R.from.area;
+      if (sa < 0 || sa >= A) continue;
+      const sl = R.from.layer === 'same' ? l : R.from.layer;
+      let src = pop[key(sa, sl, R.from.type)] || [];
+      if (!src.length && R.fallbackLayer !== undefined) src = pop[key(sa, R.fallbackLayer, R.from.type)] || [];
+      if (src.length) used[ri] = true;
+      pick(src, R.k, R.w);
+    }
+  }
+  start[N] = pre.length;
+  const unused = cfg.routes.flatMap((R, i) => (used[i] ? [] : [R.name || 'route ' + i]));
+  const tau =Float64Array.from(type, t => Math.exp(-DT / cfg.tauSyn[t]));
+  const motor = [], cueCells = [];
+  // the directional cue always drives the first E cells of L5 (as in the brief); motorLayer only moves the readout
+  const top = A - 1, nMotor = 4 * cfg.motorPerDir;
+  const cuePop = pop[key(top, 4, 0)] || [], mPop = pop[key(top, cfg.motorLayer, 0)] || [];
+  if (cuePop.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' E cells in layer 5 of the top area (cue); this network has ' + cuePop.length + '. Raise neuronsPerColumn or lower motorPerDir.');
+  if (mPop.length < nMotor) throw new Error('motorPerDir ' + cfg.motorPerDir + ' needs ' + nMotor + ' E cells in layer ' + (cfg.motorLayer + 1) + ' of the top area (readout); this network has ' + mPop.length + '. Raise neuronsPerColumn, lower motorPerDir, or change motorLayer.');
+  for (let i = 0; i < nMotor; i++) { motor.push(mPop[i]); cueCells.push(cuePop[i]); }
+  const groups = [];
+  for (let a = 0; a < A; a++) for (let l = 0; l < LAY; l++) { const g = []; for (let t = 0; t < TYPES; t++) for (const n of pop[key(a, l, t)]) g.push(n); groups.push(g); }
+  const lfpSign = Float64Array.from(type, t => (t === 0 ? 1 : -1.65));
+  return {
+    N, A, nL, unused, type: Uint8Array.from(type), area: Uint8Array.from(area), layer: Uint8Array.from(layer),
+    bias: Float64Array.from(type, (t, n) => cfg.bias[t] + cfg.layerOffset[layer[n]][t]), start, pre: Int32Array.from(pre), w: Float64Array.from(wt),
+    tau, motor, cueCells, groups, lfpSign, mpd: cfg.motorPerDir, tauM: cfg.tauMembrane, refrSteps: cfg.refractory,
+    v: new Float64Array(N), refr: new Int16Array(N), x: new Float64Array(N), spk: new Uint8Array(N),
+    rate: new Float64Array(N), I: new Float64Array(N),
+    raster: null, lfp: Array.from({ length: LAY }, () => new Float32Array(BUF4)),
+    rand: rng(cfg.seed * 7919 + 1),
+  };
+}
+
+function rebuildBuffers() {
+  const net = NET;
+  net.rasterIdx = [];
+  for (let l = 0; l < LAYERS; l++) {
+    const pick = (t, k) => { const a = []; for (let n = 0; n < net.N; n++) if (net.area[n] === 0 && net.layer[n] === l && net.type[n] === t) { a.push(n); if (a.length >= k) break; } return a; };
+    net.rasterIdx.push([...pick(0, 4), ...pick(1, 2), ...pick(2, 2), ...pick(3, 2)]);
+  }
+  net.rbuf = net.rasterIdx.map(list => list.map(() => new Uint8Array(BUF2)));
+}
+
+function distance() { return Math.hypot(boat.x - CFG.target[0], boat.y - CFG.target[1]); }
+
+function step() {
+  const net = NET, N = net.N, d = distance();
+  const hap = CFG.alpha * CFG.hMax * Math.tanh(d);
+  const ux = CFG.target[0] - boat.x, uy = CFG.target[1] - boat.y, nn = Math.hypot(ux, uy) || 1;
+  const cue = new Float64Array(net.cueCells.length);
+  for (let i = 0; i < net.cueCells.length; i++) { const g = Math.floor(i / net.mpd); cue[i] = CFG.cue * Math.max(0, DIRS[g][0] * ux / nn + DIRS[g][1] * uy / nn); }
+  const cuePos = new Map(net.cueCells.map((n, i) => [n, i]));
+  for (let n = 0; n < N; n++) {
+    let I = net.bias[n] + CFG.noise * (net.rand() - 0.5);
+    if (net.type[n] === 0) I += CFG.tonic + hap;
+    const ci = cuePos.get(n); if (ci !== undefined) I += cue[ci];
+    for (let k = net.start[n]; k < net.start[n + 1]; k++) I += net.w[k] * net.x[net.pre[k]];
+    net.I[n] = I;
+  }
+  for (let n = 0; n < N; n++) {
+    net.spk[n] = 0;
+    if (net.refr[n] > 0) { net.refr[n]--; net.v[n] = 0; }
+    else { let v = net.v[n] + DT * (-net.v[n] / net.tauM + net.I[n]); if (v >= 1) { net.spk[n] = 1; v = 0; net.refr[n] = net.refrSteps; } else if (v < -0.5) v = -0.5; net.v[n] = v; }
+  }
+  const a = DT / 1000;
+  for (let n = 0; n < N; n++) { net.x[n] = net.x[n] * net.tau[n] + net.spk[n]; net.rate[n] += a * (net.spk[n] * FS - net.rate[n]); }
+  // raster and layer field proxy for area 0
+  if (net.rbuf) for (let l = 0; l < LAYERS; l++) net.rasterIdx[l].forEach((n, k) => { net.rbuf[l][k][head] = net.spk[n]; });
+  for (let l = 0; l < LAYERS; l++) {
+    const g = net.groups[l]; let s = 0;
+    for (const n of g) s += net.lfpSign[n] * net.x[n];
+    net.lfp[l][head] = s;
+  }
+  // motor decode
+  for (let i = 0; i < net.motor.length; i++) cnt[Math.floor(i / net.mpd)] += net.spk[net.motor[i]];
+  head = (head + 1) % BUF4; filled = Math.min(filled + 1, BUF4);
+  ctrlStep++;
+  if (ctrlStep >= CFG.ctrlSteps) {
+    ctrlStep = 0;
+    const nf = [CFG.forceGain * (cnt[0] - cnt[1]) / CFG.forceNorm, CFG.forceGain * (cnt[2] - cnt[3]) / CFG.forceNorm];
+    appF = pendF; pendF = nf; lastF = appF; cnt = [0, 0, 0, 0];
+    boat.trail.push({ x: boat.x, y: boat.y }); if (boat.trail.length > 400) boat.trail.shift();
+    fixRing[fixI] = distance() <= CFG.fixRadius ? 1 : 0; fixI = (fixI + 1) % fixRing.length; fixN = Math.min(fixN + 1, fixRing.length);
+  }
+  const dts = DT / 1000;
+  boat.vx += dts * (appF[0] - CFG.damping * boat.vx); boat.vy += dts * (appF[1] - CFG.damping * boat.vy);
+  boat.x += dts * boat.vx; boat.y += dts * boat.vy;
+}
+
+// Welch PSD on log-spaced frequencies
+const FGRID = Array.from({ length: 48 }, (_, i) => 2 * Math.pow(50, i / 47));
+const SEG = 1024, HOP = 512;
+const HANN = Float64Array.from({ length: SEG }, (_, n) => 0.5 - 0.5 * Math.cos(2 * Math.PI * n / (SEG - 1)));
+const HANN2 = HANN.reduce((a, w) => a + w * w, 0);
+const COS = FGRID.map(f => Float64Array.from({ length: SEG }, (_, n) => Math.cos(2 * Math.PI * f * n / FS)));
+const SIN = FGRID.map(f => Float64Array.from({ length: SEG }, (_, n) => Math.sin(2 * Math.PI * f * n / FS)));
+function welch(x) {
+  let mean = 0; for (let i = 0; i < x.length; i++) mean += x[i]; mean /= x.length;
+  const out = new Float64Array(FGRID.length); let nseg = 0;
+  for (let s0 = 0; s0 + SEG <= x.length; s0 += HOP) {
+    nseg++;
+    for (let k = 0; k < FGRID.length; k++) {
+      let re = 0, im = 0; const c = COS[k], s = SIN[k];
+      for (let n = 0; n < SEG; n++) { const v = (x[s0 + n] - mean) * HANN[n]; re += v * c[n]; im -= v * s[n]; }
+      out[k] += (re * re + im * im) / (FS * HANN2);
+    }
+  }
+  for (let k = 0; k < out.length; k++) out[k] /= Math.max(1, nseg);
+  return out;
+}
+function smoothLog(P_) {
+  const out = new Float64Array(P_.length), sig = 1.2;
+  for (let k = 0; k < P_.length; k++) { let num = 0, den = 0; for (let j = 0; j < P_.length; j++) { const w = Math.exp(-0.5 * ((j - k) / sig) ** 2); num += w * P_[j]; den += w; } out[k] = num / den; }
+  return out;
+}
+let motif = Array.from({ length: LAYERS }, () => new Float64Array(FGRID.length));
+function updateMotif() {
+  if (!NET || filled < BUF4) return;
+  const Ps = NET.lfp.map(buf => { const a = new Float64Array(BUF4); for (let i = 0; i < BUF4; i++) a[i] = buf[(head + i) % BUF4]; return smoothLog(welch(a)); });
+  const R = Ps.map(() => new Float64Array(FGRID.length));
+  for (let k = 0; k < FGRID.length; k++) { let mx = 1e-30; for (const p of Ps) mx = Math.max(mx, p[k]); for (let l = 0; l < LAYERS; l++) R[l][k] = Ps[l][k] / mx; }
+  motif = R;
+}
+
+// drawing
+function fit(cv) { const r = cv.getBoundingClientRect(); const dpr = window.devicePixelRatio || 1; const w = Math.max(200, r.width), h = w * cv.height / cv.width; if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); } return { ctx: cv.getContext('2d'), w: cv.width, h: cv.height, dpr }; }
+function smoothPath(ctx, pts) { if (pts.length < 2) return; ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length - 1; i++) { const mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2; ctx.quadraticCurveTo(pts[i][0], pts[i][1], mx, my); } ctx.lineTo(pts[pts.length - 1][0], pts[pts.length - 1][1]); }
+function txt(ctx, s, x, y, col, size, align, base) { ctx.fillStyle = col; ctx.font = (size || 12) + 'px Inter, system-ui, sans-serif'; ctx.textAlign = align || 'left'; ctx.textBaseline = base || 'middle'; ctx.fillText(s, x, y); }
+
+function drawBoat() {
+  const { ctx, w, h, dpr } = fit(document.getElementById('cBoat'));
+  ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
+  const [tx, ty] = CFG.target;
+  const span = Math.max(4.4, 1 + Math.max(Math.abs(CFG.start[0]), Math.abs(CFG.start[1]), Math.abs(tx) + 2, Math.abs(ty) + 2));
+  const G = Math.floor(span);
+  const pad = 40 * dpr, sc = (w - 2 * pad) / (2 * span);
+  const X = x => w / 2 + x * sc, Y = y => h / 2 - y * sc;
+  ctx.strokeStyle = line; ctx.lineWidth = dpr;
+  for (let v = -G; v <= G; v++) { ctx.beginPath(); ctx.moveTo(X(v), Y(-G)); ctx.lineTo(X(v), Y(G)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(-G), Y(v)); ctx.lineTo(X(G), Y(v)); ctx.stroke(); }
+  ctx.strokeStyle = mu; ctx.setLineDash([4 * dpr, 4 * dpr]); ctx.beginPath(); ctx.arc(X(tx), Y(ty), 2 * sc, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]);
+  if (boat.trail.length > 1) { ctx.strokeStyle = COLS.PV; ctx.lineWidth = 2 * dpr; ctx.beginPath(); smoothPath(ctx, boat.trail.map(p => [X(p.x), Y(p.y)])); ctx.stroke(); }
+  ctx.fillStyle = COLS.SST; ctx.beginPath(); ctx.arc(X(tx), Y(ty), 6 * dpr, 0, 2 * Math.PI); ctx.fill();
+  txt(ctx, 'target p*', X(tx) + 10 * dpr, Y(ty) - 10 * dpr, mu, 11 * dpr, 'left', 'alphabetic');
+  const bx = X(boat.x), by = Y(boat.y);
+  ctx.fillStyle = COLS.E; ctx.beginPath(); ctx.arc(bx, by, 7 * dpr, 0, 2 * Math.PI); ctx.fill();
+  const fx = lastF[0], fy = lastF[1];
+  if (Math.hypot(fx, fy) > 0.01) { ctx.strokeStyle = css('--good'); ctx.lineWidth = 2.5 * dpr; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + fx * 12 * dpr, by - fy * 12 * dpr); ctx.stroke(); }
+  txt(ctx, 'x', w - 8 * dpr, h - 10 * dpr, mu, 11 * dpr, 'right', 'alphabetic'); txt(ctx, 'y', 8 * dpr, 10 * dpr, mu, 11 * dpr, 'left', 'top');
+}
+
+function layerRates() {
+  // mean rate per layer and type, area 0, over all cells of that layer
+  const out = Array.from({ length: LAYERS }, () => [0, 0, 0, 0]), c = Array.from({ length: LAYERS }, () => [0, 0, 0, 0]);
+  const net = NET; if (!net) return out;
+  for (let n = 0; n < net.N; n++) if (net.area[n] === 0) { const l = net.layer[n], t = net.type[n]; out[l][t] += net.rate[n]; c[l][t]++; }
+  return out.map((row, l) => row.map((s, t) => (c[l][t] ? s / c[l][t] : 0)));
+}
+
+function drawLayers() {
+  const { ctx, w, h, dpr } = fit(document.getElementById('cLayers'));
+  ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
+  const rates = layerRates(); let mx = 1; for (const row of rates) for (const v of row) mx = Math.max(mx, v);
+  const L = 60 * dpr, R = w - 12 * dpr, top = 16 * dpr, rowH = (h - top - 16 * dpr) / LAYERS;
+  const names = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6'];
+  const cols = [COLS.E, COLS.PV, COLS.SST, COLS.VIP];
+  for (let l = 0; l < LAYERS; l++) {
+    const y0 = top + l * rowH;
+    txt(ctx, names[l], 8 * dpr, y0 + rowH / 2, mu, 12 * dpr, 'left', 'middle');
+    const bh = (rowH - 8 * dpr) / 4;
+    for (let t = 0; t < 4; t++) {
+      const v = rates[l][t], bw = (R - L) * Math.min(1, v / mx);
+      ctx.fillStyle = cols[t]; ctx.fillRect(L, y0 + 4 * dpr + t * bh, Math.max(0, bw), bh - 2 * dpr);
+      txt(ctx, v.toFixed(1), L + bw + 4 * dpr, y0 + 4 * dpr + t * bh + (bh - 2 * dpr) / 2, mu, 10 * dpr, 'left', 'middle');
+    }
+  }
+  ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(L, top); ctx.lineTo(L, top + LAYERS * rowH); ctx.stroke();
+  txt(ctx, 'Hz, shared scale ' + mx.toFixed(0), R, h - 4 * dpr, mu, 10 * dpr, 'right', 'alphabetic');
+}
+
+function drawRaster() {
+  const { ctx, w, h, dpr } = fit(document.getElementById('cRaster'));
+  ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
+  const net = NET; if (!net || !net.rbuf) return;
+  const L = 44 * dpr, R = w - 8 * dpr, top = 6 * dpr, bottom = h - 20 * dpr;
+  const rows = net.rbuf.reduce((a, b) => a + b.length, 0);
+  const rowH = (bottom - top) / (rows + LAYERS);
+  let y = top; const names = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6'];
+  const colForRow = [];
+  net.rasterIdx.forEach((list) => list.forEach((n) => colForRow.push(net.type[n])));
+  const tc = [COLS.E, COLS.PV, COLS.SST, COLS.VIP];
+  for (let l = 0; l < LAYERS; l++) {
+    txt(ctx, names[l], 4 * dpr, y + rowH * 2, mu, 11 * dpr, 'left', 'middle');
+    net.rbuf[l].forEach((buf, k) => {
+      ctx.fillStyle = tc[colForRow[l * 0 + (net.rbuf.slice(0, l).reduce((a, b) => a + b.length, 0)) + k]] || tc[0];
+      for (let t = 0; t < BUF2; t++) if (buf[(head + t) % BUF2]) ctx.fillRect(L + (t / BUF2) * (R - L), y + dpr, 1.2 * dpr, rowH - 2 * dpr);
+      y += rowH;
+    });
+    ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(0, y + rowH * 0.5); ctx.lineTo(w, y + rowH * 0.5); ctx.stroke();
+    y += rowH * 0.5;
+  }
+  txt(ctx, '−2 s', L, h - 6 * dpr, mu, 11 * dpr, 'left', 'alphabetic'); txt(ctx, 'now', R, h - 6 * dpr, mu, 11 * dpr, 'right', 'alphabetic');
+}
+
+function drawMotif() {
+  const { ctx, w, h, dpr } = fit(document.getElementById('cMotif'));
+  ctx.clearRect(0, 0, w, h); const mu = css('--muted'), line = css('--line');
+  const L = 50 * dpr, R = w - 16 * dpr, T = 12 * dpr, B = h - 34 * dpr;
+  const fx = f => L + (Math.log(f / 2) / Math.log(50)) * (R - L), fy = r => B - r * (B - T);
+  ctx.strokeStyle = line; ctx.lineWidth = dpr;
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => { ctx.beginPath(); ctx.moveTo(L, fy(v)); ctx.lineTo(R, fy(v)); ctx.stroke(); txt(ctx, v.toFixed(2), L - 6 * dpr, fy(v), mu, 11 * dpr, 'right', 'middle'); });
+  [2, 5, 10, 20, 50, 100].forEach(f => { const x = fx(f); ctx.beginPath(); ctx.moveTo(x, B); ctx.lineTo(x, B + 4 * dpr); ctx.stroke(); txt(ctx, String(f), x, B + 8 * dpr, mu, 11 * dpr, 'center', 'top'); });
+  txt(ctx, 'frequency (Hz, log)', (L + R) / 2, h - 8 * dpr, mu, 11 * dpr, 'center', 'alphabetic');
+  for (let l = 0; l < LAYERS; l++) {
+    const pts = FGRID.map((f, k) => [fx(f), fy(motif[l][k] || 0)]);
+    ctx.strokeStyle = LCOL[l]; ctx.lineWidth = 2 * dpr; ctx.lineJoin = 'round'; ctx.beginPath(); smoothPath(ctx, pts); ctx.stroke();
+  }
+}
+
+function updateStats() {
+  const e = distance(); setText('s_e', e.toFixed(2));
+  setText('s_fix', fixN ? Math.round(100 * fixRing.reduce((a, b) => a + b, 0) / fixN) + '%' : '–');
+  setText('l_fix', 'time within ' + CFG.fixRadius + ' of target, last ' + (+(CFG.fixWindow * CFG.ctrlSteps * DT / 1000).toFixed(2)) + ' s');
+  setText('s_f', '(' + lastF[0].toFixed(2) + ', ' + lastF[1].toFixed(2) + ')');
+  setText('s_v', Math.hypot(boat.vx, boat.vy).toFixed(2));
+  const rates = layerRates();
+  const meanCol = t => rates.reduce((a, row) => a + row[t], 0) / LAYERS;
+  setText('s_rE', meanCol(0).toFixed(1));  // L1 has no E cells by default; its rate counts as 0 in the mean
+  setText('s_rI', meanCol(1).toFixed(1) + ' / ' + meanCol(2).toFixed(1) + ' / ' + meanCol(3).toFixed(1));
+  setText('runinfo', 'Run: seed ' + BUILT.seed + ' · ' + BUILT.areas + ' area(s), each cloned from one per-layer config · ' + BUILT.neurons + ' neurons per column · α ' + CFG.alpha.toFixed(2) + ' · cue ' + CFG.cue.toFixed(2) + ' · tonic ' + CFG.tonic.toFixed(3) + ' · noise ' + CFG.noise.toFixed(3) + ' · ' + (NET ? NET.N : 0) + ' cells total');
+}
+
+// Install a parameter set: build first, so a failed build leaves the running network untouched.
+let BUILT = { seed: 1, areas: 2, neurons: 240 };  // topology of the running network (the run line reads it)
+function install(cfg) {
+  const net = build(cfg);   // throws before anything is committed
+  CFG = cfg; NET = net; head = 0; filled = 0;
+  BUILT = { seed: cfg.seed, areas: cfg.areas, neurons: cfg.neuronsPerColumn };
+  fixRing = new Uint8Array(CFG.fixWindow); fixI = 0; fixN = 0;
+  rebuildBuffers(); resetBoat();
+  return net.unused;
+}
+function resetBoat() {
+  boat.x = CFG.start[0]; boat.y = CFG.start[1]; boat.vx = 0; boat.vy = 0; boat.trail = [{ x: boat.x, y: boat.y }];
+  pendF = [0, 0]; appF = [0, 0]; lastF = [0, 0];
+  ctrlStep = 0; cnt = [0, 0, 0, 0]; fixRing.fill(0); fixI = 0; fixN = 0;
+}
+
+// controls
+const ta = () => document.getElementById('cfgText');
+let cfgDirty = false;  // unapplied text in the JSON panel; sliders must not overwrite it
+function showCfg() { const el = ta(); if (el && !cfgDirty) el.value = JSON.stringify(CFG, null, 2); }
+ta().addEventListener('input', () => { cfgDirty = true; });
+function setMsg(msg, bad) { const el = document.getElementById('cfgMsg'); if (!el) return; el.textContent = msg; el.className = bad ? 'err' : ''; }
+function syncControls() {
+  const put = (id, out, v, fmt) => { const el = document.getElementById(id); if (el) el.value = v; setText(out, fmt(v)); };
+  put('alpha', 'o_alpha', CFG.alpha, v => v.toFixed(2));
+  put('cue', 'o_cue', CFG.cue, v => v.toFixed(2));
+  put('tonic', 'o_tonic', CFG.tonic, v => v.toFixed(3));
+  put('noise', 'o_noise', CFG.noise, v => v.toFixed(3));
+  put('ncol', 'o_ncol', CFG.neuronsPerColumn, v => String(Math.round(v)));
+  put('areas', 'o_areas', CFG.areas, v => String(Math.round(v)));
+  const seed = document.getElementById('seed'); if (seed) seed.value = CFG.seed;
+  showCfg();
+}
+const bindSlider = (id, out, key, fmt, conv) => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => { CFG[key] = conv(parseFloat(el.value)); setText(out, fmt(CFG[key])); showCfg(); });
+};
+const ident = v => v, rnd = v => Math.round(v);
+bindSlider('alpha', 'o_alpha', 'alpha', v => v.toFixed(2), ident);
+bindSlider('cue', 'o_cue', 'cue', v => v.toFixed(2), ident);
+bindSlider('tonic', 'o_tonic', 'tonic', v => v.toFixed(3), ident);
+bindSlider('noise', 'o_noise', 'noise', v => v.toFixed(3), ident);
+bindSlider('ncol', 'o_ncol', 'neuronsPerColumn', v => String(v), rnd);
+bindSlider('areas', 'o_areas', 'areas', v => String(v), rnd);
+document.getElementById('seed').addEventListener('change', e => { CFG.seed = Math.min(999999, Math.max(1, parseInt(e.target.value, 10) || 1)); showCfg(); });
+document.getElementById('speed').addEventListener('change', e => { P.speed = parseInt(e.target.value, 10); });
+document.getElementById('play').addEventListener('click', e => { P.run = !P.run; e.target.textContent = P.run ? 'Pause' : 'Play'; });
+document.getElementById('reset').addEventListener('click', resetBoat);
+document.getElementById('apply').addEventListener('click', () => {
+  try { install(CFG); setMsg('Network rebuilt from the current values.', false); }
+  catch (e) { setMsg('Error: ' + e.message, true); }
+  showCfg();
+});
+document.getElementById('applyCfg').addEventListener('click', () => {
+  try {
+    const next = parseCfg(ta().value);
+    const unused = install(next); cfgDirty = false; syncControls();
+    setMsg('Applied. Network rebuilt, boat reset.' + (unused.length ? ' No sources drawn for: ' + unused.join('; ') + '.' : ''), false);
+  }
+  catch (e) { setMsg('Error: ' + e.message + ' (parameters not applied)', true); }
+});
+document.getElementById('resetCfg').addEventListener('click', () => {
+  try { install(clone(DEFAULTS)); cfgDirty = false; syncControls(); setMsg('Reset to defaults.', false); }
+  catch (e) { setMsg('Error: ' + e.message, true); }
+});
+const PRESETS = {
+  spec: { alpha: 0, cue: 0 },
+  haptic: { alpha: 1, cue: 0 },
+  cue: { alpha: 0, cue: 0.2 },
+  mixed: { alpha: 0.5, cue: 0.2 },
+};
+document.querySelectorAll('[data-preset]').forEach(btn => btn.addEventListener('click', () => {
+  const p = PRESETS[btn.getAttribute('data-preset')];
+  Object.assign(CFG, p);
+  cfgDirty = false;
+  syncControls();
+  resetBoat();
+}));
+// legend for motif layers
+document.getElementById('motifLegend').innerHTML = LCOL.map((c, i) => '<span><i style="background:' + c + '"></i>L' + (i + 1) + '</span>').join('');
+
+install(CFG);
+syncControls();
+
+// loop
+let last = performance.now(), lastMotif = 0;
+function frame(now) {
+  const dt = Math.min(100, now - last); last = now;
+  if (P.run && NET) {
+    const steps = Math.max(1, Math.min(30, Math.round((dt / DT) * P.speed)));
+    for (let s = 0; s < steps; s++) step();
+  }
+  if (now - lastMotif > 800) { updateMotif(); lastMotif = now; }
+  drawBoat(); drawLayers(); drawRaster(); drawMotif(); updateStats();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>

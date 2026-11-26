@@ -93,7 +93,7 @@
     "status": "OPEN",
     "trigger": "owner 2026-11-25: geometry Phase 1 route R2, parameter set P0, sigma_alt 0.25, depths as listed, 0.5.8 GPU venv; owner 2026-11-26 \"proceed with recommendations\": device D1 (CPU), the section 7 rule, this entry",
     "goal": "test whether an anatomically placed readout (fixed depths, fixed sigma) of unit spectra generated without any Y-informed parameter reproduces each held-out area's gamma depth profile (LOAO over 11 LANSA areas)",
-    "parent_authority": "owner 2026-11-25 and 2026-11-26 rulings recorded in docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md section 1; this item authorises the lineage alongside next_authorized_task, which is unchanged",
+    "parent_authority": "owner 2026-11-25 and 2026-11-26 rulings recorded in docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md section 1. Execution authority: manifests/current_state.json next_authorized_task = SCI-LANSA-GEOM-R2, set by the owner 2026-11-26 (\"Yes, set it\"); SCI-AGSDR-CALIBRATION stays OPEN",
     "principal_delta": "new lineage: unit spectra from P0 (e2_3unit_n4000_dens_k1, every value present at cc33b37 before Y) instead of the Y-selected T1 spectra; readout per GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md sections 4-6",
     "required_inputs": [
      "docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md",
@@ -116,7 +116,7 @@
      "results/laminar_e2/r2_p0_n4000_s{7,8,9}_T12.json"
     ],
     "downstream_unlock": [],
-    "blocked_by": "the pre-seal checks and the seal"
+    "blocked_by": "the seal"
    },
   {
     "id": "SCI-PROP-QUALIFIED-1",

@@ -104,8 +104,13 @@ retune: any later change is a new lineage.
 - Driver: `scripts/run_e2_stack.py` (`main(seed, T_s, tag, lay)`) with the sealed layout. `JAXFNE_EDGE_DELIVERY` unset
   gives the default route (`runtime_kw`, lines 40-47). The code SHA is the seal commit. Tags: `r2_p0_n4000_s{7,8,9}_T12`
   (scored), `r2_smoke_p0_n4000_s7_T1` (smoke).
-- Cost: baseline P0, CPU, default route, simulate 211-213 s per 1 s; a 12 s run about 42 min (INFERRED, linear in T);
-  the three seeds run in parallel.
+- Cost: baseline P0, CPU, default route, simulate 211-213 s per 1 s; a 12 s run about 42 min (INFERRED, linear in T).
+  The T1 confirmation's 181-194 s per 12 s ran the event route on 0.5.9, a different engine; the two costs are not
+  comparable.
+- Threads: every run sets `JAX_PLATFORMS=cpu`, `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`; XLA's
+  own CPU threading is left at its default. The three seeds run in parallel (24 cores). Serial-parallel equivalence: seed
+  7 at 1 s run alone and alongside seeds 8 and 9, compared with `scripts/r2_compare_runs.py`; result in the pre-seal
+  receipt. A difference blocks parallel execution, and the seeds then run one at a time.
 - Smoke first: one seed, 1 s, checks construction, finite output and the V0/V1 artifacts; it is not scored against Y.
 
 ## 6. Readout conditions and controls

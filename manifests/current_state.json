@@ -15,6 +15,7 @@
  "jaxfne_version": "0.5.8",
  "jaxfne_minimum": "0.5.8",
  "jaxfne_minimum_ruling": "docs/AUTHORITY_RULING_2026-11-24.md",
+ "jaxfne_family_admission_ruling": "docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md",
  "current_program": "Closeout program (owner 2026-09-19): empty the todo and problem stacks \u2014 harness closeout, context/pages overhaul, code overhaul, and the authorized SCI-EI-REGIME-1 diagnosis; the V2 chain and the coupled-background program are retired with recorded reasons",
  "current_gate": {
   "id": "V2_LOCAL_OPERATION",

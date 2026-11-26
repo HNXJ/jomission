@@ -5,7 +5,8 @@ unchanged.
 
 ## 1. Owner word (verbatim) and what it answers
 
-Hamm, 2026-11-25, in session chat: "proceed with your recommendations".
+Hamm, 2026-11-25, in session chat: "proceed with your recommendations". Confirmed by Hamm in the same session after the
+independent review (ACCEPT at 3739b75): "confirmed, register the ruling".
 
 It answers the question put to him in the same session: "Should T1, O38 and E1 records on 0.5.9 stand, be rerun on
 0.5.8, or get a new ruling?", whose recommended answer was a new ruling admitting them. The finding behind the question
@@ -45,5 +46,5 @@ Counts were read on 2026-11-25 from cowork HEAD 21b2697 (T1, `sw_*`, E1), `origi
   instead (owner's same word, option A'): venv `/home/hamm/.venvs/jomission058` with jaxfne 0.5.8 built from tag
   `v0.5.8` = 11957afa; receipt `docs/receipts/gate_jomission058_2026-11-25.md`.
 - OPEN-37 and OPEN-41 stay open; this ruling does not close them.
-- Manifests, seals and the provenance matrix are not edited here. Registering this ruling in
-  `manifests/current_state.json` and `docs/OPEN.md` is a separate step.
+- Seals and the provenance matrix are not edited. Registered in `manifests/current_state.json`
+  (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` blocker row 8.

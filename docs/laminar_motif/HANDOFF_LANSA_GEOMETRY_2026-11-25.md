@@ -16,14 +16,14 @@ on the review branch, before doing anything.
 
 | Ref | Commit | Status |
 |---|---|---|
-| `origin/_temp_lansa_geom_20261125` | 53a3e45 | Checkpoint, unaccepted. Retained unchanged. Do not rewrite. |
-| `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Last reviewed revision; the tip moves, so check it with the section 7 command. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
-| `origin/_temp_jaxfne059_ruling_20261125` | d057609 | Accepted ruling on JaxFNE admissibility (review ACCEPT at 3739b75; registration at d057609, review ACCEPT with one minor finding). Adds `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`; registered in `manifests/current_state.json` (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` row 8. The tip moves with later record commits. |
-| `origin/dev` | 264c1e8 | Contains the original audit, uncorrected. Not the corrected version. |
+| `_temp_lansa_geom_20261125` (deleted after merge) | 53a3e45 | Geometry checkpoint, unaccepted. Ancestor of dev; the branch was deleted because its tip is contained in dev. Do not rewrite. |
+| `_temp_lansa_geom_review_20261125` (deleted after merge) | e52b950 | Merged into dev; e52b950 is an ancestor of dev. Revision 3 (d4aa932): wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
+| `_temp_jaxfne059_ruling_20261125` (deleted after merge) | c2e6470 | Merged into dev; c2e6470 is an ancestor of dev. Accepted ruling on JaxFNE admissibility (review ACCEPT at 3739b75; registration at d057609, review ACCEPT with one minor finding). Adds `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`; registered in `manifests/current_state.json` (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` row 8. |
+| `origin/dev` | c2e6470 | Fast-forward from 264c1e8 on Hamm's order (2026-11-25): "merge the ruling branch into dev", then "Push without tests". Carries the geometry lane (53a3e45 through e52b950) and the ruling chain (44d46f1 through c2e6470); every commit has an independent ACCEPT. Tier-0 tests NOT run; the quick gate check fails only on the editable install, which points at `/mnt/d/jomission`. |
 
-The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) exists only on the review branch.
+The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) is on dev, merged from the review branch at c2e6470.
 
-Files on the review branch (contents as of d4aa932; unchanged from 1591c18 except where noted):
+Files on dev, merged from the review branch (contents as of d4aa932; unchanged from 1591c18 except where noted):
 - `scripts/lansa_t1_anatomy_recount.py`: read-only recount of the 57 T1 motif receipts under four depth rules.
 - `docs/receipts/lansa_t1_anatomy_recount_2026-11-25.tsv`: its output. Only the header differs from 53a3e45.
 - `docs/laminar_motif/DECISIONS_2026-11-25.md`: the decision record (revision 3 wording). Read it first.
@@ -39,7 +39,7 @@ Authorised by the 2026-11-25 ruling:
 - pushes to `_temp_` branches.
 
 Not authorised:
-- merge into `dev` or `main`, or any push to `main`;
+- merge into `main`, or any push to `main`. (The merge into `dev` was done on Hamm's order, 2026-11-25; section 1.)
 - any scientific run, including Phase 1 execution and Phase 2;
 - edits to sealed specs (`docs/laminar_motif/SEAL_*.md`, `manifests/sealed_artifacts.json`), T1 verdicts or receipts;
 - restoring the cowork deletions;
@@ -85,9 +85,9 @@ Owner decisions are listed in section 5. Do not make them yourself.
    `jomission` not importable there). Fixed by option A' in a separate venv, `/home/hamm/.venvs/jomission058`: jaxfne 0.5.8
    from tag `v0.5.8` (11957afa), `jomission` editable. jxm-dev reports rc 0 at ef0a766, and the reviewer re-ran it with the
    same output as `docs/receipts/gate_jomission058_2026-11-25.md`. This is the quick contract only. `V2_LOCAL_OPERATION` is
-   still FAIL, independent of the environment. The shared venv is unchanged. A clean run at d057609 has not been made from `/mnt/d/jomission`: the clone run fails only on
-   the editable install, which points at `/mnt/d/jomission` (expected). A clean run needs the branch checked out or merged
-   there, which is Hamm's call.
+   still FAIL, independent of the environment. The shared venv is unchanged. A clean run at c2e6470 (dev) has not been made from `/mnt/d/jomission`: the clone run fails only on
+   the editable install, which points at `/mnt/d/jomission` (expected). A clean run needs dev checked out there, which is
+   Hamm's call. Tier-0 tests were not run on dev.
 6. Phase 1 is not in the manifest. Running it needs an authorising entry first.
 7. The T2–T4 test tier is open. `manifests/test_tiers.json` (about lines 98-116) places `tests/test_t2_readiness.py` and `tests/test_t4_t5_analysis.py` under a tier-2 heading; the tier of the experiments themselves is not stated.
 8. The 15/9 counts are descriptive. They are not confirmations of the empirical motif, and must not be reported as
@@ -123,7 +123,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
 6. The T2–T4 test tier, and whether the sealed T1 reference stays as the reference (the ruling says keep it).
 7. Whether Phase 1 is registered in the manifest.
 8. The manuscript geometry paragraph: reword it as exploratory, or hold it until a held-out design exists.
-9. Gate at d057609: a clean `project_check` run from `/mnt/d/jomission`, once the branch is checked out or merged there. That is
+9. Gate at dev c2e6470: a clean `project_check` run from `/mnt/d/jomission` (dev checked out there), with tier-0 tests not yet run. That is
    Hamm's call. Registration of the ruling (`manifests/current_state.json`, `docs/OPEN.md` row 8) is done at d057609; the
    owner word for it is relayed, not seen here. Also open: whether the mixed axis-1 reference level matters scientifically,
    and whether the E1 seal and handout wording need correcting.
@@ -133,7 +133,7 @@ Owner decisions are listed in section 5. Do not make them yourself.
 1. Wait for the owner's answer on route R1 or R2 (item 5.1). Do not start Phase 1 before it is registered.
 2. Done: the JaxFNE record was reviewed (ACCEPT at ee61a8d; F1 and F2 applied at e52b950); the ruling was reviewed (REVISE at 44d46f1, ACCEPT at 3739b75).
 3. Done: gate fixed in `/home/hamm/.venvs/jomission058` (option A'; jxm-dev reports quick-contract PASS). `V2_LOCAL_OPERATION` is still FAIL.
-4. Only then, and only if the owner decides, consider integration into `dev`. That is the owner's call.
+4. Done: integration into dev at c2e6470, on Hamm's order (2026-11-25). Tier-0 tests were not run.
 
 ## 7. Commands
 
@@ -146,7 +146,7 @@ cd /mnt/d/jomission && /usr/bin/env python3 scripts/lansa_t1_anatomy_recount.py 
 Check a remote ref:
 
 ```bash
-git -C /mnt/d/jomission ls-remote origin refs/heads/_temp_lansa_geom_review_20261125
+git -C /mnt/d/jomission ls-remote origin refs/heads/dev
 ```
 
 Commit method used for 1591c18 (no change to the shared working tree). Write the message file, then:
@@ -162,7 +162,7 @@ End each commit message with `Co-Authored-By: Claude Haiku 5.5 <noreply@anthropi
 ## 8. Do not
 
 - Use `git add .` or `-A`. Do not switch branches or edit files in `/mnt/d/jomission`.
-- Force-push, rewrite `53a3e45` or `1591c18`, or push to `main` or `dev`.
+- Force-push, rewrite `53a3e45` or `1591c18`, or push to `main`. Push to `dev` only on Hamm's order.
 - Edit sealed specs, T1 verdicts, receipts or manifests.
 - Restore or delete anything in `/mnt/d/cowork/jomission`.
 - Start Phase 1 or Phase 2, or any simulation.

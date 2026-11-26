@@ -2,7 +2,7 @@
 
 Status: owner decisions of 2026-11-25 and the geometry checkpoint ruling. Done: depth convention checked; recount receipt
 regenerated; independent review (REVISE, addressed in this revision); Phase 1 protocol text frozen for review.
-Not done and not authorised: merge into dev, any scientific run, any change to T1 criteria, verdicts or receipts.
+Not done and not authorised: merge into main, any scientific run, any change to T1 criteria, verdicts or receipts.
 D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 
 ## 1. Ruling applied
@@ -126,7 +126,7 @@ D1 (abstract) deferred. The T1 FAIL and the E1 INCONCLUSIVE stay in the record.
 - Later, 2026-11-25: gate fixed by option A' (venv `/home/hamm/.venvs/jomission058`, jaxfne 0.5.8 from tag v0.5.8). Quick
   contract PASS (rc 0) at ef0a766, reported by jxm-dev and re-run by the reviewer; `V2_LOCAL_OPERATION` still FAIL. The
   bullets above describe the checkpoint, not the current state. Registration of the ruling is at d057609. A clean gate run at
-  d057609 needs `/mnt/d/jomission` (Hamm's call); the clone run fails only on the editable install, as expected.
+  dev c2e6470 needs `/mnt/d/jomission` (Hamm's call); tier-0 tests were not run on dev; the clone run fails only on the editable install, as expected.
 - Independent review: REVISE, minor items, no wrong numbers. Addressed in revision 2: the retired source and mouse species;
   A, B and C identity; the "frozen" wording; the misattributed UNRESOLVED comment; the header; the PLAN citation; the tie rule.
   Still open: the T2-T4 tier.

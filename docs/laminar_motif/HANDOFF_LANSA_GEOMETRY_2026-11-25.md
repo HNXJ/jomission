@@ -17,15 +17,16 @@ on the review branch, before doing anything.
 | Ref | Commit | Status |
 |---|---|---|
 | `origin/_temp_lansa_geom_20261125` | 53a3e45 | Checkpoint, unaccepted. Retained unchanged. Do not rewrite. |
-| `origin/_temp_lansa_geom_review_20261125` | 1591c18 | Revision 2, current. Answers the reviewer's REVISE. Carries the corrections. |
+| `origin/_temp_lansa_geom_review_20261125` | d4aa932 | Current head. Revision 3: wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
 | `origin/dev` | 264c1e8 | Contains the original audit, uncorrected. Not the corrected version. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) exists only on the review branch.
 
-Files on the review branch (1591c18):
+Files on the review branch (contents as of d4aa932; unchanged from 1591c18 except where noted):
 - `scripts/lansa_t1_anatomy_recount.py`: read-only recount of the 57 T1 motif receipts under four depth rules.
 - `docs/receipts/lansa_t1_anatomy_recount_2026-11-25.tsv`: its output. Only the header differs from 53a3e45.
-- `docs/laminar_motif/DECISIONS_2026-11-25.md`: the decision record (revision 2). Read it first.
+- `docs/laminar_motif/DECISIONS_2026-11-25.md`: the decision record (revision 3 wording). Read it first.
+- `docs/receipts/lansa_geom_rev2_review_2026-11-25.md`: the independent review of 1591c18 (ACCEPT, two minor findings, both fixed in d4aa932).
 - `docs/laminar_motif/GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md`: the Phase 1 protocol as text. Not authorised.
 - `docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`: the corrected audit.
 

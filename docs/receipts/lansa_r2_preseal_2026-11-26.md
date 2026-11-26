@@ -14,7 +14,7 @@ Spec: `docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md` section 4. Device D1 (
 Comparator `scripts/r2_compare_runs.py` (sha256 `6866a6d08e5b3c9fb19c6f678f3704fdecffd4eff6357a65a3eae7d281c8a024`;
 first run as a session-scratch copy with the same logic, re-run from the committed file with the same verdicts; revised
 for a missing-`counts` guard, sha256 `f13a9d95892fb96ab1f7c335f937f2c63217d45e311a4a18ea4d0418b8b5176f`, re-run on all
-four pairs of sections 1 and 3 with the same verdicts: EQUAL, DIFFERENT, EQUAL, DIFFERENT):
+five pairs of sections 1 and 3 with the same verdicts: EQUAL, DIFFERENT, EQUAL, EQUAL, DIFFERENT):
 `.npz` key sets, then per array dtype, shape and `tobytes()`; JSON fields
 `sizes`, `edges`, `p_local`, `p_inter`, `rho`, `depth_rel_L4`, `tau_sst_e_ms`, `g_columns`, `g_reversal_mV`, `g_tau_ms`.
 

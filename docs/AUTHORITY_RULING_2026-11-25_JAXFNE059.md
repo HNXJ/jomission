@@ -20,9 +20,10 @@ The 2026-11-24 table row "0.5.9 on any other family ... NOT COVERED" is narrowed
 |---|---|---|
 | T1 axis 3 (sstd) search | 18: `results/laminar_e2/t1_sstd{7p5,10p6,21,30,42,60}_n4000_s{1,2,3}_T8.json`; the `t1_sstd15_*` reference links resolve to 0.5.8 records and are not in this row | `docs/laminar_motif/SEAL_T1.md` |
 | T1 confirmation (the T1 FAIL) | 3: `t1_confirm_kd1p41_sst15_sstd21_n4000_s{4,5,6}_T12` | `docs/laminar_motif/SEAL_T1.md` |
-| T1 reference | 7: `sw_n4000_dens_k1_kd1_sst15_*` | `docs/laminar_motif/SEAL_T1.md` |
-| O38 | 47 run records `o38s_*` on `origin/dev` 264c1e8 | the O38 analysis accepted 2026-11-17 |
-| E1 (rho sweep) | 15: `results/laminar_e1/e1_rho*_seed*.json` | `docs/laminar_motif/E1_SEAL.md` |
+| T1 reference | 7: `sw_n4000_dens_k1_kd1_sst15_*` | reference level `e2_3unit_n{N}_dens_k1_kd1_sst15` per `docs/laminar_motif/SEAL_T1.md` line 9; the records are the `sw_*` files |
+| O38, accepted runs | 45 `o38s_*` run records on `origin/dev` 264c1e8: `pc_ref`, `pc_flat`, `pc_rev` (stage 1) and `v1`, `mt`, `mst`, `teo`, `chc`, `shape` (stage 2), seeds 1-5 | on 264c1e8: `docs/laminar_motif/S6_O38S_2026-11-17.md` (owner ACCEPTED), `docs/laminar_motif/STAGE1_O38S_PC_2026-11-17.md`, `docs/laminar_motif/STAGE2_O38S_2026-11-17.md`; `manifests/lineage_registry.json` SCI-OPEN38-O38S |
+| O38, smoke | 2: `o38s_ref_n4000_s1_T8`, `o38s_nc_n4000_s1_T8` on 264c1e8 | on 264c1e8: `docs/laminar_motif/SMOKE_O38S_2026-11-16.md` (review ACCEPT, line 51) |
+| E1 (rho sweep) | 15: `results/laminar_e1/e1_rho*_seed*.json` | `docs/laminar_motif/E1_SEAL.md`, whose own pin is 0.5.9 (lines 5, 13); this row admits the runs under that seal pin and nothing beyond it |
 
 Counts were read on 2026-11-25 from cowork HEAD 21b2697 (T1, `sw_*`, E1), `origin/dev` 264c1e8 (O38) and
 `/mnt/d/jomission` ef0a766 (E1). They describe that state only.

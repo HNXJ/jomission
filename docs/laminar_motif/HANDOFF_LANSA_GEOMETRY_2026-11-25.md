@@ -19,7 +19,7 @@ on the review branch, before doing anything.
 | `_temp_lansa_geom_20261125` (deleted after merge) | 53a3e45 | Geometry checkpoint, unaccepted. Ancestor of dev; the branch was deleted because its tip is contained in dev. Do not rewrite. |
 | `_temp_lansa_geom_review_20261125` (deleted after merge) | e52b950 | Merged into dev; e52b950 is an ancestor of dev. Revision 3 (d4aa932): wording fixes from the independent review, plus the review record. Built on revision 2 (1591c18), which answered the REVISE. The handoff itself is at e36d3bb, which is an ancestor of d4aa932. |
 | `_temp_jaxfne059_ruling_20261125` (deleted after merge) | c2e6470 | Merged into dev; c2e6470 is an ancestor of dev. Accepted ruling on JaxFNE admissibility (review ACCEPT at 3739b75; registration at d057609, review ACCEPT with one minor finding). Adds `docs/AUTHORITY_RULING_2026-11-25_JAXFNE059.md` and `docs/receipts/gate_jomission058_2026-11-25.md`; registered in `manifests/current_state.json` (`jaxfne_family_admission_ruling`) and `docs/OPEN.md` row 8. |
-| `origin/_temp_lansa_r2_spec_20261125` | 5d4acf5 | Draft 3 of the R2 spec, based on dev 54048dc (draft 1 at 6b95a85, draft 2 at 6185106). Not sealed; nothing authorised to run. Draft 1 reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`); draft 2 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`, on this branch). |
+| `origin/_temp_lansa_r2_spec_20261125` | d2df9d5 | Draft 4 of the R2 spec, based on dev 54048dc (draft 1 at 6b95a85, draft 2 at 6185106, draft 3 at 5d4acf5). Not sealed; nothing authorised to run. Draft 1 reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`); draft 2 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`); draft 4 reviewed ACCEPT with three minor wording fixes (`docs/receipts/lansa_r2_spec_rev4_review_2026-11-26.md`, on this branch). |
 | `origin/dev` | 54048dc (c2e6470 before the repoint) | Fast-forward from 264c1e8 on Hamm's order (2026-11-25): "merge the ruling branch into dev", then "Push without tests". Carries the geometry lane (53a3e45 through e52b950) and the ruling chain (44d46f1 through c2e6470); every commit has an independent ACCEPT. Tier-0 tests NOT run; the quick gate check fails only on the editable install, which points at `/mnt/d/jomission`. |
 
 The corrected audit (`docs/laminar_motif/EVIDENCE_AUDIT_2026-11-25.md`) is on dev, merged from the review branch at c2e6470.
@@ -114,9 +114,9 @@ Owner decisions are listed in section 5. Do not make them yourself.
 ## 5. Owner decisions outstanding (ask Hamm, do not decide)
 
 1. Phase 1 route: decided R2 (Hamm, 2026-11-25, by direct answer in jxm-dev's session; relayed here, not seen). R2 is a new
-   lineage and needs a run. Its draft spec is at 5d4acf5 on `_temp_lansa_r2_spec_20261125` (draft 3):
+   lineage and needs a run. Its draft spec is at d2df9d5 on `_temp_lansa_r2_spec_20261125` (draft 4):
    not sealed, nothing authorised to run. Draft 1 was reviewed REVISE (`docs/receipts/lansa_r2_spec_review_2026-11-25.md`);
-   draft 2 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`, on this branch). Owner choices in
+   draft 2 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev2_review_2026-11-25.md`); draft 3 was reviewed REVISE (`docs/receipts/lansa_r2_spec_rev3_review_2026-11-26.md`); draft 4 was reviewed ACCEPT with three minor wording fixes (`docs/receipts/lansa_r2_spec_rev4_review_2026-11-26.md`, on this branch). The GPU venv `/home/hamm/.venvs/jomission058gpu` is built (`pip show` checked 2026-11-26). Owner choices in
    draft 2, relayed from jxm-dev's session: P0, sigma_alt 0.25, the depths as listed, a 0.5.8 GPU venv. Open: confirm the
    support and falsification rule and the manifest entry `SCI-LANSA-GEOM-R2` (owner); the bitwise P0 baseline (Major A in
    the draft 2 review) and the GPU venv build (before the seal).

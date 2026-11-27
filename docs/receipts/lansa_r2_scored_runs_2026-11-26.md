@@ -50,13 +50,19 @@ Per held-out area a (11 areas, 21-contact Pearson against `Y[bin, freq, a]`), me
 
 Cells G0 to K1 are median r_gm over the 11 areas. The G1 r_ab column is the median r_ab over the 11 areas. Sealed section 7 rule (support: G1 median r_gm >= 0.6, G1 exceeds K1, G1 median r_ab >= 0.6; falsification: G1 median r_gm < 0.6, or G1 does not exceed K1): on all three seeds G1 median r_gm is below 0.6 and below K1, so the falsification condition holds. The r_ab condition holds (0.75-0.77). Derived: G1 - K1 = -0.625, -0.588, -0.663; G1 - G0 = +0.330, +0.377, +0.300.
 
-K2 (depth-shuffled null) is required by the protocol and was not run: its selection rule is not defined in the protocol text. K2 is a base-rate diagnostic and does not change the falsification verdict on G1.
+## 5. Status (owner decision, Option 2, 2026-11-26)
 
-## 5. Not in this receipt
+- **G1 FALSIFIED under the sealed readout criteria, reported per seed (seeds 7, 8, 9; not pooled).** Each seed: G1 median r_gm below 0.6, and G1 below K1. Falsification condition met on every seed.
+- **K2: NOT_RUN.** Its selection procedure is UNDEFINED in the protocol. No definition is made after observing results, and no K2 simulation is authorised.
+- **Full protocol: not complete** (K2 missing).
+- This falsifies G1 under the specified operational test. It does not establish that the broader biological mechanism is impossible.
+- **Status of the falsification:** the reported numbers support it; independent verification is pending (section 6).
 
-- K2 (required, see section 4): not run; the protocol does not define its selection.
-- Pooling across seeds: the protocol does not state how three seeds combine; per-seed values are reported.
-- Independent review of the readout script and this receipt: not done.
+## 6. Not in this receipt
+
+- Independent non-writer review of the readout implementation, the sealed thresholds, the G0 cross-check and this receipt: pending.
+- V2 and V3 figures: held until review; not built.
+- Raw outputs, logs and scripts are preserved in `/mnt/d/cowork/jomission/results/laminar_e2_r2/` with `MANIFEST.sha256` (38 files, verified with `sha256sum -c`).
 - Readout conditions G0, G1, G2, G3, G1', K1, K2 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6): not run.
 - V2 final raster and V3 atlas: not built.
 - Raw outputs are untracked (`results/` is outside git); archive is a later step.

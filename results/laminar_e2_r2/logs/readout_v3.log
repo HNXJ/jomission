@@ -1,0 +1,3 @@
+r2_p0_n4000_s7_T12 crosscheck ok G0 r_gm -0.839257 | G1 median r_gm -0.4655 r_ab 0.7632 | K1 median r_gm 0.1598 | crossing G0 False G1 False | falsified True
+r2_p0_n4000_s8_T12 crosscheck ok G0 r_gm -0.833751 | G1 median r_gm -0.4277 r_ab 0.7533 | K1 median r_gm 0.1598 | crossing G0 False G1 False | falsified True
+r2_p0_n4000_s9_T12 crosscheck ok G0 r_gm -0.844623 | G1 median r_gm -0.5032 r_ab 0.7653 | K1 median r_gm 0.1598 | crossing G0 False G1 False | falsified True

@@ -1,0 +1,21 @@
+test_flat_unit_spectra_readout (tests.test_e2_r2_readout.KernelAndReadout.test_flat_unit_spectra_readout) ... ok
+test_kernel_known_value (tests.test_e2_r2_readout.KernelAndReadout.test_kernel_known_value) ... ok
+test_negative_control_single_unit_differs_from_flat (tests.test_e2_r2_readout.KernelAndReadout.test_negative_control_single_unit_differs_from_flat) ... ok
+test_single_unit_readout_is_exact_known_answer (tests.test_e2_r2_readout.KernelAndReadout.test_single_unit_readout_is_exact_known_answer) ... ok
+test_gamma_band_only_matches_gamma_columns (tests.test_e2_r2_readout.PerAreaCorrelation.test_gamma_band_only_matches_gamma_columns) ... ok
+test_identical_target_gives_one (tests.test_e2_r2_readout.PerAreaCorrelation.test_identical_target_gives_one) ... ok
+test_negated_target_gives_minus_one (tests.test_e2_r2_readout.PerAreaCorrelation.test_negated_target_gives_minus_one) ... ok
+test_summary_medians_and_flags (tests.test_e2_r2_readout.PerAreaCorrelation.test_summary_medians_and_flags) ... ok
+test_all_support_conditions_met (tests.test_e2_r2_readout.SealedDecision.test_all_support_conditions_met) ... ok
+test_all_three_conditions_failing_lists_three_reasons (tests.test_e2_r2_readout.SealedDecision.test_all_three_conditions_failing_lists_three_reasons) ... ok
+test_below_k1_with_r_gm_above_threshold (tests.test_e2_r2_readout.SealedDecision.test_below_k1_with_r_gm_above_threshold) ... ok
+test_boundaries_are_inclusive_for_support (tests.test_e2_r2_readout.SealedDecision.test_boundaries_are_inclusive_for_support) ... ok
+test_equal_to_k1_does_not_exceed (tests.test_e2_r2_readout.SealedDecision.test_equal_to_k1_does_not_exceed) ... ok
+test_observed_r2_values_falsify_per_seed (tests.test_e2_r2_readout.SealedDecision.test_observed_r2_values_falsify_per_seed) ... ok
+test_r_ab_below_threshold_falsifies (tests.test_e2_r2_readout.SealedDecision.test_r_ab_below_threshold_falsifies) ... ok
+test_r_gm_below_threshold_falsifies (tests.test_e2_r2_readout.SealedDecision.test_r_gm_below_threshold_falsifies) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.004s
+
+OK

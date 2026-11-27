@@ -70,6 +70,23 @@ def per_area(R: np.ndarray, Y: np.ndarray, areas: list[str]) -> dict:
     return out
 
 
+def sealed_decision(g1_gm: float, k1_gm: float, g1_ab: float) -> dict:
+    """Spec section 7 for G1. Support needs G1 median r_gm >= 0.6, G1 > K1 and median r_ab >= 0.6. Falsification is
+    any of: r_gm < 0.6, r_ab < 0.6, G1 not above K1. Each falsification reason is the negation of one support
+    condition, so support is exactly 'not falsified'. Pure function; covered by tests/test_e2_r2_readout.py."""
+    reasons = []
+    if g1_gm < 0.6:
+        reasons.append("G1 median r_gm < 0.6")
+    if g1_ab < 0.6:
+        reasons.append("G1 median r_ab < 0.6")
+    if not g1_gm > k1_gm:
+        reasons.append("G1 does not exceed K1")
+    return {"support": bool(g1_gm >= 0.6 and g1_gm > k1_gm and g1_ab >= 0.6),
+            "falsified": bool(reasons), "falsification_reasons": reasons,
+            "text": "spec section 7: support = G1 median r_gm >= 0.6, G1 > K1, median r_ab >= 0.6; "
+                    "falsification = G1 median r_gm < 0.6, or median r_ab < 0.6, or G1 does not exceed K1"}
+
+
 def pass_at(x: float) -> dict:
     return {f"{t:g}": bool(x >= t) for t in THRESHOLDS}
 
@@ -118,9 +135,13 @@ def main(tags: list[str]) -> None:
         assert abs(g0x["contrast_M"] - saved["contrast_M"]) < 1e-9
         res = {"tag": tag, "units": ["S", "M", "D"], "discard_s": float(motif["discard_s"]),
                "crosscheck_G0_areamean": {"r_gm": rgm0, "r_ab": rab0, "scorer_r_gm": ver["r_gm"],
-                                          "scorer_r_ab": ver["r_ab"], "pass": True},
-               "crosscheck_G0_motif": {"crossing_2se": g0x["crossing_2se"], "contrast_M": g0x["contrast_M"],
-                                       "profiles_match_saved_motif": True, "pass": True},
+                                          "scorer_r_ab": ver["r_ab"],
+                                          "abs_diff_r_gm": abs(rgm0 - ver["r_gm"]), "abs_diff_r_ab": abs(rab0 - ver["r_ab"])},
+               "crosscheck_G0_motif": {"crossing_2se": g0x["crossing_2se"], "saved_crossing_2se": saved["crossing_2se"],
+                                       "abs_diff_contrast_M": abs(g0x["contrast_M"] - saved["contrast_M"]),
+                                       "max_abs_diff_profiles": max(
+                                           float(np.max(np.abs(np.asarray(g0x[k]) - np.asarray(saved[k]))))
+                                           for k in ("alpha_beta_profile", "gamma_profile", "diff_se"))},
                "conditions": {}}
         for cid, (dep, sig) in CONDS.items():
             K = kernel(dep, sig)
@@ -146,25 +167,13 @@ def main(tags: list[str]) -> None:
             "G1_minus_K1": c["G1"]["median_r_gm"] - c["K1"]["median_r_gm"],
         }
         g1, k1 = c["G1"], c["K1"]
-        reasons = []
-        if g1["median_r_gm"] < 0.6:
-            reasons.append("G1 median r_gm < 0.6")
-        if g1["median_r_ab"] < 0.6:
-            reasons.append("G1 median r_ab < 0.6")
-        if not g1["median_r_gm"] > k1["median_r_gm"]:
-            reasons.append("G1 does not exceed K1")
-        res["sealed_rule"] = {
-            "support": bool(g1["median_r_gm"] >= 0.6 and g1["median_r_gm"] > k1["median_r_gm"] and g1["median_r_ab"] >= 0.6),
-            "falsified": bool(reasons), "falsification_reasons": reasons,
-            "text": "spec section 7: support = G1 median r_gm >= 0.6, G1 > K1, median r_ab >= 0.6; "
-                    "falsification = G1 median r_gm < 0.6, or median r_ab < 0.6, or G1 does not exceed K1",
-        }
+        res["sealed_rule"] = sealed_decision(g1["median_r_gm"], k1["median_r_gm"], g1["median_r_ab"])
         out = RD / f"r2_readout_{tag}.json"
         out.write_text(json.dumps(res, indent=1), encoding="utf-8")
         print(tag, "crosscheck ok", f"G0 r_gm {rgm0:.6f}", "| G1 median r_gm", round(g1["median_r_gm"], 4),
               "r_ab", round(g1["median_r_ab"], 4), "| K1 median r_gm", round(k1["median_r_gm"], 4),
               "| crossing G0", g0x["crossing_2se"], "G1", c["G1"]["crossing_2se"],
-              "| falsified", bool(reasons))
+              "| falsified", res["sealed_rule"]["falsified"])
 
 
 if __name__ == "__main__":

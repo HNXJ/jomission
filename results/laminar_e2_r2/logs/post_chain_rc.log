@@ -1,0 +1,9 @@
+figure r2_p0_n4000_s7_T12 rc=0
+sim r2_p0_n4000_s7_T12 rc=0
+scorer r2_p0_n4000_s7_T12 rc=0
+figure r2_p0_n4000_s8_T12 rc=0
+sim r2_p0_n4000_s8_T12 rc=0
+scorer r2_p0_n4000_s8_T12 rc=0
+figure r2_p0_n4000_s9_T12 rc=0
+sim r2_p0_n4000_s9_T12 rc=0
+scorer r2_p0_n4000_s9_T12 rc=0

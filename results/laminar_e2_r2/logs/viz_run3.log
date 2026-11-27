@@ -1,0 +1,3 @@
+identity smoke vs scored s7 first 1 s: {"blocks_equal": {"S_E": true, "S_PV": true, "S_SOM": true, "M_E": true, "M_PV": true, "M_SOM": true, "D_E": true, "D_PV": true, "D_SOM": true}, "all_blocks_equal": true, "counts_first_1s_equal": true} sizes equal: True
+points per figure: {"V1_s7_0_1s": 5211, "V2_first1s_s7": 5211, "V2_last1s_s7": 3881, "V2_first1s_s8": 4897, "V2_last1s_s8": 3998, "V2_first1s_s9": 4998, "V2_last1s_s9": 3733}
+written /tmp/claude-1000/-mnt-d-cowork-jomission/f323fbb0-1dd8-4a90-8876-fe88be7c8e01/scratchpad/r2_run/results/viz/SCI-LANSA-GEOM-R2

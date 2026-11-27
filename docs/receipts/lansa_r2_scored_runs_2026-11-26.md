@@ -1,7 +1,7 @@
 # LANSA R2 scored runs: simulation receipt (seeds 7, 8, 9, T 12 s)
 
-Spec: `docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md` (sealed text; code SHA 46899e2 = seal commit).
-Layout `e2_3unit_n4000_dens_k1`, parameter set P0, `sigma_alt` 0.25 (sealed), default delivery route.
+Spec: `docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md` at commit 46899e2 (the seal candidate; header unchanged, see section 10 for the seal status). In this receipt, "the spec" means that text, and "sealed" describes what the spec says, not a seal act.
+Layout `e2_3unit_n4000_dens_k1`, parameter set P0, `sigma_alt` 0.25 (spec), default delivery route.
 Lineage: SCI-LANSA-GEOM-R2 (`manifests/todo.json`). Status: K2 NOT_RUN, so the protocol is not complete.
 
 ## 1. Run records (observed, read from each `<tag>.json`)
@@ -46,7 +46,7 @@ Estimand (protocol section 4): per held-out area a, the 21-contact Pearson betwe
 Cross-checks, asserted in the script on every run:
 - G0 against the area mean reproduces the sealed scorer's r_gm and r_ab to 1e-9 (`crosscheck_G0_areamean`).
 - G0's crossing, alpha-beta and gamma profiles, `diff_se` and contrast reproduce the saved motif json, `sum_over_cells`, image bands (`crosscheck_G0_motif`).
-- Unit tests, `tests/test_e2_r2_readout.py` (7 tests: kernel value, flat-spectrum readout, negative control, per-area identity and negation, band selection, summary and threshold flags). Run with `python -m unittest tests/test_e2_r2_readout.py`: 7 OK.
+- Unit tests, `tests/test_e2_r2_readout.py` (16 tests): kernel value; flat-spectrum and exact single-unit readouts; a negative control (single-unit vs flat readout gap, 0.98 measured); per-area identity and negation; gamma-band selection; summary and threshold flags; and the section 7 decision logic (`sealed_decision`, 8 cases including inclusive boundaries and the three observed seeds). Run with `python -m unittest tests/test_e2_r2_readout.py`: 16 OK.
 
 Median r_gm and r_ab per condition (observed):
 
@@ -72,11 +72,11 @@ Sealed section 7 rule, applied to G1 (support: G1 median r_gm >= 0.6, G1 exceeds
 
 ## 5. Status (owner decision, Option 2, 2026-11-26)
 
-- **G1 FALSIFIED under the sealed readout criteria, reported per seed (seeds 7, 8, 9; not pooled).** On each seed G1 median r_gm is below 0.6 and below K1.
+- **G1 FALSIFIED under the spec's readout criteria, reported per seed (seeds 7, 8, 9; not pooled).** On each seed G1 median r_gm is below 0.6 and below K1.
 - **K2: NOT_RUN.** Its selection procedure is UNDEFINED in the protocol. No definition has been made after observing results, and no K2 simulation is authorised.
 - **Full protocol: not complete** (K2 missing).
 - This falsifies G1 under the specified operational test. It does not establish that the broader biological mechanism is impossible.
-- **Independent review (reviewer agent, read-only): ACCEPT.** It reproduced all 18 per-seed medians and the G1 max-area values from `sc.unit_spectra` and Y directly. Its one receipt defect was fixed then. Review findings and their disposition are in section 8.
+- **Independent review.** Review 1 (reviewer agent, read-only, on an earlier commit): ACCEPT; it reproduced all 18 per-seed medians and the G1 max-area values from `sc.unit_spectra` and Y directly. Review 3 (on 489ecd3): REVISE, repaired in this commit; acceptance awaits re-verification (section 11). Findings and dispositions: section 8 and `docs/receipts/lansa_r2_reviews_2026-11-26.md`.
 
 ## 6. Visualization (contract, lineage field `visualization`)
 
@@ -105,8 +105,8 @@ Deviations from the contract, stated:
 - K2: NOT_RUN (section 5).
 - The sealed scorer's FAIL (section 3) is the unit-spectrum map against the 11-area prototype under the sealed rule. It is separate from the section 7 readout test (section 4).
 - V2 and V3 are built (section 6). V3 is provisional.
-- Raw outputs, logs, scripts and figures are preserved in `/mnt/d/cowork/jomission/results/laminar_e2_r2/` with `MANIFEST.sha256` (checked with `sha256sum -c`).
-- `results/` is largely untracked in git. Only `results/viz/SCI-LANSA-GEOM-R2/` is tracked at this commit.
+- Raw outputs, logs, scripts, tests and figures are preserved in `results/laminar_e2_r2/` with `MANIFEST.sha256` (checked with `sha256sum -c` in that folder). The output files (`outputs/`, `*.npz`) are gitignored by repo policy (`.gitignore`: "binary dumps stay out"), so git holds only their checksums; the files exist only on local disk, at `/mnt/d/cowork/jomission/results/laminar_e2_r2/outputs/`.
+- `results/` is largely untracked in git. Tracked at this commit: `results/viz/SCI-LANSA-GEOM-R2/` and `results/laminar_e2_r2/` (all except `outputs/`). The run files in `results/laminar_e2/` stay untracked; the archive holds copies of the scored outputs.
 
 ## 8. Review findings and disposition
 
@@ -126,7 +126,7 @@ Review 2: Gemini neon (agy, `gemini-4-neon-high`), read-only, 2026-11-26: SOUND 
 | 8 | minor | V0 called S, M, D areas; the construction builds them as units of one area "C" (`caminos_stack.py:281`) | fixed (units) |
 | 9 | minor | V0 omitted contract elements without saying so | fixed: printed on the figure and listed in section 6 |
 | 10 | minor | identity gate did not require count equality | fixed: gate requires counts and sizes |
-| 11 | minor | G0 cross-check did not test per-area, summary, K1 | fixed: 7 unit tests (section 4) |
+| 11 | minor | G0 cross-check did not test per-area, summary, K1 | fixed: 16 unit tests (section 4) |
 | 12 | minor | receipt said `results/` is outside git while `results/viz` is tracked | fixed (section 7) |
 | 13 | minor | atlas marked diagnostics "present" | fixed: "partial (K2 NOT_RUN)" |
 | 14 | minor | receipt omitted plastic weights as not applicable | fixed (section 6) |
@@ -142,4 +142,27 @@ Reviewer statements checked and not accepted: (a) "the original full-population 
 
 - **+0.095 (erratum to spec line 11-12).** The sealed spec's owner-decision summary lists "+0.095, +0.198 primary, +0.406 sensitivity" as the confirmed depths. `docs/laminar_motif/DECISIONS_2026-11-25.md` lines 12, 24 and 145 show that +0.095 is the mouse-derived L4 boundary (z = ±0.095; `(505 - 431)/779` lower boundary, `z > +0.095` for the deep threshold), used for the T1 anatomical recount, and that the owner ruling values were blank in transmission and marked "OWNER to confirm". The readout depths are S -0.216 (L2/3 mid), M 0.000 (L4 mid), D +0.198 (L5 mid, primary), and D +0.406 (L6 mid, sensitivity). +0.095 is not used in `scripts/e2_r2_readout.py`, in the R2 simulation layout, or in any R2 output. The sealed spec is not edited.
 - **Depth provenance.** The readout depths come from mouse Allen V1 mid-depths `z = (µm - 431)/779` (`DECISIONS_2026-11-25.md:24`). No Y value enters them. Mouse-to-macaque transfer is assumed and unverified (`UNKNOWN`).
-- **Manifest.** `docs/receipts/lansa_r2_scored_manifest_2026-11-26.sha256` lists the durable copy under `results/laminar_e2_r2/`. It was regenerated at this commit and includes the viz outputs, scripts, tests and this receipt.
+- **Manifest.** `docs/receipts/lansa_r2_scored_manifest_2026-11-26.sha256` lists the durable copy under `results/laminar_e2_r2/`. It was regenerated at this commit and includes the viz outputs, scripts, tests, logs, the smoke run files and this receipt.
+- **+0.095 owner confirmation: PENDING.** `DECISIONS_2026-11-25.md:145` ("Confirm the values applied from the blank ruling: +0.095, +0.198, +0.406") and `HANDOFF_LANSA_GEOMETRY_2026-11-25.md:118` ("whose numbers were blank in transmission") are unresolved. Spec section 1 says the depths were "confirmed as listed"; no later record confirms it. The sources conflict, and this receipt does not resolve the conflict.
+- **K2 is mandatory under the sealed protocol** (protocol section 6 "K2, required"; spec section 6 "controls K1 ... and K2 ... required"). Spec section 7 does not use K2. K2's selection procedure is not defined in any sealed text, so K2 cannot be run as written. Protocol section 10 also lists "the median-r_gm rule" among owner items before any run; it is unclear whether that is the summary statistic (already fixed as the median in spec section 7) or a K2 selection criterion. Owner decision required.
+
+## 10. Seal status (evidence; this receipt does not declare a seal)
+
+The spec file, `docs/laminar_motif/GEOMETRY_R2_SPEC_2026-11-25.md` at 46899e2, has line 1 "# Geometry R2 spec, draft 7 (not sealed; runs wait for the seal)" and line 3 "Status: DRAFT. Nothing here is sealed." Its bytes equal c33e340 (`git diff --quiet c33e340 46899e2 -- <spec>`).
+
+| item | evidence | status |
+|---|---|---|
+| text accepted | ddc5d30 (13:07:52 -0600), `docs/receipts/lansa_r2_spec_rev8_review_2026-11-26.md`: "ACCEPT of the text. The seal may follow. The seal gate is separate and is not covered by this ACCEPT." Covers c33e340. | observed |
+| change since c33e340 | `git diff c33e340 46899e2` changes only `docs/HANDOFF_CURRENT.md` (2 insertions, 2 deletions; the generated next-task block) | observed |
+| seal gate | 3c35d7f (13:12:37 -0600), `docs/receipts/lansa_r2_seal_gate_2026-11-26.md`: candidate 46899e2; `PROJECT_CHECK_PASS`; tier-0 "261 passed". Its §5: "Push 46899e2 to `dev` or `main`: not done; the owner decides." | observed |
+| precondition (b): `next_authorized_task` | `manifests/current_state.json` at 46899e2 names `SCI-LANSA-GEOM-R2` (lines 245-246), with an owner ruling in `next_authorized_task_note` | observed |
+| precondition (a): owner items | Spec §9 at 46899e2: "Open owner items: none." This receipt's §9 lists three items as unresolved: K2 (mandatory; selection undefined), the "median-r_gm rule" (unclear), and +0.095 confirmation (pending). | **conflict** |
+| precondition (c): pushed | 46899e2 is an ancestor of 2138fe0 (13:15:40 -0600), which is an ancestor of `origin/dev` at ec21df7 (`git ls-remote origin refs/heads/dev`). Who authorised the push is not recorded; it came three minutes after the seal gate's "owner decides" line. | observed; authorisation unknown |
+| owner act recording a seal | none in the repository. The seal-gate receipt's "owner ruled (main-jomission, Option A with conditions)" (its §1) concerns regenerating the HANDOFF block at 46899e2. | not found |
+| scored runs | run records give git_sha 46899e2 (§1). Output files written 17:04:05 to 18:40:33 -0600 on 2026-11-26, after 2138fe0. | observed |
+
+Conclusion. The record supports: text accepted; 46899e2 passed the seal gate; 46899e2 is on `origin/dev`. It does not show an owner-declared seal, and the two statements about open owner items conflict. Seal status: OPEN. Owner decision needed: record 46899e2 as the seal (after the section 9 items are resolved and the spec and this receipt agree), or record the seal as pending. Until then this receipt says "the spec text at 46899e2", not "sealed".
+
+## 11. Reviews and repairs
+
+Review record: `docs/receipts/lansa_r2_reviews_2026-11-26.md`. Review 1 (reviewer subagent): ACCEPT, on an earlier commit. Review 2 (Gemini): SOUND WITH FIXES (section 8). Review 3 (reviewer subagent, non-writer, on 489ecd3): REVISE with seven items. This commit makes the repairs (table in the review record). `python -m unittest tests/test_e2_r2_readout.py` passes, 16 OK. The repaired readout JSON differs from the pre-repair JSON only in the G0 cross-check block (`crosscheck_G0_areamean`, `crosscheck_G0_motif`): measured absolute differences replace hardcoded `pass` flags. Every condition, median, sensitivity and crossing value is unchanged (all paths compared, seeds 7, 8, 9). No acceptance is claimed until a re-verification of this commit returns ACCEPT.

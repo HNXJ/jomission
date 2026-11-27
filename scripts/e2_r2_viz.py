@@ -6,7 +6,7 @@ V2: final rasters from the scored 12 s runs, first 1 s (same window as V1) and l
 V3: provisional atlas (lineage not complete: K2 NOT_RUN). Built from the saved arrays only; no re-simulation.
 
 The LFP panel uses the scored proxy and estimator: e2_motif_figure.rws (RWS on g_nS) and e2_scorer.unit_spectra
-(1 kHz, DPSS 1 s windows, 2 Hz smoothing, first 2 s discarded), so the atlas shows what the sealed analysis scored.
+(1 kHz, DPSS 1 s windows, 2 Hz smoothing, first 2 s discarded), so the atlas shows what the scored analysis used.
 
 Usage: python scripts/e2_r2_viz.py RES_DIR OUT_DIR SMOKE_NPZ SMOKE_JSON V0_DIR ARCHIVE_V1_PNG
   RES_DIR         results/laminar_e2 (npz, json, motif png, readout json)
@@ -162,7 +162,7 @@ def lfp_panel(recs: dict, path: Path) -> None:
     axp.axvspan(10, 30, color="#999", alpha=0.15, label="alpha-beta band 10-30 Hz")
     axp.axvspan(50, 150, color="#c44e52", alpha=0.10, label="gamma band 50-150 Hz")
     axp.set_xlabel("frequency (Hz)")
-    axp.set_ylabel("PSD (pA^2/Hz), scored estimator, mean of seeds 7-9")
+    axp.set_ylabel("power (pA^2, unnormalised: no 1/fs factor), mean of seeds 7-9")
     axp.legend(fontsize=7, frameon=False)
     fig.suptitle("Scored RWS proxy (current-based model LFP; not a calibrated potential)", fontsize=10)
     fig.tight_layout()
@@ -207,7 +207,7 @@ def readout_panel(path: Path) -> dict:
     ax.set_xticklabels([COND_LABEL[c] for c in CONDS])
     ax.set_ylabel("median r_gm over 11 held-out areas")
     ax.legend(fontsize=8, frameon=False)
-    ax.set_title("Readout conditions (sealed R2 spectra). G1 is below 0.6 and below K1 on every seed. K2 NOT_RUN.",
+    ax.set_title("Readout conditions (R2 scored spectra). G1 is below 0.6 and below K1 on every seed. K2 NOT_RUN.",
                  fontsize=9)
     fig.tight_layout()
     fig.savefig(path)
@@ -254,7 +254,7 @@ def write_atlas(atlas: Path, rules: dict, data: dict) -> None:
         ("I_net", "net synaptic current", "the driver does not record it", "NOT RECORDED"),
         ("H, A, m(H)", "H-state, adaptation", "the lineage has no H-state (AdEx populations)", "NOT APPLICABLE"),
         ("plastic weights", "effective weights", "the lineage has no plasticity", "NOT APPLICABLE"),
-        ("diagnostics", "readout, crossing, sensitivity", "sealed scorer; readout G0 to G1' and K1; crossing per condition "
+        ("diagnostics", "readout, crossing, sensitivity", "scorer (unchanged since 46899e2); readout G0 to G1' and K1; crossing per condition "
          "(K1 not defined); K2 NOT_RUN", "partial (K2 NOT_RUN)"),
     ]
     srows = "".join(f"<tr><td>{html.escape(a)}</td><td>{html.escape(b)}</td><td>{html.escape(c)}</td>"
@@ -281,7 +281,7 @@ img {{ max-width: 100%; height: auto; border: 1px solid #ddd; }}
 <h1>SCI-LANSA-GEOM-R2: visualization atlas (V3, provisional)</h1>
 <p class="warn"><b>PROVISIONAL.</b> The lineage is not complete: K2 is NOT_RUN and its selection is UNDEFINED.
 Contract V3 is due at lineage completion. This atlas is built from the saved arrays of the scored runs (seeds 7-9, 12 s,
-engine JaxFNE 0.5.8, CPU, sealed spec at 46899e2). The G1 falsification (per seed, not pooled) is in the receipt
+engine JaxFNE 0.5.8, CPU; spec text at 46899e2, whose seal status is in receipt section 10). The G1 falsification (per seed, not pooled) is in the receipt
 <code>docs/receipts/lansa_r2_scored_runs_2026-11-26.md</code>.</p>
 <h2>Stage inventory (contract section V3)</h2>
 <table><tr><th>contract item</th><th>what</th><th>status here</th><th>state</th></tr>{srows}</table>
@@ -302,7 +302,7 @@ engine JaxFNE 0.5.8, CPU, sealed spec at 46899e2). The G1 falsification (per see
 <h2>Conductances (seed 7)</h2><img src="conductance.png" alt="conductances">
 <h2>Diagnostics: readout conditions</h2><img src="readout.png" alt="readout">
 {readout_table(data)}
-<h2>Diagnostics: motif maps (sealed scorer, per seed)</h2>
+<h2>Diagnostics: motif maps (scorer output, per seed)</h2>
 <img src="motif_s7.png" alt="motif seed 7"><img src="motif_s8.png" alt="motif seed 8"><img src="motif_s9.png" alt="motif seed 9">
 </body></html>"""
     (atlas / "index.html").write_text(body, encoding="utf-8")

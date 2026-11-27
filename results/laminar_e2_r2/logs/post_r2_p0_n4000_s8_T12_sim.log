@@ -1,0 +1,2 @@
+{"tag": "r2_p0_n4000_s8_T12", "row": "per_cell_mean", "r_proto": -0.39, "r_area": -0.362, "r_map": -0.336, "r_ab": 0.841, "r_gm": -0.808, "null95": 0.247}
+{"tag": "r2_p0_n4000_s8_T12", "row": "sum_over_cells", "r_proto": -0.341, "r_area": -0.317, "r_map": -0.225, "r_ab": 0.912, "r_gm": -0.773, "null95": 0.238}

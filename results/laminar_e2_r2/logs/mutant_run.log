@@ -1,0 +1,23 @@
+.........F.....F
+======================================================================
+FAIL: test_all_three_conditions_failing_lists_three_reasons (__main__.SealedDecision.test_all_three_conditions_failing_lists_three_reasons)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-mnt-d-cowork-jomission/f323fbb0-1dd8-4a90-8876-fe88be7c8e01/scratchpad/mutant/tests/test_e2_r2_readout.py", line 140, in test_all_three_conditions_failing_lists_three_reasons
+    self.assertEqual(len(d["falsification_reasons"]), 3)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 3
+
+======================================================================
+FAIL: test_r_gm_below_threshold_falsifies (__main__.SealedDecision.test_r_gm_below_threshold_falsifies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-mnt-d-cowork-jomission/f323fbb0-1dd8-4a90-8876-fe88be7c8e01/scratchpad/mutant/tests/test_e2_r2_readout.py", line 119, in test_r_gm_below_threshold_falsifies
+    self.assertTrue(d["falsified"])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.005s
+
+FAILED (failures=2)

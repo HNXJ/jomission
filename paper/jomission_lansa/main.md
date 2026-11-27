@@ -43,7 +43,7 @@ LANSA mean and V1, so the claim is conditional on that map.
 
 ## Sections
 
-- Abstract (249 words; review 4 narrative form): question, model with assumed density-to-connectivity rule, C1-C2, C5 (relative), C3-C4 (fresh-seed loss), C12, C10 conditional on the three-source readout, C7, implication.
+- Abstract (369 words after the 2026-11-26 fixes; the earlier 249 did not match the text; the 250-word target is not met, an owner decision; review 4 narrative form): question, model with assumed density-to-connectivity rule, C1-C2, C5 (relative), C3-C4 (fresh-seed loss), C12, C10 conditional on the three-source readout, C7, implication.
 - Introduction: laminar LFP literature (Maier 2010, Xing 2012, Buffalo 2011, van Kerkoerle 2014, Haegens 2015,
   Bastos 2015, 2020); motif and dispute; densities (LANSA); cells to rhythms (Tremblay, Borgers, Cardin, Sohal, Veit,
   CAMINOS, AdEx); currents to field (Buzsaki 2012, Einevoll 2013); Billeh/Herrera; gap; question; C12 in the summary.

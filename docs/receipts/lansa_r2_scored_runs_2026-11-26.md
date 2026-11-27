@@ -58,7 +58,22 @@ Cells G0 to K1 are median r_gm over the 11 areas. The G1 r_ab column is the medi
 - This falsifies G1 under the specified operational test. It does not establish that the broader biological mechanism is impossible.
 - **Status of the falsification:** independent non-writer review (reviewer agent, read-only) returned ACCEPT. It reproduced all 18 per-seed medians (G0, G1, G2, G3, G1', K1) and the G1 max-area values from `sc.unit_spectra` and Y directly, and confirmed the manifest (`sha256sum -c`, 38 OK). It flagged one minor receipt defect, fixed in this section.
 
-## 6. Status of remaining items
+## 6. Visualization (contract, lineage field `visualization`)
+
+Built by `scripts/e2_r2_viz.py` from saved arrays only (no re-simulation). Paths resolve at this commit under `results/viz/SCI-LANSA-GEOM-R2/`:
+
+| stage | path | what it is | status |
+|---|---|---|---|
+| V0 | `results/viz/SCI-LANSA-GEOM-R2/V0_rule_based_schematic.png` | rule-based block schematic, labelled rule-based; not an HSPICE schematic (the HSPICE renderer needs `params["edge_list"]`, which the default route does not store); no edge list drawn | present |
+| V1 | `results/viz/SCI-LANSA-GEOM-R2/V1_raster_initial_1000ms_s7.png` | initial 1 s raster, seed 7 (smoke run, 0-1 s) | present, sampled cells |
+| V2 | `results/viz/SCI-LANSA-GEOM-R2/V2_raster_first1s_s{7,8,9}.png` and `V2_raster_last1s_s{7,8,9}.png` | final rasters, scored seeds: first 1 s (same window as V1) and last 1 s (11-12 s) | present, sampled cells |
+| V3 | `results/viz/SCI-LANSA-GEOM-R2/atlas/index.html` | atlas | PROVISIONAL: due at lineage completion, which K2 blocks |
+
+Identity check (observed, `e2_r2_viz.py`): the scored seed-7 run's first 1 s equals the smoke run's sample block by block (9 of 9 blocks) and in per-bin counts. V1 and V2 first-second panels therefore show the same spikes (5211 points each).
+
+Deviations from the contract, stated: the rasters show the driver's fixed cell sample (E 200, PV 50, SOM 50 per block, `default_rng(0)`), not all 14251 units. The V1 raster here replaces the earlier full-population V1 image of the smoke run. The V3 atlas marks membrane dynamics, I_net and H/A/m(H) as not recorded or not applicable; the driver does not store them. The LFP proxy is qualified as current-based, not a potential. The first 2 s are excluded from the LFP spectra, as the scorer's `discard_s` does.
+
+## 7. Status of remaining items
 
 - Readout conditions G0, G1, G2, G3, G1' and K1: run, section 4. K2: NOT_RUN (section 5).
 - The sealed scorer's FAIL (section 3) is the unit-spectrum map against the 11-area prototype under the sealed rule. It is separate from the section 7 readout test in section 4.

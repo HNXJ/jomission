@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCI-LANSA-GEOM-R2 atlas (provisional)</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 16px; color: #111; background: #fff; max-width: 1200px; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 28px; }
+table { border-collapse: collapse; font-size: 13px; } td, th { border: 1px solid #ccc; padding: 4px 8px; text-align: left; }
+img { max-width: 100%; height: auto; border: 1px solid #ddd; }
+.warn { background: #fff4e5; border: 1px solid #e0a040; padding: 8px; }
+</style></head><body>
+<h1>SCI-LANSA-GEOM-R2: visualization atlas (V3, provisional)</h1>
+<p class="warn"><b>PROVISIONAL.</b> The lineage is not complete: K2 is NOT_RUN and its selection is UNDEFINED.
+Contract V3 is due at lineage completion. This atlas is built from the saved arrays of the scored runs (seeds 7-9, 12 s,
+engine JaxFNE 0.5.8, CPU, sealed spec at 46899e2). The G1 falsification (per seed, not pooled) is in the receipt
+<code>docs/receipts/lansa_r2_scored_runs_2026-11-26.md</code>.</p>
+<h2>Stage inventory (contract section V3)</h2>
+<table><tr><th>contract item</th><th>what</th><th>status here</th><th>state</th></tr><tr><td>V0</td><td>construction</td><td>rule-based block schematic (not HSPICE; no edge list drawn)</td><td><b>present</b></td></tr><tr><td>V1</td><td>initial 1 s raster</td><td>sampled cells, seed 7, 0-1 s</td><td><b>present</b></td></tr><tr><td>V2</td><td>final raster</td><td>sampled cells, scored seeds 7-9: 0-1 s and 11-12 s</td><td><b>present</b></td></tr><tr><td>connectivity</td><td>rule table</td><td>33 construction rules, realised edge counts</td><td><b>present</b></td></tr><tr><td>raster</td><td>raster</td><td>as V2</td><td><b>present</b></td></tr><tr><td>rates</td><td>population rates</td><td>per block, mean over seeds 7-9</td><td><b>present</b></td></tr><tr><td>LFP proxy</td><td>current-based proxy</td><td>qualified: not a potential, not calibrated</td><td><b>present, qualified</b></td></tr><tr><td>conductances</td><td>g_nS</td><td>1 ms means, seed 7</td><td><b>present</b></td></tr><tr><td>membrane dynamics</td><td>V(t)</td><td>the driver does not record membrane potential</td><td><b>NOT RECORDED</b></td></tr><tr><td>I_net</td><td>net synaptic current</td><td>the driver does not record it</td><td><b>NOT RECORDED</b></td></tr><tr><td>H, A, m(H)</td><td>H-state, adaptation</td><td>the lineage has no H-state (AdEx populations)</td><td><b>NOT APPLICABLE</b></td></tr><tr><td>plastic weights</td><td>effective weights</td><td>the lineage has no plasticity</td><td><b>NOT APPLICABLE</b></td></tr><tr><td>diagnostics</td><td>readout and motif</td><td>sealed scorer; readout G0-G1&#x27; and K1; K2 NOT_RUN</td><td><b>present</b></td></tr></table>
+<h2>V0: construction (rule-based)</h2>
+<p>Labelled rule-based: built from the 33 construction rules and their realised counts. No edge list is drawn, and the
+sealed construction was not modified (the HSPICE renderer needs an edge list, which the default route does not store).</p>
+<img src="../V0_rule_based_schematic.png" alt="V0 rule-based schematic">
+<h2>Connectivity: construction rules and realised edge counts (seed 7)</h2>
+<table><tr><th>rule</th><th>realised edges</th></tr><tr><td>e_e_S</td><td style='text-align:right'>3,238,331</td></tr><tr><td>e_pv_S</td><td style='text-align:right'>486,206</td></tr><tr><td>e_sst_S</td><td style='text-align:right'>121,419</td></tr><tr><td>pv_e_S</td><td style='text-align:right'>485,364</td></tr><tr><td>pv_pv_S</td><td style='text-align:right'>72,838</td></tr><tr><td>sst_e_S</td><td style='text-align:right'>121,550</td></tr><tr><td>sst_pv_S</td><td style='text-align:right'>18,402</td></tr><tr><td>e_e_M</td><td style='text-align:right'>2,054,541</td></tr><tr><td>e_pv_M</td><td style='text-align:right'>191,976</td></tr><tr><td>e_sst_M</td><td style='text-align:right'>192,973</td></tr><tr><td>pv_e_M</td><td style='text-align:right'>193,315</td></tr><tr><td>pv_pv_M</td><td style='text-align:right'>17,971</td></tr><tr><td>sst_e_M</td><td style='text-align:right'>192,479</td></tr><tr><td>sst_pv_M</td><td style='text-align:right'>18,153</td></tr><tr><td>e_e_D</td><td style='text-align:right'>1,425,209</td></tr><tr><td>e_pv_D</td><td style='text-align:right'>88,956</td></tr><tr><td>e_sst_D</td><td style='text-align:right'>178,558</td></tr><tr><td>pv_e_D</td><td style='text-align:right'>89,486</td></tr><tr><td>pv_pv_D</td><td style='text-align:right'>5,562</td></tr><tr><td>sst_e_D</td><td style='text-align:right'>178,072</td></tr><tr><td>sst_pv_D</td><td style='text-align:right'>11,310</td></tr><tr><td>x_S_M_e_e</td><td style='text-align:right'>293,077</td></tr><tr><td>x_S_M_e_pv</td><td style='text-align:right'>27,259</td></tr><tr><td>x_S_M_e_som</td><td style='text-align:right'>27,553</td></tr><tr><td>x_M_S_e_e</td><td style='text-align:right'>926,401</td></tr><tr><td>x_M_S_e_pv</td><td style='text-align:right'>138,664</td></tr><tr><td>x_M_S_e_som</td><td style='text-align:right'>34,489</td></tr><tr><td>x_M_D_e_e</td><td style='text-align:right'>408,404</td></tr><tr><td>x_M_D_e_pv</td><td style='text-align:right'>25,442</td></tr><tr><td>x_M_D_e_som</td><td style='text-align:right'>50,702</td></tr><tr><td>x_D_M_e_e</td><td style='text-align:right'>293,239</td></tr><tr><td>x_D_M_e_pv</td><td style='text-align:right'>27,394</td></tr><tr><td>x_D_M_e_som</td><td style='text-align:right'>27,693</td></tr></table>
+<h2>V1: initial raster, 0-1 s (seed 7 smoke run)</h2>
+<p>Sampled raster: the driver keeps a fixed sample of cells per block (E 200, PV 50, SOM 50; default_rng(0)); not the full population.</p>
+<img src="../V1_raster_initial_1000ms_s7.png" alt="V1">
+<h2>V2: final raster, scored seeds (first and last second)</h2>
+<img src="../V2_raster_first1s_s7.png" alt="V2 first 1 s seed 7">
+<img src="../V2_raster_last1s_s7.png" alt="V2 last 1 s seed 7">
+<p>Seeds 8 and 9 are in the parent directory as <code>V2_raster_*_s8.png</code> and <code>V2_raster_*_s9.png</code>.</p>
+<h2>Rates</h2><img src="rates.png" alt="population rates">
+<h2>LFP proxy (qualified)</h2><img src="lfp.png" alt="LFP proxy and PSD">
+<h2>Conductances (seed 7)</h2><img src="conductance.png" alt="conductances">
+<h2>Diagnostics: readout conditions</h2><img src="readout.png" alt="readout">
+<table><tr><th>seed</th><th>G0</th><th>G1</th><th>G2</th><th>G3</th><th>G1'</th><th>K1</th></tr><tr><td>7</td><td>-0.796</td><td>-0.465</td><td>-0.835</td><td>-0.487</td><td>-0.512</td><td>0.160</td></tr><tr><td>8</td><td>-0.804</td><td>-0.428</td><td>-0.797</td><td>-0.432</td><td>-0.487</td><td>0.160</td></tr><tr><td>9</td><td>-0.804</td><td>-0.503</td><td>-0.848</td><td>-0.516</td><td>-0.560</td><td>0.160</td></tr></table>
+<h2>Diagnostics: motif maps (sealed scorer, per seed)</h2>
+<img src="motif_s7.png" alt="motif seed 7"><img src="motif_s8.png" alt="motif seed 8"><img src="motif_s9.png" alt="motif seed 9">
+</body></html>

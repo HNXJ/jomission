@@ -56,14 +56,12 @@ Cells G0 to K1 are median r_gm over the 11 areas. The G1 r_ab column is the medi
 - **K2: NOT_RUN.** Its selection procedure is UNDEFINED in the protocol. No definition is made after observing results, and no K2 simulation is authorised.
 - **Full protocol: not complete** (K2 missing).
 - This falsifies G1 under the specified operational test. It does not establish that the broader biological mechanism is impossible.
-- **Status of the falsification:** the reported numbers support it; independent verification is pending (section 6).
+- **Status of the falsification:** independent non-writer review (reviewer agent, read-only) returned ACCEPT. It reproduced all 18 per-seed medians (G0, G1, G2, G3, G1', K1) and the G1 max-area values from `sc.unit_spectra` and Y directly, and confirmed the manifest (`sha256sum -c`, 38 OK). It flagged one minor receipt defect, fixed in this section.
 
-## 6. Not in this receipt
+## 6. Status of remaining items
 
-- Independent non-writer review of the readout implementation, the sealed thresholds, the G0 cross-check and this receipt: pending.
-- V2 and V3 figures: held until review; not built.
-- Raw outputs, logs and scripts are preserved in `/mnt/d/cowork/jomission/results/laminar_e2_r2/` with `MANIFEST.sha256` (38 files, verified with `sha256sum -c`).
-- Readout conditions G0, G1, G2, G3, G1', K1, K2 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6): not run.
-- V2 final raster and V3 atlas: not built.
-- Raw outputs are untracked (`results/` is outside git); archive is a later step.
-- Not claimed: the sealed scorer's FAIL is the result for this unit-spectrum map against the 11-area prototype (the sealed rule). It does not by itself settle the section 7 readout test.
+- Readout conditions G0, G1, G2, G3, G1' and K1: run, section 4. K2: NOT_RUN (section 5).
+- The sealed scorer's FAIL (section 3) is the unit-spectrum map against the 11-area prototype under the sealed rule. It is separate from the section 7 readout test in section 4.
+- V2 final raster and V3 atlas: not built. Their purpose is to be decided after this review.
+- Raw outputs, logs and scripts are preserved in `/mnt/d/cowork/jomission/results/laminar_e2_r2/` with `MANIFEST.sha256` (38 files, verified with `sha256sum -c`). The sealed-scorer `_verdict.json` files are in that directory under `outputs/`.
+- Raw outputs are untracked (`results/` is outside git); the archive is a later step.

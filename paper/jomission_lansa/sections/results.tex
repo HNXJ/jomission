@@ -119,9 +119,9 @@ auto-only map gave mid-depth relative gamma 0.19--0.30, which excludes cancellat
 auto power there, S the rest, and the per-frequency maximum that sets the normalization sat at S ($-0.4$) for
 97--101 of the 101 frequencies from 50 to 150 Hz in every run. We infer that the deficit is M's 50--150 Hz power being
 small relative to S's, which the data cannot split into a weak M and a strong S. Two observations favour a missing
-fast mode at M over a misplaced one. In the stack the unit peaks were 43, 11 and 12 Hz at S, M and D ($N = 4000$
-seed means; \rec{R4}), not the 46, 34 and 27 Hz that the isolated module gives at the units' $\rho$, so coupling,
-density scaling, network size and the 15 ms SOM$\to$E decay move M and D to alpha-beta (inferred), and even the isolated module (26--47 Hz at $\rho \leq 2$; 24--26 Hz at $\rho = 4$ in E1b arm B) peaks below the
+fast mode at M over a misplaced one. In the stack the LFP spectra peaked at 43, 11 and 12 Hz at S, M and D ($N = 4000$
+seed means; \rec{R4}), and these are not compared with the isolated module's 46, 34 and 27 Hz, which use a different estimator, so no shift is attributed to coupling,
+density scaling, network size or the 15 ms SOM$\to$E decay. The isolated module (26--47 Hz at $\rho \leq 2$; 24--26 Hz at $\rho = 4$ in E1b arm B) peaks below the
 scored band. And raising M's power alone does not close the gap: scaling M's spectrum by up to $10^4$ never brought
 mid-depth relative gamma to 0.85, because once M dominates, the map at those contacts tends to the squared kernel
 of a source at 0, $e^{-z^2/\sigma^2}$, whose mean over the five contacts from $-0.2$ to 0 is 0.615 at $\sigma =
@@ -157,8 +157,8 @@ the scored runs. Record \rec{D2}.}
 \IfFileExists{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}{\includegraphics[width=\linewidth]{../../results/viz/paper_w3/sw_n4000_dens_k1_kd1_sst15_s1_T8_block.png}}{\pendingbox{block figure}}
 \caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C E-population rate spectra
 per unit (shaded: the scored 10--30 and 50--150 Hz bands; line style gives the unit), D RWS power per E cell mapped
-to the contacts without the probe kernel, on a 0.5--1 colour scale, E firing-rate map, F observed 11-area map.
-Panels D--F are shown for the shape of the model's sources: they are not the scored quantity, which sums over cells
+to the contacts with the $\sigma = 0.15$ probe kernel, on a 0.5--1 colour scale, E firing-rate map, F observed 11-area map.
+Panels D--F show full spectra, not the scored quantity, which sums over cells
 and applies the $\sigma = 0.15$ Gaussian kernel and is drawn in Fig.~\ref{fig:scorer}B. Model power is stationary;
 LANSA power is from peri-stimulus windows.}
 \label{fig:reference}
@@ -494,8 +494,8 @@ tilt. $r_\text{proto}$ minus the identical-unit control rises from $0^\circ$ to 
 offsets 0 and 0.25; from $30^\circ$ to $60^\circ$ it falls at offset 0.25 at every $N$ and at offset 0 only at
 $N = 4000$; at the lateral offset of 0.5 it falls with tilt at every $N$ (for example 0.405, 0.219 and
 0.168 at $0^\circ$, $30^\circ$ and $60^\circ$ at $N = 4000$). We infer that the control's own fall as fewer bins are
-covered drives the rise, not the model. A current-based CSD reproduced the forward
-potential (consistency 0.979 at $N = 4000$, 108 alpha troughs) with all nine unit-by-receptor sources linearly independent
+covered drives the rise, not the model. A current-based CSD estimated from the forward
+potential, and its correlation with the binned source currents is 0.979 at $N = 4000$ (108 alpha troughs); all nine unit-by-receptor sources are linearly independent
 (rank 9 of 9; Fig.~\ref{fig:csd}); this checks internal consistency, not source placement.
 % FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json
 

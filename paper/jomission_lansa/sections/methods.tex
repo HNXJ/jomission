@@ -106,7 +106,7 @@ holds to the extent that driving-force fluctuations are small. The potential at 
 \begin{equation*}
 \phi_z(t) = \sum_u \sum_{r\in\{\text{AMPA},\text{GABA}\}} \bigl(h_{z,u,r} * I_{u,r}\bigr)(t),
 \end{equation*}
-where $I_{u,r}$ is the total synaptic current of receptor $r$ onto unit $u$'s pyramidal cells and $h_{z,u,r}$ is
+where $I_{u,r}$ is the recurrent synaptic current of receptor $r$ onto unit $u$'s pyramidal cells; the external Poisson drive is excluded and $h_{z,u,r}$ is
 a spatiotemporal kernel set by morphology, synapse placement, return currents and distance. We take the LFP to be set by the synaptic currents onto pyramidal cells, including the GABA currents that interneurons supply; this is ASSUMED and not verified here. The proxy's form, a delayed AMPA term minus a scaled GABA term, is the RWS construction attributed to \citet{Mazzoni2015}. We have not verified that paper's figures, fitted values or validation claims, so none is used. The weights and delays below are our choices, not validated against that model or the macaque LFP. Taking them as a separable kernel, $h_{z,u,r}(t) = w_{zu}\,c_r\,\delta(t-\tau_r)$, with one spatial weight $w_{zu}$ shared by AMPA and GABA at every depth, is our assumption: real AMPA and GABA sources sit at different places on the cell, so their contributions differ in profile and can differ in sign above and below the soma.
 
 \textbf{LFP proxy and probe used here.} We use RWS per unit, $L_u(t) = |I_{\text{AMPA},u}(t - 6\,\text{ms})| -
@@ -129,7 +129,7 @@ within each $L_u$, and they remain unvalidated for this model. We therefore repo
 the LFP's depth structure, not a calibrated potential, and test its two spatial parts: unit depths (Results, depth placement)
 and $\sigma$ (Results; $\sigma \in \{0.10, 0.15, 0.20, 0.25\}$, \rec{C4}).
 
-\textbf{CSD.} The CSD is current-based, not kernel-based. The saved per-unit, per-receptor currents (1 ms, $V = -65$ mV,
+\textbf{CSD.} The CSD is current-based, not kernel-based. The saved recurrent per-unit, per-receptor currents (1 ms, $V = -65$ mV,
 first 2 s discarded) become current sources at declared depths, each with an equal and opposite return current.
 Placements are ASSUMED, not measured: PV perisomatic at $z_u$; SOM distal apical at $z_u - 0.15$; AMPA half at $z_u$
 (basal) and half at $z_u - 0.10$ (apical); a source at the soma (offset 0) returns at $z_u - 0.05$. The forward model

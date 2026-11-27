@@ -166,3 +166,98 @@ Conclusion. The record supports: text accepted; 46899e2 passed the seal gate; 46
 ## 11. Reviews and repairs
 
 Review record: `docs/receipts/lansa_r2_reviews_2026-11-26.md`. Review 1 (reviewer subagent): ACCEPT, on an earlier commit. Review 2 (Gemini): SOUND WITH FIXES (section 8). Review 3 (reviewer subagent, non-writer, on 489ecd3): REVISE with seven items. This commit makes the repairs (table in the review record). `python -m unittest tests/test_e2_r2_readout.py` passes, 16 OK. The repaired readout JSON differs from the pre-repair JSON only in the G0 cross-check block (`crosscheck_G0_areamean`, `crosscheck_G0_motif`): measured absolute differences replace hardcoded `pass` flags. At repair time the repaired JSON was compared key by key with the pre-repair JSON (seeds 7, 8, 9; a recursive comparison, script in scratchpad, not archived). The only differing paths were the nine per seed in the two cross-check blocks, so every condition, median, sensitivity and crossing value is unchanged. The pre-repair files were then overwritten by the archive refresh and are not preserved, so this comparison cannot be re-run from the repository. Review 4 (on 63d891c) ACCEPTED repairs 1 to 7 and found that the repository gate fails (Review 4 in the review record). No integration acceptance is claimed.
+
+## 12. V0 rule table (moved from results/; no longer tracked as JSON)
+
+The V0 construction-rule table was tracked as `results/viz/SCI-LANSA-GEOM-R2/V0_rule_table.json` and as a copy in
+`results/laminar_e2_r2/viz/SCI-LANSA-GEOM-R2/`. The repository gate requires every tracked
+`results/**/*.json` to be in the sealed registry or named by a lineage record. The lineage
+record for SCI-LANSA-GEOM-R2 does not exist yet (K2 not run, lineage incomplete), so the JSON
+is untracked and its full content is kept here, byte for byte.
+
+Provenance (observed):
+
+- file: `results/viz/SCI-LANSA-GEOM-R2/V0_rule_table.json` (seed 7 layout `e2_3unit_n4000_dens_k1`), 1459 bytes
+- git blob in HEAD before removal: `f1cdc0be832b8f4e4f1e17f44cf498fd8bff1849`; sha256 `098000cdccca8d800c46c2182333ef460887cc812ebf29de352bc1910e1da583`
+- last tracked change: 489ecd3 LANSA R2: fix review findings (crossing, 0.5/0.7 sensitivity, scored LFP proxy, V0 units, identity gate, V1 archive, tests, errata, manifest)
+- generator: `scripts/e2_r2_v0.py` writes it beside `V0_rule_based_schematic.png`.
+  Regenerating it creates an untracked file; do not `git add` it under `results/`.
+- reader: `scripts/e2_r2_viz.py` (atlas V0 counts). No scored result, verdict or readout
+  value is computed from it.
+
+```json
+{
+ "layout": "e2_3unit_n4000_dens_k1",
+ "seed": 7,
+ "rule_based": true,
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "note": "Rule-based construction schematic. Counts are the realised edges per construction rule; the edge list is not drawn. Depths are fractions of cortical thickness relative to L4.",
+ "unit_sizes": {
+  "S": {
+   "E": 5785,
+   "PV": 868,
+   "SOM": 217
+  },
+  "M": {
+   "E": 3668,
+   "PV": 344,
+   "SOM": 344
+  },
+  "D": {
+   "E": 2547,
+   "PV": 159,
+   "SOM": 319
+  }
+ },
+ "rho": {
+  "S": 0.25,
+  "M": 1.0,
+  "D": 2.0
+ },
+ "depth_rel_L4": {
+  "S": -0.4,
+  "M": 0.0,
+  "D": 0.3
+ },
+ "rules": {
+  "e_e_S": 3238331,
+  "e_pv_S": 486206,
+  "e_sst_S": 121419,
+  "pv_e_S": 485364,
+  "pv_pv_S": 72838,
+  "sst_e_S": 121550,
+  "sst_pv_S": 18402,
+  "e_e_M": 2054541,
+  "e_pv_M": 191976,
+  "e_sst_M": 192973,
+  "pv_e_M": 193315,
+  "pv_pv_M": 17971,
+  "sst_e_M": 192479,
+  "sst_pv_M": 18153,
+  "e_e_D": 1425209,
+  "e_pv_D": 88956,
+  "e_sst_D": 178558,
+  "pv_e_D": 89486,
+  "pv_pv_D": 5562,
+  "sst_e_D": 178072,
+  "sst_pv_D": 11310,
+  "x_S_M_e_e": 293077,
+  "x_S_M_e_pv": 27259,
+  "x_S_M_e_som": 27553,
+  "x_M_S_e_e": 926401,
+  "x_M_S_e_pv": 138664,
+  "x_M_S_e_som": 34489,
+  "x_M_D_e_e": 408404,
+  "x_M_D_e_pv": 25442,
+  "x_M_D_e_som": 50702,
+  "x_D_M_e_e": 293239,
+  "x_D_M_e_pv": 27394,
+  "x_D_M_e_som": 27693
+ },
+ "not_drawn": "Not drawn (contract V0): x/y placement, O and X connections, FF/FB direction, E/I projection sign, connection authority g or w."
+}
+```

@@ -1,4 +1,4 @@
-f4df554497af26fba11d3b73f1b6302efaa27d05c9adea9879ea3d1b20e3e1dc  ./lansa_r2_scored_runs_2026-11-26.md
+e45df65ff40010202615d6af65dc06f90ee48c816d3cc7d54c07258b48af19af  ./lansa_r2_scored_runs_2026-11-26.md
 d9fdbc4e6eaf5ab4878e1f10773a48bb7242acf368e66e6ff6b30a20dab9ea43  ./logs/mutant_run.log
 b62128de7620d283d5ff0ce0cc32489ffa6b71a188deb713ede7c3b7fd615c16  ./logs/post_chain_rc.log
 0bbe52b82bac1fe7a25e6977959fdcdd59f8236e41bce21f07a49944783cdb8a  ./logs/post_r2_p0_n4000_s7_T12_figure.log
@@ -46,7 +46,6 @@ b95a251649d45533997c45e33bbafe892fed5918ebe05eeca08bb582f2b9eef9  ./scripts/e2_r
 5859d387261d3fbbf282969557acf1e0154d7f5d4d358ebf789712a1c3df7996  ./scripts/e2_r2_viz.py
 7a90ce914700a32be419b27c0ccf18006a0a66500c4d2f6592e1f558ed79dcea  ./tests/test_e2_r2_readout.py
 79792b54307d8fd3304d467d238519f1cc1f344f35f77944507dc2f613254745  ./viz/SCI-LANSA-GEOM-R2/V0_rule_based_schematic.png
-098000cdccca8d800c46c2182333ef460887cc812ebf29de352bc1910e1da583  ./viz/SCI-LANSA-GEOM-R2/V0_rule_table.json
 88902dee33bb3c8f3e767fad4351c403f9f17e67e59e85e25dcc6bc45d9f686e  ./viz/SCI-LANSA-GEOM-R2/V1_raster_initial_1000ms_s7.png
 5cef063553b4f24b29dc3873296ecc056b61f351c4dc82c0da1138202d43e26f  ./viz/SCI-LANSA-GEOM-R2/V2_raster_first1s_s7.png
 30d9d6be93430f0549f01aed541705c258dc945e85ca1d7d7f61bda965d5b350  ./viz/SCI-LANSA-GEOM-R2/V2_raster_first1s_s8.png

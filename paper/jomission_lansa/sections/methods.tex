@@ -170,7 +170,7 @@ A result counts only if all of the following hold (scorer \rec{C2}):
 \item \texttt{crossing\_2se} is true on the sum-over-cells row and verdict bands.
 \item $r_{ab} \geq 0.6$ and $r_{gm} \geq 0.6$.
 \item The identity unit order ranks 1 of all unit orders (ties count for the identity).
-\item $r_\text{proto}$ is above both the p95 of the max-over-grid smooth-spectrum null and the identical-unit control.
+\item $r_\text{proto}$ is above both the p95 of the smooth-spectrum null (1000 single draws, one set per draw) and the identical-unit control.
 \item The two halves agree: $|r_1 - r_2| \leq 2\,\text{SE}_\text{diff}$, with jackknife SEs over windows in each half. This is
 a consistency check: passing it means no difference was detected, not that the run is stationary.
 \item The result is finite and complete: all 150 frequencies enter $r_\text{over\,bins}$.

@@ -96,8 +96,7 @@ Records \rec{R1}, \rec{R2}.}
 
 The reference stack (density-scaled units, local E in-degree about 810, 513 and 356 per cell in S, M and D,
 SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half on seeds 1--3 and a crossing of the two band profiles on two of them
-(Fig.~\ref{fig:reference}; architecture and run record in Fig.~\ref{fig:s-reference}). Its per-E-cell power was concentrated at S ($-0.4$; the scorer's own
-map, Fig.~\ref{fig:scorer}B, is the quantity every score uses and weights the units through the probe kernel).
+(Fig.~\ref{fig:reference}; architecture and run record in Fig.~\ref{fig:s-reference}). Its summed power, the quantity every score uses, was concentrated at S ($-0.4$). Fig.~\ref{fig:reference}D shows the same kernel per E cell, which is not that quantity.
 Averaged over 50--150 Hz and the
 contacts from $-0.2$ to 0, where the observed gamma is broadest, relative gamma was 0.19--0.31 across the twelve
 ladder and confirmation runs and 0.23--0.26 in the reference alone, against 0.85 in the observed map; from $-0.6$ to $-0.3$ it was 0.66 in every
@@ -158,8 +157,8 @@ the scored runs. Record \rec{D2}.}
 \caption{Reference column, seed 1, 8 s, 2 s discarded: A raster, B RWS LFP traces, C E-population rate spectra
 per unit (shaded: the scored 10--30 and 50--150 Hz bands; line style gives the unit), D RWS power per E cell mapped
 to the contacts with the $\sigma = 0.15$ probe kernel, on a 0.5--1 colour scale, E firing-rate map, F observed 11-area map.
-Panels D--F show full spectra, not the scored quantity, which sums over cells
-and applies the $\sigma = 0.15$ Gaussian kernel and is drawn in Fig.~\ref{fig:scorer}B. Model power is stationary;
+D and E divide by the E cell count, so they are not the scored quantity, which sums over cells
+and is shown for the axis-1 setting in Fig.~\ref{fig:scorer}B. Model power is stationary;
 LANSA power is from peri-stimulus windows.}
 \label{fig:reference}
 \end{figure}
@@ -487,14 +486,14 @@ confound, not a ruled-out cause.
 
 Probe tilt changes the laminar contrast metric (Fig.~\ref{fig:readout}). The seed-mean contrast $M_\text{arc}$
 (slope of the alpha-beta minus gamma relative-power profile along the probe, per unit of contact arc length)
-peaked at $30^\circ$ tilt at every $N$ (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
-$0^\circ$), a difference within the seed SD at $N = 1000$ and $2000$ (SD 0.17--0.21) and beyond it at $N = 4000$, while $r_\text{proto}$ was lower at
+peaked at $30^\circ$ tilt at every $N$ at lateral offsets 0 and 0.25 (0.62, 1.03, 1.29 at $N$ 1000, 2000, 4000, against 0.55, 0.90, 1.10 at
+$0^\circ$), a difference within the seed SD at $N = 1000$ and $2000$ (SD 0.17--0.21) and beyond it at $N = 4000$; at offset 0.5, $M_\text{arc}$ falls with tilt at every $N$, while $r_\text{proto}$ was lower at
 $30^\circ$ than at $0^\circ$ (0.183 against 0.334, 0.261 against 0.387, 0.217 against 0.328) and not monotone in
 tilt. $r_\text{proto}$ minus the identical-unit control rises from $0^\circ$ to $30^\circ$ at every $N$ at
 offsets 0 and 0.25; from $30^\circ$ to $60^\circ$ it falls at offset 0.25 at every $N$ and at offset 0 only at
 $N = 4000$; at the lateral offset of 0.5 it falls with tilt at every $N$ (for example 0.405, 0.219 and
 0.168 at $0^\circ$, $30^\circ$ and $60^\circ$ at $N = 4000$). We infer that the control's own fall as fewer bins are
-covered drives the rise, not the model. A current-based CSD estimated from the forward
+covered drives the rise, not the model. A current-based CSD was estimated from the forward
 potential, and its correlation with the binned source currents is 0.979 at $N = 4000$ (108 alpha troughs); all nine unit-by-receptor sources are linearly independent
 (rank 9 of 9; Fig.~\ref{fig:csd}); this checks internal consistency, not source placement.
 % FINDINGS §3, §4; results/viz/paper_w5/probe_summary.json

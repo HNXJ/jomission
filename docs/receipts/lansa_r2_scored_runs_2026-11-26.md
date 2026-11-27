@@ -38,9 +38,25 @@ Run with `venv_seal` (python 3.14, jaxfne 0.5.8, `JAX_PLATFORMS=cpu`, `PYTHONPAT
 
 `reason` is null on all three (no nonfinite value, all 150 frequencies used). `halves.agree` is true for s7 and s9 and false for s8. The pass rule is the sealed scorer's, unchanged. The verdict files are `results/laminar_e2/<tag>_verdict.json` (untracked).
 
-## 4. Not in this receipt
+## 4. Readout conditions (script `scripts/e2_r2_readout.py`, observed output `results/laminar_e2/r2_readout_<tag>.json`)
 
-- Readout conditions G0, G1, G2, G3, G1', K1, K2 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6): not run.
+Per held-out area a (11 areas, 21-contact Pearson against `Y[bin, freq, a]`), median over the 11 areas. Conditions have no selection step, so the LOAO fold does not change them. Cross-check: G0 against the area mean reproduces the sealed scorer's r_gm and r_ab to 1e-9 for all three seeds (`crosscheck_G0_areamean`).
+
+| tag | G0 | G1 | G2 | G3 | G1' | K1 | G1 r_ab | areas with G1 r_gm >= 0.6 | G1 max area r_gm |
+|---|---|---|---|---|---|---|---|---|---|
+| s7 | -0.7958 | -0.4655 | -0.8349 | -0.4873 | -0.5120 | 0.1598 | 0.7632 | 0 of 11 | -0.142 |
+| s8 | -0.8043 | -0.4277 | -0.7969 | -0.4320 | -0.4871 | 0.1598 | 0.7533 | 0 of 11 | -0.103 |
+| s9 | -0.8036 | -0.5032 | -0.8482 | -0.5160 | -0.5595 | 0.1598 | 0.7653 | 0 of 11 | -0.183 |
+
+Cells G0 to K1 are median r_gm over the 11 areas. The G1 r_ab column is the median r_ab over the 11 areas. Sealed section 7 rule (support: G1 median r_gm >= 0.6, G1 exceeds K1, G1 median r_ab >= 0.6; falsification: G1 median r_gm < 0.6, or G1 does not exceed K1): on all three seeds G1 median r_gm is below 0.6 and below K1, so the falsification condition holds. The r_ab condition holds (0.75-0.77). Derived: G1 - K1 = -0.625, -0.588, -0.663; G1 - G0 = +0.330, +0.377, +0.300.
+
+K2 (depth-shuffled null) is required by the protocol and was not run: its selection rule is not defined in the protocol text. K2 is a base-rate diagnostic and does not change the falsification verdict on G1.
+
+## 5. Not in this receipt
+
+- K2 (required, see section 4): not run; the protocol does not define its selection.
+- Pooling across seeds: the protocol does not state how three seeds combine; per-seed values are reported.
+- Independent review of the readout script and this receipt: not done.
 - Readout conditions G0, G1, G2, G3, G1', K1, K2 (`GEOMETRY_PHASE1_PROTOCOL_2026-11-25.md` sections 4-6): not run.
 - V2 final raster and V3 atlas: not built.
 - Raw outputs are untracked (`results/` is outside git); archive is a later step.

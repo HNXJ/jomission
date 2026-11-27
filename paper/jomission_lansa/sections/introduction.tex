@@ -1,15 +1,15 @@
 \section{Introduction}
 
-Local field potentials (LFPs) recorded across the depth of primate cortex differ by layer
+Local field potentials, or LFPs, recorded across the depth of primate cortex differ by layer
 \citep{Maier2010,Xing2012}. In macaque visual cortex, gamma activity is strongest in superficial layers and
 alpha-beta activity in deep layers \citep{Buffalo2011,vanKerkoerle2014}, alpha has laminar current generators in
-primary visual, auditory and somatosensory cortex \citep{Haegens2015}, and a similar superficial-gamma, deep-alpha-beta split appears in prefrontal
+primary visual, auditory and somatosensory cortex \citep{Haegens2015}, and a similar superficial-gamma, deep-alpha-beta split is also seen in prefrontal
 cortex \citep{Bastos2020}. Across areas, gamma and alpha-beta also mark feedforward and feedback signalling between
 areas \citep{vanKerkoerle2014,Bastos2015}. \citet{MendozaHalliday2024} summarised these observations as a
 spectrolaminar motif: relative LFP power in the gamma range is highest in superficial layers, relative alpha-beta
 power is highest in deep layers, and the two depth profiles cross near layer 4. Whether the motif is ubiquitous is
 disputed \citep{Mackey2026}. We take it here as an empirical target, the 11-area mean and V1 maps of the laminar
-cell-density and spectral data set of \citet{Mulvey2024} (LANSA below), without assuming it holds in every area or
+cell-density and spectral data set of \citet{Mulvey2024}, called LANSA below, without assuming it holds in every area or
 recording.
 
 LANSA measured, in 11 macaque areas, the laminar densities of parvalbumin, calbindin and calretinin interneurons
@@ -20,11 +20,11 @@ population currents to the recorded field.
 
 For the first link, interneuron classes differ in their connectivity and in the rhythms they support
 \citep{Tremblay2016}. Feedback inhibition from fast interneurons supports gamma in excitatory-inhibitory networks
-\citep{Borgers2003}, and driving parvalbumin (PV) cells generates or amplifies gamma in mouse cortex
-\citep{Cardin2009,Sohal2009}; somatostatin (SOM) cells also contribute to visually induced gamma in mouse V1
+\citep{Borgers2003}, and driving parvalbumin, or PV, cells generates or amplifies gamma in mouse cortex
+\citep{Cardin2009,Sohal2009}; somatostatin, or SOM, cells also contribute to visually induced gamma in mouse V1
 \citep{Veit2017}. Conductance-based network and mean-field models with PV and SOM interneurons assign the two
 classes distinct roles in gamma oscillations and network stability \citep{Tahvili2025,Tahvili2026}; we call the
-excitatory/PV/SOM module of these papers CAMINOS. Its cells follow the adaptive exponential (AdEx) integrate-and-fire
+excitatory/PV/SOM module of these papers CAMINOS. Its cells follow the AdEx model, an adaptive exponential integrate-and-fire
 model \citep{Brette2005}.
 
 For the second link, the LFP is a weighted sum of transmembrane currents filtered by the volume conductor

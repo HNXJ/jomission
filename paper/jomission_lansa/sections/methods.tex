@@ -20,9 +20,8 @@ the 2 ms delay, at an in-degree of $K_\text{INTER} = 80$ per neighbour; an end u
 one neighbour, so every cell receives 160 inter-unit E inputs.
 
 \textbf{Modifiers.} A layout name lists its modifiers. \texttt{n}$N$: $N$ E cells per unit on average.
-\texttt{dens}: E cells per unit proportional to $D_u$, the LANSA density summed over PV, CB, CR and NG and over the
-unit's depth bins (median over areas). The sum is a size proxy only, since each marker's density is relative to its
-own maximum, so the model is density-informed, not density-derived: unit sizes and the in-degree scaling come
+\texttt{dens}: E cells per unit proportional to $D_u$, the LANSA density summed over PV, CB, CR and NG, averaged over the
+unit's depth bins (median over areas). The sum over types is a size proxy only, so the model is density-informed, not density-derived: unit sizes and the in-degree scaling come
 from LANSA; the SOM/PV ramp, E:I, weights, unit depths and inter-unit coupling are imposed. \texttt{kd}$B$: local in-degree scaled by
 density. Together,
 \begin{equation*}

@@ -42,7 +42,7 @@ does not reproduce.}
 \label{fig:schema}
 \end{figure}
 
-\subsection{The CAMINOS module reproduces its reference, and SOM/PV lowers its frequency}
+\subsection{The CAMINOS module reproduces its reference, and SOM/PV lowers its frequency where it oscillates, though E1 is inconclusive}
 
 Before stacking, one isolated module was checked against the JaxFNE reference (E0, pre-registered: here and below, the rules were committed to the repository before the run). Over five seeds
 the E-population peak was 34.0 Hz (reference 33.8, margin 1 Hz), the PV-to-SOM lag 7.16 ms (7.04, margin 0.34) and
@@ -50,7 +50,7 @@ the E, PV and SOM rates 1.08, 11.28 and 6.78 Hz, each inside its margin (Table~\
 checks the pipeline, not the motif.
 % e0_result.json: f_pk mean 34.0; lag 7.16; rates 1.07955, 11.28056, 6.77608; verdict PASS
 
-Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency (E1, pre-registered): seed
+Raising the SOM/PV cell ratio $\rho$ at fixed E/I and drive lowered the gamma frequency over $\rho$ 0.25--2 in E1, a pre-registered test whose slope criterion was met: seed
 means 46.0, 39.7, 34.0 and 27.0 Hz at $\rho$ = 0.25, 0.5, 1 and 2, a slope of $-6.27$ Hz per octave of $\rho$ (per
 seed $-6.6$, $-5.9$, $-6.3$; 95\% t-interval $[-7.14, -5.39]$ Hz per octave, $n = 3$ seeds; one-sided Monte Carlo permutation $p \leq 1/10\,001$: none of 10\,000 random draws
 reached the observed slope; permutation within seed, $n = 3$ seeds of one module). Because $N_{PV} + N_{SOM}$
@@ -93,10 +93,10 @@ Records \rec{R1}, \rec{R2}.}
 \label{tab:e0e1}
 \end{table}
 
-\subsection{The stacked column places alpha-beta deep but leaves mid-depth gamma weak}
+\subsection{The stacked column places alpha-beta deep on seeds 1--3 but leaves mid-depth gamma weak}
 
 The reference stack (density-scaled units, local E in-degree about 810, 513 and 356 per cell in S, M and D,
-SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half and a crossing of the two band profiles
+SOM$\to$E decay 15 ms) produced alpha-beta peaking in the deep half on seeds 1--3 and a crossing of the two band profiles on two of them
 (Fig.~\ref{fig:reference}; architecture and run record in Fig.~\ref{fig:s-reference}). Its per-E-cell power was concentrated at S ($-0.4$; the scorer's own
 map, Fig.~\ref{fig:scorer}B, is the quantity every score uses and weights the units through the probe kernel).
 Averaged over 50--150 Hz and the
@@ -174,10 +174,9 @@ model, dashed observed), D settings and scores.}
 \label{fig:scorer}
 \end{figure}
 
-\subsection{Size, tuning and middle-unit weights trade gamma against alpha-beta}
+\subsection{Size, tuning and middle-unit weights shift gamma and alpha-beta}
 
-No change to the column brought both band correlations to 0.6 (Fig.~\ref{fig:scatter}). Gains in the gamma
-correlation came with losses in the alpha-beta correlation. The setting frozen for the fresh-seed test
+No change to the column brought both band correlations to 0.6 (Fig.~\ref{fig:scatter}). Varying the in-degree exponent $B$, gains in the gamma correlation came with losses in the alpha-beta correlation, but some weight settings raised both. The setting frozen for the fresh-seed test
 ($B = 1.41$, SOM$\to$E 15 ms in S and M, 21 ms in D) was already below 0.6 on its own selection seeds, where
 $r_{ab}$ was 0.32--0.47, and it passed on none of the three fresh seeds (12 s runs): $r_{ab}$ was 0.35--0.47 there
 as well. It never reproduced the deep alpha-beta placement that the reference had shown on its first seeds (8 s,
@@ -330,8 +329,8 @@ from S to D), each on seeds 1--3 at 8 s (Methods).
 
 The two kinds of change had opposite effects (Fig.~\ref{fig:t8}). With density flattened or permuted, the deep
 unit held at least half the relative power (at each frequency, over the summed unit auto-spectra, 1--150 Hz) at 87--100\% of frequencies; with the SOM/PV ramp flattened or reversed, the superficial unit did at 100\%. The reference is also dominated, by S at 69--89\% of frequencies, so the change is in which unit dominates rather than in whether one does. The band correlations followed that unit's depth (Table~\ref{tab:t8}).
-The ratio changes turned the alpha-beta correlation from 0.83--0.86 to $-0.74$ (reversed) and $-0.72$ (flat) on
-every seed, while raising $r_{gm}$ to about 0.5 through superficial dominance at all frequencies. The density
+The ratio changes turned the alpha-beta correlation from 0.83--0.86 to $-0.74$ for reversed and $-0.72$ for flat on
+every seed; the flat control raised $r_{gm}$ to 0.51, the reversed control, at 0.49, had no consistent difference, and the superficial unit dominated at all frequencies in both. The density
 changes turned the gamma correlation from 0.14--0.41 to $-0.83$ (flat) and $-0.85$ (permuted) and the whole-map
 correlation from 0.21--0.40 to $-0.37$ and $-0.44$, while $r_{ab}$ stayed at 0.84 with flat density and fell to
 0.70--0.71 with permuted density. The unchanged $r_{ab}$ with flat density comes from deep dominance at all low

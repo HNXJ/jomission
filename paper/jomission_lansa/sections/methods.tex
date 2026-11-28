@@ -155,11 +155,11 @@ profiles (10--30 and 50--150 Hz) against the observed ones. \texttt{crossing\_2s
 is below $-2$ jackknife SE (over windows) at the top contact and above $+2$ SE at the bottom one. The smooth-spectrum
 null gives each unit a random smooth log spectrum (six Gaussian bumps in $\log f$ plus a $-a\log f$ slope, $a \sim
 U(0,2)$; 1000 draws, seed 0) and takes the 95th percentile of the resulting $r_\text{proto}$; the identical-unit
-control gives every unit unit S's spectrum. Unit-order rank compares $r_\text{proto}$ for all six assignments of the
+control gives every unit the diagonal spectrum of S, unit 0. Unit-order rank compares $r_\text{proto}$ for all six assignments of the
 unit spectra to the three depths. The pass rule was fixed at commit 88d282d (seal \rec{S4}).
 What each control keeps and destroys: the smooth-spectrum null keeps the geometry (kernel, depths, normalization) and
 replaces the spectra with random smooth ones without cross-terms, so it asks whether any smooth spectra on this
-geometry reach the score; the identical-unit control gives every unit the mean of the unit auto-spectra and no cross-terms, and the per-frequency normalization cancels that spectrum, so the control depends only on the geometry; the unit-order rank keeps the spectra and the geometry and tests their pairing; the spectral-shift null of the
+geometry reach the score; the probe-geometry identical-unit control gives every unit the mean of the unit auto-spectra and no cross-terms; in both controls the per-frequency normalization cancels the common spectrum, so each depends only on the geometry; the unit-order rank keeps the spectra and the geometry and tests their pairing; the spectral-shift null of the
 depth-placement analysis keeps each unit's power and spectral shape but moves its frequency content. The 21 $\times$
 150 pixels of a map are strongly dependent, so $r_\text{proto}$ is a similarity score, not a test with 3150 samples;
 inference uses seeds and the nulls above.

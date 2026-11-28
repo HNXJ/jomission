@@ -1,0 +1,34 @@
+{
+ "tag": "t1_sst30_n4000_s1_T8",
+ "units": [
+  "S",
+  "M",
+  "D"
+ ],
+ "discard_s": 2.0,
+ "n_windows": 5,
+ "grid_size": 1,
+ "bands": "image",
+ "crossing_2se": false,
+ "r_proto": 0.23178114491131369,
+ "r_ab": -0.6842653007394809,
+ "r_gm": 0.5677020646257658,
+ "r_ab_manuscript": -0.6680149413089833,
+ "r_gm_manuscript": 0.5186297817573005,
+ "perm_rank": 2,
+ "smooth_p95": 0.3801444538242715,
+ "identical_control": -0.07733331760965233,
+ "identity_r": 0.23178114491131369,
+ "n_freq_used": 150,
+ "nonfinite": [],
+ "reason": null,
+ "halves": {
+  "r1": 0.28456971487002536,
+  "r2": 0.19665657027229794,
+  "se1": 0.047964361123663646,
+  "se2": 0.011376658397864378,
+  "se_diff": 0.04929511430459326,
+  "agree": true
+ },
+ "pass": false
+}
